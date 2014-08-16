@@ -1,32 +1,30 @@
 
 package eprecise.efiscal4j.nfe;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
 @XmlType
-@XmlEnum(String.class)
-public enum CRT implements Serializable {
-    @XmlEnumValue("1") SIMPLES_NACIONAL("1", "Simples Nacional"),
-    @XmlEnumValue("2") SIMPLES_NACIONAL_EXCESSO_SUBLIMITE("2", "Simples Nacional – excesso de sublimite de receita bruta"),
-    @XmlEnumValue("3") REGIME_NORMAL("3", "Regime Normal");
+@XmlEnum(Integer.class)
+public enum PaymentMethod {
+    @XmlEnumValue("0") PAGAMENTO_A_VISTA(0, "Pagamento à vista"),
+    @XmlEnumValue("1") PAGAMENTO_A_PRAZO(1, "Pagamento à prazo"),
+    @XmlEnumValue("2") OUTROS(2, "Outros");
 
     private static final long serialVersionUID = 1L;
 
-    private final String value;
+    private final int value;
 
     private final String description;
 
-    private CRT(String value, String description) {
+    private PaymentMethod(int value, String description) {
         this.value = value;
         this.description = description;
     }
 
-    public String getValue() {
+    public int getValue() {
         return this.value;
     }
 
@@ -38,4 +36,5 @@ public enum CRT implements Serializable {
     public String toString() {
         return this.getDescription();
     }
+
 }

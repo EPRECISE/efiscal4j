@@ -30,6 +30,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
                                                            .build())
                                           .withIbgeCode(adaptedAdress.getCityIbgeCode())
                                           .withDescription(adaptedAdress.getCityDescription())
+                                          .withUF(UF.findByAcronym(adaptedAdress.getUf()))
                                           .build())
                             .build();
         //@formatter:on
@@ -46,7 +47,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
                                                       , adress.getCep()
                                                       , adress.getCity().getIbgeCode()
                                                       , adress.getCity().getDescription()
-                                                      , adress.getCity().getUf()
+                                                      , adress.getCity().getUf().getAcronym()
                                                       , adress.getCity().getCountry().getIbgeCode()
                                                       , adress.getCity().getCountry().getDescription()
                                                       , adress.getPhone());
@@ -69,7 +70,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
 
         private @XmlElement(name = "xMun") final String cityDescription;
 
-        private @XmlElement(name = "UF") final UF uf;
+        private @XmlElement(name = "UF") final String uf;
 
         private @XmlElement(name = "CEP") final String cep;
 
@@ -79,7 +80,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
 
         private @XmlElement(name = "fone") final String phone;
 
-        public AdaptedAdress(String street, String number, String complement, String district, String cep, String cityIbgeCode, String cityDescription, UF uf, String countryIbgeCode,
+        public AdaptedAdress(String street, String number, String complement, String district, String cep, String cityIbgeCode, String cityDescription, String uf, String countryIbgeCode,
                 String countryDescription, String phone) {
             this.street = street;
             this.number = number;
@@ -122,7 +123,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
             return this.cityDescription;
         }
 
-        public UF getUf() {
+        public String getUf() {
             return this.uf;
         }
 

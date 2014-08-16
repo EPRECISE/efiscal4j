@@ -24,7 +24,7 @@ public class City implements Serializable {
 
     private @XmlElement(name = "UF") final UF uf;
 
-    private final Country country;
+    private Country country;
 
     public static class Builder {
 
@@ -66,7 +66,6 @@ public class City implements Serializable {
     public City() {
         this.ibgeCode = null;
         this.description = null;
-        this.country = null;
         this.uf = null;
     }
 
