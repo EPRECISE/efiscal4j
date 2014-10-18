@@ -1,4 +1,3 @@
-
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
@@ -8,18 +7,18 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlEnum(Integer.class)
-public enum PaymentMethod {
-    @XmlEnumValue("0") PAGAMENTO_A_VISTA(0, "Pagamento à vista"),
-    @XmlEnumValue("1") PAGAMENTO_A_PRAZO(1, "Pagamento à prazo"),
-    @XmlEnumValue("2") OUTROS(2, "Outros");
-
+public enum TransmissionEnvironmnent {
+	
+	@XmlEnumValue("1") PRODUCAO(1, "Produção"),
+	@XmlEnumValue("2") HOMOLOGACAO(2, "Homologação");
+	
     private static final long serialVersionUID = 1L;
 
     private final int value;
 
     private final String description;
 
-    private PaymentMethod(int value, String description) {
+    private TransmissionEnvironmnent(int value, String description) {
         this.value = value;
         this.description = description;
     }

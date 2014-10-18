@@ -15,7 +15,7 @@ public class NFeInfoTest {
     @Test
     public void test() {
         try {
-            //@formatter:off                        
+            //@formatter:off                         
             NFeInfo nFeInfo = new NFeInfo.Builder().withEmitter(
                                                              new Emitter.Builder()
                                                             .asLegalEntity()

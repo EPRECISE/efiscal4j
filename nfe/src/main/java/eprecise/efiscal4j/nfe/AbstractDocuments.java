@@ -10,42 +10,42 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 /**
- * Utilizada para generalizar a utilização de LegalEntityDocuments e NaturalPersonDocuments, pois o JAXB não da suporte a utilização de interfaces (Documents)
+ * Utilizada para generalizar a utilizacao de LegalEntityDocuments e NaturalPersonDocuments, pois o JAXB nao da suporte a utilizacao de interfaces (Documents)
  * 
- * @author felipe
+ * @author Felipe Bueno
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractDocuments {
 
-    private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) String abstractName;
+	private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) String abstractName;
 
-    private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
+	private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
 
-    private @XmlElement(name = "IM") @Size(min = 1, max = 15) String municipalRegistration;
+	private @XmlElement(name = "IM") @Size(min = 1, max = 15) String municipalRegistration;
 
-    protected String getAbstractName() {
-        return this.abstractName;
-    }
+	protected String getAbstractName() {
+		return this.abstractName;
+	}
 
-    protected void setAbstractName(String abstractName) {
-        this.abstractName = abstractName;
-    }
+	protected void setAbstractName(String abstractName) {
+		this.abstractName = abstractName;
+	}
 
-    public String getStateRegistration() {
-        return this.stateRegistration;
-    }
+	public String getStateRegistration() {
+		return this.stateRegistration;
+	}
 
-    public String getMunicipalRegistration() {
-        return this.municipalRegistration;
-    }
+	public String getMunicipalRegistration() {
+		return this.municipalRegistration;
+	}
 
-    public void setStateRegistration(String stateRegistration) {
-        this.stateRegistration = stateRegistration;
-    }
+	public void setStateRegistration(String stateRegistration) {
+		this.stateRegistration = stateRegistration;
+	}
 
-    public void setMunicipalRegistration(String municipalRegistration) {
-        this.municipalRegistration = municipalRegistration;
-    }
+	public void setMunicipalRegistration(String municipalRegistration) {
+		this.municipalRegistration = municipalRegistration;
+	}
 
 }
