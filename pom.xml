@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <name>e-Fiscal4J</name>
+
     <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -17,6 +18,7 @@
         <module>transmissor</module>
         <module>signer</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -24,7 +26,6 @@
                 <artifactId>caelum-stella-core</artifactId>
                 <version>2.0.4</version>
             </dependency>
-
             <dependency>
                 <groupId>br.com.caelum.stella</groupId>
                 <artifactId>caelum-stella-bean-validation</artifactId>
@@ -69,6 +70,7 @@
             </plugins>
         </pluginManagement>
     </build>
+
     <organization>
 	<name>e-Precise </name>
 	<url>http://e-precise.com.br</url>
