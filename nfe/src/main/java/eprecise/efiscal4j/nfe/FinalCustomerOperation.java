@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum FinalCustomerOperation {
 	
-	@XmlEnumValue("0") NAO(0, "Não"),
+	@XmlEnumValue("0") NAO(0, "NÃ£o"),
 	@XmlEnumValue("1") CONSUMIDOR_FINAL(1, "Consumidor Final");
 	
 

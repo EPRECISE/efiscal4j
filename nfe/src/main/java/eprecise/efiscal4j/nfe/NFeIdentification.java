@@ -17,14 +17,14 @@ public class NFeIdentification {
 
     private @XmlElement(name = "cNF") @Pattern(regexp = "[0-9]{8}") String nFeCode;
 
-    private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @Pattern( regexp = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}") final String operationType;
+    private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @Pattern( regexp = "[!-Ã¿]{1}[ -Ã¿]{0,}[!-Ã¿]{1}|[!-Ã¿]{1}") final String operationType;
 
     private @XmlElement(name = "indPag") PaymentMethod paymentMethod;
 
     private @XmlElement(name = "mod") @NotNull final FiscalDocumentModel fiscalDocumentModel;
 
     /**
-     * Série Normal 0-889
+     * Sï¿½rie Normal 0-889
      * Avulsa Fisco 890-899
      * SCAN 900-999
      */
@@ -57,7 +57,7 @@ public class NFeIdentification {
     
     private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
     
-    private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @Pattern( regexp = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}") final String applicationVersion;
+    private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @Pattern( regexp = "[!-Ã¿]{1}[ -Ã¿]{0,}[!-Ã¿]{1}|[!-Ã¿]{1}") final String applicationVersion;
     
     public static class Builder {
 

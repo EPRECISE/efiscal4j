@@ -1,11 +1,14 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * Processo de emiss„o de NF-e
+ * Processo de emiss√£o de NF-e
+ * 
  * @author Felipe Bueno
  *
  */
@@ -13,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlEnum(Integer.class)
 public enum NFeTransmissionProcess {
-	
-	@XmlEnumValue("0") APLICATIVO_CONTRIBUINTE(0, "Emiss„o de NF-e com aplicativo do contribuinte"),
-	@XmlEnumValue("1") AVULSA_FISCO(1, "Emiss„o de NF-e avulsa pelo Fisco"),
-	@XmlEnumValue("2") AVULSA_CONTRIBUINTE_CERTIFICADO_DIGITAL_SITE_FISCO(2, "Emiss„o de NF-e avulsa, pelo contribuinte com seu certificado digital, atravÈs do site do Fisco"),	
-	@XmlEnumValue("3") CONTRIBUINTE_APLICATIVO_FISCO(3, "Emiss„o de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco");		
+
+    @XmlEnumValue("0") APLICATIVO_CONTRIBUINTE(0, "Emiss√£o de NF-e com aplicativo do contribuinte"),
+    @XmlEnumValue("1") AVULSA_FISCO(1, "Emiss√£o de NF-e avulsa pelo Fisco"),
+    @XmlEnumValue("2") AVULSA_CONTRIBUINTE_CERTIFICADO_DIGITAL_SITE_FISCO(2, "Emiss√£o de NF-e avulsa, pelo contribuinte com seu certificado digital, atravÔøΩs do site do Fisco"),
+    @XmlEnumValue("3") CONTRIBUINTE_APLICATIVO_FISCO(3, "Emiss√£o de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco");
 
     private static final long serialVersionUID = 1L;
 

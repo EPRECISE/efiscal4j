@@ -1,11 +1,14 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * Forma de emissão da NF-e
+ * Forma de emissao da NF-e
+ * 
  * @author Felipe Bueno
  *
  */
@@ -13,14 +16,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlEnum(Integer.class)
 public enum NFeTransmissionMethod {
-	@XmlEnumValue("1") NORMAL(1, "Normal"),
-	@XmlEnumValue("2") CONTINGENCIA_FS(2, "Contingência FS"),
-	@XmlEnumValue("3") CONTINGENCIA_SCAN(3, "Contingência SCAN"),
-	@XmlEnumValue("4") CONTINGENCIA_DPEC(4, "Contingência DPEC"),
-	@XmlEnumValue("5") CONTINGENCIA_FSDA(5, "Contingência FSDA"),
-	@XmlEnumValue("6") CONTINGENCIA_SVC_AN(6, "Contingência SVC - AN"),
-	@XmlEnumValue("7") CONTINGENCIA_SVC_RS(7, "Contingência SVC - RS"),
-	@XmlEnumValue("9") CONTINGENCIA_OFF_LINE_NFCE(9, "Contingência off-line NFC-e");
+    @XmlEnumValue("1") NORMAL(1, "Normal"),
+    @XmlEnumValue("2") CONTINGENCIA_FS(2, "ContingÃªncia FS"),
+    @XmlEnumValue("3") CONTINGENCIA_SCAN(3, "ContingÃªncia SCAN"),
+    @XmlEnumValue("4") CONTINGENCIA_DPEC(4, "ContingÃªncia DPEC"),
+    @XmlEnumValue("5") CONTINGENCIA_FSDA(5, "ContingÃªncia FSDA"),
+    @XmlEnumValue("6") CONTINGENCIA_SVC_AN(6, "ContingÃªncia SVC - AN"),
+    @XmlEnumValue("7") CONTINGENCIA_SVC_RS(7, "ContingÃªncia SVC - RS"),
+    @XmlEnumValue("9") CONTINGENCIA_OFF_LINE_NFCE(9, "ContingÃªncia off-line NFC-e");
 
     private static final long serialVersionUID = 1L;
 

@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
@@ -8,10 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlEnum(Integer.class)
 public enum TransmissionEnvironmnent {
-	
-	@XmlEnumValue("1") PRODUCAO(1, "Produção"),
-	@XmlEnumValue("2") HOMOLOGACAO(2, "Homologação");
-	
+
+    @XmlEnumValue("1") PRODUCAO(1, "ProduÃ§Ã£o"),
+    @XmlEnumValue("2") HOMOLOGACAO(2, "HomologaÃ§Ã£o");
+
     private static final long serialVersionUID = 1L;
 
     private final int value;

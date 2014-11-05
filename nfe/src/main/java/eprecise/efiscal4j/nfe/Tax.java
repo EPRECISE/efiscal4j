@@ -12,7 +12,7 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**
- * Tributos incidentes nos produtos ou serviços da NF-e
+ * Tributos incidentes nos produtos ou serviÃ§os da NF-e
  * 
  * @author Felipe Bueno
  * 
@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tax {
 
-	// @formatter:off
+    // @formatter:off
 	private @XmlElements(value = { 
 			   @XmlElement(name = "ICMS", type = ICMS.class), 
 			   @XmlElement(name = "IPI", type = IPI.class), 
@@ -29,28 +29,28 @@ public class Tax {
 			   @XmlElement(name = "ISSQN", type = ISSQN.class) }) @NotNull @Valid final MainTax mainTax;
 	// @formatter:on
 
-	public static class Builder {
+    public static class Builder {
 
-		private MainTax mainTax;
+        private MainTax mainTax;
 
-		public Builder withMainTax(MainTax mainTax) {
-			this.mainTax = mainTax;
-			return this;
-		}
+        public Builder withMainTax(MainTax mainTax) {
+            this.mainTax = mainTax;
+            return this;
+        }
 
-		public Tax build() {
-			Tax entity = new Tax(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
-	}
+        public Tax build() {
+            Tax entity = new Tax(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+    }
 
-	public Tax() {
-		this.mainTax = null;
-	}
+    public Tax() {
+        this.mainTax = null;
+    }
 
-	public Tax(Builder builder) {
-		this.mainTax = builder.mainTax;
-	}
+    public Tax(Builder builder) {
+        this.mainTax = builder.mainTax;
+    }
 
 }

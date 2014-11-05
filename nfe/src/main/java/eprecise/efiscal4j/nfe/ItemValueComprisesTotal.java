@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Indica se o valor do item irá compor ou não o total da NF-e
+ * Indica se o valor do item irï¿½ compor ou NÃ£o o total da NF-e
  * @author Felipe Bueno
  *
  */
@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum ItemValueComprisesTotal {
 
-	@XmlEnumValue("0") NAO_COMPOE_TOTAL(0, "O valor do item (vProd) não compõe o valor total da NF-e"),
-	@XmlEnumValue("1") COMPOE_TOTAL(1, "O valor do item (vProd) compõe o valor total da NF-e");
+	@XmlEnumValue("0") NAO_COMPOE_TOTAL(0, "O valor do item (vProd) NÃ£o compï¿½e o valor total da NF-e"),
+	@XmlEnumValue("1") COMPOE_TOTAL(1, "O valor do item (vProd) compï¿½e o valor total da NF-e");
 	
     private static final long serialVersionUID = 1L;
 

@@ -72,7 +72,7 @@ public class ISSQNTotal {
 		private SpecialTaxRegime specialTaxRegime;
 
 		/**
-		 * Valor Total dos Serviços sob não-incidência ou não tributados pelo ICMS
+		 * Valor Total dos Serviï¿½os sob NÃ£o-incidï¿½ncia ou NÃ£o tributados pelo ICMS
 		 * 
 		 * @param issqnTotalValue
 		 * @return
@@ -83,7 +83,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Base de Cálculo do ISS
+		 * Base de Cï¿½lculo do ISS
 		 * 
 		 * @param issqnCalculationBasis
 		 * @return
@@ -105,7 +105,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor do PIS sobre serviços
+		 * Valor do PIS sobre serviï¿½os
 		 * 
 		 * @param pisTotalValue
 		 * @return
@@ -116,7 +116,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor do COFINS sobre serviços
+		 * Valor do COFINS sobre serviï¿½os
 		 * 
 		 * @param cofinsTotalValue
 		 * @return
@@ -127,7 +127,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Data da prestação do serviço (AAAA-MM-DD)
+		 * Data da prestaï¿½ï¿½o do serviï¿½o (AAAA-MM-DD)
 		 * 
 		 * @param serviceProvisionDate
 		 * @return
@@ -138,7 +138,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor dedução para redução da base de cálculo
+		 * Valor deduï¿½ï¿½o para reduï¿½ï¿½o da base de cï¿½lculo
 		 * 
 		 * @param calculationBasisReductionDeductionValue
 		 * @return
@@ -149,7 +149,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor outras retenções
+		 * Valor outras retenï¿½ï¿½es
 		 * 
 		 * @param otherRetentionsValue
 		 * @return
@@ -182,7 +182,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor Total Retenção ISS
+		 * Valor Total Retenï¿½ï¿½o ISS
 		 * 
 		 * @param issRetentionTotalValue
 		 * @return
@@ -193,7 +193,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Código do regime especial de tributação
+		 * Cï¿½digo do regime especial de tributaï¿½ï¿½o
 		 * 
 		 * @param specialTaxRegime
 		 * @return
