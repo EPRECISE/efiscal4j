@@ -83,7 +83,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Base de C�lculo do ISS
+		 * Base de Cálculo do ISS
 		 * 
 		 * @param issqnCalculationBasis
 		 * @return
@@ -182,7 +182,7 @@ public class ISSQNTotal {
 		}
 
 		/**
-		 * Valor Total Reten��o ISS
+		 * Valor Total Retenção ISS
 		 * 
 		 * @param issRetentionTotalValue
 		 * @return
