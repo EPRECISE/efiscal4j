@@ -1,11 +1,14 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * Indicador de presença do comprador no estabelecimento comercial no momento da operação
+ * Indicador de presenÃ§a do comprador no estabelecimento comercial no momento da OperaÃ§Ã£o
+ * 
  * @author Felipe Bueno
  *
  */
@@ -14,16 +17,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum PurchaserPresenceIndicator {
 
-	/**
-	 * ex.: Nota Fiscal complementar ou de ajuste
-	 */
-	@XmlEnumValue("0") NAO_SE_APLICA(0, "Não se aplica"),
-	@XmlEnumValue("1") OPERACAO_PRESENCIAL(1, "Operação Presencial"),
-	@XmlEnumValue("2") NAO_PRESENCIAL_INTERNET(2, "Não Presencial - Internet"),
-	@XmlEnumValue("3") NAO_PRESENCIAL_TELEATENDIMENTO(3, "Não Presencial - Teleatendimento"),
-	@XmlEnumValue("4") NFCE_ENTREGA_DOMICILIO(4, "NFC-e Entrega a Domicílio"),
-	@XmlEnumValue("9") NAO_PRESENCIAL_OUTROS(9, "Não Presencial - Outros");	
-	
+    /**
+     * ex.: Nota Fiscal complementar ou de ajuste
+     */
+    @XmlEnumValue("0") NAO_SE_APLICA(0, "NÃ£o se aplica"),
+    @XmlEnumValue("1") OPERACAO_PRESENCIAL(1, "OperaÃ§Ã£o Presencial"),
+    @XmlEnumValue("2") NAO_PRESENCIAL_INTERNET(2, "NÃ£o Presencial - Internet"),
+    @XmlEnumValue("3") NAO_PRESENCIAL_TELEATENDIMENTO(3, "NÃ£o Presencial - Teleatendimento"),
+    @XmlEnumValue("4") NFCE_ENTREGA_DOMICILIO(4, "NFC-e Entrega a DomicÃ­lio"),
+    @XmlEnumValue("9") NAO_PRESENCIAL_OUTROS(9, "NÃ£o Presencial - Outros");
 
     private static final long serialVersionUID = 1L;
 

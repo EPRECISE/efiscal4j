@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlEnum(Integer.class)
 public enum PaymentMethod {
-    @XmlEnumValue("0") PAGAMENTO_A_VISTA(0, "Pagamento à vista"),
-    @XmlEnumValue("1") PAGAMENTO_A_PRAZO(1, "Pagamento à prazo"),
+    @XmlEnumValue("0") PAGAMENTO_A_VISTA(0, "Pagamento Ã  vista"),
+    @XmlEnumValue("1") PAGAMENTO_A_PRAZO(1, "Pagamento Ã  prazo"),
     @XmlEnumValue("2") OUTROS(2, "Outros");
 
     private static final long serialVersionUID = 1L;

@@ -1,18 +1,19 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+
 @XmlType
 @XmlEnum(Integer.class)
 public enum NFeFinality {
-	
-	@XmlEnumValue("1") NORMAL(1, "Normal"),
-	@XmlEnumValue("2") COMPLEMENTAR(2, "Complementar"),
-	@XmlEnumValue("3") AJUSTE(3, "Ajuste"),
-	@XmlEnumValue("4") DEVOLUCAO_RETORNO(4, "Devolução/Retorno");
-	
+
+    @XmlEnumValue("1") NORMAL(1, "Normal"),
+    @XmlEnumValue("2") COMPLEMENTAR(2, "Complementar"),
+    @XmlEnumValue("3") AJUSTE(3, "Ajuste"),
+    @XmlEnumValue("4") DEVOLUCAO_RETORNO(4, "DevoluÃ§Ã£o/Retorno");
 
     private static final long serialVersionUID = 1L;
 

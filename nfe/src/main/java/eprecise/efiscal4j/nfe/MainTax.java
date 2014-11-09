@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 
 /**
- * Classe que ser· extendida nos seguintes impostos: ICMS, IPI, II, ISSQN
+ * Classe que ser√° extendida nos seguintes impostos: ICMS, IPI, II, ISSQN
  * 
  * @author Felipe Bueno
  * 

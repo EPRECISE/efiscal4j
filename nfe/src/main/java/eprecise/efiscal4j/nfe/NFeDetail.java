@@ -36,7 +36,7 @@ public class NFeDetail {
 		private Tax tax;
 
 		/**
-		 * Número do item da NF-e
+		 * NÃºmero do item da NF-e
 		 */
 		public Builder withItemOrder(String itemOrder) {
 			this.itemOrder = itemOrder;
