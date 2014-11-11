@@ -1,4 +1,3 @@
-*.class
 # Eclipse #
 **/bin/
 **.class
@@ -27,7 +26,7 @@
 **/nb-configuration.xml
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
