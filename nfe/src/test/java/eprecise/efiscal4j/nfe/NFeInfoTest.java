@@ -14,10 +14,10 @@ import org.junit.Test;
 
 public class NFeInfoTest {
 
-	@Test
-	public void test() {
-		try {
-			//@formatter:off       
+    @Test
+    public void test() {
+        try {
+            //@formatter:off       
 			ArrayList<NFeDetail> nFeDetailList = new ArrayList<NFeDetail>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
@@ -101,13 +101,13 @@ public class NFeInfoTest {
                                                 		    new NFeTotal.Builder()
                                                 		    .withFederalTaxRetention(
                                                 		    		new FederalTaxRetention.Builder()
-                                                		    		.withCOFINSRetainedValue("0.0")
-                                                		    		.withCSLLRetainedValue("0.0")
-                                                		    		.withIRRFCalculationBasis("0.0")
-                                                		    		.withIRRFRetainedValue("0.0")
-                                                		    		.withPISRetainedValue("0.0")
-                                                		    		.withSocialSecurityRetentionCalculationBasis("0.0")
-                                                		    		.withSocialSecurityRetentionValue("0.0")
+                                                		    		.withCOFINSRetainedValue("0.10")
+                                                		    		.withCSLLRetainedValue("0.10")
+                                                		    		.withIRRFCalculationBasis("0.10")
+                                                		    		.withIRRFRetainedValue("0.10")
+                                                		    		.withPISRetainedValue("0.10")
+                                                		    		.withSocialSecurityRetentionCalculationBasis("0.10")
+                                                		    		.withSocialSecurityRetentionValue("0.10")
                                                 		    		.build())
                                                 		    .withICMSTotal(
                                                 		    		new ICMSTotal.Builder()
@@ -165,21 +165,21 @@ public class NFeInfoTest {
                                                    .build();
             
             //@formatter:on
-			JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			marshaller.marshal(nFeInfo, System.out);
+            JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(nFeInfo, System.out);
 
-			Assert.assertTrue(true);
-		} catch (ConstraintViolationException e) {
-			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
-				System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
-			}
-			Assert.assertTrue(false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.assertTrue(false);
-		}
-	}
+            Assert.assertTrue(true);
+        } catch (ConstraintViolationException e) {
+            for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+                System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
+            }
+            Assert.assertTrue(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(false);
+        }
+    }
 }
