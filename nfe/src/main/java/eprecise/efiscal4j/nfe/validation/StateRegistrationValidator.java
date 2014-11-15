@@ -11,21 +11,22 @@ import eprecise.efiscal4j.nfe.StateRegistrationReceiverIndicator;
 /**
  * Validador do BeanValidation que verifica se a stateRegistration será obrigatória para o Receiver
  * 
- * @author Felipe B.
+ * @author Felipe Bueno
  * 
  */
 public class StateRegistrationValidator implements ConstraintValidator<StateRegistration, Receiver> {
 
-    @Override
-    public void initialize(StateRegistration constraintAnnotation) {
-    }
+	@Override
+	public void initialize(StateRegistration constraintAnnotation) {
+	}
 
-    @Override
-    public boolean isValid(Receiver receiver, ConstraintValidatorContext context) {
-        if (receiver.getStateRegistrationReceiverIndicator().equals(StateRegistrationReceiverIndicator.CONTRIBUINTE_ICMS) && receiver.getDocuments().getStateRegistration() == null) {
-            return false;
-        }
-        return true;
-
-    }
+	@Override
+	public boolean isValid(Receiver receiver, ConstraintValidatorContext context) {
+		//@formatter:off      
+		if (receiver.getStateRegistrationReceiverIndicator().equals(StateRegistrationReceiverIndicator.CONTRIBUINTE_ICMS) && receiver.getDocuments().getStateRegistration() == null) { 
+			return false; 
+		}
+		return true;
+		//@formatter:on  
+	}
 }

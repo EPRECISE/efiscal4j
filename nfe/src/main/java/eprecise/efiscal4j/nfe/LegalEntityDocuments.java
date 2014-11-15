@@ -14,31 +14,30 @@ import br.com.caelum.stella.bean.validation.CNPJ;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LegalEntityDocuments extends AbstractDocuments {
 
-    private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @Pattern(regexp = "[0-9]{14}") String cnpj;
+	private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @Pattern(regexp = "[0-9]{14}") String cnpj;
 
-    public LegalEntityDocuments() {
-    }
+	public LegalEntityDocuments() {
+	}
 
-    public String getCnpj() {
-        return this.cnpj;
-    }
+	public String getCnpj() {
+		return this.cnpj;
+	}
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 
-    public String getCorporateName() {
-        return this.getAbstractName();
-    }
+	public String getCorporateName() {
+		return this.getAbstractName();
+	}
 
-    public void setCorporateName(String corporateName) {
-        this.setAbstractName(corporateName);
-    }
+	public void setCorporateName(String corporateName) {
+		this.setAbstractName(corporateName);
+	}
 
-    @Override
-    public String toString() {
-        return "LegalEntityDocuments [corporateName=" + this.getCorporateName() + ", cnpj=" + this.getCnpj() + ", stateRegistration=" + this.getStateRegistration() + ", municipalRegistration="
-                + this.getMunicipalRegistration() + "]";
-    }
+	@Override
+	public String toString() {
+		return "LegalEntityDocuments [corporateName=" + this.getCorporateName() + ", cnpj=" + this.getCnpj() + ", stateRegistration=" + this.getStateRegistration() + "]";
+	}
 
 }

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.total;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.SpecialTaxRegime;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 

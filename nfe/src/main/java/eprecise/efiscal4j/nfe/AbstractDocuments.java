@@ -22,8 +22,6 @@ public abstract class AbstractDocuments {
 
 	private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
 
-	private @XmlElement(name = "IM") @Size(min = 1, max = 15) String municipalRegistration;
-
 	protected String getAbstractName() {
 		return this.abstractName;
 	}
@@ -36,16 +34,8 @@ public abstract class AbstractDocuments {
 		return this.stateRegistration;
 	}
 
-	public String getMunicipalRegistration() {
-		return this.municipalRegistration;
-	}
-
 	public void setStateRegistration(String stateRegistration) {
 		this.stateRegistration = stateRegistration;
-	}
-
-	public void setMunicipalRegistration(String municipalRegistration) {
-		this.municipalRegistration = municipalRegistration;
 	}
 
 }

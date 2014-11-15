@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.total;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

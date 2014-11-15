@@ -1,82 +1,66 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.transport;
 
 import java.io.Serializable;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.nfe.adapter.EmitterAdapter;
-import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.AbstractDocuments;
+import eprecise.efiscal4j.nfe.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.adapter.ConveyorAdapter;
+import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**
- * Identificação do emitente
+ * Dados do transportador
  * 
  * @author Felipe Bueno
  * 
  */
-@XmlJavaTypeAdapter(EmitterAdapter.class)
+@XmlJavaTypeAdapter(ConveyorAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Emitter implements Serializable {
+public class Conveyor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private @NotNull @Valid final AbstractDocuments documents;
 
-	private @XmlElement(name = "xFant") @Size(min = 1, max = 60) final String fancyName;
+	private @XmlElement(name = "xEnder") @Size(min = 1, max = 60) final String fullAddress;
 
-	private @XmlElement(name = "enderEmit") @NotNull final Address adress;
-
-	private @XmlElement(name = "IE") @NotNull @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}|ISENTO") final String stateRegistration;
-
-	private @XmlElement(name = "IM") @Size(min = 1, max = 15) final String municipalRegistration;
-
-	private @XmlElement(name = "CRT") @NotNull final CRT crt;
+	private @NotNull final City city;
 
 	public static class Builder {
 
 		private AbstractDocuments documents;
 
-		private String fancyName;
+		private String fullAddress;
 
-		private Address adress;
+		private City city;
 
-		private String stateRegistration;
+		protected AbstractDocuments getDocuments() {
+			return this.documents;
+		}
 
-		private String municipalRegistration;
-
-		private CRT crt;
-
-		public Builder withFancyName(String fancyName) {
-			this.fancyName = fancyName;
+		public Builder withFullAddress(String fullAddress) {
+			this.fullAddress = fullAddress;
 			return this;
 		}
 
-		public Builder withAdress(Address adress) {
-			this.adress = adress;
+		public Builder withCity(City city) {
+			this.city = city;
 			return this;
 		}
 
-		public Builder withStateRegistration(String stateRegistration) {
-			this.stateRegistration = stateRegistration;
-			return this;
-		}
-
-		public Builder withMunicipalRegistration(String municipalRegistration) {
-			this.municipalRegistration = municipalRegistration;
-			return this;
-		}
-
-		public Builder withCrt(CRT crt) {
-			this.crt = crt;
+		protected Builder withStateRegistration(String stateRegistration) {
+			this.documents.setStateRegistration(stateRegistration);
 			return this;
 		}
 
@@ -88,14 +72,10 @@ public class Emitter implements Serializable {
 			return new LegalEntityBuilder(this);
 		}
 
-		public Emitter build() {
-			Emitter entity = new Emitter(this);
+		public Conveyor build() {
+			Conveyor entity = new Conveyor(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
 			return entity;
-		}
-
-		protected AbstractDocuments getDocuments() {
-			return this.documents;
 		}
 	}
 
@@ -121,11 +101,6 @@ public class Emitter implements Serializable {
 		}
 
 		@Override
-		public LegalEntityBuilder withMunicipalRegistration(String municipalRegistration) {
-			return (LegalEntityBuilder) super.withMunicipalRegistration(municipalRegistration);
-		}
-
-		@Override
 		public LegalEntityBuilder asLegalEntity() {
 			throw new UnsupportedOperationException();
 		}
@@ -136,8 +111,8 @@ public class Emitter implements Serializable {
 		}
 
 		@Override
-		public Emitter build() {
-			Emitter entity = new Emitter(this);
+		public Conveyor build() {
+			Conveyor entity = new Conveyor(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
 			return entity;
 		}
@@ -170,11 +145,6 @@ public class Emitter implements Serializable {
 		}
 
 		@Override
-		public NaturalPersonBuilder withMunicipalRegistration(String municipalRegistration) {
-			return (NaturalPersonBuilder) super.withMunicipalRegistration(municipalRegistration);
-		}
-
-		@Override
 		public LegalEntityBuilder asLegalEntity() {
 			throw new UnsupportedOperationException();
 		}
@@ -185,8 +155,8 @@ public class Emitter implements Serializable {
 		}
 
 		@Override
-		public Emitter build() {
-			Emitter entity = new Emitter(this);
+		public Conveyor build() {
+			Conveyor entity = new Conveyor(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
 			return entity;
 		}
@@ -197,46 +167,28 @@ public class Emitter implements Serializable {
 		}
 	}
 
-	public Emitter() {
+	public Conveyor() {
 		this.documents = null;
-		this.fancyName = null;
-		this.adress = null;
-		this.stateRegistration = null;
-		this.municipalRegistration = null;
-		this.crt = null;
+		this.fullAddress = null;
+		this.city = null;
 	}
 
-	public Emitter(Builder builder) {
+	public Conveyor(Builder builder) {
 		this.documents = builder.documents;
-		this.fancyName = builder.fancyName;
-		this.adress = builder.adress;
-		this.stateRegistration = builder.stateRegistration;
-		this.municipalRegistration = builder.municipalRegistration;
-		this.crt = builder.crt;
+		this.fullAddress = builder.fullAddress;
+		this.city = builder.city;
 	}
 
 	public AbstractDocuments getDocuments() {
 		return this.documents;
 	}
 
-	public Address getAdress() {
-		return this.adress;
+	public String getFullAddress() {
+		return this.fullAddress;
 	}
 
-	public String getFancyName() {
-		return this.fancyName;
-	}
-
-	public String getStateRegistration() {
-		return this.stateRegistration;
-	}
-
-	public String getMunicipalRegistration() {
-		return this.municipalRegistration;
-	}
-
-	public CRT getCrt() {
-		return this.crt;
+	public City getCity() {
+		return this.city;
 	}
 
 }

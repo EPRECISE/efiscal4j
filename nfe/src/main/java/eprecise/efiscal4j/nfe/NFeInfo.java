@@ -10,9 +10,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.nfe.total.NFeTotal;
+import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
+/**
+ * Informações da Nota Fiscal eletrônica
+ * 
+ * @author Felipe Bueno
+ * 
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeInfo implements Serializable {

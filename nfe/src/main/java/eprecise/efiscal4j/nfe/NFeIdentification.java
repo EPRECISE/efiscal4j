@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.address.UF;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -18,7 +19,7 @@ public class NFeIdentification {
 
 	private @XmlElement(name = "cNF") @Pattern(regexp = "[0-9]{8}") String nFeCode;
 
-	private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @Pattern(regexp = "[!-�]{1}[ -�]{0,}[!-�]{1}|[!-�]{1}") final String operationType;
+	private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @Pattern(regexp = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}") final String operationType;
 
 	private @XmlElement(name = "indPag") PaymentMethod paymentMethod;
 
@@ -56,7 +57,7 @@ public class NFeIdentification {
 
 	private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
 
-	private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @Pattern(regexp = "[!-�]{1}[ -�]{0,}[!-�]{1}|[!-�]{1}") final String applicationVersion;
+	private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @Pattern(regexp = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}") final String applicationVersion;
 
 	public static class Builder {
 

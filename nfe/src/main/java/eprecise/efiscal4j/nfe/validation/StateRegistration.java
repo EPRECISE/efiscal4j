@@ -16,7 +16,7 @@ import javax.validation.Payload;
 /**
  * Valida se a inscrição estadual do destinatário será obrigatória
  * 
- * @author Felipe B.
+ * @author Felipe Bueno
  */
 @Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -24,10 +24,10 @@ import javax.validation.Payload;
 @Documented
 public @interface StateRegistration {
 
-    String message() default "O campo stateRegistration é obrigatório caso o campo stateRegistrationReceiverIndicator seja = 1";
+	String message() default "O campo stateRegistration é obrigatório caso o campo stateRegistrationReceiverIndicator seja = 1";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 
 }

@@ -1,5 +1,7 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.transport;
+
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,7 +18,9 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeTransport {
+public class NFeTransport implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private @XmlElement(name = "modFrete") @NotNull final ShippingModality shippingModality;
 

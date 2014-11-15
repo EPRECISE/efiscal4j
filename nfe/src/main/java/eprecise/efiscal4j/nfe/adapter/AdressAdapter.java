@@ -6,18 +6,18 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import eprecise.efiscal4j.nfe.Adress;
-import eprecise.efiscal4j.nfe.City;
-import eprecise.efiscal4j.nfe.Country;
-import eprecise.efiscal4j.nfe.UF;
+import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.address.City;
+import eprecise.efiscal4j.nfe.address.Country;
+import eprecise.efiscal4j.nfe.address.UF;
 
 
-public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adress> {
+public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Address> {
 
     @Override
-    public Adress unmarshal(AdaptedAdress adaptedAdress) throws Exception {
+    public Address unmarshal(AdaptedAdress adaptedAdress) throws Exception {
         //@formatter:off
-        Adress adress = new Adress.Builder()
+        Address adress = new Address.Builder()
                             .withStreet(adaptedAdress.getStreet())
                             .withNumber(adaptedAdress.getNumber())
                             .withComplement(adaptedAdress.getComplement())
@@ -38,7 +38,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Adres
     }
 
     @Override
-    public AdaptedAdress marshal(Adress adress) throws Exception {
+    public AdaptedAdress marshal(Address adress) throws Exception {
         //@formatter:off
         AdaptedAdress adaptedAdress = new AdaptedAdress(adress.getStreet()
                                                       , adress.getNumber()
