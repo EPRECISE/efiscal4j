@@ -2,8 +2,10 @@
 package eprecise.efiscal4j.nfe.transport;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,11 +28,15 @@ public class NFeTransport implements Serializable {
 
 	private @XmlElement(name = "transporta") Conveyor conveyor;
 
+	private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
+
 	public static class Builder {
 
 		private ShippingModality shippingModality;
 
 		private Conveyor conveyor;
+
+		private List<TransportedVolume> transportedVolume;
 
 		/**
 		 * @see ShippingModality
@@ -52,6 +58,16 @@ public class NFeTransport implements Serializable {
 			return this;
 		}
 
+		/**
+		 * @see TransportedVolume
+		 * @param transportedVolume
+		 * @return
+		 */
+		public Builder withTransportedVolume(List<TransportedVolume> transportedVolume) {
+			this.transportedVolume = transportedVolume;
+			return this;
+		}
+
 		public NFeTransport build() {
 			NFeTransport entity = new NFeTransport(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -66,5 +82,6 @@ public class NFeTransport implements Serializable {
 	public NFeTransport(Builder builder) {
 		this.shippingModality = builder.shippingModality;
 		this.conveyor = builder.conveyor;
+		this.transportedVolume = builder.transportedVolume;
 	}
 }

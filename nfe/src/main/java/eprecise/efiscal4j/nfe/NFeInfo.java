@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -33,7 +34,7 @@ public class NFeInfo implements Serializable {
 
 	private @XmlElement(name = "dest") @NotNull final Receiver receiver;
 
-	private @XmlElement(name = "det") @NotNull final List<NFeDetail> nFeDetails;
+	private @XmlElement(name = "det") @NotNull @Size(max = 990) final List<NFeDetail> nFeDetails;
 
 	private @XmlElement(name = "total") @NotNull final NFeTotal nFeTotal;
 

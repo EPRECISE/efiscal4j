@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -22,6 +23,8 @@ import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.transport.ShippingModality;
+import eprecise.efiscal4j.nfe.transport.TransportedVolume;
+import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
 
 public class NFeInfoTest {
@@ -30,7 +33,7 @@ public class NFeInfoTest {
 	public void test() {
 		try {
 			//@formatter:off       
-			ArrayList<NFeDetail> nFeDetailList = new ArrayList<NFeDetail>();
+			List<NFeDetail> nFeDetailList = new ArrayList<>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
 							 .withNFeItem(
@@ -55,6 +58,22 @@ public class NFeInfoTest {
 							    .withMainTax(new MainTax())
 								.build())
 							 .build());
+						
+			List<VolumeSeal> seals = new ArrayList<>();
+			seals.add(new VolumeSeal.Builder()
+				     .withSealNumber("Número do Lacre 33")
+				     .build());
+			
+			List<TransportedVolume> transportedVolumes = new ArrayList<>();
+			transportedVolumes.add(new TransportedVolume.Builder()
+					              .withVolumeQuantity("3")
+					              .withVolumeSpecies("Espécie teste")
+					              .withVolumeTrademark("Marca Teste")
+					              .withVolumeNumbering("numeração teste 01")
+					              .withNetWeight("55.555")
+					              .withGrossWeight("60.000")
+					              .withSeals(seals)
+					              .build());					
 						
             NFeInfo nFeInfo = new NFeInfo.Builder()
                              .withEmitter(
@@ -154,6 +173,7 @@ public class NFeInfoTest {
                                                               .withUF(UF.PR)
                                                               .build())
                                                      .build())
+                                        .withTransportedVolume(transportedVolumes)
                         		        .build())
                            .withReceiver(
                                     new Receiver.Builder()
