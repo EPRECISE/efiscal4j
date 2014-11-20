@@ -15,8 +15,10 @@ import eprecise.efiscal4j.nfe.address.Address;
 import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.address.Country;
 import eprecise.efiscal4j.nfe.address.UF;
-import eprecise.efiscal4j.nfe.tax.MainTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
+import eprecise.efiscal4j.nfe.tax.icms.BCModality;
+import eprecise.efiscal4j.nfe.tax.icms.ICMS;
+import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
@@ -26,10 +28,10 @@ import eprecise.efiscal4j.nfe.transport.ShippingModality;
 
 public class NFeInfoTest {
 
-	@Test
-	public void test() {
-		try {
-			//@formatter:off       
+    @Test
+    public void test() {
+        try {
+            //@formatter:off       
 			ArrayList<NFeDetail> nFeDetailList = new ArrayList<NFeDetail>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
@@ -52,7 +54,14 @@ public class NFeInfoTest {
 						 			.build())
 							 .withTax(
 								 new Tax.Builder()
-							    .withMainTax(new MainTax())
+							    .withMainTax(new ICMS.Builder()
+							                 .fromCode(ICMS.CST_00)
+							                 .withOrigin(ProductOrigin.NACIONAL)
+							                 .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+							                 .withBcValue("10.00")
+							                 .withIcmsAliquot("1.00")
+							                 .withIcmsValue("10.00")
+							                 .build())
 								.build())
 							 .build());
 						
@@ -186,21 +195,21 @@ public class NFeInfoTest {
                            .build();
             
             //@formatter:on
-			JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			marshaller.marshal(nFeInfo, System.out);
+            JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(nFeInfo, System.out);
 
-			Assert.assertTrue(true);
-		} catch (ConstraintViolationException e) {
-			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
-				System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
-			}
-			Assert.assertTrue(false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.assertTrue(false);
-		}
-	}
+            Assert.assertTrue(true);
+        } catch (ConstraintViolationException e) {
+            for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+                System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
+            }
+            Assert.assertTrue(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(false);
+        }
+    }
 }

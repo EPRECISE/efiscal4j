@@ -1,8 +1,10 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.tax.MainTax;
 
@@ -139,6 +141,8 @@ public abstract class ICMS extends MainTax {
      */
     public static Class<ICMSSN900.Builder> CSOSN_900 = ICMSSN900.Builder.class;
 
+    private @XmlElement(name = "orig") @NotNull final ProductOrigin origin;
+
     public static class Builder {
 
         public <T extends ICMSBuilder> T fromCode(Class<T> icmsCode) {
@@ -148,6 +152,11 @@ public abstract class ICMS extends MainTax {
                 throw new RuntimeException(e);
             }
         }
+
+    }
+
+    public ICMS(ProductOrigin origin) {
+        this.origin = origin;
 
     }
 

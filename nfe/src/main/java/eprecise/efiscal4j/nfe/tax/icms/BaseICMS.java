@@ -1,6 +1,10 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+
+
 abstract class BaseICMS extends ICMS {
 
     static abstract class Builder {
@@ -8,9 +12,10 @@ abstract class BaseICMS extends ICMS {
         abstract BaseICMS build();
     }
 
-    private final String cst;
+    private @XmlElement(name = "CST") @NotNull final String cst;
 
-    protected BaseICMS(String cst) {
+    protected BaseICMS(ProductOrigin origin, String cst) {
+        super(origin);
         this.cst = cst;
     }
 
