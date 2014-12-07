@@ -17,7 +17,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @see ICMS
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ICMS00 extends BaseICMS {
+class ICMS00 extends BaseICMS {
 
     /**
      * Modalidade de determinação da BC do ICMS:
@@ -40,12 +40,12 @@ public class ICMS00 extends BaseICMS {
     /**
      * Alíquota do ICMS
      */
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
 
     /**
      * Valor do ICMS
      */
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String icmsValue;
+    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
     public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
@@ -86,15 +86,15 @@ public class ICMS00 extends BaseICMS {
 
         @Override
         public ICMS00 build() {
-            return new ICMS00(this.origin, this.bcModality, this.bcValue, this.icmsAliquot, this.icmsValue);
+            return new ICMS00(this);
         }
     }
 
-    protected ICMS00(ProductOrigin origin, BCModality bcModality, String bcValue, String icmsAliquot, String icmsValue) {
-        super(origin, "00");
-        this.bcModality = bcModality;
-        this.bcValue = bcValue;
-        this.icmsAliquot = icmsAliquot;
-        this.icmsValue = icmsValue;
+    protected ICMS00(ICMS00.Builder builder) {
+        super(builder.origin, "00");
+        this.bcModality = builder.bcModality;
+        this.bcValue = builder.bcValue;
+        this.icmsAliquot = builder.icmsAliquot;
+        this.icmsValue = builder.icmsValue;
     }
 }
