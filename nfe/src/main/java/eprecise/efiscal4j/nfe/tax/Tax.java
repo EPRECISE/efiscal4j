@@ -2,13 +2,13 @@
 package eprecise.efiscal4j.nfe.tax;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
+import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -22,13 +22,13 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tax {
 
-    // @formatter:off
-	private @XmlElements(value = { 
-			   @XmlElement(name = "ICMS", type = ICMS.class), 
-			   @XmlElement(name = "IPI", type = IPI.class), 
-			   @XmlElement(name = "II", type = II.class),
-			   @XmlElement(name = "ISSQN", type = ISSQN.class) }) @NotNull @Valid final MainTax mainTax;
-	// @formatter:on
+    private @XmlElement(name = "ICMS") @XmlJavaTypeAdapter(ICMSAdapter.class) @Valid final ICMS icms;
+
+    private @XmlElement(name = "IPI") @Valid final IPI ipi;
+
+    private @XmlElement(name = "II") @Valid final II ii;
+
+    private @XmlElement(name = "ISSQN") @Valid final ISSQN issqn;
 
     public static class Builder {
 
@@ -47,11 +47,16 @@ public class Tax {
     }
 
     public Tax() {
-        this.mainTax = null;
+        this.icms = null;
+        this.ipi = null;
+        this.ii = null;
+        this.issqn = null;
     }
 
     public Tax(Builder builder) {
-        this.mainTax = builder.mainTax;
+        this.icms = (ICMS) (builder.mainTax instanceof ICMS ? builder.mainTax : null);
+        this.ipi = (IPI) (builder.mainTax instanceof IPI ? builder.mainTax : null);
+        this.ii = (II) (builder.mainTax instanceof II ? builder.mainTax : null);
+        this.issqn = (ISSQN) (builder.mainTax instanceof ISSQN ? builder.mainTax : null);
     }
-
 }

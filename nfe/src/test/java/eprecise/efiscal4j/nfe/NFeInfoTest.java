@@ -21,6 +21,7 @@ import eprecise.efiscal4j.nfe.charging.Invoice;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
+import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
@@ -34,10 +35,10 @@ import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
 public class NFeInfoTest {
 
-	@Test
-	public void test() {
-		try {
-			//@formatter:off       
+    @Test
+    public void test() {
+        try {
+            //@formatter:off       
 			List<NFeDetail> nFeDetailList = new ArrayList<>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
@@ -60,14 +61,30 @@ public class NFeInfoTest {
 						 			.build())
 							 .withTax(
 								 new Tax.Builder()
+								 //ICMS00
+//							    .withMainTax(new ICMS.Builder()
+//							                 .fromCode(ICMS.CST_00)
+//							                 .withOrigin(ProductOrigin.NACIONAL)
+//							                 .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+//							                 .withBcValue("10.00")
+//							                 .withIcmsAliquot("1.00")
+//							                 .withIcmsValue("10.00")
+//							                 .build())
+								 //ICMS10
 							    .withMainTax(new ICMS.Builder()
-							                 .fromCode(ICMS.CST_00)
-							                 .withOrigin(ProductOrigin.NACIONAL)
-							                 .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
-							                 .withBcValue("10.00")
-							                 .withIcmsAliquot("1.00")
-							                 .withIcmsValue("10.00")
-							                 .build())
+                                             .fromCode(ICMS.CST_10)
+                                             .withOrigin(ProductOrigin.NACIONAL)
+                                             .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+                                             .withBcValue("10.00")
+                                             .withIcmsAliquot("1.00")
+                                             .withIcmsValue("10.00")
+                                             .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
+                                             .withValueMarginAddedStPercent("10.00")
+                                             .withBcReductionStPercent("1.00")
+                                             .withBcValueST("10.00")
+                                             .withIcmsStAliquot("1.00")
+                                             .withIcmsStValue("10.00")
+                                             .build())
 								.build())
 							 .withAdditionalProductInfo("Informações adicionais do produto (norma referenciada, informações complementares, etc)")
 							 .build());
