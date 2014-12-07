@@ -3,10 +3,10 @@ package eprecise.efiscal4j.nfe.transport;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -20,7 +20,7 @@ public class VolumeSeal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "nLacre") @Size(min = 1, max = 60) @Pattern(regexp = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}") String sealNumber;
+	private @XmlElement(name = "nLacre") @Size(min = 1, max = 60) @NFeString String sealNumber;
 
 	public static class Builder {
 

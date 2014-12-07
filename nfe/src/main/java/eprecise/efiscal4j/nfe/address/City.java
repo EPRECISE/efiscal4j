@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -20,7 +21,7 @@ public class City implements Serializable {
 
 	private @XmlElement(name = "cMun") @NotNull @Pattern(regexp = "[0-9]{7}") final String ibgeCode;
 
-	private @XmlElement(name = "xMun") @NotNull @Size(min = 2, max = 60) final String description;
+	private @XmlElement(name = "xMun") @NotNull @Size(min = 2, max = 60) @NFeString final String description;
 
 	private @XmlElement(name = "UF") final UF uf;
 

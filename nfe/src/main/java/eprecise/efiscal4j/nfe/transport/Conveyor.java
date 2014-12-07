@@ -16,6 +16,7 @@ import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.adapter.ConveyorAdapter;
 import eprecise.efiscal4j.nfe.address.City;
+import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -33,7 +34,7 @@ public class Conveyor implements Serializable {
 
 	private @NotNull @Valid final AbstractDocuments documents;
 
-	private @XmlElement(name = "xEnder") @Size(min = 1, max = 60) final String fullAddress;
+	private @XmlElement(name = "xEnder") @Size(min = 1, max = 60) @NFeString final String fullAddress;
 
 	private @NotNull final City city;
 

@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.nfe.adapter.EmitterAdapter;
 import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -31,13 +32,13 @@ public class Emitter implements Serializable {
 
 	private @NotNull @Valid final AbstractDocuments documents;
 
-	private @XmlElement(name = "xFant") @Size(min = 1, max = 60) final String fancyName;
+	private @XmlElement(name = "xFant") @Size(min = 1, max = 60) @NFeString final String fancyName;
 
 	private @XmlElement(name = "enderEmit") @NotNull final Address adress;
 
 	private @XmlElement(name = "IE") @NotNull @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}|ISENTO") final String stateRegistration;
 
-	private @XmlElement(name = "IM") @Size(min = 1, max = 15) final String municipalRegistration;
+	private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString final String municipalRegistration;
 
 	private @XmlElement(name = "CRT") @NotNull final CRT crt;
 

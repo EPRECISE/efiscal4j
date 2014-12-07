@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
@@ -40,6 +41,8 @@ public class NFeInfo implements Serializable {
 
 	private @XmlElement(name = "transp") @NotNull final NFeTransport nFeTransport;
 
+	private @XmlElement(name = "cobr") NFeCharging nFeCharging;
+
 	public static class Builder {
 
 		private NFeIdentification nFeIdentification;
@@ -53,6 +56,8 @@ public class NFeInfo implements Serializable {
 		private NFeTotal nFeTotal;
 
 		private NFeTransport nFeTransport;
+
+		private NFeCharging nFeCharging;
 
 		/**
 		 * @see NFeIdentification
@@ -116,6 +121,16 @@ public class NFeInfo implements Serializable {
 			return this;
 		}
 
+		/**
+		 * @see NFeCharging
+		 * @param nFeCharging
+		 * @return
+		 */
+		public Builder withNFeCharging(NFeCharging nFeCharging) {
+			this.nFeCharging = nFeCharging;
+			return this;
+		}
+
 		public NFeInfo build() {
 			NFeInfo entity = new NFeInfo(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -139,6 +154,7 @@ public class NFeInfo implements Serializable {
 		this.nFeDetails = builder.nFeDetails;
 		this.nFeTotal = builder.nFeTotal;
 		this.nFeTransport = builder.nFeTransport;
+		this.nFeCharging = builder.nFeCharging;
 	}
 
 }

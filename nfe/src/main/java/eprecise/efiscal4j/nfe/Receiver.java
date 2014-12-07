@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.nfe.adapter.ReceiverAdapter;
 import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.validation.StateRegistration;
 
@@ -36,9 +37,9 @@ public class Receiver implements Serializable {
 
 	private @XmlElement(name = "indIEDest") @NotNull final StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
 
-	private @XmlElement(name = "IM") @Size(min = 1, max = 15) String municipalRegistration;
+	private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString String municipalRegistration;
 
-	private @XmlElement(name = "email") @Size(min = 1, max = 60) String email;
+	private @XmlElement(name = "email") @Size(min = 1, max = 60) @NFeString String email;
 
 	public static class Builder {
 

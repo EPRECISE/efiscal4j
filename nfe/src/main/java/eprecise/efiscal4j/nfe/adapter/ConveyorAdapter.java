@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.adapter;
 
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -86,9 +85,9 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
 
 		private @XmlElement(name = "IE") String stateRegistration;
 
-		private @XmlElement(name = "xEnder") @Size(min = 1, max = 60) String fullAddress;
+		private @XmlElement(name = "xEnder") String fullAddress;
 
-		private @XmlElement(name = "xMun") @Size(min = 1, max = 60) String cityDescription;
+		private @XmlElement(name = "xMun") String cityDescription;
 
 		private @XmlElement(name = "UF") UF uf;
 
