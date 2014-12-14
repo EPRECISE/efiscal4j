@@ -14,10 +14,10 @@ import eprecise.efiscal4j.nfe.StateRegistrationReceiverIndicator;
  * @author Felipe Bueno
  * 
  */
-public class StateRegistrationValidator implements ConstraintValidator<StateRegistration, Receiver> {
+public class StateRegistrationValidator implements ConstraintValidator<StateRegistrationValidation, Receiver> {
 
 	@Override
-	public void initialize(StateRegistration constraintAnnotation) {
+	public void initialize(StateRegistrationValidation constraintAnnotation) {
 	}
 
 	@Override

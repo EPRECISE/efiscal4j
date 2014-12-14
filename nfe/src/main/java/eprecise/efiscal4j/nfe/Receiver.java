@@ -15,7 +15,7 @@ import eprecise.efiscal4j.nfe.adapter.ReceiverAdapter;
 import eprecise.efiscal4j.nfe.address.Address;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.validation.StateRegistration;
+import eprecise.efiscal4j.nfe.validation.StateRegistrationValidation;
 
 
 /**
@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.validation.StateRegistration;
  * @author Felipe Bueno
  * 
  */
-@StateRegistration
+@StateRegistrationValidation
 @XmlJavaTypeAdapter(ReceiverAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Receiver implements Serializable {

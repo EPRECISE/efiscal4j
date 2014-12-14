@@ -12,9 +12,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;
 
 
 /**
@@ -23,6 +25,7 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
+@NFePaymentValidation
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeInfo implements Serializable {
@@ -43,6 +46,8 @@ public class NFeInfo implements Serializable {
 
 	private @XmlElement(name = "cobr") NFeCharging nFeCharging;
 
+	private @XmlElement(name = "pag") @Size(min = 0, max = 100) List<NFePayment> nFePayments;
+
 	public static class Builder {
 
 		private NFeIdentification nFeIdentification;
@@ -58,6 +63,8 @@ public class NFeInfo implements Serializable {
 		private NFeTransport nFeTransport;
 
 		private NFeCharging nFeCharging;
+
+		private List<NFePayment> nFePayments;
 
 		/**
 		 * @see NFeIdentification
@@ -131,6 +138,18 @@ public class NFeInfo implements Serializable {
 			return this;
 		}
 
+		/**
+		 * List of NFePayments
+		 * 
+		 * @see NFePayment
+		 * @param nFePayments
+		 * @return
+		 */
+		public Builder withNFePayments(List<NFePayment> nFePayments) {
+			this.nFePayments = nFePayments;
+			return this;
+		}
+
 		public NFeInfo build() {
 			NFeInfo entity = new NFeInfo(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -155,6 +174,39 @@ public class NFeInfo implements Serializable {
 		this.nFeTotal = builder.nFeTotal;
 		this.nFeTransport = builder.nFeTransport;
 		this.nFeCharging = builder.nFeCharging;
+		this.nFePayments = builder.nFePayments;
+	}
+
+	public NFeIdentification getnFeIdentification() {
+		return this.nFeIdentification;
+	}
+
+	public Emitter getEmitter() {
+		return this.emitter;
+	}
+
+	public Receiver getReceiver() {
+		return this.receiver;
+	}
+
+	public List<NFeDetail> getnFeDetails() {
+		return this.nFeDetails;
+	}
+
+	public NFeTotal getnFeTotal() {
+		return this.nFeTotal;
+	}
+
+	public NFeTransport getnFeTransport() {
+		return this.nFeTransport;
+	}
+
+	public NFeCharging getnFeCharging() {
+		return this.nFeCharging;
+	}
+
+	public List<NFePayment> getnFePayments() {
+		return this.nFePayments;
 	}
 
 }

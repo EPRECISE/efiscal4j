@@ -22,7 +22,7 @@ public class NFeIdentification {
 
 	private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @NFeString final String operationType;
 
-	private @XmlElement(name = "indPag") PaymentMethod paymentMethod;
+	private @XmlElement(name = "indPag") PaymentMethodIndicator paymentMethodIndicator;
 
 	private @XmlElement(name = "mod") @NotNull final FiscalDocumentModel fiscalDocumentModel;
 
@@ -68,7 +68,7 @@ public class NFeIdentification {
 
 		private String operationType;
 
-		private PaymentMethod paymentMethod;
+		private PaymentMethodIndicator paymentMethodIndicator;
 
 		private FiscalDocumentModel fiscalDocumentModel;
 
@@ -117,8 +117,8 @@ public class NFeIdentification {
 			return this;
 		}
 
-		public Builder withPaymentMethod(PaymentMethod paymentMethod) {
-			this.paymentMethod = paymentMethod;
+		public Builder withPaymentMethod(PaymentMethodIndicator paymentMethodIndicator) {
+			this.paymentMethodIndicator = paymentMethodIndicator;
 			return this;
 		}
 
@@ -233,7 +233,7 @@ public class NFeIdentification {
 		this.ufIbgeCode = builder.ufIbgeCode;
 		this.nFeCode = builder.nFeCode;
 		this.operationType = builder.operationType;
-		this.paymentMethod = builder.paymentMethod;
+		this.paymentMethodIndicator = builder.paymentMethodIndicator;
 		this.fiscalDocumentModel = builder.fiscalDocumentModel;
 		this.fiscalDocumentSeries = builder.fiscalDocumentSeries;
 		this.fiscalDocumentNumber = builder.fiscalDocumentNumber;
@@ -250,6 +250,86 @@ public class NFeIdentification {
 		this.purchaserPresenceIndicator = builder.purchaserPresenceIndicator;
 		this.nFeTransmissionProcess = builder.nFeTransmissionProcess;
 		this.applicationVersion = builder.applicationVersion;
+	}
+
+	public UF getUfIbgeCode() {
+		return this.ufIbgeCode;
+	}
+
+	public String getnFeCode() {
+		return this.nFeCode;
+	}
+
+	public String getOperationType() {
+		return this.operationType;
+	}
+
+	public PaymentMethodIndicator getPaymentMethodIndicator() {
+		return this.paymentMethodIndicator;
+	}
+
+	public FiscalDocumentModel getFiscalDocumentModel() {
+		return this.fiscalDocumentModel;
+	}
+
+	public String getFiscalDocumentSeries() {
+		return this.fiscalDocumentSeries;
+	}
+
+	public String getFiscalDocumentNumber() {
+		return this.fiscalDocumentNumber;
+	}
+
+	public String getEmissionDateTime() {
+		return this.emissionDateTime;
+	}
+
+	public FiscalDocumentType getFiscalDocumentType() {
+		return this.fiscalDocumentType;
+	}
+
+	public DestinationOperationIdentifier getDestinationOperationIdentifier() {
+		return this.destinationOperationIdentifier;
+	}
+
+	public String getTaxableEventCityIbgeCode() {
+		return this.taxableEventCityIbgeCode;
+	}
+
+	public DANFEPrintFormat getDanfePrintFormat() {
+		return this.danfePrintFormat;
+	}
+
+	public NFeTransmissionMethod getnFeTransmissionMethod() {
+		return this.nFeTransmissionMethod;
+	}
+
+	public String getChecksum() {
+		return this.checksum;
+	}
+
+	public TransmissionEnvironmnent getTransmissionEnvironment() {
+		return this.transmissionEnvironment;
+	}
+
+	public NFeFinality getnFeFinality() {
+		return this.nFeFinality;
+	}
+
+	public FinalCustomerOperation getFinalCustomerOperation() {
+		return this.finalCustomerOperation;
+	}
+
+	public PurchaserPresenceIndicator getPurchaserPresenceIndicator() {
+		return this.purchaserPresenceIndicator;
+	}
+
+	public NFeTransmissionProcess getnFeTransmissionProcess() {
+		return this.nFeTransmissionProcess;
+	}
+
+	public String getApplicationVersion() {
+		return this.applicationVersion;
 	}
 
 }

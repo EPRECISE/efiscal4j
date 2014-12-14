@@ -19,6 +19,10 @@ import eprecise.efiscal4j.nfe.address.UF;
 import eprecise.efiscal4j.nfe.charging.Duplicate;
 import eprecise.efiscal4j.nfe.charging.Invoice;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.payment.CardFlag;
+import eprecise.efiscal4j.nfe.payment.CardSet;
+import eprecise.efiscal4j.nfe.payment.NFePayment;
+import eprecise.efiscal4j.nfe.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
@@ -35,10 +39,10 @@ import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
 public class NFeInfoTest {
 
-    @Test
-    public void test() {
-        try {
-            //@formatter:off       
+	@Test
+	public void test() {
+		try {
+			//@formatter:off       
 			List<NFeDetail> nFeDetailList = new ArrayList<>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
@@ -61,15 +65,6 @@ public class NFeInfoTest {
 						 			.build())
 							 .withTax(
 								 new Tax.Builder()
-								 //ICMS00
-//							    .withMainTax(new ICMS.Builder()
-//							                 .fromCode(ICMS.CST_00)
-//							                 .withOrigin(ProductOrigin.NACIONAL)
-//							                 .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
-//							                 .withBcValue("10.00")
-//							                 .withIcmsAliquot("1.00")
-//							                 .withIcmsValue("10.00")
-//							                 .build())
 								 //ICMS10
 							    .withMainTax(new ICMS.Builder()
                                              .fromCode(ICMS.CST_10)
@@ -112,6 +107,19 @@ public class NFeInfoTest {
 				     .withDueDate("2014-12-07")
 				     .withValue("10")
 				     .build());
+			
+			List<NFePayment> nFePayments = new ArrayList<>();
+			nFePayments.add(
+					 new NFePayment.Builder()
+					.withPaymentMethod(PaymentMethod.DINHEIRO)
+					.withPaymentValue("10.00")
+					.withCardSet(
+							new CardSet.Builder()
+						   .withCnpj("01027058000191")
+						   .withCardFlag(CardFlag.VISA)
+						   .withAuthorizationNumber("123445665")
+						   .build())
+				    .build());
 						
             NFeInfo nFeInfo = new NFeInfo.Builder()
 				             .withNFeIdentification(
@@ -131,7 +139,7 @@ public class NFeInfoTest {
 							     		      .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
 							     		      .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
 							     		      .withOperationType("1")
-							     		      .withPaymentMethod(PaymentMethod.PAGAMENTO_A_VISTA)
+							     		      .withPaymentMethod(PaymentMethodIndicator.PAGAMENTO_A_VISTA)
 							     		      .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
 							     		      .withTaxableEventCityIbgeCode("1234567")
 							     		      .withTransmissionEnvironment(TransmissionEnvironmnent.HOMOLOGACAO)
@@ -253,7 +261,8 @@ public class NFeInfoTest {
                         			    	   .withNumber("7.00")
                         			    	   .build())
                         			    .withDuplicates(duplicates)
-                        			    .build())	       
+                        			    .build())
+                             .withNFePayments(nFePayments)
                              .build();
             
             //@formatter:on
