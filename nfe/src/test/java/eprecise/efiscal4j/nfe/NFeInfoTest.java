@@ -12,6 +12,10 @@ import javax.xml.bind.Marshaller;
 import org.junit.Assert;
 import org.junit.Test;
 
+import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
+import eprecise.efiscal4j.nfe.additionalinfo.CustomizedObservation;
+import eprecise.efiscal4j.nfe.additionalinfo.ProcessOrigin;
+import eprecise.efiscal4j.nfe.additionalinfo.ReferencedProcess;
 import eprecise.efiscal4j.nfe.address.Address;
 import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.address.Country;
@@ -120,6 +124,38 @@ public class NFeInfoTest {
 						   .withAuthorizationNumber("123445665")
 						   .build())
 				    .build());
+			
+			List<CustomizedObservation> taxpayerObservations = new ArrayList<>();
+			taxpayerObservations.add(
+					            new CustomizedObservation.Builder()
+					           .withText("Texto teste para observação customizada")
+					           .withField("campo_teste")
+					           .build());
+			taxpayerObservations.add(
+		            new CustomizedObservation.Builder()
+		           .withText("Texto teste para observação customizada 2")
+		           .withField("campo_teste_2")
+		           .build());
+			
+			List<CustomizedObservation> fiscoObservations = new ArrayList<>();
+			fiscoObservations.add(
+					            new CustomizedObservation.Builder()
+					           .withText("Texto teste para observação customizada")
+					           .withField("campo_teste")
+					           .build());
+			fiscoObservations.add(
+		            new CustomizedObservation.Builder()
+		           .withText("Texto teste para observação customizada 2")
+		           .withField("campo_teste_2")
+		           .build());
+			
+			List<ReferencedProcess> referencedProcesses = new ArrayList<>();
+			referencedProcesses.add(
+					           new ReferencedProcess.Builder()
+					          .withProcessNumber("123")
+					          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL)	
+					          .build()
+					);
 						
             NFeInfo nFeInfo = new NFeInfo.Builder()
 				             .withNFeIdentification(
@@ -263,6 +299,15 @@ public class NFeInfoTest {
                         			    .withDuplicates(duplicates)
                         			    .build())
                              .withNFePayments(nFePayments)
+                             .withAdditionalInfo(
+                            		        new AdditionalInfo.Builder()
+                            		       .withAdditionalInfoFisco("Informação de uso do fisco")
+                            		       .withComplementaryInfo("Informação complementar do contribuinte")
+                            		       .withTaxpayerObservations(taxpayerObservations)
+                            		       .withFiscoObservations(fiscoObservations)
+                            		       .withReferencedProcesses(referencedProcesses)
+                            		       .build()                           
+                            		 )                             
                              .build();
             
             //@formatter:on

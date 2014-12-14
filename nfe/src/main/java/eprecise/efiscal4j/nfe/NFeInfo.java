@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
@@ -48,6 +49,8 @@ public class NFeInfo implements Serializable {
 
 	private @XmlElement(name = "pag") @Size(min = 0, max = 100) List<NFePayment> nFePayments;
 
+	private @XmlElement(name = "infAdic") AdditionalInfo additionalInfo;
+
 	public static class Builder {
 
 		private NFeIdentification nFeIdentification;
@@ -65,6 +68,8 @@ public class NFeInfo implements Serializable {
 		private NFeCharging nFeCharging;
 
 		private List<NFePayment> nFePayments;
+
+		private AdditionalInfo additionalInfo;
 
 		/**
 		 * @see NFeIdentification
@@ -150,6 +155,16 @@ public class NFeInfo implements Serializable {
 			return this;
 		}
 
+		/**
+		 * @see AdditionalInfo
+		 * @param additionalInfo
+		 * @return
+		 */
+		public Builder withAdditionalInfo(AdditionalInfo additionalInfo) {
+			this.additionalInfo = additionalInfo;
+			return this;
+		}
+
 		public NFeInfo build() {
 			NFeInfo entity = new NFeInfo(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -175,6 +190,7 @@ public class NFeInfo implements Serializable {
 		this.nFeTransport = builder.nFeTransport;
 		this.nFeCharging = builder.nFeCharging;
 		this.nFePayments = builder.nFePayments;
+		this.additionalInfo = builder.additionalInfo;
 	}
 
 	public NFeIdentification getnFeIdentification() {
@@ -207,6 +223,10 @@ public class NFeInfo implements Serializable {
 
 	public List<NFePayment> getnFePayments() {
 		return this.nFePayments;
+	}
+
+	public AdditionalInfo getAdditionalInfo() {
+		return this.additionalInfo;
 	}
 
 }
