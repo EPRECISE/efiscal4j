@@ -1,8 +1,10 @@
+
 package eprecise.efiscal4j.nfe;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+
 
 @XmlType
 @XmlEnum(String.class)
@@ -304,6 +306,24 @@ public enum CFOP {
 	@XmlEnumValue("5256") CFOP_5256("5256", ""),
 	@XmlEnumValue("5257") CFOP_5257("5257", ""),
 	@XmlEnumValue("5258") CFOP_5258("5258", ""),
+	@XmlEnumValue("5351") CFOP_5351("5351", "", true),
+	@XmlEnumValue("5352") CFOP_5352("5352", "", true),
+	@XmlEnumValue("5353") CFOP_5353("5353", "", true),
+	@XmlEnumValue("5354") CFOP_5354("5354", "", true),
+	@XmlEnumValue("5355") CFOP_5355("5355", "", true),
+	@XmlEnumValue("5356") CFOP_5356("5356", "", true),
+	@XmlEnumValue("5357") CFOP_5357("5357", "", true),
+	@XmlEnumValue("5359") CFOP_5359("5359", "", true),
+	@XmlEnumValue("5360") CFOP_5360("5360", "", true),
+	@XmlEnumValue("6351") CFOP_6351("6351", "", true),
+	@XmlEnumValue("6352") CFOP_6352("6352", "", true),
+	@XmlEnumValue("6353") CFOP_6353("6353", "", true),
+	@XmlEnumValue("6354") CFOP_6354("6354", "", true),
+	@XmlEnumValue("6355") CFOP_6355("6355", "", true),
+	@XmlEnumValue("6356") CFOP_6356("6356", "", true),
+	@XmlEnumValue("6357") CFOP_6357("6357", "", true),
+	@XmlEnumValue("6359") CFOP_6359("6359", "", true),
+	@XmlEnumValue("6360") CFOP_6360("6360", "", true),
 	@XmlEnumValue("5401") CFOP_5401("5401", ""),
 	@XmlEnumValue("5402") CFOP_5402("5402", ""),
 	@XmlEnumValue("5403") CFOP_5403("5403", ""),
@@ -380,8 +400,8 @@ public enum CFOP {
 	@XmlEnumValue("5927") CFOP_5927("5927", ""),
 	@XmlEnumValue("5928") CFOP_5928("5928", ""),
 	@XmlEnumValue("5929") CFOP_5929("5929", ""),
-	@XmlEnumValue("5931") CFOP_5931("5931", ""),
-	@XmlEnumValue("5932") CFOP_5932("5932", ""),
+	@XmlEnumValue("5931") CFOP_5931("5931", "", true),
+	@XmlEnumValue("5932") CFOP_5932("5932", "", true),
 	@XmlEnumValue("5933") CFOP_5933("5933", ""),
 	@XmlEnumValue("5934") CFOP_5934("5934", ""),
 	@XmlEnumValue("5949") CFOP_5949("5949", ""),
@@ -498,8 +518,8 @@ public enum CFOP {
 	@XmlEnumValue("6924") CFOP_6924("6924", ""),
 	@XmlEnumValue("6925") CFOP_6925("6925", ""),
 	@XmlEnumValue("6929") CFOP_6929("6929", ""),
-	@XmlEnumValue("6931") CFOP_6931("6931", ""),
-	@XmlEnumValue("6932") CFOP_6932("6932", ""),
+	@XmlEnumValue("6361") CFOP_6931("6931", "", true),
+	@XmlEnumValue("6362") CFOP_6932("6932", "", true),
 	@XmlEnumValue("6933") CFOP_6933("6933", ""),
 	@XmlEnumValue("6934") CFOP_6934("6934", ""),
 	@XmlEnumValue("6949") CFOP_6949("6949", ""),
@@ -525,37 +545,48 @@ public enum CFOP {
 	@XmlEnumValue("7667") CFOP_7667("7667", ""),
 	@XmlEnumValue("7930") CFOP_7930("7930", ""),
 	@XmlEnumValue("7949") CFOP_7949("7949", "");
-	
-    private static final long serialVersionUID = 1L;
 
-    private final String value;
+	private static final long serialVersionUID = 1L;
 
-    private final String description;
+	private final String value;
 
-    private CFOP(String	 value, String description) {
-        this.value = value;
-        this.description = description;
-    }
+	private final String description;
 
-    public String getValue() {
-        return this.value;
-    }
+	private final boolean isTransport;
 
-    public String getDescription() {
-        return this.description;
-    }
+	private CFOP(String value, String description, boolean isTransport) {
+		this.value = value;
+		this.description = description;
+		this.isTransport = isTransport;
+	}
 
-    @Override
-    public String toString() {
-        return this.getDescription();
-    }
-    
-    public static CFOP findByCode(String code) {
-        for (CFOP cfop : values()) {
-            if (cfop.getValue().equals(code)) {
-                return cfop;
-            }
-        }
-        return null;
-    }
+	private CFOP(String value, String description) {
+		this.value = value;
+		this.description = description;
+		this.isTransport = false;
+	}
+
+	public String getValue() {
+		return this.value;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public boolean isTransport() {
+		return this.isTransport;
+	}
+
+	@Override
+	public String toString() {
+		return this.getDescription();
+	}
+
+	public static CFOP findByCode(String code) {
+		for (CFOP cfop : values()) {
+			if (cfop.getValue().equals(code)) { return cfop; }
+		}
+		return null;
+	}
 }

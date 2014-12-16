@@ -37,6 +37,7 @@ import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.transport.ShippingModality;
+import eprecise.efiscal4j.nfe.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
@@ -285,6 +286,15 @@ public class NFeInfoTest {
                                                      .withUF(UF.PR)
                                                      .build())
                                                  .build())
+                                         .withtransportICMSRetention(
+                                        		                new TransportICMSRetention.Builder()
+                                        		               .withServiceValue("10.00")
+                                        		               .withRetentionCalculationBasis("10.00")
+                                        		               .withRetentionAliquot("10")
+                                        		               .withRetentionValue("1.00")
+                                        		               .withCfop(CFOP.CFOP_6931)
+                                        		               .withGenFactIbgeCode("1234567")
+                                        		               .build())
                                          .withTransportedVolume(transportedVolumes)
                         		         .build())
                         	 .withNFeCharging(

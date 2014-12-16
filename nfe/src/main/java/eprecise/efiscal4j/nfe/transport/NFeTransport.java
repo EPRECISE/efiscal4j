@@ -28,6 +28,8 @@ public class NFeTransport implements Serializable {
 
 	private @XmlElement(name = "transporta") Conveyor conveyor;
 
+	private @XmlElement(name = "retTransp") TransportICMSRetention transportICMSRetention;
+
 	private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
 
 	public static class Builder {
@@ -35,6 +37,8 @@ public class NFeTransport implements Serializable {
 		private ShippingModality shippingModality;
 
 		private Conveyor conveyor;
+
+		private TransportICMSRetention transportICMSRetention;
 
 		private List<TransportedVolume> transportedVolume;
 
@@ -55,6 +59,16 @@ public class NFeTransport implements Serializable {
 		 */
 		public Builder withConveyor(Conveyor conveyor) {
 			this.conveyor = conveyor;
+			return this;
+		}
+
+		/**
+		 * @see TransportICMSRetention
+		 * @param transportICMSRetention
+		 * @return
+		 */
+		public Builder withtransportICMSRetention(TransportICMSRetention transportICMSRetention) {
+			this.transportICMSRetention = transportICMSRetention;
 			return this;
 		}
 
@@ -82,6 +96,28 @@ public class NFeTransport implements Serializable {
 	public NFeTransport(Builder builder) {
 		this.shippingModality = builder.shippingModality;
 		this.conveyor = builder.conveyor;
+		this.transportICMSRetention = builder.transportICMSRetention;
 		this.transportedVolume = builder.transportedVolume;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public ShippingModality getShippingModality() {
+		return this.shippingModality;
+	}
+
+	public Conveyor getConveyor() {
+		return this.conveyor;
+	}
+
+	public TransportICMSRetention getTransportICMSRetention() {
+		return this.transportICMSRetention;
+	}
+
+	public List<TransportedVolume> getTransportedVolume() {
+		return this.transportedVolume;
+	}
+
 }
