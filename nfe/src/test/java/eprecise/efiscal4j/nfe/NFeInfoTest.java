@@ -27,6 +27,8 @@ import eprecise.efiscal4j.nfe.payment.CardFlag;
 import eprecise.efiscal4j.nfe.payment.CardSet;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.payment.PaymentMethod;
+import eprecise.efiscal4j.nfe.tax.ReturnedIPI;
+import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
@@ -72,20 +74,26 @@ public class NFeInfoTest {
 								 new Tax.Builder()
 								 //ICMS10
 							    .withMainTax(new ICMS.Builder()
-                                             .fromCode(ICMS.CST_10)
-                                             .withOrigin(ProductOrigin.NACIONAL)
-                                             .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
-                                             .withBcValue("10.00")
-                                             .withIcmsAliquot("1.00")
-                                             .withIcmsValue("10.00")
-                                             .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
-                                             .withValueMarginAddedStPercent("10.00")
-                                             .withBcReductionStPercent("1.00")
-                                             .withBcValueST("10.00")
-                                             .withIcmsStAliquot("1.00")
-                                             .withIcmsStValue("10.00")
-                                             .build())
+                                            .fromCode(ICMS.CST_10)
+                                            .withOrigin(ProductOrigin.NACIONAL)
+                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+                                            .withBcValue("10.00")
+                                            .withIcmsAliquot("1.00")
+                                            .withIcmsValue("10.00")
+                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
+                                            .withValueMarginAddedStPercent("10.00")
+                                            .withBcReductionStPercent("1.00")
+                                            .withBcValueST("10.00")
+                                            .withIcmsStAliquot("1.00")
+                                            .withIcmsStValue("10.00")
+                                            .build())
 								.build())
+							 .withReturnedTax(new ReturnedTax.Builder()
+							                 .withReturnedProductPerc("70")
+							                 .withReturnedIPI(new ReturnedIPI.Builder()
+							                                 .withReturnedIPIValue("7.00")
+							                                 .build())
+							                 .build())
 							 .withAdditionalProductInfo("Informações adicionais do produto (norma referenciada, informações complementares, etc)")
 							 .build());
 						

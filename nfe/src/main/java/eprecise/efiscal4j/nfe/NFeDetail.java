@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
@@ -34,6 +35,8 @@ public class NFeDetail implements Serializable {
 
 	private @XmlElement(name = "imposto") @NotNull final Tax tax;
 
+	private @XmlElement(name = "impostoDevol") ReturnedTax returnedTax;
+
 	private @XmlElement(name = "infAdProd") @Size(min = 1, max = 500) @NFeString String additionalProductInfo;
 
 	public static class Builder {
@@ -45,6 +48,8 @@ public class NFeDetail implements Serializable {
 		private Tax tax;
 
 		private String additionalProductInfo;
+
+		private ReturnedTax returnedTax;
 
 		/**
 		 * Número do item da NF-e
@@ -85,6 +90,16 @@ public class NFeDetail implements Serializable {
 			return this;
 		}
 
+		/**
+		 * @see ReturnedTax
+		 * @param returnedTax
+		 * @return
+		 */
+		public Builder withReturnedTax(ReturnedTax returnedTax) {
+			this.returnedTax = returnedTax;
+			return this;
+		}
+
 		public NFeDetail build() {
 			NFeDetail entity = new NFeDetail(this);
 			ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -103,6 +118,7 @@ public class NFeDetail implements Serializable {
 		this.nFeItem = builder.nFeItem;
 		this.tax = builder.tax;
 		this.additionalProductInfo = builder.additionalProductInfo;
+		this.returnedTax = builder.returnedTax;
 	}
 
 	public String getItemOrder() {
@@ -119,6 +135,10 @@ public class NFeDetail implements Serializable {
 
 	public String getAdditionalProductInfo() {
 		return this.additionalProductInfo;
+	}
+
+	public ReturnedTax getReturnedTax() {
+		return this.returnedTax;
 	}
 
 }
