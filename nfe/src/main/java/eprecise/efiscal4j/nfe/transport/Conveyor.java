@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import eprecise.efiscal4j.nfe.AbstractDocuments;
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.adapter.ConveyorAdapter;
 import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;

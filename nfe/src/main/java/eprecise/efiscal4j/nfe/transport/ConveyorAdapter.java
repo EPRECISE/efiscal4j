@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.adapter;
+package eprecise.efiscal4j.nfe.transport;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +10,6 @@ import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.address.UF;
-import eprecise.efiscal4j.nfe.transport.Conveyor;
 
 
 public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor, Conveyor> {

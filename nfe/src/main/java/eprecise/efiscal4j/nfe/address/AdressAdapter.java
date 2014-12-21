@@ -1,15 +1,10 @@
 
-package eprecise.efiscal4j.nfe.adapter;
+package eprecise.efiscal4j.nfe.address;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-
-import eprecise.efiscal4j.nfe.address.Address;
-import eprecise.efiscal4j.nfe.address.City;
-import eprecise.efiscal4j.nfe.address.Country;
-import eprecise.efiscal4j.nfe.address.UF;
 
 
 public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Address> {

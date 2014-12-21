@@ -30,10 +30,10 @@ import eprecise.efiscal4j.nfe.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.tax.ReturnedIPI;
 import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
-import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
@@ -72,21 +72,55 @@ public class NFeInfoTest {
 						 			.build())
 							 .withTax(
 								 new Tax.Builder()
+								 //ICMS00
+//								.withMainTax(new ICMS.Builder()
+//                                            .fromCode(ICMS.CST_00)
+//                                            .withOrigin(ProductOrigin.NACIONAL)
+//                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+//                                            .withBcValue("10.00")
+//                                            .withIcmsAliquot("1.00")
+//                                            .withIcmsValue("10.00")
+//                                            .build())
 								 //ICMS10
+//							    .withMainTax(new ICMS.Builder()
+//                                            .fromCode(ICMS.CST_10)
+//                                            .withOrigin(ProductOrigin.NACIONAL)
+//                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+//                                            .withBcValue("10.00")
+//                                            .withIcmsAliquot("1.00")
+//                                            .withIcmsValue("10.00")
+//                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
+//                                            .withValueMarginAddedStPercent("10.00")
+//                                            .withBcReductionStPercent("1.00")
+//                                            .withBcValueST("10.00")
+//                                            .withIcmsStAliquot("1.00")
+//                                            .withIcmsStValue("10.00")
+//                                            .build())
+								 //ICMS20
+//							    .withMainTax(new ICMS.Builder()
+//                                            .fromCode(ICMS.CST_20)
+//                                            .withOrigin(ProductOrigin.NACIONAL)
+//                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+//                                            .withBcReductionPercent("5.00")
+//                                            .withBcValue("10.00")
+//                                            .withIcmsAliquot("1.00")
+//                                            .withIcmsValue("10.00")                                            
+//                                            .withIcmsDesonerationValue("2")
+//                                            .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
+//                                            .build())    
+								 //ICMS30
 							    .withMainTax(new ICMS.Builder()
-                                            .fromCode(ICMS.CST_10)
+                                            .fromCode(ICMS.CST_30)
                                             .withOrigin(ProductOrigin.NACIONAL)
-                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
-                                            .withBcValue("10.00")
-                                            .withIcmsAliquot("1.00")
-                                            .withIcmsValue("10.00")
                                             .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
                                             .withValueMarginAddedStPercent("10.00")
                                             .withBcReductionStPercent("1.00")
                                             .withBcValueST("10.00")
                                             .withIcmsStAliquot("1.00")
-                                            .withIcmsStValue("10.00")
-                                            .build())
+                                            .withIcmsStValue("10.00")                                            
+                                            .withIcmsDesonerationValue("2")
+                                            .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)                                            
+                                            .build())								 
 								.build())
 							 .withReturnedTax(new ReturnedTax.Builder()
 							                 .withReturnedProductPerc("70")
