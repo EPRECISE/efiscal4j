@@ -19,82 +19,106 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMS00 extends BaseICMS {
 
-    /**
-     * Modalidade de determinação da BC do ICMS:
-     * 
-     * 0 - Margem Valor Agregado (%);
-     * 
-     * 1 - Pauta (valor);
-     * 
-     * 2 - Preço Tabelado Máximo (valor);
-     * 
-     * 3 - Valor da Operação.
-     */
-    private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Valor da BC do ICMS
-     */
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
+	private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
 
-    /**
-     * Alíquota do ICMS
-     */
-    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+	private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
 
-    /**
-     * Valor do ICMS
-     */
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+	private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
 
-    public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
+	private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
-        private ProductOrigin origin;
+	public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
-        private BCModality bcModality;
+		private BCModality bcModality;
 
-        private String bcValue;
+		private String bcValue;
 
-        private String icmsAliquot;
+		private String icmsAliquot;
 
-        private String icmsValue;
+		private String icmsValue;
 
-        public Builder withOrigin(ProductOrigin origin) {
-            this.origin = origin;
-            return this;
-        }
+		/**
+		 * @see ProductOrigin
+		 * @param origin
+		 * @return
+		 */
+		@Override
+		public Builder withOrigin(ProductOrigin origin) {
+			return (ICMS00.Builder) super.withOrigin(origin);
+		}
 
-        public Builder withBcModality(BCModality bcModality) {
-            this.bcModality = bcModality;
-            return this;
-        }
+		/**
+		 * @see BCModality
+		 * @param bcModality
+		 * @return
+		 */
+		public Builder withBcModality(BCModality bcModality) {
+			this.bcModality = bcModality;
+			return this;
+		}
 
-        public Builder withBcValue(String bcValue) {
-            this.bcValue = bcValue;
-            return this;
-        }
+		/**
+		 * Valor da BC do ICMS
+		 * 
+		 * @param bcValue
+		 * @return
+		 */
+		public Builder withBcValue(String bcValue) {
+			this.bcValue = bcValue;
+			return this;
+		}
 
-        public Builder withIcmsAliquot(String icmsAliquot) {
-            this.icmsAliquot = icmsAliquot;
-            return this;
-        }
+		/**
+		 * Alíquota do ICMS
+		 * 
+		 * @param icmsAliquot
+		 * @return
+		 */
+		public Builder withIcmsAliquot(String icmsAliquot) {
+			this.icmsAliquot = icmsAliquot;
+			return this;
+		}
 
-        public Builder withIcmsValue(String icmsValue) {
-            this.icmsValue = icmsValue;
-            return this;
-        }
+		/**
+		 * Valor do ICMS
+		 * 
+		 * @param icmsValue
+		 * @return
+		 */
+		public Builder withIcmsValue(String icmsValue) {
+			this.icmsValue = icmsValue;
+			return this;
+		}
 
-        @Override
-        public ICMS00 build() {
-            return new ICMS00(this);
-        }
-    }
+		@Override
+		public ICMS00 build() {
+			return new ICMS00(this);
+		}
+	}
 
-    protected ICMS00(ICMS00.Builder builder) {
-        super(builder.origin, "00");
-        this.bcModality = builder.bcModality;
-        this.bcValue = builder.bcValue;
-        this.icmsAliquot = builder.icmsAliquot;
-        this.icmsValue = builder.icmsValue;
-    }
+	protected ICMS00(ICMS00.Builder builder) {
+		super(builder.origin, "00");
+		this.bcModality = builder.bcModality;
+		this.bcValue = builder.bcValue;
+		this.icmsAliquot = builder.icmsAliquot;
+		this.icmsValue = builder.icmsValue;
+	}
+
+	public BCModality getBcModality() {
+		return this.bcModality;
+	}
+
+	public String getBcValue() {
+		return this.bcValue;
+	}
+
+	public String getIcmsAliquot() {
+		return this.icmsAliquot;
+	}
+
+	public String getIcmsValue() {
+		return this.icmsValue;
+	}
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.types.NFeDecimal1203;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
@@ -30,9 +31,9 @@ public class TransportedVolume implements Serializable {
 
 	private @XmlElement(name = "nVol") @Size(min = 1, max = 60) @NFeString String volumeNumbering;
 
-	private @XmlElement(name = "pesoL") @Pattern(regexp = "0|0\\.[0-9]{3}|[1-9]{1}[0-9]{0,11}(\\.[0-9]{3})?") String netWeight;
+	private @XmlElement(name = "pesoL") @NFeDecimal1203 String netWeight;
 
-	private @XmlElement(name = "pesoB") @Pattern(regexp = "0|0\\.[0-9]{3}|[1-9]{1}[0-9]{0,11}(\\.[0-9]{3})?") String grossWeight;
+	private @XmlElement(name = "pesoB") @NFeDecimal1203 String grossWeight;
 
 	private @XmlElement(name = "lacres") @Size(max = 5000) List<VolumeSeal> seals;
 

@@ -7,20 +7,22 @@ import javax.xml.bind.annotation.XmlElement;
 
 abstract class BaseICMSSN extends ICMS {
 
-    static abstract class Builder {
+	private static final long serialVersionUID = 1L;
 
-        abstract BaseICMSSN build();
-    }
+	static abstract class Builder {
 
-    private @XmlElement(name = "CSOSN") @NotNull final String csosn;
+		abstract BaseICMSSN build();
+	}
 
-    protected BaseICMSSN(ProductOrigin origin, String csosn) {
-        super(origin);
-        this.csosn = csosn;
-    }
+	private @XmlElement(name = "CSOSN") @NotNull final String csosn;
 
-    public String getCSOSN() {
-        return this.csosn;
-    }
+	protected BaseICMSSN(ProductOrigin origin, String csosn) {
+		super(origin);
+		this.csosn = csosn;
+	}
+
+	public String getCSOSN() {
+		return this.csosn;
+	}
 
 }

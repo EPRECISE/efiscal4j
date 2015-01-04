@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,7 +24,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 @ICMSDesonerationReason_3_9_12_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS20 extends BaseICMS implements Serializable, DesonerationGroup {
+class ICMS20 extends BaseICMS implements DesonerationGroup {
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,6 +65,7 @@ class ICMS20 extends BaseICMS implements Serializable, DesonerationGroup {
 		 * @param origin
 		 * @return
 		 */
+		@Override
 		public Builder withOrigin(ProductOrigin origin) {
 			this.origin = origin;
 			return this;

@@ -3,6 +3,9 @@ package eprecise.efiscal4j.nfe.tax.icms;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
 /**
@@ -10,20 +13,76 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * 
  * @see BaseICMS
  * @see ICMS
+ * @author Clécius J. Martinkoski
+ * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS60 extends BaseICMS {
+class ICMS60 extends BaseICMS implements ICMSSTRetained {
 
-    public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
+	private static final long serialVersionUID = 1L;
 
-        @Override
-        public ICMS60 build() {
-            return new ICMS60();
-        }
+	private @XmlElement(name = "vBCSTRet") @NFeDecimal1302 final String bcRetainedValueST;
 
-    }
+	private @XmlElement(name = "vICMSSTRet") @NFeDecimal1302 final String icmsRetainedValueST;
 
-    protected ICMS60() {
-        super("60");
-    }
+	public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
+
+		private String bcRetainedValueST;
+
+		private String icmsRetainedValueST;
+
+		/**
+		 * @see ProductOrigin
+		 * @param origin
+		 * @return
+		 */
+		@Override
+		public Builder withOrigin(ProductOrigin origin) {
+			return (ICMS60.Builder) super.withOrigin(origin);
+		}
+
+		/**
+		 * Valor da BC do ICMS ST retido anteriormente
+		 * 
+		 * @param bcRetainedValueST
+		 * @return
+		 */
+		public Builder withBcRetainedValueST(String bcRetainedValueST) {
+			this.bcRetainedValueST = bcRetainedValueST;
+			return this;
+		}
+
+		/**
+		 * Valor do ICMS ST retido anteriormente
+		 * 
+		 * @param icmsRetainedValueST
+		 * @return
+		 */
+		public Builder withicmsRetainedValueST(String icmsRetainedValueST) {
+			this.icmsRetainedValueST = icmsRetainedValueST;
+			return this;
+		}
+
+		@Override
+		public ICMS60 build() {
+			return new ICMS60(this);
+		}
+
+	}
+
+	protected ICMS60(ICMS60.Builder builder) {
+		super(builder.origin, "60");
+		this.bcRetainedValueST = builder.bcRetainedValueST;
+		this.icmsRetainedValueST = builder.icmsRetainedValueST;
+	}
+
+	@Override
+	public String getBcRetainedValueST() {
+		return this.bcRetainedValueST;
+	}
+
+	@Override
+	public String getIcmsRetainedValueST() {
+		return this.icmsRetainedValueST;
+	}
 }

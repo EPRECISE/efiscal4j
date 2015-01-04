@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +10,7 @@ import eprecise.efiscal4j.nfe.tax.icms.desoneration.DesonerationGroup;
 import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason_6_7_9_Validation;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
-import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Opc;
+import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
@@ -26,15 +24,15 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  */
 @ICMSDesonerationReason_6_7_9_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS30 extends BaseICMS implements Serializable, DesonerationGroup {
+class ICMS30 extends BaseICMS implements DesonerationGroup {
 
 	private static final long serialVersionUID = 1L;
 
 	private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalityST;
 
-	private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Opc final String valueMarginAddedStPercent;
+	private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
-	private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Opc final String bcReductionStPercent;
+	private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
 	private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
 
@@ -47,8 +45,6 @@ class ICMS30 extends BaseICMS implements Serializable, DesonerationGroup {
 	private @XmlElement(name = "motDesICMS") final ICMSDesonerationReason icmsDesonerationReason;
 
 	public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
-
-		private ProductOrigin origin;
 
 		private BCModalityST bcModalityST;
 
@@ -71,9 +67,9 @@ class ICMS30 extends BaseICMS implements Serializable, DesonerationGroup {
 		 * @param origin
 		 * @return
 		 */
+		@Override
 		public Builder withOrigin(ProductOrigin origin) {
-			this.origin = origin;
-			return this;
+			return (ICMS30.Builder) super.withOrigin(origin);
 		}
 
 		/**

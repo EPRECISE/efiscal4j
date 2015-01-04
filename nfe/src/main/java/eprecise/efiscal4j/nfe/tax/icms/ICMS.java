@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +17,9 @@ import eprecise.efiscal4j.nfe.tax.MainTax;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class ICMS extends MainTax {
+public abstract class ICMS extends MainTax implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Tributação pelo ICMS 00 - Tributada integralmente
@@ -162,7 +166,10 @@ public abstract class ICMS extends MainTax {
 
 	public ICMS(ProductOrigin origin) {
 		this.origin = origin;
+	}
 
+	public ProductOrigin getOrigin() {
+		return this.origin;
 	}
 
 }

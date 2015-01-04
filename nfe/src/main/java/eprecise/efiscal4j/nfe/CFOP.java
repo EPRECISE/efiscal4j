@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -8,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlEnum(String.class)
-public enum CFOP {
+public enum CFOP implements Serializable {
 	@XmlEnumValue("1101") CFOP_1101("1101", ""),
 	@XmlEnumValue("1102") CFOP_1102("1102", ""),
 	@XmlEnumValue("1111") CFOP_1111("1111", ""),

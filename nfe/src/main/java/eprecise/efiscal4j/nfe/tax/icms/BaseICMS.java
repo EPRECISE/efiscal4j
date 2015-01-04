@@ -12,7 +12,21 @@ import javax.xml.bind.annotation.XmlElement;
  */
 abstract class BaseICMS extends ICMS {
 
+	private static final long serialVersionUID = 1L;
+
 	static abstract class Builder {
+
+		protected ProductOrigin origin;
+
+		/**
+		 * @see ProductOrigin
+		 * @param origin
+		 * @return
+		 */
+		public Builder withOrigin(ProductOrigin origin) {
+			this.origin = origin;
+			return this;
+		}
 
 		abstract BaseICMS build();
 

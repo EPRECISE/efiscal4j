@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1110Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
@@ -28,71 +29,31 @@ public class NFeItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
-	 */
 	private @XmlElement(name = "cProd") @NotNull @Size(min = 1, max = 60) @NFeString final String itemCode;
 
-	/**
-	 * GTIN (Global Trade Item Number) do produto, antigo código EAN ou código de barras
-	 */
 	private @XmlElement(name = "cEAN") @NotNull @Pattern(regexp = "[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String globalTradeItemNumber;
 
-	/**
-	 * Descri��o do produto ou serviço
-	 */
 	private @XmlElement(name = "xProd") @NotNull @Size(min = 1, max = 120) @NFeString final String itemDescription;
 
-	/**
-	 * Código NCM (8 posições), será permitida a informação do gênero (posição do capítulo do NCM) quando a Operação Não for de comércio exterior (importação/exportação) ou o produto Não seja
-	 * tributado pelo IPI. Em caso de item de serviço ou item que Não tenham produto (Ex. transferência de crédito, crédito do ativo imobilizado, etc.), informar o código 00 (zeros) (v2.0)
-	 */
 	private @XmlElement(name = "NCM") @NotNull @Pattern(regexp = "[0-9]{2}|[0-9]{8}") final String ncm;
 
-	/**
-	 * Código Fiscal de Operações e Prestações
-	 */
 	private @XmlElement(name = "CFOP") @NotNull final CFOP cfop;
 
-	/**
-	 * Unidade comercial
-	 */
 	private @XmlElement(name = "uCom") @NotNull @Size(min = 1, max = 6) @NFeString final String comercialUnit;
 
-	/**
-	 * Quantidade comercial
-	 */
 	private @XmlElement(name = "qCom") @NotNull @NFeDecimal1104Variable final String comercialQuantity;
 
-	/**
-	 * Valor unitário de comercialização
-	 */
-	private @XmlElement(name = "vUnCom") @NotNull @Pattern(regexp = "0|0\\.[0-9]{1,10}|[1-9]{1}[0-9]{0,10}|[1-9]{1}[0-9]{0,10}(\\.[0-9]{1,10})?") final String comercialUnitaryValue;
+	private @XmlElement(name = "vUnCom") @NotNull @NFeDecimal1110Variable final String comercialUnitaryValue;
 
-	/**
-	 * Valor bruto do produto ou serviço
-	 */
 	private @XmlElement(name = "vProd") @NotNull @NFeDecimal1302 final String itemGrossValue;
 
-	/**
-	 * GTIN (Global Trade Item Number) da unidade tributável, antigo código EAN ou código de barras
-	 */
 	private @XmlElement(name = "cEANTrib") @NotNull @Pattern(regexp = "[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String taxableUnitGlobalTradeItemNumber;
 
-	/**
-	 * Unidade Tributável
-	 */
 	private @XmlElement(name = "uTrib") @NotNull @Size(min = 1, max = 6) @NFeString final String taxableUnit;
 
-	/**
-	 * Quantidade Tributável
-	 */
 	private @XmlElement(name = "qTrib") @NotNull @NFeDecimal1104Variable final String taxableQuantity;
 
-	/**
-	 * Valor unitário de tributação
-	 */
-	private @XmlElement(name = "vUnTrib") @NotNull @Pattern(regexp = "0|0\\.[0-9]{1,10}|[1-9]{1}[0-9]{0,10}|[1-9]{1}[0-9]{0,10}(\\.[0-9]{1,10})?") final String taxationUnitaryValue;
+	private @XmlElement(name = "vUnTrib") @NotNull @NFeDecimal1110Variable final String taxationUnitaryValue;
 
 	private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
 
@@ -126,71 +87,154 @@ public class NFeItem implements Serializable {
 
 		private ItemValueComprisesTotal itemValueComprisesTotal;
 
+		/**
+		 * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
+		 * 
+		 * @param itemCode
+		 * @return
+		 */
 		public Builder withItemCode(String itemCode) {
 			this.itemCode = itemCode;
 			return this;
 		}
 
+		/**
+		 * GTIN (Global Trade Item Number) do produto, antigo código EAN ou código de barras
+		 * 
+		 * @param globalTradeItemNumber
+		 * @return
+		 */
 		public Builder withGlobalTradeItemNumber(String globalTradeItemNumber) {
 			this.globalTradeItemNumber = globalTradeItemNumber;
 			return this;
 		}
 
+		/**
+		 * Descrição do produto ou serviço
+		 * 
+		 * @param itemDescription
+		 * @return
+		 */
 		public Builder withItemDescription(String itemDescription) {
 			this.itemDescription = itemDescription;
 			return this;
 		}
 
+		/**
+		 * Código NCM (8 posições), será permitida a informação do gênero (posição do capítulo do NCM) quando a Operação Não for de comércio exterior (importação/exportação) ou o produto Não seja
+		 * tributado pelo IPI. Em caso de item de serviço ou item que Não tenham produto (Ex. transferência de crédito, crédito do ativo imobilizado, etc.), informar o código 00 (zeros) (v2.0)
+		 * 
+		 * @param ncm
+		 * @return
+		 */
 		public Builder withNCM(String ncm) {
 			this.ncm = ncm;
 			return this;
 		}
 
+		/**
+		 * @see CFOP
+		 * @param cfop
+		 * @return
+		 */
 		public Builder withCFOP(CFOP cfop) {
 			this.cfop = cfop;
 			return this;
 		}
 
+		/**
+		 * Unidade comercial
+		 * 
+		 * @param comercialUnit
+		 * @return
+		 */
 		public Builder withComercialUnit(String comercialUnit) {
 			this.comercialUnit = comercialUnit;
 			return this;
 		}
 
+		/**
+		 * Quantidade comercial
+		 * 
+		 * @param comercialQuantity
+		 * @return
+		 */
 		public Builder withComercialQuantity(String comercialQuantity) {
 			this.comercialQuantity = comercialQuantity;
 			return this;
 		}
 
+		/**
+		 * Valor unitário de comercialização
+		 * 
+		 * @param comercialUnitaryValue
+		 * @return
+		 */
 		public Builder withComercialUnitaryValue(String comercialUnitaryValue) {
 			this.comercialUnitaryValue = comercialUnitaryValue;
 			return this;
 		}
 
+		/**
+		 * Valor bruto do produto ou serviço
+		 * 
+		 * @param itemGrossValue
+		 * @return
+		 */
 		public Builder withItemGrossValue(String itemGrossValue) {
 			this.itemGrossValue = itemGrossValue;
 			return this;
 		}
 
+		/**
+		 * GTIN (Global Trade Item Number) da unidade tributável, antigo código EAN ou código de barras
+		 * 
+		 * @param taxableUnitGlobalTradeItemNumber
+		 * @return
+		 */
 		public Builder withTaxableUnitGlobalTradeItemNumber(String taxableUnitGlobalTradeItemNumber) {
 			this.taxableUnitGlobalTradeItemNumber = taxableUnitGlobalTradeItemNumber;
 			return this;
 		}
 
+		/**
+		 * Unidade Tributável
+		 * 
+		 * @param taxableUnit
+		 * @return
+		 */
 		public Builder withTaxableUnit(String taxableUnit) {
 			this.taxableUnit = taxableUnit;
 			return this;
 		}
 
+		/**
+		 * Quantidade Tributável
+		 * 
+		 * @param taxableQuantity
+		 * @return
+		 */
 		public Builder withTaxableQuantity(String taxableQuantity) {
 			this.taxableQuantity = taxableQuantity;
 			return this;
 		}
 
+		/**
+		 * Valor unitário de tributação
+		 * 
+		 * @param taxationUnitaryValue
+		 * @return
+		 */
 		public Builder withTaxationUnitaryValue(String taxationUnitaryValue) {
 			this.taxationUnitaryValue = taxationUnitaryValue;
 			return this;
 		}
 
+		/**
+		 * @see ItemValueComprisesTotal
+		 * @param itemValueComprisesTotal
+		 * @return
+		 */
 		public Builder withItemValueComprisesTotal(ItemValueComprisesTotal itemValueComprisesTotal) {
 			this.itemValueComprisesTotal = itemValueComprisesTotal;
 			return this;

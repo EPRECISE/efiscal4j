@@ -1,15 +1,13 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
-import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Opc;
+import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
@@ -22,7 +20,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS10 extends BaseICMS implements Serializable {
+class ICMS10 extends BaseICMS {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,9 +34,9 @@ class ICMS10 extends BaseICMS implements Serializable {
 
 	private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
 
-	private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Opc final String valueMarginAddedStPercent;
+	private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
-	private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Opc final String bcReductionStPercent;
+	private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
 	private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
 
@@ -47,8 +45,6 @@ class ICMS10 extends BaseICMS implements Serializable {
 	private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
 
 	public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
-
-		private ProductOrigin origin;
 
 		private BCModality bcModality;
 
@@ -75,9 +71,9 @@ class ICMS10 extends BaseICMS implements Serializable {
 		 * @param origin
 		 * @return
 		 */
+		@Override
 		public Builder withOrigin(ProductOrigin origin) {
-			this.origin = origin;
-			return this;
+			return (ICMS10.Builder) super.withOrigin(origin);
 		}
 
 		/**
@@ -181,4 +177,45 @@ class ICMS10 extends BaseICMS implements Serializable {
 		this.icmsStAliquot = builder.icmsStAliquot;
 		this.icmsStValue = builder.icmsStValue;
 	}
+
+	public BCModality getBcModality() {
+		return this.bcModality;
+	}
+
+	public String getBcValue() {
+		return this.bcValue;
+	}
+
+	public String getIcmsAliquot() {
+		return this.icmsAliquot;
+	}
+
+	public String getIcmsValue() {
+		return this.icmsValue;
+	}
+
+	public BCModalityST getBcModalitySt() {
+		return this.bcModalitySt;
+	}
+
+	public String getValueMarginAddedStPercent() {
+		return this.valueMarginAddedStPercent;
+	}
+
+	public String getBcReductionStPercent() {
+		return this.bcReductionStPercent;
+	}
+
+	public String getBcValueST() {
+		return this.bcValueST;
+	}
+
+	public String getIcmsStAliquot() {
+		return this.icmsStAliquot;
+	}
+
+	public String getIcmsStValue() {
+		return this.icmsStValue;
+	}
+
 }

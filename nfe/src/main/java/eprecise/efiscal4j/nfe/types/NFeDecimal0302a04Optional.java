@@ -27,7 +27,7 @@ import static java.lang.annotation.ElementType.FIELD;
 @Constraint(validatedBy = {})
 @Documented
 @Pattern(regexp = "0|0\\.[0-9]{2,4}|[1-9]{1}[0-9]{0,2}(\\.[0-9]{2,4})?")
-public @interface NFeDecimal0302a04Opc {
+public @interface NFeDecimal0302a04Optional {
 
     String message() default "Viola restrição - Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais não aceitando o valor 0";
 

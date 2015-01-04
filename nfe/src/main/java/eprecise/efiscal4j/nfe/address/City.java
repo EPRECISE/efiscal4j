@@ -4,12 +4,12 @@ package eprecise.efiscal4j.nfe.address;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.types.NFeCityIBGECode;
 import eprecise.efiscal4j.nfe.types.NFeString;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
@@ -19,7 +19,7 @@ public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "cMun") @NotNull @Pattern(regexp = "[0-9]{7}") final String ibgeCode;
+	private @XmlElement(name = "cMun") @NotNull @NFeCityIBGECode final String ibgeCode;
 
 	private @XmlElement(name = "xMun") @NotNull @Size(min = 2, max = 60) @NFeString final String description;
 

@@ -2,12 +2,13 @@
 package eprecise.efiscal4j.nfe.total;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.SpecialTaxRegime;
+import eprecise.efiscal4j.nfe.types.NFeDate;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -21,28 +22,27 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ISSQNTotal {
 
-	private @XmlElement(name = "vServ") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String servicesTotalValue;
+	private @XmlElement(name = "vServ") @NFeDecimal1302Optional String servicesTotalValue;
 
-	private @XmlElement(name = "vBC") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String issqnCalculationBasis;
+	private @XmlElement(name = "vBC") @NFeDecimal1302Optional String issqnCalculationBasis;
 
-	private @XmlElement(name = "vISS") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String issqnTotalValue;
+	private @XmlElement(name = "vISS") @NFeDecimal1302Optional String issqnTotalValue;
 
-	private @XmlElement(name = "vPIS") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String pisTotalValue;
+	private @XmlElement(name = "vPIS") @NFeDecimal1302Optional String pisTotalValue;
 
-	private @XmlElement(name = "vCOFINS") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String cofinsTotalValue;
+	private @XmlElement(name = "vCOFINS") @NFeDecimal1302Optional String cofinsTotalValue;
 
-	private @XmlElement(name = "dCompet") @NotNull @Pattern(
-			regexp = "(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))") final String serviceProvisionDate;
+	private @XmlElement(name = "dCompet") @NotNull @NFeDate final String serviceProvisionDate;
 
-	private @XmlElement(name = "vDeducao") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String calculationBasisReductionDeductionValue;
+	private @XmlElement(name = "vDeducao") @NFeDecimal1302Optional String calculationBasisReductionDeductionValue;
 
-	private @XmlElement(name = "vOutro") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String otherRetentionsValue;
+	private @XmlElement(name = "vOutro") @NFeDecimal1302Optional String otherRetentionsValue;
 
-	private @XmlElement(name = "vDescIncond") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String unconditionalDiscountValue;
+	private @XmlElement(name = "vDescIncond") @NFeDecimal1302Optional String unconditionalDiscountValue;
 
-	private @XmlElement(name = "vDescCond") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String conditionalDiscountValue;
+	private @XmlElement(name = "vDescCond") @NFeDecimal1302Optional String conditionalDiscountValue;
 
-	private @XmlElement(name = "vDescCond") @Pattern(regexp = "0\\.[0-9]{1}[1-9]{1}|0\\.[1-9]{1}[0-9]{1}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?") String issRetentionTotalValue;
+	private @XmlElement(name = "vISSRet") @NFeDecimal1302Optional String issRetentionTotalValue;
 
 	private @XmlElement(name = "cRegTrib") SpecialTaxRegime specialTaxRegime;
 

@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -16,22 +18,24 @@ import javax.xml.bind.annotation.XmlType;
  * 2 - Estrangeira - Adquirida no mercado interno;
  * 
  * @author Clécius J. Martinkoski
- *
+ * 
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ProductOrigin {
-    @XmlEnumValue("0") NACIONAL("Nacional"),
-    @XmlEnumValue("1") ESTRANGEIRA_IMPORTADA("Estrangeira - Importada"),
-    @XmlEnumValue("2") ESTRANGEIRA_ADQUIRIDA_NACIONAL("Estrangeira - Adquirida no mercado nacional");
+public enum ProductOrigin implements Serializable {
+	@XmlEnumValue("0") NACIONAL("Nacional"),
+	@XmlEnumValue("1") ESTRANGEIRA_IMPORTADA("Estrangeira - Importada"),
+	@XmlEnumValue("2") ESTRANGEIRA_ADQUIRIDA_NACIONAL("Estrangeira - Adquirida no mercado nacional");
 
-    private final String description;
+	private static final long serialVersionUID = 1L;
 
-    private ProductOrigin(String description) {
-        this.description = description;
-    }
+	private final String description;
 
-    public String getDescription() {
-        return this.description;
-    }
+	private ProductOrigin(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
 }

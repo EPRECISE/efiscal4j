@@ -32,7 +32,17 @@ public class ICMSAdapter extends XmlAdapter<ICMSAdapter.AdaptedICMS, ICMS> {
         @XmlElements(value = { 
                 @XmlElement(name = "ICMS00", type = ICMS00.class),
                 @XmlElement(name = "ICMS10", type = ICMS10.class),
-                @XmlElement(name = "ICMS20", type = ICMS20.class)
+                @XmlElement(name = "ICMS20", type = ICMS20.class),
+                @XmlElement(name = "ICMS30", type = ICMS30.class),
+                @XmlElement(name = "ICMS40", type = ICMS40.class),
+                @XmlElement(name = "ICMS40", type = ICMS41.class),
+                @XmlElement(name = "ICMS40", type = ICMS50.class),
+                @XmlElement(name = "ICMS51", type = ICMS51.class),
+                @XmlElement(name = "ICMS60", type = ICMS60.class),
+                @XmlElement(name = "ICMS70", type = ICMS70.class),
+                @XmlElement(name = "ICMS90", type = ICMS90.class),
+                @XmlElement(name = "ICMSPart", type = ICMSPart10.class),
+                @XmlElement(name = "ICMSPart", type = ICMSPart90.class),
                 }) 
         // @formatter:on
 		private final ICMS icms;
