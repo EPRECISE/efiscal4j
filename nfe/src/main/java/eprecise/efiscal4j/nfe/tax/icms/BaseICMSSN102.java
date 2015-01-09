@@ -1,16 +1,28 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+
+
+/**
+ * Classe base para os ICMS com CSOSN 102, 103, 300 e 400
+ * 
+ * @see BaseICMSSN
+ * @see ICMS
+ * @author Clécius J. Martinkoski
+ * @author Felipe Bueno
+ */
 abstract class BaseICMSSN102 extends BaseICMSSN {
 
-    static abstract class Builder extends BaseICMSSN.Builder {
+	private static final long serialVersionUID = 1L;
 
-        @Override
-        abstract BaseICMSSN102 build();
-    }
+	static abstract class Builder extends BaseICMSSN.Builder {
 
-    protected BaseICMSSN102(String cst) {
-        super(cst);
-    }
+		@Override
+		abstract BaseICMSSN102 build();
+	}
+
+	protected BaseICMSSN102(Builder builder, String csosn) {
+		super(builder.origin, csosn);
+	}
 
 }

@@ -8,22 +8,35 @@ import javax.xml.bind.annotation.XmlAccessorType;
 /**
  * Tributação do ICMS pelo SIMPLES NACIONAL e CSOSN=102 - Tributada pelo Simples Nacional sem permissão de crédito.
  * 
+ * @see BaseICMSSN102
  * @see BaseICMSSN
  * @see ICMS
+ * @author Clécius J. Martinkoski
+ * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMSSN102 extends BaseICMSSN102 {
 
-    public static class Builder extends BaseICMSSN102.Builder implements ICMSBuilder {
+	private static final long serialVersionUID = 1L;
 
-        @Override
-        public ICMSSN102 build() {
-            return new ICMSSN102();
-        }
+	public static class Builder extends BaseICMSSN102.Builder implements ICMSBuilder {
 
-    }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Builder withOrigin(ProductOrigin origin) {
+			return (ICMSSN102.Builder) super.withOrigin(origin);
+		}
 
-    protected ICMSSN102() {
-        super("102");
-    }
+		@Override
+		public ICMSSN102 build() {
+			return new ICMSSN102(this);
+		}
+
+	}
+
+	protected ICMSSN102(ICMSSN102.Builder builder) {
+		super(builder, "102");
+	}
 }

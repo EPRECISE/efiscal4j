@@ -120,6 +120,15 @@ abstract class BaseICMSPart extends BaseICMS {
 		}
 
 		/**
+		 * 
+		 * @see BCModalityST
+		 */
+		public Builder withBcModalityST(BCModalityST bcModalityST) {
+			this.bcModalitySt = bcModalityST;
+			return this;
+		}
+
+		/**
 		 * Percentual da Margem de Valor Adicionado ICMS ST
 		 */
 		public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
@@ -132,15 +141,6 @@ abstract class BaseICMSPart extends BaseICMS {
 		 */
 		public Builder withBcReductionStPercent(String bcReductionStPercent) {
 			this.bcReductionStPercent = bcReductionStPercent;
-			return this;
-		}
-
-		/**
-		 * 
-		 * @see BCModalityST
-		 */
-		public Builder withBcModalityST(BCModalityST bcModalityST) {
-			this.bcModalitySt = bcModalityST;
 			return this;
 		}
 
@@ -202,9 +202,9 @@ abstract class BaseICMSPart extends BaseICMS {
 		this.bcValue = builder.bcValue;
 		this.icmsAliquot = builder.icmsAliquot;
 		this.icmsValue = builder.icmsValue;
+		this.bcModalitySt = builder.bcModalitySt;
 		this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
 		this.bcReductionStPercent = builder.bcReductionStPercent;
-		this.bcModalitySt = builder.bcModalitySt;
 		this.bcValueST = builder.bcValueST;
 		this.icmsStAliquot = builder.icmsStAliquot;
 		this.icmsStValue = builder.icmsStValue;

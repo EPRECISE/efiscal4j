@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.tax.icms;
+package eprecise.efiscal4j.nfe.tax.icms.validation;
 
 
 

@@ -67,9 +67,7 @@ class ICMS10 extends BaseICMS {
 		private String icmsStValue;
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {

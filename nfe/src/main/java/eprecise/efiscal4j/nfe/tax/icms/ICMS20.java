@@ -61,9 +61,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
 		private ICMSDesonerationReason icmsDesonerationReason;
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {

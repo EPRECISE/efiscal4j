@@ -3,26 +3,85 @@ package eprecise.efiscal4j.nfe.tax.icms;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
+import eprecise.efiscal4j.nfe.tax.icms.validation.ICMSSTRetained;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
 /**
  * Tributação do ICMS pelo SIMPLES NACIONAL,CRT=1 – Simples Nacional e CSOSN=500 - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
  * 
  * @see BaseICMSSN
+ * @see ICMSSTRetained
  * @see ICMS
+ * @author Clécius J. Martinkoski
+ * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSSN500 extends BaseICMSSN {
+class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
 
-    public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
+	private static final long serialVersionUID = 1L;
 
-        @Override
-        public ICMSSN500 build() {
-            return new ICMSSN500();
-        }
-    }
+	private @XmlElement(name = "vBCSTRet") @NFeDecimal1302 final String bcRetainedValueST;
 
-    protected ICMSSN500() {
-        super("500");
-    }
+	private @XmlElement(name = "vICMSSTRet") @NFeDecimal1302 final String icmsRetainedValueST;
+
+	public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
+
+		private String bcRetainedValueST;
+
+		private String icmsRetainedValueST;
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Builder withOrigin(ProductOrigin origin) {
+			return (ICMSSN500.Builder) super.withOrigin(origin);
+		}
+
+		/**
+		 * Valor da BC do ICMS ST retido anteriormente
+		 * 
+		 * @param bcRetainedValueST
+		 * @return
+		 */
+		public Builder withBcRetainedValueST(String bcRetainedValueST) {
+			this.bcRetainedValueST = bcRetainedValueST;
+			return this;
+		}
+
+		/**
+		 * Valor do ICMS ST retido anteriormente
+		 * 
+		 * @param icmsRetainedValueST
+		 * @return
+		 */
+		public Builder withIcmsRetainedValueST(String icmsRetainedValueST) {
+			this.icmsRetainedValueST = icmsRetainedValueST;
+			return this;
+		}
+
+		@Override
+		public ICMSSN500 build() {
+			return new ICMSSN500(this);
+		}
+	}
+
+	protected ICMSSN500(ICMSSN500.Builder builder) {
+		super(builder.origin, "500");
+		this.bcRetainedValueST = builder.bcRetainedValueST;
+		this.icmsRetainedValueST = builder.icmsRetainedValueST;
+	}
+
+	@Override
+	public String getBcRetainedValueST() {
+		return this.bcRetainedValueST;
+	}
+
+	@Override
+	public String getIcmsRetainedValueST() {
+		return this.icmsRetainedValueST;
+	}
 }

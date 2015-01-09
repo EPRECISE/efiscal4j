@@ -24,9 +24,7 @@ class ICMS50 extends BaseICMS40 {
 	public static class Builder extends BaseICMS40.Builder implements ICMSBuilder {
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {

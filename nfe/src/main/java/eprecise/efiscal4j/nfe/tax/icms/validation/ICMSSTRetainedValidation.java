@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.tax.icms;
+package eprecise.efiscal4j.nfe.tax.icms.validation;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;

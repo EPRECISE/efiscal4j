@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import eprecise.efiscal4j.nfe.tax.icms.desoneration.DesonerationGroup;
 import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason_3_9_12_Validation;
+import eprecise.efiscal4j.nfe.tax.icms.validation.ICMS90Standard;
+import eprecise.efiscal4j.nfe.tax.icms.validation.ICMSST90Standard;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
@@ -83,9 +85,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
 		private ICMSDesonerationReason icmsDesonerationReason;
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {

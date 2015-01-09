@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.tax.icms.validation.ICMSSTRetained;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
@@ -12,6 +13,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * Tributação pelo ICMS 60 - ICMS cobrado anteriormente por substituição tributária
  * 
  * @see BaseICMS
+ * @see ICMSSTRetained
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
@@ -32,9 +34,7 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
 		private String icmsRetainedValueST;
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {
@@ -58,7 +58,7 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
 		 * @param icmsRetainedValueST
 		 * @return
 		 */
-		public Builder withicmsRetainedValueST(String icmsRetainedValueST) {
+		public Builder withIcmsRetainedValueST(String icmsRetainedValueST) {
 			this.icmsRetainedValueST = icmsRetainedValueST;
 			return this;
 		}

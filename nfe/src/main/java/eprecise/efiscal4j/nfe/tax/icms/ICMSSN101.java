@@ -1,8 +1,13 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
+import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
 /**
@@ -10,20 +15,73 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * 
  * @see BaseICMSSN
  * @see ICMS
+ * @author Clécius J. Martinkoski
+ * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMSSN101 extends BaseICMSSN {
 
-    public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
+	private static final long serialVersionUID = 1L;
 
-        @Override
-        public ICMSSN101 build() {
-            return new ICMSSN101();
-        }
+	private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
 
-    }
+	private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
 
-    protected ICMSSN101() {
-        super("101");
-    }
+	public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
+
+		private String creditSnAliquot;
+
+		private String creditSnIcmsValue;
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Builder withOrigin(ProductOrigin origin) {
+			return (ICMSSN101.Builder) super.withOrigin(origin);
+		}
+
+		/**
+		 * Alíquota aplicável de cálculo do crédito (Simples Nacional). (v2.0)
+		 * 
+		 * @param creditSnAliquot
+		 * @return
+		 */
+		public Builder withCreditSnAliquot(String creditSnAliquot) {
+			this.creditSnAliquot = creditSnAliquot;
+			return this;
+		}
+
+		/**
+		 * Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional) (v2.0)
+		 * 
+		 * @param creditSnIcmsValue
+		 * @return
+		 */
+		public Builder withCreditSnIcmsValue(String creditSnIcmsValue) {
+			this.creditSnIcmsValue = creditSnIcmsValue;
+			return this;
+		}
+
+		@Override
+		public ICMSSN101 build() {
+			return new ICMSSN101(this);
+		}
+
+	}
+
+	protected ICMSSN101(ICMSSN101.Builder builder) {
+		super(builder.origin, "101");
+		this.creditSnAliquot = builder.creditSnAliquot;
+		this.creditSnIcmsValue = builder.creditSnIcmsValue;
+	}
+
+	public String getCreditSnAliquot() {
+		return this.creditSnAliquot;
+	}
+
+	public String getCreditSnIcmsValue() {
+		return this.creditSnIcmsValue;
+	}
+
 }

@@ -1,5 +1,7 @@
 
-package eprecise.efiscal4j.nfe.tax.icms;
+package eprecise.efiscal4j.nfe.tax.icms.validation;
+
+import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 
 /**
  * Interface utilizada para agrupar dados padrões de ICMS para ICMS 90 e ICMSSN900

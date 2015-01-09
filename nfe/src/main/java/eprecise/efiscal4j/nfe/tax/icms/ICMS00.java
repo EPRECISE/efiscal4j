@@ -40,9 +40,7 @@ class ICMS00 extends BaseICMS {
 		private String icmsValue;
 
 		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
+		 * {@inheritDoc}
 		 */
 		@Override
 		public Builder withOrigin(ProductOrigin origin) {

@@ -19,7 +19,6 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
- * 
  */
 @ICMSDesonerationReasonAllBut_12_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
