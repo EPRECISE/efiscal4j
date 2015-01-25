@@ -10,7 +10,7 @@
     <name>e-Fiscal4J</name>
 
     <properties>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
@@ -72,8 +72,8 @@
     </build>
 
     <organization>
-	<name>e-Precise </name>
-	<url>http://e-precise.com.br</url>
+        <name>e-Precise </name>
+        <url>http://e-precise.com.br</url>
     </organization>
     <issueManagement>
         <url>http://redmine.e-precise.net.br/projects/efiscal4j</url>

@@ -34,6 +34,7 @@ import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
@@ -272,7 +273,33 @@ public class NFeInfoTest {
                                                 .withCreditSnAliquot("10.00")
                                                 .withCreditSnIcmsValue("100.00")	                                            
 	                                            .build())
-								 
+                                 //PIS01, PIS02      
+//                                    .withFederalTax(new PIS.Builder()
+//                                                .fromCode(PIS.CST_01)
+//                                                .withBcValue("10.00")
+//                                                .withPisAliquot("10")
+//                                                .withPisValue("1")                                                
+//                                                .build())
+                                 //PIS03      
+//                                    .withFederalTax(new PIS.Builder()
+//                                                .fromCode(PIS.CST_03)
+//                                                .withProductQuantity("3.00")
+//                                                .withProductAliquot("10")
+//                                                .withPisValue("1")                                                
+//                                                .build())
+                                 //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
+                                    .withFederalTax(new PIS.Builder()
+                                                .fromCode(PIS.CST_09)                                                
+                                                .build())
+                                 //PIS49, PIS50, PIS51, PIS52, PIS53, PIS54, PIS55, PIS56, PIS60, PIS61, PIS62, PIS63, PIS64, PIS65, PIS66, PIS67, PIS70, PIS71, PIS72, PIS73, PIS74, PIS75, PIS98, PIS99
+                                    .withFederalTax(new PIS.Builder()
+                                                .fromCode(PIS.CST_74)
+//                                                .withProductQuantity("3.00")
+//                                                .withProductAliquot("5.00")
+                                                .withBcValue("4")
+                                                .withPisAliquot("5")
+                                                .withPisValue("3")
+                                                .build())								 
 								.build())
 							 .withReturnedTax(new ReturnedTax.Builder()
 							                 .withReturnedProductPerc("70")

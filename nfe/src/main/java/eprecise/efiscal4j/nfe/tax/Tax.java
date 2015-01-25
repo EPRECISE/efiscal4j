@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
+import eprecise.efiscal4j.nfe.tax.pis.PIS;
+import eprecise.efiscal4j.nfe.tax.pis.PISAdapter;
 import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
@@ -29,13 +31,21 @@ public class Tax {
     private @XmlElement(name = "II") @Valid final II ii;
 
     private @XmlElement(name = "ISSQN") @Valid final ISSQN issqn;
+    
+    private @XmlElement(name = "PIS") @XmlJavaTypeAdapter(PISAdapter.class) @Valid final PIS pis;
 
     public static class Builder {
 
         private MainTax mainTax;
+        private FederalTax federalTax;
 
         public Builder withMainTax(MainTax mainTax) {
             this.mainTax = mainTax;
+            return this;
+        }
+        
+        public Builder withFederalTax(FederalTax federalTax) {
+            this.federalTax = federalTax;
             return this;
         }
 
@@ -51,6 +61,7 @@ public class Tax {
         this.ipi = null;
         this.ii = null;
         this.issqn = null;
+        this.pis = null;
     }
 
     public Tax(Builder builder) {
@@ -58,5 +69,6 @@ public class Tax {
         this.ipi = (IPI) (builder.mainTax instanceof IPI ? builder.mainTax : null);
         this.ii = (II) (builder.mainTax instanceof II ? builder.mainTax : null);
         this.issqn = (ISSQN) (builder.mainTax instanceof ISSQN ? builder.mainTax : null);
+        this.pis = (PIS) (builder.federalTax instanceof PIS ? builder.federalTax : null);
     }
 }
