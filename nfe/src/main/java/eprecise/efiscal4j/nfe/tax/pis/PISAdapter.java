@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe.tax.pis;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -5,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 
 /**
  * 
@@ -61,12 +63,13 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
                 @XmlElement(name = "PISOutr", type = PIS75.class),
                 @XmlElement(name = "PISOutr", type = PIS98.class),
                 @XmlElement(name = "PISOutr", type = PIS99.class),
+                @XmlElement(name = "PISST", type = PISST.class),
                 }) 
         // @formatter:on
         private final PIS pis;
 
         public AdaptedPIS(PIS pis) {
-            this.pis= pis;
+            this.pis = pis;
         }
 
         public PIS getPis() {

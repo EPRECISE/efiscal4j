@@ -47,11 +47,11 @@ import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
 public class NFeInfoTest {
 
-	@Test
-	public void test() {
-		try {
-			//@formatter:off       
-			List<NFeDetail> nFeDetailList = new ArrayList<>();
+    @Test
+    public void test() {
+        try {
+            //@formatter:off       
+			final List<NFeDetail> nFeDetailList = new ArrayList<>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
 							 .withNFeItem(
@@ -288,18 +288,27 @@ public class NFeInfoTest {
 //                                                .withPisValue("1")                                                
 //                                                .build())
                                  //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
-                                    .withFederalTax(new PIS.Builder()
-                                                .fromCode(PIS.CST_09)                                                
-                                                .build())
+//                                    .withFederalTax(new PIS.Builder()
+//                                                .fromCode(PIS.CST_09)                                                
+//                                                .build())
                                  //PIS49, PIS50, PIS51, PIS52, PIS53, PIS54, PIS55, PIS56, PIS60, PIS61, PIS62, PIS63, PIS64, PIS65, PIS66, PIS67, PIS70, PIS71, PIS72, PIS73, PIS74, PIS75, PIS98, PIS99
-                                    .withFederalTax(new PIS.Builder()
-                                                .fromCode(PIS.CST_74)
+//                                    .withFederalTax(new PIS.Builder()
+//                                                .fromCode(PIS.CST_74)
 //                                                .withProductQuantity("3.00")
 //                                                .withProductAliquot("5.00")
+//                                                .withBcValue("4")
+//                                                .withPisAliquot("5")
+//                                                .withPisValue("3")
+//                                                .build())
+                                 //PISST
+                                    .withFederalTax(new PIS.Builder()
+                                                .fromCode(PIS.ST)
+//                                                .withProductQuantity("3")
+//                                                .withProductAliquot("5")
                                                 .withBcValue("4")
                                                 .withPisAliquot("5")
                                                 .withPisValue("3")
-                                                .build())								 
+                                                .build())
 								.build())
 							 .withReturnedTax(new ReturnedTax.Builder()
 							                 .withReturnedProductPerc("70")
@@ -310,12 +319,12 @@ public class NFeInfoTest {
 							 .withAdditionalProductInfo("Informações adicionais do produto (norma referenciada, informações complementares, etc)")
 							 .build());
 						
-			List<VolumeSeal> seals = new ArrayList<>();
+			final List<VolumeSeal> seals = new ArrayList<>();
 			seals.add(new VolumeSeal.Builder()
 				     .withSealNumber("Número do Lacre 33")
 				     .build());
 			
-			List<TransportedVolume> transportedVolumes = new ArrayList<>();
+			final List<TransportedVolume> transportedVolumes = new ArrayList<>();
 			transportedVolumes.add(new TransportedVolume.Builder()
 					              .withVolumeQuantity("3")
 					              .withVolumeSpecies("Espécie teste")
@@ -326,7 +335,7 @@ public class NFeInfoTest {
 					              .withSeals(seals)
 					              .build());	
 			
-			List<Duplicate> duplicates = new ArrayList<>();
+			final List<Duplicate> duplicates = new ArrayList<>();
 			duplicates.add(
 					  new Duplicate.Builder()
 				     .withNumber("1")
@@ -334,7 +343,7 @@ public class NFeInfoTest {
 				     .withValue("10")
 				     .build());
 			
-			List<NFePayment> nFePayments = new ArrayList<>();
+			final List<NFePayment> nFePayments = new ArrayList<>();
 			nFePayments.add(
 					 new NFePayment.Builder()
 					.withPaymentMethod(PaymentMethod.DINHEIRO)
@@ -347,7 +356,7 @@ public class NFeInfoTest {
 						   .build())
 				    .build());
 			
-			List<CustomizedObservation> taxpayerObservations = new ArrayList<>();
+			final List<CustomizedObservation> taxpayerObservations = new ArrayList<>();
 			taxpayerObservations.add(
 					            new CustomizedObservation.Builder()
 					           .withText("Texto teste para observação customizada")
@@ -359,7 +368,7 @@ public class NFeInfoTest {
 		           .withField("campo_teste_2")
 		           .build());
 			
-			List<CustomizedObservation> fiscoObservations = new ArrayList<>();
+			final List<CustomizedObservation> fiscoObservations = new ArrayList<>();
 			fiscoObservations.add(
 					            new CustomizedObservation.Builder()
 					           .withText("Texto teste para observação customizada")
@@ -371,7 +380,7 @@ public class NFeInfoTest {
 		           .withField("campo_teste_2")
 		           .build());
 			
-			List<ReferencedProcess> referencedProcesses = new ArrayList<>();
+			final List<ReferencedProcess> referencedProcesses = new ArrayList<>();
 			referencedProcesses.add(
 					           new ReferencedProcess.Builder()
 					          .withProcessNumber("123")
@@ -379,7 +388,7 @@ public class NFeInfoTest {
 					          .build()
 					);
 						
-            NFeInfo nFeInfo = new NFeInfo.Builder()
+            final NFeInfo nFeInfo = new NFeInfo.Builder()
 				             .withNFeIdentification(
 							     		       new NFeIdentification.Builder()
 							     		      .withApplicationVersion("1.00")
@@ -542,21 +551,21 @@ public class NFeInfoTest {
                              .build();
             
             //@formatter:on
-			JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
-			marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			marshaller.marshal(nFeInfo, System.out);
+            final JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
+            final Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(nFeInfo, System.out);
 
-			Assert.assertTrue(true);
-		} catch (ConstraintViolationException e) {
-			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
-				System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
-			}
-			Assert.assertTrue(false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.assertTrue(false);
-		}
-	}
+            Assert.assertTrue(true);
+        } catch (final ConstraintViolationException e) {
+            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
+                System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
+            }
+            Assert.assertTrue(false);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(false);
+        }
+    }
 }

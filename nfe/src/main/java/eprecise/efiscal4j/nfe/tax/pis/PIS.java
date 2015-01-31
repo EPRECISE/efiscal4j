@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe.tax.pis;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import eprecise.efiscal4j.nfe.tax.FederalTax;
 
+
 /**
  * Dados do PIS
  * 
@@ -14,7 +16,7 @@ import eprecise.efiscal4j.nfe.tax.FederalTax;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class PIS extends FederalTax implements Serializable{
+public abstract class PIS extends FederalTax implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +24,7 @@ public abstract class PIS extends FederalTax implements Serializable{
      * @see PIS01
      */
     public static Class<PIS01.Builder> CST_01 = PIS01.Builder.class;
-    
+
     /**
      * @see PIS02
      */
@@ -47,7 +49,7 @@ public abstract class PIS extends FederalTax implements Serializable{
      * @see PIS06
      */
     public static Class<PIS06.Builder> CST_06 = PIS06.Builder.class;
-    
+
     /**
      * @see PIS07
      */
@@ -81,7 +83,7 @@ public abstract class PIS extends FederalTax implements Serializable{
     /**
      * @see PIS52
      */
-    public static Class<PIS52.Builder> CST_52 = PIS52.Builder.class;    
+    public static Class<PIS52.Builder> CST_52 = PIS52.Builder.class;
 
     /**
      * @see PIS53
@@ -141,7 +143,7 @@ public abstract class PIS extends FederalTax implements Serializable{
     /**
      * @see PIS67
      */
-    public static Class<PIS67.Builder> CST_67 = PIS67.Builder.class;    
+    public static Class<PIS67.Builder> CST_67 = PIS67.Builder.class;
 
     /**
      * @see PIS70
@@ -182,8 +184,12 @@ public abstract class PIS extends FederalTax implements Serializable{
      * @see PIS99
      */
     public static Class<PIS99.Builder> CST_99 = PIS99.Builder.class;
-    
-    
+
+    /**
+     * @see PISST
+     */
+    public static Class<PISST.Builder> ST = PISST.Builder.class;
+
     public static class Builder {
 
         public <T extends PISBuilder> T fromCode(Class<T> pisCode) {

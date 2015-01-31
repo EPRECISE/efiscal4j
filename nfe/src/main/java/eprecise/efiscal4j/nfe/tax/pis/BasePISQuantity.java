@@ -45,6 +45,7 @@ abstract class BasePISQuantity extends BasePIS{
             return this;
         }
 
+               
         /**
          * Alíquota do PIS (em reais) (NT2011/004)
          * 
