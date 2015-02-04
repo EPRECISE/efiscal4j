@@ -14,9 +14,10 @@
     </properties>
 
     <modules>
-        <module>nfe</module>
         <module>transmissor</module>
         <module>signer</module>
+        <module>nfe</module>
+        <module>cte</module>
     </modules>
 
     <dependencyManagement>
@@ -24,12 +25,12 @@
             <dependency>
                 <groupId>br.com.caelum.stella</groupId>
                 <artifactId>caelum-stella-core</artifactId>
-                <version>2.0.4</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>br.com.caelum.stella</groupId>
                 <artifactId>caelum-stella-bean-validation</artifactId>
-                <version>2.0.4</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -40,7 +41,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>16.0.1</version>
+                <version>18.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -70,7 +71,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
     <organization>
         <name>e-Precise </name>
         <url>http://e-precise.com.br</url>
