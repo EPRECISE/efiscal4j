@@ -6,9 +6,16 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 
 import eprecise.efiscal4j.cte.address.UF;
 import eprecise.efiscal4j.cte.payment.PaymentMethod;
+import eprecise.efiscal4j.cte.serviceTaker.OthersServiceTaker;
+import eprecise.efiscal4j.cte.serviceTaker.ReceiverServiceTaker;
+import eprecise.efiscal4j.cte.serviceTaker.RemitteeServiceTaker;
+import eprecise.efiscal4j.cte.serviceTaker.SenderServiceTaker;
+import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
+import eprecise.efiscal4j.cte.serviceTaker.ShipperServiceTaker;
 import eprecise.efiscal4j.cte.types.CTeAccessKey;
 import eprecise.efiscal4j.cte.types.CTeAccessKeyCheckDigit;
 import eprecise.efiscal4j.cte.types.CTeCFOP;
@@ -82,8 +89,16 @@ public class CTeIdentification {
     
     private final @XmlElement(name = "xDetRetira") @Size(min = 1, max = 160) String detailsRemoved;
     
-    // TODO Falta verificar
-    // private final @XmlElement(name = "toma03") TakerService takerService;
+    // @formatter:off
+    @XmlElements(value = { 
+            @XmlElement(name = "toma03", type = SenderServiceTaker.class),
+            @XmlElement(name = "toma03", type = ShipperServiceTaker.class),
+            @XmlElement(name = "toma03", type = ReceiverServiceTaker.class),
+            @XmlElement(name = "toma03", type = RemitteeServiceTaker.class),
+            @XmlElement(name = "toma4", type = OthersServiceTaker.class),
+            }) 
+    // @formatter:on
+    private final ServiceTaker serviceTaker;
     
     private final @XmlElement(name = "dhCont") @CTeFormatDate String contingency;
     
@@ -152,6 +167,8 @@ public class CTeIdentification {
 	private String contingency;
 	
 	private String justificationContingency;
+	
+	private ServiceTaker serviceTaker;
 	
 	public Builder withUF(UF uf) {
 	    this.uf = uf;
@@ -308,6 +325,11 @@ public class CTeIdentification {
 	    return this;
 	}
 	
+	public Builder withServiceTaker(ServiceTaker serviceTaker) {
+	    this.serviceTaker = serviceTaker;
+	    return this;
+	}
+	
 	public CTeIdentification build() {
 	    final CTeIdentification entity = new CTeIdentification(this);
 	    ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -347,6 +369,7 @@ public class CTeIdentification {
 	this.detailsRemoved = null;
 	this.contingency = null;
 	this.justificationContingency = null;
+	this.serviceTaker = null;
     }
     
     public CTeIdentification(Builder builder) {
@@ -381,6 +404,7 @@ public class CTeIdentification {
 	this.detailsRemoved = builder.detailsRemoved;
 	this.contingency = builder.contingency;
 	this.justificationContingency = builder.justificationContingency;
+	this.serviceTaker = builder.serviceTaker;
     }
     
     public UF getUf() {
@@ -511,4 +535,7 @@ public class CTeIdentification {
 	return this.justificationContingency;
     }
     
+    public ServiceTaker getServiceTaker() {
+	return this.serviceTaker;
+    }
 }
