@@ -11,22 +11,11 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
-/**
- *
- * 
- * Tipo do email
- * 
- * 
- * 
- * @author Carlos Gomes
- * 
- */
-
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[^@]+@[^\\.]+\\..+")
-public @interface CTeTypeEmail {
+@Pattern(regexp = "[0-9]{1}")
+public @interface AccessKeyCheckDigit {
     
 }

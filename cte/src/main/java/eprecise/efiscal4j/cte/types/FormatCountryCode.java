@@ -14,7 +14,9 @@ import javax.validation.constraints.Pattern;
 /**
  * TSerie
  * 
- * Chave de acesso do CT-e referenciado
+ * Código do país
+ * 
+ * Utilizar a tabela do BACEN
  * 
  * @author Carlos Gomes
  * 
@@ -24,7 +26,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{44}")
-public @interface CTeAccessKey {
+@Pattern(regexp = "[0-9]{1,4}")
+public @interface FormatCountryCode {
     
 }

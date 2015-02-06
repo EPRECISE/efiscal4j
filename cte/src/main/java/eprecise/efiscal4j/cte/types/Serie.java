@@ -14,9 +14,7 @@ import javax.validation.constraints.Pattern;
 /**
  * TSerie
  * 
- * Código do país
- * 
- * Utilizar a tabela do BACEN
+ * Tipo Série do Documento
  * 
  * @author Carlos Gomes
  * 
@@ -26,7 +24,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{1,4}")
-public @interface CTeFormatCountryCode {
+@Pattern(regexp = "0|[1-9]{1}[0-9]{0,2}")
+public @interface Serie {
     
 }

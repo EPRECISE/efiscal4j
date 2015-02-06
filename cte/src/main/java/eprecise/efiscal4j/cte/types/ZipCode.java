@@ -12,9 +12,9 @@ import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
 /**
- *
+ * TSerie
  * 
- * Telefone
+ * CEP Informar os zeros não significativos
  * 
  * @author Carlos Gomes
  * 
@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{6,14}")
-public @interface CTeTypeFone {
+@Pattern(regexp = "[0-9]{8}")
+public @interface ZipCode {
     
 }

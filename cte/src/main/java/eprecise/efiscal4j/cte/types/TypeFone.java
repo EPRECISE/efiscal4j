@@ -11,11 +11,20 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
+/**
+ *
+ * 
+ * Telefone
+ * 
+ * @author Carlos Gomes
+ * 
+ */
+
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[1-9]{1}[0-9]{0,8}")
-public @interface CTeNumberDocument {
+@Pattern(regexp = "[0-9]{6,14}")
+public @interface TypeFone {
     
 }

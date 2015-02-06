@@ -16,14 +16,14 @@ import eprecise.efiscal4j.cte.serviceTaker.RemitteeServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.SenderServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.ShipperServiceTaker;
-import eprecise.efiscal4j.cte.types.CTeAccessKey;
-import eprecise.efiscal4j.cte.types.CTeAccessKeyCheckDigit;
-import eprecise.efiscal4j.cte.types.CTeCFOP;
-import eprecise.efiscal4j.cte.types.CTeCode;
-import eprecise.efiscal4j.cte.types.CTeDateAndTime;
-import eprecise.efiscal4j.cte.types.CTeFormatDate;
-import eprecise.efiscal4j.cte.types.CTeNumberDocument;
-import eprecise.efiscal4j.cte.types.CTeSerie;
+import eprecise.efiscal4j.cte.types.AccessKey;
+import eprecise.efiscal4j.cte.types.AccessKeyCheckDigit;
+import eprecise.efiscal4j.cte.types.CFOP;
+import eprecise.efiscal4j.cte.types.Code;
+import eprecise.efiscal4j.cte.types.DateAndTime;
+import eprecise.efiscal4j.cte.types.FormatDate;
+import eprecise.efiscal4j.cte.types.NumberDocument;
+import eprecise.efiscal4j.cte.types.Serie;
 import eprecise.efiscal4j.cte.utils.ValidationBuilder;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,7 +33,7 @@ public class Identification {
     
     private final @XmlElement(name = "cCT") @Pattern(regexp = "[0-9]{8}") String cTeCode;
     
-    private final @XmlElement(name = "CFOP") @CTeCFOP String cfop;
+    private final @XmlElement(name = "CFOP") @CFOP String cfop;
     
     private final @XmlElement(name = "natOp") @Size(min = 1, max = 60) String operationNature;
     
@@ -41,17 +41,17 @@ public class Identification {
     
     private final @XmlElement(name = "mod") String modelDocument = "57";
     
-    private final @XmlElement(name = "serie") @CTeSerie String serie;
+    private final @XmlElement(name = "serie") @Serie String serie;
     
-    private final @XmlElement(name = "nCT") @CTeNumberDocument String numberCte;
+    private final @XmlElement(name = "nCT") @NumberDocument String numberCte;
     
-    private final @XmlElement(name = "dhEmi") @CTeDateAndTime String dateAndTimeOfEmission;
+    private final @XmlElement(name = "dhEmi") @DateAndTime String dateAndTimeOfEmission;
     
     private final @XmlElement(name = "tpImp") PrintFormatDACTE printFormatDacte;
     
     private final @XmlElement(name = "tpEmis") @NotNull CTeEmissionForm cteEmissionForm;
     
-    private final @XmlElement(name = "cDV") @CTeAccessKeyCheckDigit String checkDigit;
+    private final @XmlElement(name = "cDV") @AccessKeyCheckDigit String checkDigit;
     
     private final @XmlElement(name = "tpAmb") TypeEnvironment typeEnvironment;
     
@@ -61,9 +61,9 @@ public class Identification {
     
     private final @XmlElement(name = "verProc") @Size(min = 1, max = 20) String emissionProcessVersion;
     
-    private final @XmlElement(name = "refCTE") @CTeAccessKey String accessKey;
+    private final @XmlElement(name = "refCTE") @AccessKey String accessKey;
     
-    private final @XmlElement(name = "cMunEnv") @CTeCode String cityCode;
+    private final @XmlElement(name = "cMunEnv") @Code String cityCode;
     
     private final @XmlElement(name = "xMunEnv") @Size(min = 1, max = 60) String cityName;
     
@@ -73,13 +73,13 @@ public class Identification {
     
     private final @XmlElement(name = "tpServ") TypeService typeService;
     
-    private final @XmlElement(name = "cMunIni") @CTeCode String codeCityBeginInstallment;
+    private final @XmlElement(name = "cMunIni") @Code String codeCityBeginInstallment;
     
     private final @XmlElement(name = "xMunIni") @Size(min = 1, max = 60) String nameCityBeginInstallment;
     
     private final @XmlElement(name = "UFIni") String ufBeginInstallment;
     
-    private final @XmlElement(name = "cMunFim") @CTeCode String codeEndInstallment;
+    private final @XmlElement(name = "cMunFim") @Code String codeEndInstallment;
     
     private final @XmlElement(name = "xMunFim") @Size(min = 1, max = 60) String nameCityEndInstallment;
     
@@ -100,7 +100,7 @@ public class Identification {
     // @formatter:on
     private final ServiceTaker serviceTaker;
     
-    private final @XmlElement(name = "dhCont") @CTeFormatDate String contingency;
+    private final @XmlElement(name = "dhCont") @FormatDate String contingency;
     
     private final @XmlElement(name = "dhCont") @Size(min = 15, max = 256) String justificationContingency;
     

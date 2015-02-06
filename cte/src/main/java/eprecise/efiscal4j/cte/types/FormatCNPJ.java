@@ -12,9 +12,9 @@ import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
 /**
+ * TSerie
  * 
- * 
- * Tipo Número do CPF
+ * Tipo Número do CNPJ Opcional
  * 
  * @author Carlos Gomes
  * 
@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{11}")
-public @interface CTeFormatCPF {
+@Pattern(regexp = "[0-9]{0}|[0-9]{14}")
+public @interface FormatCNPJ {
     
 }

@@ -11,11 +11,20 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
+/**
+ * 
+ * 
+ * Tipo Número do CPF
+ * 
+ * @author Carlos Gomes
+ * 
+ */
+
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[123567][0-9]([0-9][1-9]|[1-9][0-9])")
-public @interface CTeCFOP {
+@Pattern(regexp = "[0-9]{11}")
+public @interface FormatCPF {
     
 }

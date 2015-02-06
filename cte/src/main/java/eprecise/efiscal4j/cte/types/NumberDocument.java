@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{7}")
-public @interface CTeCode {
+@Pattern(regexp = "[1-9]{1}[0-9]{0,8}")
+public @interface NumberDocument {
     
 }

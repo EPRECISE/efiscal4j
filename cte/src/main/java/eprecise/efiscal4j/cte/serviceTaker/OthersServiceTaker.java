@@ -4,11 +4,11 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.cte.address.Address;
-import eprecise.efiscal4j.cte.types.CTeFormatCNPJ;
-import eprecise.efiscal4j.cte.types.CTeFormatCPF;
-import eprecise.efiscal4j.cte.types.CTeStateRegistration;
-import eprecise.efiscal4j.cte.types.CTeTypeEmail;
-import eprecise.efiscal4j.cte.types.CTeTypeFone;
+import eprecise.efiscal4j.cte.types.FormatCNPJ;
+import eprecise.efiscal4j.cte.types.FormatCPF;
+import eprecise.efiscal4j.cte.types.StateRegistration;
+import eprecise.efiscal4j.cte.types.TypeEmail;
+import eprecise.efiscal4j.cte.types.TypeFone;
 
 public class OthersServiceTaker extends ServiceTaker {
     
@@ -16,21 +16,21 @@ public class OthersServiceTaker extends ServiceTaker {
     
     private static final String VALUE = "4";
     
-    private final @XmlElement(name = "CNPJ") @CTeFormatCNPJ String cnpj;
+    private final @XmlElement(name = "CNPJ") @FormatCNPJ String cnpj;
     
-    private final @XmlElement(name = "CPF") @CTeFormatCPF String cpf;
+    private final @XmlElement(name = "CPF") @FormatCPF String cpf;
     
-    private final @XmlElement(name = "IE") @CTeStateRegistration String ie;
+    private final @XmlElement(name = "IE") @StateRegistration String ie;
     
     private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String corporateName;
     
     private final @XmlElement(name = "xFant") @Size(min = 1, max = 60) String fantasyName;
     
-    private final @XmlElement(name = "email") @CTeTypeEmail @Size(min = 1, max = 60) String email;
+    private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
     
     private final @XmlElement(name = "enderToma") Address address;
     
-    private final @XmlElement(name = "fone") @CTeTypeFone String fone;
+    private final @XmlElement(name = "fone") @TypeFone String fone;
     
     public static class Builder extends ServiceTaker.Builder {
 	

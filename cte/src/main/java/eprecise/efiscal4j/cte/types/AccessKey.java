@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 /**
  * TSerie
  * 
- * Tipo Número do CNPJ Opcional
+ * Chave de acesso do CT-e referenciado
  * 
  * @author Carlos Gomes
  * 
@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{0}|[0-9]{14}")
-public @interface CTeFormatCNPJ {
+@Pattern(regexp = "[0-9]{44}")
+public @interface AccessKey {
     
 }

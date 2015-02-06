@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{1}")
-public @interface CTeAccessKeyCheckDigit {
+@Pattern(regexp = "[0-9]{7}")
+public @interface Code {
     
 }

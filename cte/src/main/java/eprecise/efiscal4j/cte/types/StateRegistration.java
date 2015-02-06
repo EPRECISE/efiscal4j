@@ -12,9 +12,14 @@ import javax.validation.Constraint;
 import javax.validation.constraints.Pattern;
 
 /**
- * TSerie
+ *
  * 
- * CEP Informar os zeros não significativos
+ * Tipo Inscrição Estadual do Destinatário
+ * 
+ * Informar a IE do tomador ou ISENTO se tomador é contribuinte do ICMS isento
+ * de inscrição no cadastro de contribuintes do ICMS. Caso o tomador não seja
+ * contribuinte do ICMS não informar o conteúdo
+ * 
  * 
  * @author Carlos Gomes
  * 
@@ -24,7 +29,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{8}")
-public @interface CTeZipCode {
+@Pattern(regexp = "[0-9]{0,14}|ISENTO")
+public @interface StateRegistration {
     
 }

@@ -6,8 +6,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.cte.address.Address;
-import eprecise.efiscal4j.cte.types.CTeFormatCNPJ;
-import eprecise.efiscal4j.cte.types.CTeStateRegistration;
+import eprecise.efiscal4j.cte.types.FormatCNPJ;
+import eprecise.efiscal4j.cte.types.StateRegistration;
 
 /**
  * Tag - emit
@@ -19,9 +19,9 @@ public class Emitter implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final @XmlElement(name = "CNPJ") @CTeFormatCNPJ String cnpj;
+    private final @XmlElement(name = "CNPJ") @FormatCNPJ String cnpj;
     
-    private final @XmlElement(name = "IE") @CTeStateRegistration String ie;
+    private final @XmlElement(name = "IE") @StateRegistration String ie;
     
     private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String name;
     

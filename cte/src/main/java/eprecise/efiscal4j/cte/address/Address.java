@@ -5,9 +5,9 @@ import java.io.Serializable;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.cte.types.CTeCode;
-import eprecise.efiscal4j.cte.types.CTeFormatCountryCode;
-import eprecise.efiscal4j.cte.types.CTeZipCode;
+import eprecise.efiscal4j.cte.types.Code;
+import eprecise.efiscal4j.cte.types.FormatCountryCode;
+import eprecise.efiscal4j.cte.types.ZipCode;
 
 public class Address implements Serializable {
     
@@ -21,15 +21,15 @@ public class Address implements Serializable {
     
     private final @XmlElement(name = "xBairro") @Size(min = 1, max = 60) String district;
     
-    private final @XmlElement(name = "cMun") @CTeCode String cityCode;
+    private final @XmlElement(name = "cMun") @Code String cityCode;
     
     private final @XmlElement(name = "xMun") @Size(min = 1, max = 60) String cityName;
     
-    private final @XmlElement(name = "CEP") @CTeZipCode String zipCode;
+    private final @XmlElement(name = "CEP") @ZipCode String zipCode;
     
     private final @XmlElement(name = "UF") String acronymUf;
     
-    private final @XmlElement(name = "cPais") @CTeFormatCountryCode String countryCode;
+    private final @XmlElement(name = "cPais") @FormatCountryCode String countryCode;
     
     private final @XmlElement(name = "xPais") @Size(min = 1, max = 60) String countryName;
     
