@@ -15,12 +15,17 @@ public class CTeInfo {
     
     private final @XmlElement(name = "vPrest") ValuesServiceDelivery valuesServiceDelivery;
     
+    private final @XmlElement(name = "rem") Sender sender;
+    
     public static class Builder {
+	
 	private Identification identification;
 	
 	private Emitter emitter;
 	
 	private ValuesServiceDelivery valuesServiceDelivery;
+	
+	private Sender sender;
 	
 	public Builder withIdentification(Identification identification) {
 	    this.identification = identification;
@@ -37,6 +42,11 @@ public class CTeInfo {
 	    return this;
 	}
 	
+	public Builder withSender(Sender sender) {
+	    this.sender = sender;
+	    return this;
+	}
+	
 	public CTeInfo build() {
 	    return new CTeInfo(this);
 	}
@@ -47,12 +57,14 @@ public class CTeInfo {
 	this.identification = null;
 	this.emitter = null;
 	this.valuesServiceDelivery = null;
+	this.sender = null;
     }
     
     public CTeInfo(Builder builder) {
 	this.identification = builder.identification;
 	this.emitter = builder.emitter;
 	this.valuesServiceDelivery = builder.valuesServiceDelivery;
+	this.sender = builder.sender;
     }
     
     public Identification getIdentification() {
