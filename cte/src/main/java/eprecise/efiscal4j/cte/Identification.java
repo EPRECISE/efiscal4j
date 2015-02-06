@@ -27,7 +27,7 @@ import eprecise.efiscal4j.cte.types.CTeSerie;
 import eprecise.efiscal4j.cte.utils.ValidationBuilder;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CTeIdentification {
+public class Identification {
     
     private final @XmlElement(name = "cUF") UF uf;
     
@@ -330,14 +330,14 @@ public class CTeIdentification {
 	    return this;
 	}
 	
-	public CTeIdentification build() {
-	    final CTeIdentification entity = new CTeIdentification(this);
+	public Identification build() {
+	    final Identification entity = new Identification(this);
 	    ValidationBuilder.from(entity).validate().throwIfViolate();
 	    return entity;
 	}
     }
     
-    public CTeIdentification() {
+    public Identification() {
 	this.uf = null;
 	this.cTeCode = null;
 	this.cfop = null;
@@ -372,7 +372,7 @@ public class CTeIdentification {
 	this.serviceTaker = null;
     }
     
-    public CTeIdentification(Builder builder) {
+    public Identification(Builder builder) {
 	this.uf = builder.uf;
 	this.cTeCode = builder.cTeCode;
 	this.cfop = builder.cfop;
