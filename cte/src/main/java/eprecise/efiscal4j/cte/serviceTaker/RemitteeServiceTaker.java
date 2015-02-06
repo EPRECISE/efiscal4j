@@ -6,7 +6,6 @@ public class RemitteeServiceTaker extends ServiceTaker {
     
     public static class Builder extends ServiceTaker.Builder {
 	
-	@Override
 	public RemitteeServiceTaker build() {
 	    return new RemitteeServiceTaker();
 	}

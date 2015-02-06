@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -26,5 +27,9 @@ import javax.validation.constraints.Pattern;
 @Documented
 @Pattern(regexp = "[0-9]{0}|[0-9]{14}")
 public @interface FormatCNPJ {
+    String message() default "Viola restrição -";
     
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

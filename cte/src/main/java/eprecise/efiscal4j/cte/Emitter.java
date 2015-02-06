@@ -66,6 +66,10 @@ public class Emitter implements Serializable {
 	    return this;
 	}
 	
+	public Emitter build() {
+	    return new Emitter(this);
+	}
+	
     }
     
     public Emitter() {

@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
 @Target({ FIELD, ANNOTATION_TYPE })
@@ -17,5 +18,9 @@ import javax.validation.constraints.Pattern;
 @Documented
 @Pattern(regexp = "[0-9]{7}")
 public @interface Code {
+    String message() default "Viola restrição -";
     
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

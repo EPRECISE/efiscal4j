@@ -255,7 +255,7 @@ public class Identification {
 	    return this;
 	}
 	
-	public Builder withCountyName(String cityName) {
+	public Builder withCityName(String cityName) {
 	    this.cityName = cityName;
 	    return this;
 	}

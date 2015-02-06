@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -31,5 +32,9 @@ import javax.validation.constraints.Pattern;
 @Documented
 @Pattern(regexp = "[0-9]{0,14}|ISENTO")
 public @interface StateRegistration {
+    String message() default "Viola restrição -";
     
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

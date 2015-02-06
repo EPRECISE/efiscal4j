@@ -90,9 +90,8 @@ public class OthersServiceTaker extends ServiceTaker {
 	    return this;
 	}
 	
-	@Override
 	public OthersServiceTaker build() {
-	    return new OthersServiceTaker();
+	    return new OthersServiceTaker(this);
 	    
 	}
 	

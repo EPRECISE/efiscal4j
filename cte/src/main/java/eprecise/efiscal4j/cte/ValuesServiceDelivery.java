@@ -41,9 +41,13 @@ public class ValuesServiceDelivery implements Serializable {
 	    return this;
 	}
 	
-	public Builder withComponents(InstallmentValueComponent installmentValueComponent) {
+	public Builder withInstallmentValueComponent(InstallmentValueComponent installmentValueComponent) {
 	    this.installmentValueComponent = installmentValueComponent;
 	    return this;
+	}
+	
+	public ValuesServiceDelivery builder() {
+	    return new ValuesServiceDelivery(this);
 	}
 	
     }

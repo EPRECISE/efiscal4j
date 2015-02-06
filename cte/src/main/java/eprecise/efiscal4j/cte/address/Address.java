@@ -104,6 +104,10 @@ public class Address implements Serializable {
 	    this.countryName = countryName;
 	    return this;
 	}
+	
+	public Address build() {
+	    return new Address(this);
+	}
     }
     
     public Address() {
