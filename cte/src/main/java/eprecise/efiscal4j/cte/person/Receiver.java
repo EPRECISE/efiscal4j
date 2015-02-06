@@ -21,18 +21,18 @@ public class Receiver extends Person implements Serializable {
     
     private final @XmlElement(name = "enderReceb") Address address;
     
-    public static class Builder extends Person.Builder {
+    public static class Builder extends Person.Builder<Builder> {
 	
 	private Address address;
 	
 	@Override
-	public Person.Builder withAddress(Address address) {
+	public Builder withAddress(Address address) {
 	    this.address = address;
 	    return this;
 	}
 	
 	@Override
-	public Receiver builder() {
+	public Receiver build() {
 	    return new Receiver(this);
 	}
     }

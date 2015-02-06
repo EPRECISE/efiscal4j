@@ -20,18 +20,18 @@ public class Shipper extends Person implements Serializable {
     
     private final @XmlElement(name = "enderExped") Address address;
     
-    public static class Builder extends Person.Builder {
+    public static class Builder extends Person.Builder<Builder> {
 	
 	private Address address;
 	
 	@Override
-	public Person.Builder withAddress(Address address) {
+	public Builder withAddress(Address address) {
 	    this.address = address;
 	    return this;
 	}
 	
 	@Override
-	public Shipper builder() {
+	public Shipper build() {
 	    return new Shipper(this);
 	}
     }

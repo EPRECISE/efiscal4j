@@ -28,7 +28,8 @@ public abstract class Person implements Serializable {
     
     private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
     
-    public abstract static class Builder {
+    @SuppressWarnings("unchecked")
+    public abstract static class Builder<T extends Builder<?>> {
 	
 	private String cnpj;
 	
@@ -42,39 +43,39 @@ public abstract class Person implements Serializable {
 	
 	private String email;
 	
-	public Builder withCNPJ(String cnpj) {
+	public T withCNPJ(String cnpj) {
 	    this.cnpj = cnpj;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withCPF(String cpf) {
+	public T withCPF(String cpf) {
 	    this.cpf = cpf;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withIE(String ie) {
+	public T withIE(String ie) {
 	    this.ie = ie;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withName(String name) {
+	public T withName(String name) {
 	    this.name = name;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withFone(String fone) {
+	public T withFone(String fone) {
 	    this.fone = fone;
-	    return this;
+	    return (T) this;
 	}
 	
-	public abstract Builder withAddress(Address address);
+	public abstract T withAddress(Address address);
 	
-	public Builder withEmail(String email) {
+	public T withEmail(String email) {
 	    this.email = email;
-	    return this;
+	    return (T) this;
 	}
 	
-	public abstract Person builder();
+	public abstract Person build();
 	
     }
     
@@ -87,7 +88,7 @@ public abstract class Person implements Serializable {
 	this.email = null;
     }
     
-    public Person(Builder builder) {
+    public Person(Builder<?> builder) {
 	this.cnpj = builder.cnpj;
 	this.cpf = builder.cpf;
 	this.ie = builder.ie;

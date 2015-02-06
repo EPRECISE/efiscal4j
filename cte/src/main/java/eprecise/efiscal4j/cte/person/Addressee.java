@@ -24,7 +24,7 @@ public class Addressee extends Person implements Serializable {
     
     private final @XmlElement(name = "locEnt") Location locationDelivery;
     
-    public static class Builder extends Person.Builder {
+    public static class Builder extends Person.Builder<Builder> {
 	
 	private Address address;
 	
@@ -33,7 +33,7 @@ public class Addressee extends Person implements Serializable {
 	private Location locationDelivery;
 	
 	@Override
-	public Person.Builder withAddress(Address address) {
+	public Builder withAddress(Address address) {
 	    this.address = address;
 	    return this;
 	}
@@ -49,7 +49,7 @@ public class Addressee extends Person implements Serializable {
 	}
 	
 	@Override
-	public Addressee builder() {
+	public Addressee build() {
 	    return new Addressee(this);
 	}
     }
