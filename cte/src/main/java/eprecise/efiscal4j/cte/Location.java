@@ -13,7 +13,7 @@ import eprecise.efiscal4j.cte.types.FormatCPF;
 /**
  * @author carlos gomes
  */
-public class LocationCollection implements Serializable {
+public class Location implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -109,12 +109,12 @@ public class LocationCollection implements Serializable {
 	    return this;
 	}
 	
-	public LocationCollection builder() {
-	    return new LocationCollection(this);
+	public Location builder() {
+	    return new Location(this);
 	}
     }
     
-    public LocationCollection() {
+    public Location() {
 	this.cnpj = null;
 	this.cpf = null;
 	this.corporateName = null;
@@ -127,7 +127,7 @@ public class LocationCollection implements Serializable {
 	this.uf = null;
     }
     
-    public LocationCollection(Builder builder) {
+    public Location(Builder builder) {
 	this.cnpj = builder.cnpj;
 	this.cpf = builder.cpf;
 	this.corporateName = builder.corporateName;

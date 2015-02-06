@@ -1,6 +1,8 @@
 package eprecise.efiscal4j.cte.serviceTaker;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.cte.address.Address;
@@ -10,6 +12,7 @@ import eprecise.efiscal4j.cte.types.StateRegistration;
 import eprecise.efiscal4j.cte.types.TypeEmail;
 import eprecise.efiscal4j.cte.types.TypeFone;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OthersServiceTaker extends ServiceTaker {
     
     private static final long serialVersionUID = 1L;

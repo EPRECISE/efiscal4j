@@ -1,4 +1,4 @@
-package eprecise.efiscal4j.cte;
+package eprecise.efiscal4j.cte.person;
 
 import java.io.Serializable;
 
@@ -12,29 +12,23 @@ import eprecise.efiscal4j.cte.types.StateRegistration;
 import eprecise.efiscal4j.cte.types.TypeEmail;
 import eprecise.efiscal4j.cte.types.TypeFone;
 
-public class Sender implements Serializable {
+public abstract class Person implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final @XmlElement(name = "TCnpjOpc") @FormatCNPJ String cnpj;
+    private final @XmlElement(name = "CNPJ") @FormatCNPJ String cnpj;
     
     private final @XmlElement(name = "CPF") @FormatCPF String cpf;
     
     private final @XmlElement(name = "IE") @StateRegistration String ie;
     
-    private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String corporateName;
-    
-    private final @XmlElement(name = "xFant") @Size(min = 1, max = 60) String fantasyName;
+    private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String name;
     
     private final @XmlElement(name = "fone") @TypeFone String fone;
     
-    private final @XmlElement(name = "enderReme") @TypeFone Address address;
-    
     private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
     
-    private final @XmlElement(name = "locColeta") LocationCollection locationCollection;
-    
-    public static class Builder {
+    public abstract static class Builder {
 	
 	private String cnpj;
 	
@@ -42,17 +36,11 @@ public class Sender implements Serializable {
 	
 	private String ie;
 	
-	private String corporateName;
-	
-	private String fantasyName;
+	private String name;
 	
 	private String fone;
 	
-	private Address address;
-	
 	private String email;
-	
-	private LocationCollection locationCollection;
 	
 	public Builder withCNPJ(String cnpj) {
 	    this.cnpj = cnpj;
@@ -69,13 +57,8 @@ public class Sender implements Serializable {
 	    return this;
 	}
 	
-	public Builder withCorporateName(String corporateName) {
-	    this.corporateName = corporateName;
-	    return this;
-	}
-	
-	public Builder withFantasyName(String fantasyName) {
-	    this.fantasyName = fantasyName;
+	public Builder withName(String name) {
+	    this.name = name;
 	    return this;
 	}
 	
@@ -84,49 +67,33 @@ public class Sender implements Serializable {
 	    return this;
 	}
 	
-	public Builder withAddress(Address address) {
-	    this.address = address;
-	    return this;
-	}
+	public abstract Builder withAddress(Address address);
 	
 	public Builder withEmail(String email) {
 	    this.email = email;
 	    return this;
 	}
 	
-	public Builder withLocationCollection(LocationCollection locationCollection) {
-	    this.locationCollection = locationCollection;
-	    return this;
-	}
-	
-	public Sender builder() {
-	    return new Sender(this);
-	}
+	public abstract Person builder();
 	
     }
     
-    public Sender() {
+    public Person() {
 	this.cnpj = null;
 	this.cpf = null;
 	this.ie = null;
-	this.corporateName = null;
-	this.fantasyName = null;
+	this.name = null;
 	this.fone = null;
-	this.address = null;
 	this.email = null;
-	this.locationCollection = null;
     }
     
-    public Sender(Builder builder) {
+    public Person(Builder builder) {
 	this.cnpj = builder.cnpj;
 	this.cpf = builder.cpf;
 	this.ie = builder.ie;
-	this.corporateName = builder.corporateName;
-	this.fantasyName = builder.fantasyName;
+	this.name = builder.name;
 	this.fone = builder.fone;
-	this.address = builder.address;
 	this.email = builder.email;
-	this.locationCollection = builder.locationCollection;
     }
     
     public String getCnpj() {
@@ -141,28 +108,18 @@ public class Sender implements Serializable {
 	return this.ie;
     }
     
-    public String getCorporateName() {
-	return this.corporateName;
-    }
-    
-    public String getFantasyName() {
-	return this.fantasyName;
+    public String getName() {
+	return this.name;
     }
     
     public String getFone() {
 	return this.fone;
     }
     
-    public Address getAddress() {
-	return this.address;
-    }
+    public abstract Address getAddress();
     
     public String getEmail() {
 	return this.email;
-    }
-    
-    public LocationCollection getLocationCollection() {
-	return this.locationCollection;
     }
     
 }
