@@ -63,7 +63,6 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
                 @XmlElement(name = "PISOutr", type = PIS75.class),
                 @XmlElement(name = "PISOutr", type = PIS98.class),
                 @XmlElement(name = "PISOutr", type = PIS99.class),
-                @XmlElement(name = "PISST", type = PISST.class),
                 }) 
         // @formatter:on
         private final PIS pis;

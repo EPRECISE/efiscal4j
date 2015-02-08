@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.tax.pis;
+package eprecise.efiscal4j.nfe.tax.cofins;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfe.tax.pis.validation.BasePISOtherStandard;
+import eprecise.efiscal4j.nfe.tax.cofins.validation.BaseCOFINSOtherStandard;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1204;
@@ -18,39 +18,40 @@ import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**
- * Dados do PIS Substituição Tributária
+ * Dados do COFINS Substituição Tributária
  * 
+ * @see COFINS
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PISST implements Serializable, BasePISOtherStandard {
+public class COFINSST implements Serializable, BaseCOFINSOtherStandard {
 
     private static final long serialVersionUID = 1L;
 
     private @XmlElement(name = "vBC") @NFeDecimal1302Optional final String bcValue;
 
-    private @XmlElement(name = "pPIS") @NFeDecimal0302a04 final String pisAliquot;
+    private @XmlElement(name = "pCOFINS") @NFeDecimal0302a04 final String cofinsAliquot;
 
     private @XmlElement(name = "qBCProd") @NFeDecimal1204 final String productQuantity;
 
     private @XmlElement(name = "vAliqProd") @NFeDecimal1104 final String productAliquot;
 
-    private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
+    private @XmlElement(name = "vCOFINS") @NotNull @NFeDecimal1302 final String cofinsValue;
 
     public static class Builder {
 
         private String bcValue;
 
-        private String pisAliquot;
+        private String cofinsAliquot;
 
         private String productQuantity;
 
         private String productAliquot;
 
-        private String pisValue;
+        private String cofinsValue;
 
         /**
-         * Valor da BC do PIS ST
+         * Valor da BC do COFINS ST
          * 
          * @param bcValue
          * @return
@@ -61,13 +62,13 @@ public class PISST implements Serializable, BasePISOtherStandard {
         }
 
         /**
-         * Alíquota do PIS ST (em percentual)
+         * Alíquota do COFINS ST (em percentual)
          * 
-         * @param pisAliquot
+         * @param cofinsAliquot
          * @return
          */
-        public Builder withPisAliquot(String pisAliquot) {
-            this.pisAliquot = pisAliquot;
+        public Builder withCofinsAliquot(String cofinsAliquot) {
+            this.cofinsAliquot = cofinsAliquot;
             return this;
         }
 
@@ -83,7 +84,7 @@ public class PISST implements Serializable, BasePISOtherStandard {
         }
 
         /**
-         * Alíquota do PIS ST (em reais)
+         * Alíquota do COFINS ST (em reais)
          * 
          * @param productAliquot
          * @return
@@ -94,29 +95,29 @@ public class PISST implements Serializable, BasePISOtherStandard {
         }
 
         /**
-         * Valor do PIS ST
+         * Valor do COFINS ST
          * 
-         * @param pisValue
+         * @param cofinsValue
          * @return
          */
-        public Builder withPisValue(String pisValue) {
-            this.pisValue = pisValue;
+        public Builder withCofinsValue(String cofinsValue) {
+            this.cofinsValue = cofinsValue;
             return this;
         }
 
-        public PISST build() {
-            final PISST entity = new PISST(this);
+        public COFINSST build() {
+            final COFINSST entity = new COFINSST(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public PISST(Builder builder) {
+    public COFINSST(Builder builder) {
         this.bcValue = builder.bcValue;
-        this.pisAliquot = builder.pisAliquot;
+        this.cofinsAliquot = builder.cofinsAliquot;
         this.productQuantity = builder.productQuantity;
         this.productAliquot = builder.productAliquot;
-        this.pisValue = builder.pisValue;
+        this.cofinsValue = builder.cofinsValue;
     }
 
     @Override
@@ -125,8 +126,8 @@ public class PISST implements Serializable, BasePISOtherStandard {
     }
 
     @Override
-    public String getPisAliquot() {
-        return this.pisAliquot;
+    public String getCofinsAliquot() {
+        return this.cofinsAliquot;
     }
 
     @Override
@@ -140,8 +141,8 @@ public class PISST implements Serializable, BasePISOtherStandard {
     }
 
     @Override
-    public String getPisValue() {
-        return this.pisValue;
+    public String getCofinsValue() {
+        return this.cofinsValue;
     }
 
 }
