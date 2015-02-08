@@ -22,7 +22,7 @@ public class COFINSAdapter extends XmlAdapter<COFINSAdapter.AdaptedCOFINS, COFIN
 
     @Override
     public AdaptedCOFINS marshal(COFINS v) throws Exception {
-        return new AdaptedCOFINS(v);
+        return (v == null ? null : new AdaptedCOFINS(v));
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

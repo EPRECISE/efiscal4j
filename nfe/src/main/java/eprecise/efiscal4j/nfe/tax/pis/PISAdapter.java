@@ -22,7 +22,7 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
 
     @Override
     public AdaptedPIS marshal(PIS v) throws Exception {
-        return new AdaptedPIS(v);
+        return (v == null ? null : new AdaptedPIS(v));
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

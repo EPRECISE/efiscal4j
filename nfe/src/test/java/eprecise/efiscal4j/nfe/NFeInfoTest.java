@@ -30,10 +30,14 @@ import eprecise.efiscal4j.nfe.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.tax.ReturnedIPI;
 import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
+import eprecise.efiscal4j.nfe.tax.cofins.COFINS;
+import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.tax.pis.PIS;
+import eprecise.efiscal4j.nfe.tax.pis.PISST;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
@@ -281,12 +285,12 @@ public class NFeInfoTest {
 //                                                .withPisValue("1")                                                
 //                                                .build())
                                  //PIS03      
-//                                    .withPis(new PIS.Builder()
-//                                                .fromCode(PIS.CST_03)
-//                                                .withProductQuantity("3.00")
-//                                                .withProductAliquot("10")
-//                                                .withPisValue("1")                                                
-//                                                .build())
+                                    .withPis(new PIS.Builder()
+                                                .fromCode(PIS.CST_03)
+                                                .withProductQuantity("3.00")
+                                                .withProductAliquot("10")
+                                                .withPisValue("1")                                                
+                                                .build())
                                  //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
 //                                    .withPis(new PIS.Builder()
 //                                                .fromCode(PIS.CST_09)                                                
@@ -301,21 +305,21 @@ public class NFeInfoTest {
 //                                                .withPisValue("3")
 //                                                .build())
                                  //PISST
-//                                    .withPisSt(new PISST.Builder()                                                
-////                                                .withProductQuantity("3")
-////                                                .withProductAliquot("5")
-//                                                .withBcValue("4")
-//                                                .withPisAliquot("5")
-//                                                .withPisValue("3")
-//                                                .build())
+                                    .withPisSt(new PISST.Builder()                                                
+//                                                .withProductQuantity("3")
+//                                                .withProductAliquot("5")
+                                                .withBcValue("4")
+                                                .withPisAliquot("5")
+                                                .withPisValue("3")
+                                                .build())
                                                
                                  //COFINS01, COFINS02      
-//                                    .withCofins(new COFINS.Builder()
-//                                                .fromCode(COFINS.CST_02)
-//                                                .withBcValue("10.00")
-//                                                .withCofinsAliquot("10")
-//                                                .withCofinsValue("1")                                                
-//                                                .build())
+                                    .withCofins(new COFINS.Builder()
+                                                .fromCode(COFINS.CST_02)
+                                                .withBcValue("10.00")
+                                                .withCofinsAliquot("10")
+                                                .withCofinsValue("1")                                                
+                                                .build())
                                  //COFINS03      
 //                                    .withCofins(new COFINS.Builder()
 //                                                .fromCode(COFINS.CST_03)
@@ -337,13 +341,13 @@ public class NFeInfoTest {
 //                                                .withPisValue("3")
 //                                                .build())
                                  //COFINSST
-//                                    .withCofinsSt(new COFINSST.Builder()                                                
-////                                                .withProductQuantity("3")
-////                                                .withProductAliquot("5")
-//                                                .withBcValue("4")
-//                                                .withCofinsAliquot("5")
-//                                                .withCofinsValue("3")
-//                                                .build())                                                
+                                    .withCofinsSt(new COFINSST.Builder()                                                
+//                                                .withProductQuantity("3")
+//                                                .withProductAliquot("5")
+                                                .withBcValue("4")
+                                                .withCofinsAliquot("5")
+                                                .withCofinsValue("3")
+                                                .build())                                                
 								.build())
 							 .withReturnedTax(new ReturnedTax.Builder()
 							                 .withReturnedProductPerc("70")
