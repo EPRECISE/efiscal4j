@@ -48,7 +48,7 @@ public class ValuesServiceDelivery implements Serializable {
 	    return this;
 	}
 	
-	public ValuesServiceDelivery builder() {
+	public ValuesServiceDelivery build() {
 	    return new ValuesServiceDelivery(this);
 	}
 	

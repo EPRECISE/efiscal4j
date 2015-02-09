@@ -109,7 +109,7 @@ public class Location implements Serializable {
 	    return this;
 	}
 	
-	public Location builder() {
+	public Location build() {
 	    return new Location(this);
 	}
     }
