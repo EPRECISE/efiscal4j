@@ -30,7 +30,7 @@ public class Address implements Serializable {
     
     private final @XmlElement(name = "CEP") @ZipCode String zipCode;
     
-    private final @XmlElement(name = "UF") String acronymUf;
+    private final @XmlElement(name = "UF") String uf;
     
     private final @XmlElement(name = "cPais") @FormatCountryCode String countryCode;
     
@@ -52,7 +52,7 @@ public class Address implements Serializable {
 	
 	private String zipCode;
 	
-	private String acronymUf;
+	private String uf;
 	
 	private String countryCode;
 	
@@ -93,8 +93,8 @@ public class Address implements Serializable {
 	    return this;
 	}
 	
-	public Builder withAcronymUf(UF uf) {
-	    this.acronymUf = uf.getAcronym();
+	public Builder withUF(UF uf) {
+	    this.uf = uf.getAcronym();
 	    return this;
 	}
 	
@@ -121,7 +121,7 @@ public class Address implements Serializable {
 	this.cityCode = null;
 	this.cityName = null;
 	this.zipCode = null;
-	this.acronymUf = null;
+	this.uf = null;
 	this.countryCode = null;
 	this.countryName = null;
     }
@@ -134,7 +134,7 @@ public class Address implements Serializable {
 	this.cityCode = builder.cityCode;
 	this.cityName = builder.cityName;
 	this.zipCode = builder.zipCode;
-	this.acronymUf = builder.acronymUf;
+	this.uf = builder.uf;
 	this.countryCode = builder.countryCode;
 	this.countryName = builder.countryName;
 	
@@ -169,7 +169,7 @@ public class Address implements Serializable {
     }
     
     public UF getAcronymUf() {
-	return this.acronymUf == null || this.acronymUf.isEmpty() ? null : UF.valueOf(this.acronymUf);
+	return this.uf == null || this.uf.isEmpty() ? null : UF.valueOf(this.uf);
     }
     
     public String getCountryCode() {

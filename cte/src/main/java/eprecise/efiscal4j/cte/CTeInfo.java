@@ -1,7 +1,9 @@
 package eprecise.efiscal4j.cte;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,6 +11,7 @@ import eprecise.efiscal4j.cte.person.Addressee;
 import eprecise.efiscal4j.cte.person.Receiver;
 import eprecise.efiscal4j.cte.person.Sender;
 import eprecise.efiscal4j.cte.person.Shipper;
+import eprecise.efiscal4j.cte.types.CTeID;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -28,6 +31,10 @@ public class CTeInfo {
     
     private final @XmlElement(name = "vPrest") ValuesServiceDelivery valuesServiceDelivery;
     
+    private final @XmlAttribute(name = "versao") @NotNull String version;
+    
+    private final @XmlAttribute(name = "Id") @NotNull @CTeID String id;
+    
     public static class Builder {
 	
 	private Identification identification;
@@ -43,6 +50,10 @@ public class CTeInfo {
 	private Receiver receiver;
 	
 	private Addressee addressee;
+	
+	private String version;
+	
+	private String id;
 	
 	public Builder withIdentification(Identification identification) {
 	    this.identification = identification;
@@ -79,6 +90,16 @@ public class CTeInfo {
 	    return this;
 	}
 	
+	public Builder withVersion(String version) {
+	    this.version = version;
+	    return this;
+	}
+	
+	public Builder withID(String id) {
+	    this.id = id;
+	    return this;
+	}
+	
 	public CTeInfo build() {
 	    return new CTeInfo(this);
 	}
@@ -93,6 +114,8 @@ public class CTeInfo {
 	this.shipper = null;
 	this.receiver = null;
 	this.addressee = null;
+	this.version = null;
+	this.id = null;
     }
     
     public CTeInfo(Builder builder) {
@@ -103,6 +126,8 @@ public class CTeInfo {
 	this.shipper = builder.shipper;
 	this.receiver = builder.receiver;
 	this.addressee = builder.addressee;
+	this.version = builder.version;
+	this.id = builder.id;
     }
     
     public Identification getIdentification() {
@@ -127,5 +152,13 @@ public class CTeInfo {
     
     public Addressee getAddressee() {
 	return this.addressee;
+    }
+    
+    public String getVersion() {
+	return this.version;
+    }
+    
+    public String getId() {
+	return this.id;
     }
 }
