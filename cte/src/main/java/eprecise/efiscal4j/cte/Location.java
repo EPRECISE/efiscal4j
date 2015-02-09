@@ -39,11 +39,27 @@ public class Location implements Serializable {
     
     public static class Builder {
 	
-	private String cnpj;
+	public class NaturalPersonLocationBuilder extends Builder {
+	    
+	    public Builder withCPF(String cpf) {
+		Builder.this.cpf = cpf;
+		cpf = null;
+		return Builder.this;
+	    }
+	}
+	
+	public class LegalEntityLocationBuilder extends Builder {
+	    public Builder withCNPJ(String cnpj) {
+		Builder.this.cnpj = cnpj;
+		cnpj = null;
+		return Builder.this;
+	    }
+	}
 	
 	private String cpf;
+	private String cnpj;
 	
-	private String corporateName;
+	private String name;
 	
 	private String street;
 	
@@ -59,18 +75,16 @@ public class Location implements Serializable {
 	
 	private String uf;
 	
-	public Builder withCNPJ(String CNPJ) {
-	    this.cnpj = CNPJ;
-	    return this;
+	public NaturalPersonLocationBuilder asNaturalPerson() {
+	    return new NaturalPersonLocationBuilder();
 	}
 	
-	public Builder withCPF(String cpf) {
-	    this.cpf = cpf;
-	    return this;
+	public LegalEntityLocationBuilder asLegalEntity() {
+	    return new LegalEntityLocationBuilder();
 	}
 	
-	public Builder withCorporateName(String corporateName) {
-	    this.corporateName = corporateName;
+	public Builder withName(String name) {
+	    this.name = name;
 	    return this;
 	}
 	
@@ -130,7 +144,7 @@ public class Location implements Serializable {
     public Location(Builder builder) {
 	this.cnpj = builder.cnpj;
 	this.cpf = builder.cpf;
-	this.corporateName = builder.corporateName;
+	this.corporateName = builder.name;
 	this.street = builder.street;
 	this.number = builder.number;
 	this.complement = builder.complement;
