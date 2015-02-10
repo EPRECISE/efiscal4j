@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.utils;
+package eprecise.efiscal4j.commons.utils;
 
 import java.util.Arrays;
 import java.util.Collection;

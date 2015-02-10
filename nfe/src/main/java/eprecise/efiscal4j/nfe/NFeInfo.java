@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
-import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;
 
 

@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.cte.person.Addressee;
 import eprecise.efiscal4j.cte.person.Receiver;
@@ -13,7 +12,6 @@ import eprecise.efiscal4j.cte.person.Sender;
 import eprecise.efiscal4j.cte.person.Shipper;
 import eprecise.efiscal4j.cte.types.CTeID;
 
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CTeInfo {
     
@@ -51,7 +49,7 @@ public class CTeInfo {
 	
 	private Addressee addressee;
 	
-	private String version;
+	private String version = "2.00";
 	
 	private String id;
 	

@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
-import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**

@@ -24,7 +24,6 @@ import eprecise.efiscal4j.cte.types.DateAndTime;
 import eprecise.efiscal4j.cte.types.FormatDate;
 import eprecise.efiscal4j.cte.types.NumberDocument;
 import eprecise.efiscal4j.cte.types.Serie;
-import eprecise.efiscal4j.cte.utils.ValidationBuilder;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Identification {
@@ -61,7 +60,7 @@ public class Identification {
     
     private final @XmlElement(name = "verProc") @Size(min = 1, max = 20) String emissionProcessVersion;
     
-    private final @XmlElement(name = "refCTE") @AccessKey String accessKey;
+    private final @XmlElement(name = "refCTE") @AccessKey String refAccessKey;
     
     private final @XmlElement(name = "cMunEnv") @Code String cityCode;
     
@@ -136,7 +135,7 @@ public class Identification {
 	
 	private String emissionProcessVersion;
 	
-	private String accessKey;
+	private String refAccessKey;
 	
 	private String cityCode;
 	
@@ -245,8 +244,8 @@ public class Identification {
 	    return this;
 	}
 	
-	public Builder withAccessKey(String accessKey) {
-	    this.accessKey = accessKey;
+	public Builder withRefAccessKey(String refAccessKey) {
+	    this.refAccessKey = refAccessKey;
 	    return this;
 	}
 	
@@ -331,9 +330,7 @@ public class Identification {
 	}
 	
 	public Identification build() {
-	    final Identification entity = new Identification(this);
-	    ValidationBuilder.from(entity).validate().throwIfViolate();
-	    return entity;
+	    return new Identification(this);
 	}
     }
     
@@ -353,7 +350,7 @@ public class Identification {
 	this.cteType = null;
 	this.identifierEmission = null;
 	this.emissionProcessVersion = null;
-	this.accessKey = null;
+	this.refAccessKey = null;
 	this.cityCode = null;
 	this.cityName = null;
 	this.ufSend = null;
@@ -388,7 +385,7 @@ public class Identification {
 	this.cteType = builder.cTeType;
 	this.identifierEmission = builder.identifierEmission;
 	this.emissionProcessVersion = builder.emissionProcessVersion;
-	this.accessKey = builder.accessKey;
+	this.refAccessKey = builder.refAccessKey;
 	this.cityCode = builder.cityCode;
 	this.cityName = builder.cityName;
 	this.ufSend = builder.ufSend;
@@ -471,8 +468,8 @@ public class Identification {
 	return this.emissionProcessVersion;
     }
     
-    public String getAccessKey() {
-	return this.accessKey;
+    public String getRefAccessKey() {
+	return this.refAccessKey;
     }
     
     public String getCityCode() {

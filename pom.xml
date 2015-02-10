@@ -16,6 +16,7 @@
     </properties>
 
     <modules>
+        <module>commons</module>
         <module>transmissor</module>
         <module>signer</module>
         <module>nfe</module>
@@ -24,6 +25,31 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>signer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>transmissor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.1</version>
+            </dependency>
             <dependency>
                 <groupId>br.com.caelum.stella</groupId>
                 <artifactId>caelum-stella-core</artifactId>
@@ -49,6 +75,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

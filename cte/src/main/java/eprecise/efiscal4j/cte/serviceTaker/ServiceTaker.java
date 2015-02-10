@@ -59,6 +59,10 @@ public abstract class ServiceTaker implements Serializable {
 	
     }
     
+    public ServiceTaker() {
+	this.value = null;
+    }
+    
     public ServiceTaker(String value) {
 	this.value = value;
     }

@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.tax.pis.PISAdapter;
-import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**
