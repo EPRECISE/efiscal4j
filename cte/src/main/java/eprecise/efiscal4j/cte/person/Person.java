@@ -3,14 +3,18 @@ package eprecise.efiscal4j.cte.person;
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.cte.address.Address;
-import eprecise.efiscal4j.cte.types.TypeEmail;
-import eprecise.efiscal4j.cte.types.TypeFone;
+import eprecise.efiscal4j.cte.address.AddressGeneral;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = { "cpf", "cnpj", "ie", "name" })
 public abstract class Person implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -23,20 +27,12 @@ public abstract class Person implements Serializable {
     
     private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String name;
     
-    private final @XmlElement(name = "fone") @TypeFone String fone;
-    
-    private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
-    
     @SuppressWarnings("unchecked")
     public abstract static class Builder<T extends Builder<?>> {
 	
 	private AbstractDocuments documents;
 	
 	private String name;
-	
-	private String fone;
-	
-	private String email;
 	
 	T withDocuments(AbstractDocuments documents) {
 	    this.documents = documents;
@@ -56,17 +52,7 @@ public abstract class Person implements Serializable {
 	    return (T) this;
 	}
 	
-	public T withFone(String fone) {
-	    this.fone = fone;
-	    return (T) this;
-	}
-	
-	public abstract T withAddress(Address address);
-	
-	public T withEmail(String email) {
-	    this.email = email;
-	    return (T) this;
-	}
+	public abstract T withAddress(AddressGeneral address);
 	
 	public abstract Person build();
 	
@@ -77,8 +63,7 @@ public abstract class Person implements Serializable {
 	this.cpf = null;
 	this.ie = null;
 	this.name = null;
-	this.fone = null;
-	this.email = null;
+	
     }
     
     public Person(Builder<?> builder) {
@@ -90,7 +75,7 @@ public abstract class Person implements Serializable {
 	} else if (builder.documents instanceof NaturalPersonDocuments) {
 	    final NaturalPersonDocuments naturalPersonDocuments = (NaturalPersonDocuments) builder.documents;
 	    this.cpf = naturalPersonDocuments.getCpf();
-	    this.ie = null;
+	    this.ie = naturalPersonDocuments.getIe();
 	    this.cnpj = null;
 	} else {
 	    this.cnpj = null;
@@ -98,8 +83,7 @@ public abstract class Person implements Serializable {
 	    this.ie = null;
 	}
 	this.name = builder.name;
-	this.fone = builder.fone;
-	this.email = builder.email;
+	
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -107,7 +91,7 @@ public abstract class Person implements Serializable {
 	if (this.isLegalEntity()) {
 	    return new LegalEntityDocuments(new LegalEntityDocuments.Builder(null).withCNPJ(this.cnpj).withIE(this.ie));
 	} else if (this.isNaturalPerson()) {
-	    return new NaturalPersonDocuments(new NaturalPersonDocuments.Builder(null).withCPF(this.cpf));
+	    return new NaturalPersonDocuments(new NaturalPersonDocuments.Builder(null).withCPF(this.cpf).withIE(this.ie));
 	} else {
 	    return null;
 	}
@@ -129,14 +113,6 @@ public abstract class Person implements Serializable {
 	return this.name;
     }
     
-    public String getFone() {
-	return this.fone;
-    }
-    
     public abstract Address getAddress();
-    
-    public String getEmail() {
-	return this.email;
-    }
     
 }

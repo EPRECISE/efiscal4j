@@ -30,7 +30,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{0,14}|ISENTO")
+@Pattern(regexp = "ISENTO|[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?")
 public @interface StateRegistration {
     String message() default "Viola restrição -";
     

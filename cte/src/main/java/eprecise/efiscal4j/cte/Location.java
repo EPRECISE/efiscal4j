@@ -3,6 +3,8 @@ package eprecise.efiscal4j.cte;
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.cte.address.UF;
@@ -13,6 +15,7 @@ import eprecise.efiscal4j.cte.types.FormatCPF;
 /**
  * @author carlos gomes
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Location implements Serializable {
     
     private static final long serialVersionUID = 1L;

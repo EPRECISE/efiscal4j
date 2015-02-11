@@ -78,7 +78,7 @@ public class Identification {
     
     private final @XmlElement(name = "UFIni") String ufBeginInstallment;
     
-    private final @XmlElement(name = "cMunFim") @Code String codeEndInstallment;
+    private final @XmlElement(name = "cMunFim") @Code String codeCityEndInstallment;
     
     private final @XmlElement(name = "xMunFim") @Size(min = 1, max = 60) String nameCityEndInstallment;
     
@@ -101,7 +101,7 @@ public class Identification {
     
     private final @XmlElement(name = "dhCont") @FormatDate String contingency;
     
-    private final @XmlElement(name = "dhCont") @Size(min = 15, max = 256) String justificationContingency;
+    private final @XmlElement(name = "xJust") @Size(min = 15, max = 256) String justificationContingency;
     
     public static class Builder {
 	
@@ -153,7 +153,7 @@ public class Identification {
 	
 	private String ufBeginInstallment;
 	
-	private String codeEndInstallment;
+	private String codeCityEndInstallment;
 	
 	private String nameCityEndInstallment;
 	
@@ -289,8 +289,8 @@ public class Identification {
 	    return this;
 	}
 	
-	public Builder withCodeEndInstallment(String codeEndInstallment) {
-	    this.codeEndInstallment = codeEndInstallment;
+	public Builder withCodeCityEndInstallment(String codeCityEndInstallment) {
+	    this.codeCityEndInstallment = codeCityEndInstallment;
 	    return this;
 	}
 	
@@ -359,7 +359,7 @@ public class Identification {
 	this.codeCityBeginInstallment = null;
 	this.nameCityBeginInstallment = null;
 	this.ufBeginInstallment = null;
-	this.codeEndInstallment = null;
+	this.codeCityEndInstallment = null;
 	this.nameCityEndInstallment = null;
 	this.ufEndInstallment = null;
 	this.indicatorWithdrawal = null;
@@ -394,7 +394,7 @@ public class Identification {
 	this.codeCityBeginInstallment = builder.codeCityBeginInstallment;
 	this.nameCityBeginInstallment = builder.nameCityBeginInstallment;
 	this.ufBeginInstallment = builder.ufBeginInstallment;
-	this.codeEndInstallment = builder.codeEndInstallment;
+	this.codeCityEndInstallment = builder.codeCityEndInstallment;
 	this.nameCityEndInstallment = builder.nameCityEndInstallment;
 	this.ufEndInstallment = builder.ufEndInstallment;
 	this.indicatorWithdrawal = builder.indicatorWithdrawal;
@@ -504,8 +504,8 @@ public class Identification {
 	return this.ufBeginInstallment == null || this.ufBeginInstallment.isEmpty() ? null : UF.valueOf(this.ufBeginInstallment);
     }
     
-    public String getCodeEndInstallment() {
-	return this.codeEndInstallment;
+    public String getCodeCityEndInstallment() {
+	return this.codeCityEndInstallment;
     }
     
     public String getNameCityEndInstallment() {

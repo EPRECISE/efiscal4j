@@ -6,9 +6,12 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.cte.Location;
-import eprecise.efiscal4j.cte.address.Address;
+import eprecise.efiscal4j.cte.address.AddressGeneral;
+import eprecise.efiscal4j.cte.types.TypeEmail;
+import eprecise.efiscal4j.cte.types.TypeFone;
 
 /**
  * 
@@ -17,13 +20,18 @@ import eprecise.efiscal4j.cte.address.Address;
  * @author carlos gomes
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = { "fantasyName", "fone", "address", "email", "locationCollection" })
 public class Sender extends Person implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final @XmlElement(name = "enderReme") Address address;
-    
     private final @XmlElement(name = "xFant") @Size(min = 1, max = 60) String fantasyName;
+    
+    private final @XmlElement(name = "fone") @TypeFone String fone;
+    
+    private final @XmlElement(name = "enderReme") AddressGeneral address;
+    
+    private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
     
     private final @XmlElement(name = "locColeta") Location locationCollection;
     
@@ -31,9 +39,13 @@ public class Sender extends Person implements Serializable {
 	
 	private Location locationCollection;
 	
-	private Address address;
+	private AddressGeneral address;
 	
 	private String fantasyName;
+	
+	private String fone;
+	
+	private String email;
 	
 	public Builder withLocationCollection(Location locationCollection) {
 	    this.locationCollection = locationCollection;
@@ -46,8 +58,18 @@ public class Sender extends Person implements Serializable {
 	}
 	
 	@Override
-	public Builder withAddress(Address address) {
+	public Builder withAddress(AddressGeneral address) {
 	    this.address = address;
+	    return this;
+	}
+	
+	public Builder withFone(String fone) {
+	    this.fone = fone;
+	    return this;
+	}
+	
+	public Builder withEmail(String email) {
+	    this.email = email;
 	    return this;
 	}
 	
@@ -63,6 +85,8 @@ public class Sender extends Person implements Serializable {
 	this.address = null;
 	this.locationCollection = null;
 	this.fantasyName = null;
+	this.fone = null;
+	this.email = null;
     }
     
     public Sender(Builder builder) {
@@ -70,6 +94,8 @@ public class Sender extends Person implements Serializable {
 	this.address = builder.address;
 	this.locationCollection = builder.locationCollection;
 	this.fantasyName = builder.fantasyName;
+	this.fone = builder.fone;
+	this.email = builder.email;
     }
     
     public Location getLocationCollection() {
@@ -77,12 +103,20 @@ public class Sender extends Person implements Serializable {
     }
     
     @Override
-    public Address getAddress() {
+    public AddressGeneral getAddress() {
 	return this.address;
     }
     
     public String getFantasyName() {
 	return this.fantasyName;
+    }
+    
+    public String getFone() {
+	return this.fone;
+    }
+    
+    public String getEmail() {
+	return this.email;
     }
     
 }

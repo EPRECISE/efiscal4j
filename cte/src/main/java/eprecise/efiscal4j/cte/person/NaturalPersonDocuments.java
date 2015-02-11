@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import br.com.caelum.stella.bean.validation.CPF;
 import eprecise.efiscal4j.cte.types.FormatCPF;
+import eprecise.efiscal4j.cte.types.StateRegistration;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NaturalPersonDocuments extends AbstractDocuments {
@@ -19,9 +20,12 @@ public class NaturalPersonDocuments extends AbstractDocuments {
     
     private @XmlElement(name = "CPF") @NotNull @Size(max = 11) @CPF(formatted = false) @FormatCPF final String cpf;
     
+    private final @XmlElement(name = "IE") @StateRegistration String ie;
+    
     public static class Builder<J extends Person.Builder<?>> extends AbstractDocuments.Builder<Builder<J>, J> {
 	
 	private String cpf;
+	private String ie;
 	
 	public Builder(J personBuilder) {
 	    super(personBuilder);
@@ -29,6 +33,11 @@ public class NaturalPersonDocuments extends AbstractDocuments {
 	
 	public Builder<J> withCPF(String cpf) {
 	    this.cpf = cpf;
+	    return this;
+	}
+	
+	public Builder<J> withIE(String ie) {
+	    this.ie = ie;
 	    return this;
 	}
 	
@@ -42,28 +51,35 @@ public class NaturalPersonDocuments extends AbstractDocuments {
     
     public NaturalPersonDocuments() {
 	this.cpf = null;
+	this.ie = null;
     }
     
     public NaturalPersonDocuments(Builder<?> builder) {
 	this.cpf = builder.cpf;
+	this.ie = builder.ie;
     }
     
     public String getCpf() {
 	return this.cpf;
+	
+    }
+    
+    public String getIe() {
+	return this.ie;
     }
     
     @Override
     public boolean equals(Object object) {
 	if (object instanceof NaturalPersonDocuments) {
 	    final NaturalPersonDocuments another = (NaturalPersonDocuments) object;
-	    return new EqualsBuilder().append(this.cpf, another.cpf).isEquals();
+	    return new EqualsBuilder().append(this.cpf, another.cpf).append(this.ie, another.ie).isEquals();
 	}
 	return false;
     }
     
     @Override
     public int hashCode() {
-	return new HashCodeBuilder().append(this.cpf).toHashCode();
+	return new HashCodeBuilder().append(this.cpf).append(this.ie).toHashCode();
     }
     
 }
