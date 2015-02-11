@@ -28,11 +28,14 @@ import eprecise.efiscal4j.nfe.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.tax.ReturnedIPI;
 import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
+import eprecise.efiscal4j.nfe.tax.cofins.COFINS;
+import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.tax.pis.PIS;
+import eprecise.efiscal4j.nfe.tax.pis.PISST;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
@@ -71,7 +74,7 @@ public class NFeInfoTest {
 							 .withTax(
 								 new Tax.Builder()
 								 //ICMS00
-//								.withMainTax(new ICMS.Builder()
+//								.withIcms(new ICMS.Builder()
 //                                            .fromCode(ICMS.CST_00)
 //                                            .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -80,7 +83,7 @@ public class NFeInfoTest {
 //                                            .withIcmsValue("10.00")
 //                                            .build())
 								 //ICMS10
-//							    .withMainTax(new ICMS.Builder()
+//							    .withIcms(new ICMS.Builder()
 //                                            .fromCode(ICMS.CST_10)
 //                                            .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -95,7 +98,7 @@ public class NFeInfoTest {
 //                                            .withIcmsStValue("10.00")
 //                                            .build())
 								 //ICMS20
-//							    .withMainTax(new ICMS.Builder()
+//							    .withIcms(new ICMS.Builder()
 //                                            .fromCode(ICMS.CST_20)
 //                                            .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -107,7 +110,7 @@ public class NFeInfoTest {
 //                                            .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
 //                                            .build())    
 								 //ICMS30
-//							    .withMainTax(new ICMS.Builder()
+//							    .withIcms(new ICMS.Builder()
 //                                            .fromCode(ICMS.CST_30)
 //                                            .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
@@ -120,14 +123,14 @@ public class NFeInfoTest {
 //                                            .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)                                            
 //                                            .build())			
 								 //ICMS40, ICMS41, ICMS50
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CST_50)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //	                                            .withIcmsDesonerationValue("2")
 //	                                            .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
 //	                                            .build())
 								 //ICMS51
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CST_51)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //                                                .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -140,14 +143,14 @@ public class NFeInfoTest {
 //	                                            .withIcmsValue("10.00")	                                                                                      
 //	                                            .build())
 								 //ICMS60
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CST_60)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //                                                .withBcRetainedValueST("2.00")
 //                                                .withIcmsRetainedValueST("1")
 //	                                            .build())
 								 //ICMS70
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CST_70)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)
 //	                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -165,7 +168,7 @@ public class NFeInfoTest {
 //	                                            .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)	                                            
 //	                                            .build())
 								 //ICMS90
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CST_90)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)
 //	                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -183,7 +186,7 @@ public class NFeInfoTest {
 //	                                            .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)	                                            
 //	                                            .build())
 								 //ICMSPart10 e ICMSPart90 
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.PART_CST_90)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)
 //	                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
@@ -201,7 +204,7 @@ public class NFeInfoTest {
 //	                                            .withUfST(UF.PR)	                                            
 //	                                            .build())
 								 //ICMSST
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.ST_CST_41)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //                                                .withBcRetainedValueST("2.00")
@@ -210,19 +213,19 @@ public class NFeInfoTest {
 //                                                .withIcmsStDestination("3.00")                                                
 //	                                            .build())
 								 //ICMSSN101
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CSOSN_101)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //                                                .withCreditSnAliquot("10.00")
 //                                                .withCreditSnIcmsValue("100.00")
 //	                                            .build())
 								 //ICMSSN102, ICMSSN103, ICMSSN300 e ICMSSN400
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CSOSN_400)
 //	                                            .withOrigin(ProductOrigin.ESTRANGEIRA_IMPORTADA)	                                                                                       
 //	                                            .build())
 								 //ICMSSN201 
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CSOSN_201)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)
 //	                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
@@ -235,7 +238,7 @@ public class NFeInfoTest {
 //                                              .withCreditSnIcmsValue("100.00")                                            
 //	                                            .build())
 								 //ICMSSN202, ICMSSN203 
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CSOSN_203)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)
 //	                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
@@ -246,50 +249,87 @@ public class NFeInfoTest {
 //	                                            .withIcmsStValue("10.00")                                            
 //	                                            .build())
 								 //ICMSSN500
-//								    .withMainTax(new ICMS.Builder()
+//								    .withIcms(new ICMS.Builder()
 //	                                            .fromCode(ICMS.CSOSN_500)
 //	                                            .withOrigin(ProductOrigin.NACIONAL)	                                                                                       
 //                                                .withBcRetainedValueST("2.00")
 //                                                .withIcmsRetainedValueST("1")
 //	                                            .build())
 								 //ICMSSN900
-								    .withMainTax(new ICMS.Builder()
-	                                            .fromCode(ICMS.CSOSN_900)
-	                                            .withOrigin(ProductOrigin.NACIONAL)
-	                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
-	                                            .withBcReductionPercent("2")
-	                                            .withBcValue("10.00")
-	                                            .withIcmsAliquot("1.00")
-	                                            .withIcmsValue("10.00")
-	                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
-	                                            .withValueMarginAddedStPercent("10.00")
-	                                            .withBcReductionStPercent("1.00")
-	                                            .withBcValueST("10.00")
-	                                            .withIcmsStAliquot("1.00")
-	                                            .withIcmsStValue("10.00")
-                                                .withCreditSnAliquot("10.00")
-                                                .withCreditSnIcmsValue("100.00")	                                            
-	                                            .build())
+								    .withIcms(new ICMS.Builder()
+                                            .fromCode(ICMS.CSOSN_900)
+                                            .withOrigin(ProductOrigin.NACIONAL)
+                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
+                                            .withBcReductionPercent("2")
+                                            .withBcValue("10.00")
+                                            .withIcmsAliquot("1.00")
+                                            .withIcmsValue("10.00")
+                                            .withBcModalityST(BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO)
+                                            .withValueMarginAddedStPercent("10.00")
+                                            .withBcReductionStPercent("1.00")
+                                            .withBcValueST("10.00")
+                                            .withIcmsStAliquot("1.00")
+                                            .withIcmsStValue("10.00")
+                                            .withCreditSnAliquot("10.00")
+                                            .withCreditSnIcmsValue("100.00")                                                
+                                            .build())
+								    
                                  //PIS01, PIS02      
-//                                    .withFederalTax(new PIS.Builder()
+//                                    .withPis(new PIS.Builder()
 //                                                .fromCode(PIS.CST_01)
 //                                                .withBcValue("10.00")
 //                                                .withPisAliquot("10")
 //                                                .withPisValue("1")                                                
 //                                                .build())
                                  //PIS03      
-//                                    .withFederalTax(new PIS.Builder()
-//                                                .fromCode(PIS.CST_03)
-//                                                .withProductQuantity("3.00")
-//                                                .withProductAliquot("10")
-//                                                .withPisValue("1")                                                
-//                                                .build())
+                                    .withPis(new PIS.Builder()
+                                                .fromCode(PIS.CST_03)
+                                                .withProductQuantity("3.00")
+                                                .withProductAliquot("10")
+                                                .withPisValue("1")                                                
+                                                .build())
                                  //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
-//                                    .withFederalTax(new PIS.Builder()
+//                                    .withPis(new PIS.Builder()
 //                                                .fromCode(PIS.CST_09)                                                
 //                                                .build())
                                  //PIS49, PIS50, PIS51, PIS52, PIS53, PIS54, PIS55, PIS56, PIS60, PIS61, PIS62, PIS63, PIS64, PIS65, PIS66, PIS67, PIS70, PIS71, PIS72, PIS73, PIS74, PIS75, PIS98, PIS99
-//                                    .withFederalTax(new PIS.Builder()
+//                                    .withPis(new PIS.Builder()
+//                                                .fromCode(PIS.CST_74)
+////                                                .withProductQuantity("3.00")
+////                                                .withProductAliquot("5.00")
+//                                                .withBcValue("4")
+//                                                .withPisAliquot("5")
+//                                                .withPisValue("3")
+//                                                .build())
+                                 //PISST
+                                    .withPisSt(new PISST.Builder()                                                
+//                                                .withProductQuantity("3")
+//                                                .withProductAliquot("5")
+                                                .withBcValue("4")
+                                                .withPisAliquot("5")
+                                                .withPisValue("3")
+                                                .build())
+                                               
+                                 //COFINS01, COFINS02      
+                                    .withCofins(new COFINS.Builder()
+                                                .fromCode(COFINS.CST_02)
+                                                .withBcValue("10.00")
+                                                .withCofinsAliquot("10")
+                                                .withCofinsValue("1")                                                
+                                                .build())
+                                 //COFINS03      
+//                                    .withCofins(new COFINS.Builder()
+//                                                .fromCode(COFINS.CST_03)
+//                                                .withProductQuantity("3.00")
+//                                                .withProductAliquot("10")
+//                                                .withCofinsValue("1")                                                
+//                                                .build())
+                                 //COFINS04, COFINS05, COFINS06, COFINS07, COFINS08, COFINS09
+//                                    .withCofins(new COFINS.Builder()
+//                                                .fromCode(COFINS.CST_08)                                                
+//                                                .build())
+                                 //COFINS49, COFINS50, COFINS51, COFINS52, COFINS53, COFINS54, COFINS55, COFINS56, COFINS60, COFINS61, COFINS62, COFINS63, COFINS64, COFINS65, COFINS66, COFINS67, COFINS70, COFINS71, COFINS72, COFINS73, COFINS74, COFINS75, COFINS98, COFINS99
+//                                    .withCofins(new PIS.Builder()
 //                                                .fromCode(PIS.CST_74)
 //                                                .withProductQuantity("3.00")
 //                                                .withProductAliquot("5.00")
@@ -297,15 +337,14 @@ public class NFeInfoTest {
 //                                                .withPisAliquot("5")
 //                                                .withPisValue("3")
 //                                                .build())
-                                 //PISST
-                                    .withFederalTax(new PIS.Builder()
-                                                .fromCode(PIS.ST)
+                                 //COFINSST
+                                    .withCofinsSt(new COFINSST.Builder()                                                
 //                                                .withProductQuantity("3")
 //                                                .withProductAliquot("5")
                                                 .withBcValue("4")
-                                                .withPisAliquot("5")
-                                                .withPisValue("3")
-                                                .build())
+                                                .withCofinsAliquot("5")
+                                                .withCofinsValue("3")
+                                                .build())                                                
 								.build())
 							 .withReturnedTax(new ReturnedTax.Builder()
 							                 .withReturnedProductPerc("70")

@@ -20,11 +20,10 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
 /**
  * Dados do PIS Substituição Tributária
  * 
- * @see PIS
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class PISST extends PIS implements Serializable, BasePISOtherStandard {
+public class PISST implements Serializable, BasePISOtherStandard {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +37,7 @@ class PISST extends PIS implements Serializable, BasePISOtherStandard {
 
     private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
 
-    public static class Builder implements PISBuilder {
+    public static class Builder {
 
         private String bcValue;
 
@@ -105,7 +104,6 @@ class PISST extends PIS implements Serializable, BasePISOtherStandard {
             return this;
         }
 
-        @Override
         public PISST build() {
             final PISST entity = new PISST(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();

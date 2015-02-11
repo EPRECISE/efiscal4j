@@ -22,7 +22,7 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
 
     @Override
     public AdaptedPIS marshal(PIS v) throws Exception {
-        return new AdaptedPIS(v);
+        return (v == null ? null : new AdaptedPIS(v));
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -63,7 +63,6 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
                 @XmlElement(name = "PISOutr", type = PIS75.class),
                 @XmlElement(name = "PISOutr", type = PIS98.class),
                 @XmlElement(name = "PISOutr", type = PIS99.class),
-                @XmlElement(name = "PISST", type = PISST.class),
                 }) 
         // @formatter:on
         private final PIS pis;

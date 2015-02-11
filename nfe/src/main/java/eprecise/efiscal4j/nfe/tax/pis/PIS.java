@@ -185,11 +185,6 @@ public abstract class PIS extends FederalTax implements Serializable {
      */
     public static Class<PIS99.Builder> CST_99 = PIS99.Builder.class;
 
-    /**
-     * @see PISST
-     */
-    public static Class<PISST.Builder> ST = PISST.Builder.class;
-
     public static class Builder {
 
         public <T extends PISBuilder> T fromCode(Class<T> pisCode) {
