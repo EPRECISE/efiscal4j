@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.validation;
+package eprecise.efiscal4j.nfe.transport.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

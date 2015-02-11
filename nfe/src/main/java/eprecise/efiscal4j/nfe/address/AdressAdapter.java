@@ -12,42 +12,40 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
     @Override
     public Address unmarshal(AdaptedAdress adaptedAdress) throws Exception {
         //@formatter:off
-        Address adress = new Address.Builder()
-                            .withStreet(adaptedAdress.getStreet())
-                            .withNumber(adaptedAdress.getNumber())
-                            .withComplement(adaptedAdress.getComplement())
-                            .withDistrict(adaptedAdress.getDistrict())
-                            .withCep(adaptedAdress.getCep())
-                            .withCity(new City.Builder()
-                                          .withCountry(new Country.Builder()
-                                                           .withIbgeCode(adaptedAdress.getCountryIbgeCode())
-                                                           .withDescription(adaptedAdress.getCountryDescription())
-                                                           .build())
-                                          .withIbgeCode(adaptedAdress.getCityIbgeCode())
-                                          .withDescription(adaptedAdress.getCityDescription())
-                                          .withUF(UF.findByAcronym(adaptedAdress.getUf()))
-                                          .build())
-                            .build();
-        //@formatter:on
-        return adress;
+        return new Address.Builder()
+                   .withStreet(adaptedAdress.getStreet())
+                   .withNumber(adaptedAdress.getNumber())
+                   .withComplement(adaptedAdress.getComplement())
+                   .withDistrict(adaptedAdress.getDistrict())
+                   .withCep(adaptedAdress.getCep())
+                   .withCity(new City.Builder()
+                                 .withCountry(new Country.Builder()
+                                                  .withIbgeCode(adaptedAdress.getCountryIbgeCode())
+                                                  .withDescription(adaptedAdress.getCountryDescription())
+                                                  .build())
+                                 .withIbgeCode(adaptedAdress.getCityIbgeCode())
+                                 .withDescription(adaptedAdress.getCityDescription())
+                                 .withUF(UF.findByAcronym(adaptedAdress.getUf()))
+                                 .build())
+                   .build();
+        //@formatter:on       
     }
 
     @Override
     public AdaptedAdress marshal(Address adress) throws Exception {
         //@formatter:off
-        AdaptedAdress adaptedAdress = new AdaptedAdress(adress.getStreet()
-                                                      , adress.getNumber()
-                                                      , adress.getComplement()
-                                                      , adress.getDistrict()
-                                                      , adress.getCep()
-                                                      , adress.getCity().getIbgeCode()
-                                                      , adress.getCity().getDescription()
-                                                      , adress.getCity().getUf().getAcronym()
-                                                      , adress.getCity().getCountry().getIbgeCode()
-                                                      , adress.getCity().getCountry().getDescription()
-                                                      , adress.getPhone());
+        return new AdaptedAdress(adress.getStreet()
+                               , adress.getNumber()
+                               , adress.getComplement()
+                               , adress.getDistrict()
+                               , adress.getCep()
+                               , adress.getCity().getIbgeCode()
+                               , adress.getCity().getDescription()
+                               , adress.getCity().getUf().getAcronym()
+                               , adress.getCity().getCountry().getIbgeCode()
+                               , adress.getCity().getCountry().getDescription()
+                               , adress.getPhone());
         //@formatter:on        
-        return adaptedAdress;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
