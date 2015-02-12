@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cteProc
+    xmlns="http://www.portalfiscal.inf.br/cte"
+    versao="2.00">
+    <CTe xmlns="http://www.portalfiscal.inf.br/cte">
+        <infCte
+            versao="2.00"
+            Id="CTe35150276302157001296570010002051661000280580">
+            <ide>
+                <cUF>35</cUF>
+                <cCT>00028058</cCT>
+                <CFOP>5353</CFOP>
+                <natOp>ESTABELECIMENTO COMERCIAL D\ESTADO</natOp>
+                <forPag>0</forPag>
+                <mod>57</mod>
+                <serie>1</serie>
+                <nCT>205166</nCT>
+                <dhEmi>2015-02-10T20:10:59</dhEmi>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>0</cDV>
+                <tpAmb>1</tpAmb>
+                <tpCTe>0</tpCTe>
+                <procEmi>0</procEmi>
+                <verProc>Maxys CT-e</verProc>
+                <cMunEnv>3504008</cMunEnv>
+                <xMunEnv>ASSIS</xMunEnv>
+                <UFEnv>SP</UFEnv>
+                <modal>01</modal>
+                <tpServ>0</tpServ>
+                <cMunIni>3553856</cMunIni>
+                <xMunIni>TAQUARIVAI</xMunIni>
+                <UFIni>SP</UFIni>
+                <cMunFim>3518701</cMunFim>
+                <xMunFim>GUARUJA</xMunFim>
+                <UFFim>SP</UFFim>
+                <retira>1</retira>
+                <toma03>
+                    <toma>0</toma>
+                </toma03>
+            </ide>
+            <compl>
+                <xObs>ICMS ISENTO ART. 149 ANEXO I ART. 8. RICMS/SP // ESTADIA APOS 24H COM RET DE 12H R$ 0,45 COM CALCULO E LIBERACAO DA
+                    FILIAL EMITENTE - MOTORISTA SE COMPROMENTE A CHEGAR NA JANELA DE TOLERANCIA DO AGENDAMENTO CASO ISSO NAO OCORRA QUALQUER
+                    TIPO DE MULTA SERA POR CONTA DO MESMO E NAO DA TRANS</xObs>
+                <ObsCont xCampo="+ Proprietario">
+                    <xTexto>Servico subcontratado com: M. C. DE FREITAS TRANSPORTES, CPF/CNPJ prop.: 08.652.002/0001-77</xTexto>
+                </ObsCont>
+                <ObsCont xCampo="+ Extras Prop.">
+                    <xTexto>Munic. prop.: ITAPEVA - SP, RNTRC prop.: 12060222</xTexto>
+                </ObsCont>
+                <ObsCont xCampo="+ Motorista">
+                    <xTexto>Motorista: JEFERSON MENIN, CPF do motorista: 287.825.878-92</xTexto>
+                </ObsCont>
+                <ObsCont xCampo="+ Extras Mot.">
+                    <xTexto>Munic. motorista: ITAPEVA - SP, CNH motorista: 00783994735</xTexto>
+                </ObsCont>
+                <ObsCont xCampo="Veiculos">
+                    <xTexto>ASD4580 - AJF4991 - AJF4979</xTexto>
+                </ObsCont>
+                <ObsCont xCampo="Vl. Merc. Seg">
+                    <xTexto>57985,54</xTexto>
+                </ObsCont>
+            </compl>
+            <emit>
+                <CNPJ>76302157001296</CNPJ>
+                <IE>189060505113</IE>
+                <xNome>TRANSPORTES RODOVIARIOS VALE DO PIQUIRI LTDA</xNome>
+                <xFant>TRANSVALE</xFant>
+                <enderEmit>
+                    <xLgr>RODOVIA MIGUEL JUBRAN SP</xLgr>
+                    <nro>0</nro>
+                    <xBairro>ZONA RURAL</xBairro>
+                    <cMun>3504008</cMun>
+                    <xMun>ASSIS</xMun>
+                    <CEP>19805000</CEP>
+                    <UF>SP</UF>
+                    <fone>1833241084</fone>
+                </enderEmit>
+            </emit>
+            <rem>
+                <CNPJ>76108349001185</CNPJ>
+                <IE>365004323111</IE>
+                <xNome>CASTROLANDA COOP AGROINDUSTRIAL LTDA</xNome>
+                <fone>1535626646</fone>
+                <enderReme>
+                    <xLgr>RODOVIA SP-258 KM-315</xLgr>
+                    <nro>315</nro>
+                    <xBairro>ITABERA</xBairro>
+                    <cMun>3521705</cMun>
+                    <xMun>ITABERA</xMun>
+                    <CEP>18440000</CEP>
+                    <UF>SP</UF>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                </enderReme>
+            </rem>
+            <exped>
+                <CNPJ>60906724000201</CNPJ>
+                <IE>763055003111</IE>
+                <xNome>COOPERATIVA AGRO INDL HOLAMBRA</xNome>
+                <fone>01535849090</fone>
+                <enderExped>
+                    <xLgr>RODOVIA FRANCISCO ALVES NEGRAO KM 264 + 358 MTS</xLgr>
+                    <nro>0</nro>
+                    <xBairro>ENG BACELAR</xBairro>
+                    <cMun>3553856</cMun>
+                    <xMun>TAQUARIVAI</xMun>
+                    <CEP>18425000</CEP>
+                    <UF>SP</UF>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                </enderExped>
+            </exped>
+            <dest>
+                <CNPJ>19441249000160</CNPJ>
+                <IE>335271217119</IE>
+                <xNome>CUTRALE TRADING BRASIL LTDA</xNome>
+                <fone>1333876161</fone>
+                <enderDest>
+                    <xLgr>AVENIDA SANTOS DUMONT</xLgr>
+                    <nro>4364</nro>
+                    <xBairro>CONCEICAOZINHA</xBairro>
+                    <cMun>3518701</cMun>
+                    <xMun>GUARUJA</xMun>
+                    <CEP>11460006</CEP>
+                    <UF>SP</UF>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                </enderDest>
+            </dest>
+            <vPrest>
+                <vTPrest>2096.90</vTPrest>
+                <vRec>2556.80</vRec>
+                <Comp>
+                    <xNome>FRETE PESO/VOL</xNome>
+                    <vComp>2096.90</vComp>
+                </Comp>
+                <Comp>
+                    <xNome>PEDAGIO</xNome>
+                    <vComp>459.90</vComp>
+                </Comp>
+                <Comp>
+                    <xNome>TARIFA EMPR.</xNome>
+                    <vComp>68.00</vComp>
+                </Comp>
+            </vPrest>
+            <imp>
+                <ICMS>
+                    <ICMS45>
+                        <CST>40</CST>
+                    </ICMS45>
+                </ICMS>
+            </imp>
+            <infCTeNorm>
+                <infCarga>
+                    <vCarga>47823.13</vCarga>
+                    <proPred>SOJA</proPred>
+                    <infQ>
+                        <cUnid>03</cUnid>
+                        <tpMed>GRANEL</tpMed>
+                        <qCarga>37600.0000</qCarga>
+                    </infQ>
+                    <infQ>
+                        <cUnid>01</cUnid>
+                        <tpMed>QUILOGRAMAS</tpMed>
+                        <qCarga>37600.0000</qCarga>
+                    </infQ>
+                </infCarga>
+                <infDoc>
+                    <infNFe>
+                        <chave>35150276108349001185550010000994561016499469</chave>
+                    </infNFe>
+                </infDoc>
+                <seg>
+                    <respSeg>4</respSeg>
+                    <xSeg>PAMCARY/MAPFRE</xSeg>
+                    <nApol>3836003509701</nApol>
+                    <vCarga>57985.54</vCarga>
+                </seg>
+                <infModal versaoModal="2.00">
+                    <rodo>
+                        <RNTRC>00014816</RNTRC>
+                        <dPrev>2015-02-11</dPrev>
+                        <lota>0</lota>
+                    </rodo>
+                </infModal>
+            </infCTeNorm>
+        </infCte>
+        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <SignedInfo>
+                <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+                <Reference URI="#CTe35150276302157001296570010002051661000280580">
+                    <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                        <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                    </Transforms>
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                    <DigestValue>wGYp6x1yW2ehlRpHKDhCLbHAa3c=</DigestValue>
+                </Reference>
+            </SignedInfo>
+            <SignatureValue>jnAcysSgZR/7t1ahgxM3HDLNKky42OZO1TnO8dn8hMi3SnMa2hI23gGDyKEZKxNeBTDV1nAQ4C/qRiiWZSUAzGZApC0Rditff8oe9Sa93n94JrmL5xzK8ObmFSKFw910ZC9EWF9YyZ7Z6nA6tQ053IZz9eRzGr2JwZBJEM7GyuDpdPzFnibxZXFmb3D8+ClclFHFHKQVy0rhtxVWQ2ObZRMtUPXXQSqG8PlJiiDNOrHxCwaS1prDO0iakDSD4Ats2ND/NFsdGBzX/h7EYzutQpc0dlwnNmf/o888bi3/YdSCFZbLS0SNlToopMUMI1FWjnKllb27UmyteU7OS3/yrQ==
+            </SignatureValue>
+            <KeyInfo>
+                <X509Data>
+                    <X509Certificate>MIIIUzCCBjugAwIBAgIQOpCH9ffduGrr+cjfj6k6oTANBgkqhkiG9w0BAQsFADB0MQswCQYDVQQGEwJCUjETMBEGA1UEChMKSUNQLUJyYXNpbDEtMCsGA1UECxMkQ2VydGlzaWduIENlcnRpZmljYWRvcmEgRGlnaXRhbCBTLkEuMSEwHwYDVQQDExhBQyBDZXJ0aXNpZ24gTXVsdGlwbGEgRzUwHhcNMTQwNjEzMDAwMDAwWhcNMTUwNjEyMjM1OTU5WjCB4TELMAkGA1UEBhMCQlIxEzARBgNVBAoUCklDUC1CcmFzaWwxIjAgBgNVBAsUGUF1dGVudGljYWRvIHBvciBBUiBGQUNJQVAxGzAZBgNVBAsUEkFzc2luYXR1cmEgVGlwbyBBMTEVMBMGA1UECxQMSUQgLSA2NDM0MDQzMTUwMwYDVQQDEyxUUkFOU1BPUlRFUyBST0RPVklBUklPUyBWQUxFIERPIFBJUVVJUkkgTFREQTEuMCwGCSqGSIb3DQEJARYfZ2lvdmFuaS5iZW5kZXJAdHJhbnN2YWxlLmNvbS5icjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKaVrZaOI83XI1vyoafLZ9PZ1NidDzV5N1+DmnBE2N2APyg1ZCU/b2voaJZe5SP90zBhBtDErYFDG5mqJffi+oAb6J0nqrIT/OYjBHOpw2aF8zQg63lEb9DeUBAFhX+cxKQfCYroyS7qqiHK1uHkhx1NWxeDJGixNMtWOZ/3K8OnKDS5NxwsAbXi22PbpSDSUYtof6J3HilNfcL/PvdDzLsZ0NJI88PF2gRau0rzMhRzCjgZ2LAlrAXX9zHM3l6dDE4RkIHIHMDzGKv9NbcCQ2lBcKW+F16wmjUsLf2FQw39YW/lR626UZmW/2R5TcfQQ8/YB+Ma5FcwbVlHtHQQQHUCAwEAAaOCA3EwggNtMIG3BgNVHREEga8wgaygOAYFYEwBAwSgLwQtMjQwOTE5NTUwMTY0NTQ5NjkyOTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwoBsGBWBMAQMCoBIEEFdBTkRBIElORVMgUklFREmgGQYFYEwBAwOgEAQONzYzMDIxNTcwMDAxMzOgFwYFYEwBAwegDgQMMDAwMDAwMDAwMDAwgR9naW92YW5pLmJlbmRlckB0cmFuc3ZhbGUuY29tLmJyMAkGA1UdEwQCMAAwHwYDVR0jBBgwFoAUnVDPvf8kyq+xM+sX4kJ6jmkqjlMwDgYDVR0PAQH/BAQDAgXgMIGJBgNVHSAEgYEwfzB9BgZgTAECAQswczBxBggrBgEFBQcCARZlaHR0cDovL2ljcC1icmFzaWwuY2VydGlzaWduLmNvbS5ici9yZXBvc2l0b3Jpby9kcGMvQUNfQ2VydGlzaWduX011bHRpcGxhL0RQQ19BQ19DZXJ0aVNpZ25NdWx0aXBsYS5wZGYwggElBgNVHR8EggEcMIIBGDBcoFqgWIZWaHR0cDovL2ljcC1icmFzaWwuY2VydGlzaWduLmNvbS5ici9yZXBvc2l0b3Jpby9sY3IvQUNDZXJ0aXNpZ25NdWx0aXBsYUc1L0xhdGVzdENSTC5jcmwwW6BZoFeGVWh0dHA6Ly9pY3AtYnJhc2lsLm91dHJhbGNyLmNvbS5ici9yZXBvc2l0b3Jpby9sY3IvQUNDZXJ0aXNpZ25NdWx0aXBsYUc1L0xhdGVzdENSTC5jcmwwW6BZoFeGVWh0dHA6Ly9yZXBvc2l0b3Jpby5pY3BicmFzaWwuZ292LmJyL2xjci9DZXJ0aXNpZ24vQUNDZXJ0aXNpZ25NdWx0aXBsYUc1L0xhdGVzdENSTC5jcmwwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMIGgBggrBgEFBQcBAQSBkzCBkDBkBggrBgEFBQcwAoZYaHR0cDovL2ljcC1icmFzaWwuY2VydGlzaWduLmNvbS5ici9yZXBvc2l0b3Jpby9jZXJ0aWZpY2Fkb3MvQUNfQ2VydGlzaWduX011bHRpcGxhX0c1LnA3YzAoBggrBgEFBQcwAYYcaHR0cDovL29jc3AuY2VydGlzaWduLmNvbS5icjANBgkqhkiG9w0BAQsFAAOCAgEAkZju0EFSCAfhJg6WEEKNi6rGHNlc3UeYqpjSzEHSJiVCS/ouVRpJKjyKzhHlCcwZQXZCGAu/6QYn0acij9uHFFH9zJVWR1lV0V+9HwBIFPGFk1YvBP4v8JlxqdIG/QavjFzrEcZkbtMnZC7JgsMHY4Q6MSS5erarZXgvdt1IX5MsXWPsFJvud8j9bCrNdcyqW38C/HR3KFYe67OyQeCTW8LRSmo3giupqpL3BwXspUcJyQ0XGw1sopCMAz14mKBKldAQLC2LTw8wDPh1DAI89Lo2nQHkCVrK6yyG2oaDF8EVK+LDay/QUhANlyCTI8lMMga1yWlXmDCvR42OVn2lyJXsXDs1jOeTEoI6AsKWYj51RZz0ynn/1BBaoyydvK9bAulxvkrk19IhIZdzbUT4YSOx9nnY4KS/dnR0qQYshFyB+RZr8yAUjS9X0ZRZLQWNXBxhCBTDM+Nb7t5jH10ApZu87BfLw2eOR17UAoZh4rmZEpt+8itdQsOz24vWpGmdjkGDsgAPvLGIBE2Xt1vvxqNOcxWtRsDlC/rkALu2/pL6Li9+RVfDUYVUT7hp3fRi75puYSbNb+Ty3AZXmvvur4QbO2njc5e1iqjdRJrhpvStmnOtGw0hu2ThMItrSr6mgewYXJ3Hr5iKsLHzTh/yjA4utapDRaNe8RCiFVFFEn8=
+                    </X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </Signature>
+    </CTe>
+    <protCTe
+        xmlns="http://www.portalfiscal.inf.br/cte"
+        versao="2.00">
+        <infProt>
+            <tpAmb>1</tpAmb>
+            <verAplic>SP-CTe-13-01-2015</verAplic>
+            <chCTe>35150276302157001296570010002051661000280580</chCTe>
+            <dhRecbto>2015-02-10T20:11:06</dhRecbto>
+            <nProt>135150478724355</nProt>
+            <digVal>wGYp6x1yW2ehlRpHKDhCLbHAa3c=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso do CT-e</xMotivo>
+        </infProt>
+    </protCTe>
+</cteProc>

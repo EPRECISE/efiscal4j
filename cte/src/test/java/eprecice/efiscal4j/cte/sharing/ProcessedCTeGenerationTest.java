@@ -1,4 +1,4 @@
-package eprecise.efiscal4j.cte;
+package eprecice.efiscal4j.cte.sharing;
 
 import java.io.IOException;
 
@@ -14,6 +14,21 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
+import eprecise.efiscal4j.cte.CTe;
+import eprecise.efiscal4j.cte.CTeEmissionForm;
+import eprecise.efiscal4j.cte.CTeInfo;
+import eprecise.efiscal4j.cte.CTeType;
+import eprecise.efiscal4j.cte.Emitter;
+import eprecise.efiscal4j.cte.Identification;
+import eprecise.efiscal4j.cte.IdentifierEmission;
+import eprecise.efiscal4j.cte.IndicatorWithdrawal;
+import eprecise.efiscal4j.cte.InstallmentValueComponent;
+import eprecise.efiscal4j.cte.Location;
+import eprecise.efiscal4j.cte.Modal;
+import eprecise.efiscal4j.cte.PrintFormatDACTE;
+import eprecise.efiscal4j.cte.TypeEnvironment;
+import eprecise.efiscal4j.cte.TypeService;
+import eprecise.efiscal4j.cte.ValuesServiceDelivery;
 import eprecise.efiscal4j.cte.address.AddressEmitter;
 import eprecise.efiscal4j.cte.address.AddressGeneral;
 import eprecise.efiscal4j.cte.address.UF;
@@ -23,14 +38,17 @@ import eprecise.efiscal4j.cte.person.Receiver;
 import eprecise.efiscal4j.cte.person.Sender;
 import eprecise.efiscal4j.cte.person.Shipper;
 import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
+import eprecise.efiscal4j.cte.sharing.ProcessedCTe;
+import eprecise.efiscal4j.cte.sharing.StatusProtocolData;
+import eprecise.efiscal4j.cte.sharing.TypeStatusProtocol;
 
-public class CTeGenerationTest {
+public class ProcessedCTeGenerationTest {
     
     @Test
     public void validateByBeanValidation() {
-	final CTe cte = this.buildCTe();
+	final ProcessedCTe processedCTe = this.buildProcessedCTe();
 	try {
-	    ValidationBuilder.from(cte).validate().throwIfViolate();
+	    ValidationBuilder.from(processedCTe).validate().throwIfViolate();
 	} catch (final ConstraintViolationException e) {
 	    final StringBuilder message = new StringBuilder("Erro de validação:");
 	    for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
@@ -42,17 +60,18 @@ public class CTeGenerationTest {
     
     @Test
     public void validateByXSD() throws JAXBException, SAXException, IOException {
-	final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/cte/cte_v2.00.xsd"));
-	final CTe cte = this.buildCTe();
-	final String serialize = new FiscalDocumentSerializer<>(cte).serialize();
+	final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/cte/procCTe_v2.00.xsd"));
+	final ProcessedCTe cTeProc = this.buildProcessedCTe();
+	final String serialize = new FiscalDocumentSerializer<>(cTeProc).serialize();
 	System.out.println(serialize);
 	final ValidationResult validate = validator.validate(serialize);
 	Assert.assertTrue(validate.getError(), validate.isValid());
     }
     
-    private CTe buildCTe() {
+    private ProcessedCTe buildProcessedCTe() {
 	//@formatter:off
-	return new CTe.Builder()
+	return new ProcessedCTe.Builder()
+		.withCTe(new CTe.Builder()
 			.withInfo(new CTeInfo.Builder()
 				.withID("CTe42131084684182000157550010000000020108042107")
 				.withIdentification(new Identification.Builder()
@@ -245,7 +264,21 @@ public class CTeGenerationTest {
 						.builder())
 					.build())
 				.build())
-			.build();
+			.build())
+			.withTypeStatusProtocol(new TypeStatusProtocol.Builder()
+				.withStatusProtocolData(new StatusProtocolData.Builder()
+				.withTypeEnvironment(TypeEnvironment.PRODUCTION)
+				.withAapplicationVersion("1.00")
+				.withAccessKeyCte("35150276302157001296570010002051661000280580")
+				.withDateProcessing("2015-02-10T20:11:06")
+				.withNumberProtocol("135150478724355")
+				.withDigestValue("wGYp6x1yW2ehlRpHKDhCLbHAa3c")
+				.withStatusCodeCte("100")
+				.withLiteralDescription("Autorizado o uso do CT-e")
+				.build())		
+			
+			.build())		
+		.build();
 //@formatter:on;
     }
 }
