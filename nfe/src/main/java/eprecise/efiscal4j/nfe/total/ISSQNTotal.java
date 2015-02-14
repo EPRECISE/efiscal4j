@@ -6,10 +6,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.SpecialTaxRegime;
 import eprecise.efiscal4j.nfe.types.NFeDate;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
-import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
 
 
 /**
