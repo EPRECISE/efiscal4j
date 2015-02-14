@@ -16,24 +16,23 @@ import eprecise.efiscal4j.cte.serviceTaker.RemitteeServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.SenderServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.ShipperServiceTaker;
-import eprecise.efiscal4j.cte.types.CTeAccessKey;
-import eprecise.efiscal4j.cte.types.CTeAccessKeyCheckDigit;
-import eprecise.efiscal4j.cte.types.CTeCFOP;
-import eprecise.efiscal4j.cte.types.CTeCode;
-import eprecise.efiscal4j.cte.types.CTeDateAndTime;
-import eprecise.efiscal4j.cte.types.CTeFormatDate;
-import eprecise.efiscal4j.cte.types.CTeNumberDocument;
-import eprecise.efiscal4j.cte.types.CTeSerie;
-import eprecise.efiscal4j.cte.utils.ValidationBuilder;
+import eprecise.efiscal4j.cte.types.AccessKey;
+import eprecise.efiscal4j.cte.types.AccessKeyCheckDigit;
+import eprecise.efiscal4j.cte.types.CFOP;
+import eprecise.efiscal4j.cte.types.Code;
+import eprecise.efiscal4j.cte.types.DateAndTime;
+import eprecise.efiscal4j.cte.types.FormatDate;
+import eprecise.efiscal4j.cte.types.NumberDocument;
+import eprecise.efiscal4j.cte.types.Serie;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CTeIdentification {
+public class Identification {
     
     private final @XmlElement(name = "cUF") UF uf;
     
     private final @XmlElement(name = "cCT") @Pattern(regexp = "[0-9]{8}") String cTeCode;
     
-    private final @XmlElement(name = "CFOP") @CTeCFOP String cfop;
+    private final @XmlElement(name = "CFOP") @CFOP String cfop;
     
     private final @XmlElement(name = "natOp") @Size(min = 1, max = 60) String operationNature;
     
@@ -41,17 +40,17 @@ public class CTeIdentification {
     
     private final @XmlElement(name = "mod") String modelDocument = "57";
     
-    private final @XmlElement(name = "serie") @CTeSerie String serie;
+    private final @XmlElement(name = "serie") @Serie String serie;
     
-    private final @XmlElement(name = "nCT") @CTeNumberDocument String numberCte;
+    private final @XmlElement(name = "nCT") @NumberDocument String numberCte;
     
-    private final @XmlElement(name = "dhEmi") @CTeDateAndTime String dateAndTimeOfEmission;
+    private final @XmlElement(name = "dhEmi") @DateAndTime String dateAndTimeOfEmission;
     
     private final @XmlElement(name = "tpImp") PrintFormatDACTE printFormatDacte;
     
     private final @XmlElement(name = "tpEmis") @NotNull CTeEmissionForm cteEmissionForm;
     
-    private final @XmlElement(name = "cDV") @CTeAccessKeyCheckDigit String checkDigit;
+    private final @XmlElement(name = "cDV") @AccessKeyCheckDigit String checkDigit;
     
     private final @XmlElement(name = "tpAmb") TypeEnvironment typeEnvironment;
     
@@ -61,9 +60,9 @@ public class CTeIdentification {
     
     private final @XmlElement(name = "verProc") @Size(min = 1, max = 20) String emissionProcessVersion;
     
-    private final @XmlElement(name = "refCTE") @CTeAccessKey String accessKey;
+    private final @XmlElement(name = "refCTE") @AccessKey String refAccessKey;
     
-    private final @XmlElement(name = "cMunEnv") @CTeCode String cityCode;
+    private final @XmlElement(name = "cMunEnv") @Code String cityCode;
     
     private final @XmlElement(name = "xMunEnv") @Size(min = 1, max = 60) String cityName;
     
@@ -73,13 +72,13 @@ public class CTeIdentification {
     
     private final @XmlElement(name = "tpServ") TypeService typeService;
     
-    private final @XmlElement(name = "cMunIni") @CTeCode String codeCityBeginInstallment;
+    private final @XmlElement(name = "cMunIni") @Code String codeCityBeginInstallment;
     
     private final @XmlElement(name = "xMunIni") @Size(min = 1, max = 60) String nameCityBeginInstallment;
     
     private final @XmlElement(name = "UFIni") String ufBeginInstallment;
     
-    private final @XmlElement(name = "cMunFim") @CTeCode String codeEndInstallment;
+    private final @XmlElement(name = "cMunFim") @Code String codeCityEndInstallment;
     
     private final @XmlElement(name = "xMunFim") @Size(min = 1, max = 60) String nameCityEndInstallment;
     
@@ -100,9 +99,9 @@ public class CTeIdentification {
     // @formatter:on
     private final ServiceTaker serviceTaker;
     
-    private final @XmlElement(name = "dhCont") @CTeFormatDate String contingency;
+    private final @XmlElement(name = "dhCont") @FormatDate String contingency;
     
-    private final @XmlElement(name = "dhCont") @Size(min = 15, max = 256) String justificationContingency;
+    private final @XmlElement(name = "xJust") @Size(min = 15, max = 256) String justificationContingency;
     
     public static class Builder {
 	
@@ -136,7 +135,7 @@ public class CTeIdentification {
 	
 	private String emissionProcessVersion;
 	
-	private String accessKey;
+	private String refAccessKey;
 	
 	private String cityCode;
 	
@@ -154,7 +153,7 @@ public class CTeIdentification {
 	
 	private String ufBeginInstallment;
 	
-	private String codeEndInstallment;
+	private String codeCityEndInstallment;
 	
 	private String nameCityEndInstallment;
 	
@@ -245,8 +244,8 @@ public class CTeIdentification {
 	    return this;
 	}
 	
-	public Builder withAccessKey(String accessKey) {
-	    this.accessKey = accessKey;
+	public Builder withRefAccessKey(String refAccessKey) {
+	    this.refAccessKey = refAccessKey;
 	    return this;
 	}
 	
@@ -255,7 +254,7 @@ public class CTeIdentification {
 	    return this;
 	}
 	
-	public Builder withCountyName(String cityName) {
+	public Builder withCityName(String cityName) {
 	    this.cityName = cityName;
 	    return this;
 	}
@@ -290,8 +289,8 @@ public class CTeIdentification {
 	    return this;
 	}
 	
-	public Builder withCodeEndInstallment(String codeEndInstallment) {
-	    this.codeEndInstallment = codeEndInstallment;
+	public Builder withCodeCityEndInstallment(String codeCityEndInstallment) {
+	    this.codeCityEndInstallment = codeCityEndInstallment;
 	    return this;
 	}
 	
@@ -330,14 +329,12 @@ public class CTeIdentification {
 	    return this;
 	}
 	
-	public CTeIdentification build() {
-	    final CTeIdentification entity = new CTeIdentification(this);
-	    ValidationBuilder.from(entity).validate().throwIfViolate();
-	    return entity;
+	public Identification build() {
+	    return new Identification(this);
 	}
     }
     
-    public CTeIdentification() {
+    public Identification() {
 	this.uf = null;
 	this.cTeCode = null;
 	this.cfop = null;
@@ -353,7 +350,7 @@ public class CTeIdentification {
 	this.cteType = null;
 	this.identifierEmission = null;
 	this.emissionProcessVersion = null;
-	this.accessKey = null;
+	this.refAccessKey = null;
 	this.cityCode = null;
 	this.cityName = null;
 	this.ufSend = null;
@@ -362,7 +359,7 @@ public class CTeIdentification {
 	this.codeCityBeginInstallment = null;
 	this.nameCityBeginInstallment = null;
 	this.ufBeginInstallment = null;
-	this.codeEndInstallment = null;
+	this.codeCityEndInstallment = null;
 	this.nameCityEndInstallment = null;
 	this.ufEndInstallment = null;
 	this.indicatorWithdrawal = null;
@@ -372,7 +369,7 @@ public class CTeIdentification {
 	this.serviceTaker = null;
     }
     
-    public CTeIdentification(Builder builder) {
+    public Identification(Builder builder) {
 	this.uf = builder.uf;
 	this.cTeCode = builder.cTeCode;
 	this.cfop = builder.cfop;
@@ -388,7 +385,7 @@ public class CTeIdentification {
 	this.cteType = builder.cTeType;
 	this.identifierEmission = builder.identifierEmission;
 	this.emissionProcessVersion = builder.emissionProcessVersion;
-	this.accessKey = builder.accessKey;
+	this.refAccessKey = builder.refAccessKey;
 	this.cityCode = builder.cityCode;
 	this.cityName = builder.cityName;
 	this.ufSend = builder.ufSend;
@@ -397,7 +394,7 @@ public class CTeIdentification {
 	this.codeCityBeginInstallment = builder.codeCityBeginInstallment;
 	this.nameCityBeginInstallment = builder.nameCityBeginInstallment;
 	this.ufBeginInstallment = builder.ufBeginInstallment;
-	this.codeEndInstallment = builder.codeEndInstallment;
+	this.codeCityEndInstallment = builder.codeCityEndInstallment;
 	this.nameCityEndInstallment = builder.nameCityEndInstallment;
 	this.ufEndInstallment = builder.ufEndInstallment;
 	this.indicatorWithdrawal = builder.indicatorWithdrawal;
@@ -471,8 +468,8 @@ public class CTeIdentification {
 	return this.emissionProcessVersion;
     }
     
-    public String getAccessKey() {
-	return this.accessKey;
+    public String getRefAccessKey() {
+	return this.refAccessKey;
     }
     
     public String getCityCode() {
@@ -507,8 +504,8 @@ public class CTeIdentification {
 	return this.ufBeginInstallment == null || this.ufBeginInstallment.isEmpty() ? null : UF.valueOf(this.ufBeginInstallment);
     }
     
-    public String getCodeEndInstallment() {
-	return this.codeEndInstallment;
+    public String getCodeCityEndInstallment() {
+	return this.codeCityEndInstallment;
     }
     
     public String getNameCityEndInstallment() {

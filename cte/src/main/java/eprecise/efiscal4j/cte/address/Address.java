@@ -3,13 +3,15 @@ package eprecise.efiscal4j.cte.address;
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.cte.types.CTeCode;
-import eprecise.efiscal4j.cte.types.CTeFormatCountryCode;
-import eprecise.efiscal4j.cte.types.CTeZipCode;
+import eprecise.efiscal4j.cte.types.Code;
+import eprecise.efiscal4j.cte.types.ZipCode;
 
-public class Address implements Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class Address implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -21,19 +23,16 @@ public class Address implements Serializable {
     
     private final @XmlElement(name = "xBairro") @Size(min = 1, max = 60) String district;
     
-    private final @XmlElement(name = "cMun") @CTeCode String cityCode;
+    private final @XmlElement(name = "cMun") @Code String cityCode;
     
     private final @XmlElement(name = "xMun") @Size(min = 1, max = 60) String cityName;
     
-    private final @XmlElement(name = "CEP") @CTeZipCode String zipCode;
+    private final @XmlElement(name = "CEP") @ZipCode String zipCode;
     
-    private final @XmlElement(name = "UF") String acronymUf;
+    private final @XmlElement(name = "UF") String uf;
     
-    private final @XmlElement(name = "cPais") @CTeFormatCountryCode String countryCode;
-    
-    private final @XmlElement(name = "xPais") @Size(min = 1, max = 60) String countryName;
-    
-    public static class Builder {
+    @SuppressWarnings("unchecked")
+    public abstract static class Builder<T extends Builder<?>> {
 	
 	private String street;
 	
@@ -49,61 +48,49 @@ public class Address implements Serializable {
 	
 	private String zipCode;
 	
-	private String acronymUf;
+	private String uf;
 	
-	private String countryCode;
-	
-	private String countryName;
-	
-	public Builder withStreet(String street) {
+	public T withStreet(String street) {
 	    this.street = street;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withNumber(String number) {
+	public T withNumber(String number) {
 	    this.number = number;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withComplement(String complement) {
+	public T withComplement(String complement) {
 	    this.complement = complement;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withDistrict(String district) {
+	public T withDistrict(String district) {
 	    this.district = district;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withCityCode(String cityCode) {
+	public T withCityCode(String cityCode) {
 	    this.cityCode = cityCode;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withCityName(String cityName) {
+	public T withCityName(String cityName) {
 	    this.cityName = cityName;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withZipCode(String zipCode) {
+	public T withZipCode(String zipCode) {
 	    this.zipCode = zipCode;
-	    return this;
+	    return (T) this;
 	}
 	
-	public Builder withAcronymUf(UF uf) {
-	    this.acronymUf = uf.getAcronym();
-	    return this;
+	public T withUF(UF uf) {
+	    this.uf = uf.getAcronym();
+	    return (T) this;
 	}
 	
-	public Builder withCountryCode(String countryCode) {
-	    this.countryCode = countryCode;
-	    return this;
-	}
-	
-	public Builder withCountryName(String countryName) {
-	    this.countryName = countryName;
-	    return this;
-	}
+	public abstract Address build();
     }
     
     public Address() {
@@ -114,12 +101,11 @@ public class Address implements Serializable {
 	this.cityCode = null;
 	this.cityName = null;
 	this.zipCode = null;
-	this.acronymUf = null;
-	this.countryCode = null;
-	this.countryName = null;
+	this.uf = null;
+	
     }
     
-    public Address(Builder builder) {
+    public Address(Builder<?> builder) {
 	this.street = builder.street;
 	this.number = builder.number;
 	this.complement = builder.complement;
@@ -127,9 +113,7 @@ public class Address implements Serializable {
 	this.cityCode = builder.cityCode;
 	this.cityName = builder.cityName;
 	this.zipCode = builder.zipCode;
-	this.acronymUf = builder.acronymUf;
-	this.countryCode = builder.countryCode;
-	this.countryName = builder.countryName;
+	this.uf = builder.uf;
 	
     }
     
@@ -162,14 +146,7 @@ public class Address implements Serializable {
     }
     
     public UF getAcronymUf() {
-	return this.acronymUf == null || this.acronymUf.isEmpty() ? null : UF.valueOf(this.acronymUf);
+	return this.uf == null || this.uf.isEmpty() ? null : UF.valueOf(this.uf);
     }
     
-    public String getCountryCode() {
-	return this.countryCode;
-    }
-    
-    public String getCountryName() {
-	return this.countryName;
-    }
 }

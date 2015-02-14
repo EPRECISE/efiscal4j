@@ -3,11 +3,13 @@ package eprecise.efiscal4j.cte;
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.cte.address.Address;
-import eprecise.efiscal4j.cte.types.CTeFormatCNPJ;
-import eprecise.efiscal4j.cte.types.CTeStateRegistration;
+import eprecise.efiscal4j.cte.address.AddressEmitter;
+import eprecise.efiscal4j.cte.types.FormatCNPJ;
+import eprecise.efiscal4j.cte.types.StateRegistration;
 
 /**
  * Tag - emit
@@ -15,19 +17,20 @@ import eprecise.efiscal4j.cte.types.CTeStateRegistration;
  * @author Carlos Gomes
  * 
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Emitter implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final @XmlElement(name = "CNPJ") @CTeFormatCNPJ String cnpj;
+    private final @XmlElement(name = "CNPJ") @FormatCNPJ String cnpj;
     
-    private final @XmlElement(name = "IE") @CTeStateRegistration String ie;
+    private final @XmlElement(name = "IE") @StateRegistration String ie;
     
     private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String name;
     
     private final @XmlElement(name = "xFant") @Size(min = 1, max = 60) String fantasyName;
     
-    private final @XmlElement(name = "enderEmit") Address address;
+    private final @XmlElement(name = "enderEmit") AddressEmitter address;
     
     public static class Builder {
 	
@@ -39,7 +42,7 @@ public class Emitter implements Serializable {
 	
 	private String fantasyName;
 	
-	private Address address;
+	private AddressEmitter address;
 	
 	public Builder withCNPJ(String cnpj) {
 	    this.cnpj = cnpj;
@@ -61,9 +64,13 @@ public class Emitter implements Serializable {
 	    return this;
 	}
 	
-	public Builder withAddress(Address address) {
+	public Builder withAddress(AddressEmitter address) {
 	    this.address = address;
 	    return this;
+	}
+	
+	public Emitter build() {
+	    return new Emitter(this);
 	}
 	
     }
@@ -100,7 +107,7 @@ public class Emitter implements Serializable {
 	return this.fantasyName;
     }
     
-    public Address getAddress() {
+    public AddressEmitter getAddress() {
 	return this.address;
     }
 }

@@ -6,7 +6,6 @@ public class ShipperServiceTaker extends ServiceTaker {
     
     public static class Builder extends ServiceTaker.Builder {
 	
-	@Override
 	public ShipperServiceTaker build() {
 	    return new ShipperServiceTaker();
 	}

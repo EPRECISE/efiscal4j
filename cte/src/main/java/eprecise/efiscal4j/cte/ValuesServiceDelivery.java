@@ -2,6 +2,8 @@ package eprecise.efiscal4j.cte;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.cte.types.TypeDecimal1302;
@@ -12,7 +14,7 @@ import eprecise.efiscal4j.cte.types.TypeDecimal1302;
  * @author Carlos Gomes
  * 
  */
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ValuesServiceDelivery implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -41,9 +43,13 @@ public class ValuesServiceDelivery implements Serializable {
 	    return this;
 	}
 	
-	public Builder withComponents(InstallmentValueComponent installmentValueComponent) {
+	public Builder withInstallmentValueComponent(InstallmentValueComponent installmentValueComponent) {
 	    this.installmentValueComponent = installmentValueComponent;
 	    return this;
+	}
+	
+	public ValuesServiceDelivery build() {
+	    return new ValuesServiceDelivery(this);
 	}
 	
     }

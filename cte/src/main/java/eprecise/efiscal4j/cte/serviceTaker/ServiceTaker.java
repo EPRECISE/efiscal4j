@@ -47,7 +47,7 @@ public abstract class ServiceTaker implements Serializable {
     
     public final @XmlElement(name = "toma") String value;
     
-    public abstract static class Builder {
+    public static class Builder {
 	
 	public <T extends ServiceTaker.Builder> T fromType(Class<T> type) {
 	    try {
@@ -57,7 +57,10 @@ public abstract class ServiceTaker implements Serializable {
 	    }
 	}
 	
-	public abstract ServiceTaker build();
+    }
+    
+    public ServiceTaker() {
+	this.value = null;
     }
     
     public ServiceTaker(String value) {

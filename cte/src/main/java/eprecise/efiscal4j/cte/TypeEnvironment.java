@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum TypeEnvironment implements Serializable {
     
-    @XmlEnumValue("1") RETRATO(1, "Produção"),
-    @XmlEnumValue("2") PAISAGEM(2, "Homologação");
+    @XmlEnumValue("1") PRODUCTION(1, "Produção"),
+    @XmlEnumValue("2") RATIFICATION(2, "Homologação");
     
     private static final long serialVersionUID = 1L;
     

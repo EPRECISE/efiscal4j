@@ -24,6 +24,16 @@ public class InstallmentValueComponent implements Serializable {
 	    this.name = name;
 	    return this;
 	}
+	
+	public Builder withValue(String value) {
+	    this.value = value;
+	    return this;
+	}
+	
+	public InstallmentValueComponent builder() {
+	    return new InstallmentValueComponent(this);
+	}
+	
     }
     
     public InstallmentValueComponent() {

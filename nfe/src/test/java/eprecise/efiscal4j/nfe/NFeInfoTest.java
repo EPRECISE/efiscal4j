@@ -1,4 +1,3 @@
-
 package eprecise.efiscal4j.nfe;
 
 import java.util.ArrayList;
@@ -6,12 +5,11 @@ import java.util.List;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.additionalinfo.ProcessOrigin;
@@ -47,13 +45,12 @@ import eprecise.efiscal4j.nfe.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 
-
 public class NFeInfoTest {
-
+    
     @Test
     public void test() {
-        try {
-            //@formatter:off       
+	try {
+	    //@formatter:off       
 			final List<NFeDetail> nFeDetailList = new ArrayList<>();
 			nFeDetailList.add(new NFeDetail.Builder()
 							 .withItemOrder("1")
@@ -587,23 +584,19 @@ public class NFeInfoTest {
                             		       .build()                           
                             		 )                             
                              .build();
-            
             //@formatter:on
-            final JAXBContext jaxbContext = JAXBContext.newInstance(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class);
-            final Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(nFeInfo, System.out);
-
-            Assert.assertTrue(true);
-        } catch (final ConstraintViolationException e) {
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                System.err.println(v.getLeafBean().toString() + " " + v.getPropertyPath() + " " + v.getMessage());
-            }
-            Assert.assertTrue(false);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            Assert.assertTrue(false);
-        }
+	    final String xml = new FiscalDocumentSerializer<>(nFeInfo).considering(NFeInfo.class, LegalEntityDocuments.class, NaturalPersonDocuments.class)
+								      .serialize();
+	    System.out.println(xml);
+	} catch (final ConstraintViolationException e) {
+	    final StringBuilder message = new StringBuilder("Erro de validação:");
+	    for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
+		message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
+	    }
+	    Assert.assertTrue(message.toString(), false);
+	} catch (final Exception e) {
+	    e.printStackTrace();
+	    Assert.assertTrue(e.getMessage(), false);
+	}
     }
 }

@@ -1,38 +1,58 @@
 package eprecise.efiscal4j.cte.serviceTaker;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.cte.address.Address;
-import eprecise.efiscal4j.cte.types.CTeFormatCNPJ;
-import eprecise.efiscal4j.cte.types.CTeFormatCPF;
-import eprecise.efiscal4j.cte.types.CTeStateRegistration;
-import eprecise.efiscal4j.cte.types.CTeTypeEmail;
-import eprecise.efiscal4j.cte.types.CTeTypeFone;
+import eprecise.efiscal4j.cte.address.AddressGeneral;
+import eprecise.efiscal4j.cte.types.FormatCNPJ;
+import eprecise.efiscal4j.cte.types.FormatCPF;
+import eprecise.efiscal4j.cte.types.StateRegistration;
+import eprecise.efiscal4j.cte.types.TypeEmail;
+import eprecise.efiscal4j.cte.types.TypeFone;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OthersServiceTaker extends ServiceTaker {
     
     private static final long serialVersionUID = 1L;
     
     private static final String VALUE = "4";
     
-    private final @XmlElement(name = "CNPJ") @CTeFormatCNPJ String cnpj;
+    private final @XmlElement(name = "CNPJ") @FormatCNPJ String cnpj;
     
-    private final @XmlElement(name = "CPF") @CTeFormatCPF String cpf;
+    private final @XmlElement(name = "CPF") @FormatCPF String cpf;
     
-    private final @XmlElement(name = "IE") @CTeStateRegistration String ie;
+    private final @XmlElement(name = "IE") @StateRegistration String ie;
     
     private final @XmlElement(name = "xNome") @Size(min = 1, max = 60) String corporateName;
     
     private final @XmlElement(name = "xFant") @Size(min = 1, max = 60) String fantasyName;
     
-    private final @XmlElement(name = "email") @CTeTypeEmail @Size(min = 1, max = 60) String email;
+    private final @XmlElement(name = "fone") @TypeFone String fone;
     
-    private final @XmlElement(name = "enderToma") Address address;
+    private final @XmlElement(name = "enderToma") AddressGeneral address;
     
-    private final @XmlElement(name = "fone") @CTeTypeFone String fone;
+    private final @XmlElement(name = "email") @TypeEmail @Size(min = 1, max = 60) String email;
     
     public static class Builder extends ServiceTaker.Builder {
+	
+	public class NaturalPersonLocationBuilder extends Builder {
+	    
+	    public Builder withCPF(String cpf) {
+		Builder.this.cpf = cpf;
+		cpf = null;
+		return Builder.this;
+	    }
+	}
+	
+	public class LegalEntityLocationBuilder extends Builder {
+	    public Builder withCNPJ(String cnpj) {
+		Builder.this.cnpj = cnpj;
+		cnpj = null;
+		return Builder.this;
+	    }
+	}
 	
 	private String cnpj;
 	
@@ -48,16 +68,14 @@ public class OthersServiceTaker extends ServiceTaker {
 	
 	private String email;
 	
-	private Address address;
+	private AddressGeneral address;
 	
-	public Builder withCNPJ(String CNPJ) {
-	    this.cnpj = CNPJ;
-	    return this;
+	public NaturalPersonLocationBuilder asNaturalPerson() {
+	    return new NaturalPersonLocationBuilder();
 	}
 	
-	public Builder withCPF(String cpf) {
-	    this.cpf = cpf;
-	    return this;
+	public LegalEntityLocationBuilder asLegalEntity() {
+	    return new LegalEntityLocationBuilder();
 	}
 	
 	public Builder withIE(String ie) {
@@ -85,14 +103,13 @@ public class OthersServiceTaker extends ServiceTaker {
 	    return this;
 	}
 	
-	public Builder withAddressData(Address address) {
+	public Builder withAddressData(AddressGeneral address) {
 	    this.address = address;
 	    return this;
 	}
 	
-	@Override
 	public OthersServiceTaker build() {
-	    return new OthersServiceTaker();
+	    return new OthersServiceTaker(this);
 	    
 	}
 	
@@ -150,7 +167,7 @@ public class OthersServiceTaker extends ServiceTaker {
 	return this.email;
     }
     
-    public Address getAddress() {
+    public AddressGeneral getAddress() {
 	return this.address;
     }
 }

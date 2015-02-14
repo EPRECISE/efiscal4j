@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.nfe.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
 /**

@@ -1,0 +1,33 @@
+package eprecise.efiscal4j.cte;
+
+import java.io.IOException;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.xml.bind.JAXBException;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.cte.CTe;
+
+public class CTeImportTest {
+    
+    @Test
+    public void xmlImportTest() throws JAXBException, IOException {
+	final CTe cte = new FiscalDocumentDeserializer(this.getClass().getResource("/eprecise/efiscal4j/cte/in/test_cte.xml")).deserialize(CTe.class);
+	Assert.assertNotNull(cte);
+	Assert.assertEquals("00000000000100", cte.getInfo().getEmitter().getCnpj());
+	try {
+	    ValidationBuilder.from(cte).validate().throwIfViolate();
+	} catch (final ConstraintViolationException e) {
+	    final StringBuilder message = new StringBuilder("Erro de validação:");
+	    for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
+		message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
+	    }
+	    Assert.assertTrue(message.toString(), false);
+	}
+    }
+}

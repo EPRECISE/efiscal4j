@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1204Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
