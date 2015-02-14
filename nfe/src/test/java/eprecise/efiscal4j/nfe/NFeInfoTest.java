@@ -424,8 +424,7 @@ public class NFeInfoTest {
 					           new ReferencedProcess.Builder()
 					          .withProcessNumber("123")
 					          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL)	
-					          .build()
-					);
+					          .build());
 						
             final NFeInfo nFeInfo = new NFeInfo.Builder()
 				             .withNFeIdentification(
