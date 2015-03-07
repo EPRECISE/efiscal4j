@@ -14,30 +14,35 @@ import eprecise.efiscal4j.nfe.types.NFeCNPJ;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LegalEntityDocuments extends AbstractDocuments {
 
-	private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ String cnpj;
+    private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ String cnpj;
 
-	public LegalEntityDocuments() {
-	}
+    public LegalEntityDocuments() {
+    }
 
-	public String getCnpj() {
-		return this.cnpj;
-	}
+    public String getCnpj() {
+        return this.cnpj;
+    }
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
 
-	public String getCorporateName() {
-		return this.getAbstractName();
-	}
+    public String getCorporateName() {
+        return this.getAbstractName();
+    }
 
-	public void setCorporateName(String corporateName) {
-		this.setAbstractName(corporateName);
-	}
+    public void setCorporateName(String corporateName) {
+        this.setAbstractName(corporateName);
+    }
 
-	@Override
-	public String toString() {
-		return "LegalEntityDocuments [corporateName=" + this.getCorporateName() + ", cnpj=" + this.getCnpj() + ", stateRegistration=" + this.getStateRegistration() + "]";
-	}
+    @Override
+    public String getCnpjCpf() {
+        return this.getCnpj();
+    }
+
+    @Override
+    public String toString() {
+        return "LegalEntityDocuments [corporateName=" + this.getCorporateName() + ", cnpj=" + this.getCnpj() + ", stateRegistration=" + this.getStateRegistration() + "]";
+    }
 
 }

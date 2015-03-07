@@ -67,6 +67,10 @@ public class PISAdapter extends XmlAdapter<PISAdapter.AdaptedPIS, PIS> {
         // @formatter:on
         private final PIS pis;
 
+        public AdaptedPIS() {
+            this.pis = null;
+        }
+
         public AdaptedPIS(PIS pis) {
             this.pis = pis;
         }

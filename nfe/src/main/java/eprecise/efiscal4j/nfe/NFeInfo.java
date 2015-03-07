@@ -2,14 +2,19 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
@@ -27,206 +32,270 @@ import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;
  * 
  */
 @NFePaymentValidation
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeInfo implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "ide") @NotNull final NFeIdentification nFeIdentification;
+    private @XmlAttribute(name = "versao") final String version;
 
-	private @XmlElement(name = "emit") @NotNull final Emitter emitter;
+    private @XmlAttribute(name = "Id") @Pattern(regexp = "NFe[0-9]{44}") final String id;
 
-	private @XmlElement(name = "dest") @NotNull final Receiver receiver;
+    private @XmlElement(name = "ide") @NotNull final NFeIdentification nFeIdentification;
 
-	private @XmlElement(name = "det") @NotNull @Size(max = 990) final List<NFeDetail> nFeDetails;
+    private @XmlElement(name = "emit") @NotNull final Emitter emitter;
 
-	private @XmlElement(name = "total") @NotNull final NFeTotal nFeTotal;
+    private @XmlElement(name = "dest") @NotNull final Receiver receiver;
 
-	private @XmlElement(name = "transp") @NotNull final NFeTransport nFeTransport;
+    private @XmlElement(name = "det") @NotNull @Size(max = 990) final List<NFeDetail> nFeDetails;
 
-	private @XmlElement(name = "cobr") NFeCharging nFeCharging;
+    private @XmlElement(name = "total") @NotNull final NFeTotal nFeTotal;
 
-	private @XmlElement(name = "pag") @Size(min = 0, max = 100) List<NFePayment> nFePayments;
+    private @XmlElement(name = "transp") @NotNull final NFeTransport nFeTransport;
 
-	private @XmlElement(name = "infAdic") AdditionalInfo additionalInfo;
+    private @XmlElement(name = "cobr") final NFeCharging nFeCharging;
 
-	public static class Builder {
+    private @XmlElement(name = "pag") @Size(min = 0, max = 100) final List<NFePayment> nFePayments;
 
-		private NFeIdentification nFeIdentification;
+    private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
 
-		private Emitter emitter;
+    public static class Builder {
 
-		private Receiver receiver;
+        private NFeIdentification nFeIdentification;
 
-		private List<NFeDetail> nFeDetails;
+        private Emitter emitter;
 
-		private NFeTotal nFeTotal;
+        private Receiver receiver;
 
-		private NFeTransport nFeTransport;
+        private List<NFeDetail> nFeDetails;
 
-		private NFeCharging nFeCharging;
+        private NFeTotal nFeTotal;
 
-		private List<NFePayment> nFePayments;
+        private NFeTransport nFeTransport;
 
-		private AdditionalInfo additionalInfo;
+        private NFeCharging nFeCharging;
 
-		/**
-		 * @see NFeIdentification
-		 * @param nFeIdentification
-		 * @return
-		 */
-		public Builder withNFeIdentification(NFeIdentification nFeIdentification) {
-			this.nFeIdentification = nFeIdentification;
-			return this;
-		}
+        private List<NFePayment> nFePayments;
 
-		/**
-		 * @see Emitter
-		 * @param emitter
-		 * @return
-		 */
-		public Builder withEmitter(Emitter emitter) {
-			this.emitter = emitter;
-			return this;
-		}
+        private AdditionalInfo additionalInfo;
 
-		/**
-		 * @see Receiver
-		 * @param receiver
-		 * @return
-		 */
-		public Builder withReceiver(Receiver receiver) {
-			this.receiver = receiver;
-			return this;
-		}
+        /**
+         * @see NFeIdentification
+         * @param nFeIdentification
+         * @return
+         */
+        public Builder withNFeIdentification(NFeIdentification nFeIdentification) {
+            this.nFeIdentification = nFeIdentification;
+            return this;
+        }
 
-		/**
-		 * List of NFeDetail
-		 * 
-		 * @see NFeDetail
-		 * @param nFeDetails
-		 * @return
-		 */
-		public Builder withNFeDetail(List<NFeDetail> nFeDetails) {
-			this.nFeDetails = nFeDetails;
-			return this;
-		}
+        /**
+         * @see Emitter
+         * @param emitter
+         * @return
+         */
+        public Builder withEmitter(Emitter emitter) {
+            this.emitter = emitter;
+            return this;
+        }
 
-		/**
-		 * @see NFeTotal
-		 * @param nFeTotal
-		 * @return
-		 */
-		public Builder withNFeTotal(NFeTotal nFeTotal) {
-			this.nFeTotal = nFeTotal;
-			return this;
-		}
+        /**
+         * @see Receiver
+         * @param receiver
+         * @return
+         */
+        public Builder withReceiver(Receiver receiver) {
+            this.receiver = receiver;
+            return this;
+        }
 
-		/**
-		 * @see NFeTransport
-		 * @param nFeTransport
-		 * @return
-		 */
-		public Builder withNFeTransport(NFeTransport nFeTransport) {
-			this.nFeTransport = nFeTransport;
-			return this;
-		}
+        /**
+         * List of NFeDetail
+         * 
+         * @see NFeDetail
+         * @param nFeDetails
+         * @return
+         */
+        public Builder withNFeDetail(List<NFeDetail> nFeDetails) {
+            this.nFeDetails = nFeDetails;
+            return this;
+        }
 
-		/**
-		 * @see NFeCharging
-		 * @param nFeCharging
-		 * @return
-		 */
-		public Builder withNFeCharging(NFeCharging nFeCharging) {
-			this.nFeCharging = nFeCharging;
-			return this;
-		}
+        /**
+         * @see NFeTotal
+         * @param nFeTotal
+         * @return
+         */
+        public Builder withNFeTotal(NFeTotal nFeTotal) {
+            this.nFeTotal = nFeTotal;
+            return this;
+        }
 
-		/**
-		 * List of NFePayments
-		 * 
-		 * @see NFePayment
-		 * @param nFePayments
-		 * @return
-		 */
-		public Builder withNFePayments(List<NFePayment> nFePayments) {
-			this.nFePayments = nFePayments;
-			return this;
-		}
+        /**
+         * @see NFeTransport
+         * @param nFeTransport
+         * @return
+         */
+        public Builder withNFeTransport(NFeTransport nFeTransport) {
+            this.nFeTransport = nFeTransport;
+            return this;
+        }
 
-		/**
-		 * @see AdditionalInfo
-		 * @param additionalInfo
-		 * @return
-		 */
-		public Builder withAdditionalInfo(AdditionalInfo additionalInfo) {
-			this.additionalInfo = additionalInfo;
-			return this;
-		}
+        /**
+         * @see NFeCharging
+         * @param nFeCharging
+         * @return
+         */
+        public Builder withNFeCharging(NFeCharging nFeCharging) {
+            this.nFeCharging = nFeCharging;
+            return this;
+        }
 
-		public NFeInfo build() {
-			NFeInfo entity = new NFeInfo(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
-	}
+        /**
+         * List of NFePayments
+         * 
+         * @see NFePayment
+         * @param nFePayments
+         * @return
+         */
+        public Builder withNFePayments(List<NFePayment> nFePayments) {
+            this.nFePayments = nFePayments;
+            return this;
+        }
 
-	public NFeInfo() {
-		this.nFeIdentification = null;
-		this.emitter = null;
-		this.receiver = null;
-		this.nFeDetails = null;
-		this.nFeTotal = null;
-		this.nFeTransport = null;
-	}
+        /**
+         * @see AdditionalInfo
+         * @param additionalInfo
+         * @return
+         */
+        public Builder withAdditionalInfo(AdditionalInfo additionalInfo) {
+            this.additionalInfo = additionalInfo;
+            return this;
+        }
 
-	public NFeInfo(Builder builder) {
-		this.nFeIdentification = builder.nFeIdentification;
-		this.emitter = builder.emitter;
-		this.receiver = builder.receiver;
-		this.nFeDetails = builder.nFeDetails;
-		this.nFeTotal = builder.nFeTotal;
-		this.nFeTransport = builder.nFeTransport;
-		this.nFeCharging = builder.nFeCharging;
-		this.nFePayments = builder.nFePayments;
-		this.additionalInfo = builder.additionalInfo;
-	}
+        public NFeInfo build() throws ParseException {
+            final NFeInfo entity = new NFeInfo(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+    }
 
-	public NFeIdentification getnFeIdentification() {
-		return this.nFeIdentification;
-	}
+    protected NFeInfo() {
+        this.nFeIdentification = null;
+        this.emitter = null;
+        this.receiver = null;
+        this.nFeDetails = null;
+        this.nFeTotal = null;
+        this.nFeTransport = null;
+        this.nFeCharging = null;
+        this.nFePayments = null;
+        this.additionalInfo = null;
+        this.version = null;
+        this.id = null;
+    }
 
-	public Emitter getEmitter() {
-		return this.emitter;
-	}
+    protected NFeInfo(Builder builder) throws ParseException {
+        this.nFeIdentification = builder.nFeIdentification;
+        this.emitter = builder.emitter;
+        this.receiver = builder.receiver;
+        this.nFeDetails = builder.nFeDetails;
+        this.nFeTotal = builder.nFeTotal;
+        this.nFeTransport = builder.nFeTransport;
+        this.nFeCharging = builder.nFeCharging;
+        this.nFePayments = builder.nFePayments;
+        this.additionalInfo = builder.additionalInfo;
+        this.version = "3.10";
+        this.id = this.generateNfeId();
+    }
 
-	public Receiver getReceiver() {
-		return this.receiver;
-	}
+    /**
+     * Gera o ID da NF-e, que é composto por:
+     * 
+     * <ul>
+     * <li>NFe - texto contendo NFe</li>
+     * <li>UF - Código da UF do emitente do Documento Fiscal</li>
+     * <li>AAMM - Ano e Mês de emissão da NF-e</li>
+     * <li>CNPJ - CNPJ do emitente</li>
+     * <li>mod - Modelo do Documento Fiscal</li>
+     * <li>serie - Série do Documento Fiscal</li>
+     * <li>nNF - Número do Documento Fiscal</li>
+     * <li>tpEmis - forma de emissão da NF-e</li>
+     * <li>cNF - Código Numérico que compõe a Chave de Acesso</li>
+     * <li>cDV - Dígito Verificador da Chave de Acesso</li>
+     * </ul>
+     * 
+     * @param builder
+     * @throws ParseException
+     */
+    private String generateNfeId() throws ParseException {
+        final StringBuilder nfeId = new StringBuilder();
+        final Date emissionDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(this.getnFeIdentification().getEmissionDateTime());
 
-	public List<NFeDetail> getnFeDetails() {
-		return this.nFeDetails;
-	}
+        nfeId.append(this.getnFeIdentification().getUfIbgeCode().getIbgeCode());
+        nfeId.append(new SimpleDateFormat("yy").format(emissionDate));
+        nfeId.append(new SimpleDateFormat("MM").format(emissionDate));
+        nfeId.append(this.getEmitter().getDocuments().getCnpjCpf());
+        nfeId.append(this.getnFeIdentification().getFiscalDocumentModel().getCode());
+        nfeId.append(new DecimalFormat("000").format(Integer.valueOf(this.getnFeIdentification().getFiscalDocumentSeries())));
+        nfeId.append(new DecimalFormat("000000000").format(Integer.valueOf(this.getnFeIdentification().getFiscalDocumentNumber())));
+        nfeId.append(this.getnFeIdentification().getnFeTransmissionMethod().getValue());
+        nfeId.append(this.getnFeIdentification().getnFeCode());
+        nfeId.append(this.calcModule11(nfeId.toString()));
+        nfeId.insert(0, "NFe");
 
-	public NFeTotal getnFeTotal() {
-		return this.nFeTotal;
-	}
+        return nfeId.toString();
+    }
 
-	public NFeTransport getnFeTransport() {
-		return this.nFeTransport;
-	}
+    private int calcModule11(String key) {
+        int total = 0;
+        int weight = 2;
 
-	public NFeCharging getnFeCharging() {
-		return this.nFeCharging;
-	}
+        for (int i = 0; i < key.length(); i++) {
+            total += (key.charAt((key.length() - 1) - i) - '0') * weight;
+            weight++;
+            if (weight == 10) {
+                weight = 2;
+            }
+        }
 
-	public List<NFePayment> getnFePayments() {
-		return this.nFePayments;
-	}
+        final int remainder = total % 11;
+        return (remainder == 0 || remainder == 1) ? 0 : (11 - remainder);
+    }
 
-	public AdditionalInfo getAdditionalInfo() {
-		return this.additionalInfo;
-	}
+    public NFeIdentification getnFeIdentification() {
+        return this.nFeIdentification;
+    }
+
+    public Emitter getEmitter() {
+        return this.emitter;
+    }
+
+    public Receiver getReceiver() {
+        return this.receiver;
+    }
+
+    public List<NFeDetail> getnFeDetails() {
+        return this.nFeDetails;
+    }
+
+    public NFeTotal getnFeTotal() {
+        return this.nFeTotal;
+    }
+
+    public NFeTransport getnFeTransport() {
+        return this.nFeTransport;
+    }
+
+    public NFeCharging getnFeCharging() {
+        return this.nFeCharging;
+    }
+
+    public List<NFePayment> getnFePayments() {
+        return this.nFePayments;
+    }
+
+    public AdditionalInfo getAdditionalInfo() {
+        return this.additionalInfo;
+    }
 
 }

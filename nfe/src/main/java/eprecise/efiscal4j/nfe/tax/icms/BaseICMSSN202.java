@@ -19,119 +19,129 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  */
 abstract class BaseICMSSN202 extends BaseICMSSN {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+    private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
 
-	private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
+    private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
-	private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
+    private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
-	private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
 
-	private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+    private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
 
-	private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+    private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
 
-	static abstract class Builder extends BaseICMSSN.Builder {
+    static abstract class Builder extends BaseICMSSN.Builder {
 
-		private BCModalityST bcModalitySt;
+        private BCModalityST bcModalitySt;
 
-		private String valueMarginAddedStPercent;
+        private String valueMarginAddedStPercent;
 
-		private String bcReductionStPercent;
+        private String bcReductionStPercent;
 
-		private String bcValueST;
+        private String bcValueST;
 
-		private String icmsStAliquot;
+        private String icmsStAliquot;
 
-		private String icmsStValue;
+        private String icmsStValue;
 
-		/**
-		 * 
-		 * @see BCModalityST
-		 */
-		public Builder withBcModalityST(BCModalityST bcModalityST) {
-			this.bcModalitySt = bcModalityST;
-			return this;
-		}
+        /**
+         * 
+         * @see BCModalityST
+         */
+        public Builder withBcModalityST(BCModalityST bcModalityST) {
+            this.bcModalitySt = bcModalityST;
+            return this;
+        }
 
-		/**
-		 * Percentual da Margem de Valor Adicionado ICMS ST
-		 */
-		public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
-			this.valueMarginAddedStPercent = valueMarginAddedStPercent;
-			return this;
-		}
+        /**
+         * Percentual da Margem de Valor Adicionado ICMS ST
+         */
+        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+            this.valueMarginAddedStPercent = valueMarginAddedStPercent;
+            return this;
+        }
 
-		/**
-		 * Percentual de redução da BC ICMS ST
-		 */
-		public Builder withBcReductionStPercent(String bcReductionStPercent) {
-			this.bcReductionStPercent = bcReductionStPercent;
-			return this;
-		}
+        /**
+         * Percentual de redução da BC ICMS ST
+         */
+        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+            this.bcReductionStPercent = bcReductionStPercent;
+            return this;
+        }
 
-		/**
-		 * Valor da BC do ICMS ST
-		 */
-		public Builder withBcValueST(String bcValueST) {
-			this.bcValueST = bcValueST;
-			return this;
-		}
+        /**
+         * Valor da BC do ICMS ST
+         */
+        public Builder withBcValueST(String bcValueST) {
+            this.bcValueST = bcValueST;
+            return this;
+        }
 
-		/**
-		 * Alíquota do ICMS ST
-		 */
-		public Builder withIcmsStAliquot(String icmsStAliquot) {
-			this.icmsStAliquot = icmsStAliquot;
-			return this;
-		}
+        /**
+         * Alíquota do ICMS ST
+         */
+        public Builder withIcmsStAliquot(String icmsStAliquot) {
+            this.icmsStAliquot = icmsStAliquot;
+            return this;
+        }
 
-		/**
-		 * Valor do ICMS ST
-		 */
-		public Builder withIcmsStValue(String icmsStValue) {
-			this.icmsStValue = icmsStValue;
-			return this;
-		}
+        /**
+         * Valor do ICMS ST
+         */
+        public Builder withIcmsStValue(String icmsStValue) {
+            this.icmsStValue = icmsStValue;
+            return this;
+        }
 
-		@Override
-		abstract BaseICMSSN202 build();
-	}
+        @Override
+        abstract BaseICMSSN202 build();
+    }
 
-	protected BaseICMSSN202(Builder builder, String csosn) {
-		super(builder.origin, csosn);
-		this.bcModalitySt = builder.bcModalitySt;
-		this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
-		this.bcReductionStPercent = builder.bcReductionStPercent;
-		this.bcValueST = builder.bcValueST;
-		this.icmsStAliquot = builder.icmsStAliquot;
-		this.icmsStValue = builder.icmsStValue;
-	}
+    protected BaseICMSSN202() {
+        super(null, null);
+        this.bcModalitySt = null;
+        this.valueMarginAddedStPercent = null;
+        this.bcReductionStPercent = null;
+        this.bcValueST = null;
+        this.icmsStAliquot = null;
+        this.icmsStValue = null;
+    }
 
-	public BCModalityST getBcModalitySt() {
-		return this.bcModalitySt;
-	}
+    protected BaseICMSSN202(Builder builder, String csosn) {
+        super(builder.origin, csosn);
+        this.bcModalitySt = builder.bcModalitySt;
+        this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
+        this.bcReductionStPercent = builder.bcReductionStPercent;
+        this.bcValueST = builder.bcValueST;
+        this.icmsStAliquot = builder.icmsStAliquot;
+        this.icmsStValue = builder.icmsStValue;
+    }
 
-	public String getValueMarginAddedStPercent() {
-		return this.valueMarginAddedStPercent;
-	}
+    public BCModalityST getBcModalitySt() {
+        return this.bcModalitySt;
+    }
 
-	public String getBcReductionStPercent() {
-		return this.bcReductionStPercent;
-	}
+    public String getValueMarginAddedStPercent() {
+        return this.valueMarginAddedStPercent;
+    }
 
-	public String getBcValueST() {
-		return this.bcValueST;
-	}
+    public String getBcReductionStPercent() {
+        return this.bcReductionStPercent;
+    }
 
-	public String getIcmsStAliquot() {
-		return this.icmsStAliquot;
-	}
+    public String getBcValueST() {
+        return this.bcValueST;
+    }
 
-	public String getIcmsStValue() {
-		return this.icmsStValue;
-	}
+    public String getIcmsStAliquot() {
+        return this.icmsStAliquot;
+    }
+
+    public String getIcmsStValue() {
+        return this.icmsStValue;
+    }
 
 }

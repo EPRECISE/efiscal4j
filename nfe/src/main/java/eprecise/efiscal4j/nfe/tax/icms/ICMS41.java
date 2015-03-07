@@ -19,42 +19,46 @@ import eprecise.efiscal4j.nfe.tax.icms.desoneration.ICMSDesonerationReason;
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMS41 extends BaseICMS40 {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static class Builder extends BaseICMS40.Builder implements ICMSBuilder {
+    public static class Builder extends BaseICMS40.Builder implements ICMSBuilder {
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Builder withOrigin(ProductOrigin origin) {
-			return (ICMS41.Builder) super.withOrigin(origin);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Builder withOrigin(ProductOrigin origin) {
+            return (ICMS41.Builder) super.withOrigin(origin);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
-			return (ICMS41.Builder) super.withIcmsDesonerationValue(icmsDesonerationValue);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+            return (ICMS41.Builder) super.withIcmsDesonerationValue(icmsDesonerationValue);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
-			return (ICMS41.Builder) super.withIcmsDesonerationReason(icmsDesonerationReason);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+            return (ICMS41.Builder) super.withIcmsDesonerationReason(icmsDesonerationReason);
+        }
 
-		@Override
-		public ICMS41 build() {
-			return new ICMS41(this);
-		}
+        @Override
+        public ICMS41 build() {
+            return new ICMS41(this);
+        }
 
-	}
+    }
 
-	protected ICMS41(ICMS41.Builder builder) {
-		super(builder, "41");
-	}
+    protected ICMS41() {
+        super(null, null);
+    }
+
+    protected ICMS41(ICMS41.Builder builder) {
+        super(builder, "41");
+    }
 }

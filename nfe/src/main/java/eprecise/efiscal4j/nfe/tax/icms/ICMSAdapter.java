@@ -15,20 +15,20 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public class ICMSAdapter extends XmlAdapter<ICMSAdapter.AdaptedICMS, ICMS> {
 
-	@Override
-	public ICMS unmarshal(AdaptedICMS v) throws Exception {
-		return v.getIcms();
-	}
+    @Override
+    public ICMS unmarshal(AdaptedICMS v) throws Exception {
+        return v.getIcms();
+    }
 
-	@Override
-	public AdaptedICMS marshal(ICMS v) throws Exception {
-		return new AdaptedICMS(v);
-	}
+    @Override
+    public AdaptedICMS marshal(ICMS v) throws Exception {
+        return new AdaptedICMS(v);
+    }
 
-	@XmlAccessorType(XmlAccessType.FIELD)
-	protected static class AdaptedICMS {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    protected static class AdaptedICMS {
 
-		// @formatter:off
+        // @formatter:off
         @XmlElements(value = { 
                 @XmlElement(name = "ICMS00", type = ICMS00.class),
                 @XmlElement(name = "ICMS10", type = ICMS10.class),
@@ -56,16 +56,20 @@ public class ICMSAdapter extends XmlAdapter<ICMSAdapter.AdaptedICMS, ICMS> {
                 @XmlElement(name = "ICMSSN900", type = ICMSSN900.class),
                 }) 
         // @formatter:on
-		private final ICMS icms;
+        private final ICMS icms;
 
-		public AdaptedICMS(ICMS icms) {
-			this.icms = icms;
-		}
+        public AdaptedICMS() {
+            this.icms = null;
+        }
 
-		public ICMS getIcms() {
-			return this.icms;
-		}
+        public AdaptedICMS(ICMS icms) {
+            this.icms = icms;
+        }
 
-	}
+        public ICMS getIcms() {
+            return this.icms;
+        }
+
+    }
 
 }

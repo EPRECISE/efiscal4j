@@ -12,35 +12,40 @@ import javax.xml.bind.annotation.XmlElement;
  */
 abstract class BaseICMS extends ICMS {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	static abstract class Builder {
+    static abstract class Builder {
 
-		protected ProductOrigin origin;
+        protected ProductOrigin origin;
 
-		/**
-		 * @see ProductOrigin
-		 * @param origin
-		 * @return
-		 */
-		public Builder withOrigin(ProductOrigin origin) {
-			this.origin = origin;
-			return this;
-		}
+        /**
+         * @see ProductOrigin
+         * @param origin
+         * @return
+         */
+        public Builder withOrigin(ProductOrigin origin) {
+            this.origin = origin;
+            return this;
+        }
 
-		abstract BaseICMS build();
+        abstract BaseICMS build();
 
-	}
+    }
 
-	private @XmlElement(name = "CST") @NotNull final String cst;
+    private @XmlElement(name = "CST") @NotNull final String cst;
 
-	protected BaseICMS(ProductOrigin origin, String cst) {
-		super(origin);
-		this.cst = cst;
-	}
+    protected BaseICMS() {
+        super(null);
+        this.cst = null;
+    }
 
-	public String getCST() {
-		return this.cst;
-	}
+    protected BaseICMS(ProductOrigin origin, String cst) {
+        super(origin);
+        this.cst = cst;
+    }
+
+    public String getCST() {
+        return this.cst;
+    }
 
 }

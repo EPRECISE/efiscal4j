@@ -21,67 +21,73 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMSSN101 extends BaseICMSSN {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
+    private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
 
-	private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
+    private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
 
-	public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
+    public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
 
-		private String creditSnAliquot;
+        private String creditSnAliquot;
 
-		private String creditSnIcmsValue;
+        private String creditSnIcmsValue;
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Builder withOrigin(ProductOrigin origin) {
-			return (ICMSSN101.Builder) super.withOrigin(origin);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Builder withOrigin(ProductOrigin origin) {
+            return (ICMSSN101.Builder) super.withOrigin(origin);
+        }
 
-		/**
-		 * Alíquota aplicável de cálculo do crédito (Simples Nacional). (v2.0)
-		 * 
-		 * @param creditSnAliquot
-		 * @return
-		 */
-		public Builder withCreditSnAliquot(String creditSnAliquot) {
-			this.creditSnAliquot = creditSnAliquot;
-			return this;
-		}
+        /**
+         * Alíquota aplicável de cálculo do crédito (Simples Nacional). (v2.0)
+         * 
+         * @param creditSnAliquot
+         * @return
+         */
+        public Builder withCreditSnAliquot(String creditSnAliquot) {
+            this.creditSnAliquot = creditSnAliquot;
+            return this;
+        }
 
-		/**
-		 * Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional) (v2.0)
-		 * 
-		 * @param creditSnIcmsValue
-		 * @return
-		 */
-		public Builder withCreditSnIcmsValue(String creditSnIcmsValue) {
-			this.creditSnIcmsValue = creditSnIcmsValue;
-			return this;
-		}
+        /**
+         * Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional) (v2.0)
+         * 
+         * @param creditSnIcmsValue
+         * @return
+         */
+        public Builder withCreditSnIcmsValue(String creditSnIcmsValue) {
+            this.creditSnIcmsValue = creditSnIcmsValue;
+            return this;
+        }
 
-		@Override
-		public ICMSSN101 build() {
-			return new ICMSSN101(this);
-		}
+        @Override
+        public ICMSSN101 build() {
+            return new ICMSSN101(this);
+        }
 
-	}
+    }
 
-	protected ICMSSN101(ICMSSN101.Builder builder) {
-		super(builder.origin, "101");
-		this.creditSnAliquot = builder.creditSnAliquot;
-		this.creditSnIcmsValue = builder.creditSnIcmsValue;
-	}
+    protected ICMSSN101() {
+        super(null, null);
+        this.creditSnAliquot = null;
+        this.creditSnIcmsValue = null;
+    }
 
-	public String getCreditSnAliquot() {
-		return this.creditSnAliquot;
-	}
+    protected ICMSSN101(ICMSSN101.Builder builder) {
+        super(builder.origin, "101");
+        this.creditSnAliquot = builder.creditSnAliquot;
+        this.creditSnIcmsValue = builder.creditSnIcmsValue;
+    }
 
-	public String getCreditSnIcmsValue() {
-		return this.creditSnIcmsValue;
-	}
+    public String getCreditSnAliquot() {
+        return this.creditSnAliquot;
+    }
+
+    public String getCreditSnIcmsValue() {
+        return this.creditSnIcmsValue;
+    }
 
 }

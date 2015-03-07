@@ -1,9 +1,12 @@
 
 package eprecise.efiscal4j.nfe.adapter;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
@@ -15,12 +18,12 @@ import eprecise.efiscal4j.nfe.address.Address;
 
 public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver, Receiver> {
 
-	@Override
-	public Receiver unmarshal(AdaptedReceiver adaptedReceiver) throws Exception {
-		Receiver receiver;
+    @Override
+    public Receiver unmarshal(AdaptedReceiver adaptedReceiver) throws Exception {
+        Receiver receiver;
 
-		//@formatter:off
-        if (!adaptedReceiver.getAdaptedCpf().isEmpty()) {
+        //@formatter:off
+        if (adaptedReceiver.getAdaptedCpf() != null) {
             receiver = new Receiver.Builder()
                            .asNaturalPerson()
                            .withCpf(adaptedReceiver.getAdaptedCpf())    
@@ -45,12 +48,12 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
         }
 
         //@formatter:on
-		return receiver;
-	}
+        return receiver;
+    }
 
-	@Override
-	public AdaptedReceiver marshal(Receiver receiver) throws Exception {
-		//@formatter:off
+    @Override
+    public AdaptedReceiver marshal(Receiver receiver) throws Exception {
+        //@formatter:off
         AdaptedReceiver adaptedReceiver = null;
        
         adaptedReceiver = new AdaptedReceiver(receiver.getDocuments().getStateRegistration()                                                   
@@ -68,80 +71,91 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
         }        
         //@formatter:on       
 
-		return adaptedReceiver;
-	}
+        return adaptedReceiver;
+    }
 
-	@XmlAccessorType(XmlAccessType.FIELD)
-	protected static class AdaptedReceiver {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(propOrder = { "cnpj", "cpf", "name", "adress", "stateRegistrationReceiverIndicator", "stateRegistration", "municipalRegistration", "email" })
+    protected static class AdaptedReceiver implements Serializable {
 
-		private @XmlElement(name = "CNPJ") String cnpj;
+        private static final long serialVersionUID = 1L;
 
-		private @XmlElement(name = "CPF") String cpf;
+        private @XmlElement(name = "CNPJ") String cnpj;
 
-		private @XmlElement(name = "xNome") String name;
+        private @XmlElement(name = "CPF") String cpf;
 
-		private @XmlElement(name = "IE") final String stateRegistration;
+        private @XmlElement(name = "xNome") String name;
 
-		private @XmlElement(name = "IM") final String municipalRegistration;
+        private @XmlElement(name = "enderDest") final Address adress;
 
-		private @XmlElement(name = "enderDest") final Address adress;
+        private @XmlElement(name = "indIEDest") final StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
 
-		private @XmlElement(name = "indIEDest") final StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
+        private @XmlElement(name = "IE") final String stateRegistration;
 
-		private @XmlElement(name = "email") final String email;
+        private @XmlElement(name = "IM") final String municipalRegistration;
 
-		public AdaptedReceiver(String stateRegistration, String municipalRegistration, Address adress, StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator, String email) {
-			this.stateRegistration = stateRegistration;
-			this.municipalRegistration = municipalRegistration;
-			this.adress = adress;
-			this.stateRegistrationReceiverIndicator = stateRegistrationReceiverIndicator;
-			this.email = email;
-		}
+        private @XmlElement(name = "email") final String email;
 
-		public String getAdaptedName() {
-			return this.name;
-		}
+        public AdaptedReceiver() {
+            this.stateRegistration = null;
+            this.municipalRegistration = null;
+            this.adress = null;
+            this.stateRegistrationReceiverIndicator = null;
+            this.email = null;
+        }
 
-		public String getAdaptedCnpj() {
-			return this.cnpj;
-		}
+        public AdaptedReceiver(String stateRegistration, String municipalRegistration, Address adress, StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator, String email) {
+            this.stateRegistration = stateRegistration;
+            this.municipalRegistration = municipalRegistration;
+            this.adress = adress;
+            this.stateRegistrationReceiverIndicator = stateRegistrationReceiverIndicator;
+            this.email = email;
+        }
 
-		public String getAdaptedCpf() {
-			return this.cpf;
-		}
+        public String getAdaptedName() {
+            return this.name;
+        }
 
-		public String getAdaptedStateRegistration() {
-			return this.stateRegistration;
-		}
+        public String getAdaptedCnpj() {
+            return this.cnpj;
+        }
 
-		public String getAdaptedMunicipalRegistration() {
-			return this.municipalRegistration;
-		}
+        public String getAdaptedCpf() {
+            return this.cpf;
+        }
 
-		public Address getAdaptedAdress() {
-			return this.adress;
-		}
+        public String getAdaptedStateRegistration() {
+            return this.stateRegistration;
+        }
 
-		public StateRegistrationReceiverIndicator getAdaptedStateRegistrationReceiverIndicator() {
-			return this.stateRegistrationReceiverIndicator;
-		}
+        public String getAdaptedMunicipalRegistration() {
+            return this.municipalRegistration;
+        }
 
-		public String getAdaptedEmail() {
-			return this.email;
-		}
+        public Address getAdaptedAdress() {
+            return this.adress;
+        }
 
-		public void setAdaptedName(String name) {
-			this.name = name;
-		}
+        public StateRegistrationReceiverIndicator getAdaptedStateRegistrationReceiverIndicator() {
+            return this.stateRegistrationReceiverIndicator;
+        }
 
-		public void setAdaptedCnpj(String cnpj) {
-			this.cnpj = cnpj;
-		}
+        public String getAdaptedEmail() {
+            return this.email;
+        }
 
-		public void setAdaptedCpf(String cpf) {
-			this.cpf = cpf;
-		}
+        public void setAdaptedName(String name) {
+            this.name = name;
+        }
 
-	}
+        public void setAdaptedCnpj(String cnpj) {
+            this.cnpj = cnpj;
+        }
+
+        public void setAdaptedCpf(String cpf) {
+            this.cpf = cpf;
+        }
+
+    }
 
 }

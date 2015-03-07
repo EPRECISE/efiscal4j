@@ -1,4 +1,4 @@
-package eprecice.efiscal4j.cte.sharing;
+package eprecise.efiscal4j.cte.sharing;
 
 import java.io.IOException;
 

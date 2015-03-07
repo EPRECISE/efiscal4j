@@ -63,7 +63,10 @@ class COFINS67 extends BaseCOFINSOther{
             return new COFINS67(this);
         }
     }
-
+    protected COFINS67() {
+        super(null, null);
+    }
+    
     protected COFINS67(COFINS67.Builder builder) {
         super(builder, "67");
     }

@@ -23,6 +23,11 @@ abstract class BaseCOFINS extends COFINS {
 
     private @XmlElement(name = "CST") @NotNull final String cst;
 
+    protected BaseCOFINS() {
+        super();
+        this.cst = null;
+    }
+
     protected BaseCOFINS(String cst) {
         super();
         this.cst = cst;

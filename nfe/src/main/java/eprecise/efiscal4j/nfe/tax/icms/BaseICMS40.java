@@ -24,57 +24,63 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 @XmlAccessorType(XmlAccessType.FIELD)
 abstract class BaseICMS40 extends BaseICMS implements DesonerationGroup {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "vICMSDeson") @NFeDecimal1302 final String icmsDesonerationValue;
+    private @XmlElement(name = "vICMSDeson") @NFeDecimal1302 final String icmsDesonerationValue;
 
-	private @XmlElement(name = "motDesICMS") final ICMSDesonerationReason icmsDesonerationReason;
+    private @XmlElement(name = "motDesICMS") final ICMSDesonerationReason icmsDesonerationReason;
 
-	static abstract class Builder extends BaseICMS.Builder {
+    static abstract class Builder extends BaseICMS.Builder {
 
-		private String icmsDesonerationValue;
+        private String icmsDesonerationValue;
 
-		private ICMSDesonerationReason icmsDesonerationReason;
+        private ICMSDesonerationReason icmsDesonerationReason;
 
-		/**
-		 * Valor do ICMS de desoneração
-		 * 
-		 * @param icmsDesonerationValue
-		 * @return
-		 */
-		public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
-			this.icmsDesonerationValue = icmsDesonerationValue;
-			return this;
-		}
+        /**
+         * Valor do ICMS de desoneração
+         * 
+         * @param icmsDesonerationValue
+         * @return
+         */
+        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+            this.icmsDesonerationValue = icmsDesonerationValue;
+            return this;
+        }
 
-		/**
-		 * @see ICMSDesonerationReason
-		 * @param icmsDesonerationReason
-		 * @return
-		 */
-		public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
-			this.icmsDesonerationReason = icmsDesonerationReason;
-			return this;
-		}
+        /**
+         * @see ICMSDesonerationReason
+         * @param icmsDesonerationReason
+         * @return
+         */
+        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+            this.icmsDesonerationReason = icmsDesonerationReason;
+            return this;
+        }
 
-		@Override
-		abstract BaseICMS40 build();
-	}
+        @Override
+        abstract BaseICMS40 build();
+    }
 
-	protected BaseICMS40(Builder builder, String cst) {
-		super(builder.origin, cst);
-		this.icmsDesonerationValue = builder.icmsDesonerationValue;
-		this.icmsDesonerationReason = builder.icmsDesonerationReason;
-	}
+    protected BaseICMS40() {
+        super(null, null);
+        this.icmsDesonerationValue = null;
+        this.icmsDesonerationReason = null;
+    }
 
-	@Override
-	public String getIcmsDesonerationValue() {
-		return this.icmsDesonerationValue;
-	}
+    protected BaseICMS40(Builder builder, String cst) {
+        super(builder.origin, cst);
+        this.icmsDesonerationValue = builder.icmsDesonerationValue;
+        this.icmsDesonerationReason = builder.icmsDesonerationReason;
+    }
 
-	@Override
-	public ICMSDesonerationReason getIcmsDesonerationReason() {
-		return this.icmsDesonerationReason;
-	}
+    @Override
+    public String getIcmsDesonerationValue() {
+        return this.icmsDesonerationValue;
+    }
+
+    @Override
+    public ICMSDesonerationReason getIcmsDesonerationReason() {
+        return this.icmsDesonerationReason;
+    }
 
 }

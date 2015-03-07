@@ -1,7 +1,9 @@
+
 package eprecise.efiscal4j.nfe.tax.cofins;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 
 /**
  * Tributação pelo COFINS 99 - Outras Operações
@@ -12,12 +14,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class COFINS99 extends BaseCOFINSOther{
+class COFINS99 extends BaseCOFINSOther {
 
     private static final long serialVersionUID = 1L;
-    
-    public static class Builder extends BaseCOFINSOther.Builder implements COFINSBuilder {   
-              
+
+    public static class Builder extends BaseCOFINSOther.Builder implements COFINSBuilder {
+
         /**
          * {@inheritDoc}
          */
@@ -25,15 +27,15 @@ class COFINS99 extends BaseCOFINSOther{
         public Builder withBcValue(String bcValue) {
             return (COFINS99.Builder) super.withBcValue(bcValue);
         }
-        
+
         /**
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String productAliquot) { 
+        public Builder withProductAliquot(String productAliquot) {
             return (COFINS99.Builder) super.withProductAliquot(productAliquot);
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -41,15 +43,15 @@ class COFINS99 extends BaseCOFINSOther{
         public Builder withProductQuantity(String productQuantity) {
             return (COFINS99.Builder) super.withProductQuantity(productQuantity);
         }
-        
+
         /**
          * {@inheritDoc}
          */
         @Override
         public Builder withCofinsAliquot(String cofinsAliquot) {
             return (COFINS99.Builder) super.withCofinsAliquot(cofinsAliquot);
-        }               
-        
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -57,15 +59,19 @@ class COFINS99 extends BaseCOFINSOther{
         public Builder withCofinsValue(String cofinsValue) {
             return (COFINS99.Builder) super.withCofinsValue(cofinsValue);
         }
-      
+
         @Override
         public COFINS99 build() {
             return new COFINS99(this);
         }
     }
 
+    protected COFINS99() {
+        super(null, null);
+    }
+
     protected COFINS99(COFINS99.Builder builder) {
         super(builder, "99");
     }
-    
+
 }

@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe.tax.pis;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1204Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
+
 /**
  * Classe base para os PIS com os outros CST (49, 50, 51, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 70, 71, 72, 73, 74, 75, 98, 99)
  * 
@@ -20,32 +22,32 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract class BasePISOther extends BasePIS implements BasePISOtherStandard{
- 
+abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
+
     private static final long serialVersionUID = 1L;
- 
+
     private @XmlElement(name = "vBC") @NFeDecimal1302 final String bcValue;
 
     private @XmlElement(name = "pPIS") @NFeDecimal0302a04 final String pisAliquot;
-    
+
     private @XmlElement(name = "qBCProd") @NFeDecimal1204Variable final String productQuantity;
 
     private @XmlElement(name = "vAliqProd") @NFeDecimal1104Variable final String productAliquot;
 
     private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
-    
+
     static abstract class Builder extends BasePIS.Builder {
 
         private String bcValue;
 
         private String pisAliquot;
-        
+
         private String productQuantity;
 
         private String productAliquot;
 
         private String pisValue;
-        
+
         /**
          * Valor da BC do PIS
          * 
@@ -67,9 +69,9 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard{
             this.pisAliquot = pisAliquot;
             return this;
         }
-        
+
         /**
-         * Quantidade Vendida  (NT2011/004)
+         * Quantidade Vendida (NT2011/004)
          * 
          * @param productQuantity
          * @return
@@ -100,9 +102,18 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard{
             this.pisValue = pisValue;
             return this;
         }
-        
+
         @Override
         abstract BasePISOther build();
+    }
+
+    protected BasePISOther() {
+        super(null);
+        this.bcValue = null;
+        this.pisAliquot = null;
+        this.productQuantity = null;
+        this.productAliquot = null;
+        this.pisValue = null;
     }
 
     protected BasePISOther(Builder builder, String cst) {
@@ -113,7 +124,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard{
         this.productAliquot = builder.productAliquot;
         this.pisValue = builder.pisValue;
     }
-    
+
     @Override
     public String getBcValue() {
         return this.bcValue;
@@ -123,7 +134,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard{
     public String getPisAliquot() {
         return this.pisAliquot;
     }
-    
+
     @Override
     public String getProductQuantity() {
         return this.productQuantity;

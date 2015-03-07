@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.address;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,22 +13,33 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
 
     @Override
     public Address unmarshal(AdaptedAdress adaptedAdress) throws Exception {
-        //@formatter:off
+        City city = null;
+        //@formatter:off        
+        if (adaptedAdress.getCountryIbgeCode() == null || adaptedAdress.getCountryDescription() == null) {
+            city = new City.Builder()
+                    .withIbgeCode(adaptedAdress.getCityIbgeCode())
+                    .withDescription(adaptedAdress.getCityDescription())
+                    .withUF(UF.findByAcronym(adaptedAdress.getUf()))
+                    .build();
+        }else{
+            city = new City.Builder()
+                    .withCountry(new Country.Builder()
+                                  .withIbgeCode(adaptedAdress.getCountryIbgeCode())
+                                  .withDescription(adaptedAdress.getCountryDescription())
+                                  .build())
+                    .withIbgeCode(adaptedAdress.getCityIbgeCode())
+                    .withDescription(adaptedAdress.getCityDescription())
+                    .withUF(UF.findByAcronym(adaptedAdress.getUf()))
+                    .build();            
+        }
+
         return new Address.Builder()
                    .withStreet(adaptedAdress.getStreet())
                    .withNumber(adaptedAdress.getNumber())
                    .withComplement(adaptedAdress.getComplement())
                    .withDistrict(adaptedAdress.getDistrict())
                    .withCep(adaptedAdress.getCep())
-                   .withCity(new City.Builder()
-                                 .withCountry(new Country.Builder()
-                                                  .withIbgeCode(adaptedAdress.getCountryIbgeCode())
-                                                  .withDescription(adaptedAdress.getCountryDescription())
-                                                  .build())
-                                 .withIbgeCode(adaptedAdress.getCityIbgeCode())
-                                 .withDescription(adaptedAdress.getCityDescription())
-                                 .withUF(UF.findByAcronym(adaptedAdress.getUf()))
-                                 .build())
+                   .withCity(city)
                    .build();
         //@formatter:on       
     }
@@ -49,7 +62,9 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    protected static class AdaptedAdress {
+    protected static class AdaptedAdress implements Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         private @XmlElement(name = "xLgr") final String street;
 
@@ -72,6 +87,20 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
         private @XmlElement(name = "xPais") final String countryDescription;
 
         private @XmlElement(name = "fone") final String phone;
+
+        public AdaptedAdress() {
+            this.street = null;
+            this.number = null;
+            this.complement = null;
+            this.district = null;
+            this.cep = null;
+            this.cityIbgeCode = null;
+            this.cityDescription = null;
+            this.uf = null;
+            this.countryIbgeCode = null;
+            this.countryDescription = null;
+            this.phone = null;
+        }
 
         public AdaptedAdress(String street, String number, String complement, String district, String cep, String cityIbgeCode, String cityDescription, String uf, String countryIbgeCode,
                 String countryDescription, String phone) {

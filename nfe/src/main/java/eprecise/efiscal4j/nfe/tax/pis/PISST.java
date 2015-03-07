@@ -111,6 +111,14 @@ public class PISST implements Serializable, BasePISOtherStandard {
         }
     }
 
+    public PISST() {
+        this.bcValue = null;
+        this.pisAliquot = null;
+        this.productQuantity = null;
+        this.productAliquot = null;
+        this.pisValue = null;
+    }
+
     public PISST(Builder builder) {
         this.bcValue = builder.bcValue;
         this.pisAliquot = builder.pisAliquot;

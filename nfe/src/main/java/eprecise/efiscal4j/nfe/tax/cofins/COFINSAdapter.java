@@ -67,6 +67,10 @@ public class COFINSAdapter extends XmlAdapter<COFINSAdapter.AdaptedCOFINS, COFIN
         // @formatter:on
         private final COFINS cofins;
 
+        public AdaptedCOFINS() {
+            this.cofins = null;
+        }
+
         public AdaptedCOFINS(COFINS cofins) {
             this.cofins = cofins;
         }

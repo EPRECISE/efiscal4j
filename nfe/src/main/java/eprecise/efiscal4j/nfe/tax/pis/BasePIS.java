@@ -23,6 +23,11 @@ abstract class BasePIS extends PIS {
 
     private @XmlElement(name = "CST") @NotNull final String cst;
 
+    protected BasePIS() {
+        super();
+        this.cst = null;
+    }
+
     protected BasePIS(String cst) {
         super();
         this.cst = cst;

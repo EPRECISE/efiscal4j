@@ -14,12 +14,12 @@ import eprecise.efiscal4j.nfe.address.UF;
 
 public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor, Conveyor> {
 
-	@Override
-	public Conveyor unmarshal(AdaptedConveyor adaptedConveyor) throws Exception {
-		Conveyor conveyor;
+    @Override
+    public Conveyor unmarshal(AdaptedConveyor adaptedConveyor) throws Exception {
+        Conveyor conveyor;
 
-		//@formatter:off
-        if (!adaptedConveyor.getAdaptedCpf().isEmpty()) {
+        //@formatter:off
+        if (adaptedConveyor.getAdaptedCpf() != null) {
             conveyor = new Conveyor.Builder()
                       .asNaturalPerson()
                       .withCpf(adaptedConveyor.getAdaptedCpf())    
@@ -29,7 +29,7 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
                       .withCity(new City.Builder()
                                .withIbgeCode("0")
                                .withDescription(adaptedConveyor.getAdaptedCityDescription())
-                               .withUF(adaptedConveyor.getAdaptedUF())
+                               .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
                                .build())
                       .build();                           
         }else{
@@ -42,18 +42,18 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
                       .withCity(new City.Builder()
                                .withIbgeCode("1234567")
                                .withDescription(adaptedConveyor.getAdaptedCityDescription())
-                               .withUF(adaptedConveyor.getAdaptedUF())
+                               .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
                                .build())
                       .build();                      
         }
 
         //@formatter:on
-		return conveyor;
-	}
+        return conveyor;
+    }
 
-	@Override
-	public AdaptedConveyor marshal(Conveyor conveyor) throws Exception {
-		//@formatter:off
+    @Override
+    public AdaptedConveyor marshal(Conveyor conveyor) throws Exception {
+        //@formatter:off
 		AdaptedConveyor adaptedConveyor = null;
        
         adaptedConveyor = new AdaptedConveyor(conveyor.getDocuments().getStateRegistration()                                                                   
@@ -70,87 +70,94 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
         }        
         //@formatter:on       
 
-		return adaptedConveyor;
-	}
+        return adaptedConveyor;
+    }
 
-	@XmlAccessorType(XmlAccessType.FIELD)
-	protected static class AdaptedConveyor {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    protected static class AdaptedConveyor {
 
-		private @XmlElement(name = "CNPJ") String cnpj;
+        private @XmlElement(name = "CNPJ") String cnpj;
 
-		private @XmlElement(name = "CPF") String cpf;
+        private @XmlElement(name = "CPF") String cpf;
 
-		private @XmlElement(name = "xNome") String name;
+        private @XmlElement(name = "xNome") String name;
 
-		private @XmlElement(name = "IE") String stateRegistration;
+        private @XmlElement(name = "IE") String stateRegistration;
 
-		private @XmlElement(name = "xEnder") String fullAddress;
+        private @XmlElement(name = "xEnder") String fullAddress;
 
-		private @XmlElement(name = "xMun") String cityDescription;
+        private @XmlElement(name = "xMun") String cityDescription;
 
-		private @XmlElement(name = "UF") UF uf;
+        private @XmlElement(name = "UF") String uf;
 
-		public AdaptedConveyor(String stateRegistration, String fullAddress, String cityDescription, UF uf) {
-			this.stateRegistration = stateRegistration;
-			this.fullAddress = fullAddress;
-			this.cityDescription = cityDescription;
-			this.uf = uf;
-		}
+        public AdaptedConveyor() {
+            this.stateRegistration = null;
+            this.fullAddress = null;
+            this.cityDescription = null;
+            this.uf = null;
+        }
 
-		public String getAdaptedName() {
-			return this.name;
-		}
+        public AdaptedConveyor(String stateRegistration, String fullAddress, String cityDescription, UF uf) {
+            this.stateRegistration = stateRegistration;
+            this.fullAddress = fullAddress;
+            this.cityDescription = cityDescription;
+            this.uf = uf.getAcronym();
+        }
 
-		public String getAdaptedCnpj() {
-			return this.cnpj;
-		}
+        public String getAdaptedName() {
+            return this.name;
+        }
 
-		public String getAdaptedCpf() {
-			return this.cpf;
-		}
+        public String getAdaptedCnpj() {
+            return this.cnpj;
+        }
 
-		public String getAdaptedStateRegistration() {
-			return this.stateRegistration;
-		}
+        public String getAdaptedCpf() {
+            return this.cpf;
+        }
 
-		public String getAdaptedFullAddress() {
-			return this.fullAddress;
-		}
+        public String getAdaptedStateRegistration() {
+            return this.stateRegistration;
+        }
 
-		public String getAdaptedCityDescription() {
-			return this.cityDescription;
-		}
+        public String getAdaptedFullAddress() {
+            return this.fullAddress;
+        }
 
-		public UF getAdaptedUF() {
-			return this.uf;
-		}
+        public String getAdaptedCityDescription() {
+            return this.cityDescription;
+        }
 
-		public void setAdaptedName(String name) {
-			this.name = name;
-		}
+        public String getAdaptedUF() {
+            return this.uf;
+        }
 
-		public void setAdaptedCnpj(String cnpj) {
-			this.cnpj = cnpj;
-		}
+        public void setAdaptedName(String name) {
+            this.name = name;
+        }
 
-		public void setAdaptedCpf(String cpf) {
-			this.cpf = cpf;
-		}
+        public void setAdaptedCnpj(String cnpj) {
+            this.cnpj = cnpj;
+        }
 
-		public void setAdaptedStateRegistration(String stateRegistration) {
-			this.stateRegistration = stateRegistration;
-		}
+        public void setAdaptedCpf(String cpf) {
+            this.cpf = cpf;
+        }
 
-		public void setAdaptedFullAddress(String fullAddress) {
-			this.fullAddress = fullAddress;
-		}
+        public void setAdaptedStateRegistration(String stateRegistration) {
+            this.stateRegistration = stateRegistration;
+        }
 
-		public void setAdaptedCityDescription(String cityDescription) {
-			this.cityDescription = cityDescription;
-		}
+        public void setAdaptedFullAddress(String fullAddress) {
+            this.fullAddress = fullAddress;
+        }
 
-		public void setAdaptedUF(UF uf) {
-			this.uf = uf;
-		}
-	}
+        public void setAdaptedCityDescription(String cityDescription) {
+            this.cityDescription = cityDescription;
+        }
+
+        public void setAdaptedUF(UF uf) {
+            this.uf = uf.getAcronym();
+        }
+    }
 }

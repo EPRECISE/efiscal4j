@@ -17,26 +17,30 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 class ICMSSN300 extends BaseICMSSN102 {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static class Builder extends BaseICMSSN102.Builder implements ICMSBuilder {
+    public static class Builder extends BaseICMSSN102.Builder implements ICMSBuilder {
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Builder withOrigin(ProductOrigin origin) {
-			return (ICMSSN300.Builder) super.withOrigin(origin);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Builder withOrigin(ProductOrigin origin) {
+            return (ICMSSN300.Builder) super.withOrigin(origin);
+        }
 
-		@Override
-		public ICMSSN300 build() {
-			return new ICMSSN300(this);
-		}
+        @Override
+        public ICMSSN300 build() {
+            return new ICMSSN300(this);
+        }
 
-	}
+    }
 
-	protected ICMSSN300(ICMSSN300.Builder builder) {
-		super(builder, "300");
-	}
+    protected ICMSSN300() {
+        super(null, null);
+    }
+
+    protected ICMSSN300(ICMSSN300.Builder builder) {
+        super(builder, "300");
+    }
 }

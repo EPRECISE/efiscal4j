@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe.tax.pis;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
+
 /**
  * Classe base para os PIS com CST de alíquota (01 e 02)
  * 
@@ -16,16 +18,16 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract class BasePISAliquot extends BasePIS{
+abstract class BasePISAliquot extends BasePIS {
 
     private static final long serialVersionUID = 1L;
-    
+
     private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
 
     private @XmlElement(name = "pPIS") @NotNull @NFeDecimal0302a04 final String pisAliquot;
 
     private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
-    
+
     static abstract class Builder extends BasePIS.Builder {
 
         private String bcValue;
@@ -71,13 +73,20 @@ abstract class BasePISAliquot extends BasePIS{
         abstract BasePISAliquot build();
     }
 
+    protected BasePISAliquot() {
+        super(null);
+        this.bcValue = null;
+        this.pisAliquot = null;
+        this.pisValue = null;
+    }
+
     protected BasePISAliquot(Builder builder, String cst) {
         super(cst);
         this.bcValue = builder.bcValue;
         this.pisAliquot = builder.pisAliquot;
         this.pisValue = builder.pisValue;
     }
-    
+
     public String getBcValue() {
         return this.bcValue;
     }
@@ -89,6 +98,5 @@ abstract class BasePISAliquot extends BasePIS{
     public String getPisValue() {
         return this.pisValue;
     }
-
 
 }

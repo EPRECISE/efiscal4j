@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.nfe.tax.pis;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1204Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
+
 /**
  * Classe base para os PIS com CST de quantidade (03)
  * 
@@ -17,16 +19,16 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract class BasePISQuantity extends BasePIS{
-    
- private static final long serialVersionUID = 1L;
-    
+abstract class BasePISQuantity extends BasePIS {
+
+    private static final long serialVersionUID = 1L;
+
     private @XmlElement(name = "qBCProd") @NotNull @NFeDecimal1204Variable final String productQuantity;
 
     private @XmlElement(name = "vAliqProd") @NotNull @NFeDecimal1104Variable final String productAliquot;
 
     private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
-    
+
     static abstract class Builder extends BasePIS.Builder {
 
         private String productQuantity;
@@ -36,7 +38,7 @@ abstract class BasePISQuantity extends BasePIS{
         private String pisValue;
 
         /**
-         * Quantidade Vendida  (NT2011/004)
+         * Quantidade Vendida (NT2011/004)
          * 
          * @param productQuantity
          * @return
@@ -46,7 +48,6 @@ abstract class BasePISQuantity extends BasePIS{
             return this;
         }
 
-               
         /**
          * Alíquota do PIS (em reais) (NT2011/004)
          * 
@@ -73,13 +74,20 @@ abstract class BasePISQuantity extends BasePIS{
         abstract BasePISQuantity build();
     }
 
+    protected BasePISQuantity() {
+        super(null);
+        this.productQuantity = null;
+        this.productAliquot = null;
+        this.pisValue = null;
+    }
+
     protected BasePISQuantity(Builder builder, String cst) {
         super(cst);
         this.productQuantity = builder.productQuantity;
         this.productAliquot = builder.productAliquot;
         this.pisValue = builder.pisValue;
     }
-    
+
     public String getProductQuantity() {
         return this.productQuantity;
     }

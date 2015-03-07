@@ -63,7 +63,11 @@ class PIS67 extends BasePISOther{
             return new PIS67(this);
         }
     }
-
+    
+    protected PIS67() {
+        super(null, null);
+    }
+    
     protected PIS67(PIS67.Builder builder) {
         super(builder, "67");
     }

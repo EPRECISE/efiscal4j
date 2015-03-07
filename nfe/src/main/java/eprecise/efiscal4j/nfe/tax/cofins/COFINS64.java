@@ -1,7 +1,9 @@
+
 package eprecise.efiscal4j.nfe.tax.cofins;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 
 /**
  * Tributação pelo COFINS 64 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
@@ -12,12 +14,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class COFINS64 extends BaseCOFINSOther{
+class COFINS64 extends BaseCOFINSOther {
 
     private static final long serialVersionUID = 1L;
-    
-    public static class Builder extends BaseCOFINSOther.Builder implements COFINSBuilder {   
-              
+
+    public static class Builder extends BaseCOFINSOther.Builder implements COFINSBuilder {
+
         /**
          * {@inheritDoc}
          */
@@ -25,15 +27,15 @@ class COFINS64 extends BaseCOFINSOther{
         public Builder withBcValue(String bcValue) {
             return (COFINS64.Builder) super.withBcValue(bcValue);
         }
-        
+
         /**
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String productAliquot) { 
+        public Builder withProductAliquot(String productAliquot) {
             return (COFINS64.Builder) super.withProductAliquot(productAliquot);
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -41,15 +43,15 @@ class COFINS64 extends BaseCOFINSOther{
         public Builder withProductQuantity(String productQuantity) {
             return (COFINS64.Builder) super.withProductQuantity(productQuantity);
         }
-        
+
         /**
          * {@inheritDoc}
          */
         @Override
         public Builder withCofinsAliquot(String cofinsAliquot) {
             return (COFINS64.Builder) super.withCofinsAliquot(cofinsAliquot);
-        }               
-        
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -57,15 +59,19 @@ class COFINS64 extends BaseCOFINSOther{
         public Builder withCofinsValue(String cofinsValue) {
             return (COFINS64.Builder) super.withCofinsValue(cofinsValue);
         }
-      
+
         @Override
         public COFINS64 build() {
             return new COFINS64(this);
         }
     }
 
+    protected COFINS64() {
+        super(null, null);
+    }
+
     protected COFINS64(COFINS64.Builder builder) {
         super(builder, "64");
     }
-    
+
 }

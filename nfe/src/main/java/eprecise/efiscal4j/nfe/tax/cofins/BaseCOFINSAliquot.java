@@ -73,6 +73,13 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
         abstract BaseCOFINSAliquot build();
     }
 
+    protected BaseCOFINSAliquot() {
+        super(null);
+        this.bcValue = null;
+        this.cofinsAliquot = null;
+        this.cofinsValue = null;
+    }
+
     protected BaseCOFINSAliquot(Builder builder, String cst) {
         super(cst);
         this.bcValue = builder.bcValue;

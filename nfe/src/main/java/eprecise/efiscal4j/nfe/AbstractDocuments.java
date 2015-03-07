@@ -20,24 +20,26 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractDocuments {
 
-	private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) @NFeString String abstractName;
+    private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) @NFeString String abstractName;
 
-	private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
+    private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
 
-	protected String getAbstractName() {
-		return this.abstractName;
-	}
+    protected String getAbstractName() {
+        return this.abstractName;
+    }
 
-	protected void setAbstractName(String abstractName) {
-		this.abstractName = abstractName;
-	}
+    protected void setAbstractName(String abstractName) {
+        this.abstractName = abstractName;
+    }
 
-	public String getStateRegistration() {
-		return this.stateRegistration;
-	}
+    public String getStateRegistration() {
+        return this.stateRegistration;
+    }
 
-	public void setStateRegistration(String stateRegistration) {
-		this.stateRegistration = stateRegistration;
-	}
+    public void setStateRegistration(String stateRegistration) {
+        this.stateRegistration = stateRegistration;
+    }
+
+    public abstract String getCnpjCpf();
 
 }
