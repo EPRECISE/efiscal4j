@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.tax.FederalTax;
 import eprecise.efiscal4j.nfe.tax.pis.validation.BasePISOtherStandard;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104;
@@ -23,7 +24,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PISST implements Serializable, BasePISOtherStandard {
+public class PISST extends FederalTax implements Serializable, BasePISOtherStandard {
 
     private static final long serialVersionUID = 1L;
 

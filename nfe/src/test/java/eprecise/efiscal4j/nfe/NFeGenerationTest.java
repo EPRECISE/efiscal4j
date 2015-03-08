@@ -32,6 +32,7 @@ import eprecise.efiscal4j.nfe.payment.CardFlag;
 import eprecise.efiscal4j.nfe.payment.CardSet;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.payment.PaymentMethod;
+import eprecise.efiscal4j.nfe.tax.II;
 import eprecise.efiscal4j.nfe.tax.ReturnedIPI;
 import eprecise.efiscal4j.nfe.tax.ReturnedTax;
 import eprecise.efiscal4j.nfe.tax.Tax;
@@ -39,6 +40,7 @@ import eprecise.efiscal4j.nfe.tax.cofins.COFINS;
 import eprecise.efiscal4j.nfe.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.tax.ipi.IPI;
 import eprecise.efiscal4j.nfe.tax.pis.PISST;
 import eprecise.efiscal4j.nfe.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
@@ -309,6 +311,32 @@ public class NFeGenerationTest {
 //                                        .withCreditSnIcmsValue("100.00")                                                
 //                                        .build())
                                 
+                             //IPI00, IPI49, IPI50, IPI99      
+//                                .withIpi(new IPI.Builder()                                
+//                                            .fromCode(IPI.CST_49)
+//                                            .withLegalFramework("999")
+//                                            .withUnityQuantity("0")
+//                                            .withUnityValue("0")
+//                                            .withIpiValue("0")                                              
+//                                            .build())                                            
+                             //IPI01, IPI02, IPI03, IPI04, IPI05, IPI51, IPI52, IPI53, IPI54, IPI55      
+                                .withIpi(new IPI.Builder()                                
+                                            .fromCode(IPI.CST_01)
+                                            .withIpiFrameworkClass("2")
+                                            .withIpiSealCode("33")
+                                            .withIpiSealQuantity("4")
+                                            .withProducerCNPJ("12345678909876")
+                                            .withLegalFramework("999")
+                                            .build())
+                                            
+                             //II      
+                                .withIi(new II.Builder()
+                                            .withBcValue("0")
+                                            .withCustomsCharge("0")
+                                            .withIiValue("0")
+                                            .withIofValue("0")
+                                            .build())                                            
+                                            
                              //PIS01, PIS02      
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_01)

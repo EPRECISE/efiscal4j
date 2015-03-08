@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.tax.FederalTax;
 import eprecise.efiscal4j.nfe.tax.cofins.validation.BaseCOFINSOtherStandard;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104;
@@ -24,7 +25,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class COFINSST implements Serializable, BaseCOFINSOtherStandard {
+public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOtherStandard {
 
     private static final long serialVersionUID = 1L;
 

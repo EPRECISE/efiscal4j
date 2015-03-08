@@ -47,7 +47,7 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "dest") @NotNull final Receiver receiver;
 
-    private @XmlElement(name = "det") @NotNull @Size(max = 990) final List<NFeDetail> nFeDetails;
+    private @XmlElement(name = "det") @Size(max = 990) @NotNull final List<NFeDetail> nFeDetails;
 
     private @XmlElement(name = "total") @NotNull final NFeTotal nFeTotal;
 

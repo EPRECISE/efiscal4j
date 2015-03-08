@@ -13,6 +13,8 @@ import eprecise.efiscal4j.nfe.tax.cofins.COFINSAdapter;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
+import eprecise.efiscal4j.nfe.tax.ipi.IPI;
+import eprecise.efiscal4j.nfe.tax.ipi.IPIAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.tax.pis.PISAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PISST;
@@ -24,17 +26,17 @@ import eprecise.efiscal4j.nfe.tax.pis.PISST;
  * @author Felipe Bueno
  * 
  */
-// TODO Finalizar impostos ISSQN, IPI e II
+// TODO Finalizar imposto ISSQN
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tax {
 
     private @XmlElement(name = "ICMS") @XmlJavaTypeAdapter(ICMSAdapter.class) @Valid final ICMS icms;
 
     // private @XmlElement(name = "ISSQN") @Valid final ISSQN issqn;
-    //
-    // private @XmlElement(name = "IPI") @Valid final IPI ipi;
-    //
-    // private @XmlElement(name = "II") @Valid final II ii;
+
+    private @XmlElement(name = "IPI") @XmlJavaTypeAdapter(IPIAdapter.class) @Valid final IPI ipi;
+
+    private @XmlElement(name = "II") @Valid final II ii;
 
     private @XmlElement(name = "PIS") @XmlJavaTypeAdapter(PISAdapter.class) @Valid final PIS pis;
 
@@ -49,10 +51,10 @@ public class Tax {
         private ICMS icms;
 
         // private ISSQN issqn;
-        //
-        // private IPI ipi;
-        //
-        // private II ii;
+
+        private IPI ipi;
+
+        private II ii;
 
         private PIS pis;
 
@@ -71,16 +73,16 @@ public class Tax {
         // this.issqn = issqn;
         // return this;
         // }
-        //
-        // public Builder withIpi(IPI ipi) {
-        // this.ipi = ipi;
-        // return this;
-        // }
-        //
-        // public Builder withII(II ii) {
-        // this.ii = ii;
-        // return this;
-        // }
+
+        public Builder withIpi(IPI ipi) {
+            this.ipi = ipi;
+            return this;
+        }
+
+        public Builder withIi(II ii) {
+            this.ii = ii;
+            return this;
+        }
 
         public Builder withPis(PIS pis) {
             this.pis = pis;
@@ -112,8 +114,8 @@ public class Tax {
     public Tax() {
         this.icms = null;
         // this.issqn = null;
-        // this.ipi = null;
-        // this.ii = null;
+        this.ipi = null;
+        this.ii = null;
         this.pis = null;
         this.pisSt = null;
         this.cofins = null;
@@ -123,8 +125,8 @@ public class Tax {
     protected Tax(Builder builder) {
         this.icms = builder.icms;
         // this.issqn = builder.issqn;
-        // this.ipi = builder.ipi;
-        // this.ii = builder.ii;
+        this.ipi = builder.ipi;
+        this.ii = builder.ii;
         this.pis = builder.pis;
         this.pisSt = builder.pisSt;
         this.cofins = builder.cofins;

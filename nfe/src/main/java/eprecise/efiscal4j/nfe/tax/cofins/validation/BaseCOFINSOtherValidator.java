@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 
 
 /**
- * Validador do BeanValidation que verifica se todos os dados referentes a COFINS ST com retenção (Base de Cálculo e Valor) estão preenchidos
+ * @see BaseCOFINSOtherValidation
  * 
  * @author Felipe Bueno
  * 
