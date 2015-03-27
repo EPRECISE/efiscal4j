@@ -47,4 +47,9 @@ abstract class BaseICMSSN extends ICMS {
         return this.csosn;
     }
 
+    @Override
+    public String getCST() {
+        return this.getCSOSN();
+    }
+
 }

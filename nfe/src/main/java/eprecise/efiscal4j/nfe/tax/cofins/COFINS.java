@@ -195,4 +195,6 @@ public abstract class COFINS extends FederalTax implements Serializable {
             }
         }
     }
+
+    public abstract String getCofinsValue();
 }

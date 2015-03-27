@@ -127,4 +127,5 @@ class ICMS00 extends BaseICMS {
     public String getIcmsValue() {
         return this.icmsValue;
     }
+
 }

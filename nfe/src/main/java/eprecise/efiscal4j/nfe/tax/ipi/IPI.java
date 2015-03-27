@@ -22,7 +22,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IPI extends MainTax implements Serializable {
+public abstract class IPI extends MainTax implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -136,4 +136,6 @@ public class IPI extends MainTax implements Serializable {
     public String getLegalFramework() {
         return this.legalFramework;
     }
+
+    public abstract String getIpiValue();
 }

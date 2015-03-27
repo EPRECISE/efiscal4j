@@ -195,4 +195,6 @@ public abstract class PIS extends FederalTax implements Serializable {
             }
         }
     }
+
+    public abstract String getPisValue();
 }

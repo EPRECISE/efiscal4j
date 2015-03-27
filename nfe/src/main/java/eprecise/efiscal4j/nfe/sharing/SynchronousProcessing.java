@@ -1,30 +1,38 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.sharing;
+
+import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
-@XmlType
-@XmlEnum(Integer.class)
-public enum TransmissionEnvironmnent {
+/**
+ * Indicador de processamento síncrono.
+ * 
+ * @author Felipe Bueno
+ * 
+ */
 
-    @XmlEnumValue("1") PRODUCAO(1, "Produção"),
-    @XmlEnumValue("2") HOMOLOGACAO(2, "Homologação");
+@XmlType
+@XmlEnum(String.class)
+public enum SynchronousProcessing implements Serializable {
+    @XmlEnumValue("0") ASSINCRONO("0", "Não - Assíncrono"),
+    @XmlEnumValue("1") SINCRONO("1", "Sim - Síncrono");
 
     private static final long serialVersionUID = 1L;
 
-    private final int value;
+    private final String value;
 
     private final String description;
 
-    private TransmissionEnvironmnent(int value, String description) {
+    private SynchronousProcessing(String value, String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public String getValue() {
         return this.value;
     }
 
@@ -36,5 +44,4 @@ public enum TransmissionEnvironmnent {
     public String toString() {
         return this.getDescription();
     }
-
 }

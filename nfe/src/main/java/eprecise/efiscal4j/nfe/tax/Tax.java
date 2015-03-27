@@ -132,4 +132,32 @@ public class Tax {
         this.cofins = builder.cofins;
         this.cofinsSt = builder.cofinsSt;
     }
+
+    public ICMS getIcms() {
+        return this.icms;
+    }
+
+    public PIS getPis() {
+        return this.pis;
+    }
+
+    public PISST getPisSt() {
+        return this.pisSt;
+    }
+
+    public COFINS getCofins() {
+        return this.cofins;
+    }
+
+    public COFINSST getCofinsSt() {
+        return this.cofinsSt;
+    }
+
+    public IPI getIpi() {
+        return this.ipi;
+    }
+
+    public II getIi() {
+        return this.ii;
+    }
 }

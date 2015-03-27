@@ -176,4 +176,6 @@ public abstract class ICMS extends MainTax implements Serializable {
         return this.origin;
     }
 
+    public abstract String getCST();
+
 }

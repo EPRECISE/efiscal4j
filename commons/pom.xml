@@ -16,7 +16,7 @@
 
     <name>e-Fiscal4J Classes Comuns</name>
 
-    <dependencies>
+    <dependencies>        
         <dependency>
             <groupId>javax.xml</groupId>
             <artifactId>jaxb-api</artifactId>

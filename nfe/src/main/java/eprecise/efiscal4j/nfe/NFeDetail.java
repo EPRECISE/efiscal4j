@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -33,7 +34,7 @@ public class NFeDetail implements Serializable {
 
     private @XmlElement(name = "prod") @NotNull final NFeItem nFeItem;
 
-    private @XmlElement(name = "imposto") @NotNull final Tax tax;
+    private @XmlElement(name = "imposto") @NotNull @Valid final Tax tax;
 
     private @XmlElement(name = "impostoDevol") ReturnedTax returnedTax;
 

@@ -12,21 +12,21 @@ import javax.xml.bind.annotation.XmlElement;
  * @author carlos
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TypeStatusProtocol implements Serializable {
+public class StatusProtocol implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final @XmlElement(name = "infProt") StatusProtocolData statusProtocolData;
+    private final @XmlElement(name = "infProt") StatusProtocolInfo statusProtocolData;
     
     private final @XmlAttribute(name = "versao") @NotNull String version;
     
     public static class Builder {
 	
-	private StatusProtocolData statusProtocolData;
+	private StatusProtocolInfo statusProtocolData;
 	
 	private String version;
 	
-	public Builder withStatusProtocolData(StatusProtocolData statusProtocolData) {
+	public Builder withStatusProtocolData(StatusProtocolInfo statusProtocolData) {
 	    this.statusProtocolData = statusProtocolData;
 	    return this;
 	}
@@ -36,23 +36,23 @@ public class TypeStatusProtocol implements Serializable {
 	    return this;
 	}
 	
-	public TypeStatusProtocol build() {
-	    return new TypeStatusProtocol(this);
+	public StatusProtocol build() {
+	    return new StatusProtocol(this);
 	}
 	
     }
     
-    public TypeStatusProtocol() {
+    public StatusProtocol() {
 	this.statusProtocolData = null;
 	this.version = null;
     }
     
-    public TypeStatusProtocol(Builder builder) {
+    public StatusProtocol(Builder builder) {
 	this.statusProtocolData = builder.statusProtocolData;
 	this.version = builder.version;
     }
     
-    public StatusProtocolData getStatusProtocolData() {
+    public StatusProtocolInfo getStatusProtocolData() {
 	return this.statusProtocolData;
     }
     

@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.address.UF;
 import eprecise.efiscal4j.nfe.types.NFeCityIBGECode;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
@@ -46,9 +45,9 @@ public class NFeIdentification {
 
     private @XmlElement(name = "tpEmis") @NotNull final NFeTransmissionMethod nFeTransmissionMethod;
 
-    private @XmlElement(name = "cDV") @NotNull @Pattern(regexp = "[0-9]{1}") final String checksum;
+    private @XmlElement(name = "cDV") @NotNull @Pattern(regexp = "[0-9]{1}") String checksum;
 
-    private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironmnent transmissionEnvironment;
+    private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironment transmissionEnvironment;
 
     private @XmlElement(name = "finNFe") @NotNull final NFeFinality nFeFinality;
 
@@ -88,9 +87,7 @@ public class NFeIdentification {
 
         private NFeTransmissionMethod nFeTransmissionMethod;
 
-        private String checksum;
-
-        private TransmissionEnvironmnent transmissionEnvironment;
+        private TransmissionEnvironment transmissionEnvironment;
 
         private NFeFinality nFeFinality;
 
@@ -173,13 +170,8 @@ public class NFeIdentification {
             return this;
         }
 
-        public Builder withChecksum(String checksum) {
-            this.checksum = checksum;
-            return this;
-        }
-
-        public Builder withTransmissionEnvironment(TransmissionEnvironmnent transmissionEnvironmnent) {
-            this.transmissionEnvironment = transmissionEnvironmnent;
+        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+            this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
 
@@ -209,9 +201,7 @@ public class NFeIdentification {
         }
 
         public NFeIdentification build() {
-            final NFeIdentification entity = new NFeIdentification(this);
-            ValidationBuilder.from(entity).validate().throwIfViolate();
-            return entity;
+            return new NFeIdentification(this);
         }
     }
 
@@ -226,7 +216,6 @@ public class NFeIdentification {
         this.taxableEventCityIbgeCode = null;
         this.danfePrintFormat = null;
         this.nFeTransmissionMethod = null;
-        this.checksum = null;
         this.transmissionEnvironment = null;
         this.nFeFinality = null;
         this.finalCustomerOperation = null;
@@ -249,7 +238,6 @@ public class NFeIdentification {
         this.taxableEventCityIbgeCode = builder.taxableEventCityIbgeCode;
         this.danfePrintFormat = builder.danfePrintFormat;
         this.nFeTransmissionMethod = builder.nFeTransmissionMethod;
-        this.checksum = builder.checksum;
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.nFeFinality = builder.nFeFinality;
         this.finalCustomerOperation = builder.finalCustomerOperation;
@@ -314,7 +302,7 @@ public class NFeIdentification {
         return this.checksum;
     }
 
-    public TransmissionEnvironmnent getTransmissionEnvironment() {
+    public TransmissionEnvironment getTransmissionEnvironment() {
         return this.transmissionEnvironment;
     }
 
@@ -336,6 +324,10 @@ public class NFeIdentification {
 
     public String getApplicationVersion() {
         return this.applicationVersion;
+    }
+
+    protected void setChecksum(int checksum) {
+        this.checksum = String.valueOf(checksum);
     }
 
 }

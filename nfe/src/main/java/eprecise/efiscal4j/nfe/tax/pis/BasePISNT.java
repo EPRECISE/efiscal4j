@@ -31,4 +31,9 @@ abstract class BasePISNT extends BasePIS {
         super(cst);
     }
 
+    @Override
+    public String getPisValue() {
+        return "0";
+    }
+
 }

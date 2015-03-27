@@ -39,8 +39,8 @@ import eprecise.efiscal4j.cte.person.Sender;
 import eprecise.efiscal4j.cte.person.Shipper;
 import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
 import eprecise.efiscal4j.cte.sharing.ProcessedCTe;
-import eprecise.efiscal4j.cte.sharing.StatusProtocolData;
-import eprecise.efiscal4j.cte.sharing.TypeStatusProtocol;
+import eprecise.efiscal4j.cte.sharing.StatusProtocolInfo;
+import eprecise.efiscal4j.cte.sharing.StatusProtocol;
 
 public class ProcessedCTeGenerationTest {
     
@@ -265,8 +265,8 @@ public class ProcessedCTeGenerationTest {
 					.build())
 				.build())
 			.build())
-			.withTypeStatusProtocol(new TypeStatusProtocol.Builder()
-				.withStatusProtocolData(new StatusProtocolData.Builder()
+			.withTypeStatusProtocol(new StatusProtocol.Builder()
+				.withStatusProtocolData(new StatusProtocolInfo.Builder()
 				.withTypeEnvironment(TypeEnvironment.PRODUCTION)
 				.withAapplicationVersion("1.00")
 				.withAccessKeyCte("35150276302157001296570010002051661000280580")

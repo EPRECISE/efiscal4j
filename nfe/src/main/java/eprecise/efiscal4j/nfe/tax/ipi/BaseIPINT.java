@@ -71,4 +71,9 @@ abstract class BaseIPINT extends BaseIPI {
     protected BaseIPINT(Builder builder, String cst) {
         super(builder, cst);
     }
+
+    @Override
+    public String getIpiValue() {
+        return "0";
+    }
 }

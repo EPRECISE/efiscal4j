@@ -95,6 +95,7 @@ abstract class BasePISAliquot extends BasePIS {
         return this.pisAliquot;
     }
 
+    @Override
     public String getPisValue() {
         return this.pisValue;
     }

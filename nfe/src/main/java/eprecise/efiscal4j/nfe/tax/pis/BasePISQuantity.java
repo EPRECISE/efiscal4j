@@ -96,6 +96,7 @@ abstract class BasePISQuantity extends BasePIS {
         return this.productAliquot;
     }
 
+    @Override
     public String getPisValue() {
         return this.pisValue;
     }

@@ -95,6 +95,7 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
         return this.cofinsAliquot;
     }
 
+    @Override
     public String getCofinsValue() {
         return this.cofinsValue;
     }

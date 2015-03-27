@@ -31,4 +31,9 @@ abstract class BaseCOFINSNT extends BaseCOFINS {
         super(cst);
     }
 
+    @Override
+    public String getCofinsValue() {
+        return "0";
+    }
+
 }
