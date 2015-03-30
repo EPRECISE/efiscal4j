@@ -44,6 +44,7 @@ abstract class BaseICMS extends ICMS {
         this.cst = cst;
     }
 
+    @Override
     public String getCST() {
         return this.cst;
     }

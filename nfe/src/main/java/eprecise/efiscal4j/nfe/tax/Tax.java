@@ -13,6 +13,7 @@ import eprecise.efiscal4j.nfe.tax.cofins.COFINSAdapter;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
+import eprecise.efiscal4j.nfe.tax.ii.II;
 import eprecise.efiscal4j.nfe.tax.ipi.IPI;
 import eprecise.efiscal4j.nfe.tax.ipi.IPIAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PIS;

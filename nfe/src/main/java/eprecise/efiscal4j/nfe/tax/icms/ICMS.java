@@ -141,12 +141,12 @@ public abstract class ICMS extends MainTax implements Serializable {
     public static Class<ICMSSN203.Builder> CSOSN_203 = ICMSSN203.Builder.class;
 
     /**
-     * Tributação do ICMS pelo SIMPLES NACIONAL,CRT=1 – Simples Nacional e CSOSN=500 - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
+     * Tributação do ICMS pelo SIMPLES NACIONAL,CRT=1 - Simples Nacional e CSOSN=500 - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
      */
     public static Class<ICMSSN500.Builder> CSOSN_500 = ICMSSN500.Builder.class;
 
     /**
-     * Tributação do ICMS pelo SIMPLES NACIONAL, CRT=1 – Simples Nacional e CSOSN=900 - Outros
+     * Tributação do ICMS pelo SIMPLES NACIONAL, CRT=1 - Simples Nacional e CSOSN=900 - Outros
      */
     public static Class<ICMSSN900.Builder> CSOSN_900 = ICMSSN900.Builder.class;
 

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.tax;
+package eprecise.efiscal4j.nfe.tax.ipi;
 
 import java.io.Serializable;
 

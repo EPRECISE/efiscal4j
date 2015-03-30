@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.tax;
+package eprecise.efiscal4j.nfe.tax.ii;
 
 import java.io.Serializable;
 
@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.tax.MainTax;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
