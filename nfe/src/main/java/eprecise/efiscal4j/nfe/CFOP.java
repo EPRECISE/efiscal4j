@@ -578,6 +578,10 @@ public enum CFOP implements Serializable {
         return this.cfopMap.valueFrom(this.value);
     }
 
+    public String getCfopWithDescription() {
+        return this.value + "-" + this.cfopMap.valueFrom(this.value);
+    }
+
     public boolean isTransport() {
         return this.isTransport;
     }
