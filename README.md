@@ -5,5 +5,6 @@ Projeto para emissão de documentos fiscais eletrônicos, visando geração, ass
 * NF-e
 * NFC-e
 * NFS-e
+* CT-e
 
 Este projeto visa permitir emissão simples e rápida de documentos fiscais eletrônicos em Java
