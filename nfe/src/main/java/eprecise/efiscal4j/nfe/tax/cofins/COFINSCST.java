@@ -69,6 +69,10 @@ public enum COFINSCST implements Serializable {
         return this.cofinsCstMap.valueFrom(this.toString());
     }
 
+    public String getCstWithDescription() {
+        return this.value + " - " + this.cofinsCstMap.valueFrom(this.toString());
+    }
+
     public static COFINSCST findByCode(String code) {
         for (final COFINSCST cst : values()) {
             if (cst.getValue().equals(code)) {

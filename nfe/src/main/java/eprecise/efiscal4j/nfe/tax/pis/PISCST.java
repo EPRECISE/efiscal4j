@@ -69,6 +69,10 @@ public enum PISCST implements Serializable {
         return this.pisCstMap.valueFrom(this.toString());
     }
 
+    public String getCstWithDescription() {
+        return this.value + " - " + this.pisCstMap.valueFrom(this.toString());
+    }
+
     public static PISCST findByCode(String code) {
         for (final PISCST cst : values()) {
             if (cst.getValue().equals(code)) {

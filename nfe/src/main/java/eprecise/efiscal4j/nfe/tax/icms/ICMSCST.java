@@ -56,6 +56,10 @@ public enum ICMSCST implements Serializable {
         return this.icmsCstMap.valueFrom(this.toString());
     }
 
+    public String getCstWithDescription() {
+        return this.value + " - " + this.icmsCstMap.valueFrom(this.toString());
+    }
+
     public static ICMSCST findByCode(String code) {
         for (final ICMSCST cst : values()) {
             if (cst.getValue().equals(code)) {

@@ -46,6 +46,10 @@ public enum IPICST implements Serializable {
         return this.ipiCstMap.valueFrom(this.toString());
     }
 
+    public String getCstWithDescription() {
+        return this.value + " - " + this.ipiCstMap.valueFrom(this.toString());
+    }
+
     public static IPICST findByCode(String code) {
         for (final IPICST cst : values()) {
             if (cst.getValue().equals(code)) {
