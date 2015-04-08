@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eprecise.efiscal4j.nfe.FiscalDocumentModel;
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.NFeInfo;
 
 
