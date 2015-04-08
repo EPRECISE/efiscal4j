@@ -49,4 +49,13 @@ public enum ProductOrigin implements Serializable {
     public String getProductOriginWithDescription() {
         return this.value + " - " + this.description;
     }
+
+    public static ProductOrigin findByCode(String code) {
+        for (final ProductOrigin productOrigin : values()) {
+            if (productOrigin.getValue().equals(code)) {
+                return productOrigin;
+            }
+        }
+        return null;
+    }
 }

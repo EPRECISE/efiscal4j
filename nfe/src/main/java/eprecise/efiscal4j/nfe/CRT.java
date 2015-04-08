@@ -45,6 +45,15 @@ public enum CRT implements Serializable {
         return this.value + " - " + this.description;
     }
 
+    public static CRT findByCode(String code) {
+        for (final CRT crt : values()) {
+            if (crt.getValue().equals(code)) {
+                return crt;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return this.getDescription();
