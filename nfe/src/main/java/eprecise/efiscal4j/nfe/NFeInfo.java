@@ -266,7 +266,7 @@ public class NFeInfo implements Serializable {
         nfeId.append(new SimpleDateFormat("yy").format(emissionDate));
         nfeId.append(new SimpleDateFormat("MM").format(emissionDate));
         nfeId.append(this.getEmitter().getDocuments().getCnpjCpf());
-        nfeId.append(this.getnFeIdentification().getFiscalDocumentModel().getCode());
+        nfeId.append(this.getnFeIdentification().getFiscalDocumentModel().getValue());
         nfeId.append(new DecimalFormat("000").format(Integer.valueOf(this.getnFeIdentification().getFiscalDocumentSeries())));
         nfeId.append(new DecimalFormat("000000000").format(Integer.valueOf(this.getnFeIdentification().getFiscalDocumentNumber())));
         nfeId.append(this.getnFeIdentification().getnFeTransmissionMethod().getValue());
