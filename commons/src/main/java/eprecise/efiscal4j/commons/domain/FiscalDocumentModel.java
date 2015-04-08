@@ -15,20 +15,33 @@ public enum FiscalDocumentModel {
 
     private static final long serialVersionUID = 1L;
 
-    private String code;
+    private String value;
 
     private String description;
 
-    private FiscalDocumentModel(String code, String description) {
-        this.code = code;
+    private FiscalDocumentModel(String value, String description) {
+        this.value = value;
         this.description = description;
     }
 
-    public String getCode() {
-        return this.code;
+    public String getValue() {
+        return this.value;
     }
 
     public String getDescription() {
         return this.description;
+    }
+
+    public String getFiscalDocumentModelWithDescription() {
+        return this.value + " - " + this.description;
+    }
+
+    public static FiscalDocumentModel findByCode(String code) {
+        for (final FiscalDocumentModel fiscalDocumentModel : values()) {
+            if (fiscalDocumentModel.getValue().equals(code)) {
+                return fiscalDocumentModel;
+            }
+        }
+        return null;
     }
 }

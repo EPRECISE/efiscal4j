@@ -428,7 +428,7 @@ public class Identification {
     }
 
     public String getModelDocument() {
-        return this.modelDocument.getCode();
+        return this.modelDocument.getValue();
     }
 
     public String getSerie() {
