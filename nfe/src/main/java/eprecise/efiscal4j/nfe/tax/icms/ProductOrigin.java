@@ -23,19 +23,30 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlEnum(Integer.class)
 public enum ProductOrigin implements Serializable {
-	@XmlEnumValue("0") NACIONAL("Nacional"),
-	@XmlEnumValue("1") ESTRANGEIRA_IMPORTADA("Estrangeira - Importada"),
-	@XmlEnumValue("2") ESTRANGEIRA_ADQUIRIDA_NACIONAL("Estrangeira - Adquirida no mercado nacional");
+    @XmlEnumValue("0") NACIONAL("0", "Nacional"),
+    @XmlEnumValue("1") ESTRANGEIRA_IMPORTADA("1", "Estrangeira - Importada"),
+    @XmlEnumValue("2") ESTRANGEIRA_ADQUIRIDA_NACIONAL("2", "Estrangeira - Adquirida no mercado nacional");
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String description;
+    private final String value;
 
-	private ProductOrigin(String description) {
-		this.description = description;
-	}
+    private final String description;
 
-	public String getDescription() {
-		return this.description;
-	}
+    private ProductOrigin(String value, String description) {
+        this.value = value;
+        this.description = description;
+    }
+
+    public String getValue() {
+        return this.value;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getProductOriginWithDescription() {
+        return this.value + " - " + this.description;
+    }
 }
