@@ -12,9 +12,9 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributção pelo ICMS 51 - Diferimento
- * 
+ *
  * A exigência do preenchimento das informações do ICMS diferido fica à critério de cada UF.
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
@@ -77,7 +77,7 @@ class ICMS51 extends BaseICMS {
 
         /**
          * Percentual de redução da BC
-         * 
+         *
          * @param bcReductionPercent
          * @return
          */
@@ -88,7 +88,7 @@ class ICMS51 extends BaseICMS {
 
         /**
          * Valor da BC do ICMS
-         * 
+         *
          * @param bcValue
          * @return
          */
@@ -107,7 +107,7 @@ class ICMS51 extends BaseICMS {
 
         /**
          * Valor do ICMS da Operação
-         * 
+         *
          * @param icmsOperationValue
          * @return
          */
@@ -117,8 +117,8 @@ class ICMS51 extends BaseICMS {
         }
 
         /**
-         * Percentual do diferemento
-         * 
+         * Percentual do diferimento
+         *
          * @param deferralPercent
          * @return
          */
@@ -128,7 +128,7 @@ class ICMS51 extends BaseICMS {
         }
 
         /**
-         * 
+         *
          * @param icmsDeferralValue
          * @return
          */
@@ -154,57 +154,57 @@ class ICMS51 extends BaseICMS {
 
     protected ICMS51() {
         super(null, null);
-        this.bcModality = null;
-        this.bcReductionPercent = null;
-        this.bcValue = null;
-        this.icmsAliquot = null;
-        this.icmsOperationValue = null;
-        this.deferralPercent = null;
-        this.icmsDeferralValue = null;
-        this.icmsValue = null;
+        bcModality = null;
+        bcReductionPercent = null;
+        bcValue = null;
+        icmsAliquot = null;
+        icmsOperationValue = null;
+        deferralPercent = null;
+        icmsDeferralValue = null;
+        icmsValue = null;
     }
 
     protected ICMS51(ICMS51.Builder builder) {
         super(builder.origin, "51");
-        this.bcModality = builder.bcModality;
-        this.bcReductionPercent = builder.bcReductionPercent;
-        this.bcValue = builder.bcValue;
-        this.icmsAliquot = builder.icmsAliquot;
-        this.icmsOperationValue = builder.icmsOperationValue;
-        this.deferralPercent = builder.deferralPercent;
-        this.icmsDeferralValue = builder.icmsDeferralValue;
-        this.icmsValue = builder.icmsValue;
+        bcModality = builder.bcModality;
+        bcReductionPercent = builder.bcReductionPercent;
+        bcValue = builder.bcValue;
+        icmsAliquot = builder.icmsAliquot;
+        icmsOperationValue = builder.icmsOperationValue;
+        deferralPercent = builder.deferralPercent;
+        icmsDeferralValue = builder.icmsDeferralValue;
+        icmsValue = builder.icmsValue;
     }
 
     public BCModality getBcModality() {
-        return this.bcModality;
+        return bcModality;
     }
 
     public String getBcReductionPercent() {
-        return this.bcReductionPercent;
+        return bcReductionPercent;
     }
 
     public String getBcValue() {
-        return this.bcValue;
+        return bcValue;
     }
 
     public String getIcmsAliquot() {
-        return this.icmsAliquot;
+        return icmsAliquot;
     }
 
     public String getIcmsOperationValue() {
-        return this.icmsOperationValue;
+        return icmsOperationValue;
     }
 
     public String getDeferralPercent() {
-        return this.deferralPercent;
+        return deferralPercent;
     }
 
     public String getIcmsDeferralValue() {
-        return this.icmsDeferralValue;
+        return icmsDeferralValue;
     }
 
     public String getIcmsValue() {
-        return this.icmsValue;
+        return icmsValue;
     }
 }
