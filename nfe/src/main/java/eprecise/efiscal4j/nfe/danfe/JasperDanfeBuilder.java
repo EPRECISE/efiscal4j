@@ -1,6 +1,7 @@
 
 package eprecise.efiscal4j.nfe.danfe;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,10 +10,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -23,17 +26,48 @@ import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 public class JasperDanfeBuilder {
 
+    private enum DataSourceType {
+        ENTITY {
+
+            @Override
+            public JRDataSource generate(ProcessedNFe nfe) throws JRException {
+                return new JRBeanCollectionDataSource(Arrays.asList(nfe));
+            }
+        },
+        XML {
+
+            @Override
+            public JRDataSource generate(ProcessedNFe nfe) throws JRException {
+                return new JRXmlDataSource(new ByteArrayInputStream(nfe.getAsXml().getBytes()));
+            }
+        };
+
+        public abstract JRDataSource generate(ProcessedNFe nfe) throws JRException;
+    }
+
     private JasperDanfeCatalog catalog;
 
     private final Map<String, Object> params = new HashMap<>();
 
     private final ProcessedNFe nfe;
 
+    private DataSourceType type = DataSourceType.ENTITY;
+
     public JasperDanfeBuilder(ProcessedNFe nfe) {
         this.nfe = nfe;
     }
 
-    public <T> JasperDanfeBuilder withCatalog(JasperDanfeCatalog catalog) {
+    public JasperDanfeBuilder usingEntity() {
+        this.type = DataSourceType.ENTITY;
+        return this;
+    }
+
+    public JasperDanfeBuilder usingXML() {
+        this.type = DataSourceType.XML;
+        return this;
+    }
+
+    public JasperDanfeBuilder withCatalog(JasperDanfeCatalog catalog) {
         this.catalog = catalog;
         return this;
     }
@@ -44,8 +78,7 @@ public class JasperDanfeBuilder {
     }
 
     public JasperPrint build() throws IOException, JRException {
-        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params,
-                new JRBeanCollectionDataSource(Arrays.asList(this.nfe)));
+        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
     public void toPdf(OutputStream out) throws IOException, JRException {
