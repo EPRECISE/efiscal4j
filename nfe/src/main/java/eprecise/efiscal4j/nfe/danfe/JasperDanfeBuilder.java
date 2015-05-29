@@ -18,7 +18,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import eprecise.efiscal4j.nfe.NFe;
+import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 
 public class JasperDanfeBuilder {
@@ -27,9 +27,9 @@ public class JasperDanfeBuilder {
 
     private final Map<String, Object> params = new HashMap<>();
 
-    private final NFe nfe;
+    private final ProcessedNFe nfe;
 
-    public JasperDanfeBuilder(NFe nfe) {
+    public JasperDanfeBuilder(ProcessedNFe nfe) {
         this.nfe = nfe;
     }
 
@@ -44,7 +44,8 @@ public class JasperDanfeBuilder {
     }
 
     public JasperPrint build() throws IOException, JRException {
-        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, new JRBeanCollectionDataSource(Arrays.asList(this.nfe)));
+        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params,
+                new JRBeanCollectionDataSource(Arrays.asList(this.nfe)));
     }
 
     public void toPdf(OutputStream out) throws IOException, JRException {
