@@ -6,46 +6,51 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.address.City;
-import eprecise.efiscal4j.nfe.address.UF;
 
 
 public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor, Conveyor> {
 
     @Override
     public Conveyor unmarshal(AdaptedConveyor adaptedConveyor) throws Exception {
-        Conveyor conveyor;
+        Conveyor conveyor = null;
+        try {
 
-        //@formatter:off
-        if (adaptedConveyor.getAdaptedCpf() != null) {
-            conveyor = new Conveyor.Builder()
-                      .asNaturalPerson()
-                      .withCpf(adaptedConveyor.getAdaptedCpf())    
-                      .withName(adaptedConveyor.getAdaptedName())
-                      .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())
-                      .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
-                      .withCity(new City.Builder()
-                               .withIbgeCode("0")
-                               .withDescription(adaptedConveyor.getAdaptedCityDescription())
-                               .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
-                               .build())
-                      .build();                           
-        }else{
-            conveyor = new Conveyor.Builder()
-                      .asLegalEntity()
-                      .withCnpj(adaptedConveyor.getAdaptedCnpj())
-                      .withCorporateName(adaptedConveyor.getAdaptedName())
-                      .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())                                                                                                                                 
-                      .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
-                      .withCity(new City.Builder()
-                               .withIbgeCode("1234567")
-                               .withDescription(adaptedConveyor.getAdaptedCityDescription())
-                               .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
-                               .build())
-                      .build();                      
+            //@formatter:off
+            if (adaptedConveyor.getAdaptedCpf() != null) {
+                conveyor = new Conveyor.Builder()
+                          .asNaturalPerson()
+                          .withCpf(adaptedConveyor.getAdaptedCpf())    
+                          .withName(adaptedConveyor.getAdaptedName())
+                          .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())
+                          .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
+                          .withCity(new City.Builder()
+                                   .withIbgeCode("0000000")
+                                   .withDescription(adaptedConveyor.getAdaptedCityDescription())
+                                   .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
+                                   .build())
+                          .build();                           
+            }else{
+                conveyor = new Conveyor.Builder()
+                          .asLegalEntity()
+                          .withCnpj(adaptedConveyor.getAdaptedCnpj())
+                          .withCorporateName(adaptedConveyor.getAdaptedName())
+                          .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())                                                                                                                                 
+                          .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
+                          .withCity(new City.Builder()
+                                   .withIbgeCode("0000000")
+                                   .withDescription(adaptedConveyor.getAdaptedCityDescription())
+                                   .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
+                                   .build())
+                          .build();                      
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
+   
 
         //@formatter:on
         return conveyor;
@@ -54,9 +59,14 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
     @Override
     public AdaptedConveyor marshal(Conveyor conveyor) throws Exception {
         //@formatter:off
-		AdaptedConveyor adaptedConveyor = null;
-       
-        adaptedConveyor = new AdaptedConveyor(conveyor.getDocuments().getStateRegistration()                                                                   
+		AdaptedConveyor adaptedConveyor = null;       	
+		
+		if(conveyor == null){
+		    return null;		    
+		}
+		
+        adaptedConveyor = new AdaptedConveyor(
+                (conveyor.getDocuments() != null ? conveyor.getDocuments().getStateRegistration() : null)                                                                   
                 ,conveyor.getFullAddress()
                 ,conveyor.getCity().getDescription()
                 ,conveyor.getCity().getUf());

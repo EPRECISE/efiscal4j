@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
+
 
 public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Address> {
 

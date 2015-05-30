@@ -51,7 +51,7 @@ class PIS03 extends BasePISQuantity {
     }
 
     protected PIS03() {
-        super(null, null);
+        super();
     }
 
     protected PIS03(PIS03.Builder builder) {

@@ -12,10 +12,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
-import eprecise.efiscal4j.nfe.types.NFeVersion;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 
 
 /**
@@ -24,19 +28,23 @@ import eprecise.efiscal4j.nfe.types.NFeVersion;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "consReciNFe")
+@XmlRootElement(name = ObjectFactory.CONS_RECI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BatchReceiptSearch implements Serializable {
+public class BatchReceiptSearch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = NFeVersion.NFE_VERSION;
+    public static String XSD = "/eprecise/efiscal4j/nfe/consReciNFe_v3.10.xsd";
+
+    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
 
     private @XmlElement(name = "nRec") @NotNull @Size(max = 15) @Pattern(regexp = "[0-9]{15}") final String receiptNumber;
+
+    private @XmlTransient QName qName = new QName(ObjectFactory.CONS_RECI_NFE);
 
     public static class Builder {
 
@@ -89,5 +97,15 @@ public class BatchReceiptSearch implements Serializable {
 
     public String getReceiptNumber() {
         return this.receiptNumber;
+    }
+
+    @Override
+    public void setQName(QName qName) {
+        this.qName = qName;
+    }
+
+    @Override
+    public QName getQName() {
+        return this.qName;
     }
 }

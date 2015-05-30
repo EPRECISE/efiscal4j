@@ -157,5 +157,4 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
         }
 
     }
-
 }

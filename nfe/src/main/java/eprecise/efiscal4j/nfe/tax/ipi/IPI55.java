@@ -67,7 +67,7 @@ class IPI55 extends BaseIPINT {
     }
 
     protected IPI55() {
-        super(null, null);
+        super();
     }
 
     protected IPI55(IPI55.Builder builder) {

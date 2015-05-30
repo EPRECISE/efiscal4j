@@ -51,7 +51,7 @@ class PIS01 extends BasePISAliquot {
     }
 
     protected PIS01() {
-        super(null, null);
+        super();
     }
 
     protected PIS01(PIS01.Builder builder) {

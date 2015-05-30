@@ -64,8 +64,8 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFramework) {
-            return (IPI49.Builder) super.withIpiFrameworkClass(ipiFramework);
+        public Builder withIpiFrameworkClass(String ipiFrameworkClass) {
+            return (IPI49.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
         }
 
         /**
@@ -107,7 +107,7 @@ class IPI49 extends BaseIPITrib {
     }
 
     protected IPI49() {
-        super(null, null);
+        super();
     }
 
     protected IPI49(IPI49.Builder builder) {

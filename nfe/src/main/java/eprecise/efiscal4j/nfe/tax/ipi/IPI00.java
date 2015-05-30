@@ -107,7 +107,7 @@ class IPI00 extends BaseIPITrib {
     }
 
     protected IPI00() {
-        super(null, null);
+        super();
     }
 
     protected IPI00(IPI00.Builder builder) {

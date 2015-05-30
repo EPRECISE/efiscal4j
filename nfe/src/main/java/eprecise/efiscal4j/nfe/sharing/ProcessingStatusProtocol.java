@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfe.types.NFeVersion;
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 
 
 /**
@@ -24,7 +24,7 @@ public class ProcessingStatusProtocol implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = NFeVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
 
     private @XmlElement(name = "infProt") @NotNull @Valid final ProcessingStatusProtocolInfo processingStatusProtocolInfo;
 

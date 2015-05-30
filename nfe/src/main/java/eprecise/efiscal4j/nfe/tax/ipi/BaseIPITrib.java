@@ -106,8 +106,8 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFramework) {
-            return (BaseIPITrib.Builder) super.withIpiFrameworkClass(ipiFramework);
+        public Builder withIpiFrameworkClass(String ipiFrameworkClass) {
+            return (BaseIPITrib.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
         }
 
         /**
@@ -147,7 +147,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
     }
 
     protected BaseIPITrib() {
-        super(null, null);
+        super();
         this.bcValue = null;
         this.ipiAliquot = null;
         this.unityQuantity = null;

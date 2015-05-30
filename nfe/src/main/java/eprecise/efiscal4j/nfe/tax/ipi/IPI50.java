@@ -107,7 +107,7 @@ class IPI50 extends BaseIPITrib {
     }
 
     protected IPI50() {
-        super(null, null);
+        super();
     }
 
     protected IPI50(IPI50.Builder builder) {

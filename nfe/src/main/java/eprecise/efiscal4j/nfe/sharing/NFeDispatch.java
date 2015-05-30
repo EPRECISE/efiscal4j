@@ -15,17 +15,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NFe;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.types.NFeVersion;
-import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 
 
 /**
@@ -34,13 +33,16 @@ import eprecise.efiscal4j.signer.Assignable;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "enviNFe")
+
+@XmlRootElement(name = ObjectFactory.ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeDispatch implements Serializable, Assignable {
+public class NFeDispatch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = NFeVersion.NFE_VERSION;
+    public static String XSD = "/eprecise/efiscal4j/nfe/enviNFe_v3.10.xsd";
+
+    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
 
     private @XmlAttribute(name = "xmlns") final String xmlns;
 
@@ -50,7 +52,7 @@ public class NFeDispatch implements Serializable, Assignable {
 
     private @XmlElement(name = "NFe") @Size(min = 1, max = 50) @NotNull @Valid final List<NFe> nFes;
 
-    private @XmlTransient String signedXml;
+    private @XmlTransient QName qName = new QName(ObjectFactory.ENVI_NFE);
 
     public static class Builder {
 
@@ -105,7 +107,6 @@ public class NFeDispatch implements Serializable, Assignable {
         this.batchId = null;
         this.synchronousProcessing = null;
         this.nFes = null;
-
     }
 
     public NFeDispatch(Builder builder) {
@@ -132,32 +133,13 @@ public class NFeDispatch implements Serializable, Assignable {
     }
 
     @Override
-    public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize();
+    public void setQName(QName qName) {
+        this.qName = qName;
     }
 
     @Override
-    public String getSignedXml() {
-        return this.signedXml;
+    public QName getQName() {
+        return this.qName;
     }
 
-    @Override
-    public void setSignedXml(String signedXml) {
-        this.signedXml = signedXml.replaceAll("<" + this.getRootTagName() + ">", "<" + this.getRootTagName() + " xmlns=\"" + this.xmlns + "\">");
-    }
-
-    @Override
-    public String getRootTagName() {
-        return "NFe";
-    }
-
-    @Override
-    public String getAssignableTagName() {
-        return "infNFe";
-    }
-
-    @Override
-    public String getIdAttributeTagName() {
-        return "Id";
-    }
 }

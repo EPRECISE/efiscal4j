@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe.tax.icms;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfe.address.UF;
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;

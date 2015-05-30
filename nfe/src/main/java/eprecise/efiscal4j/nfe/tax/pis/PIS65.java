@@ -67,7 +67,7 @@ class PIS65 extends BasePISOther {
     }
 
     protected PIS65() {
-        super(null, null);
+        super();
     }
 
     protected PIS65(PIS65.Builder builder) {

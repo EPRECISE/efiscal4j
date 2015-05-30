@@ -51,7 +51,7 @@ class COFINS03 extends BaseCOFINSQuantity {
     }
 
     protected COFINS03() {
-        super(null, null);
+        super();
     }
 
     protected COFINS03(COFINS03.Builder builder) {

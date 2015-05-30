@@ -1,18 +1,49 @@
 
 package eprecise.efiscal4j.signer;
 
-public interface Assignable {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
-    String getAsXml();
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-    String getSignedXml();
+import org.apache.commons.io.IOUtils;
 
-    void setSignedXml(String signedXml);
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
-    String getRootTagName();
 
-    String getAssignableTagName();
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlTransient
+public abstract class Assignable {
 
-    String getIdAttributeTagName();
+    public @XmlElement(name = "Signature") SignatureType signature;
+
+    public abstract String getAsXml();
+
+    public abstract Assignable getAsEntity(String xml);
+
+    public Assignable getAsEntity(InputStream xml) throws IOException {
+        return this.getAsEntity(IOUtils.toString(xml));
+    }
+
+    public Assignable getAsEntity(URL xml) throws IOException {
+        return this.getAsEntity(IOUtils.toString(xml.openStream()));
+    }
+
+    public Assignable getAsEntity(File xml) throws FileNotFoundException, IOException {
+        return this.getAsEntity(IOUtils.toString(new FileInputStream(xml)));
+    }
+
+    public abstract String getRootTagName();
+
+    public abstract String getAssignableTagName();
+
+    public abstract String getIdAttributeTagName();
 
 }

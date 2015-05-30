@@ -18,13 +18,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
-import eprecise.efiscal4j.nfe.types.NFeVersion;
 import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;
 
 
@@ -42,7 +42,7 @@ public class NFeInfo implements Serializable {
 
     private @XmlAttribute(name = "Id") @Pattern(regexp = "NFe[0-9]{44}") final String id;
 
-    private @XmlAttribute(name = "versao") final String version = NFeVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") final String version = FiscalDocumentVersion.NFE_VERSION;
 
     private @XmlElement(name = "ide") @NotNull @Valid final NFeIdentification nFeIdentification;
 

@@ -51,7 +51,7 @@ class COFINS02 extends BaseCOFINSAliquot {
     }
 
     protected COFINS02() {
-        super(null, null);
+        super();
     }
 
     protected COFINS02(COFINS02.Builder builder) {

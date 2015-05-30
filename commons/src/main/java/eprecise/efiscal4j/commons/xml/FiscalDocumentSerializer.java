@@ -27,6 +27,11 @@ public class FiscalDocumentSerializer<T> {
         return this;
     }
 
+    public FiscalDocumentSerializer<T> considering(List<Class<?>> classes) {
+        this.toConsider.addAll(classes);
+        return this;
+    }
+
     public String serialize() {
         final Class<?>[] considering = new Class<?>[this.toConsider.size()];
         this.toConsider.toArray(considering);
@@ -34,7 +39,8 @@ public class FiscalDocumentSerializer<T> {
             final JAXBContext jaxbContext = JAXBContext.newInstance(considering);
             final Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             final StringWriter out = new StringWriter();
             marshaller.marshal(this.entity, out);
             return out.toString().replace(":ns2", "").replace("ns2:", "");

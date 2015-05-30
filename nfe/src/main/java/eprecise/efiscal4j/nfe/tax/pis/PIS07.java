@@ -27,7 +27,7 @@ class PIS07 extends BasePISNT {
     }
 
     protected PIS07() {
-        super(null, null);
+        super();
     }
 
     protected PIS07(PIS07.Builder builder) {

@@ -23,6 +23,11 @@ public class IPIAdapter extends XmlAdapter<IPIAdapter.AdaptedIPI, IPI> {
 
     @Override
     public IPI unmarshal(AdaptedIPI v) throws Exception {
+        v.getIpi().ipiFrameworkClass = v.ipiFrameworkClass;
+        v.getIpi().ipiSealCode = v.ipiSealCode;
+        v.getIpi().ipiSealQuantity = v.ipiSealQuantity;
+        v.getIpi().legalFramework = v.legalFramework;
+        v.getIpi().producerCNPJ = v.producerCNPJ;
         return v.getIpi();
     }
 

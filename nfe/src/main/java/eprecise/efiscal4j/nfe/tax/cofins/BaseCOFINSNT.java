@@ -24,7 +24,7 @@ abstract class BaseCOFINSNT extends BaseCOFINS {
     }
 
     protected BaseCOFINSNT() {
-        super(null);
+        super();
     }
 
     protected BaseCOFINSNT(Builder builder, String cst) {

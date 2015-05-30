@@ -84,64 +84,6 @@ public class Signer {
         this.loadCertificates();
     }
 
-    /**
-     * Assina o documento assinável, setando o XML assinado no método {@link Assignable#setSignedXml(String)}
-     * 
-     * @param assignable
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidAlgorithmParameterException
-     * @throws MarshalException
-     * @throws XMLSignatureException
-     * @throws SAXException
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws TransformerException
-     */
-    public void sign(Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
-            ParserConfigurationException, TransformerException {
-        // Instantiate the document to be signed.
-        final Document document = this.documentFactory(assignable.getAsXml());
-
-        // Loop through all root tags of assignable elements in document (may be a batch of assignable elements)
-        for (int i = 0; i < document.getElementsByTagName(assignable.getRootTagName()).getLength(); i++) {
-            // Retrieve the assignable element
-            final Element element = (Element) document.getElementsByTagName(assignable.getAssignableTagName()).item(i);
-            // Retrieve the assignable element´s id
-            final String idAttribute = element.getAttribute(assignable.getIdAttributeTagName());
-
-            element.setIdAttribute(assignable.getIdAttributeTagName(), true);
-
-            // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
-            //@formatter:off
-            final Reference reference = this.signatureFactory.newReference("#" + idAttribute,
-                                                                           this.signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
-                                                                           this.transformList, 
-                                                                           null, 
-                                                                           null);
-            //Create the signedInfo element
-            final SignedInfo signedInfo = this.signatureFactory.newSignedInfo(
-                    this.signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE, 
-                                                                   (C14NMethodParameterSpec) null),
-                    this.signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, 
-                                                             null),
-                    Collections.singletonList(reference));            
-
-            // Create a DOMSignContext and specify the RSA PrivateKey and
-            // location of the resulting XMLSignature's parent element.
-            final DOMSignContext signContext = new DOMSignContext(this.privateKey, 
-                                                                  document.getElementsByTagName(assignable.getRootTagName()).item(i));
-            
-            //@formatter:on
-            // Create the XMLSignature, but don't sign it yet.
-            final XMLSignature xmlSignature = this.signatureFactory.newXMLSignature(signedInfo, this.keyInfo);
-
-            // Marshal, generate, and sign the enveloped signature.
-            xmlSignature.sign(signContext);
-        }
-
-        assignable.setSignedXml(this.outputXML(document));
-    }
-
     private void loadCertificates() throws Exception {
         final KeyStore ks = KeyStore.getInstance("pkcs12");
         try {
@@ -185,5 +127,63 @@ public class Signer {
         transformer.setOutputProperty(OutputKeys.INDENT, "no");
         transformer.transform(new DOMSource(document), new StreamResult(outputStream));
         return outputStream.toString();
+    }
+
+    /**
+     * Assina o documento assinável, retornando a mesma entidade com as tags de Signature preenchidas
+     * 
+     * @param assignable
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     * @throws MarshalException
+     * @throws XMLSignatureException
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws TransformerException
+     */
+    public Assignable sign(Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
+            ParserConfigurationException, TransformerException {
+        // Instantiate the document to be signed.
+        final Document document = this.documentFactory(assignable.getAsXml());
+
+        // Loop through all root tags of assignable elements in document (may be a batch of assignable elements)
+        for (int i = 0; i < document.getElementsByTagName(assignable.getRootTagName()).getLength(); i++) {
+            // Retrieve the assignable element
+            final Element element = (Element) document.getElementsByTagName(assignable.getAssignableTagName()).item(i);
+            // Retrieve the assignable element´s id
+            final String idAttribute = element.getAttribute(assignable.getIdAttributeTagName());
+
+            element.setIdAttribute(assignable.getIdAttributeTagName(), true);
+
+            // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
+            //@formatter:off
+            final Reference reference = this.signatureFactory.newReference("#" + idAttribute,
+                                                                           this.signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
+                                                                           this.transformList, 
+                                                                           null, 
+                                                                           null);
+            //Create the signedInfo element
+            final SignedInfo signedInfo = this.signatureFactory.newSignedInfo(
+                    this.signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE, 
+                                                                   (C14NMethodParameterSpec) null),
+                    this.signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, 
+                                                             null),
+                    Collections.singletonList(reference));            
+        
+            // Create a DOMSignContext and specify the RSA PrivateKey and
+            // location of the resulting XMLSignature's parent element.
+            final DOMSignContext signContext = new DOMSignContext(this.privateKey, 
+                                                                  document.getElementsByTagName(assignable.getRootTagName()).item(i));
+    
+            //@formatter:on
+            // Create the XMLSignature, but don't sign it yet.
+            final XMLSignature xmlSignature = this.signatureFactory.newXMLSignature(signedInfo, this.keyInfo);
+
+            // Marshal, generate, and sign the enveloped signature.
+            xmlSignature.sign(signContext);
+        }
+
+        return assignable.getAsEntity(this.outputXML(document));
     }
 }

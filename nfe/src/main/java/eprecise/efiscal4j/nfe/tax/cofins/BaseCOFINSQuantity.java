@@ -75,7 +75,7 @@ abstract class BaseCOFINSQuantity extends BaseCOFINS {
     }
 
     protected BaseCOFINSQuantity() {
-        super(null);
+        super();
         this.productQuantity = null;
         this.productAliquot = null;
         this.cofinsValue = null;

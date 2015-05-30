@@ -1,3 +1,4 @@
+
 package eprecise.efiscal4j.cte.sharing;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
@@ -31,45 +33,42 @@ import eprecise.efiscal4j.cte.TypeService;
 import eprecise.efiscal4j.cte.ValuesServiceDelivery;
 import eprecise.efiscal4j.cte.address.AddressEmitter;
 import eprecise.efiscal4j.cte.address.AddressGeneral;
-import eprecise.efiscal4j.cte.address.UF;
 import eprecise.efiscal4j.cte.payment.PaymentMethod;
 import eprecise.efiscal4j.cte.person.Addressee;
 import eprecise.efiscal4j.cte.person.Receiver;
 import eprecise.efiscal4j.cte.person.Sender;
 import eprecise.efiscal4j.cte.person.Shipper;
 import eprecise.efiscal4j.cte.serviceTaker.ServiceTaker;
-import eprecise.efiscal4j.cte.sharing.ProcessedCTe;
-import eprecise.efiscal4j.cte.sharing.StatusProtocolInfo;
-import eprecise.efiscal4j.cte.sharing.StatusProtocol;
+
 
 public class ProcessedCTeGenerationTest {
-    
+
     @Test
     public void validateByBeanValidation() {
-	final ProcessedCTe processedCTe = this.buildProcessedCTe();
-	try {
-	    ValidationBuilder.from(processedCTe).validate().throwIfViolate();
-	} catch (final ConstraintViolationException e) {
-	    final StringBuilder message = new StringBuilder("Erro de validação:");
-	    for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-		message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-	    }
-	    Assert.assertTrue(message.toString(), false);
-	}
+        final ProcessedCTe processedCTe = this.buildProcessedCTe();
+        try {
+            ValidationBuilder.from(processedCTe).validate().throwIfViolate();
+        } catch (final ConstraintViolationException e) {
+            final StringBuilder message = new StringBuilder("Erro de validação:");
+            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
+                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
+            }
+            Assert.assertTrue(message.toString(), false);
+        }
     }
-    
+
     @Test
     public void validateByXSD() throws JAXBException, SAXException, IOException {
-	final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/cte/procCTe_v2.00.xsd"));
-	final ProcessedCTe cTeProc = this.buildProcessedCTe();
-	final String serialize = new FiscalDocumentSerializer<>(cTeProc).serialize();
-	System.out.println(serialize);
-	final ValidationResult validate = validator.validate(serialize);
-	Assert.assertTrue(validate.getError(), validate.isValid());
+        final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/cte/procCTe_v2.00.xsd"));
+        final ProcessedCTe cTeProc = this.buildProcessedCTe();
+        final String serialize = new FiscalDocumentSerializer<>(cTeProc).serialize();
+        System.out.println(serialize);
+        final ValidationResult validate = validator.validate(serialize);
+        Assert.assertTrue(validate.getError(), validate.isValid());
     }
-    
+
     private ProcessedCTe buildProcessedCTe() {
-	//@formatter:off
+        //@formatter:off
 	return new ProcessedCTe.Builder()
 		.withCTe(new CTe.Builder()
 			.withInfo(new CTeInfo.Builder()
