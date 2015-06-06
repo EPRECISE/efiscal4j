@@ -74,7 +74,7 @@ abstract class BasePISAliquot extends BasePIS {
     }
 
     protected BasePISAliquot() {
-        super(null);
+        super();
         this.bcValue = null;
         this.pisAliquot = null;
         this.pisValue = null;

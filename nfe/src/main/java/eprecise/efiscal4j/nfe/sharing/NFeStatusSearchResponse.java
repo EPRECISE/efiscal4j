@@ -15,15 +15,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
-import eprecise.efiscal4j.nfe.address.UF;
 import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeString;
-import eprecise.efiscal4j.nfe.types.NFeVersion;
-import eprecise.efiscal4j.signer.Assignable;
 
 
 /**
@@ -34,11 +32,13 @@ import eprecise.efiscal4j.signer.Assignable;
  */
 @XmlRootElement(name = "retConsSitNFe")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeStatusSearchResponse implements Serializable, Assignable {
+public class NFeStatusSearchResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = NFeVersion.NFE_VERSION;
+    public static String XSD = "/eprecise/efiscal4j/nfe/retConsSitNFe_v3.10.xsd";
+
+    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -268,35 +268,5 @@ public class NFeStatusSearchResponse implements Serializable, Assignable {
 
     public ArrayList<EventProtocol> getEventProtocols() {
         return this.eventProtocols;
-    }
-
-    @Override
-    public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).serialize();
-    }
-
-    @Override
-    public String getSignedXml() {
-        return this.signedXml;
-    }
-
-    @Override
-    public void setSignedXml(String signedXml) {
-        this.signedXml = signedXml;
-    }
-
-    @Override
-    public String getRootTagName() {
-        return "evento";
-    }
-
-    @Override
-    public String getAssignableTagName() {
-        return "infEvento";
-    }
-
-    @Override
-    public String getIdAttributeTagName() {
-        return "Id";
     }
 }

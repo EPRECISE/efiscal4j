@@ -74,7 +74,7 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
     }
 
     protected BaseCOFINSAliquot() {
-        super(null);
+        super();
         this.bcValue = null;
         this.cofinsAliquot = null;
         this.cofinsValue = null;

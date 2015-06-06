@@ -108,7 +108,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
     }
 
     protected BasePISOther() {
-        super(null);
+        super();
         this.bcValue = null;
         this.pisAliquot = null;
         this.productQuantity = null;

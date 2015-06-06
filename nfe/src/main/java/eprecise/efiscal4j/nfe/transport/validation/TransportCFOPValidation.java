@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.transport.validator;
+package eprecise.efiscal4j.nfe.transport.validation;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;

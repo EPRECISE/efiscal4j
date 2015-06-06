@@ -51,7 +51,7 @@ class PIS02 extends BasePISAliquot {
     }
 
     protected PIS02() {
-        super(null, null);
+        super();
     }
 
     protected PIS02(PIS02.Builder builder) {

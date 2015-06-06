@@ -64,7 +64,7 @@ abstract class BaseIPINT extends BaseIPI {
     }
 
     protected BaseIPINT() {
-        super(null, null);
+        super();
 
     }
 

@@ -23,6 +23,10 @@
             <artifactId>signer</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>transmissor</artifactId>
+        </dependency>        
+        <dependency>
             <groupId>br.com.caelum.stella</groupId>
             <artifactId>caelum-stella-core</artifactId>
         </dependency>

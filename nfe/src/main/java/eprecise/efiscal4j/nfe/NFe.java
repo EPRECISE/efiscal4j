@@ -2,6 +2,8 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,11 +11,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 /**
@@ -24,15 +29,16 @@ import eprecise.efiscal4j.signer.Assignable;
  */
 @XmlRootElement(name = "NFe")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFe implements Serializable, Assignable {
+@XmlType(propOrder = { "xmlns", "nFeInfo", "signature" })
+public class NFe extends Assignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static String XSD = "/eprecise/efiscal4j/nfe/nfe_v3.10.xsd";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "infNFe") @NotNull final NFeInfo nFeInfo;
-
-    private @XmlTransient String signedXml;
 
     public static class Builder {
 
@@ -49,9 +55,10 @@ public class NFe implements Serializable, Assignable {
             return this;
         }
 
-        public NFe build() {
-            final NFe entity = new NFe(this);
+        public NFe build(Signer signer) throws Exception {
+            NFe entity = new NFe(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
+            entity = (NFe) signer.sign(entity);
             return entity;
         }
     }
@@ -74,17 +81,7 @@ public class NFe implements Serializable, Assignable {
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize();
-    }
-
-    @Override
-    public String getSignedXml() {
-        return this.signedXml;
-    }
-
-    @Override
-    public void setSignedXml(String signedXml) {
-        this.signedXml = signedXml;
+        return new FiscalDocumentSerializer<NFe>(this).considering(NFe.getValidationConsideringClasses()).serialize();
     }
 
     @Override
@@ -102,4 +99,12 @@ public class NFe implements Serializable, Assignable {
         return "Id";
     }
 
+    @Override
+    public Assignable getAsEntity(String xml) {
+        return new FiscalDocumentDeserializer<NFe>(xml, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
+    }
+
+    public static List<Class<?>> getValidationConsideringClasses() {
+        return Arrays.asList(LegalEntityDocuments.class, NaturalPersonDocuments.class, SignatureType.class);
+    }
 }

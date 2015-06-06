@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe.tax.icms;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import eprecise.efiscal4j.nfe.address.UF;
+import eprecise.efiscal4j.commons.domain.adress.UF;
 
 
 /**

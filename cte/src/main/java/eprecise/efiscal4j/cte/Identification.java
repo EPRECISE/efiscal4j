@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
-import eprecise.efiscal4j.cte.address.UF;
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.cte.payment.PaymentMethod;
 import eprecise.efiscal4j.cte.serviceTaker.OthersServiceTaker;
 import eprecise.efiscal4j.cte.serviceTaker.ReceiverServiceTaker;

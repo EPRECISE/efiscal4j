@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.cte.address;
+package eprecise.efiscal4j.commons.domain.adress;
 
 import java.io.Serializable;
 

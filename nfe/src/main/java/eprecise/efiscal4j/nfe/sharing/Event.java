@@ -2,6 +2,8 @@
 package eprecise.efiscal4j.nfe.sharing;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -9,12 +11,18 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.types.NFeVersion;
+import eprecise.efiscal4j.nfe.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 /**
@@ -23,16 +31,16 @@ import eprecise.efiscal4j.signer.Assignable;
  * @author Felipe Bueno
  * 
  */
+@XmlRootElement(name = "evento")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Event implements Serializable, Assignable {
+@XmlType(propOrder = { "version", "eventInfo", "signature" })
+public class Event extends Assignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = NFeVersion.EVENT_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.EVENT_VERSION;
 
     private @XmlElement(name = "infEvento") @NotNull @Valid final EventInfo eventInfo;
-
-    private @XmlTransient String signedXml;
 
     public static class Builder {
 
@@ -49,9 +57,10 @@ public class Event implements Serializable, Assignable {
             return this;
         }
 
-        public Event build() {
-            final Event entity = new Event(this);
+        public Event build(Signer signer) throws Exception {
+            Event entity = new Event(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
+            entity = (Event) signer.sign(entity);
             return entity;
         }
 
@@ -75,16 +84,6 @@ public class Event implements Serializable, Assignable {
     }
 
     @Override
-    public String getSignedXml() {
-        return this.signedXml;
-    }
-
-    @Override
-    public void setSignedXml(String signedXml) {
-        this.signedXml = signedXml;
-    }
-
-    @Override
     public String getRootTagName() {
         return "evento";
     }
@@ -97,6 +96,15 @@ public class Event implements Serializable, Assignable {
     @Override
     public String getIdAttributeTagName() {
         return "Id";
+    }
+
+    @Override
+    public Assignable getAsEntity(String xml) {
+        return new FiscalDocumentDeserializer<Event>(xml, Event.class).considering(Event.getValidationConsideringClasses()).deserialize();
+    }
+
+    public static List<Class<?>> getValidationConsideringClasses() {
+        return Arrays.asList(LegalEntityDocuments.class, NaturalPersonDocuments.class, SignatureType.class);
     }
 
 }

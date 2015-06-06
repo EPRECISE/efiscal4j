@@ -108,7 +108,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
     }
 
     protected BaseCOFINSOther() {
-        super(null);
+        super();
         this.bcValue = null;
         this.cofinsAliquot = null;
         this.productQuantity = null;

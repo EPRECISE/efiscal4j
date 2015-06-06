@@ -67,7 +67,7 @@ public class COFINS55 extends BaseCOFINSOther {
     }
 
     protected COFINS55() {
-        super(null, null);
+        super();
     }
 
     protected COFINS55(COFINS55.Builder builder) {

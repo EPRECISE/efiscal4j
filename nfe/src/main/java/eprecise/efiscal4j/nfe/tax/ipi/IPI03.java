@@ -67,7 +67,7 @@ class IPI03 extends BaseIPINT {
     }
 
     protected IPI03() {
-        super(null, null);
+        super();
     }
 
     protected IPI03(IPI03.Builder builder) {

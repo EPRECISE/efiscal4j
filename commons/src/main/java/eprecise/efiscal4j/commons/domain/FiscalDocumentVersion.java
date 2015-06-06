@@ -1,7 +1,7 @@
 
-package eprecise.efiscal4j.nfe.types;
+package eprecise.efiscal4j.commons.domain;
 
-public class NFeVersion {
+public class FiscalDocumentVersion {
 
     public static String NFE_VERSION = "3.10";
 

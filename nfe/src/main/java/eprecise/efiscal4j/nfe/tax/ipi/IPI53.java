@@ -67,7 +67,7 @@ class IPI53 extends BaseIPINT {
     }
 
     protected IPI53() {
-        super(null, null);
+        super();
     }
 
     protected IPI53(IPI53.Builder builder) {

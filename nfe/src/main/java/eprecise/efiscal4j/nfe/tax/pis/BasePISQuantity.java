@@ -75,7 +75,7 @@ abstract class BasePISQuantity extends BasePIS {
     }
 
     protected BasePISQuantity() {
-        super(null);
+        super();
         this.productQuantity = null;
         this.productAliquot = null;
         this.pisValue = null;

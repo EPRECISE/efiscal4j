@@ -27,7 +27,7 @@ class COFINS08 extends BaseCOFINSNT {
     }
 
     protected COFINS08() {
-        super(null, null);
+        super();
     }
 
     protected COFINS08(COFINS08.Builder builder) {

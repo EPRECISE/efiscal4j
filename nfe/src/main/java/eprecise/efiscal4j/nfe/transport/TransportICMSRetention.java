@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.CFOP;
-import eprecise.efiscal4j.nfe.transport.validator.TransportCFOPValidation;
+import eprecise.efiscal4j.nfe.transport.validation.TransportCFOPValidation;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 

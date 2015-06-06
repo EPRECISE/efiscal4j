@@ -14,6 +14,7 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.helpers.DefaultValidationEventHandler;
 
 import org.apache.commons.io.IOUtils;
 
@@ -49,12 +50,18 @@ public class FiscalDocumentDeserializer<T> {
         return this;
     }
 
+    public FiscalDocumentDeserializer<T> considering(List<Class<?>> classes) {
+        this.toConsider.addAll(classes);
+        return this;
+    }
+
     public T deserialize() {
         final Class<?>[] considering = new Class<?>[this.toConsider.size()];
         this.toConsider.toArray(considering);
         try {
             final JAXBContext jaxbContext = JAXBContext.newInstance(considering);
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            unmarshaller.setEventHandler(new DefaultValidationEventHandler());
             return this.mainClass.cast(unmarshaller.unmarshal(new StringReader(this.getPreparedXML())));
         } catch (final JAXBException e) {
             throw new RuntimeException(e);
@@ -62,6 +69,7 @@ public class FiscalDocumentDeserializer<T> {
     }
 
     private String getPreparedXML() {
-        return this.xmlContent.replace("xmlns=\"http://www.portalfiscal.inf.br/cte\"", "").replace("xmlns=\"http://www.portalfiscal.inf.br/nfe\"", "");
+        return this.xmlContent.replace("xmlns=\"http://www.portalfiscal.inf.br/cte\"", "").replace("xmlns=\"http://www.portalfiscal.inf.br/nfe\"", "")
+                .replace("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"", "");
     }
 }

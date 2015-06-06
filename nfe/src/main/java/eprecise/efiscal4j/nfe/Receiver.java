@@ -29,203 +29,203 @@ import eprecise.efiscal4j.nfe.validation.StateRegistrationValidation;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Receiver implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @NotNull @Valid final AbstractDocuments documents;
+    private @NotNull @Valid final AbstractDocuments documents;
 
-	private @XmlElement(name = "enderDest") Address adress;
+    private @XmlElement(name = "enderDest") Address adress;
 
-	private @XmlElement(name = "indIEDest") @NotNull final StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
+    private @XmlElement(name = "indIEDest") @NotNull final StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
 
-	private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString String municipalRegistration;
+    private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString String municipalRegistration;
 
-	private @XmlElement(name = "email") @Size(min = 1, max = 60) @NFeString String email;
+    private @XmlElement(name = "email") @Size(min = 1, max = 60) @NFeString String email;
 
-	public static class Builder {
+    public static class Builder {
 
-		private AbstractDocuments documents;
+        private AbstractDocuments documents;
 
-		private Address adress;
+        private Address adress;
 
-		private StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
+        private StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator;
 
-		private String municipalRegistration;
+        private String municipalRegistration;
 
-		private String email;
+        private String email;
 
-		public Builder withAdress(Address adress) {
-			this.adress = adress;
-			return this;
-		}
+        public Builder withAdress(Address adress) {
+            this.adress = adress;
+            return this;
+        }
 
-		protected Builder withStateRegistration(String stateRegistration) {
-			this.documents.setStateRegistration(stateRegistration);
-			return this;
-		}
+        protected Builder withStateRegistration(String stateRegistration) {
+            this.documents.setStateRegistration(stateRegistration);
+            return this;
+        }
 
-		protected Builder withMunicipalRegistration(String municipalRegistration) {
-			this.municipalRegistration = municipalRegistration;
-			return this;
-		}
+        protected Builder withMunicipalRegistration(String municipalRegistration) {
+            this.municipalRegistration = municipalRegistration;
+            return this;
+        }
 
-		public Builder withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator) {
-			this.stateRegistrationReceiverIndicator = stateRegistrationReceiverIndicator;
-			return this;
-		}
+        public Builder withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator stateRegistrationReceiverIndicator) {
+            this.stateRegistrationReceiverIndicator = stateRegistrationReceiverIndicator;
+            return this;
+        }
 
-		public Builder withEmail(String email) {
-			this.email = email;
-			return this;
-		}
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
 
-		public NaturalPersonBuilder asNaturalPerson() {
-			return new NaturalPersonBuilder(this);
-		}
+        public NaturalPersonBuilder asNaturalPerson() {
+            return new NaturalPersonBuilder(this);
+        }
 
-		public LegalEntityBuilder asLegalEntity() {
-			return new LegalEntityBuilder(this);
-		}
+        public LegalEntityBuilder asLegalEntity() {
+            return new LegalEntityBuilder(this);
+        }
 
-		public Receiver build() {
-			Receiver entity = new Receiver(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
+        public Receiver build() {
+            final Receiver entity = new Receiver(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
 
-		protected AbstractDocuments getDocuments() {
-			return this.documents;
-		}
-	}
+        protected AbstractDocuments getDocuments() {
+            return this.documents;
+        }
+    }
 
-	public static class LegalEntityBuilder extends Builder {
+    public static class LegalEntityBuilder extends Builder {
 
-		protected LegalEntityBuilder(Builder builder) {
-			super.documents = new LegalEntityDocuments();
-		}
+        protected LegalEntityBuilder(Builder builder) {
+            super.documents = new LegalEntityDocuments();
+        }
 
-		public LegalEntityBuilder withCorporateName(String corporateName) {
-			this.getDocuments().setCorporateName(corporateName);
-			return this;
-		}
+        public LegalEntityBuilder withCorporateName(String corporateName) {
+            this.getDocuments().setCorporateName(corporateName);
+            return this;
+        }
 
-		public LegalEntityBuilder withCnpj(String cnpj) {
-			this.getDocuments().setCnpj(cnpj);
-			return this;
-		}
+        public LegalEntityBuilder withCnpj(String cnpj) {
+            this.getDocuments().setCnpj(cnpj);
+            return this;
+        }
 
-		@Override
-		public LegalEntityBuilder withStateRegistration(String stateRegistration) {
-			return (LegalEntityBuilder) super.withStateRegistration(stateRegistration);
-		}
+        @Override
+        public LegalEntityBuilder withStateRegistration(String stateRegistration) {
+            return (LegalEntityBuilder) super.withStateRegistration(stateRegistration);
+        }
 
-		@Override
-		public LegalEntityBuilder withMunicipalRegistration(String municipalRegistration) {
-			return (LegalEntityBuilder) super.withMunicipalRegistration(municipalRegistration);
-		}
+        @Override
+        public LegalEntityBuilder withMunicipalRegistration(String municipalRegistration) {
+            return (LegalEntityBuilder) super.withMunicipalRegistration(municipalRegistration);
+        }
 
-		@Override
-		public LegalEntityBuilder asLegalEntity() {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public LegalEntityBuilder asLegalEntity() {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public NaturalPersonBuilder asNaturalPerson() {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public NaturalPersonBuilder asNaturalPerson() {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public Receiver build() {
-			Receiver entity = new Receiver(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
+        @Override
+        public Receiver build() {
+            final Receiver entity = new Receiver(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
 
-		@Override
-		protected LegalEntityDocuments getDocuments() {
-			return (LegalEntityDocuments) super.documents;
-		}
-	}
+        @Override
+        protected LegalEntityDocuments getDocuments() {
+            return (LegalEntityDocuments) super.documents;
+        }
+    }
 
-	public static class NaturalPersonBuilder extends Builder {
+    public static class NaturalPersonBuilder extends Builder {
 
-		protected NaturalPersonBuilder(Builder builder) {
-			super.documents = new NaturalPersonDocuments();
-		}
+        protected NaturalPersonBuilder(Builder builder) {
+            super.documents = new NaturalPersonDocuments();
+        }
 
-		public NaturalPersonBuilder withCpf(String cpf) {
-			this.getDocuments().setCpf(cpf);
-			return this;
-		}
+        public NaturalPersonBuilder withCpf(String cpf) {
+            this.getDocuments().setCpf(cpf);
+            return this;
+        }
 
-		public NaturalPersonBuilder withName(String name) {
-			this.getDocuments().setName(name);
-			return this;
-		}
+        public NaturalPersonBuilder withName(String name) {
+            this.getDocuments().setName(name);
+            return this;
+        }
 
-		@Override
-		public NaturalPersonBuilder withStateRegistration(String stateRegistration) {
-			return (NaturalPersonBuilder) super.withStateRegistration(stateRegistration);
-		}
+        @Override
+        public NaturalPersonBuilder withStateRegistration(String stateRegistration) {
+            return (NaturalPersonBuilder) super.withStateRegistration(stateRegistration);
+        }
 
-		@Override
-		public NaturalPersonBuilder withMunicipalRegistration(String municipalRegistration) {
-			return (NaturalPersonBuilder) super.withMunicipalRegistration(municipalRegistration);
-		}
+        @Override
+        public NaturalPersonBuilder withMunicipalRegistration(String municipalRegistration) {
+            return (NaturalPersonBuilder) super.withMunicipalRegistration(municipalRegistration);
+        }
 
-		@Override
-		public LegalEntityBuilder asLegalEntity() {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public LegalEntityBuilder asLegalEntity() {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public NaturalPersonBuilder asNaturalPerson() {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        public NaturalPersonBuilder asNaturalPerson() {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public Receiver build() {
-			Receiver entity = new Receiver(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
+        @Override
+        public Receiver build() {
+            final Receiver entity = new Receiver(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
 
-		@Override
-		protected NaturalPersonDocuments getDocuments() {
-			return (NaturalPersonDocuments) super.documents;
-		}
-	}
+        @Override
+        protected NaturalPersonDocuments getDocuments() {
+            return (NaturalPersonDocuments) super.documents;
+        }
+    }
 
-	public Receiver() {
-		this.documents = null;
-		this.stateRegistrationReceiverIndicator = null;
-	}
+    public Receiver() {
+        this.documents = null;
+        this.stateRegistrationReceiverIndicator = null;
+    }
 
-	public Receiver(Builder builder) {
-		this.documents = builder.documents;
-		this.adress = builder.adress;
-		this.stateRegistrationReceiverIndicator = builder.stateRegistrationReceiverIndicator;
-		this.municipalRegistration = builder.municipalRegistration;
-		this.email = builder.email;
-	}
+    public Receiver(Builder builder) {
+        this.documents = builder.documents;
+        this.adress = builder.adress;
+        this.stateRegistrationReceiverIndicator = builder.stateRegistrationReceiverIndicator;
+        this.municipalRegistration = builder.municipalRegistration;
+        this.email = builder.email;
+    }
 
-	public AbstractDocuments getDocuments() {
-		return this.documents;
-	}
+    public AbstractDocuments getDocuments() {
+        return this.documents;
+    }
 
-	public Address getAdress() {
-		return this.adress;
-	}
+    public Address getAdress() {
+        return this.adress;
+    }
 
-	public StateRegistrationReceiverIndicator getStateRegistrationReceiverIndicator() {
-		return this.stateRegistrationReceiverIndicator;
-	}
+    public StateRegistrationReceiverIndicator getStateRegistrationReceiverIndicator() {
+        return this.stateRegistrationReceiverIndicator;
+    }
 
-	public String getMunicipalRegistration() {
-		return this.municipalRegistration;
-	}
+    public String getMunicipalRegistration() {
+        return this.municipalRegistration;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
 }

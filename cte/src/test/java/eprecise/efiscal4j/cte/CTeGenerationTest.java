@@ -11,13 +11,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.cte.address.AddressEmitter;
 import eprecise.efiscal4j.cte.address.AddressGeneral;
-import eprecise.efiscal4j.cte.address.UF;
 import eprecise.efiscal4j.cte.payment.PaymentMethod;
 import eprecise.efiscal4j.cte.person.Addressee;
 import eprecise.efiscal4j.cte.person.Receiver;
