@@ -45,13 +45,13 @@ public class JasperDanfeBuilder {
         public abstract JRDataSource generate(ProcessedNFe nfe) throws JRException;
     }
 
-    private JasperDanfeCatalog catalog;
+    private JasperDanfeCatalog catalog = new DefaultJasperDanfeCatalog();
 
     private final Map<String, Object> params = new HashMap<>();
 
     private final ProcessedNFe nfe;
 
-    private DataSourceType type = DataSourceType.ENTITY;
+    private DataSourceType type = DataSourceType.XML;
 
     public JasperDanfeBuilder(ProcessedNFe nfe) {
         this.nfe = nfe;
