@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-05T23:26:28 -->
+<!-- 2015-06-06T11:18:33 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_leiaute_2xx_cr" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="22" bottomMargin="22" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -406,7 +406,7 @@
 				<reportElement positionType="Float" mode="Transparent" x="0" y="341" width="71" height="20" uuid="3fe1b097-67b9-4f7c-907d-0f23eba007a3"/>
 			</rectangle>
 			<image hAlign="Center" vAlign="Middle" isUsingCache="true">
-				<reportElement positionType="Float" mode="Transparent" x="2" y="3" width="71" height="47" uuid="5ff20d64-3cc7-4bf6-b472-e38d2293c16e"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="2" y="3" width="71" height="47" uuid="5ff20d64-3cc7-4bf6-b472-e38d2293c16e"/>
 				<imageExpression><![CDATA[$P{danfe_logo}]]></imageExpression>
 			</image>
 			<componentElement>
@@ -1063,17 +1063,18 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="51" width="229" height="41" uuid="368373c2-e939-40f6-b9c1-c407c82ad91a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="6" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{danfe_emitente_endereco}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[String.format("%s, %s\n%s-%s\nCEP: %s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxMun},$F{emitEnderUF},$F{emitEnderCEP})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="75" y="3" width="156" height="47" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{danfe_emitente_nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{emitxNome}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="348" width="67" height="12" uuid="a09f301b-c9aa-48b2-aae4-704d31ba78a0"/>
@@ -1143,6 +1144,7 @@
 	</title>
 	<pageHeader>
 		<band height="145">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}>1]]></printWhenExpression>
 			<rectangle radius="2">
 				<reportElement positionType="Float" mode="Transparent" x="168" y="114" width="113" height="20" uuid="161e556e-517b-4cd4-a7cc-65a3dd947635"/>
 			</rectangle>
@@ -1332,21 +1334,21 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="3" width="229" height="47" uuid="875bad86-22f7-466f-8f76-399e9991c084">
-					<printWhenExpression><![CDATA[new Boolean(!$P{danfe_exibe_logo})]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{danfe_logo}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{danfe_emitente_nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{emitxNome}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="51" width="229" height="41" uuid="d86cd420-fb18-4b51-82b4-ffb9230fe371">
-					<printWhenExpression><![CDATA[new Boolean(!$P{danfe_exibe_logo})]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{danfe_logo}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{danfe_emitente_endereco}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[String.format("%s, %s\n%s-%s\nCEP: %s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxMun},$F{emitEnderUF},$F{emitEnderCEP})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="0" y="138" width="108" height="7" uuid="b098f4a7-457f-4056-9598-73ede8bd57b1">
