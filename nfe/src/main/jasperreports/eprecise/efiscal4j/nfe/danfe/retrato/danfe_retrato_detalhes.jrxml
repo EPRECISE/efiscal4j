@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-05T22:12:35 -->
+<!-- 2015-06-14T11:27:15 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_detalhes_leiaute_2xx" pageWidth="539" pageHeight="842" columnWidth="539" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba88e909-9e95-486d-b7af-82289d15b596">
 	<property name="ireport.zoom" value="2.4793388429752077"/>
 	<property name="ireport.x" value="340"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NFE Adapter"/>
-	<parameter name="danfe_detalhes_info_complementar" class="java.lang.String"/>
 	<queryString language="XPath">
-		<![CDATA[/det/prod/vProd]]>
+		<![CDATA[/]]>
 	</queryString>
 	<field name="valorUnitario" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[/det/prod/vUnCom]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/vUnCom]]></fieldDescription>
 	</field>
 	<field name="valorTotal" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[/det/prod/vProd]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/vProd]]></fieldDescription>
 	</field>
 	<field name="valorIpi" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[valorIpi]]></fieldDescription>
+		<fieldDescription><![CDATA[imposto/IPI/*/vIPI]]></fieldDescription>
 	</field>
 	<field name="valorIcms" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[/det/imposto/ICMS/ICMS00/vICMS]]></fieldDescription>
+		<fieldDescription><![CDATA[imposto/ICMS/*/vICMS]]></fieldDescription>
 	</field>
 	<field name="quantidade" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[/det/prod/qCom]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/qCom]]></fieldDescription>
 	</field>
 	<field name="produtoUM" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/prod/uCom]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/uCom]]></fieldDescription>
 	</field>
 	<field name="produtoNcm" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/prod/NCM]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/NCM]]></fieldDescription>
 	</field>
 	<field name="produtoDescricao" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/prod/xProd]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/xProd]]></fieldDescription>
 	</field>
 	<field name="produtoCst" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/imposto/ICMS/ICMS00/CST]]></fieldDescription>
+		<fieldDescription><![CDATA[(imposto/ICMS/*/CST|imposto/ICMS/*/CSOSN)]]></fieldDescription>
 	</field>
 	<field name="produtoCodigo" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/prod/cProd]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/cProd]]></fieldDescription>
 	</field>
 	<field name="produtoCfop" class="java.lang.String">
-		<fieldDescription><![CDATA[/det/prod/CFOP]]></fieldDescription>
+		<fieldDescription><![CDATA[prod/CFOP]]></fieldDescription>
 	</field>
 	<field name="baseCalculoIcms" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[/det/imposto/ICMS/ICMS00/vBC]]></fieldDescription>
+		<fieldDescription><![CDATA[imposto/ICMS/*/vBC]]></fieldDescription>
 	</field>
 	<field name="aliquotaIpi" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[aliquotaIpi]]></fieldDescription>
+		<fieldDescription><![CDATA[imposto/IPI/*/pIPI]]></fieldDescription>
 	</field>
 	<field name="aliquotaIcms" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[aliquotaIcms]]></fieldDescription>
+		<fieldDescription><![CDATA[imposto/ICMS/*/pICMS]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>

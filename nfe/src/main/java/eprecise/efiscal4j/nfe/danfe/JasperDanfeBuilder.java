@@ -21,6 +21,9 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 
@@ -38,7 +41,7 @@ public class JasperDanfeBuilder {
 
             @Override
             public JRDataSource generate(ProcessedNFe nfe) throws JRException {
-                return new JRXmlDataSource(new ByteArrayInputStream(nfe.getAsXml().getBytes()));
+                return new JRXmlDataSource(new ByteArrayInputStream(new FiscalDocumentSerializer<>(nfe).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize().getBytes()));
             }
         };
 
