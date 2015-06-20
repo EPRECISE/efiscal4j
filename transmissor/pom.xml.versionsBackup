@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 <project 
     xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,17 +8,18 @@
 	<parent>
 		<artifactId>efiscal4j</artifactId>
 		<groupId>eprecise.efiscal4j</groupId>
-		<version>1.0.2</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>signer</artifactId>
+	<artifactId>transmissor</artifactId>
 
-	<name>e-Fiscal4J Signer</name>
+	<name>e-Fiscal4J Transmissor</name>      
     
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>commons</artifactId>
         </dependency>
-    </dependencies> 
+    </dependencies>            
+    
 </project>
