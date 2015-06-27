@@ -14,6 +14,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
+import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
@@ -98,10 +99,10 @@ public class ObjectFactory {
     // return new JAXBElement<ServiceStatusSearchResponseMethod>(new QName(NFE_STAT_SERV_RESULT), ServiceStatusSearchResponseMethod.class, receivable);
     // }
 
-    // @XmlElementDecl(name = NFE_AUT_LOTE_RESULT)
-    // public JAXBElement<NFeDispatchResponseMethod> createNFeDispatchResponseMethod(NFeDispatchResponseMethod receivable) {
-    // return new JAXBElement<NFeDispatchResponseMethod>(new QName(NFE_AUT_LOTE_RESULT), NFeDispatchResponseMethod.class, receivable);
-    // }
+//    @XmlElementDecl(name = NFE_AUT_LOTE_RESULT)
+//    public JAXBElement<NFeDispatchResponseMethod> createNFeDispatchResponseMethod(NFeDispatchResponseMethod receivable) {
+//        return new JAXBElement<NFeDispatchResponseMethod>(new QName(NFE_AUT_LOTE_RESULT), NFeDispatchResponseMethod.class, receivable);
+//    }
 
     @XmlElementDecl(name = NFE_RET_AUT_RESULT)
     public JAXBElement<BatchReceiptSearchResponseMethod> createBatchReceiptSearchResponseMethod(BatchReceiptSearchResponseMethod receivable) {

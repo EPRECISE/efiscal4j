@@ -221,6 +221,7 @@ public class NFeInfo implements Serializable {
         decimalFormat.setGroupingUsed(false);
 
         if (this.getnFeTotal().getIcmsTotal() != null) {
+            final Double icmsTotal = 0.0;
             Double pisTotal = 0.0;
             Double cofinsTotal = 0.0;
             Double ipiTotal = 0.0;
@@ -260,7 +261,7 @@ public class NFeInfo implements Serializable {
      */
     private String generateNfeId() throws ParseException {
         final StringBuilder nfeId = new StringBuilder();
-        final Date emissionDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(this.getnFeIdentification().getEmissionDateTime());
+        final Date emissionDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(this.getnFeIdentification().getEmissionDateTime());
 
         nfeId.append(this.getnFeIdentification().getUfIbgeCode().getIbgeCode());
         nfeId.append(new SimpleDateFormat("yy").format(emissionDate));

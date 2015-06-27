@@ -38,7 +38,7 @@ public class BatchReceiptSearch extends Transmissible implements Serializable {
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
+    private @XmlAttribute(name = "xmlns")  String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
 
