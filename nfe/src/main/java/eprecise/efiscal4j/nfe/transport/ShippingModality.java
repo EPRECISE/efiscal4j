@@ -18,33 +18,42 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum ShippingModality implements Serializable {
 
-	@XmlEnumValue("0") POR_CONTA_EMITENTE(0, "Por conta do emitente"),
-	@XmlEnumValue("1") POR_CONTA_DESTINATARIO_REMETENTE(1, "Por conta do destinatário/remetente"),
-	@XmlEnumValue("2") POR_CONTA_TERCEIROS(2, "Por conta de terceiros"),
-	@XmlEnumValue("9") SEM_FRETE(9, "Sem frete");
+    @XmlEnumValue("0") POR_CONTA_EMITENTE(0, "Por conta do emitente"),
+    @XmlEnumValue("1") POR_CONTA_DESTINATARIO_REMETENTE(1, "Por conta do destinatário/remetente"),
+    @XmlEnumValue("2") POR_CONTA_TERCEIROS(2, "Por conta de terceiros"),
+    @XmlEnumValue("9") SEM_FRETE(9, "Sem frete");
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final int value;
+    private final int value;
 
-	private final String description;
+    private final String description;
 
-	private ShippingModality(int value, String description) {
-		this.value = value;
-		this.description = description;
-	}
+    private ShippingModality(int value, String description) {
+        this.value = value;
+        this.description = description;
+    }
 
-	public int getValue() {
-		return this.value;
-	}
+    public int getValue() {
+        return this.value;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	@Override
-	public String toString() {
-		return this.getDescription();
-	}
+    public static ShippingModality findByCode(int code) {
+        for (final ShippingModality shippingModality : ShippingModality.values()) {
+            if (shippingModality.getValue() == code) {
+                return shippingModality;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
 
 }

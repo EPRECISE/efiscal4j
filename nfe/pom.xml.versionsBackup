@@ -6,7 +6,7 @@
     <parent>
         <artifactId>efiscal4j</artifactId>
         <groupId>eprecise.efiscal4j</groupId>
-        <version>1.0.2</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>nfe</artifactId>
@@ -23,10 +23,6 @@
             <artifactId>signer</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>transmissor</artifactId>
-        </dependency>        
-        <dependency>
             <groupId>br.com.caelum.stella</groupId>
             <artifactId>caelum-stella-core</artifactId>
         </dependency>
@@ -39,11 +35,6 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>2.2.10</version>
-	</dependency>
-	<dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <scope>provided</scope>
