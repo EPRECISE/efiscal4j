@@ -3,7 +3,7 @@ package eprecise.efiscal4j.commons.domain.transmission;
 
 
 
-public abstract class SOAPBody {
+public abstract class FiscalDocumentBody {
 
     public abstract Transmissible getTransmissible();
 

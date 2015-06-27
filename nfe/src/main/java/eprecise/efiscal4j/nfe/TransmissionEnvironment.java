@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -14,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum TransmissionEnvironment {
+public enum TransmissionEnvironment implements Serializable {
 
     @XmlEnumValue("1") PRODUCAO(1, "Produção"),
     @XmlEnumValue("2") HOMOLOGACAO(2, "Homologação");

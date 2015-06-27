@@ -10,11 +10,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
 
@@ -26,13 +31,14 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  */
 @XmlRootElement(name = "consStatServ")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ServiceStatusSearch implements Serializable {
+@XmlType(propOrder = { "version", "xmlns", "transmissionEnvironment", "serviceUf", "requestedService" })
+public class ServiceStatusSearch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public static String XSD = "/eprecise/efiscal4j/nfe/consStatServ_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -41,6 +47,8 @@ public class ServiceStatusSearch implements Serializable {
     private @XmlElement(name = "cUF") @NotNull final UF serviceUf;
 
     private @XmlElement(name = "xServ") @NotNull @NFeString final String requestedService = "STATUS";
+
+    private @XmlTransient QName qName = new QName(ObjectFactory.CONS_STAT_SERV);
 
     public static class Builder {
 
@@ -87,6 +95,14 @@ public class ServiceStatusSearch implements Serializable {
         this.serviceUf = builder.serviceUf;
     }
 
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
+    }
+
     public TransmissionEnvironment getTransmissionEnvironment() {
         return this.transmissionEnvironment;
     }
@@ -97,5 +113,15 @@ public class ServiceStatusSearch implements Serializable {
 
     public String getRequestedService() {
         return this.requestedService;
+    }
+
+    @Override
+    public void setQName(QName qName) {
+        this.qName = qName;
+    }
+
+    @Override
+    public QName getQName() {
+        return this.qName;
     }
 }

@@ -27,7 +27,7 @@ public class EventDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.EVENT_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 
     private @XmlElement(name = "descEvento") @NotNull final String eventDescription;
 
@@ -94,6 +94,10 @@ public class EventDetail implements Serializable {
         this.eventDescription = builder.eventDescription;
         this.protocolNumber = builder.protocolNumber;
         this.justification = builder.justification;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
     }
 
     public String getEventDescription() {

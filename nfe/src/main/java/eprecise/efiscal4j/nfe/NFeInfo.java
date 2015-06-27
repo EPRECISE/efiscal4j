@@ -42,7 +42,7 @@ public class NFeInfo implements Serializable {
 
     private @XmlAttribute(name = "Id") @Pattern(regexp = "NFe[0-9]{44}") final String id;
 
-    private @XmlAttribute(name = "versao") final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlElement(name = "ide") @NotNull @Valid final NFeIdentification nFeIdentification;
 
@@ -297,7 +297,7 @@ public class NFeInfo implements Serializable {
         return (remainder == 0 || remainder == 1) ? 0 : (11 - remainder);
     }
 
-    public String getVersion() {
+    public FiscalDocumentVersion getVersion() {
         return this.version;
     }
 

@@ -10,10 +10,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
@@ -24,15 +28,15 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "consSitNFe")
+@XmlRootElement(name = ObjectFactory.CONS_SIT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeStatusSearch implements Serializable {
+public class NFeStatusSearch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public static String XSD = "/eprecise/efiscal4j/nfe/consSitNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -41,6 +45,8 @@ public class NFeStatusSearch implements Serializable {
     private @XmlElement(name = "xServ") @NotNull @NFeString final String requestedService = "CONSULTAR";
 
     private @XmlElement(name = "chNFe") @NotNull @NFeAccessKey final String acessKey;
+
+    private @XmlTransient QName qName = new QName(ObjectFactory.CONS_SIT_NFE);
 
     public static class Builder {
 
@@ -85,6 +91,14 @@ public class NFeStatusSearch implements Serializable {
         this.acessKey = builder.acessKey;
     }
 
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
+    }
+
     public TransmissionEnvironment getTransmissionEnvironment() {
         return this.transmissionEnvironment;
     }
@@ -95,5 +109,15 @@ public class NFeStatusSearch implements Serializable {
 
     public String getAcessKey() {
         return this.acessKey;
+    }
+
+    @Override
+    public void setQName(QName qName) {
+        this.qName = qName;
+    }
+
+    @Override
+    public QName getQName() {
+        return this.qName;
     }
 }

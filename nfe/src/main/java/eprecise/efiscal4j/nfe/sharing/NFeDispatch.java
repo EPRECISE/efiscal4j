@@ -42,7 +42,7 @@ public class NFeDispatch extends Transmissible implements Serializable {
 
     public static String XSD = "/eprecise/efiscal4j/nfe/enviNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns;
 
@@ -116,7 +116,7 @@ public class NFeDispatch extends Transmissible implements Serializable {
         this.nFes = builder.nFes;
     }
 
-    public String getVersion() {
+    public FiscalDocumentVersion getVersion() {
         return this.version;
     }
 

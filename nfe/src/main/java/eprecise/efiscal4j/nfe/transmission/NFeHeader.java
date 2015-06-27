@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.commons.domain.transmission.FiscalDocumentHeader;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
@@ -20,9 +20,9 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "nfeCabecMsg")
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeHeader implements Serializable {
+public class NFeHeader extends FiscalDocumentHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,13 +30,15 @@ public class NFeHeader implements Serializable {
 
     private @XmlElement(name = "cUF") @NotNull final UF uf;
 
-    private @XmlElement(name = "versaoDados") @NotNull final String dataVersion = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlElement(name = "versaoDados") @NotNull FiscalDocumentVersion dataVersion = FiscalDocumentVersion.VERSION_3_10;
 
     public static class Builder {
 
         private String xmlns;
 
         private UF uf;
+
+        private FiscalDocumentVersion dataVersion;
 
         /**
          * 
@@ -58,6 +60,16 @@ public class NFeHeader implements Serializable {
             return this;
         }
 
+        /**
+         * 
+         * @param dataVersion
+         * @return
+         */
+        public Builder withDataVersion(FiscalDocumentVersion dataVersion) {
+            this.dataVersion = dataVersion;
+            return this;
+        }
+
         public NFeHeader build() {
             final NFeHeader entity = new NFeHeader(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -74,6 +86,9 @@ public class NFeHeader implements Serializable {
     public NFeHeader(Builder builder) {
         this.xmlns = builder.xmlns;
         this.uf = builder.uf;
+        if (builder.dataVersion != null) {
+            this.dataVersion = builder.dataVersion;
+        }
     }
 
     public String getXmlns() {
@@ -84,7 +99,7 @@ public class NFeHeader implements Serializable {
         return this.uf;
     }
 
-    public String getDataVersion() {
+    public FiscalDocumentVersion getDataVersion() {
         return this.dataVersion;
     }
 }

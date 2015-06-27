@@ -36,7 +36,7 @@ public class BatchReceiptSearch extends Transmissible implements Serializable {
 
     public static String XSD = "/eprecise/efiscal4j/nfe/consReciNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -89,6 +89,14 @@ public class BatchReceiptSearch extends Transmissible implements Serializable {
     public BatchReceiptSearch(Builder builder) {
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.receiptNumber = builder.receiptNumber;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {

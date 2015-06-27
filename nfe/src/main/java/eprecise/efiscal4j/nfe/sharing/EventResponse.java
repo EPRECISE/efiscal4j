@@ -25,7 +25,7 @@ public class EventResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.EVENT_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 
     private @XmlElement(name = "infEvento") @NotNull @Valid final EventResponseInfo eventResponseInfo;
 
@@ -57,6 +57,10 @@ public class EventResponse implements Serializable {
 
     public EventResponse(Builder builder) {
         this.eventResponseInfo = builder.eventResponseInfo;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
     }
 
     public EventResponseInfo getEventResponseInfo() {

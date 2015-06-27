@@ -24,7 +24,7 @@ public class ProcessingStatusProtocol implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlElement(name = "infProt") @NotNull @Valid final ProcessingStatusProtocolInfo processingStatusProtocolInfo;
 
@@ -48,6 +48,10 @@ public class ProcessingStatusProtocol implements Serializable {
 
     public ProcessingStatusProtocol(Builder builder) {
         this.processingStatusProtocolInfo = builder.processingStatusProtocolInfo;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
     }
 
     public ProcessingStatusProtocolInfo getProcessingStatusProtocolInfo() {

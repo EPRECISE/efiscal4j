@@ -13,9 +13,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 
 
 /**
@@ -24,17 +28,21 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "envEvento")
+@XmlRootElement(name = ObjectFactory.ENV_EVENTO)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventDispatch implements Serializable {
+public class EventDispatch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.EVENT_VERSION;
+    public static String XSD = "/eprecise/efiscal4j/nfe/event/envEvento_v1.00.xsd";
+
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 
     private @XmlElement(name = "idLote") @NotNull @Pattern(regexp = "[0-9]{1,15}") final String batchId;
 
     private @XmlElement(name = "evento") @NotNull @Size(max = 20) @Valid final ArrayList<Event> events;
+
+    private @XmlTransient QName qName = new QName(ObjectFactory.ENV_EVENTO);
 
     public static class Builder {
 
@@ -79,5 +87,27 @@ public class EventDispatch implements Serializable {
     public EventDispatch(Builder builder) {
         this.batchId = builder.batchId;
         this.events = builder.events;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getBatchId() {
+        return this.batchId;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return this.events;
+    }
+
+    @Override
+    public void setQName(QName qName) {
+        this.qName = qName;
+    }
+
+    @Override
+    public QName getQName() {
+        return this.qName;
     }
 }

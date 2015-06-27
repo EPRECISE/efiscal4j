@@ -17,6 +17,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
@@ -27,13 +28,13 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "retEnviNFe")
+@XmlRootElement(name = ObjectFactory.RET_ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatchResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -185,6 +186,14 @@ public class NFeDispatchResponse implements Serializable {
         this.processingStatusProtocol = builder.processingStatusProtocol;
     }
 
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
+    }
+
     public TransmissionEnvironment getTransmissionEnvironment() {
         return this.transmissionEnvironment;
     }
@@ -215,10 +224,6 @@ public class NFeDispatchResponse implements Serializable {
 
     public ProcessingStatusProtocol getProcessingStatusProtocol() {
         return this.processingStatusProtocol;
-    }
-
-    public String getVersion() {
-        return this.version;
     }
 
 }

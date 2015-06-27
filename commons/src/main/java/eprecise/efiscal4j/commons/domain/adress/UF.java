@@ -8,6 +8,12 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
+/**
+ * 
+ * @author Felipe Bueno
+ *
+ */
+
 @XmlType
 @XmlEnum(String.class)
 public enum UF implements Serializable {
@@ -63,7 +69,7 @@ public enum UF implements Serializable {
     }
 
     public static UF findByAcronym(String acronym) {
-        for (UF uf : values()) {
+        for (final UF uf : values()) {
             if (uf.getAcronym().equals(acronym)) {
                 return uf;
             }

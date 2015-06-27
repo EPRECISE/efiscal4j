@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.commons.domain.transmission.SOAPBody;
+import eprecise.efiscal4j.commons.domain.transmission.FiscalDocumentBody;
 import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleAdapter;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -25,7 +25,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  */
 @XmlRootElement(name = "nfeDadosMsg")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeBody extends SOAPBody implements Serializable {
+public class NFeBody extends FiscalDocumentBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +35,9 @@ public class NFeBody extends SOAPBody implements Serializable {
     @XmlElementRefs({
         @XmlElementRef(name = ObjectFactory.ENVI_NFE),
         @XmlElementRef(name = ObjectFactory.CONS_RECI_NFE),
+        @XmlElementRef(name = ObjectFactory.CONS_SIT_NFE),
+        @XmlElementRef(name = ObjectFactory.CONS_STAT_SERV),
+        @XmlElementRef(name = ObjectFactory.ENV_EVENTO),
     })
     @XmlJavaTypeAdapter(TransmissibleAdapter.class)
     private final Transmissible transmissible;

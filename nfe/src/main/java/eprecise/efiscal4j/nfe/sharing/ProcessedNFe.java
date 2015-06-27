@@ -30,7 +30,7 @@ public class ProcessedNFe implements Serializable {
 
     public static String XSD = "/eprecise/efiscal4j/nfe/procNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -79,6 +79,14 @@ public class ProcessedNFe implements Serializable {
     public ProcessedNFe(Builder builder) {
         this.nfe = builder.nfe;
         this.processingStatusProtocol = builder.processingStatusProtocol;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
     }
 
     public NFe getNfe() {

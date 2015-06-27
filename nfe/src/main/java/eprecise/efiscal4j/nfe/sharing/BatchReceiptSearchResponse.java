@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
@@ -28,7 +29,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "retConsReciNFe")
+@XmlRootElement(name = ObjectFactory.RET_CONS_RECI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BatchReceiptSearchResponse implements Serializable {
 
@@ -36,7 +37,7 @@ public class BatchReceiptSearchResponse implements Serializable {
 
     public static String XSD = "/eprecise/efiscal4j/nfe/retConsReciNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -225,7 +226,7 @@ public class BatchReceiptSearchResponse implements Serializable {
         this.processingStatusProtocols = builder.processingStatusProtocols;
     }
 
-    public String getVersion() {
+    public FiscalDocumentVersion getVersion() {
         return this.version;
     }
 

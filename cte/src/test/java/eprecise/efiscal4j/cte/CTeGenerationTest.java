@@ -42,6 +42,7 @@ public class CTeGenerationTest {
         }
     }
 
+    @Test
     public void validateByXSD() throws JAXBException, SAXException, IOException {
         final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/cte/cte_v2.00.xsd"));
         final CTe cte = this.buildCTe();

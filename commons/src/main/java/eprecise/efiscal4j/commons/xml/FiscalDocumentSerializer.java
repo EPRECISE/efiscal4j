@@ -41,9 +41,12 @@ public class FiscalDocumentSerializer<T> {
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new PreferredMapper());
+
             final StringWriter out = new StringWriter();
             marshaller.marshal(this.entity, out);
-            return out.toString().replace(":ns2", "").replace("ns2:", "");
+            return out.toString();
+            // .replace(":ns2", "").replace("ns2:", "");
         } catch (final JAXBException e) {
             throw new RuntimeException(e);
         }

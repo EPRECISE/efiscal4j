@@ -25,7 +25,7 @@ public class CancellationRequestResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlElement(name = "infCanc") @NotNull @Valid final CancellationRequestResultInfo cancellationRequestResultInfo;
 
@@ -56,5 +56,13 @@ public class CancellationRequestResult implements Serializable {
 
     public CancellationRequestResult(Builder builder) {
         this.cancellationRequestResultInfo = builder.cancellationRequestResultInfo;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public CancellationRequestResultInfo getCancellationRequestResultInfo() {
+        return this.cancellationRequestResultInfo;
     }
 }

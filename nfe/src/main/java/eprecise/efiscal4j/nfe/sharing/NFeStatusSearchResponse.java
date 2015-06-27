@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
@@ -38,7 +37,7 @@ public class NFeStatusSearchResponse implements Serializable {
 
     public static String XSD = "/eprecise/efiscal4j/nfe/retConsSitNFe_v3.10.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final String version = FiscalDocumentVersion.NFE_VERSION;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -61,8 +60,6 @@ public class NFeStatusSearchResponse implements Serializable {
     private @XmlElement(name = "retCancNFe") @Valid final CancellationRequestResult cancellationRequestResult;
 
     private @XmlElement(name = "procEventoNFe") @Valid final ArrayList<EventProtocol> eventProtocols;
-
-    private @XmlTransient String signedXml;
 
     public static class Builder {
 
@@ -228,6 +225,14 @@ public class NFeStatusSearchResponse implements Serializable {
         this.processingStatusProtocol = builder.processingStatusProtocol;
         this.cancellationRequestResult = builder.cancellationRequestResult;
         this.eventProtocols = builder.eventProtocols;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
