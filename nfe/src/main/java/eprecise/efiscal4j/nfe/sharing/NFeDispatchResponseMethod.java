@@ -72,4 +72,8 @@ public class NFeDispatchResponseMethod extends Receivable implements Serializabl
         return this.qName;
     }
 
+    public NFeDispatchResponse getnFeDispatchResponse() {
+        return this.nFeDispatchResponse;
+    }
+
 }
