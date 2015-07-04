@@ -77,7 +77,7 @@ public class ClientSample {
 
     public String testHttpsConnection(SOAPEnvelope soapEnvelope, String serviceUrl) {
         System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol");
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        // Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
         System.setProperty("javax.net.ssl.keyStoreType", "PKCS12");
         System.setProperty("javax.net.ssl.keyStore", "/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx");
