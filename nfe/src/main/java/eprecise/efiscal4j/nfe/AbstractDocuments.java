@@ -29,7 +29,7 @@ public abstract class AbstractDocuments {
     }
 
     protected void setAbstractName(String abstractName) {
-        this.abstractName = abstractName;
+        this.abstractName = abstractName.trim();
     }
 
     public String getStateRegistration() {

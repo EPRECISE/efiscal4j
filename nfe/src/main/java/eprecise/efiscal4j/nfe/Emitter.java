@@ -57,7 +57,7 @@ public class Emitter implements Serializable {
         private CRT crt;
 
         public Builder withFancyName(String fancyName) {
-            this.fancyName = fancyName;
+            this.fancyName = fancyName.trim();
             return this;
         }
 
