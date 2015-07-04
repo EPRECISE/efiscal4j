@@ -18,6 +18,7 @@ import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
+import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 
 
 @XmlRegistry
@@ -94,15 +95,15 @@ public class ObjectFactory {
         return new JAXBElement<EventDispatchResponse>(new QName(RET_ENV_EVENTO), EventDispatchResponse.class, receivableBody);
     }
 
-    // @XmlElementDecl(name = NFE_STAT_SERV_RESULT)
-    // public JAXBElement<ServiceStatusSearchResponseMethod> createServiceStatusSearchResponseMethod(ServiceStatusSearchResponseMethod receivable) {
-    // return new JAXBElement<ServiceStatusSearchResponseMethod>(new QName(NFE_STAT_SERV_RESULT), ServiceStatusSearchResponseMethod.class, receivable);
-    // }
+    @XmlElementDecl(name = NFE_STAT_SERV_RESULT)
+    public JAXBElement<ServiceStatusSearchResponseMethod> createServiceStatusSearchResponseMethod(ServiceStatusSearchResponseMethod receivable) {
+        return new JAXBElement<ServiceStatusSearchResponseMethod>(new QName(NFE_STAT_SERV_RESULT), ServiceStatusSearchResponseMethod.class, receivable);
+    }
 
-//    @XmlElementDecl(name = NFE_AUT_LOTE_RESULT)
-//    public JAXBElement<NFeDispatchResponseMethod> createNFeDispatchResponseMethod(NFeDispatchResponseMethod receivable) {
-//        return new JAXBElement<NFeDispatchResponseMethod>(new QName(NFE_AUT_LOTE_RESULT), NFeDispatchResponseMethod.class, receivable);
-//    }
+    @XmlElementDecl(name = NFE_AUT_LOTE_RESULT)
+    public JAXBElement<NFeDispatchResponseMethod> createNFeDispatchResponseMethod(NFeDispatchResponseMethod receivable) {
+        return new JAXBElement<NFeDispatchResponseMethod>(new QName(NFE_AUT_LOTE_RESULT), NFeDispatchResponseMethod.class, receivable);
+    }
 
     @XmlElementDecl(name = NFE_RET_AUT_RESULT)
     public JAXBElement<BatchReceiptSearchResponseMethod> createBatchReceiptSearchResponseMethod(BatchReceiptSearchResponseMethod receivable) {

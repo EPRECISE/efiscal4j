@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.domain.transmission.ReceivableAdapter;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,7 +26,7 @@ public class SOAPBodyResponse implements Serializable {
 
     //@formatter:off
     @XmlElementRefs({        
-        @XmlElementRef(name = ObjectFactory.NFE_STAT_SERV_RESULT),
+        @XmlElementRef(name = ObjectFactory.NFE_STAT_SERV_RESULT, type = ServiceStatusSearchResponseMethod.class),
         @XmlElementRef(name = ObjectFactory.NFE_AUT_LOTE_RESULT),
         @XmlElementRef(name = ObjectFactory.NFE_RET_AUT_RESULT),
         @XmlElementRef(name = ObjectFactory.NFE_REC_EVENTO_RESULT),

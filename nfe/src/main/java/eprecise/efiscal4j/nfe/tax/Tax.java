@@ -27,12 +27,12 @@ import eprecise.efiscal4j.nfe.tax.pis.PISST;
  * @author Felipe Bueno
  * 
  */
-// TODO Finalizar imposto ISSQN
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tax {
 
     private @XmlElement(name = "ICMS") @XmlJavaTypeAdapter(ICMSAdapter.class) @Valid final ICMS icms;
 
+    // TODO Finalizar imposto ISSQN
     // private @XmlElement(name = "ISSQN") @Valid final ISSQN issqn;
 
     private @XmlElement(name = "IPI") @XmlJavaTypeAdapter(IPIAdapter.class) @Valid final IPI ipi;

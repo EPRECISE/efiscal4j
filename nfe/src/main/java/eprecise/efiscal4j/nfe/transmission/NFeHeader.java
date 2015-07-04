@@ -20,7 +20,6 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeHeader extends FiscalDocumentHeader implements Serializable {
 

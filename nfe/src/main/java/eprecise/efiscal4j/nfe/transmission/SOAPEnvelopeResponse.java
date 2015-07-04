@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
-@XmlRootElement(name = "env:Envelope")
+@XmlRootElement(name = "Envelope", namespace = "http://www.w3.org/2003/05/soap-envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPEnvelopeResponse implements Serializable {
 
@@ -21,9 +21,9 @@ public class SOAPEnvelopeResponse implements Serializable {
 
     private @XmlAttribute(name = "xmlns:env") @NotNull final String xmlnsEnv = "http://www.w3.org/2003/05/soap-envelope";
 
-    private @XmlElement(name = "env:Header") @NotNull final SOAPHeaderResponse soapHeaderResponse;
+    private @XmlElement(name = "Header", namespace = "http://www.w3.org/2003/05/soap-envelope") @NotNull final SOAPHeaderResponse soapHeaderResponse;
 
-    private @XmlElement(name = "env:Body") @NotNull final SOAPBodyResponse soapBodyResponse;
+    private @XmlElement(name = "Body", namespace = "http://www.w3.org/2003/05/soap-envelope") @NotNull final SOAPBodyResponse soapBodyResponse;
 
     public static class Builder {
 

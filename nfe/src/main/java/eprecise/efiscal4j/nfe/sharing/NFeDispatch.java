@@ -33,14 +33,13 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  * @author Felipe Bueno
  * 
  */
-
 @XmlRootElement(name = ObjectFactory.ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static String XSD = "/eprecise/efiscal4j/nfe/enviNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/enviNFe_v3.10.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 

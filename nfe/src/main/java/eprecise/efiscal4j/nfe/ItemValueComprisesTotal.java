@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlType;
  * @author Felipe Bueno
  *
  */
-
 @XmlType
 @XmlEnum(Integer.class)
 public enum ItemValueComprisesTotal {

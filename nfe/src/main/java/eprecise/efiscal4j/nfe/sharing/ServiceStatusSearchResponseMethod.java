@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -22,13 +23,13 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_STAT_SERV_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3")
+@XmlRootElement(name = ObjectFactory.NFE_STAT_SERV_RESULT)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceStatusSearchResponseMethod extends Receivable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // private @XmlAttribute(name = "xmlns") @NotNull final String xmlns;
+    private @XmlAttribute(name = "xmlns") @NotNull final String xmlns;
 
     private @XmlElement(name = ObjectFactory.RET_CONS_STAT_SERV) @NotNull final ServiceStatusSearchResponse serviceStatusSearchResponse;
 
@@ -69,12 +70,12 @@ public class ServiceStatusSearchResponseMethod extends Receivable implements Ser
     }
 
     public ServiceStatusSearchResponseMethod() {
-        // this.xmlns = null;
+        this.xmlns = null;
         this.serviceStatusSearchResponse = null;
     }
 
     public ServiceStatusSearchResponseMethod(Builder builder) {
-        // this.xmlns = builder.xmlns;
+        this.xmlns = builder.xmlns;
         this.serviceStatusSearchResponse = builder.serviceStatusSearchResponse;
     }
 
