@@ -26,7 +26,7 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
         }
         try {
             return this.getClass().getClassLoader().getResource(this.danfeMap.get(printFormat)).openStream();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

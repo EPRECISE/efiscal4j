@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -84,11 +85,17 @@ public class JasperDanfeBuilder {
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
-    public void toPdf(OutputStream out) throws IOException, JRException {
+    public void toPdf(Supplier<OutputStream> out) throws IOException, JRException {
         final JRPdfExporter exporter = new JRPdfExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
+        final OutputStream outputStream = out.get();
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
         exporter.exportReport();
+        outputStream.close();
+    }
+
+    public void toPdf(OutputStream out) throws IOException, JRException {
+        this.toPdf(() -> out);
     }
 
     public void toPdf(File file) throws IOException, JRException {
