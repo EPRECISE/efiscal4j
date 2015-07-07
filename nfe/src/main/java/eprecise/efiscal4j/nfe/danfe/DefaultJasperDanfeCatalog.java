@@ -15,7 +15,8 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
 
         private static final long serialVersionUID = 1L;
         {
-            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/simplified/simplified.jasper");
+            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_RETRATO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
         }
     };
 
