@@ -14,6 +14,8 @@ import eprecise.efiscal4j.nfe.types.NFeCPF;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NaturalPersonDocuments extends AbstractDocuments {
 
+    private static final long serialVersionUID = 1L;
+
     private @XmlElement(name = "CPF") @NotNull @Size(max = 11) @NFeCPF @CPF(formatted = false) String cpf;
 
     public NaturalPersonDocuments() {

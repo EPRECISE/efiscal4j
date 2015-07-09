@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -18,7 +20,9 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeIdentification {
+public class NFeIdentification implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private @XmlElement(name = "cUF") UF ufIbgeCode;
 

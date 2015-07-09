@@ -34,7 +34,7 @@ public class EventDispatch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static String XSD = "/eprecise/efiscal4j/nfe/event/envEvento_v1.00.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/event/envEvento_v1.00.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 

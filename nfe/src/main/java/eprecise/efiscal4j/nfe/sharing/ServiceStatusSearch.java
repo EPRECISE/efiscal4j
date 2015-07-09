@@ -36,7 +36,7 @@ public class ServiceStatusSearch extends Transmissible implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static String XSD = "/eprecise/efiscal4j/nfe/consStatServ_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/consStatServ_v3.10.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
