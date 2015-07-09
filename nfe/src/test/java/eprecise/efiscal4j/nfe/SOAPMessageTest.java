@@ -20,7 +20,6 @@ import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.transmission.ClientSample;
 import eprecise.efiscal4j.nfe.transmission.NFeService;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
@@ -51,9 +50,7 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final ClientSample clientSample = new ClientSample();
-
-            String returnXml = clientSample.testHttpsConnection(soapEnvelope, NFeService.SERVICE_STATUS.getHomologUrl(UF.PR));
+            String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.SERVICE_STATUS.getHomologUrl(UF.PR));
 
             System.out.println(returnXml);
 
@@ -101,9 +98,7 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final ClientSample clientSample = new ClientSample();
-
-            String returnXml = clientSample.testHttpsConnection(soapEnvelope, NFeService.AUTHORIZATION.getHomologUrl(UF.PR));
+            String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.AUTHORIZATION.getHomologUrl(UF.PR));
 
             returnXml = returnXml.substring(
                     returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -149,9 +144,7 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final ClientSample clientSample = new ClientSample();
-
-            final String returnXml = clientSample.testHttpsConnection(soapEnvelope, NFeService.AUTHORIZATION_RESULT.getHomologUrl(UF.PR));
+            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.AUTHORIZATION_RESULT.getHomologUrl(UF.PR));
 
             // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
             //
@@ -178,7 +171,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void validateNfeProtocolSearch() throws Exception {
         try {
             System.out.println("Testando NFeConsultaProtocolo...");
@@ -192,9 +185,7 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final ClientSample clientSample = new ClientSample();
-
-            final String returnXml = clientSample.testHttpsConnection(soapEnvelope, NFeService.PROTOCOL_SEARCH.getHomologUrl(UF.PR));
+            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.PROTOCOL_SEARCH.getHomologUrl(UF.PR));
 
             // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
             //
@@ -236,9 +227,7 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final ClientSample clientSample = new ClientSample();
-
-            final String returnXml = clientSample.testHttpsConnection(soapEnvelope, NFeService.EVENT_RECEPTION.getHomologUrl(UF.PR));
+            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.EVENT_RECEPTION.getHomologUrl(UF.PR));
 
             // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
             //

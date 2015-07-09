@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.tax;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,7 +30,9 @@ import eprecise.efiscal4j.nfe.tax.pis.PISST;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Tax {
+public class Tax implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private @XmlElement(name = "ICMS") @XmlJavaTypeAdapter(ICMSAdapter.class) @Valid final ICMS icms;
 

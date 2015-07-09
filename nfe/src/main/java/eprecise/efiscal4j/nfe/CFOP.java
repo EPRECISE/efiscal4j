@@ -554,7 +554,7 @@ public enum CFOP implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final PropertiesLoader cfopMap = new PropertiesLoader.Builder().resourceLoader(CFOP.class).from("/eprecise/efiscal4j/nfe/cfop.properties").create();
+    private transient final PropertiesLoader cfopMap = new PropertiesLoader.Builder().resourceLoader(CFOP.class).from("/eprecise/efiscal4j/nfe/cfop.properties").create();
 
     private final String value;
 

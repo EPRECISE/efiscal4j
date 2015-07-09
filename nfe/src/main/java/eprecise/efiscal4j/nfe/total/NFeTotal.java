@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.total;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,7 +20,9 @@ import eprecise.efiscal4j.nfe.FederalTaxRetention;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeTotal {
+public class NFeTotal implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private @XmlElement(name = "ICMSTot") @NotNull @Valid final ICMSTotal icmsTotal;
 

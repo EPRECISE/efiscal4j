@@ -14,6 +14,8 @@ import eprecise.efiscal4j.nfe.types.NFeCNPJ;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LegalEntityDocuments extends AbstractDocuments {
 
+    private static final long serialVersionUID = 1L;
+
     private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ String cnpj;
 
     public LegalEntityDocuments() {

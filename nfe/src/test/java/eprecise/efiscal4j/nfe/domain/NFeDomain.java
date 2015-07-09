@@ -12,7 +12,8 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
-import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
+import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.nfe.CFOP;
 import eprecise.efiscal4j.nfe.CRT;
@@ -93,6 +94,7 @@ import eprecise.efiscal4j.nfe.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.transmissor.Transmissor;
 
 
 public class NFeDomain {
@@ -101,10 +103,13 @@ public class NFeDomain {
 
     private Signer signer;
 
+    private Transmissor transmissor;
+
     public NFeDomain() {
         try {
-            // this.signer = new Signer(new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/e-Precise/e-CNPJ.p12"), "193746");
-            this.signer = new Signer(new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
+            final Certificate keyCertificate = new Certificate(new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
+            this.signer = new Signer(keyCertificate);
+            this.transmissor = new Transmissor(keyCertificate);
         } catch (final Exception ex) {
             ex.printStackTrace();
         }
@@ -167,7 +172,7 @@ public class NFeDomain {
         //@formatter:on 
     }
 
-    public NFeBody buildNFeBody(String xmlns, Transmissible transmissible) {
+    public NFeBody buildNFeBody(String xmlns, TransmissibleBodyImpl transmissible) {
         //@formatter:off 
         return new NFeBody.Builder()
               .withXmlns(xmlns)
@@ -1049,6 +1054,10 @@ public class NFeDomain {
 
     public Signer getSigner() {
         return this.signer;
+    }
+
+    public Transmissor getTransmissor() {
+        return this.transmissor;
     }
 
 }
