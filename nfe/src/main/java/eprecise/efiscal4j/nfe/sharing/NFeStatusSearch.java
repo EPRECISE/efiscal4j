@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
-import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
+import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
@@ -30,7 +30,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  */
 @XmlRootElement(name = ObjectFactory.CONS_SIT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeStatusSearch extends Transmissible implements Serializable {
+public class NFeStatusSearch extends TransmissibleBodyImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

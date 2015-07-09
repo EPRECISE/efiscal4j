@@ -36,11 +36,11 @@ public enum NFeService implements FiscalDocumentService, Serializable {
 
     private final PropertiesLoader nFeServiceHomologMap;
 
-    // private final PropertiesLoader nFeServiceProductionMap;
+    private final PropertiesLoader nFeServiceProductionMap;
 
     private NFeService(String propertiesHomologPath, String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesHomologPath).create();
-        // this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesProductionPath).create();
+        this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesProductionPath).create();
         // this.initServiceDomainMap();
     }
 
@@ -252,7 +252,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
         //@formatter:on
     }
 
-    public String getUrl(ServiceDomain serviceDomain, TransmissionEnvironment environment) {
+    private String getUrl(ServiceDomain serviceDomain, TransmissionEnvironment environment) {
         if (!serviceDomain.getServices().contains(this)) {
             throw new UnsupportedOperationException("O serviço " + this.toString() + " não está implementado para a Domínio " + serviceDomain.getDescription());
         }
@@ -272,9 +272,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
             url = this.nFeServiceHomologMap.valueFrom(serviceDomain.toString() + ":" + version.getValue());
             break;
         case PRODUCAO:
-            return "";
-        default:
-            return "";
+            url = this.nFeServiceProductionMap.valueFrom(serviceDomain.toString() + ":" + version.getValue());
         }
 
         if (url == null) {

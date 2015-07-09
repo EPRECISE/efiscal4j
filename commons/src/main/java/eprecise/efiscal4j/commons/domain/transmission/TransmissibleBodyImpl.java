@@ -10,14 +10,13 @@ import javax.xml.namespace.QName;
 /**
  * Identifica estruturas que podem ser transmitidas (adicionadas ao body da mensagem SOAP)
  * 
- * @see NFeBody
  * @author Felipe Bueno
  *
  */
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlTransient
-public abstract class Transmissible {
+public abstract class TransmissibleBodyImpl {
 
     public abstract void setQName(QName qName);
 

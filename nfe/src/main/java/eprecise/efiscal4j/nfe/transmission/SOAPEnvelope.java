@@ -10,11 +10,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 
 @XmlRootElement(name = "soap:Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPEnvelope implements Serializable {
+public class SOAPEnvelope implements Serializable, TransmissibleEnvelope {
 
     private static final long serialVersionUID = 1L;
 
