@@ -22,6 +22,9 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
@@ -106,11 +109,23 @@ public class JasperDanfeBuilder {
         this.toPdf(out);
     }
 
+    public byte[] toPdf() throws IOException, JRException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        this.toPdf(out);
+        return out.toByteArray();
+    }
+
     public void toHtml(OutputStream out) throws IOException, JRException {
+        this.toHtml(() -> out);
+    }
+
+    public void toHtml(Supplier<OutputStream> out) throws IOException, JRException {
         final HtmlExporter exporter = new HtmlExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
-        exporter.setExporterOutput(new SimpleHtmlExporterOutput(out));
+        final OutputStream outputStream = out.get();
+        exporter.setExporterOutput(new SimpleHtmlExporterOutput(outputStream));
         exporter.exportReport();
+        outputStream.close();
     }
 
     public void toHtml(StringBuffer out) throws IOException, JRException {
