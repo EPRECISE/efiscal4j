@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-07-11T11:02:04 -->
+<!-- 2015-07-11T11:33:37 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="206" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
@@ -187,7 +187,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/det")]]></dataSourceExpression>
-				<subreportExpression><![CDATA["file:/home/fernando/Trabalho/E-precise/e-fiscal4j/nfe/src/main/jasperreports/eprecise/efiscal4j/nfce/danfe/danfe_nfce_detalhes.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_detalhes.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="26">
@@ -212,7 +212,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag")]]></dataSourceExpression>
-				<subreportExpression><![CDATA["file:/home/fernando/Trabalho/E-precise/e-fiscal4j/nfe/src/main/jasperreports/eprecise/efiscal4j/nfce/danfe/danfe_nfce_pagamentos.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_pagamentos.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="160" y="0" width="46" height="8" uuid="1fdc8792-da51-4c21-a926-99d9b141708c">
@@ -375,6 +375,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{hash_qr_code} != null]]></printWhenExpression>
 				</reportElement>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<jr:codeExpression><![CDATA[$P{hash_qr_code}]]></jr:codeExpression>

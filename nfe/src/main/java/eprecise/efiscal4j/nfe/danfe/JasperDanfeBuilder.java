@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -88,7 +87,7 @@ public class JasperDanfeBuilder {
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
-    public void toPdf(Supplier<OutputStream> out) throws IOException, JRException {
+    public void toPdf(OutputStreamSupplier out) throws IOException, JRException {
         final JRPdfExporter exporter = new JRPdfExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         final OutputStream outputStream = out.get();
@@ -119,7 +118,7 @@ public class JasperDanfeBuilder {
         this.toHtml(() -> out);
     }
 
-    public void toHtml(Supplier<OutputStream> out) throws IOException, JRException {
+    public void toHtml(OutputStreamSupplier out) throws IOException, JRException {
         final HtmlExporter exporter = new HtmlExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         final OutputStream outputStream = out.get();
@@ -133,5 +132,10 @@ public class JasperDanfeBuilder {
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(out));
         exporter.exportReport();
+    }
+
+    public interface OutputStreamSupplier {
+
+        OutputStream get() throws IOException;
     }
 }
