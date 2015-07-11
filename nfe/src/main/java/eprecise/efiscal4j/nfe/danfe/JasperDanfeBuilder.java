@@ -53,6 +53,8 @@ public class JasperDanfeBuilder {
 
     private JasperDanfeCatalog catalog = new DefaultJasperDanfeCatalog();
 
+    private JasperDanfeParamsSource paramsSource = new DefaultJasperDanfeParamsSource();
+
     private final Map<String, Object> params = new HashMap<>();
 
     private final ProcessedNFe nfe;
@@ -78,12 +80,18 @@ public class JasperDanfeBuilder {
         return this;
     }
 
+    public JasperDanfeBuilder withParamsSource(JasperDanfeParamsSource source) {
+        this.paramsSource = source;
+        return this;
+    }
+
     public <T> JasperDanfeBuilder withParam(String name, T value) {
         this.params.put(name, value);
         return this;
     }
 
     public JasperPrint build() throws IOException, JRException {
+        this.params.putAll(this.paramsSource.getParamsOf(this.nfe));
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
