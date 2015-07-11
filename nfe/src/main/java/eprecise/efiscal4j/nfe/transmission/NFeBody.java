@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.commons.domain.transmission.FiscalDocumentBody;
-import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleAdapter;
+import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
+import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImplAdapter;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
@@ -39,15 +39,15 @@ public class NFeBody extends FiscalDocumentBody implements Serializable {
         @XmlElementRef(name = ObjectFactory.CONS_STAT_SERV),
         @XmlElementRef(name = ObjectFactory.ENV_EVENTO),
     })
-    @XmlJavaTypeAdapter(TransmissibleAdapter.class)
-    private final Transmissible transmissible;
+    @XmlJavaTypeAdapter(TransmissibleBodyImplAdapter.class)
+    private final TransmissibleBodyImpl transmissible;
     //@formatter:on
 
     public static class Builder {
 
         private String xmlns;
 
-        private Transmissible transmissible;
+        private TransmissibleBodyImpl transmissible;
 
         /**
          * 
@@ -64,7 +64,7 @@ public class NFeBody extends FiscalDocumentBody implements Serializable {
          * @param transmissible
          * @return
          */
-        public Builder withTransmissible(Transmissible transmissible) {
+        public Builder withTransmissible(TransmissibleBodyImpl transmissible) {
             this.transmissible = transmissible;
             return this;
         }
@@ -92,7 +92,7 @@ public class NFeBody extends FiscalDocumentBody implements Serializable {
     }
 
     @Override
-    public Transmissible getTransmissible() {
+    public TransmissibleBodyImpl getTransmissible() {
         return this.transmissible;
     }
 

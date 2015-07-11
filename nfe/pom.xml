@@ -8,7 +8,7 @@
     <parent>
         <artifactId>efiscal4j</artifactId>
         <groupId>eprecise.efiscal4j</groupId>
-        <version>1.0.12</version>
+        <version>1.0.13</version>
     </parent>
 
     <artifactId>nfe</artifactId>
@@ -35,6 +35,10 @@
         <dependency>
             <groupId>br.com.caelum.stella</groupId>
             <artifactId>caelum-stella-bean-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

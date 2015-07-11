@@ -8,7 +8,7 @@
     <parent>
         <artifactId>efiscal4j</artifactId>
         <groupId>eprecise.efiscal4j</groupId>
-        <version>1.0.12</version>
+        <version>1.0.13</version>
     </parent>
 
     <artifactId>transmissor</artifactId>
@@ -19,9 +19,16 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>commons</artifactId>
-        </dependency>
-    </dependencies>
-
+        </dependency>        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>                
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>                    
+        </dependency>        
+    </dependencies>                   
     <build>
         <plugins>
             <plugin>
@@ -38,5 +45,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

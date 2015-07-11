@@ -4,7 +4,6 @@ package eprecise.efiscal4j.signer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
@@ -53,9 +52,7 @@ import org.xml.sax.SAXException;
  */
 public class Signer {
 
-    private final InputStream certificateStream;
-
-    private final String password;
+    private final eprecise.efiscal4j.commons.utils.Certificate keyCertificate;
 
     private XMLSignatureFactory signatureFactory;
 
@@ -65,29 +62,33 @@ public class Signer {
 
     private KeyInfo keyInfo;
 
-    public Signer(InputStream certificateStream, String password) throws Exception {
-        this.certificateStream = certificateStream;
-        this.password = password;
+    public Signer(eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
+        this.keyCertificate = keyCertificate;
         this.init();
     }
 
+    /**
+     * 
+     * Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.<br>
+     * Create a list of Transforms, including ENVELOPED and C14N Transforms<br>
+     * Load the KeyStore and get the signing key and certificate<br>
+     * 
+     * @throws Exception
+     */
     private void init() throws Exception {
-        // Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.
         this.signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
-        // Create a list of Transforms, including ENVELOPED and C14N Transforms
         this.transformList = new ArrayList<>();
         this.transformList.add(this.signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null));
         this.transformList.add(this.signatureFactory.newTransform("http://www.w3.org/TR/2001/REC-xml-c14n-20010315", (TransformParameterSpec) null));
 
-        // Load the KeyStore and get the signing key and certificate
         this.loadCertificates();
     }
 
     private void loadCertificates() throws Exception {
         final KeyStore ks = KeyStore.getInstance("pkcs12");
         try {
-            ks.load(this.certificateStream, this.password.toCharArray());
+            ks.load(this.getKeyCertificate().getCertificate(), this.getKeyCertificate().getPassphrase().toCharArray());
         } catch (final IOException e) {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
@@ -97,7 +98,7 @@ public class Signer {
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
             if (ks.isKeyEntry(alias)) {
-                pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(alias, new KeyStore.PasswordProtection(this.password.toCharArray()));
+                pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(alias, new KeyStore.PasswordProtection(this.getKeyCertificate().getPassphrase().toCharArray()));
                 this.privateKey = pkEntry.getPrivateKey();
                 break;
             }
@@ -111,22 +112,6 @@ public class Signer {
         final X509Data x509Data = keyInfoFactory.newX509Data(x509Content);
 
         this.keyInfo = keyInfoFactory.newKeyInfo(Collections.singletonList(x509Data));
-    }
-
-    private Document documentFactory(String xml) throws SAXException, IOException, ParserConfigurationException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").getBytes()));
-    }
-
-    private String outputXML(Document document) throws TransformerException {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        final Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.INDENT, "no");
-        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
-        return outputStream.toString();
     }
 
     /**
@@ -185,5 +170,25 @@ public class Signer {
         }
 
         return assignable.getAsEntity(this.outputXML(document));
+    }
+
+    private Document documentFactory(String xml) throws SAXException, IOException, ParserConfigurationException {
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").getBytes()));
+    }
+
+    private String outputXML(Document document) throws TransformerException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        final Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+        return outputStream.toString();
+    }
+
+    public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {
+        return this.keyCertificate;
     }
 }
