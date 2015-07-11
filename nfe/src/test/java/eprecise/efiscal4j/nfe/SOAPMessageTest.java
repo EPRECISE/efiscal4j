@@ -1,6 +1,9 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -19,8 +22,9 @@ import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
 import eprecise.efiscal4j.nfe.transmission.NFeService;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
@@ -35,7 +39,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateServiceStatusSearch() throws Exception {
         try {
             System.out.println("testando NFeStatusServico...");
@@ -52,18 +56,17 @@ public class SOAPMessageTest implements Testable {
 
             String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.SERVICE_STATUS.getHomologUrl(UF.PR));
 
-            System.out.println(returnXml);
+            final Pattern pattern = Pattern.compile("<retConsStatServ(.+?)</retConsStatServ>");
+            final Matcher matcher = pattern.matcher(returnXml);
+            matcher.find();
+            returnXml = matcher.group(0);
 
-            returnXml = returnXml.substring(
-                    returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                    returnXml.lastIndexOf("</env:Body"));
-
-            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<ServiceStatusSearchResponseMethod>(returnXml,
-                    ServiceStatusSearchResponseMethod.class).deserialize();
+            final ServiceStatusSearchResponse serviceStatusSearchResponse = new FiscalDocumentDeserializer<ServiceStatusSearchResponse>(returnXml, ServiceStatusSearchResponse.class).considering(
+                    ObjectFactory.class).deserialize();
 
             System.out.println("retorno convertido:");
 
-            returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponseMethod>(serviceStatusSearchResponseMethod).serialize();
+            returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponse>(serviceStatusSearchResponse).serialize();
 
             System.out.println(returnXml);
 
@@ -84,7 +87,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void validateNfeDispatch() throws Exception {
         try {
             System.out.println("Testando NFeAutorizacao...");
@@ -171,7 +174,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateNfeProtocolSearch() throws Exception {
         try {
             System.out.println("Testando NFeConsultaProtocolo...");

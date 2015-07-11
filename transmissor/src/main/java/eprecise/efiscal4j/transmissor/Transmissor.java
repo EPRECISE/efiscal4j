@@ -12,11 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyStore;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
 import org.slf4j.Logger;
@@ -28,7 +26,7 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 
 public class Transmissor {
 
-    private final Logger log = LoggerFactory.getLogger(Transmissor.class);
+    private final Logger logger = LoggerFactory.getLogger(Transmissor.class);
 
     private KeyStore keyStore;
 
@@ -41,81 +39,62 @@ public class Transmissor {
     private SSLContext sslContext;
 
     public Transmissor(Certificate keyCertificate, Certificate trustCertificate) {
-        this.initCert();
-        this.initializeKeyStore(keyCertificate);
-        this.initializeTrustStore(trustCertificate);
+        this.init(keyCertificate, trustCertificate);
     }
 
     public Transmissor(Certificate keyCertificate) {
-        this(keyCertificate, new Certificate(Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
+        this(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
     }
 
-    private void initCert() {
-        final HostnameVerifier hv = new HostnameVerifier() {
-
-            @Override
-            public boolean verify(String string, SSLSession ssls) {
-                return true;
-            }
-        };
-        // System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
-        // HttpsURLConnection.setDefaultHostnameVerifier(hv);
-
+    private void init(Certificate keyCertificate, Certificate trustCertificate) {
+        this.initializeKeyStore(keyCertificate);
+        this.initializeTrustStore(trustCertificate);
+        this.initializeSSLContext();
     }
 
     public void initializeKeyStore(Certificate certificate) {
         try {
-            this.getLogger().info("Inicializando certificado PKCS");
             this.keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
             this.keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
             this.keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             this.keyManagerFactory.init(this.keyStore, certificate.getPassphrase().toCharArray());
         } catch (final Exception ex) {
-            this.getLogger().error("Erro ao inicializar certificado PKCS.", ex);
+            this.getLogger().error("Erro ao inicializar certificado PKCS", ex);
+            throw new RuntimeException(ex);
         }
     }
 
     public void initializeTrustStore(Certificate certificate) {
         try {
-            this.getLogger().info("Inicializando certificado JKS");
             this.trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
             this.trustStore.load(certificate.getCertificate(), null);
             this.trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             this.trustManagerFactory.init(this.trustStore);
         } catch (final Exception ex) {
-            this.getLogger().error("Erro ao inicializar certificado JKS.", ex);
+            this.getLogger().error("Erro ao inicializar certificado JKS", ex);
+            throw new RuntimeException(ex);
         }
     }
 
-    public void initializeSSLContext() {
-        if (this.trustManagerFactory != null && this.keyManagerFactory != null) {
-            try {
-                this.sslContext = SSLContext.getInstance("SSL");
-                this.sslContext.init(this.keyManagerFactory.getKeyManagers(), this.trustManagerFactory.getTrustManagers(), null);
-            } catch (final Exception ex) {
-                this.getLogger().error("Erro ao inicializar contexto SSL.", ex);
-            }
+    private void initializeSSLContext() {
+        try {
+            this.sslContext = SSLContext.getInstance("SSL");
+            this.sslContext.init(this.keyManagerFactory.getKeyManagers(), this.trustManagerFactory.getTrustManagers(), null);
+        } catch (final Exception ex) {
+            this.getLogger().error("Erro ao inicializar contexto SSL", ex);
+            throw new RuntimeException(ex);
         }
     }
 
     public String transmit(TransmissibleEnvelope soapEnvelope, String serviceUrl) {
 
-        // System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol");
-        // // Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-        //
-        // System.setProperty("javax.net.ssl.keyStoreType", "PKCS12");
-        // System.setProperty("javax.net.ssl.keyStore", "/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx");
-        // System.setProperty("javax.net.ssl.keyStorePassword", "0989Lu");
-        //
-        // System.setProperty("javax.net.ssl.trustStoreType", "JKS");
-        // System.setProperty("javax.net.ssl.trustStore", "/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/e-Precise/NFeCacerts");
-        // System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        this.log.info("Service url:\n" + serviceUrl);
+        // this.logger.info("Service url:\n" + serviceUrl);
+        System.out.println("Service url:\n" + serviceUrl);
 
-        this.log.info("Request xml:\n" + requestXml);
+        // this.logger.info("Request xml:\n" + requestXml);
+        System.out.println("Request xml:\n" + requestXml);
 
         try {
             final URL url = new URL(serviceUrl);
@@ -133,21 +112,20 @@ public class Transmissor {
             httpConnection.setUseCaches(false);
             httpConnection.setRequestMethod("POST");
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
-            // postUrlConnection.setRequestProperty("Content-Length", xmlContent.length() + "");
-            // postUrlConnection.setRequestProperty("SOAPAction", soapAction);
             httpConnection.connect();
 
             this.sendRequest(httpConnection, requestXml);
 
             final String responseXml = this.getResponse(httpConnection);
 
-            this.log.info("Response xml:\n" + responseXml);
+            // this.logger.info("Response xml:\n" + responseXml);
+            System.out.println("Response xml:\n" + responseXml);
 
             return responseXml;
         } catch (final Exception ex) {
-            this.log.error(ex.getMessage(), ex);
+            this.logger.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
         }
-        return "";
     }
 
     private void sendRequest(HttpURLConnection connection, String envelopeXML) throws IOException {
@@ -191,6 +169,6 @@ public class Transmissor {
     }
 
     public Logger getLogger() {
-        return this.log;
+        return this.logger;
     }
 }

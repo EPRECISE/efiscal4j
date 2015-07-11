@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
@@ -99,6 +102,8 @@ import eprecise.efiscal4j.transmissor.Transmissor;
 
 public class NFeDomain {
 
+    private final Logger logger = LoggerFactory.getLogger(NFeDomain.class);
+
     private FiscalDocumentValidator validator;
 
     private Signer signer;
@@ -107,11 +112,12 @@ public class NFeDomain {
 
     public NFeDomain() {
         try {
-            final Certificate keyCertificate = new Certificate(new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
+            final Certificate keyCertificate = new Certificate(() -> new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
             this.signer = new Signer(keyCertificate);
             this.transmissor = new Transmissor(keyCertificate);
         } catch (final Exception ex) {
-            ex.printStackTrace();
+            this.getLogger().error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -124,14 +130,15 @@ public class NFeDomain {
         try {
             this.validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
         } catch (final IOException ex) {
-            ex.printStackTrace();
+            this.getLogger().error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
         }
     }
 
     public SOAPEnvelope buildSoapEnvelope(SOAPHeader soapHeader, SOAPBody soapBody) {
         //@formatter:off 
         return new SOAPEnvelope.Builder()
-              .withSoapHeader(soapHeader)
+              .withSoapHeader(soapHeader) 
               .withSoapBody(soapBody)
               .build();
         //@formatter:on                      
@@ -1046,6 +1053,10 @@ public class NFeDomain {
                  .withServiceStatusSearchResponse(serviceStatusSearchResponse)
                  .build();
         //@formatter:on        
+    }
+
+    public Logger getLogger() {
+        return this.logger;
     }
 
     public FiscalDocumentValidator getValidator() {

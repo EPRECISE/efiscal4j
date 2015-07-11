@@ -19,13 +19,16 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>commons</artifactId>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-    </dependencies>  
-                  
+        </dependency>                
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>                    
+        </dependency>        
+    </dependencies>                   
     <build>
         <plugins>
             <plugin>
