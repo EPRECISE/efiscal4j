@@ -17,6 +17,7 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
         {
             this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
             this.put(DANFEPrintFormat.DANFE_RETRATO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_NFCE, "eprecise/efiscal4j/nfce/danfe/danfe_nfce.jasper");
         }
     };
 
