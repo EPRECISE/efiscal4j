@@ -1,8 +1,10 @@
 
 package eprecise.efiscal4j.nfe.danfe;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +31,15 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
             throw new IllegalArgumentException("Não existe formato padrão para " + printFormat);
         }
         try {
-            return this.getClass().getClassLoader().getResource(this.danfeMap.get(printFormat)).openStream();
+            final String file = this.danfeMap.get(printFormat);
+            final URL resource = this.getClass().getClassLoader().getResource(file);
+            if (resource != null) {
+                return resource.openStream();
+            } else {
+                throw new FileNotFoundException(String.format("Arquivo %s para o formato de DANFE %s não foi encontrado", file, printFormat));
+            }
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
