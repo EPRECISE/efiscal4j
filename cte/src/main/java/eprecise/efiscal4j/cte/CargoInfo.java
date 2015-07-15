@@ -1,8 +1,8 @@
 package eprecise.efiscal4j.cte;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -70,7 +70,7 @@ public class CargoInfo implements Serializable {
 	private String cargoValue;
 	private String predominantProduct;
 	private String otherCargoInfo;
-	private List<CargoQuantityInfo> cargoQuantityInfos = Collections.emptyList();
+	private List<CargoQuantityInfo> cargoQuantityInfos = new ArrayList<>();
 	
 	public Builder withCargoValue(String cargoValue) {
 	    this.cargoValue = cargoValue;
@@ -105,7 +105,7 @@ public class CargoInfo implements Serializable {
 	this.cargoValue = null;
 	this.predominantProduct = null;
 	this.otherCargoInfo = null;
-	this.cargoQuantityInfos = Collections.emptyList();
+	this.cargoQuantityInfos = new ArrayList<>();
     }
     
     public CargoInfo(Builder builder) {
@@ -128,6 +128,6 @@ public class CargoInfo implements Serializable {
     }
     
     public List<CargoQuantityInfo> getCargoQuantityInfos() {
-	return Collections.unmodifiableList(this.cargoQuantityInfos);
+	return this.cargoQuantityInfos;
     }
 }
