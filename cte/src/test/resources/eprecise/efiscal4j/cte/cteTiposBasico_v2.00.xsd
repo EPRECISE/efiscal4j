@@ -1305,13 +1305,14 @@ REENTREGA; DEVOLUÇÃO; REFATURAMENTO; etc</xs:documentation>
 																<xs:element name="cUnid">
 																	<xs:annotation>
 																		<xs:documentation>Código da Unidade de Medida </xs:documentation>
-																		<xs:documentation>Preencher com:
-																		00-M3;
-																		01-KG;
-																		02-TON;
-																		03-UNIDADE;
-																		04-LITROS;
-																		05-MMBTU</xs:documentation>
+																		<xs:documentation>
+    Preencher com:
+    00-M3;
+    01-KG;
+    02-TON;
+    03-UNIDADE;
+    04-LITROS;
+    05-MMBTU</xs:documentation>
 																	</xs:annotation>
 																	<xs:simpleType>
 																		<xs:restriction base="xs:string">

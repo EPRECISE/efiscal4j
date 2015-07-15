@@ -28,9 +28,9 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "0|0\\.[0-9]{2}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?")
-public @interface TypeDecimal1302 {
-    public static final DecimalFormat FORMAT = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
+@Pattern(regexp = "0|0\\.[0-9]{4}|[1-9]{1}[0-9]{0,10}(\\.[0-9]{4})?")
+public @interface TypeDecimal1104 {
+    public static final DecimalFormat FORMAT = new DecimalFormat("##0.0000", new DecimalFormatSymbols(Locale.ENGLISH));
     
     String message() default "Viola restrição -";
     
