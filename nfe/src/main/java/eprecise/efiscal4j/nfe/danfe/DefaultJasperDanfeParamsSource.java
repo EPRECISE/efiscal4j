@@ -14,7 +14,10 @@ public class DefaultJasperDanfeParamsSource implements JasperDanfeParamsSource {
         final Map<String, Object> params = new HashMap<>();
         switch (nfe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel()) {
         case NFCE:
-            params.put("url_consulta_nfce", "Sem URL ainda");
+            params.put(
+                    "url_consulta_nfce",
+                    NfceUrlPath.QUERY.getUrl(nfe.getNfe().getNFeInfo().getEmitter().getAdress().getCity().getUf(), nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo()
+                            .getTransmissionEnvironment()));
             params.put("hash_qr_code", nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey());
             break;
         default:
