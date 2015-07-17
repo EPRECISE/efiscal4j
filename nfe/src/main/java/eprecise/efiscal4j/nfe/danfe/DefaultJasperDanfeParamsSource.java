@@ -16,9 +16,9 @@ public class DefaultJasperDanfeParamsSource implements JasperDanfeParamsSource {
         case NFCE:
             params.put(
                     "url_consulta_nfce",
-                    NfceUrlPath.QUERY.getUrl(nfe.getNfe().getNFeInfo().getEmitter().getAdress().getCity().getUf(), nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo()
+                    JasperDanfeNfceUrlPath.QUERY.getUrl(nfe.getNfe().getNFeInfo().getEmitter().getAdress().getCity().getUf(), nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo()
                             .getTransmissionEnvironment()));
-            params.put("hash_qr_code", nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey());
+            params.put("hash_qr_code", new JasperDanfeNfceQRCodeBuilder(nfe).build());
             break;
         default:
             break;
