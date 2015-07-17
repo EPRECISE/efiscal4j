@@ -48,12 +48,11 @@ public class JasperDanfeNfceQRCodeBuilder {
         .append(getCIdToken());
 
         final String qrCodeSha1 = Hashing.sha1().hashString(new StringBuilder(params.toString()).append(getCsc()).toString(), Charsets.UTF_8).toString();
-        final String qrCodeHex = String.format("%040x", new BigInteger(1, qrCodeSha1.getBytes()));
 
         return url.append("?")
                 .append(params.toString())
                 .append("&cHashQRCode=")
-                .append(qrCodeHex).toString();
+                .append(qrCodeSha1).toString();
 
 
         //@formatter:on
