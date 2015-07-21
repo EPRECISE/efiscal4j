@@ -9,6 +9,7 @@ import com.google.common.hash.Hashing;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFeTransmissionMethod;
+import eprecise.efiscal4j.nfe.danfe.nfce.CSC;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 
@@ -16,8 +17,11 @@ public class JasperDanfeNfceQRCodeBuilder {
 
     private final ProcessedNFe nfe;
 
-    public JasperDanfeNfceQRCodeBuilder(ProcessedNFe nfe) {
+    private final CSC csc;
+
+    public JasperDanfeNfceQRCodeBuilder(ProcessedNFe nfe, CSC csc) {
         this.nfe = nfe;
+        this.csc = csc;
     }
 
     public String build() {
@@ -125,14 +129,14 @@ public class JasperDanfeNfceQRCodeBuilder {
      * cIdToken
      */
     private String getCIdToken() {
-        return "123456";
+        return this.csc.getCldToken();
     }
 
     /*
      * CSC
      */
     private String getCsc() {
-        return "7439434e7a67536f48596430440654056406";
+        return this.csc.getCscValue();
     }
 
 }

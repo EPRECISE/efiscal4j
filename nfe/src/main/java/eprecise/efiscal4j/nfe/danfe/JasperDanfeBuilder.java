@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -23,10 +24,12 @@ import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.danfe.nfce.CSC;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 
@@ -58,6 +61,8 @@ public class JasperDanfeBuilder {
     private final Map<String, Object> params = new HashMap<>();
 
     private final ProcessedNFe nfe;
+
+    private Optional<CSC> csc = Optional.empty();
 
     private DataSourceType type = DataSourceType.XML;
 
@@ -91,7 +96,7 @@ public class JasperDanfeBuilder {
     }
 
     public JasperPrint build() throws IOException, JRException {
-        this.params.putAll(this.paramsSource.getParamsOf(this.nfe));
+        this.params.putAll(this.paramsSource.getParamsOf(this.nfe, this.csc));
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
@@ -140,6 +145,13 @@ public class JasperDanfeBuilder {
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(out));
         exporter.exportReport();
+    }
+
+    public <T> JasperDanfeBuilder withCSC(String cscValue, String cldToken) {
+        if (StringUtils.isNotBlank(cscValue) && StringUtils.isNotBlank(cldToken)) {
+            this.csc = Optional.of(new CSC(cldToken, cscValue));
+        }
+        throw new IllegalArgumentException("cscValue or cldToken is not valid");
     }
 
     public interface OutputStreamSupplier {
