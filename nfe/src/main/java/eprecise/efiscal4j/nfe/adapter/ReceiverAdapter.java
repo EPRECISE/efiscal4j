@@ -25,26 +25,26 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
         //@formatter:off
         if (adaptedReceiver.getAdaptedCpf() != null) {
             receiver = new Receiver.Builder()
-                           .asNaturalPerson()
-                           .withCpf(adaptedReceiver.getAdaptedCpf())    
-                           .withName(adaptedReceiver.getAdaptedName())
-                           .withStateRegistration(adaptedReceiver.getAdaptedStateRegistration())
-                           .withMunicipalRegistration(adaptedReceiver.getAdaptedMunicipalRegistration())
-                           .withStateRegistrationReceiverIndicator(adaptedReceiver.getAdaptedStateRegistrationReceiverIndicator())
-                           .withEmail(adaptedReceiver.getAdaptedEmail())
-                           .withAdress(adaptedReceiver.getAdaptedAdress())
-                           .build();                           
+            .asNaturalPerson()
+            .withCpf(adaptedReceiver.getAdaptedCpf())
+            .withName(adaptedReceiver.getAdaptedName())
+            .withStateRegistration(adaptedReceiver.getAdaptedStateRegistration())
+            .withMunicipalRegistration(adaptedReceiver.getAdaptedMunicipalRegistration())
+            .withStateRegistrationReceiverIndicator(adaptedReceiver.getAdaptedStateRegistrationReceiverIndicator())
+            .withEmail(adaptedReceiver.getAdaptedEmail())
+            .withAdress(adaptedReceiver.getAdaptedAdress())
+            .build();
         }else{
             receiver = new Receiver.Builder()
-                           .asLegalEntity()
-                           .withCnpj(adaptedReceiver.getAdaptedCnpj())
-                           .withCorporateName(adaptedReceiver.getAdaptedName())
-                           .withStateRegistration(adaptedReceiver.getAdaptedStateRegistration())
-                           .withMunicipalRegistration(adaptedReceiver.getAdaptedMunicipalRegistration())                                                    
-                           .withStateRegistrationReceiverIndicator(adaptedReceiver.getAdaptedStateRegistrationReceiverIndicator())
-                           .withEmail(adaptedReceiver.getAdaptedEmail())
-                           .withAdress(adaptedReceiver.getAdaptedAdress())
-                           .build();                      
+            .asLegalEntity()
+            .withCnpj(adaptedReceiver.getAdaptedCnpj())
+            .withCorporateName(adaptedReceiver.getAdaptedName())
+            .withStateRegistration(adaptedReceiver.getAdaptedStateRegistration())
+            .withMunicipalRegistration(adaptedReceiver.getAdaptedMunicipalRegistration())
+            .withStateRegistrationReceiverIndicator(adaptedReceiver.getAdaptedStateRegistrationReceiverIndicator())
+            .withEmail(adaptedReceiver.getAdaptedEmail())
+            .withAdress(adaptedReceiver.getAdaptedAdress())
+            .build();
         }
 
         //@formatter:on
@@ -54,22 +54,27 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
     @Override
     public AdaptedReceiver marshal(Receiver receiver) throws Exception {
         //@formatter:off
+
+        if(receiver == null){
+            return null;
+        }
+
         AdaptedReceiver adaptedReceiver = null;
-       
-        adaptedReceiver = new AdaptedReceiver(receiver.getDocuments().getStateRegistration()                                                   
+
+        adaptedReceiver = new AdaptedReceiver(receiver.getDocuments().getStateRegistration()
                 ,receiver.getMunicipalRegistration()
                 ,receiver.getAdress()
                 ,receiver.getStateRegistrationReceiverIndicator()
                 ,receiver.getEmail());
-        
+
         if (receiver.getDocuments() instanceof NaturalPersonDocuments) {
             adaptedReceiver.setAdaptedCpf(((NaturalPersonDocuments)receiver.getDocuments()).getCpf());
             adaptedReceiver.setAdaptedName(((NaturalPersonDocuments)receiver.getDocuments()).getName());
         } else if (receiver.getDocuments() instanceof LegalEntityDocuments) {
             adaptedReceiver.setAdaptedCnpj(((LegalEntityDocuments)receiver.getDocuments()).getCnpj());
             adaptedReceiver.setAdaptedName(((LegalEntityDocuments)receiver.getDocuments()).getCorporateName());
-        }        
-        //@formatter:on       
+        }
+        //@formatter:on
 
         return adaptedReceiver;
     }

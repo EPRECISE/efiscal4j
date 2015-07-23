@@ -30,9 +30,9 @@ import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;
 
 /**
  * Informações da Nota Fiscal eletrônica
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @NFePaymentValidation
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,7 +48,7 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "emit") @NotNull final Emitter emitter;
 
-    private @XmlElement(name = "dest") @NotNull final Receiver receiver;
+    private @XmlElement(name = "dest") final Receiver receiver;
 
     private @XmlElement(name = "det") @Size(max = 990) @NotNull @Valid final List<NFeDetail> nFeDetails;
 
@@ -114,7 +114,7 @@ public class NFeInfo implements Serializable {
 
         /**
          * List of NFeDetail
-         * 
+         *
          * @see NFeDetail
          * @param nFeDetails
          * @return
@@ -156,7 +156,7 @@ public class NFeInfo implements Serializable {
 
         /**
          * List of NFePayments
-         * 
+         *
          * @see NFePayment
          * @param nFePayments
          * @return
@@ -211,7 +211,7 @@ public class NFeInfo implements Serializable {
     }
 
     private void fillCalculableFields() {
-        if (this.getnFeIdentification().getTransmissionEnvironment() == TransmissionEnvironment.HOMOLOGACAO) {
+        if (this.getReceiver() != null && this.getnFeIdentification().getTransmissionEnvironment() == TransmissionEnvironment.HOMOLOGACAO) {
             this.getReceiver().getDocuments().setAbstractName("NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL");
         }
 
@@ -242,7 +242,7 @@ public class NFeInfo implements Serializable {
 
     /**
      * Gera o ID da NF-e, que é composto por:
-     * 
+     *
      * <ul>
      * <li>NFe - texto contendo NFe</li>
      * <li>UF - Código da UF do emitente do Documento Fiscal</li>
@@ -255,7 +255,7 @@ public class NFeInfo implements Serializable {
      * <li>cNF - Código Numérico que compõe a Chave de Acesso</li>
      * <li>cDV - Dígito Verificador da Chave de Acesso</li>
      * </ul>
-     * 
+     *
      * @param builder
      * @throws ParseException
      */
