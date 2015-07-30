@@ -2,8 +2,6 @@
 package eprecise.efiscal4j.nfe.transmission;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
@@ -15,22 +13,21 @@ import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 /**
  * Identificação dos Web Services de NFC-e
  *
+ * @author Felipe Bueno
  * @author Fernando Glizt
  *
  */
 
 public enum NFCeService implements FiscalDocumentService, Serializable {
 
-    AUTHORIZATION("/eprecise/efiscal4j/nfe/transmission/authorizationHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/authorizationProduction.properties"),
-    AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/transmission/authorizationResultHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/authorizationResultProduction.properties"),
-    EVENT_RECEPTION("/eprecise/efiscal4j/nfe/transmission/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/eventReceptionProduction.properties"),
-    PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/transmission/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/protocolSearchProduction.properties"),
-    SERVICE_STATUS("/eprecise/efiscal4j/nfe/transmission/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/serviceStatusProduction.properties"),
-    DISABILITY("/eprecise/efiscal4j/nfe/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/disabilityProduction.properties");
+    AUTHORIZATION("/eprecise/efiscal4j/nfe/transmission/nfce/authorizationHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/authorizationProduction.properties"),
+    AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/transmission/nfce/authorizationResultHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/authorizationResultProduction.properties"),
+    EVENT_RECEPTION("/eprecise/efiscal4j/nfe/transmission/nfce/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/eventReceptionProduction.properties"),
+    PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/transmission/nfce/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/protocolSearchProduction.properties"),
+    SERVICE_STATUS("/eprecise/efiscal4j/nfe/transmission/nfce/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/serviceStatusProduction.properties"),
+    DISABILITY("/eprecise/efiscal4j/nfe/transmission/nfce/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/nfce/disabilityProduction.properties");
 
     private static final long serialVersionUID = 1L;
-
-    private List<NFCeServiceDomainVersion> serviceDomainVersion;
 
     private FiscalDocumentVersion supportedVersion;
 
@@ -41,27 +38,6 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
     private NFCeService(String propertiesHomologPath, String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFCeService.class).from(propertiesHomologPath).create();
         this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFCeService.class).from(propertiesProductionPath).create();
-        // this.initNFCeServiceDomainMap();
-    }
-
-    private void initNFCeServiceDomainMap() {
-        this.serviceDomainVersion = new ArrayList<NFCeServiceDomainVersion>();
-        //@formatter:off
-        switch(this){
-        case AUTHORIZATION:
-            break;
-        case AUTHORIZATION_RESULT:
-            break;
-        case EVENT_RECEPTION:
-            break;
-        case PROTOCOL_SEARCH:
-            break;
-        case DISABILITY:
-            break;
-        case SERVICE_STATUS:
-            break;
-        }
-
     }
 
     public String getHomologUrl(NFCeServiceDomain serviceDomain) {

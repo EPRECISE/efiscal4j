@@ -14,6 +14,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 /**
  * Domínio de Serviço NFC-e
  *
+ * @author Felipe Bueno
  * @author Fernando Glizt
  *
  */
@@ -24,7 +25,7 @@ public enum NFCeServiceDomain implements Serializable {
     PR(UF.PR.getDescription(),
             NFCeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
             NFCeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00),
+            NFCeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
             NFCeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
             NFCeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
             NFCeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10));
@@ -58,7 +59,7 @@ public enum NFCeServiceDomain implements Serializable {
     }
 
     public static NFCeServiceDomain findByAcronym(String acronym) {
-        for (final NFCeServiceDomain serviceDomain : values()) {
+        for (final NFCeServiceDomain serviceDomain : NFCeServiceDomain.values()) {
             if (serviceDomain.getAcronym().equals(acronym)) {
                 return serviceDomain;
             }

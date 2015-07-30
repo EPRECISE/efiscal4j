@@ -37,7 +37,7 @@ class ICMSSN400 extends BaseICMSSN102 {
     }
 
     protected ICMSSN400() {
-        super(null, null);
+        super();
     }
 
     protected ICMSSN400(ICMSSN400.Builder builder) {
