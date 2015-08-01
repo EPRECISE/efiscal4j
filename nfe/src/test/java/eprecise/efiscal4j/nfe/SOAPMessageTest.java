@@ -1,16 +1,12 @@
 
 package eprecise.efiscal4j.nfe;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -18,13 +14,10 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.domain.NFeDomain;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
-import eprecise.efiscal4j.nfe.transmission.NFeService;
-import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
+import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
@@ -42,31 +35,16 @@ public class SOAPMessageTest implements Testable {
     // @Test
     public void validateServiceStatusSearch() throws Exception {
         try {
-            System.out.println("testando NFeStatusServico...");
+            System.out.println("Testando NFeStatusServico...");
 
-            final SOAPHeader soapHeader = this.getTestDomain().buildSoapHeader(this.getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3", UF.PR));
+            String returnXml = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch());
 
-            final ServiceStatusSearch serviceStatusSearch = this.getTestDomain().buildServiceStatusSearch();
+            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<ServiceStatusSearchResponseMethod>(returnXml,
+                    ServiceStatusSearchResponseMethod.class).deserialize();
 
-            final SOAPBody soapBody = this.getTestDomain().buildSoapBody(this.getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3", serviceStatusSearch));
+            System.out.println("Retorno convertido:");
 
-            final SOAPEnvelope soapEnvelope = this.getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
-
-            ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
-
-            String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.SERVICE_STATUS.getHomologUrl(UF.PR));
-
-            final Pattern pattern = Pattern.compile("<retConsStatServ(.+?)</retConsStatServ>");
-            final Matcher matcher = pattern.matcher(returnXml);
-            matcher.find();
-            returnXml = matcher.group(0);
-
-            final ServiceStatusSearchResponse serviceStatusSearchResponse = new FiscalDocumentDeserializer<ServiceStatusSearchResponse>(returnXml, ServiceStatusSearchResponse.class).considering(
-                    ObjectFactory.class).deserialize();
-
-            System.out.println("retorno convertido:");
-
-            returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponse>(serviceStatusSearchResponse).serialize();
+            returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponseMethod>(serviceStatusSearchResponseMethod).serialize();
 
             System.out.println(returnXml);
 
@@ -88,28 +66,15 @@ public class SOAPMessageTest implements Testable {
      * @throws Exception
      */
     @Test
-    public void validateNfeDispatch() throws Exception {
+    public void validateNfeAuthorization() throws Exception {
         try {
             System.out.println("Testando NFeAutorizacao...");
-            final SOAPHeader soapHeader = this.getTestDomain().buildSoapHeader(this.getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3", UF.PR));
 
-            final NFeDispatch nFeDispatch = this.getTestDomain().buildNFeDispatch();
-
-            final SOAPBody soapBody = this.getTestDomain().buildSoapBody(this.getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3", nFeDispatch));
-
-            final SOAPEnvelope soapEnvelope = this.getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
-
-            ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
-
-            String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.AUTHORIZATION.getHomologUrl(UF.PR));
-
-            returnXml = returnXml.substring(
-                    returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                    returnXml.lastIndexOf("</env:Body"));
+            String returnXml = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFe());
 
             final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<NFeDispatchResponseMethod>(returnXml, NFeDispatchResponseMethod.class).deserialize();
 
-            System.out.println("retorno convertido:");
+            System.out.println("Retorno convertido:");
 
             returnXml = new FiscalDocumentSerializer<NFeDispatchResponseMethod>(returnMethod).serialize();
 
@@ -147,7 +112,9 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.AUTHORIZATION_RESULT.getHomologUrl(UF.PR));
+            final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+
+            // final String returnXml = getTestDomain().getTransmissionChannel()..transmit(requestXml, NFeService.AUTHORIZATION_RESULT.getHomologUrl(UF.PR));
 
             // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
             //
@@ -188,7 +155,9 @@ public class SOAPMessageTest implements Testable {
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.PROTOCOL_SEARCH.getHomologUrl(UF.PR));
+            final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+
+            // final String returnXml = this.nFeDomain.getTransmissor().transmit(requestXml, NFeService.PROTOCOL_SEARCH.getHomologUrl(UF.PR));
 
             // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
             //
@@ -211,35 +180,27 @@ public class SOAPMessageTest implements Testable {
     }
 
     /**
-     * Teste do serviço de RecepcaoEvento
+     * Teste do serviço de RecepcaoEvento - Cancelamento
      * 
      * @throws Exception
      */
     // @Test
-    public void validateEventDispatch() throws Exception {
+    public void validateEventDispatchCancellation() throws Exception {
         try {
-            System.out.println("Testando RecepcaoEvento...");
-            final SOAPHeader soapHeader = this.getTestDomain().buildSoapHeader(
-                    this.getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento", UF.PR, FiscalDocumentVersion.VERSION_1_00));
+            System.out.println("Testando RecepcaoEvento - Cancelamento...");
 
-            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatch();
+            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCancellation();
 
-            final SOAPBody soapBody = this.getTestDomain().buildSoapBody(this.getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe", eventDispatch));
+            String returnXml = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch);
 
-            final SOAPEnvelope soapEnvelope = this.getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
+            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(returnXml, EventDispatchResponseMethod.class).deserialize();
 
-            ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+            System.out.println("Retorno convertido:");
 
-            final String returnXml = this.nFeDomain.getTransmissor().transmit(soapEnvelope, NFeService.EVENT_RECEPTION.getHomologUrl(UF.PR));
+            returnXml = new FiscalDocumentSerializer<EventDispatchResponseMethod>(eventDispatchResponseMethod).serialize();
 
-            // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
-            //
-            // System.out.println("retorno convertido:");
-            //
-            // returnXml = new FiscalDocumentSerializer<SOAPEnvelopeResponse>(soapEnvelopeResponse).serialize();
-            //
-            // System.out.println(returnXml);
-            System.out.println("RecepcaoEvento - teste concluído");
+            System.out.println(returnXml);
+            System.out.println("RecepcaoEvento - Cancelamento - teste concluído");
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {

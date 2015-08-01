@@ -12,7 +12,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 
 
 /**
- * Domínio de Serviço (UFs + ambientes nacionais de de contingência)
+ * Domínio de Serviço (UFs + ambientes nacionais e de contingência)
  * 
  * @author Felipe Bueno
  *

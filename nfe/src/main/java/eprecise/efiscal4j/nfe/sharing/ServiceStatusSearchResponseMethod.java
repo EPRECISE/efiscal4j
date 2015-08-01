@@ -23,7 +23,7 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_STAT_SERV_RESULT)
+@XmlRootElement(name = ObjectFactory.NFE_STAT_SERV_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceStatusSearchResponseMethod extends Receivable implements Serializable {
 

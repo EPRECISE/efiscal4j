@@ -22,13 +22,13 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_REC_EVENTO_RESULT)
+@XmlRootElement(name = ObjectFactory.NFE_REC_EVENTO_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventDispatchResponseMethod extends Receivable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = ObjectFactory.ENV_EVENTO) @NotNull final EventDispatchResponse eventDispatchResponse;
+    private @XmlElement(name = ObjectFactory.RET_ENV_EVENTO) @NotNull final EventDispatchResponse eventDispatchResponse;
 
     private @XmlTransient QName qName = new QName(ObjectFactory.NFE_REC_EVENTO_RESULT);
 

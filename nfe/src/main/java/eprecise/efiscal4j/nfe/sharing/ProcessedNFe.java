@@ -28,7 +28,7 @@ public class ProcessedNFe implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/procNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/procNFe_v3.10.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 

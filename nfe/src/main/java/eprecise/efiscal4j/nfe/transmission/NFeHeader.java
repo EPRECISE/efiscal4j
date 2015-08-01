@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
-import eprecise.efiscal4j.commons.domain.transmission.FiscalDocumentHeader;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
@@ -21,9 +21,11 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeHeader extends FiscalDocumentHeader implements Serializable {
+public class NFeHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public @XmlTransient static final String BASE_XMLNS = "http://www.portalfiscal.inf.br/nfe/wsdl/";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns;
 

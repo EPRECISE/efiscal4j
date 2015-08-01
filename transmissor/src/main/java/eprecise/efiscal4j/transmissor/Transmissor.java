@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 
 
 public class Transmissor {
@@ -52,7 +51,7 @@ public class Transmissor {
         this.initializeSSLContext();
     }
 
-    public void initializeKeyStore(Certificate certificate) {
+    private void initializeKeyStore(Certificate certificate) {
         try {
             this.keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
             this.keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
@@ -64,7 +63,7 @@ public class Transmissor {
         }
     }
 
-    public void initializeTrustStore(Certificate certificate) {
+    private void initializeTrustStore(Certificate certificate) {
         try {
             this.trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
             this.trustStore.load(certificate.getCertificate(), null);
@@ -86,14 +85,10 @@ public class Transmissor {
         }
     }
 
-    public String transmit(TransmissibleEnvelope soapEnvelope, String serviceUrl) {
+    public String transmit(String requestXml, String serviceUrl) {
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
-
-        // this.logger.info("Service url:\n" + serviceUrl);
         System.out.println("Service url:\n" + serviceUrl);
 
-        // this.logger.info("Request xml:\n" + requestXml);
         System.out.println("Request xml:\n" + requestXml);
 
         try {
@@ -118,7 +113,6 @@ public class Transmissor {
 
             final String responseXml = this.getResponse(httpConnection);
 
-            // this.logger.info("Response xml:\n" + responseXml);
             System.out.println("Response xml:\n" + responseXml);
 
             return responseXml;

@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.sharing;
 
 import java.io.Serializable;
+import java.text.ParseException;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -54,8 +55,6 @@ public class EventInfo implements Serializable {
 
     public static class Builder {
 
-        private String id;
-
         private IBGEOrgan ibgeOrgan;
 
         private TransmissionEnvironment transmissionEnvironment;
@@ -75,17 +74,6 @@ public class EventInfo implements Serializable {
         private String eventVersion;
 
         private EventDetail eventDetail;
-
-        /**
-         * Identificador da TAG a ser assinada, a regra de formação do Id é: “ID” + tpEvento + chave da NF-e + nSeqEvento
-         * 
-         * @param id
-         * @return
-         */
-        public Builder withId(String id) {
-            this.id = id;
-            return this;
-        }
 
         /**
          * Código do órgão de recepção do Evento. Utilizar a Tabela do IBGE extendida, utilizar 90 para identificar o Ambiente Nacional
@@ -216,7 +204,6 @@ public class EventInfo implements Serializable {
     }
 
     public EventInfo(Builder builder) {
-        this.id = builder.id;
         this.ibgeOrgan = builder.ibgeOrgan;
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.authorCnpj = builder.authorCnpj;
@@ -227,6 +214,31 @@ public class EventInfo implements Serializable {
         this.eventSeqNumber = builder.eventSeqNumber;
         this.eventVersion = builder.eventVersion;
         this.eventDetail = builder.eventDetail;
+        this.id = this.generateEventId();
+    }
+
+    /**
+     * Gera o ID do Evento a ser assinado, que é composto por:
+     *
+     * <ul>
+     * <li>ID - Texto contendo ID</li>
+     * <li>tpEvento - Código do tipo de evento</li>
+     * <li>chaveNFe - Chave da NF-e</li>
+     * <li>nSeqEvento - Número sequencial do evento</li>
+     * </ul>
+     *
+     * @param builder
+     * @throws ParseException
+     */
+    private String generateEventId() {
+        final StringBuilder eventId = new StringBuilder();
+
+        eventId.append("ID");
+        eventId.append(this.getEventType().getCode());
+        eventId.append(this.getAcessKey());
+        eventId.append(this.getEventSeqNumber());
+
+        return eventId.toString();
     }
 
     public String getId() {

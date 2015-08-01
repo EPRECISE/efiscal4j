@@ -34,7 +34,7 @@ public class NFeDispatchResponseTest {
 
     @Test
     public void validateByXSD() throws Exception {
-        final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource("/eprecise/efiscal4j/nfe/retEnviNFe_v3.10.xsd"));
+        final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(NFeDispatchResponse.XSD));
         final NFeDispatchResponse nFeDispatchResponse = this.buildNFeDispatchResponse();
         final String xml = new FiscalDocumentSerializer<>(nFeDispatchResponse).serialize();
         System.out.println(xml);

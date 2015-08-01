@@ -90,6 +90,7 @@ import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelopeResponse;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeaderResponse;
+import eprecise.efiscal4j.nfe.transmission.TransmissionChannel;
 import eprecise.efiscal4j.nfe.transport.Conveyor;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.transport.ShippingModality;
@@ -97,7 +98,6 @@ import eprecise.efiscal4j.nfe.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 import eprecise.efiscal4j.signer.Signer;
-import eprecise.efiscal4j.transmissor.Transmissor;
 
 
 public class NFeDomain {
@@ -108,13 +108,13 @@ public class NFeDomain {
 
     private Signer signer;
 
-    private Transmissor transmissor;
+    private TransmissionChannel transmissionChannel;
 
     public NFeDomain() {
         try {
             final Certificate keyCertificate = new Certificate(() -> new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
             this.signer = new Signer(keyCertificate);
-            this.transmissor = new Transmissor(keyCertificate);
+            this.transmissionChannel = new TransmissionChannel(keyCertificate);
         } catch (final Exception ex) {
             this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
@@ -598,7 +598,7 @@ public class NFeDomain {
                                           .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))                                                                                    
                                           .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                           .withFiscalDocumentModel(FiscalDocumentModel.NFE)
-                                          .withFiscalDocumentNumber("1")
+                                          .withFiscalDocumentNumber("2")
                                           .withFiscalDocumentSeries("0")
                                           .withFiscalDocumentType(FiscalDocumentType.SAIDA)
                                           .withNFeCode("76523280")
@@ -870,8 +870,7 @@ public class NFeDomain {
         //@formatter:off       
         eventProtocolList.add(new EventProtocol.Builder()
                                     .withEvent(new Event.Builder()
-                                                     .withEventInfo(new EventInfo.Builder()
-                                                                          .withId("ID4306065910442200570455099000007008000705547000000000")
+                                                     .withEventInfo(new EventInfo.Builder()                                                                          
                                                                           .withIbgeOrgan(IBGEOrgan.AMB_NAC_90)
                                                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                                                           .withAuthorCpf("33462170279")
@@ -991,23 +990,22 @@ public class NFeDomain {
         //@formatter:on
     }
 
-    public EventDispatch buildEventDispatch() throws Exception {
+    public EventDispatch buildEventDispatchCancellation() throws Exception {
         final ArrayList<Event> eventList = new ArrayList<>();
         //@formatter:off        
         eventList.add(new Event.Builder()
-                            .withEventInfo(new EventInfo.Builder()
-                                                 .withId("ID1101115213040309084200157555001000028272100028307801")
+                            .withEventInfo(new EventInfo.Builder()                                                 
                                                  .withIbgeOrgan(IBGEOrgan.PR)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("03090842001575")
-                                                 .withAcessKey("52130403090842001575550010000282721000283079")
-                                                 .withEventDateTime("2013-04-03T17:32:54-04:00")
+                                                 .withAuthorCnpj("01219338000100")
+                                                 .withAcessKey("41150701219338000100550000000000011765232806")
+                                                 .withEventDateTime("2015-07-26T21:48:50-03:00")
                                                  .withEventType(EventType.CANC_NFE)
                                                  .withEventSeqNumber("1")
                                                  .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
                                                  .withEventDetail(new EventDetail.Builder()
                                                                         .withEventDescription(EventType.CANC_NFE.getDescription())
-                                                                        .withProtocolNumber("152130333272223")
+                                                                        .withProtocolNumber("915000000596278")
                                                                         .withJustification("Teste Teste Teste Teste")
                                                                         .build())
                                                  .build())
@@ -1067,8 +1065,8 @@ public class NFeDomain {
         return this.signer;
     }
 
-    public Transmissor getTransmissor() {
-        return this.transmissor;
+    public TransmissionChannel getTransmissionChannel() {
+        return this.transmissionChannel;
     }
 
 }

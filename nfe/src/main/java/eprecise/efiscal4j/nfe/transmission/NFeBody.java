@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.commons.domain.transmission.FiscalDocumentBody;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImplAdapter;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -25,9 +25,11 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  */
 @XmlRootElement(name = "nfeDadosMsg")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeBody extends FiscalDocumentBody implements Serializable {
+public class NFeBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public @XmlTransient static final String BASE_XMLNS = "http://www.portalfiscal.inf.br/nfe/wsdl/";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns;
 
@@ -91,7 +93,6 @@ public class NFeBody extends FiscalDocumentBody implements Serializable {
         return this.xmlns;
     }
 
-    @Override
     public TransmissibleBodyImpl getTransmissible() {
         return this.transmissible;
     }

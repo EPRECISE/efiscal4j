@@ -34,11 +34,11 @@ public class BatchReceiptSearch extends TransmissibleBodyImpl implements Seriali
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/consReciNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/consReciNFe_v3.10.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
-    private @XmlAttribute(name = "xmlns")  String xmlns = "http://www.portalfiscal.inf.br/nfe";
+    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
 
