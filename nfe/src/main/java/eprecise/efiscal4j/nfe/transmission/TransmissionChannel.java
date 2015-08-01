@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
@@ -37,12 +38,21 @@ public class TransmissionChannel {
     public String transmitAuthorization(NFe nfe) throws SAXException, IOException, ParserConfigurationException {
         String serviceUrl = null;
         final UF uf = nfe.getNFeInfo().getEmitter().getAdress().getCity().getUf();
+
         switch (nfe.getNFeInfo().getnFeIdentification().getTransmissionEnvironment()) {
         case HOMOLOGACAO:
-            serviceUrl = NFeService.AUTHORIZATION.getHomologUrl(uf);
+            if (nfe.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
+                serviceUrl = NFeService.AUTHORIZATION.getHomologUrl(uf);
+            } else if (nfe.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
+                serviceUrl = NFCeService.AUTHORIZATION.getHomologUrl(uf);
+            }
             break;
         case PRODUCAO:
-            serviceUrl = NFeService.AUTHORIZATION.getHomologUrl(uf); // TODO alterar para produção
+            if (nfe.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
+                serviceUrl = NFeService.AUTHORIZATION.getProductionUrl(uf);
+            } else if (nfe.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
+                serviceUrl = NFCeService.AUTHORIZATION.getProductionUrl(uf);
+            }
             break;
         }
         //@formatter:off
@@ -84,7 +94,7 @@ public class TransmissionChannel {
             serviceUrl = NFeService.SERVICE_STATUS.getHomologUrl(uf);
             break;
         case PRODUCAO:
-            serviceUrl = NFeService.SERVICE_STATUS.getHomologUrl(uf); // TODO alterar para produção
+            serviceUrl = NFeService.SERVICE_STATUS.getProductionUrl(uf);
             break;
         }
 
@@ -119,7 +129,7 @@ public class TransmissionChannel {
             serviceUrl = NFeService.EVENT_RECEPTION.getHomologUrl(uf);
             break;
         case PRODUCAO:
-            serviceUrl = NFeService.EVENT_RECEPTION.getHomologUrl(uf); // TODO alterar para produção
+            serviceUrl = NFeService.EVENT_RECEPTION.getProductionUrl(uf);
             break;
         }
 
