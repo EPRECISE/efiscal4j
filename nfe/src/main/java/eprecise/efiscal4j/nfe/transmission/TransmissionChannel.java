@@ -26,6 +26,10 @@ public class TransmissionChannel {
 
     private final Transmissor transmissor;
 
+    private String requestXml;
+
+    private String responseXml;
+
     public TransmissionChannel(Certificate certificate) {
         this.transmissor = new Transmissor(certificate);
     }
@@ -57,12 +61,17 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        String returnXml = this.transmissor.transmit(requestXml, serviceUrl);
+        this.requestXml = requestXml;
 
-        returnXml = returnXml.substring(returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                returnXml.lastIndexOf("</env:Body"));
+        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
-        return returnXml;
+        responseXml = responseXml.substring(
+                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
+
+        this.responseXml = responseXml;
+
+        return responseXml;
     }
 
     public String transmitServiceStatusSearch(ServiceStatusSearch serviceStatusSearch) {
@@ -87,12 +96,17 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        String returnXml = this.transmissor.transmit(requestXml, serviceUrl);
+        this.requestXml = requestXml;
 
-        returnXml = returnXml.substring(returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                returnXml.lastIndexOf("</env:Body"));
+        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
-        return returnXml;
+        responseXml = responseXml.substring(
+                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
+
+        this.responseXml = responseXml;
+
+        return responseXml;
     }
 
     public String transmitEventReceptionCancellation(EventDispatch eventDispatch) {
@@ -115,12 +129,17 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        String returnXml = this.transmissor.transmit(requestXml, serviceUrl);
+        this.requestXml = requestXml;
 
-        returnXml = returnXml.substring(returnXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                returnXml.lastIndexOf("</env:Body"));
+        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
-        return returnXml;
+        responseXml = responseXml.substring(
+                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
+
+        this.responseXml = responseXml;
+
+        return responseXml;
     }
 
     private SOAPEnvelope buildSOAPEnvelope(String xmlns, UF uf, FiscalDocumentVersion version, TransmissibleBodyImpl transmissible) {
@@ -141,5 +160,13 @@ public class TransmissionChannel {
                                    .build())
                   .build();       
         //@formatter:on
+    }
+
+    public String getRequestXml() {
+        return this.requestXml;
+    }
+
+    public String getResponseXml() {
+        return this.responseXml;
     }
 }
