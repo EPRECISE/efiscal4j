@@ -232,12 +232,12 @@ public class EventInfo implements Serializable {
      */
     private String generateEventId() {
         final StringBuilder eventId = new StringBuilder();
-
+        
         eventId.append("ID");
         eventId.append(this.getEventType().getCode());
         eventId.append(this.getAcessKey());
-        eventId.append(this.getEventSeqNumber());
-
+        eventId.append("0"+this.getEventSeqNumber());        
+                       
         return eventId.toString();
     }
 

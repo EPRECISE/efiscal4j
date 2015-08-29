@@ -36,8 +36,10 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlType(propOrder = { "version", "eventInfo", "signature" })
 public class Event extends Assignable implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;    
+    
+    private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
+    
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 
     private @XmlElement(name = "infEvento") @NotNull @Valid final EventInfo eventInfo;

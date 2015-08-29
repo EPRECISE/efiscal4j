@@ -21,6 +21,7 @@ import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
+import eprecise.efiscal4j.nfe.transmission.TransmissionChannel.TransmissionResult;
 
 
 public class SOAPMessageTest implements Testable {
@@ -37,14 +38,14 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeStatusServico...");
 
-            String returnXml = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch());
 
-            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<ServiceStatusSearchResponseMethod>(returnXml,
+            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<ServiceStatusSearchResponseMethod>(transmissionResult.getResponseXml(),
                     ServiceStatusSearchResponseMethod.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
-            returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponseMethod>(serviceStatusSearchResponseMethod).serialize();
+            final String returnXml = new FiscalDocumentSerializer<ServiceStatusSearchResponseMethod>(serviceStatusSearchResponseMethod).serialize();
 
             System.out.println(returnXml);
 
@@ -65,18 +66,19 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+//    @Test
     public void validateNfeAuthorization() throws Exception {
         try {
             System.out.println("Testando NFeAutorizacao...");
 
-            String returnXml = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFe());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFe());
 
-            final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<NFeDispatchResponseMethod>(returnXml, NFeDispatchResponseMethod.class).deserialize();
+            final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<NFeDispatchResponseMethod>(transmissionResult.getResponseXml(), NFeDispatchResponseMethod.class)
+                    .deserialize();
 
             System.out.println("Retorno convertido:");
 
-            returnXml = new FiscalDocumentSerializer<NFeDispatchResponseMethod>(returnMethod).serialize();
+            final String returnXml = new FiscalDocumentSerializer<NFeDispatchResponseMethod>(returnMethod).serialize();
 
             System.out.println(returnXml);
 
@@ -184,20 +186,21 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    // @Test
+     @Test
     public void validateEventDispatchCancellation() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Cancelamento...");
 
             final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCancellation();
 
-            String returnXml = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch);
 
-            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(returnXml, EventDispatchResponseMethod.class).deserialize();
+            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(transmissionResult.getResponseXml(),
+                    EventDispatchResponseMethod.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
-            returnXml = new FiscalDocumentSerializer<EventDispatchResponseMethod>(eventDispatchResponseMethod).serialize();
+            final String returnXml = new FiscalDocumentSerializer<EventDispatchResponseMethod>(eventDispatchResponseMethod).serialize();
 
             System.out.println(returnXml);
             System.out.println("RecepcaoEvento - Cancelamento - teste concluído");

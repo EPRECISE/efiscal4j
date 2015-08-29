@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlType;
  * @author Felipe Bueno
  * 
  */
-
 @XmlType
 @XmlEnum(String.class)
 public enum CRT implements Serializable {

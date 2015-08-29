@@ -6,16 +6,20 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
+/**
+ * Código do regime especial de tributação
+ * 
+ */
 @XmlType
 @XmlEnum(Integer.class)
 public enum SpecialTaxRegime {
-    // TODO: Não há descrição dos regimes no XML da NF-e. Falta descobrir quais são os tipos de regime e preencher nessa classe
-    @XmlEnumValue("1") REGIME_1(1, ""),
-    @XmlEnumValue("2") REGIME_2(2, ""),
-    @XmlEnumValue("3") REGIME_3(3, ""),
-    @XmlEnumValue("4") REGIME_4(4, ""),
-    @XmlEnumValue("5") REGIME_5(5, ""),
-    @XmlEnumValue("6") REGIME_6(6, "");
+
+    @XmlEnumValue("1") MICROEMPRESA_MUNICIPAL(1, "Microempresa Municipal"),
+    @XmlEnumValue("2") ESTIMATIVA(2, "Estimativa"),
+    @XmlEnumValue("3") SOCIEDADE_PROFISSIONAIS(3, "Sociedade de Profissionais"),
+    @XmlEnumValue("4") COOPERATIVA(4, "Cooperativa"),
+    @XmlEnumValue("5") MEI(5, "Microempresário Individual (MEI)"),
+    @XmlEnumValue("6") ME_EPP(6, "Microempresário e Empresa de Pequeno Porte (ME/EPP)");
 
     private static final long serialVersionUID = 1L;
 

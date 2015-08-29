@@ -27,15 +27,11 @@ public class TransmissionChannel {
 
     private final Transmissor transmissor;
 
-    private String requestXml;
-
-    private String responseXml;
-
     public TransmissionChannel(Certificate certificate) {
         this.transmissor = new Transmissor(certificate);
     }
 
-    public String transmitAuthorization(NFe nfe) throws SAXException, IOException, ParserConfigurationException {
+    public TransmissionResult transmitAuthorization(NFe nfe) throws SAXException, IOException, ParserConfigurationException {
         String serviceUrl = null;
         final UF uf = nfe.getNFeInfo().getEmitter().getAdress().getCity().getUf();
 
@@ -71,20 +67,16 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        this.requestXml = requestXml;
-
         String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        this.responseXml = responseXml;
-
-        return responseXml;
+        return new TransmissionResult(requestXml, responseXml);
     }
 
-    public String transmitServiceStatusSearch(ServiceStatusSearch serviceStatusSearch) {
+    public TransmissionResult transmitServiceStatusSearch(ServiceStatusSearch serviceStatusSearch) {
         String serviceUrl = null;
 
         final UF uf = serviceStatusSearch.getServiceUf();
@@ -106,20 +98,16 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        this.requestXml = requestXml;
-
         String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        this.responseXml = responseXml;
-
-        return responseXml;
+        return new TransmissionResult(requestXml, responseXml);
     }
 
-    public String transmitEventReceptionCancellation(EventDispatch eventDispatch) {
+    public TransmissionResult transmitEventReceptionCancellation(EventDispatch eventDispatch) {
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
@@ -139,17 +127,13 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        this.requestXml = requestXml;
-
         String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        this.responseXml = responseXml;
-
-        return responseXml;
+        return new TransmissionResult(requestXml, responseXml);
     }
 
     private SOAPEnvelope buildSOAPEnvelope(String xmlns, UF uf, FiscalDocumentVersion version, TransmissibleBodyImpl transmissible) {
@@ -172,11 +156,23 @@ public class TransmissionChannel {
         //@formatter:on
     }
 
-    public String getRequestXml() {
-        return this.requestXml;
-    }
+    public static class TransmissionResult {
 
-    public String getResponseXml() {
-        return this.responseXml;
+        private final String requestXml;
+
+        private final String responseXml;
+
+        public TransmissionResult(String requestXml, String responseXml) {
+            this.requestXml = requestXml;
+            this.responseXml = responseXml;
+        }
+
+        public String getRequestXml() {
+            return this.requestXml;
+        }
+
+        public String getResponseXml() {
+            return this.responseXml;
+        }
     }
 }
