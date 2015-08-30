@@ -55,7 +55,13 @@ public class EventDetail implements Serializable {
         }
 
         /**
-         * Número do Protocolo do registro do Evento. 1 posição (1 – Secretaria de Fazenda Estadual 2 – Receita Federal); 2 posições ano; 10 seqüencial no ano.
+         * Número do Protocolo do registro do Evento.
+         * 
+         * <ul>
+         * <li>1 posição - (1 – Secretaria de Fazenda Estadual 2 – Receita Federal)</li>
+         * <li>2 posições - Ano</li>
+         * <li>10 posições - Seqüencial no ano</li>
+         * </ul>
          * 
          * @param protocolNumber
          * @return

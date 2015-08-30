@@ -150,7 +150,8 @@ public class EventInfo implements Serializable {
 
         /**
          * Seqüencial do evento para o mesmo tipo de evento. <br>
-         * Para maioria dos eventos será 1, nos casos em que possa existir mais de um evento, como é o caso da carta de correção, o autor do evento deve numerar de forma seqüencial.
+         * Para maioria dos eventos será 1, nos casos em que possa existir mais de um evento, <br>
+         * como é o caso da carta de correção, o autor do evento deve numerar de forma seqüencial.
          * 
          * @param eventSeqNumber
          * @return
@@ -232,12 +233,12 @@ public class EventInfo implements Serializable {
      */
     private String generateEventId() {
         final StringBuilder eventId = new StringBuilder();
-        
+
         eventId.append("ID");
         eventId.append(this.getEventType().getCode());
         eventId.append(this.getAcessKey());
-        eventId.append("0"+this.getEventSeqNumber());        
-                       
+        eventId.append("0" + this.getEventSeqNumber());
+
         return eventId.toString();
     }
 

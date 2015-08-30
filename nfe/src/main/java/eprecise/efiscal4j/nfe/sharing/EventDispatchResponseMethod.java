@@ -62,6 +62,10 @@ public class EventDispatchResponseMethod extends Receivable implements Serializa
         this.eventDispatchResponse = builder.eventDispatchResponse;
     }
 
+    public EventDispatchResponse getEventDispatchResponse() {
+        return this.eventDispatchResponse;
+    }
+
     @Override
     public void setQName(QName qName) {
         this.qName = qName;
