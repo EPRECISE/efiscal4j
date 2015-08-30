@@ -66,7 +66,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void validateNfeAuthorization() throws Exception {
         try {
             System.out.println("Testando NFeAutorizacao...");
@@ -186,7 +186,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateEventDispatchCancellation() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Cancelamento...");

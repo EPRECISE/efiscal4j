@@ -91,10 +91,8 @@ import eprecise.efiscal4j.nfe.transmission.SOAPEnvelopeResponse;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
 import eprecise.efiscal4j.nfe.transmission.SOAPHeaderResponse;
 import eprecise.efiscal4j.nfe.transmission.TransmissionChannel;
-import eprecise.efiscal4j.nfe.transport.Conveyor;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.transport.ShippingModality;
-import eprecise.efiscal4j.nfe.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 import eprecise.efiscal4j.signer.Signer;
@@ -598,7 +596,7 @@ public class NFeDomain {
                                           .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))                                                                                    
                                           .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                           .withFiscalDocumentModel(FiscalDocumentModel.NFE)
-                                          .withFiscalDocumentNumber("2")
+                                          .withFiscalDocumentNumber("3")
                                           .withFiscalDocumentSeries("0")
                                           .withFiscalDocumentType(FiscalDocumentType.SAIDA)
                                           .withNFeCode("76523280")
