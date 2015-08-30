@@ -85,11 +85,11 @@ public class Transmissor {
         }
     }
 
-    public String transmit(String requestXml, String serviceUrl) {
+    public String transmit(String requestSoapEnvelope, String serviceUrl) {
 
         System.out.println("Service url:\n" + serviceUrl);
 
-        System.out.println("Request xml:\n" + requestXml);
+        System.out.println("Request SOAP Envelope:\n" + requestSoapEnvelope);
 
         try {
             final URL url = new URL(serviceUrl);
@@ -109,7 +109,7 @@ public class Transmissor {
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             httpConnection.connect();
 
-            this.sendRequest(httpConnection, requestXml);
+            this.sendRequest(httpConnection, requestSoapEnvelope);
 
             final String responseXml = this.getResponse(httpConnection);
 

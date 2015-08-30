@@ -65,9 +65,9 @@ public class TransmissionChannel {
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+        final String requestXml = new FiscalDocumentSerializer<>(nfeDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -96,9 +96,9 @@ public class TransmissionChannel {
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+        final String requestXml = new FiscalDocumentSerializer<>(serviceStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -125,9 +125,9 @@ public class TransmissionChannel {
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+        final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(requestXml, serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
