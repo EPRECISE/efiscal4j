@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.transmission;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -14,11 +15,15 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
+import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
@@ -31,7 +36,7 @@ public class TransmissionChannel {
         this.transmissor = new Transmissor(certificate);
     }
 
-    public TransmissionResult transmitAuthorization(NFe nfe) throws SAXException, IOException, ParserConfigurationException {
+    public TypedTransmissionResult<NFe, NFeDispatchResponseMethod> transmitAuthorization(NFe nfe) throws SAXException, IOException, ParserConfigurationException {
         String serviceUrl = null;
         final UF uf = nfe.getNFeInfo().getEmitter().getAdress().getCity().getUf();
 
@@ -73,10 +78,10 @@ public class TransmissionChannel {
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        return new TransmissionResult(requestXml, responseXml);
+        return new TypedTransmissionResult<>(NFe.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TransmissionResult transmitServiceStatusSearch(ServiceStatusSearch serviceStatusSearch) {
+    public TypedTransmissionResult<ServiceStatusSearch, ServiceStatusSearchResponseMethod> transmitServiceStatusSearch(ServiceStatusSearch serviceStatusSearch) {
         String serviceUrl = null;
 
         final UF uf = serviceStatusSearch.getServiceUf();
@@ -104,10 +109,10 @@ public class TransmissionChannel {
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        return new TransmissionResult(requestXml, responseXml);
+        return new TypedTransmissionResult<>(ServiceStatusSearch.class, ServiceStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TransmissionResult transmitEventReceptionCancellation(EventDispatch eventDispatch) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCancellation(EventDispatch eventDispatch) {
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
@@ -133,7 +138,7 @@ public class TransmissionChannel {
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        return new TransmissionResult(requestXml, responseXml);
+        return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
     private SOAPEnvelope buildSOAPEnvelope(String xmlns, UF uf, FiscalDocumentVersion version, TransmissibleBodyImpl transmissible) {
@@ -174,5 +179,46 @@ public class TransmissionChannel {
         public String getResponseXml() {
             return this.responseXml;
         }
+
+        public <T> T getRequest(Class<T> type) {
+            return new FiscalDocumentDeserializer<>(this.requestXml, type).deserialize();
+        }
+
+        public <T> T getRespose(Class<T> type) {
+            return new FiscalDocumentDeserializer<>(this.responseXml, type).deserialize();
+        }
+    }
+
+    public static class TypedTransmissionResult<RQ, RP> extends TransmissionResult {
+
+        private final Class<RQ> requestType;
+
+        private final Class<RP> responseType;
+
+        private Optional<RQ> request = Optional.empty();
+
+        private Optional<RP> response = Optional.empty();
+
+        public TypedTransmissionResult(Class<RQ> requestType, Class<RP> responseType, String requestXml, String responseXml) {
+            super(requestXml, responseXml);
+            this.requestType = requestType;
+            this.responseType = responseType;
+
+        }
+
+        public RQ getRequest() {
+            return this.request.orElseGet(() -> {
+                this.request = Optional.of(this.getRequest(this.requestType));
+                return this.request.get();
+            });
+        }
+
+        public RP getResponse() {
+            return this.response.orElseGet(() -> {
+                this.response = Optional.of(this.getRespose(this.responseType));
+                return this.response.get();
+            });
+        }
+
     }
 }
