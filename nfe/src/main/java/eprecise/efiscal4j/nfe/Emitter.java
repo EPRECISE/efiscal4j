@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -57,7 +58,7 @@ public class Emitter implements Serializable {
         private CRT crt;
 
         public Builder withFancyName(String fancyName) {
-            this.fancyName = fancyName.trim();
+            this.fancyName = Optional.ofNullable(fancyName).map(String::trim).orElse(null);
             return this;
         }
 
