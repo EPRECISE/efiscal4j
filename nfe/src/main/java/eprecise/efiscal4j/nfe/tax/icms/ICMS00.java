@@ -12,12 +12,12 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributação pelo ICMS 00 - Tributada integralmente
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS00 extends BaseICMS {
+class ICMS00 extends BaseICMS implements IcmsWithValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ class ICMS00 extends BaseICMS {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS00.Builder) super.withOrigin(origin);
         }
 
@@ -52,40 +52,40 @@ class ICMS00 extends BaseICMS {
          * @param bcModality
          * @return
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
 
         /**
          * Valor da BC do ICMS
-         * 
+         *
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
 
         /**
          * Alíquota do ICMS
-         * 
+         *
          * @param icmsAliquot
          * @return
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
 
         /**
          * Valor do ICMS
-         * 
+         *
          * @param icmsValue
          * @return
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
@@ -104,7 +104,7 @@ class ICMS00 extends BaseICMS {
         this.icmsValue = null;
     }
 
-    protected ICMS00(ICMS00.Builder builder) {
+    protected ICMS00(final ICMS00.Builder builder) {
         super(builder.origin, "00");
         this.bcModality = builder.bcModality;
         this.bcValue = builder.bcValue;
@@ -124,6 +124,7 @@ class ICMS00 extends BaseICMS {
         return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
         return this.icmsValue;
     }

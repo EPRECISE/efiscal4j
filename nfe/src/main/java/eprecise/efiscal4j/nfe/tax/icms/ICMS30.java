@@ -16,7 +16,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributação pelo ICMS 30 - Isenta ou não tributada e com cobrança do ICMS por substituição tributária
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  */
 @ICMSDesonerationReason_6_7_9_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS30 extends BaseICMS implements DesonerationGroup {
+class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,14 +66,14 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS30.Builder) super.withOrigin(origin);
         }
 
         /**
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalityST = bcModalityST;
             return this;
         }
@@ -81,7 +81,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -89,7 +89,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
@@ -97,7 +97,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -105,7 +105,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -113,18 +113,18 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
 
         /**
          * Valor do ICMS de desoneração
-         * 
+         *
          * @param icmsDesonerationValue
          * @return
          */
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             this.icmsDesonerationValue = icmsDesonerationValue;
             return this;
         }
@@ -134,7 +134,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
          * @param icmsDesonerationReason
          * @return
          */
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             this.icmsDesonerationReason = icmsDesonerationReason;
             return this;
         }
@@ -158,7 +158,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         this.icmsDesonerationReason = null;
     }
 
-    protected ICMS30(ICMS30.Builder builder) {
+    protected ICMS30(final ICMS30.Builder builder) {
         super(builder.origin, "30");
         this.bcModalityST = builder.bcModalityST;
         this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
@@ -191,6 +191,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup {
         return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
     }

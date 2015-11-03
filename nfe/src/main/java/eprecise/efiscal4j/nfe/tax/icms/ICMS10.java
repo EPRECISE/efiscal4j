@@ -13,14 +13,14 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributação pelo ICMS 10 - Tributada e com cobrança do ICMS por substituição tributária
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS10 extends BaseICMS {
+class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,14 +70,14 @@ class ICMS10 extends BaseICMS {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS10.Builder) super.withOrigin(origin);
         }
 
         /**
          * @see BCModality
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
@@ -85,7 +85,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Valor da BC do ICMS
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -93,7 +93,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Alíquota do ICMS
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
@@ -101,7 +101,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Valor do ICMS
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
@@ -109,7 +109,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -117,16 +117,16 @@ class ICMS10 extends BaseICMS {
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
 
         /**
-         * 
+         *
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalitySt = bcModalityST;
             return this;
         }
@@ -134,7 +134,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -142,7 +142,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -150,7 +150,7 @@ class ICMS10 extends BaseICMS {
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
@@ -176,7 +176,7 @@ class ICMS10 extends BaseICMS {
         this.icmsStValue = null;
     }
 
-    protected ICMS10(ICMS10.Builder builder) {
+    protected ICMS10(final ICMS10.Builder builder) {
         super(builder.origin, "10");
         this.bcModality = builder.bcModality;
         this.bcValue = builder.bcValue;
@@ -202,6 +202,7 @@ class ICMS10 extends BaseICMS {
         return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
         return this.icmsValue;
     }
@@ -226,6 +227,7 @@ class ICMS10 extends BaseICMS {
         return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
     }

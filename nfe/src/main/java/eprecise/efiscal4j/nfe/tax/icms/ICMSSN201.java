@@ -13,14 +13,14 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributação do ICMS pelo SIMPLES NACIONAL e CSOSN=201 - Tributada pelo Simples Nacional com permissão de crédito e com cobrança do ICMS por Substituição Tributária
- * 
+ *
  * @see BaseICMSSN
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSSN201 extends BaseICMSSN {
+class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,15 +62,15 @@ class ICMSSN201 extends BaseICMSSN {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSSN201.Builder) super.withOrigin(origin);
         }
 
         /**
-         * 
+         *
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalitySt = bcModalityST;
             return this;
         }
@@ -78,7 +78,7 @@ class ICMSSN201 extends BaseICMSSN {
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -86,7 +86,7 @@ class ICMSSN201 extends BaseICMSSN {
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
@@ -94,7 +94,7 @@ class ICMSSN201 extends BaseICMSSN {
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -102,7 +102,7 @@ class ICMSSN201 extends BaseICMSSN {
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -110,29 +110,29 @@ class ICMSSN201 extends BaseICMSSN {
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
 
         /**
          * Alíquota aplicável de cálculo do crédito (Simples Nacional). (v2.0)
-         * 
+         *
          * @param creditSnAliquot
          * @return
          */
-        public Builder withCreditSnAliquot(String creditSnAliquot) {
+        public Builder withCreditSnAliquot(final String creditSnAliquot) {
             this.creditSnAliquot = creditSnAliquot;
             return this;
         }
 
         /**
          * Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional) (v2.0)
-         * 
+         *
          * @param creditSnIcmsValue
          * @return
          */
-        public Builder withCreditSnIcmsValue(String creditSnIcmsValue) {
+        public Builder withCreditSnIcmsValue(final String creditSnIcmsValue) {
             this.creditSnIcmsValue = creditSnIcmsValue;
             return this;
         }
@@ -156,7 +156,7 @@ class ICMSSN201 extends BaseICMSSN {
         this.creditSnIcmsValue = null;
     }
 
-    protected ICMSSN201(ICMSSN201.Builder builder) {
+    protected ICMSSN201(final ICMSSN201.Builder builder) {
         super(builder.origin, "201");
         this.bcModalitySt = builder.bcModalitySt;
         this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
@@ -188,6 +188,7 @@ class ICMSSN201 extends BaseICMSSN {
         return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
     }
