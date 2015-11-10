@@ -63,6 +63,8 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "vFrete") @NFeDecimal1302 final String freightValue;
 
+    private @XmlElement(name = "vOutro") @NFeDecimal1302 final String othersValue;
+
     public static class Builder {
 
         private String itemCode;
@@ -98,6 +100,8 @@ public class NFeItem implements Serializable {
         private String insuranceValue;
 
         private String freightValue;
+
+        private String othersValue;
 
         /**
          * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
@@ -285,6 +289,17 @@ public class NFeItem implements Serializable {
             return this;
         }
 
+        /**
+         * Outras despesas acessórias
+         * 
+         * @param othersValue
+         * @return
+         */
+        public Builder withOthersValue(final String othersValue) {
+            this.othersValue = othersValue;
+            return this;
+        }
+
         public NFeItem build() {
             final NFeItem entity = new NFeItem(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -310,6 +325,7 @@ public class NFeItem implements Serializable {
         this.discountValue = null;
         this.insuranceValue = null;
         this.freightValue = null;
+        this.othersValue = null;
     }
 
     public NFeItem(final Builder builder) {
@@ -330,6 +346,7 @@ public class NFeItem implements Serializable {
         this.discountValue = builder.discountValue;
         this.insuranceValue = builder.insuranceValue;
         this.freightValue = builder.freightValue;
+        this.othersValue = builder.othersValue;
     }
 
     public String getItemCode() {
@@ -398,6 +415,10 @@ public class NFeItem implements Serializable {
 
     public String getFreightValue() {
         return this.freightValue;
+    }
+
+    public String getOthersValue() {
+        return this.othersValue;
     }
 
 }
