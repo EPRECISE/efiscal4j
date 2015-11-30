@@ -2,7 +2,10 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -19,9 +22,9 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 
 /**
  * Dados dos produtos e serviços da NF-e
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -65,6 +68,8 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "vOutro") @NFeDecimal1302 final String othersValue;
 
+    private @XmlElement(name = "med") @Size(max = 500) @NotNull @Valid final List<Medications> medications;
+
     public static class Builder {
 
         private String itemCode;
@@ -103,9 +108,11 @@ public class NFeItem implements Serializable {
 
         private String othersValue;
 
+        private List<Medications> medications;
+
         /**
          * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
-         * 
+         *
          * @param itemCode
          * @return
          */
@@ -116,7 +123,7 @@ public class NFeItem implements Serializable {
 
         /**
          * GTIN (Global Trade Item Number) do produto, antigo código EAN ou código de barras
-         * 
+         *
          * @param globalTradeItemNumber
          * @return
          */
@@ -127,7 +134,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Descrição do produto ou serviço
-         * 
+         *
          * @param itemDescription
          * @return
          */
@@ -139,7 +146,7 @@ public class NFeItem implements Serializable {
         /**
          * Código NCM (8 posições), será permitida a informação do gênero (posição do capítulo do NCM) quando a Operação Não for de comércio exterior (importação/exportação) ou o produto Não seja
          * tributado pelo IPI. Em caso de item de serviço ou item que Não tenham produto (Ex. transferência de crédito, crédito do ativo imobilizado, etc.), informar o código 00 (zeros) (v2.0)
-         * 
+         *
          * @param ncm
          * @return
          */
@@ -160,7 +167,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Unidade comercial
-         * 
+         *
          * @param comercialUnit
          * @return
          */
@@ -171,7 +178,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Quantidade comercial
-         * 
+         *
          * @param comercialQuantity
          * @return
          */
@@ -182,7 +189,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor unitário de comercialização
-         * 
+         *
          * @param comercialUnitaryValue
          * @return
          */
@@ -193,7 +200,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor bruto do produto ou serviço
-         * 
+         *
          * @param itemGrossValue
          * @return
          */
@@ -204,7 +211,7 @@ public class NFeItem implements Serializable {
 
         /**
          * GTIN (Global Trade Item Number) da unidade tributável, antigo código EAN ou código de barras
-         * 
+         *
          * @param taxableUnitGlobalTradeItemNumber
          * @return
          */
@@ -215,7 +222,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Unidade Tributável
-         * 
+         *
          * @param taxableUnit
          * @return
          */
@@ -226,7 +233,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Quantidade Tributável
-         * 
+         *
          * @param taxableQuantity
          * @return
          */
@@ -237,7 +244,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor unitário de tributação
-         * 
+         *
          * @param taxationUnitaryValue
          * @return
          */
@@ -258,7 +265,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor do Desconto
-         * 
+         *
          * @param discountValue
          * @return
          */
@@ -269,7 +276,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor Total do Seguro
-         * 
+         *
          * @param insuranceValue
          * @return
          */
@@ -280,7 +287,7 @@ public class NFeItem implements Serializable {
 
         /**
          * Valor Total do Frete
-         * 
+         *
          * @param insuranceValue
          * @return
          */
@@ -291,12 +298,37 @@ public class NFeItem implements Serializable {
 
         /**
          * Outras despesas acessórias
-         * 
+         *
          * @param othersValue
          * @return
          */
         public Builder withOthersValue(final String othersValue) {
             this.othersValue = othersValue;
+            return this;
+        }
+
+        /**
+         * Medicamentos e matérias-primas farmacêuticas
+         *
+         * @param medications
+         * @return
+         */
+        public Builder withMedications(final List<Medications> medications) {
+            this.medications = medications;
+            return this;
+        }
+
+        /**
+         * Medicamentos e matérias-primas farmacêuticas
+         *
+         * @param medication
+         * @return
+         */
+        public Builder addMedication(final Medications medication) {
+            if (this.medications == null) {
+                this.medications = new ArrayList<>();
+            }
+            this.medications.add(medication);
             return this;
         }
 
@@ -326,6 +358,7 @@ public class NFeItem implements Serializable {
         this.insuranceValue = null;
         this.freightValue = null;
         this.othersValue = null;
+        this.medications = null;
     }
 
     public NFeItem(final Builder builder) {
@@ -347,6 +380,7 @@ public class NFeItem implements Serializable {
         this.insuranceValue = builder.insuranceValue;
         this.freightValue = builder.freightValue;
         this.othersValue = builder.othersValue;
+        this.medications = builder.medications;
     }
 
     public String getItemCode() {
@@ -419,6 +453,10 @@ public class NFeItem implements Serializable {
 
     public String getOthersValue() {
         return this.othersValue;
+    }
+
+    public List<Medications> getMedications() {
+        return medications;
     }
 
 }
