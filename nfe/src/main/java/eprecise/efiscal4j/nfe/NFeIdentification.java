@@ -40,7 +40,7 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "dhEmi") @NotNull @NFeDateTimeUTC final String emissionDateTime;
 
-    private @XmlElement(name = "dhSaiEnt") @NotNull @NFeDateTimeUTC final String entranceOrExitDateTime;
+    private @XmlElement(name = "dhSaiEnt") @NFeDateTimeUTC final String entranceOrExitDateTime;
 
     private @XmlElement(name = "tpNF") @NotNull final FiscalDocumentType fiscalDocumentType;
 

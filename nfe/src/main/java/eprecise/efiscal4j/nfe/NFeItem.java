@@ -36,7 +36,7 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "cEAN") @NotNull @Pattern(regexp = "[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String globalTradeItemNumber;
 
-    private @XmlElement(name = "xProd") @NotNull @Size(min = 1, max = 120) @NFeString final String itemDescription;
+    private @XmlElement(name = "xProd") @NotNull @Size(min = 1, max = 120) @NFeString String itemDescription;
 
     private @XmlElement(name = "NCM") @NotNull @Pattern(regexp = "[0-9]{2}|[0-9]{8}") final String ncm;
 
@@ -395,6 +395,10 @@ public class NFeItem implements Serializable {
         return this.itemDescription;
     }
 
+    public void setItemDescription(final String itemDescription) {
+        this.itemDescription = itemDescription;
+    }
+
     public String getNcm() {
         return this.ncm;
     }
@@ -456,7 +460,7 @@ public class NFeItem implements Serializable {
     }
 
     public List<Medications> getMedications() {
-        return medications;
+        return this.medications;
     }
 
 }
