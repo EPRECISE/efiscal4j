@@ -6,7 +6,7 @@
     <groupId>eprecise.efiscal4j</groupId>
     <artifactId>efiscal4j</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.35</version>
+    <version>1.0.36</version>
     <name>e-Fiscal4J</name>
 
     <properties>
@@ -105,7 +105,7 @@
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports</artifactId>
-                <version>6.2.0</version>
+                <version>6.1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
