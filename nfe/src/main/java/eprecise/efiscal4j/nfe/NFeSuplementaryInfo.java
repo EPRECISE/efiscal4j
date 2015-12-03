@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.types.NFCeQrCode;
 
 
 /**
@@ -25,7 +24,7 @@ public class NFeSuplementaryInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "qrCode") @NFCeQrCode @NotNull @Size(min = 100, max = 600) final String qrCode;
+    private @XmlElement(name = "qrCode") @NotNull @Size(min = 100, max = 600) final String qrCode;
 
     public static class Builder {
 
@@ -52,7 +51,7 @@ public class NFeSuplementaryInfo implements Serializable {
     }
 
     public String getQrCode() {
-        return qrCode;
+        return this.qrCode;
     }
 
 }

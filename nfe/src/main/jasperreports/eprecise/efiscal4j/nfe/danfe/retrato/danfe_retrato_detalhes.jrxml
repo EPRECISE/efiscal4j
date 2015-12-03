@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-14T11:27:15 -->
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2015-12-03T11:22:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_detalhes_leiaute_2xx" pageWidth="539" pageHeight="842" columnWidth="539" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba88e909-9e95-486d-b7af-82289d15b596">
 	<property name="ireport.zoom" value="2.4793388429752077"/>
 	<property name="ireport.x" value="340"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NFE Adapter"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString language="XPath">
 		<![CDATA[/]]>
 	</queryString>
-	<field name="valorUnitario" class="java.math.BigDecimal">
+	<field name="valorUnitario" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/vUnCom]]></fieldDescription>
 	</field>
-	<field name="valorTotal" class="java.math.BigDecimal">
+	<field name="valorTotal" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/vProd]]></fieldDescription>
 	</field>
-	<field name="valorIpi" class="java.math.BigDecimal">
+	<field name="valorIpi" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/IPI/*/vIPI]]></fieldDescription>
 	</field>
-	<field name="valorIcms" class="java.math.BigDecimal">
+	<field name="valorIcms" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/ICMS/*/vICMS]]></fieldDescription>
 	</field>
-	<field name="quantidade" class="java.math.BigDecimal">
+	<field name="quantidade" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/qCom]]></fieldDescription>
 	</field>
 	<field name="produtoUM" class="java.lang.String">
@@ -42,13 +42,13 @@
 	<field name="produtoCfop" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/CFOP]]></fieldDescription>
 	</field>
-	<field name="baseCalculoIcms" class="java.math.BigDecimal">
+	<field name="baseCalculoIcms" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/ICMS/*/vBC]]></fieldDescription>
 	</field>
-	<field name="aliquotaIpi" class="java.math.BigDecimal">
+	<field name="aliquotaIpi" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/IPI/*/pIPI]]></fieldDescription>
 	</field>
-	<field name="aliquotaIcms" class="java.math.BigDecimal">
+	<field name="aliquotaIcms" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/ICMS/*/pICMS]]></fieldDescription>
 	</field>
 	<background>
@@ -318,7 +318,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,####0.0000" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="323" y="0" width="36" height="8" isPrintWhenDetailOverflows="true" uuid="7ca097cb-4755-4097-b9b1-18bb91f7d826"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="6"/>

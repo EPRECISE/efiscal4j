@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-07-11T11:33:37 -->
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2015-12-03T10:26:01 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="206" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
@@ -13,7 +13,6 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="url_consulta_nfce" class="java.lang.String"/>
-	<parameter name="hash_qr_code" class="java.lang.String"/>
 	<parameter name="logo" class="java.io.InputStream"/>
 	<queryString language="xPath">
 		<![CDATA[/]]>
@@ -104,6 +103,9 @@
 	</field>
 	<field name="vNF" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vNF]]></fieldDescription>
+	</field>
+	<field name="qrCode" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFeSupl/qrCode]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -375,10 +377,10 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{hash_qr_code} != null]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{qrCode} != null]]></printWhenExpression>
 				</reportElement>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<jr:codeExpression><![CDATA[$P{hash_qr_code}]]></jr:codeExpression>
+					<jr:codeExpression><![CDATA[$F{qrCode}]]></jr:codeExpression>
 				</jr:QRCode>
 			</componentElement>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">

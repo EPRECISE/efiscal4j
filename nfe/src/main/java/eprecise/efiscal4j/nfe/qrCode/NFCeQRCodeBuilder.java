@@ -117,9 +117,10 @@ public class NFCeQRCodeBuilder {
      * digVal
      */
     private String getDigestValueHexOrSha1() {
+
+        final String digestValueTOBase64 = Base64.getEncoder().encodeToString(this.nfe.getSignature().getSignedInfo().getReference().getDigestValue());
         if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.NORMAL)) {
-            return String.format("%040x",
-                    new BigInteger(1, Base64.getEncoder().encodeToString(Hashing.sha1().hashBytes(nfe.getSignature().getSignatureValue().getValue()).asBytes()).getBytes(Charsets.UTF_8)));
+            return String.format("%x", new BigInteger(1, digestValueTOBase64.getBytes()));
         }
         if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.CONTINGENCIA_OFF_LINE_NFCE)) {
             return Hashing.sha1().hashString(new FiscalDocumentSerializer<>(this.nfe).serialize(), Charsets.UTF_8).toString();
