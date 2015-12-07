@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,16 +14,16 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 
 /**
  * Utilizada para generalizar a utilizacao de LegalEntityDocuments e NaturalPersonDocuments, pois o JAXB nao da suporte a utilizacao de interfaces (Documents)
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractDocuments implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) @NFeString String abstractName;
+    private @XmlElement(name = "xNome") @Size(min = 2, max = 60) @NFeString String abstractName;
 
     private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
 
@@ -32,7 +31,7 @@ public abstract class AbstractDocuments implements Serializable {
         return this.abstractName;
     }
 
-    protected void setAbstractName(String abstractName) {
+    protected void setAbstractName(final String abstractName) {
         this.abstractName = abstractName.trim();
     }
 
@@ -40,7 +39,7 @@ public abstract class AbstractDocuments implements Serializable {
         return this.stateRegistration;
     }
 
-    public void setStateRegistration(String stateRegistration) {
+    public void setStateRegistration(final String stateRegistration) {
         this.stateRegistration = stateRegistration;
     }
 
