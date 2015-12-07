@@ -7,6 +7,7 @@ import javax.validation.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -38,7 +39,8 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeStatusServico...");
 
-            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch(),
+                    FiscalDocumentModel.NFE);
 
             final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<ServiceStatusSearchResponseMethod>(transmissionResult.getResponseXml(),
                     ServiceStatusSearchResponseMethod.class).deserialize();
@@ -193,7 +195,7 @@ public class SOAPMessageTest implements Testable {
 
             final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCancellation();
 
-            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch, FiscalDocumentModel.NFE);
 
             final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(transmissionResult.getResponseXml(),
                     EventDispatchResponseMethod.class).deserialize();
