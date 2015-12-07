@@ -17,6 +17,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1110Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
 
@@ -58,15 +59,15 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "vUnTrib") @NotNull @NFeDecimal1110Variable final String taxationUnitaryValue;
 
+    private @XmlElement(name = "vFrete") @NFeDecimal1302Optional final String freightValue;
+
+    private @XmlElement(name = "vSeg") @NFeDecimal1302Optional final String insuranceValue;
+
+    private @XmlElement(name = "vDesc") @NFeDecimal1302Optional final String discountValue;
+
+    private @XmlElement(name = "vOutro") @NFeDecimal1302Optional final String othersValue;
+
     private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
-
-    private @XmlElement(name = "vDesc") @NFeDecimal1302 final String discountValue;
-
-    private @XmlElement(name = "vSeg") @NFeDecimal1302 final String insuranceValue;
-
-    private @XmlElement(name = "vFrete") @NFeDecimal1302 final String freightValue;
-
-    private @XmlElement(name = "vOutro") @NFeDecimal1302 final String othersValue;
 
     private @XmlElement(name = "med") @Size(max = 500) @NotNull @Valid final List<Medications> medications;
 

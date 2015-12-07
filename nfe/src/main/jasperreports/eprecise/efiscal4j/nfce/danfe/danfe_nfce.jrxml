@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2015-12-03T17:52:05 -->
+<!-- 2015-12-06T21:39:29 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="206" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" whenResourceMissingType="Error" isIgnorePagination="true" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
@@ -101,6 +101,9 @@
 	<field name="qtdTotal" class="java.lang.String">
 		<fieldDescription><![CDATA[sum(/nfeProc/NFe/infNFe/det/prod/qCom)]]></fieldDescription>
 	</field>
+	<field name="descTotal" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vDesc]]></fieldDescription>
+	</field>
 	<field name="vNF" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vNF]]></fieldDescription>
 	</field>
@@ -192,7 +195,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_detalhes.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="26">
+		<band height="36">
 			<staticText>
 				<reportElement x="0" y="0" width="160" height="8" uuid="9ef96011-70b6-46eb-94f5-d2616584af25"/>
 				<box topPadding="0"/>
@@ -202,7 +205,9 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Qtd. Total de Itens]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="8" width="160" height="8" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944"/>
+				<reportElement x="0" y="16" width="160" height="8" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
 				<box topPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6"/>
@@ -210,7 +215,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Valor Total R$]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="0" y="16" width="206" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
+				<reportElement x="0" y="26" width="206" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag")]]></dataSourceExpression>
@@ -227,14 +232,36 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{qtdTotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="160" y="8" width="46" height="8" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
+				<reportElement x="160" y="16" width="46" height="8" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vNF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="8" width="160" height="8" uuid="8f32ef05-6330-4480-a23f-ec74cad139e0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Desconto Total R$]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="160" y="8" width="46" height="8" uuid="1a8bb3de-d35b-4791-94e6-7352fe769b4a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="98">
