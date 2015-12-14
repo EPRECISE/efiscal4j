@@ -96,8 +96,7 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
         }
     }
 
-    protected ICMS00() {
-        super(null, null);
+    public ICMS00() {
         this.bcModality = null;
         this.bcValue = null;
         this.icmsAliquot = null;

@@ -88,14 +88,14 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS90.Builder) super.withOrigin(origin);
         }
 
         /**
          * @see BCModality
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
@@ -106,7 +106,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
          * @param bcReductionPercent
          * @return
          */
-        public Builder withBcReductionPercent(String bcReductionPercent) {
+        public Builder withBcReductionPercent(final String bcReductionPercent) {
             this.bcReductionPercent = bcReductionPercent;
             return this;
         }
@@ -114,7 +114,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Valor da BC do ICMS
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -122,7 +122,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Alíquota do ICMS
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
@@ -130,7 +130,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Valor do ICMS
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
@@ -138,7 +138,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -146,7 +146,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
@@ -155,7 +155,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
          * 
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalitySt = bcModalityST;
             return this;
         }
@@ -163,7 +163,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -171,7 +171,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -179,7 +179,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
@@ -190,7 +190,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
          * @param icmsDesonerationValue
          * @return
          */
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             this.icmsDesonerationValue = icmsDesonerationValue;
             return this;
         }
@@ -200,7 +200,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
          * @param icmsDesonerationReason
          * @return
          */
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             this.icmsDesonerationReason = icmsDesonerationReason;
             return this;
         }
@@ -212,8 +212,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
 
     }
 
-    protected ICMS90() {
-        super(null, null);
+    public ICMS90() {
         this.bcModality = null;
         this.bcReductionPercent = null;
         this.bcValue = null;
@@ -229,7 +228,7 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         this.icmsDesonerationReason = null;
     }
 
-    protected ICMS90(ICMS90.Builder builder) {
+    protected ICMS90(final ICMS90.Builder builder) {
         super(builder.origin, "90");
         this.bcModality = builder.bcModality;
         this.bcReductionPercent = builder.bcReductionPercent;

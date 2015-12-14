@@ -25,7 +25,7 @@ class ICMSSN300 extends BaseICMSSN102 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSSN300.Builder) super.withOrigin(origin);
         }
 
@@ -36,11 +36,10 @@ class ICMSSN300 extends BaseICMSSN102 {
 
     }
 
-    protected ICMSSN300() {
-        super(null, null);
+    public ICMSSN300() {
     }
 
-    protected ICMSSN300(ICMSSN300.Builder builder) {
+    protected ICMSSN300(final ICMSSN300.Builder builder) {
         super(builder, "300");
     }
 }

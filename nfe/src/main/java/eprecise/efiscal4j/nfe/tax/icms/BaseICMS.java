@@ -23,7 +23,7 @@ abstract class BaseICMS extends ICMS {
          * @param origin
          * @return
          */
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             this.origin = origin;
             return this;
         }
@@ -34,12 +34,11 @@ abstract class BaseICMS extends ICMS {
 
     private @XmlElement(name = "CST") @NotNull final String cst;
 
-    protected BaseICMS() {
-        super(null);
+    public BaseICMS() {
         this.cst = null;
     }
 
-    protected BaseICMS(ProductOrigin origin, String cst) {
+    protected BaseICMS(final ProductOrigin origin, final String cst) {
         super(origin);
         this.cst = cst;
     }

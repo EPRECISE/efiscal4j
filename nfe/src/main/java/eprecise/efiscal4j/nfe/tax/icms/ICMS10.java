@@ -162,8 +162,7 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
 
     }
 
-    protected ICMS10() {
-        super(null, null);
+    public ICMS10() {
         this.bcModality = null;
         this.bcValue = null;
         this.icmsAliquot = null;

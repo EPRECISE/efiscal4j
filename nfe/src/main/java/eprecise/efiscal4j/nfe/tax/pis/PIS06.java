@@ -26,11 +26,10 @@ class PIS06 extends BasePISNT {
         }
     }
 
-    protected PIS06() {
-        super();
+    public PIS06() {
     }
 
-    protected PIS06(PIS06.Builder builder) {
+    protected PIS06(final PIS06.Builder builder) {
         super(builder, "06");
     }
 

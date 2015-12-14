@@ -195,8 +195,7 @@ abstract class BaseICMSPart extends BaseICMS implements IcmsWithValue, IcmsWithS
         abstract BaseICMSPart build();
     }
 
-    protected BaseICMSPart() {
-        super(null, null);
+    public BaseICMSPart() {
         this.bcModality = null;
         this.bcReductionPercent = null;
         this.bcValue = null;

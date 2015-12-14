@@ -42,7 +42,7 @@ abstract class BasePISAliquot extends BasePIS {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -53,7 +53,7 @@ abstract class BasePISAliquot extends BasePIS {
          * @param pisAliquot
          * @return
          */
-        public Builder withPisAliquot(String pisAliquot) {
+        public Builder withPisAliquot(final String pisAliquot) {
             this.pisAliquot = pisAliquot;
             return this;
         }
@@ -64,7 +64,7 @@ abstract class BasePISAliquot extends BasePIS {
          * @param pisValue
          * @return
          */
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             this.pisValue = pisValue;
             return this;
         }
@@ -73,14 +73,13 @@ abstract class BasePISAliquot extends BasePIS {
         abstract BasePISAliquot build();
     }
 
-    protected BasePISAliquot() {
-        super();
+    public BasePISAliquot() {
         this.bcValue = null;
         this.pisAliquot = null;
         this.pisValue = null;
     }
 
-    protected BasePISAliquot(Builder builder, String cst) {
+    protected BasePISAliquot(final Builder builder, final String cst) {
         super(cst);
         this.bcValue = builder.bcValue;
         this.pisAliquot = builder.pisAliquot;

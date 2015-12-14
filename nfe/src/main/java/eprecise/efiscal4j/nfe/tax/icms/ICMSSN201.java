@@ -144,8 +144,7 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
 
     }
 
-    protected ICMSSN201() {
-        super(null, null);
+    public ICMSSN201() {
         this.bcModalitySt = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;

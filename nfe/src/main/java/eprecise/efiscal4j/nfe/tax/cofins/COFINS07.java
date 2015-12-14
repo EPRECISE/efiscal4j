@@ -26,11 +26,11 @@ class COFINS07 extends BaseCOFINSNT {
         }
     }
 
-    protected COFINS07() {
+    public COFINS07() {
         super();
     }
 
-    protected COFINS07(COFINS07.Builder builder) {
+    protected COFINS07(final COFINS07.Builder builder) {
         super(builder, "07");
     }
 

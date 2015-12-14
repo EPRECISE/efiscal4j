@@ -19,11 +19,10 @@ abstract class BaseICMSSN102 extends BaseICMSSN {
         abstract BaseICMSSN102 build();
     }
 
-    protected BaseICMSSN102() {
-        super(null, null);
+    public BaseICMSSN102() {
     }
 
-    protected BaseICMSSN102(Builder builder, String csosn) {
+    protected BaseICMSSN102(final Builder builder, final String csosn) {
         super(builder.origin, csosn);
     }
 

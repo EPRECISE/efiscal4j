@@ -207,8 +207,7 @@ class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     }
 
-    protected ICMSSN900() {
-        super(null, null);
+    public ICMSSN900() {
         this.bcModality = null;
         this.bcReductionPercent = null;
         this.bcValue = null;
@@ -242,57 +241,57 @@ class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
     }
 
     public BCModality getBcModality() {
-        return bcModality;
+        return this.bcModality;
     }
 
     public String getBcValue() {
-        return bcValue;
+        return this.bcValue;
     }
 
     public String getBcReductionPercent() {
-        return bcReductionPercent;
+        return this.bcReductionPercent;
     }
 
     public String getIcmsAliquot() {
-        return icmsAliquot;
+        return this.icmsAliquot;
     }
 
     @Override
     public String getIcmsValue() {
-        return icmsValue;
+        return this.icmsValue;
     }
 
     public BCModalityST getBcModalitySt() {
-        return bcModalitySt;
+        return this.bcModalitySt;
     }
 
     public String getValueMarginAddedStPercent() {
-        return valueMarginAddedStPercent;
+        return this.valueMarginAddedStPercent;
     }
 
     public String getBcReductionStPercent() {
-        return bcReductionStPercent;
+        return this.bcReductionStPercent;
     }
 
     public String getBcValueST() {
-        return bcValueST;
+        return this.bcValueST;
     }
 
     public String getIcmsStAliquot() {
-        return icmsStAliquot;
+        return this.icmsStAliquot;
     }
 
     @Override
     public String getIcmsStValue() {
-        return icmsStValue;
+        return this.icmsStValue;
     }
 
     public String getCreditSnAliquot() {
-        return creditSnAliquot;
+        return this.creditSnAliquot;
     }
 
     public String getCreditSnIcmsValue() {
-        return creditSnIcmsValue;
+        return this.creditSnIcmsValue;
     }
 
 }

@@ -25,7 +25,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSSN202.Builder) super.withOrigin(origin);
         }
 
@@ -33,7 +33,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             return (ICMSSN202.Builder) super.withBcModalityST(bcModalityST);
         }
 
@@ -41,7 +41,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             return (ICMSSN202.Builder) super.withValueMarginAddedStPercent(valueMarginAddedStPercent);
         }
 
@@ -49,7 +49,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             return (ICMSSN202.Builder) super.withBcReductionStPercent(bcReductionStPercent);
         }
 
@@ -57,7 +57,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             return (ICMSSN202.Builder) super.withBcValueST(bcValueST);
         }
 
@@ -65,7 +65,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             return (ICMSSN202.Builder) super.withIcmsStAliquot(icmsStAliquot);
         }
 
@@ -73,7 +73,7 @@ class ICMSSN202 extends BaseICMSSN202 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             return (ICMSSN202.Builder) super.withIcmsStValue(icmsStValue);
         }
 
@@ -84,11 +84,10 @@ class ICMSSN202 extends BaseICMSSN202 {
 
     }
 
-    protected ICMSSN202() {
-        super(null, null);
+    public ICMSSN202() {
     }
 
-    protected ICMSSN202(ICMSSN202.Builder builder) {
+    protected ICMSSN202(final ICMSSN202.Builder builder) {
         super(builder, "202");
     }
 }

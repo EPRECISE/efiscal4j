@@ -27,7 +27,7 @@ class ICMS41 extends BaseICMS40 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS41.Builder) super.withOrigin(origin);
         }
 
@@ -35,7 +35,7 @@ class ICMS41 extends BaseICMS40 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             return (ICMS41.Builder) super.withIcmsDesonerationValue(icmsDesonerationValue);
         }
 
@@ -43,7 +43,7 @@ class ICMS41 extends BaseICMS40 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             return (ICMS41.Builder) super.withIcmsDesonerationReason(icmsDesonerationReason);
         }
 
@@ -54,11 +54,10 @@ class ICMS41 extends BaseICMS40 {
 
     }
 
-    protected ICMS41() {
-        super(null, null);
+    public ICMS41() {
     }
 
-    protected ICMS41(ICMS41.Builder builder) {
+    protected ICMS41(final ICMS41.Builder builder) {
         super(builder, "41");
     }
 }

@@ -100,8 +100,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
         abstract BaseICMSSN202 build();
     }
 
-    protected BaseICMSSN202() {
-        super(null, null);
+    public BaseICMSSN202() {
         this.bcModalitySt = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;

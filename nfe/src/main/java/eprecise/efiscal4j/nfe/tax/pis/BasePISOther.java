@@ -54,7 +54,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -65,7 +65,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
          * @param pisAliquot
          * @return
          */
-        public Builder withPisAliquot(String pisAliquot) {
+        public Builder withPisAliquot(final String pisAliquot) {
             this.pisAliquot = pisAliquot;
             return this;
         }
@@ -76,7 +76,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
          * @param productQuantity
          * @return
          */
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             this.productQuantity = productQuantity;
             return this;
         }
@@ -87,7 +87,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
          * @param productAliquot
          * @return
          */
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             this.productAliquot = productAliquot;
             return this;
         }
@@ -98,7 +98,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
          * @param pisValue
          * @return
          */
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             this.pisValue = pisValue;
             return this;
         }
@@ -107,8 +107,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
         abstract BasePISOther build();
     }
 
-    protected BasePISOther() {
-        super();
+    public BasePISOther() {
         this.bcValue = null;
         this.pisAliquot = null;
         this.productQuantity = null;
@@ -116,7 +115,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
         this.pisValue = null;
     }
 
-    protected BasePISOther(Builder builder, String cst) {
+    protected BasePISOther(final Builder builder, final String cst) {
         super(cst);
         this.bcValue = builder.bcValue;
         this.pisAliquot = builder.pisAliquot;

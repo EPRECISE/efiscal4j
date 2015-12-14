@@ -37,7 +37,7 @@ class ICMSSN101 extends BaseICMSSN {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSSN101.Builder) super.withOrigin(origin);
         }
 
@@ -47,7 +47,7 @@ class ICMSSN101 extends BaseICMSSN {
          * @param creditSnAliquot
          * @return
          */
-        public Builder withCreditSnAliquot(String creditSnAliquot) {
+        public Builder withCreditSnAliquot(final String creditSnAliquot) {
             this.creditSnAliquot = creditSnAliquot;
             return this;
         }
@@ -58,7 +58,7 @@ class ICMSSN101 extends BaseICMSSN {
          * @param creditSnIcmsValue
          * @return
          */
-        public Builder withCreditSnIcmsValue(String creditSnIcmsValue) {
+        public Builder withCreditSnIcmsValue(final String creditSnIcmsValue) {
             this.creditSnIcmsValue = creditSnIcmsValue;
             return this;
         }
@@ -70,13 +70,12 @@ class ICMSSN101 extends BaseICMSSN {
 
     }
 
-    protected ICMSSN101() {
-        super(null, null);
+    public ICMSSN101() {
         this.creditSnAliquot = null;
         this.creditSnIcmsValue = null;
     }
 
-    protected ICMSSN101(ICMSSN101.Builder builder) {
+    protected ICMSSN101(final ICMSSN101.Builder builder) {
         super(builder.origin, "101");
         this.creditSnAliquot = builder.creditSnAliquot;
         this.creditSnIcmsValue = builder.creditSnIcmsValue;

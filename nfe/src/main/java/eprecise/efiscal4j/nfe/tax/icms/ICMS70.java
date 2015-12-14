@@ -209,8 +209,7 @@ class ICMS70 extends BaseICMS implements DesonerationGroup, IcmsWithValue, IcmsW
         }
     }
 
-    protected ICMS70() {
-        super(null, null);
+    public ICMS70() {
         this.bcModality = null;
         this.bcReductionPercent = null;
         this.bcValue = null;

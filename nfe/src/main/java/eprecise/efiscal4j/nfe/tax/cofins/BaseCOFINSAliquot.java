@@ -42,7 +42,7 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -53,7 +53,7 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
          * @param cofinsAliquot
          * @return
          */
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             this.cofinsAliquot = cofinsAliquot;
             return this;
         }
@@ -64,7 +64,7 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
          * @param cofinsValue
          * @return
          */
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             this.cofinsValue = cofinsValue;
             return this;
         }
@@ -73,14 +73,14 @@ abstract class BaseCOFINSAliquot extends BaseCOFINS {
         abstract BaseCOFINSAliquot build();
     }
 
-    protected BaseCOFINSAliquot() {
+    public BaseCOFINSAliquot() {
         super();
         this.bcValue = null;
         this.cofinsAliquot = null;
         this.cofinsValue = null;
     }
 
-    protected BaseCOFINSAliquot(Builder builder, String cst) {
+    protected BaseCOFINSAliquot(final Builder builder, final String cst) {
         super(cst);
         this.bcValue = builder.bcValue;
         this.cofinsAliquot = builder.cofinsAliquot;

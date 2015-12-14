@@ -146,8 +146,7 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
 
     }
 
-    protected ICMS30() {
-        super(null, null);
+    public ICMS30() {
         this.bcModalityST = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;

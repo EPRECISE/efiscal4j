@@ -54,7 +54,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -65,7 +65,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
          * @param cofinsAliquot
          * @return
          */
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             this.cofinsAliquot = cofinsAliquot;
             return this;
         }
@@ -76,7 +76,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
          * @param productQuantity
          * @return
          */
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             this.productQuantity = productQuantity;
             return this;
         }
@@ -87,7 +87,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
          * @param productAliquot
          * @return
          */
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             this.productAliquot = productAliquot;
             return this;
         }
@@ -98,7 +98,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
          * @param cofinsValue
          * @return
          */
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             this.cofinsValue = cofinsValue;
             return this;
         }
@@ -107,7 +107,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
         abstract BaseCOFINSOther build();
     }
 
-    protected BaseCOFINSOther() {
+    public BaseCOFINSOther() {
         super();
         this.bcValue = null;
         this.cofinsAliquot = null;
@@ -116,7 +116,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
         this.cofinsValue = null;
     }
 
-    protected BaseCOFINSOther(Builder builder, String cst) {
+    protected BaseCOFINSOther(final Builder builder, final String cst) {
         super(cst);
         this.bcValue = builder.bcValue;
         this.cofinsAliquot = builder.cofinsAliquot;

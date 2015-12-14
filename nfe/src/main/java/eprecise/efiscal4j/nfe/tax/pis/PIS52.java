@@ -24,7 +24,7 @@ class PIS52 extends BasePISOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (PIS52.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ class PIS52 extends BasePISOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             return (PIS52.Builder) super.withProductAliquot(productAliquot);
         }
 
@@ -40,7 +40,7 @@ class PIS52 extends BasePISOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             return (PIS52.Builder) super.withProductQuantity(productQuantity);
         }
 
@@ -48,7 +48,7 @@ class PIS52 extends BasePISOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withPisAliquot(String pisAliquot) {
+        public Builder withPisAliquot(final String pisAliquot) {
             return (PIS52.Builder) super.withPisAliquot(pisAliquot);
         }
 
@@ -56,7 +56,7 @@ class PIS52 extends BasePISOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             return (PIS52.Builder) super.withPisValue(pisValue);
         }
 
@@ -66,11 +66,10 @@ class PIS52 extends BasePISOther {
         }
     }
 
-    protected PIS52() {
-        super();
+    public PIS52() {
     }
 
-    protected PIS52(PIS52.Builder builder) {
+    protected PIS52(final PIS52.Builder builder) {
         super(builder, "52");
     }
 

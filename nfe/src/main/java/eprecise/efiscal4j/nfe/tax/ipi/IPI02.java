@@ -24,7 +24,7 @@ class IPI02 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFramework) {
+        public Builder withIpiFrameworkClass(final String ipiFramework) {
             return (IPI02.Builder) super.withIpiFrameworkClass(ipiFramework);
         }
 
@@ -32,7 +32,7 @@ class IPI02 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProducerCNPJ(String producerCNPJ) {
+        public Builder withProducerCNPJ(final String producerCNPJ) {
             return (IPI02.Builder) super.withProducerCNPJ(producerCNPJ);
         }
 
@@ -40,7 +40,7 @@ class IPI02 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealCode(String ipiSealCode) {
+        public Builder withIpiSealCode(final String ipiSealCode) {
             return (IPI02.Builder) super.withIpiSealCode(ipiSealCode);
         }
 
@@ -48,7 +48,7 @@ class IPI02 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealQuantity(String ipiSealQuantity) {
+        public Builder withIpiSealQuantity(final String ipiSealQuantity) {
             return (IPI02.Builder) super.withIpiSealQuantity(ipiSealQuantity);
         }
 
@@ -56,7 +56,7 @@ class IPI02 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withLegalFramework(String legalFramework) {
+        public Builder withLegalFramework(final String legalFramework) {
             return (IPI02.Builder) super.withLegalFramework(legalFramework);
         }
 
@@ -66,11 +66,10 @@ class IPI02 extends BaseIPINT {
         }
     }
 
-    protected IPI02() {
-        super();
+    public IPI02() {
     }
 
-    protected IPI02(IPI02.Builder builder) {
+    protected IPI02(final IPI02.Builder builder) {
         super(builder, "02");
     }
 }

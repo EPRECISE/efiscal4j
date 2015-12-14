@@ -152,60 +152,59 @@ class ICMS51 extends BaseICMS implements IcmsWithValue {
 
     }
 
-    protected ICMS51() {
-        super(null, null);
-        bcModality = null;
-        bcReductionPercent = null;
-        bcValue = null;
-        icmsAliquot = null;
-        icmsOperationValue = null;
-        deferralPercent = null;
-        icmsDeferralValue = null;
-        icmsValue = null;
+    public ICMS51() {
+        this.bcModality = null;
+        this.bcReductionPercent = null;
+        this.bcValue = null;
+        this.icmsAliquot = null;
+        this.icmsOperationValue = null;
+        this.deferralPercent = null;
+        this.icmsDeferralValue = null;
+        this.icmsValue = null;
     }
 
     protected ICMS51(final ICMS51.Builder builder) {
         super(builder.origin, "51");
-        bcModality = builder.bcModality;
-        bcReductionPercent = builder.bcReductionPercent;
-        bcValue = builder.bcValue;
-        icmsAliquot = builder.icmsAliquot;
-        icmsOperationValue = builder.icmsOperationValue;
-        deferralPercent = builder.deferralPercent;
-        icmsDeferralValue = builder.icmsDeferralValue;
-        icmsValue = builder.icmsValue;
+        this.bcModality = builder.bcModality;
+        this.bcReductionPercent = builder.bcReductionPercent;
+        this.bcValue = builder.bcValue;
+        this.icmsAliquot = builder.icmsAliquot;
+        this.icmsOperationValue = builder.icmsOperationValue;
+        this.deferralPercent = builder.deferralPercent;
+        this.icmsDeferralValue = builder.icmsDeferralValue;
+        this.icmsValue = builder.icmsValue;
     }
 
     public BCModality getBcModality() {
-        return bcModality;
+        return this.bcModality;
     }
 
     public String getBcReductionPercent() {
-        return bcReductionPercent;
+        return this.bcReductionPercent;
     }
 
     public String getBcValue() {
-        return bcValue;
+        return this.bcValue;
     }
 
     public String getIcmsAliquot() {
-        return icmsAliquot;
+        return this.icmsAliquot;
     }
 
     public String getIcmsOperationValue() {
-        return icmsOperationValue;
+        return this.icmsOperationValue;
     }
 
     public String getDeferralPercent() {
-        return deferralPercent;
+        return this.deferralPercent;
     }
 
     public String getIcmsDeferralValue() {
-        return icmsDeferralValue;
+        return this.icmsDeferralValue;
     }
 
     @Override
     public String getIcmsValue() {
-        return icmsValue;
+        return this.icmsValue;
     }
 }

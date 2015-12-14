@@ -43,7 +43,7 @@ abstract class BasePISQuantity extends BasePIS {
          * @param productQuantity
          * @return
          */
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             this.productQuantity = productQuantity;
             return this;
         }
@@ -54,7 +54,7 @@ abstract class BasePISQuantity extends BasePIS {
          * @param productAliquot
          * @return
          */
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             this.productAliquot = productAliquot;
             return this;
         }
@@ -65,7 +65,7 @@ abstract class BasePISQuantity extends BasePIS {
          * @param pisValue
          * @return
          */
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             this.pisValue = pisValue;
             return this;
         }
@@ -74,14 +74,13 @@ abstract class BasePISQuantity extends BasePIS {
         abstract BasePISQuantity build();
     }
 
-    protected BasePISQuantity() {
-        super();
+    public BasePISQuantity() {
         this.productQuantity = null;
         this.productAliquot = null;
         this.pisValue = null;
     }
 
-    protected BasePISQuantity(Builder builder, String cst) {
+    protected BasePISQuantity(final Builder builder, final String cst) {
         super(cst);
         this.productQuantity = builder.productQuantity;
         this.productAliquot = builder.productAliquot;

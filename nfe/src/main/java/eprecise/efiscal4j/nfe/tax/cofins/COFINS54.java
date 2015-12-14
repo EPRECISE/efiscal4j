@@ -24,7 +24,7 @@ class COFINS54 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (COFINS54.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ class COFINS54 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             return (COFINS54.Builder) super.withProductAliquot(productAliquot);
         }
 
@@ -40,7 +40,7 @@ class COFINS54 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             return (COFINS54.Builder) super.withProductQuantity(productQuantity);
         }
 
@@ -48,7 +48,7 @@ class COFINS54 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             return (COFINS54.Builder) super.withCofinsAliquot(cofinsAliquot);
         }
 
@@ -56,7 +56,7 @@ class COFINS54 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             return (COFINS54.Builder) super.withCofinsValue(cofinsValue);
         }
 
@@ -66,11 +66,11 @@ class COFINS54 extends BaseCOFINSOther {
         }
     }
 
-    protected COFINS54() {
+    public COFINS54() {
         super();
     }
 
-    protected COFINS54(COFINS54.Builder builder) {
+    protected COFINS54(final COFINS54.Builder builder) {
         super(builder, "54");
     }
 

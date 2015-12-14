@@ -23,11 +23,10 @@ abstract class BasePISNT extends BasePIS {
         abstract BasePISNT build();
     }
 
-    protected BasePISNT() {
-        super();
+    public BasePISNT() {
     }
 
-    protected BasePISNT(Builder builder, String cst) {
+    protected BasePISNT(final Builder builder, final String cst) {
         super(cst);
     }
 

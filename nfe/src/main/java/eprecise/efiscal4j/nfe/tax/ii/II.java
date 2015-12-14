@@ -47,7 +47,7 @@ public class II extends MainTax implements Serializable {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -58,7 +58,7 @@ public class II extends MainTax implements Serializable {
          * @param customsCharge
          * @return
          */
-        public Builder withCustomsCharge(String customsCharge) {
+        public Builder withCustomsCharge(final String customsCharge) {
             this.customsCharge = customsCharge;
             return this;
         }
@@ -69,7 +69,7 @@ public class II extends MainTax implements Serializable {
          * @param iiValue
          * @return
          */
-        public Builder withIiValue(String iiValue) {
+        public Builder withIiValue(final String iiValue) {
             this.iiValue = iiValue;
             return this;
         }
@@ -80,7 +80,7 @@ public class II extends MainTax implements Serializable {
          * @param iofValue
          * @return
          */
-        public Builder withIofValue(String iofValue) {
+        public Builder withIofValue(final String iofValue) {
             this.iofValue = iofValue;
             return this;
         }
@@ -92,14 +92,14 @@ public class II extends MainTax implements Serializable {
         }
     }
 
-    protected II() {
+    public II() {
         this.bcValue = null;
         this.customsCharge = null;
         this.iiValue = null;
         this.iofValue = null;
     }
 
-    protected II(Builder builder) {
+    protected II(final Builder builder) {
         this.bcValue = builder.bcValue;
         this.customsCharge = builder.customsCharge;
         this.iiValue = builder.iiValue;

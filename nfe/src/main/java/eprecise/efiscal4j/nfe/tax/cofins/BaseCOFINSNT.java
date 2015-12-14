@@ -23,11 +23,11 @@ abstract class BaseCOFINSNT extends BaseCOFINS {
         abstract BaseCOFINSNT build();
     }
 
-    protected BaseCOFINSNT() {
+    public BaseCOFINSNT() {
         super();
     }
 
-    protected BaseCOFINSNT(Builder builder, String cst) {
+    protected BaseCOFINSNT(final Builder builder, final String cst) {
         super(cst);
     }
 

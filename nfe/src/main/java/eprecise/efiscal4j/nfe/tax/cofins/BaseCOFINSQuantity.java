@@ -43,7 +43,7 @@ abstract class BaseCOFINSQuantity extends BaseCOFINS {
          * @param productQuantity
          * @return
          */
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             this.productQuantity = productQuantity;
             return this;
         }
@@ -54,7 +54,7 @@ abstract class BaseCOFINSQuantity extends BaseCOFINS {
          * @param productAliquot
          * @return
          */
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             this.productAliquot = productAliquot;
             return this;
         }
@@ -65,7 +65,7 @@ abstract class BaseCOFINSQuantity extends BaseCOFINS {
          * @param cofinsValue
          * @return
          */
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             this.cofinsValue = cofinsValue;
             return this;
         }
@@ -74,14 +74,14 @@ abstract class BaseCOFINSQuantity extends BaseCOFINS {
         abstract BaseCOFINSQuantity build();
     }
 
-    protected BaseCOFINSQuantity() {
+    public BaseCOFINSQuantity() {
         super();
         this.productQuantity = null;
         this.productAliquot = null;
         this.cofinsValue = null;
     }
 
-    protected BaseCOFINSQuantity(Builder builder, String cst) {
+    protected BaseCOFINSQuantity(final Builder builder, final String cst) {
         super(cst);
         this.productQuantity = builder.productQuantity;
         this.productAliquot = builder.productAliquot;

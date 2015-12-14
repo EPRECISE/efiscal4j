@@ -143,8 +143,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
 
     }
 
-    protected ICMS20() {
-        super(null, null);
+    public ICMS20() {
         this.bcModality = null;
         this.bcValue = null;
         this.bcReductionPercent = null;
