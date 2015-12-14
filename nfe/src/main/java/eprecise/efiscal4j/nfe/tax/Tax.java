@@ -21,13 +21,14 @@ import eprecise.efiscal4j.nfe.tax.ipi.IPIAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.tax.pis.PISAdapter;
 import eprecise.efiscal4j.nfe.tax.pis.PISST;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 
 /**
  * Tributos incidentes nos produtos ou serviços da NF-e
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tax implements Serializable {
@@ -51,6 +52,8 @@ public class Tax implements Serializable {
 
     private @XmlElement(name = "COFINSST") @Valid final COFINSST cofinsSt;
 
+    private @XmlElement(name = "vTotTrib") @NFeDecimal1302 final String taxTotalValue;
+
     public static class Builder {
 
         private ICMS icms;
@@ -69,7 +72,9 @@ public class Tax implements Serializable {
 
         private COFINSST cofinsSt;
 
-        public Builder withIcms(ICMS icms) {
+        private String taxTotalValue;
+
+        public Builder withIcms(final ICMS icms) {
             this.icms = icms;
             return this;
         }
@@ -79,33 +84,38 @@ public class Tax implements Serializable {
         // return this;
         // }
 
-        public Builder withIpi(IPI ipi) {
+        public Builder withIpi(final IPI ipi) {
             this.ipi = ipi;
             return this;
         }
 
-        public Builder withIi(II ii) {
+        public Builder withIi(final II ii) {
             this.ii = ii;
             return this;
         }
 
-        public Builder withPis(PIS pis) {
+        public Builder withPis(final PIS pis) {
             this.pis = pis;
             return this;
         }
 
-        public Builder withPisSt(PISST pisSt) {
+        public Builder withPisSt(final PISST pisSt) {
             this.pisSt = pisSt;
             return this;
         }
 
-        public Builder withCofins(COFINS cofins) {
+        public Builder withCofins(final COFINS cofins) {
             this.cofins = cofins;
             return this;
         }
 
-        public Builder withCofinsSt(COFINSST cofinsSt) {
+        public Builder withCofinsSt(final COFINSST cofinsSt) {
             this.cofinsSt = cofinsSt;
+            return this;
+        }
+
+        public Builder withTaxTotalValue(final String taxTotalValue) {
+            this.taxTotalValue = taxTotalValue;
             return this;
         }
 
@@ -125,9 +135,10 @@ public class Tax implements Serializable {
         this.pisSt = null;
         this.cofins = null;
         this.cofinsSt = null;
+        this.taxTotalValue = null;
     }
 
-    protected Tax(Builder builder) {
+    protected Tax(final Builder builder) {
         this.icms = builder.icms;
         // this.issqn = builder.issqn;
         this.ipi = builder.ipi;
@@ -136,6 +147,7 @@ public class Tax implements Serializable {
         this.pisSt = builder.pisSt;
         this.cofins = builder.cofins;
         this.cofinsSt = builder.cofinsSt;
+        this.taxTotalValue = builder.taxTotalValue;
     }
 
     public ICMS getIcms() {
@@ -164,5 +176,9 @@ public class Tax implements Serializable {
 
     public II getIi() {
         return this.ii;
+    }
+
+    public String getTaxTotalValue() {
+        return taxTotalValue;
     }
 }

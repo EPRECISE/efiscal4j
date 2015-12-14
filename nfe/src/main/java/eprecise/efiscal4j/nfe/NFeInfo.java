@@ -220,13 +220,21 @@ public class NFeInfo implements Serializable {
             this.nFeDetails.stream().map(NFeDetail::getnFeItem).findFirst().ifPresent(nfeItem -> nfeItem.setItemDescription("NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"));
         }
 
+        if (this.getnFeTotal().getIcmsTotal().getTaxTotalValue() != null && !this.getnFeTotal().getIcmsTotal().getTaxTotalValue().isEmpty()) {
+            final String approximateTaxMessage = "Total aproximado de tributos federais, estaduais e municipais: " + this.getnFeTotal().getIcmsTotal().getTaxTotalValue();
+            if (this.additionalInfo.getComplementaryInfo().isEmpty()) {
+                this.additionalInfo.setComplementaryInfo(approximateTaxMessage);
+            } else {
+                this.additionalInfo.setComplementaryInfo(new StringBuilder(this.additionalInfo.getComplementaryInfo()).append("\n").append(approximateTaxMessage).toString());
+            }
+        }
+
         final DecimalFormatSymbols separatorSymbols = new DecimalFormatSymbols();
         separatorSymbols.setDecimalSeparator('.');
         final DecimalFormat decimalFormat = new DecimalFormat("##0.00", separatorSymbols);
         decimalFormat.setGroupingUsed(false);
 
         if (this.getnFeTotal().getIcmsTotal() != null) {
-            final Double icmsTotal = 0.0;
             Double pisTotal = 0.0;
             Double cofinsTotal = 0.0;
             Double ipiTotal = 0.0;
