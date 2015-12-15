@@ -35,6 +35,8 @@ public class Tax implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private @XmlElement(name = "vTotTrib") @NFeDecimal1302 final String taxTotalValue;
+
     private @XmlElement(name = "ICMS") @XmlJavaTypeAdapter(ICMSAdapter.class) @Valid final ICMS icms;
 
     // TODO Finalizar imposto ISSQN
@@ -51,8 +53,6 @@ public class Tax implements Serializable {
     private @XmlElement(name = "COFINS") @XmlJavaTypeAdapter(COFINSAdapter.class) @Valid final COFINS cofins;
 
     private @XmlElement(name = "COFINSST") @Valid final COFINSST cofinsSt;
-
-    private @XmlElement(name = "vTotTrib") @NFeDecimal1302 final String taxTotalValue;
 
     public static class Builder {
 
@@ -179,6 +179,6 @@ public class Tax implements Serializable {
     }
 
     public String getTaxTotalValue() {
-        return taxTotalValue;
+        return this.taxTotalValue;
     }
 }

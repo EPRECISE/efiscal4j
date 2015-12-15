@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -17,6 +19,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * @author Felipe Bueno
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AdditionalInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
