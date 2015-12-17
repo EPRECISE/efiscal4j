@@ -118,6 +118,18 @@
                 <artifactId>javase</artifactId>
                 <version>3.2.1</version>
             </dependency>
+            
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-fonts</artifactId>
+                <version>6.0.0</version>
+            </dependency>
+
+			<dependency>
+				<groupId>eprecise.jasper.fonts</groupId>
+				<artifactId>jasper-fonts-arial</artifactId>
+				<version>1.0.0</version>
+			</dependency>
 
         </dependencies>
     </dependencyManagement>
