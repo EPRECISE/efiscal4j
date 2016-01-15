@@ -42,6 +42,7 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
                    .withDistrict(adaptedAdress.getDistrict())
                    .withCep(adaptedAdress.getCep())
                    .withCity(city)
+                   .withPhone(adaptedAdress.getPhone())
                    .build();
         //@formatter:on       
     }
