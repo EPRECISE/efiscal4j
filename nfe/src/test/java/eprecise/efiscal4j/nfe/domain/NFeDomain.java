@@ -615,9 +615,9 @@ public class NFeDomain {
                                 .asLegalEntity()
                                 
                                 .withCnpj("01219338000100")                                
-                                .withCorporateName("FONEBRAS")
+                                .withCorporateName("EMPRESA TESTE")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
-                                .withFancyName("FONEBRAS")                                
+                                .withFancyName("EMPRESA TESTE")                                
                                 
 //                                .withCnpj("14241297000191")                                
 //                                .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")

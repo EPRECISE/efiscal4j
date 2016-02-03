@@ -15,7 +15,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
 /**
- * Protocolo de registro de evento da NF-e
+ * Evento Processado da NF-e
  * 
  * @author Felipe Bueno
  * 
