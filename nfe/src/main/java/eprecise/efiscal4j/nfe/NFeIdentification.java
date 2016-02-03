@@ -40,6 +40,8 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "dhEmi") @NotNull @NFeDateTimeUTC final String emissionDateTime;
 
+    private @XmlElement(name = "dhSaiEnt") @NFeDateTimeUTC final String entranceOrExitDateTime;
+
     private @XmlElement(name = "tpNF") @NotNull final FiscalDocumentType fiscalDocumentType;
 
     private @XmlElement(name = "idDest") @NotNull final DestinationOperationIdentifier destinationOperationIdentifier;
@@ -81,6 +83,8 @@ public class NFeIdentification implements Serializable {
         private String fiscalDocumentNumber;
 
         private String emissionDateTime;
+
+        private String entranceOrExitDateTime;
 
         private FiscalDocumentType fiscalDocumentType;
 
@@ -150,6 +154,11 @@ public class NFeIdentification implements Serializable {
             return this;
         }
 
+        public Builder withEntranceOrExitDateTime(String entranceOrExitDateTime) {
+            this.entranceOrExitDateTime = entranceOrExitDateTime;
+            return this;
+        }
+
         public Builder withFiscalDocumentType(FiscalDocumentType fiscalDocumentType) {
             this.fiscalDocumentType = fiscalDocumentType;
             return this;
@@ -216,6 +225,7 @@ public class NFeIdentification implements Serializable {
         this.fiscalDocumentSeries = null;
         this.fiscalDocumentNumber = null;
         this.emissionDateTime = null;
+        this.entranceOrExitDateTime = null;
         this.fiscalDocumentType = null;
         this.destinationOperationIdentifier = null;
         this.taxableEventCityIbgeCode = null;
@@ -238,6 +248,7 @@ public class NFeIdentification implements Serializable {
         this.fiscalDocumentSeries = builder.fiscalDocumentSeries;
         this.fiscalDocumentNumber = builder.fiscalDocumentNumber;
         this.emissionDateTime = builder.emissionDateTime;
+        this.entranceOrExitDateTime = builder.entranceOrExitDateTime;
         this.fiscalDocumentType = builder.fiscalDocumentType;
         this.destinationOperationIdentifier = builder.destinationOperationIdentifier;
         this.taxableEventCityIbgeCode = builder.taxableEventCityIbgeCode;

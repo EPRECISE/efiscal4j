@@ -24,7 +24,7 @@ class IPI51 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFramework) {
+        public Builder withIpiFrameworkClass(final String ipiFramework) {
             return (IPI51.Builder) super.withIpiFrameworkClass(ipiFramework);
         }
 
@@ -32,7 +32,7 @@ class IPI51 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProducerCNPJ(String producerCNPJ) {
+        public Builder withProducerCNPJ(final String producerCNPJ) {
             return (IPI51.Builder) super.withProducerCNPJ(producerCNPJ);
         }
 
@@ -40,7 +40,7 @@ class IPI51 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealCode(String ipiSealCode) {
+        public Builder withIpiSealCode(final String ipiSealCode) {
             return (IPI51.Builder) super.withIpiSealCode(ipiSealCode);
         }
 
@@ -48,7 +48,7 @@ class IPI51 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealQuantity(String ipiSealQuantity) {
+        public Builder withIpiSealQuantity(final String ipiSealQuantity) {
             return (IPI51.Builder) super.withIpiSealQuantity(ipiSealQuantity);
         }
 
@@ -56,7 +56,7 @@ class IPI51 extends BaseIPINT {
          * {@inheritDoc}
          */
         @Override
-        public Builder withLegalFramework(String legalFramework) {
+        public Builder withLegalFramework(final String legalFramework) {
             return (IPI51.Builder) super.withLegalFramework(legalFramework);
         }
 
@@ -66,11 +66,10 @@ class IPI51 extends BaseIPINT {
         }
     }
 
-    protected IPI51() {
-        super();
+    public IPI51() {
     }
 
-    protected IPI51(IPI51.Builder builder) {
+    protected IPI51(final IPI51.Builder builder) {
         super(builder, "51");
     }
 }

@@ -24,7 +24,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (IPI49.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiAliquot(String ipiAliquot) {
+        public Builder withIpiAliquot(final String ipiAliquot) {
             return (IPI49.Builder) super.withIpiAliquot(ipiAliquot);
         }
 
@@ -40,7 +40,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withUnityQuantity(String unityQuantity) {
+        public Builder withUnityQuantity(final String unityQuantity) {
             return (IPI49.Builder) super.withUnityQuantity(unityQuantity);
         }
 
@@ -48,7 +48,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withUnityValue(String unityValue) {
+        public Builder withUnityValue(final String unityValue) {
             return (IPI49.Builder) super.withUnityValue(unityValue);
         }
 
@@ -56,7 +56,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiValue(String ipiValue) {
+        public Builder withIpiValue(final String ipiValue) {
             return (IPI49.Builder) super.withIpiValue(ipiValue);
         }
 
@@ -64,7 +64,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFrameworkClass) {
+        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
             return (IPI49.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
         }
 
@@ -72,7 +72,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProducerCNPJ(String producerCNPJ) {
+        public Builder withProducerCNPJ(final String producerCNPJ) {
             return (IPI49.Builder) super.withProducerCNPJ(producerCNPJ);
         }
 
@@ -80,7 +80,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealCode(String ipiSealCode) {
+        public Builder withIpiSealCode(final String ipiSealCode) {
             return (IPI49.Builder) super.withIpiSealCode(ipiSealCode);
         }
 
@@ -88,7 +88,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealQuantity(String ipiSealQuantity) {
+        public Builder withIpiSealQuantity(final String ipiSealQuantity) {
             return (IPI49.Builder) super.withIpiSealQuantity(ipiSealQuantity);
         }
 
@@ -96,7 +96,7 @@ class IPI49 extends BaseIPITrib {
          * {@inheritDoc}
          */
         @Override
-        public Builder withLegalFramework(String legalFramework) {
+        public Builder withLegalFramework(final String legalFramework) {
             return (IPI49.Builder) super.withLegalFramework(legalFramework);
         }
 
@@ -106,11 +106,10 @@ class IPI49 extends BaseIPITrib {
         }
     }
 
-    protected IPI49() {
-        super();
+    public IPI49() {
     }
 
-    protected IPI49(IPI49.Builder builder) {
+    protected IPI49(final IPI49.Builder builder) {
         super(builder, "49");
     }
 

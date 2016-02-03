@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS51 extends BaseICMS {
+class ICMS51 extends BaseICMS implements IcmsWithValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,14 +63,14 @@ class ICMS51 extends BaseICMS {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS51.Builder) super.withOrigin(origin);
         }
 
         /**
          * @see BCModality
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
@@ -81,7 +81,7 @@ class ICMS51 extends BaseICMS {
          * @param bcReductionPercent
          * @return
          */
-        public Builder withBcReductionPercent(String bcReductionPercent) {
+        public Builder withBcReductionPercent(final String bcReductionPercent) {
             this.bcReductionPercent = bcReductionPercent;
             return this;
         }
@@ -92,7 +92,7 @@ class ICMS51 extends BaseICMS {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -100,7 +100,7 @@ class ICMS51 extends BaseICMS {
         /**
          * Alíquota do ICMS
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
@@ -111,7 +111,7 @@ class ICMS51 extends BaseICMS {
          * @param icmsOperationValue
          * @return
          */
-        public Builder withIcmsOperationValue(String icmsOperationValue) {
+        public Builder withIcmsOperationValue(final String icmsOperationValue) {
             this.icmsOperationValue = icmsOperationValue;
             return this;
         }
@@ -122,7 +122,7 @@ class ICMS51 extends BaseICMS {
          * @param deferralPercent
          * @return
          */
-        public Builder withDeferralPercent(String deferralPercent) {
+        public Builder withDeferralPercent(final String deferralPercent) {
             this.deferralPercent = deferralPercent;
             return this;
         }
@@ -132,7 +132,7 @@ class ICMS51 extends BaseICMS {
          * @param icmsDeferralValue
          * @return
          */
-        public Builder withIcmsDeferralValue(String icmsDeferralValue) {
+        public Builder withIcmsDeferralValue(final String icmsDeferralValue) {
             this.icmsDeferralValue = icmsDeferralValue;
             return this;
         }
@@ -140,7 +140,7 @@ class ICMS51 extends BaseICMS {
         /**
          * Valor do ICMS
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
@@ -152,59 +152,59 @@ class ICMS51 extends BaseICMS {
 
     }
 
-    protected ICMS51() {
-        super(null, null);
-        bcModality = null;
-        bcReductionPercent = null;
-        bcValue = null;
-        icmsAliquot = null;
-        icmsOperationValue = null;
-        deferralPercent = null;
-        icmsDeferralValue = null;
-        icmsValue = null;
+    public ICMS51() {
+        this.bcModality = null;
+        this.bcReductionPercent = null;
+        this.bcValue = null;
+        this.icmsAliquot = null;
+        this.icmsOperationValue = null;
+        this.deferralPercent = null;
+        this.icmsDeferralValue = null;
+        this.icmsValue = null;
     }
 
-    protected ICMS51(ICMS51.Builder builder) {
+    protected ICMS51(final ICMS51.Builder builder) {
         super(builder.origin, "51");
-        bcModality = builder.bcModality;
-        bcReductionPercent = builder.bcReductionPercent;
-        bcValue = builder.bcValue;
-        icmsAliquot = builder.icmsAliquot;
-        icmsOperationValue = builder.icmsOperationValue;
-        deferralPercent = builder.deferralPercent;
-        icmsDeferralValue = builder.icmsDeferralValue;
-        icmsValue = builder.icmsValue;
+        this.bcModality = builder.bcModality;
+        this.bcReductionPercent = builder.bcReductionPercent;
+        this.bcValue = builder.bcValue;
+        this.icmsAliquot = builder.icmsAliquot;
+        this.icmsOperationValue = builder.icmsOperationValue;
+        this.deferralPercent = builder.deferralPercent;
+        this.icmsDeferralValue = builder.icmsDeferralValue;
+        this.icmsValue = builder.icmsValue;
     }
 
     public BCModality getBcModality() {
-        return bcModality;
+        return this.bcModality;
     }
 
     public String getBcReductionPercent() {
-        return bcReductionPercent;
+        return this.bcReductionPercent;
     }
 
     public String getBcValue() {
-        return bcValue;
+        return this.bcValue;
     }
 
     public String getIcmsAliquot() {
-        return icmsAliquot;
+        return this.icmsAliquot;
     }
 
     public String getIcmsOperationValue() {
-        return icmsOperationValue;
+        return this.icmsOperationValue;
     }
 
     public String getDeferralPercent() {
-        return deferralPercent;
+        return this.deferralPercent;
     }
 
     public String getIcmsDeferralValue() {
-        return icmsDeferralValue;
+        return this.icmsDeferralValue;
     }
 
+    @Override
     public String getIcmsValue() {
-        return icmsValue;
+        return this.icmsValue;
     }
 }

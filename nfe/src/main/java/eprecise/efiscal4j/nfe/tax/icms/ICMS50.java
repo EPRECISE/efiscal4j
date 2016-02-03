@@ -27,17 +27,17 @@ class ICMS50 extends BaseICMS40 {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS50.Builder) super.withOrigin(origin);
         }
 
         @Override
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             return (ICMS50.Builder) super.withIcmsDesonerationValue(icmsDesonerationValue);
         }
 
         @Override
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             return (ICMS50.Builder) super.withIcmsDesonerationReason(icmsDesonerationReason);
         }
 
@@ -48,11 +48,10 @@ class ICMS50 extends BaseICMS40 {
 
     }
 
-    protected ICMS50() {
-        super(null, null);
+    public ICMS50() {
     }
 
-    protected ICMS50(ICMS50.Builder builder) {
+    protected ICMS50(final ICMS50.Builder builder) {
         super(builder, "50");
     }
 }

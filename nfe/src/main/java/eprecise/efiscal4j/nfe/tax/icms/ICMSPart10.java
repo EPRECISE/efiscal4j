@@ -30,7 +30,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSPart10.Builder) super.withOrigin(origin);
         }
 
@@ -38,7 +38,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             return (ICMSPart10.Builder) super.withBcModality(bcModality);
         }
 
@@ -46,7 +46,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcReductionPercent(String bcReductionPercent) {
+        public Builder withBcReductionPercent(final String bcReductionPercent) {
             return (ICMSPart10.Builder) super.withBcReductionPercent(bcReductionPercent);
         }
 
@@ -54,7 +54,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (ICMSPart10.Builder) super.withBcValue(bcValue);
         }
 
@@ -62,7 +62,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             return (ICMSPart10.Builder) super.withIcmsAliquot(icmsAliquot);
         }
 
@@ -70,7 +70,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             return (ICMSPart10.Builder) super.withIcmsValue(icmsValue);
         }
 
@@ -78,7 +78,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             return (ICMSPart10.Builder) super.withValueMarginAddedStPercent(valueMarginAddedStPercent);
         }
 
@@ -86,7 +86,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             return (ICMSPart10.Builder) super.withBcReductionStPercent(bcReductionStPercent);
         }
 
@@ -94,7 +94,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             return (ICMSPart10.Builder) super.withBcModalityST(bcModalityST);
         }
 
@@ -102,7 +102,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             return (ICMSPart10.Builder) super.withBcValueST(bcValueST);
         }
 
@@ -110,7 +110,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             return (ICMSPart10.Builder) super.withIcmsStAliquot(icmsStAliquot);
         }
 
@@ -118,7 +118,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             return (ICMSPart10.Builder) super.withIcmsStValue(icmsStValue);
         }
 
@@ -126,7 +126,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withSelfOperationBCPerc(String selfOperationBCPerc) {
+        public Builder withSelfOperationBCPerc(final String selfOperationBCPerc) {
             return (ICMSPart10.Builder) super.withSelfOperationBCPerc(selfOperationBCPerc);
         }
 
@@ -134,7 +134,7 @@ class ICMSPart10 extends BaseICMSPart {
          * {@inheritDoc}
          */
         @Override
-        public Builder withUfST(UF ufST) {
+        public Builder withUfST(final UF ufST) {
             return (ICMSPart10.Builder) super.withUfST(ufST);
         }
 
@@ -145,11 +145,10 @@ class ICMSPart10 extends BaseICMSPart {
 
     }
 
-    protected ICMSPart10() {
-        super(null, null);
+    public ICMSPart10() {
     }
 
-    protected ICMSPart10(ICMSPart10.Builder builder) {
+    protected ICMSPart10(final ICMSPart10.Builder builder) {
         super(builder, "10");
     }
 }

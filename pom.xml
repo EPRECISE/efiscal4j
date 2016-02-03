@@ -1,6 +1,4 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,7 +6,7 @@
     <groupId>eprecise.efiscal4j</groupId>
     <artifactId>efiscal4j</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.26</version>
+    <version>1.0.49</version>
     <name>e-Fiscal4J</name>
 
     <properties>
@@ -65,17 +63,17 @@
                 <artifactId>validation-api</artifactId>
                 <version>1.1.0.Final</version>
                 <scope>provided</scope>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.12</version>                
+                <version>1.7.12</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>1.7.12</version>         
-            </dependency>          
+                <version>1.7.12</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -109,6 +107,30 @@
                 <artifactId>jasperreports</artifactId>
                 <version>6.1.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-fonts</artifactId>
+                <version>6.0.0</version>
+            </dependency>
+
+			<dependency>
+				<groupId>eprecise.jasper.fonts</groupId>
+				<artifactId>jasper-fonts-arial</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>

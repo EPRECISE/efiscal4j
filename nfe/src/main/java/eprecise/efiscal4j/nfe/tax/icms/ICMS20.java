@@ -15,7 +15,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Tributação pelo ICMS 20 - Com redução de base de cálculo
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 @ICMSDesonerationReason_3_9_12_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS20 extends BaseICMS implements DesonerationGroup {
+class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,7 +64,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             this.origin = origin;
             return this;
         }
@@ -72,29 +72,29 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
         /**
          * @see BCModality
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
 
         /**
          * Valor da BC do ICMS
-         * 
+         *
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
 
         /**
          * Percentual de redução da BC
-         * 
+         *
          * @param bcReductionPercent
          * @return
          */
-        public Builder withBcReductionPercent(String bcReductionPercent) {
+        public Builder withBcReductionPercent(final String bcReductionPercent) {
             this.bcReductionPercent = bcReductionPercent;
             return this;
         }
@@ -102,7 +102,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
         /**
          * Alíquota do ICMS
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
@@ -110,18 +110,18 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
         /**
          * Valor do ICMS
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
 
         /**
          * Valor do ICMS de desoneração
-         * 
+         *
          * @param icmsDesonerationValue
          * @return
          */
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             this.icmsDesonerationValue = icmsDesonerationValue;
             return this;
         }
@@ -131,7 +131,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
          * @param icmsDesonerationReason
          * @return
          */
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             this.icmsDesonerationReason = icmsDesonerationReason;
             return this;
         }
@@ -143,8 +143,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
 
     }
 
-    protected ICMS20() {
-        super(null, null);
+    public ICMS20() {
         this.bcModality = null;
         this.bcValue = null;
         this.bcReductionPercent = null;
@@ -154,7 +153,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
         this.icmsDesonerationReason = null;
     }
 
-    protected ICMS20(ICMS20.Builder builder) {
+    protected ICMS20(final ICMS20.Builder builder) {
         super(builder.origin, "20");
         this.bcModality = builder.bcModality;
         this.bcValue = builder.bcValue;
@@ -181,6 +180,7 @@ class ICMS20 extends BaseICMS implements DesonerationGroup {
         return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
         return this.icmsValue;
     }

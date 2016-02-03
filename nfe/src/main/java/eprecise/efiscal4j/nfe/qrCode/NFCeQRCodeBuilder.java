@@ -1,33 +1,35 @@
 
-package eprecise.efiscal4j.nfe.danfe;
+package eprecise.efiscal4j.nfe.qrCode;
 
 import java.math.BigInteger;
+import java.util.Base64;
 import java.util.Optional;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfce.CSC;
+import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.NFeTransmissionMethod;
-import eprecise.efiscal4j.nfe.danfe.nfce.CSC;
-import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
+import eprecise.efiscal4j.nfe.danfe.JasperDanfeNfceUrlPath;
 
 
-public class JasperDanfeNfceQRCodeBuilder {
+public class NFCeQRCodeBuilder {
 
-    private final ProcessedNFe nfe;
+    private final NFe nfe;
 
     private final CSC csc;
 
-    public JasperDanfeNfceQRCodeBuilder(ProcessedNFe nfe, CSC csc) {
+    public NFCeQRCodeBuilder(final NFe nfe, final CSC csc) {
         this.nfe = nfe;
         this.csc = csc;
     }
 
     public String build() {
 
-        final StringBuilder url = new StringBuilder(JasperDanfeNfceUrlPath.SERVICE.getUrl(this.nfe.getNfe().getNFeInfo().getEmitter().getAdress().getCity().getUf(), this.nfe
-                .getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getTransmissionEnvironment()));
+        final StringBuilder url = new StringBuilder(
+                JasperDanfeNfceUrlPath.SERVICE.getUrl(this.nfe.getNFeInfo().getEmitter().getAdress().getCity().getUf(), this.nfe.getNFeInfo().getnFeIdentification().getTransmissionEnvironment()));
 
         //@formatter:off
         final StringBuilder params = new StringBuilder()
@@ -66,7 +68,7 @@ public class JasperDanfeNfceQRCodeBuilder {
      * chNFe
      */
     private String getAcessKey() {
-        return this.nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey();
+        return this.nfe.getNFeInfo().getId().replaceAll("NFe", "");
     }
 
     /*
@@ -80,48 +82,50 @@ public class JasperDanfeNfceQRCodeBuilder {
      * tpAmb
      */
     private String getEnvironment() {
-        return new Integer(this.nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getTransmissionEnvironment().getValue()).toString();
+        return new Integer(this.nfe.getNFeInfo().getnFeIdentification().getTransmissionEnvironment().getValue()).toString();
     }
 
     /*
      * cDest
      */
     private Optional<String> getReceiverCnp() {
-        return Optional.ofNullable(this.nfe.getNfe().getNFeInfo().getReceiver()).map(r -> r.getDocuments().getCnpjCpf());
+        return Optional.ofNullable(this.nfe.getNFeInfo().getReceiver()).map(r -> r.getDocuments().getCnpjCpf());
     }
 
     /*
      * dhEmi
      */
     private String getEmissionDateTimeHex() {
-        return String.format("%040x", new BigInteger(1, this.nfe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime().getBytes()));
+        return String.format("%040x", new BigInteger(1, this.nfe.getNFeInfo().getnFeIdentification().getEmissionDateTime().getBytes()));
     }
 
     /*
      * vNF
      */
     private String getNFValue() {
-        return this.nfe.getNfe().getNFeInfo().getnFeTotal().getIcmsTotal().getNfeTotalValue();
+        return this.nfe.getNFeInfo().getnFeTotal().getIcmsTotal().getNfeTotalValue();
     }
 
     /*
      * vICMS
      */
     private String getICMSValue() {
-        return this.nfe.getNfe().getNFeInfo().getnFeTotal().getIcmsTotal().getIcmsTotalValue();
+        return this.nfe.getNFeInfo().getnFeTotal().getIcmsTotal().getIcmsTotalValue();
     }
 
     /*
      * digVal
      */
     private String getDigestValueHexOrSha1() {
-        if (this.nfe.getNfe().getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.NORMAL)) {
-            return String.format("%040x", new BigInteger(1, this.nfe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue().getBytes()));
+
+        final String digestValueTOBase64 = Base64.getEncoder().encodeToString(this.nfe.getSignature().getSignedInfo().getReference().getDigestValue());
+        if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.NORMAL)) {
+            return String.format("%x", new BigInteger(1, digestValueTOBase64.getBytes()));
         }
-        if (this.nfe.getNfe().getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.CONTINGENCIA_OFF_LINE_NFCE)) {
+        if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.CONTINGENCIA_OFF_LINE_NFCE)) {
             return Hashing.sha1().hashString(new FiscalDocumentSerializer<>(this.nfe).serialize(), Charsets.UTF_8).toString();
         } else {
-            throw new UnsupportedOperationException(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().toString());
+            throw new UnsupportedOperationException(this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().toString());
         }
     }
 

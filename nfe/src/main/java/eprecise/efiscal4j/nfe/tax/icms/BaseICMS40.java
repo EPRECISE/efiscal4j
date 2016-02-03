@@ -42,7 +42,7 @@ abstract class BaseICMS40 extends BaseICMS implements DesonerationGroup {
          * @param icmsDesonerationValue
          * @return
          */
-        public Builder withIcmsDesonerationValue(String icmsDesonerationValue) {
+        public Builder withIcmsDesonerationValue(final String icmsDesonerationValue) {
             this.icmsDesonerationValue = icmsDesonerationValue;
             return this;
         }
@@ -52,7 +52,7 @@ abstract class BaseICMS40 extends BaseICMS implements DesonerationGroup {
          * @param icmsDesonerationReason
          * @return
          */
-        public Builder withIcmsDesonerationReason(ICMSDesonerationReason icmsDesonerationReason) {
+        public Builder withIcmsDesonerationReason(final ICMSDesonerationReason icmsDesonerationReason) {
             this.icmsDesonerationReason = icmsDesonerationReason;
             return this;
         }
@@ -61,13 +61,12 @@ abstract class BaseICMS40 extends BaseICMS implements DesonerationGroup {
         abstract BaseICMS40 build();
     }
 
-    protected BaseICMS40() {
-        super(null, null);
+    public BaseICMS40() {
         this.icmsDesonerationValue = null;
         this.icmsDesonerationReason = null;
     }
 
-    protected BaseICMS40(Builder builder, String cst) {
+    protected BaseICMS40(final Builder builder, final String cst) {
         super(builder.origin, cst);
         this.icmsDesonerationValue = builder.icmsDesonerationValue;
         this.icmsDesonerationReason = builder.icmsDesonerationReason;

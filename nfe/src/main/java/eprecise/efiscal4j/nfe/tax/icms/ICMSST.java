@@ -45,7 +45,7 @@ class ICMSST extends BaseICMS {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSST.Builder) super.withOrigin(origin);
         }
 
@@ -55,7 +55,7 @@ class ICMSST extends BaseICMS {
          * @param bcRetainedValueST
          * @return
          */
-        public Builder withBcRetainedValueST(String bcRetainedValueST) {
+        public Builder withBcRetainedValueST(final String bcRetainedValueST) {
             this.bcRetainedValueST = bcRetainedValueST;
             return this;
         }
@@ -66,7 +66,7 @@ class ICMSST extends BaseICMS {
          * @param icmsRetainedValueST
          * @return
          */
-        public Builder withIcmsRetainedValueST(String icmsRetainedValueST) {
+        public Builder withIcmsRetainedValueST(final String icmsRetainedValueST) {
             this.icmsRetainedValueST = icmsRetainedValueST;
             return this;
         }
@@ -77,7 +77,7 @@ class ICMSST extends BaseICMS {
          * @param bcIcmsStDestination
          * @return
          */
-        public Builder withBcIcmsStDestination(String bcIcmsStDestination) {
+        public Builder withBcIcmsStDestination(final String bcIcmsStDestination) {
             this.bcIcmsStDestination = bcIcmsStDestination;
             return this;
         }
@@ -88,7 +88,7 @@ class ICMSST extends BaseICMS {
          * @param icmsStDestination
          * @return
          */
-        public Builder withIcmsStDestination(String icmsStDestination) {
+        public Builder withIcmsStDestination(final String icmsStDestination) {
             this.icmsStDestination = icmsStDestination;
             return this;
         }
@@ -100,15 +100,14 @@ class ICMSST extends BaseICMS {
 
     }
 
-    protected ICMSST() {
-        super(null, null);
+    public ICMSST() {
         this.bcRetainedValueST = null;
         this.icmsRetainedValueST = null;
         this.bcIcmsStDestination = null;
         this.icmsStDestination = null;
     }
 
-    protected ICMSST(ICMSST.Builder builder) {
+    protected ICMSST(final ICMSST.Builder builder) {
         super(builder.origin, "41");
         this.bcRetainedValueST = builder.bcRetainedValueST;
         this.icmsRetainedValueST = builder.icmsRetainedValueST;

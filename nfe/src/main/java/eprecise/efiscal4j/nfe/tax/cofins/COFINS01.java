@@ -24,7 +24,7 @@ class COFINS01 extends BaseCOFINSAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (COFINS01.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ class COFINS01 extends BaseCOFINSAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             return (COFINS01.Builder) super.withCofinsAliquot(cofinsAliquot);
         }
 
@@ -40,7 +40,7 @@ class COFINS01 extends BaseCOFINSAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             return (COFINS01.Builder) super.withCofinsValue(cofinsValue);
         }
 
@@ -50,11 +50,11 @@ class COFINS01 extends BaseCOFINSAliquot {
         }
     }
 
-    protected COFINS01() {
+    public COFINS01() {
         super();
     }
 
-    protected COFINS01(COFINS01.Builder builder) {
+    protected COFINS01(final COFINS01.Builder builder) {
         super(builder, "01");
     }
 

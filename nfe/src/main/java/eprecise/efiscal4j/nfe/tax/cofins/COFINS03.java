@@ -24,7 +24,7 @@ class COFINS03 extends BaseCOFINSQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             return (COFINS03.Builder) super.withProductQuantity(productQuantity);
         }
 
@@ -32,7 +32,7 @@ class COFINS03 extends BaseCOFINSQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String cofinsAliquot) {
+        public Builder withProductAliquot(final String cofinsAliquot) {
             return (COFINS03.Builder) super.withProductAliquot(cofinsAliquot);
         }
 
@@ -40,7 +40,7 @@ class COFINS03 extends BaseCOFINSQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             return (COFINS03.Builder) super.withCofinsValue(cofinsValue);
         }
 
@@ -50,11 +50,11 @@ class COFINS03 extends BaseCOFINSQuantity {
         }
     }
 
-    protected COFINS03() {
+    public COFINS03() {
         super();
     }
 
-    protected COFINS03(COFINS03.Builder builder) {
+    protected COFINS03(final COFINS03.Builder builder) {
         super(builder, "03");
     }
 

@@ -28,16 +28,20 @@ public abstract class Assignable {
 
     public abstract Assignable getAsEntity(String xml);
 
-    public Assignable getAsEntity(InputStream xml) throws IOException {
+    public Assignable getAsEntity(final InputStream xml) throws IOException {
         return this.getAsEntity(IOUtils.toString(xml));
     }
 
-    public Assignable getAsEntity(URL xml) throws IOException {
+    public Assignable getAsEntity(final URL xml) throws IOException {
         return this.getAsEntity(IOUtils.toString(xml.openStream()));
     }
 
-    public Assignable getAsEntity(File xml) throws FileNotFoundException, IOException {
+    public Assignable getAsEntity(final File xml) throws FileNotFoundException, IOException {
         return this.getAsEntity(IOUtils.toString(new FileInputStream(xml)));
+    }
+
+    public SignatureType getSignature() {
+        return signature;
     }
 
     public abstract String getRootTagName();

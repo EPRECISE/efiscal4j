@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
@@ -87,7 +88,7 @@ public class NFeInfo implements Serializable {
          * @param nFeIdentification
          * @return
          */
-        public Builder withNFeIdentification(NFeIdentification nFeIdentification) {
+        public Builder withNFeIdentification(final NFeIdentification nFeIdentification) {
             this.nFeIdentification = nFeIdentification;
             return this;
         }
@@ -97,7 +98,7 @@ public class NFeInfo implements Serializable {
          * @param emitter
          * @return
          */
-        public Builder withEmitter(Emitter emitter) {
+        public Builder withEmitter(final Emitter emitter) {
             this.emitter = emitter;
             return this;
         }
@@ -107,7 +108,7 @@ public class NFeInfo implements Serializable {
          * @param receiver
          * @return
          */
-        public Builder withReceiver(Receiver receiver) {
+        public Builder withReceiver(final Receiver receiver) {
             this.receiver = receiver;
             return this;
         }
@@ -119,7 +120,7 @@ public class NFeInfo implements Serializable {
          * @param nFeDetails
          * @return
          */
-        public Builder withNFeDetail(List<NFeDetail> nFeDetails) {
+        public Builder withNFeDetail(final List<NFeDetail> nFeDetails) {
             this.nFeDetails = nFeDetails;
             return this;
         }
@@ -129,7 +130,7 @@ public class NFeInfo implements Serializable {
          * @param nFeTotal
          * @return
          */
-        public Builder withNFeTotal(NFeTotal nFeTotal) {
+        public Builder withNFeTotal(final NFeTotal nFeTotal) {
             this.nFeTotal = nFeTotal;
             return this;
         }
@@ -139,7 +140,7 @@ public class NFeInfo implements Serializable {
          * @param nFeTransport
          * @return
          */
-        public Builder withNFeTransport(NFeTransport nFeTransport) {
+        public Builder withNFeTransport(final NFeTransport nFeTransport) {
             this.nFeTransport = nFeTransport;
             return this;
         }
@@ -149,7 +150,7 @@ public class NFeInfo implements Serializable {
          * @param nFeCharging
          * @return
          */
-        public Builder withNFeCharging(NFeCharging nFeCharging) {
+        public Builder withNFeCharging(final NFeCharging nFeCharging) {
             this.nFeCharging = nFeCharging;
             return this;
         }
@@ -161,7 +162,7 @@ public class NFeInfo implements Serializable {
          * @param nFePayments
          * @return
          */
-        public Builder withNFePayments(List<NFePayment> nFePayments) {
+        public Builder withNFePayments(final List<NFePayment> nFePayments) {
             this.nFePayments = nFePayments;
             return this;
         }
@@ -171,7 +172,7 @@ public class NFeInfo implements Serializable {
          * @param additionalInfo
          * @return
          */
-        public Builder withAdditionalInfo(AdditionalInfo additionalInfo) {
+        public Builder withAdditionalInfo(final AdditionalInfo additionalInfo) {
             this.additionalInfo = additionalInfo;
             return this;
         }
@@ -196,7 +197,7 @@ public class NFeInfo implements Serializable {
         this.id = null;
     }
 
-    protected NFeInfo(Builder builder) throws ParseException {
+    protected NFeInfo(final Builder builder) throws ParseException {
         this.nFeIdentification = builder.nFeIdentification;
         this.emitter = builder.emitter;
         this.receiver = builder.receiver;
@@ -215,13 +216,16 @@ public class NFeInfo implements Serializable {
             this.getReceiver().getDocuments().setAbstractName("NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL");
         }
 
+        if (this.getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE) && this.getnFeIdentification().getTransmissionEnvironment() == TransmissionEnvironment.HOMOLOGACAO) {
+            this.nFeDetails.stream().map(NFeDetail::getnFeItem).findFirst().ifPresent(nfeItem -> nfeItem.setItemDescription("NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"));
+        }
+
         final DecimalFormatSymbols separatorSymbols = new DecimalFormatSymbols();
         separatorSymbols.setDecimalSeparator('.');
         final DecimalFormat decimalFormat = new DecimalFormat("##0.00", separatorSymbols);
         decimalFormat.setGroupingUsed(false);
 
         if (this.getnFeTotal().getIcmsTotal() != null) {
-            final Double icmsTotal = 0.0;
             Double pisTotal = 0.0;
             Double cofinsTotal = 0.0;
             Double ipiTotal = 0.0;
@@ -282,7 +286,7 @@ public class NFeInfo implements Serializable {
         return nfeId.toString();
     }
 
-    private int calcModule11(String key) {
+    private int calcModule11(final String key) {
         int total = 0;
         int weight = 2;
 

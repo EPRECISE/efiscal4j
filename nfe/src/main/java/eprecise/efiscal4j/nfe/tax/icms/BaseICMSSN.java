@@ -6,10 +6,10 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 /**
- * 
+ *
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
- * 
+ *
  */
 abstract class BaseICMSSN extends ICMS {
 
@@ -24,7 +24,7 @@ abstract class BaseICMSSN extends ICMS {
          * @param origin
          * @return
          */
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             this.origin = origin;
             return this;
         }
@@ -38,7 +38,7 @@ abstract class BaseICMSSN extends ICMS {
         this.csosn = null;
     }
 
-    protected BaseICMSSN(ProductOrigin origin, String csosn) {
+    protected BaseICMSSN(final ProductOrigin origin, final String csosn) {
         super(origin);
         this.csosn = csosn;
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-07-06T23:54:47 -->
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-01-12T16:20:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_leiaute_2xx_cr" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="22" bottomMargin="22" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NFE_MARCOS"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
 	<parameter name="danfe_logo" class="java.io.InputStream"/>
 	<queryString language="xPath">
 		<![CDATA[/]]>
@@ -53,7 +53,7 @@
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xPais]]></fieldDescription>
 	</field>
 	<field name="destIE" class="java.lang.String">
-		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/indIEDest]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/IE]]></fieldDescription>
 	</field>
 	<field name="destxNome" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/xNome]]></fieldDescription>
@@ -121,13 +121,13 @@
 	<field name="tipoDeFrete" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/modFrete]]></fieldDescription>
 	</field>
-	<field name="totalVBC" class="java.math.BigDecimal">
+	<field name="totalVBC" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vBC]]></fieldDescription>
 	</field>
-	<field name="totalVBCST" class="java.math.BigDecimal">
+	<field name="totalVBCST" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vBCST]]></fieldDescription>
 	</field>
-	<field name="totalVCOFINS" class="java.math.BigDecimal">
+	<field name="totalVCOFINS" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vCOFINS]]></fieldDescription>
 	</field>
 	<field name="totalVDesc" class="java.lang.String">
@@ -873,7 +873,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss-").parse($F{idedhEmi}):null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi}):null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="172" width="230" height="12" uuid="f91f6e6d-52f7-4b18-88c9-1a56de13ffe0"/>
@@ -906,6 +906,9 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="3" y="101" width="339" height="12" uuid="1beed5b9-515b-47f6-b49a-f39291cff588"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{idenatOp}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -920,7 +923,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss-").parse($F{idedhEmi}):null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi}):null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="192" width="214" height="12" uuid="1586df50-ecc1-4ddf-9ab3-0b30a329d93f"/>
@@ -1138,7 +1141,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss-").parse($F{idedhEmi}):null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi}):null]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -1498,7 +1501,7 @@
 				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="2" y="48" width="382" height="76" uuid="e8fd58c1-958b-4901-bd4e-49349dcb9781"/>
+				<reportElement positionType="Float" mode="Transparent" x="2" y="48" width="382" height="52" uuid="e8fd58c1-958b-4901-bd4e-49349dcb9781"/>
 				<textElement textAlignment="Justified" verticalAlignment="Top" markup="none">
 					<font size="6"/>
 					<paragraph lineSpacing="Single"/>
@@ -1525,6 +1528,11 @@
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
+			<subreport>
+				<reportElement x="2" y="100" width="382" height="23" uuid="c8186cc7-6539-4739-bd6c-2d377465246a"/>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/infAdic/obsCont")]]></dataSourceExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato_obscont.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</pageFooter>
 </jasperReport>

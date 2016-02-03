@@ -57,7 +57,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -68,7 +68,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
          * @param cofinsAliquot
          * @return
          */
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             this.cofinsAliquot = cofinsAliquot;
             return this;
         }
@@ -79,7 +79,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
          * @param productQuantity
          * @return
          */
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             this.productQuantity = productQuantity;
             return this;
         }
@@ -90,7 +90,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
          * @param productAliquot
          * @return
          */
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             this.productAliquot = productAliquot;
             return this;
         }
@@ -101,7 +101,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
          * @param cofinsValue
          * @return
          */
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             this.cofinsValue = cofinsValue;
             return this;
         }
@@ -113,7 +113,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
         }
     }
 
-    protected COFINSST() {
+    public COFINSST() {
         this.bcValue = null;
         this.cofinsAliquot = null;
         this.productQuantity = null;
@@ -121,7 +121,7 @@ public class COFINSST extends FederalTax implements Serializable, BaseCOFINSOthe
         this.cofinsValue = null;
     }
 
-    protected COFINSST(Builder builder) {
+    protected COFINSST(final Builder builder) {
         this.bcValue = builder.bcValue;
         this.cofinsAliquot = builder.cofinsAliquot;
         this.productQuantity = builder.productQuantity;

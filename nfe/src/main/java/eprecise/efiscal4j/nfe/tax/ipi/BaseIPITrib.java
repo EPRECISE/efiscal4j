@@ -53,7 +53,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * @param bcValue
          * @return
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -64,7 +64,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * @param ipiAliquot
          * @return
          */
-        public Builder withIpiAliquot(String ipiAliquot) {
+        public Builder withIpiAliquot(final String ipiAliquot) {
             this.ipiAliquot = ipiAliquot;
             return this;
         }
@@ -75,7 +75,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * @param unityQuantity
          * @return
          */
-        public Builder withUnityQuantity(String unityQuantity) {
+        public Builder withUnityQuantity(final String unityQuantity) {
             this.unityQuantity = unityQuantity;
             return this;
         }
@@ -86,7 +86,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * @param unityValue
          * @return
          */
-        public Builder withUnityValue(String unityValue) {
+        public Builder withUnityValue(final String unityValue) {
             this.unityValue = unityValue;
             return this;
         }
@@ -97,7 +97,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * @param ipiValue
          * @return
          */
-        public Builder withIpiValue(String ipiValue) {
+        public Builder withIpiValue(final String ipiValue) {
             this.ipiValue = ipiValue;
             return this;
         }
@@ -106,7 +106,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiFrameworkClass(String ipiFrameworkClass) {
+        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
             return (BaseIPITrib.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
         }
 
@@ -114,7 +114,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProducerCNPJ(String producerCNPJ) {
+        public Builder withProducerCNPJ(final String producerCNPJ) {
             return (BaseIPITrib.Builder) super.withProducerCNPJ(producerCNPJ);
         }
 
@@ -122,7 +122,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealCode(String ipiSealCode) {
+        public Builder withIpiSealCode(final String ipiSealCode) {
             return (BaseIPITrib.Builder) super.withIpiSealCode(ipiSealCode);
         }
 
@@ -130,7 +130,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withIpiSealQuantity(String ipiSealQuantity) {
+        public Builder withIpiSealQuantity(final String ipiSealQuantity) {
             return (BaseIPITrib.Builder) super.withIpiSealQuantity(ipiSealQuantity);
         }
 
@@ -138,7 +138,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
          * {@inheritDoc}
          */
         @Override
-        public Builder withLegalFramework(String legalFramework) {
+        public Builder withLegalFramework(final String legalFramework) {
             return (BaseIPITrib.Builder) super.withLegalFramework(legalFramework);
         }
 
@@ -146,8 +146,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
         abstract BaseIPITrib build();
     }
 
-    protected BaseIPITrib() {
-        super();
+    public BaseIPITrib() {
         this.bcValue = null;
         this.ipiAliquot = null;
         this.unityQuantity = null;
@@ -155,7 +154,7 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
         this.ipiValue = null;
     }
 
-    protected BaseIPITrib(Builder builder, String cst) {
+    protected BaseIPITrib(final Builder builder, final String cst) {
         super(builder, cst);
         this.bcValue = builder.bcValue;
         this.ipiAliquot = builder.ipiAliquot;

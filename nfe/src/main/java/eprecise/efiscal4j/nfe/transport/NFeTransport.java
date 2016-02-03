@@ -22,102 +22,136 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeTransport implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "modFrete") @NotNull final ShippingModality shippingModality;
+    private @XmlElement(name = "modFrete") @NotNull final ShippingModality shippingModality;
 
-	private @XmlElement(name = "transporta") Conveyor conveyor;
+    private @XmlElement(name = "transporta") Conveyor conveyor;
 
-	private @XmlElement(name = "retTransp") TransportICMSRetention transportICMSRetention;
+    private @XmlElement(name = "retTransp") TransportICMSRetention transportICMSRetention;
 
-	private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
+    private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
 
-	public static class Builder {
+    private @XmlElement(name = "veicTransp") Vehicle vehicle;
 
-		private ShippingModality shippingModality;
+    private @XmlElement(name = "reboque") @Size(max = 5) List<Vehicle> towing;
 
-		private Conveyor conveyor;
+    public static class Builder {
 
-		private TransportICMSRetention transportICMSRetention;
+        private ShippingModality shippingModality;
 
-		private List<TransportedVolume> transportedVolume;
+        private Conveyor conveyor;
 
-		/**
-		 * @see ShippingModality
-		 * @param shippingModality
-		 * @return
-		 */
-		public Builder withShippingModality(ShippingModality shippingModality) {
-			this.shippingModality = shippingModality;
-			return this;
-		}
+        private TransportICMSRetention transportICMSRetention;
 
-		/**
-		 * @see Conveyor
-		 * @param conveyor
-		 * @return
-		 */
-		public Builder withConveyor(Conveyor conveyor) {
-			this.conveyor = conveyor;
-			return this;
-		}
+        private List<TransportedVolume> transportedVolume;
 
-		/**
-		 * @see TransportICMSRetention
-		 * @param transportICMSRetention
-		 * @return
-		 */
-		public Builder withtransportICMSRetention(TransportICMSRetention transportICMSRetention) {
-			this.transportICMSRetention = transportICMSRetention;
-			return this;
-		}
+        private Vehicle vehicle;
 
-		/**
-		 * @see TransportedVolume
-		 * @param transportedVolume
-		 * @return
-		 */
-		public Builder withTransportedVolume(List<TransportedVolume> transportedVolume) {
-			this.transportedVolume = transportedVolume;
-			return this;
-		}
+        private List<Vehicle> towing;
 
-		public NFeTransport build() {
-			NFeTransport entity = new NFeTransport(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
-	}
+        /**
+         * @see ShippingModality
+         * @param shippingModality
+         * @return
+         */
+        public Builder withShippingModality(final ShippingModality shippingModality) {
+            this.shippingModality = shippingModality;
+            return this;
+        }
 
-	public NFeTransport() {
-		this.shippingModality = null;
-	}
+        /**
+         * @see Conveyor
+         * @param conveyor
+         * @return
+         */
+        public Builder withConveyor(final Conveyor conveyor) {
+            this.conveyor = conveyor;
+            return this;
+        }
 
-	public NFeTransport(Builder builder) {
-		this.shippingModality = builder.shippingModality;
-		this.conveyor = builder.conveyor;
-		this.transportICMSRetention = builder.transportICMSRetention;
-		this.transportedVolume = builder.transportedVolume;
-	}
+        /**
+         * @see TransportICMSRetention
+         * @param transportICMSRetention
+         * @return
+         */
+        public Builder withtransportICMSRetention(final TransportICMSRetention transportICMSRetention) {
+            this.transportICMSRetention = transportICMSRetention;
+            return this;
+        }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+        /**
+         * @see TransportedVolume
+         * @param transportedVolume
+         * @return
+         */
+        public Builder withTransportedVolume(final List<TransportedVolume> transportedVolume) {
+            this.transportedVolume = transportedVolume;
+            return this;
+        }
 
-	public ShippingModality getShippingModality() {
-		return this.shippingModality;
-	}
+        /**
+         * Veículo do transporte
+         * 
+         * @see Vehicle
+         * @param vehicle
+         * @return
+         */
+        public Builder withVehicle(final Vehicle vehicle) {
+            this.vehicle = vehicle;
+            return this;
+        }
 
-	public Conveyor getConveyor() {
-		return this.conveyor;
-	}
+        /**
+         * Reboque/Dolly (v2.0)
+         * 
+         * @see Vehicle
+         * @param towing
+         * @return
+         */
+        public Builder withTowing(final List<Vehicle> towing) {
+            this.towing = towing;
+            return this;
+        }
 
-	public TransportICMSRetention getTransportICMSRetention() {
-		return this.transportICMSRetention;
-	}
+        public NFeTransport build() {
+            final NFeTransport entity = new NFeTransport(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+    }
 
-	public List<TransportedVolume> getTransportedVolume() {
-		return this.transportedVolume;
-	}
+    public NFeTransport() {
+        this.shippingModality = null;
+    }
+
+    public NFeTransport(final Builder builder) {
+        this.shippingModality = builder.shippingModality;
+        this.conveyor = builder.conveyor;
+        this.transportICMSRetention = builder.transportICMSRetention;
+        this.transportedVolume = builder.transportedVolume;
+        this.vehicle = builder.vehicle;
+        this.towing = builder.towing;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public ShippingModality getShippingModality() {
+        return this.shippingModality;
+    }
+
+    public Conveyor getConveyor() {
+        return this.conveyor;
+    }
+
+    public TransportICMSRetention getTransportICMSRetention() {
+        return this.transportICMSRetention;
+    }
+
+    public List<TransportedVolume> getTransportedVolume() {
+        return this.transportedVolume;
+    }
 
 }

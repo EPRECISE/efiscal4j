@@ -24,7 +24,7 @@ class PIS02 extends BasePISAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (PIS02.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ class PIS02 extends BasePISAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withPisAliquot(String pisAliquot) {
+        public Builder withPisAliquot(final String pisAliquot) {
             return (PIS02.Builder) super.withPisAliquot(pisAliquot);
         }
 
@@ -40,7 +40,7 @@ class PIS02 extends BasePISAliquot {
          * {@inheritDoc}
          */
         @Override
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             return (PIS02.Builder) super.withPisValue(pisValue);
         }
 
@@ -50,11 +50,10 @@ class PIS02 extends BasePISAliquot {
         }
     }
 
-    protected PIS02() {
-        super();
+    public PIS02() {
     }
 
-    protected PIS02(PIS02.Builder builder) {
+    protected PIS02(final PIS02.Builder builder) {
         super(builder, "02");
     }
 

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.danfe.nfce;
+package eprecise.efiscal4j.nfce;
 
 import java.io.Serializable;
 

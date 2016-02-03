@@ -24,7 +24,7 @@ public class COFINS55 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             return (COFINS55.Builder) super.withBcValue(bcValue);
         }
 
@@ -32,7 +32,7 @@ public class COFINS55 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String productAliquot) {
+        public Builder withProductAliquot(final String productAliquot) {
             return (COFINS55.Builder) super.withProductAliquot(productAliquot);
         }
 
@@ -40,7 +40,7 @@ public class COFINS55 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             return (COFINS55.Builder) super.withProductQuantity(productQuantity);
         }
 
@@ -48,7 +48,7 @@ public class COFINS55 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsAliquot(String cofinsAliquot) {
+        public Builder withCofinsAliquot(final String cofinsAliquot) {
             return (COFINS55.Builder) super.withCofinsAliquot(cofinsAliquot);
         }
 
@@ -56,7 +56,7 @@ public class COFINS55 extends BaseCOFINSOther {
          * {@inheritDoc}
          */
         @Override
-        public Builder withCofinsValue(String cofinsValue) {
+        public Builder withCofinsValue(final String cofinsValue) {
             return (COFINS55.Builder) super.withCofinsValue(cofinsValue);
         }
 
@@ -66,11 +66,11 @@ public class COFINS55 extends BaseCOFINSOther {
         }
     }
 
-    protected COFINS55() {
+    public COFINS55() {
         super();
     }
 
-    protected COFINS55(COFINS55.Builder builder) {
+    protected COFINS55(final COFINS55.Builder builder) {
         super(builder, "55");
     }
 

@@ -37,7 +37,7 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMS60.Builder) super.withOrigin(origin);
         }
 
@@ -47,7 +47,7 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
          * @param bcRetainedValueST
          * @return
          */
-        public Builder withBcRetainedValueST(String bcRetainedValueST) {
+        public Builder withBcRetainedValueST(final String bcRetainedValueST) {
             this.bcRetainedValueST = bcRetainedValueST;
             return this;
         }
@@ -58,7 +58,7 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
          * @param icmsRetainedValueST
          * @return
          */
-        public Builder withIcmsRetainedValueST(String icmsRetainedValueST) {
+        public Builder withIcmsRetainedValueST(final String icmsRetainedValueST) {
             this.icmsRetainedValueST = icmsRetainedValueST;
             return this;
         }
@@ -70,13 +70,12 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
 
     }
 
-    protected ICMS60() {
-        super(null, null);
+    public ICMS60() {
         this.bcRetainedValueST = null;
         this.icmsRetainedValueST = null;
     }
 
-    protected ICMS60(ICMS60.Builder builder) {
+    protected ICMS60(final ICMS60.Builder builder) {
         super(builder.origin, "60");
         this.bcRetainedValueST = builder.bcRetainedValueST;
         this.icmsRetainedValueST = builder.icmsRetainedValueST;

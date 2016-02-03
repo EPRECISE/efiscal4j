@@ -12,13 +12,13 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Classe base para os ICMS de Partilha com CST 10 e 90
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
  */
-abstract class BaseICMSPart extends BaseICMS {
+abstract class BaseICMSPart extends BaseICMS implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,18 +79,18 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * @see BCModality
          */
-        public Builder withBcModality(BCModality bcModality) {
+        public Builder withBcModality(final BCModality bcModality) {
             this.bcModality = bcModality;
             return this;
         }
 
         /**
          * Percentual de redução da BC
-         * 
+         *
          * @param bcReductionPercent
          * @return
          */
-        public Builder withBcReductionPercent(String bcReductionPercent) {
+        public Builder withBcReductionPercent(final String bcReductionPercent) {
             this.bcReductionPercent = bcReductionPercent;
             return this;
         }
@@ -98,7 +98,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Valor da BC do ICMS
          */
-        public Builder withBcValue(String bcValue) {
+        public Builder withBcValue(final String bcValue) {
             this.bcValue = bcValue;
             return this;
         }
@@ -106,7 +106,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Alíquota do ICMS
          */
-        public Builder withIcmsAliquot(String icmsAliquot) {
+        public Builder withIcmsAliquot(final String icmsAliquot) {
             this.icmsAliquot = icmsAliquot;
             return this;
         }
@@ -114,16 +114,16 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Valor do ICMS
          */
-        public Builder withIcmsValue(String icmsValue) {
+        public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
             return this;
         }
 
         /**
-         * 
+         *
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalitySt = bcModalityST;
             return this;
         }
@@ -131,7 +131,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -139,7 +139,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
@@ -147,7 +147,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -155,7 +155,7 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -163,30 +163,30 @@ abstract class BaseICMSPart extends BaseICMS {
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
 
         /**
          * Percentual para determinação do valor da Base de Cálculo da operação própria.
-         * 
+         *
          * @param selfOperationBCPerc
          * @return
          */
-        public Builder withSelfOperationBCPerc(String selfOperationBCPerc) {
+        public Builder withSelfOperationBCPerc(final String selfOperationBCPerc) {
             this.selfOperationBCPerc = selfOperationBCPerc;
             return this;
         }
 
         /**
          * Sigla da UF para qual é devido o ICMS ST da operação.
-         * 
+         *
          * @see UF
          * @param ufST
          * @return
          */
-        public Builder withUfST(UF ufST) {
+        public Builder withUfST(final UF ufST) {
             this.ufST = ufST.getAcronym();
             return this;
         }
@@ -195,8 +195,7 @@ abstract class BaseICMSPart extends BaseICMS {
         abstract BaseICMSPart build();
     }
 
-    protected BaseICMSPart() {
-        super(null, null);
+    public BaseICMSPart() {
         this.bcModality = null;
         this.bcReductionPercent = null;
         this.bcValue = null;
@@ -212,7 +211,7 @@ abstract class BaseICMSPart extends BaseICMS {
         this.ufST = null;
     }
 
-    protected BaseICMSPart(Builder builder, String cst) {
+    protected BaseICMSPart(final Builder builder, final String cst) {
         super(builder.origin, cst);
         this.bcModality = builder.bcModality;
         this.bcReductionPercent = builder.bcReductionPercent;
@@ -245,6 +244,7 @@ abstract class BaseICMSPart extends BaseICMS {
         return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
         return this.icmsValue;
     }
@@ -269,6 +269,7 @@ abstract class BaseICMSPart extends BaseICMS {
         return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
     }

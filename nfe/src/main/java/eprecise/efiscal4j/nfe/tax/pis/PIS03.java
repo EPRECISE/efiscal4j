@@ -24,7 +24,7 @@ class PIS03 extends BasePISQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductQuantity(String productQuantity) {
+        public Builder withProductQuantity(final String productQuantity) {
             return (PIS03.Builder) super.withProductQuantity(productQuantity);
         }
 
@@ -32,7 +32,7 @@ class PIS03 extends BasePISQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withProductAliquot(String pisAliquot) {
+        public Builder withProductAliquot(final String pisAliquot) {
             return (PIS03.Builder) super.withProductAliquot(pisAliquot);
         }
 
@@ -40,7 +40,7 @@ class PIS03 extends BasePISQuantity {
          * {@inheritDoc}
          */
         @Override
-        public Builder withPisValue(String pisValue) {
+        public Builder withPisValue(final String pisValue) {
             return (PIS03.Builder) super.withPisValue(pisValue);
         }
 
@@ -50,11 +50,10 @@ class PIS03 extends BasePISQuantity {
         }
     }
 
-    protected PIS03() {
-        super();
+    public PIS03() {
     }
 
-    protected PIS03(PIS03.Builder builder) {
+    protected PIS03(final PIS03.Builder builder) {
         super(builder, "03");
     }
 

@@ -89,4 +89,7 @@ public class ServiceStatusSearchResponseMethod extends Receivable implements Ser
         return this.qName;
     }
 
+    public ServiceStatusSearchResponse getServiceStatusSearchResponse() {
+        return this.serviceStatusSearchResponse;
+    }
 }

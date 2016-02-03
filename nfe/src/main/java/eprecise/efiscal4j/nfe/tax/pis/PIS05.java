@@ -28,11 +28,10 @@ class PIS05 extends BasePISNT {
         }
     }
 
-    protected PIS05() {
-        super();
+    public PIS05() {
     }
 
-    protected PIS05(PIS05.Builder builder) {
+    protected PIS05(final PIS05.Builder builder) {
         super(builder, "05");
     }
 

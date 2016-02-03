@@ -37,7 +37,7 @@ class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
          * {@inheritDoc}
          */
         @Override
-        public Builder withOrigin(ProductOrigin origin) {
+        public Builder withOrigin(final ProductOrigin origin) {
             return (ICMSSN500.Builder) super.withOrigin(origin);
         }
 
@@ -47,7 +47,7 @@ class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
          * @param bcRetainedValueST
          * @return
          */
-        public Builder withBcRetainedValueST(String bcRetainedValueST) {
+        public Builder withBcRetainedValueST(final String bcRetainedValueST) {
             this.bcRetainedValueST = bcRetainedValueST;
             return this;
         }
@@ -58,7 +58,7 @@ class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
          * @param icmsRetainedValueST
          * @return
          */
-        public Builder withIcmsRetainedValueST(String icmsRetainedValueST) {
+        public Builder withIcmsRetainedValueST(final String icmsRetainedValueST) {
             this.icmsRetainedValueST = icmsRetainedValueST;
             return this;
         }
@@ -69,13 +69,12 @@ class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
         }
     }
 
-    protected ICMSSN500() {
-        super(null, null);
+    public ICMSSN500() {
         this.bcRetainedValueST = null;
         this.icmsRetainedValueST = null;
     }
 
-    protected ICMSSN500(ICMSSN500.Builder builder) {
+    protected ICMSSN500(final ICMSSN500.Builder builder) {
         super(builder.origin, "500");
         this.bcRetainedValueST = builder.bcRetainedValueST;
         this.icmsRetainedValueST = builder.icmsRetainedValueST;

@@ -11,13 +11,13 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Classe base para os ICMS com CSOSN 202 e 203
- * 
+ *
  * @see BaseICMSSN
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
  */
-abstract class BaseICMSSN202 extends BaseICMSSN {
+abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,10 +48,10 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         private String icmsStValue;
 
         /**
-         * 
+         *
          * @see BCModalityST
          */
-        public Builder withBcModalityST(BCModalityST bcModalityST) {
+        public Builder withBcModalityST(final BCModalityST bcModalityST) {
             this.bcModalitySt = bcModalityST;
             return this;
         }
@@ -59,7 +59,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
-        public Builder withValueMarginAddedStPercent(String valueMarginAddedStPercent) {
+        public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
             this.valueMarginAddedStPercent = valueMarginAddedStPercent;
             return this;
         }
@@ -67,7 +67,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         /**
          * Percentual de redução da BC ICMS ST
          */
-        public Builder withBcReductionStPercent(String bcReductionStPercent) {
+        public Builder withBcReductionStPercent(final String bcReductionStPercent) {
             this.bcReductionStPercent = bcReductionStPercent;
             return this;
         }
@@ -75,7 +75,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         /**
          * Valor da BC do ICMS ST
          */
-        public Builder withBcValueST(String bcValueST) {
+        public Builder withBcValueST(final String bcValueST) {
             this.bcValueST = bcValueST;
             return this;
         }
@@ -83,7 +83,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         /**
          * Alíquota do ICMS ST
          */
-        public Builder withIcmsStAliquot(String icmsStAliquot) {
+        public Builder withIcmsStAliquot(final String icmsStAliquot) {
             this.icmsStAliquot = icmsStAliquot;
             return this;
         }
@@ -91,7 +91,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         /**
          * Valor do ICMS ST
          */
-        public Builder withIcmsStValue(String icmsStValue) {
+        public Builder withIcmsStValue(final String icmsStValue) {
             this.icmsStValue = icmsStValue;
             return this;
         }
@@ -100,8 +100,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         abstract BaseICMSSN202 build();
     }
 
-    protected BaseICMSSN202() {
-        super(null, null);
+    public BaseICMSSN202() {
         this.bcModalitySt = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;
@@ -110,7 +109,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         this.icmsStValue = null;
     }
 
-    protected BaseICMSSN202(Builder builder, String csosn) {
+    protected BaseICMSSN202(final Builder builder, final String csosn) {
         super(builder.origin, csosn);
         this.bcModalitySt = builder.bcModalitySt;
         this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
@@ -140,6 +139,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN {
         return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
     }

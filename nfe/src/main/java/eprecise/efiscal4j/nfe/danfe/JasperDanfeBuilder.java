@@ -9,8 +9,13 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -23,33 +28,25 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang3.StringUtils;
-
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.danfe.nfce.CSC;
-import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
-
 
 public class JasperDanfeBuilder {
 
     private enum DataSourceType {
-        ENTITY {
+                                 ENTITY {
 
-            @Override
-            public JRDataSource generate(ProcessedNFe nfe) throws JRException {
-                return new JRBeanCollectionDataSource(Arrays.asList(nfe));
-            }
-        },
-        XML {
+                                     @Override
+                                     public JRDataSource generate(final ProcessedNFe nfe) throws JRException {
+                                         return new JRBeanCollectionDataSource(Arrays.asList(nfe));
+                                     }
+                                 },
+                                 XML {
 
-            @Override
-            public JRDataSource generate(ProcessedNFe nfe) throws JRException {
-                return new JRXmlDataSource(new ByteArrayInputStream(new FiscalDocumentSerializer<>(nfe).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize().getBytes()));
-            }
-        };
+                                     @Override
+                                     public JRDataSource generate(final ProcessedNFe nfe) throws JRException {
+                                         return new JRXmlDataSource(new ByteArrayInputStream(
+                                                 new FiscalDocumentSerializer<>(nfe).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize().getBytes()));
+                                     }
+                                 };
 
         public abstract JRDataSource generate(ProcessedNFe nfe) throws JRException;
     }
@@ -62,11 +59,9 @@ public class JasperDanfeBuilder {
 
     private final ProcessedNFe nfe;
 
-    private Optional<CSC> csc = Optional.empty();
-
     private DataSourceType type = DataSourceType.XML;
 
-    public JasperDanfeBuilder(ProcessedNFe nfe) {
+    public JasperDanfeBuilder(final ProcessedNFe nfe) {
         this.nfe = nfe;
     }
 
@@ -80,27 +75,27 @@ public class JasperDanfeBuilder {
         return this;
     }
 
-    public JasperDanfeBuilder withCatalog(JasperDanfeCatalog catalog) {
+    public JasperDanfeBuilder withCatalog(final JasperDanfeCatalog catalog) {
         this.catalog = catalog;
         return this;
     }
 
-    public JasperDanfeBuilder withParamsSource(JasperDanfeParamsSource source) {
+    public JasperDanfeBuilder withParamsSource(final JasperDanfeParamsSource source) {
         this.paramsSource = source;
         return this;
     }
 
-    public <T> JasperDanfeBuilder withParam(String name, T value) {
+    public <T> JasperDanfeBuilder withParam(final String name, final T value) {
         this.params.put(name, value);
         return this;
     }
 
     public JasperPrint build() throws IOException, JRException {
-        this.params.putAll(this.paramsSource.getParamsOf(this.nfe, this.csc));
+        this.params.putAll(this.paramsSource.getParamsOf(this.nfe));
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
-    public void toPdf(OutputStreamSupplier out) throws IOException, JRException {
+    public void toPdf(final OutputStreamSupplier out) throws IOException, JRException {
         final JRPdfExporter exporter = new JRPdfExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         final OutputStream outputStream = out.get();
@@ -109,11 +104,11 @@ public class JasperDanfeBuilder {
         outputStream.close();
     }
 
-    public void toPdf(OutputStream out) throws IOException, JRException {
+    public void toPdf(final OutputStream out) throws IOException, JRException {
         this.toPdf(() -> out);
     }
 
-    public void toPdf(File file) throws IOException, JRException {
+    public void toPdf(final File file) throws IOException, JRException {
         final OutputStream out = new FileOutputStream(file);
         if (!file.exists()) {
             file.createNewFile();
@@ -127,11 +122,11 @@ public class JasperDanfeBuilder {
         return out.toByteArray();
     }
 
-    public void toHtml(OutputStream out) throws IOException, JRException {
+    public void toHtml(final OutputStream out) throws IOException, JRException {
         this.toHtml(() -> out);
     }
 
-    public void toHtml(OutputStreamSupplier out) throws IOException, JRException {
+    public void toHtml(final OutputStreamSupplier out) throws IOException, JRException {
         final HtmlExporter exporter = new HtmlExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         final OutputStream outputStream = out.get();
@@ -140,18 +135,11 @@ public class JasperDanfeBuilder {
         outputStream.close();
     }
 
-    public void toHtml(StringBuffer out) throws IOException, JRException {
+    public void toHtml(final StringBuffer out) throws IOException, JRException {
         final HtmlExporter exporter = new HtmlExporter();
         exporter.setExporterInput(new SimpleExporterInput(this.build()));
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(out));
         exporter.exportReport();
-    }
-
-    public <T> JasperDanfeBuilder withCSC(String cscValue, String cldToken) {
-        if (StringUtils.isNotBlank(cscValue) && StringUtils.isNotBlank(cldToken)) {
-            this.csc = Optional.of(new CSC(cldToken, cscValue));
-        }
-        throw new IllegalArgumentException("cscValue or cldToken is not valid");
     }
 
     public interface OutputStreamSupplier {

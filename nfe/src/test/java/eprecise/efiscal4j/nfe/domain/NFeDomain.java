@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,19 +101,32 @@ import eprecise.efiscal4j.signer.Signer;
 
 public class NFeDomain {
 
+    private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
+
+    private static final String CERTIFICATE_PATH_PROPERTY = "eprecise.efiscal4j.commons.certificate.path";
+
+    private static final String CERTIFICATE_NOT_PRESENT_MESSAGE = "Certificado ou pin não estão presente";
+
     private final Logger logger = LoggerFactory.getLogger(NFeDomain.class);
 
     private FiscalDocumentValidator validator;
 
-    private Signer signer;
+    private final Signer signer;
 
-    private TransmissionChannel transmissionChannel;
+    private final TransmissionChannel transmissionChannel;
 
     public NFeDomain() {
         try {
-            final Certificate keyCertificate = new Certificate(() -> new FileInputStream("/home/felipe/Documentos/Desenvolvimento/e-Fiscal4j/Fonebras/FONEBRAS 0989Lu.pfx"), "0989Lu");
-            this.signer = new Signer(keyCertificate);
-            this.transmissionChannel = new TransmissionChannel(keyCertificate);
+            final String certificatePath = System.getProperty(CERTIFICATE_PATH_PROPERTY);
+            final String certificatePin = System.getProperty(CERTIFICATE_PIN_PROPERTY);
+            if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
+                this.signer = null;
+                this.transmissionChannel = null;
+            } else {
+                final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
+                this.signer = new Signer(keyCertificate);
+                this.transmissionChannel = new TransmissionChannel(keyCertificate);
+            }
         } catch (final Exception ex) {
             this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
@@ -122,6 +136,16 @@ public class NFeDomain {
     public NFeDomain(String xsdPath) {
         this();
         this.setXsdPath(xsdPath);
+    }
+
+    public boolean containsCertificate() {
+        return this.signer != null && this.transmissionChannel != null;
+    }
+
+    public void assertCertificate() {
+        if (!this.containsCertificate()) {
+            throw new IllegalStateException(CERTIFICATE_NOT_PRESENT_MESSAGE);
+        }
     }
 
     public void setXsdPath(String xsdPath) {
@@ -187,6 +211,7 @@ public class NFeDomain {
     }
 
     public NFe buildNFe() throws Exception {
+        this.assertCertificate();
         //@formatter:off       
         final List<NFeDetail> nFeDetailList = new ArrayList<>();
         nFeDetailList.add(new NFeDetail.Builder()
@@ -989,6 +1014,7 @@ public class NFeDomain {
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {
+        this.assertCertificate();
         final ArrayList<Event> eventList = new ArrayList<>();
         //@formatter:off        
         eventList.add(new Event.Builder()
@@ -1060,10 +1086,12 @@ public class NFeDomain {
     }
 
     public Signer getSigner() {
+        this.assertCertificate();
         return this.signer;
     }
 
     public TransmissionChannel getTransmissionChannel() {
+        this.assertCertificate();
         return this.transmissionChannel;
     }
 

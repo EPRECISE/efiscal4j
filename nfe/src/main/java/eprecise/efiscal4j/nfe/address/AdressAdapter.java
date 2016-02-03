@@ -14,7 +14,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Address> {
 
     @Override
-    public Address unmarshal(AdaptedAdress adaptedAdress) throws Exception {
+    public Address unmarshal(final AdaptedAdress adaptedAdress) throws Exception {
         City city = null;
         //@formatter:off        
         if (adaptedAdress.getCountryIbgeCode() == null || adaptedAdress.getCountryDescription() == null) {
@@ -42,12 +42,18 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
                    .withDistrict(adaptedAdress.getDistrict())
                    .withCep(adaptedAdress.getCep())
                    .withCity(city)
+                   .withPhone(adaptedAdress.getPhone())
                    .build();
         //@formatter:on       
     }
 
     @Override
-    public AdaptedAdress marshal(Address adress) throws Exception {
+    public AdaptedAdress marshal(final Address adress) throws Exception {
+
+        if (adress == null) {
+            return null;
+        }
+
         //@formatter:off
         return new AdaptedAdress(adress.getStreet()
                                , adress.getNumber()
@@ -104,8 +110,8 @@ public class AdressAdapter extends XmlAdapter<AdressAdapter.AdaptedAdress, Addre
             this.phone = null;
         }
 
-        public AdaptedAdress(String street, String number, String complement, String district, String cep, String cityIbgeCode, String cityDescription, String uf, String countryIbgeCode,
-                String countryDescription, String phone) {
+        public AdaptedAdress(final String street, final String number, final String complement, final String district, final String cep, final String cityIbgeCode, final String cityDescription,
+                final String uf, final String countryIbgeCode, final String countryDescription, final String phone) {
             this.street = street;
             this.number = number;
             this.complement = complement;

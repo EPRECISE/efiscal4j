@@ -35,7 +35,7 @@ abstract class BaseIPI extends IPI {
          * @param ipiFrameworkClass
          * @return
          */
-        public Builder withIpiFrameworkClass(String ipiFrameworkClass) {
+        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
             this.ipiFrameworkClass = ipiFrameworkClass;
             return this;
         }
@@ -46,7 +46,7 @@ abstract class BaseIPI extends IPI {
          * @param producerCNPJ
          * @return
          */
-        public Builder withProducerCNPJ(String producerCNPJ) {
+        public Builder withProducerCNPJ(final String producerCNPJ) {
             this.producerCNPJ = producerCNPJ;
             return this;
         }
@@ -57,7 +57,7 @@ abstract class BaseIPI extends IPI {
          * @param ipiSealCode
          * @return
          */
-        public Builder withIpiSealCode(String ipiSealCode) {
+        public Builder withIpiSealCode(final String ipiSealCode) {
             this.ipiSealCode = ipiSealCode;
             return this;
         }
@@ -68,7 +68,7 @@ abstract class BaseIPI extends IPI {
          * @param ipiSealQuantity
          * @return
          */
-        public Builder withIpiSealQuantity(String ipiSealQuantity) {
+        public Builder withIpiSealQuantity(final String ipiSealQuantity) {
             this.ipiSealQuantity = ipiSealQuantity;
             return this;
         }
@@ -79,7 +79,7 @@ abstract class BaseIPI extends IPI {
          * @param legalFramework
          * @return
          */
-        public Builder withLegalFramework(String legalFramework) {
+        public Builder withLegalFramework(final String legalFramework) {
             this.legalFramework = legalFramework;
             return this;
         }
@@ -87,12 +87,11 @@ abstract class BaseIPI extends IPI {
         abstract BaseIPI build();
     }
 
-    protected BaseIPI() {
-        super();
+    public BaseIPI() {
         this.cst = null;
     }
 
-    protected BaseIPI(Builder builder, String cst) {
+    protected BaseIPI(final Builder builder, final String cst) {
         super();
         this.cst = cst;
         this.ipiFrameworkClass = builder.ipiFrameworkClass;
