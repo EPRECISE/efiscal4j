@@ -166,6 +166,39 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCorrectionLetter(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+        String serviceUrl = null;
+
+        final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
+
+        if (!documentModel.equals(FiscalDocumentModel.NFE)) {
+            throw new IllegalStateException(documentModel.toString() + " not supported");
+        }
+
+        switch (eventDispatch.getEvents().get(0).getEventInfo().getTransmissionEnvironment()) {
+        case HOMOLOGACAO:
+            serviceUrl = NFeService.EVENT_RECEPTION.getHomologUrl(uf);
+            break;
+        case PRODUCAO:
+            serviceUrl = NFeService.EVENT_RECEPTION.getProductionUrl(uf);
+            break;
+        }
+
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
+
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+
+        responseXml = responseXml.substring(
+                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
+
+        return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
+    }
+
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
         //@formatter:off         
         return new SOAPEnvelope.Builder()

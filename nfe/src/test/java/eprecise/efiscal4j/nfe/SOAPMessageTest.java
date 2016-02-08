@@ -68,7 +68,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateNfeAuthorization() throws Exception {
         try {
             System.out.println("Testando NFeAutorizacao...");
@@ -188,7 +188,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void validateEventDispatchCancellation() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Cancelamento...");
@@ -206,6 +206,40 @@ public class SOAPMessageTest implements Testable {
 
             System.out.println(returnXml);
             System.out.println("RecepcaoEvento - Cancelamento - teste concluído");
+            System.out.println("");
+
+        } catch (final ConstraintViolationException e) {
+            final StringBuilder message = new StringBuilder("Erro de validação:");
+            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
+                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
+            }
+            Assert.assertTrue(message.toString(), false);
+        }
+    }
+
+    /**
+     * Teste do serviço de RecepcaoEvento - Carta de Correção
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void validateEventDispatchCorrectionLetter() throws Exception {
+        try {
+            System.out.println("Testando RecepcaoEvento - Carta de Correção...");
+
+            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCorrectionLetter();
+
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCorrectionLetter(eventDispatch, FiscalDocumentModel.NFE);
+
+            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(transmissionResult.getResponseXml(),
+                    EventDispatchResponseMethod.class).deserialize();
+
+            System.out.println("Retorno convertido:");
+
+            final String returnXml = new FiscalDocumentSerializer<EventDispatchResponseMethod>(eventDispatchResponseMethod).serialize();
+
+            System.out.println(returnXml);
+            System.out.println("RecepcaoEvento - Carta de Correção - teste concluído");
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {

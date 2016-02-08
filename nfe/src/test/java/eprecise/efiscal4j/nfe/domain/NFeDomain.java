@@ -56,7 +56,8 @@ import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.CancellationRequestResult;
 import eprecise.efiscal4j.nfe.sharing.CancellationRequestResultInfo;
 import eprecise.efiscal4j.nfe.sharing.Event;
-import eprecise.efiscal4j.nfe.sharing.EventDetail;
+import eprecise.efiscal4j.nfe.sharing.EventDetailCCe;
+import eprecise.efiscal4j.nfe.sharing.EventDetailCancellation;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventInfo;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
@@ -117,8 +118,8 @@ public class NFeDomain {
 
     public NFeDomain() {
         try {
-            final String certificatePath = System.getProperty(CERTIFICATE_PATH_PROPERTY);
-            final String certificatePin = System.getProperty(CERTIFICATE_PIN_PROPERTY);
+            final String certificatePath = System.getProperty(NFeDomain.CERTIFICATE_PATH_PROPERTY);
+            final String certificatePin = System.getProperty(NFeDomain.CERTIFICATE_PIN_PROPERTY);
             if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
                 this.signer = null;
                 this.transmissionChannel = null;
@@ -144,7 +145,7 @@ public class NFeDomain {
 
     public void assertCertificate() {
         if (!this.containsCertificate()) {
-            throw new IllegalStateException(CERTIFICATE_NOT_PRESENT_MESSAGE);
+            throw new IllegalStateException(NFeDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
         }
     }
 
@@ -902,8 +903,7 @@ public class NFeDomain {
                                                                           .withEventType(EventType.OPERACAO_NAO_REALIZADA)
                                                                           .withEventSeqNumber("1")
                                                                           .withEventVersion("1.00")
-                                                                          .withEventDetail(new EventDetail.Builder()
-                                                                                                 .withEventDescription(EventType.CANC_NFE.getDescription())
+                                                                          .withEventDetail(new EventDetailCancellation.Builder()                                                                                                 
                                                                                                  .withProtocolNumber("135120005426259")
                                                                                                  .withJustification("Teste de Cancelamento como Evento")
                                                                                                  .build())
@@ -1027,10 +1027,37 @@ public class NFeDomain {
                                                  .withEventType(EventType.CANC_NFE)
                                                  .withEventSeqNumber("1")
                                                  .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
-                                                 .withEventDetail(new EventDetail.Builder()
-                                                                        .withEventDescription(EventType.CANC_NFE.getDescription())
+                                                 .withEventDetail(new EventDetailCancellation.Builder()                                                                        
                                                                         .withProtocolNumber("141150000887513")
                                                                         .withJustification("Teste Teste Teste Teste")
+                                                                        .build())
+                                                 .build())
+                            .build(this.signer));
+        
+        
+        return new EventDispatch.Builder()
+                     .withBatchId("1")
+                     .withEvents(eventList)                                                                 
+                     .build();
+        //@formatter:on
+    }
+
+    public EventDispatch buildEventDispatchCorrectionLetter() throws Exception {
+        this.assertCertificate();
+        final ArrayList<Event> eventList = new ArrayList<>();
+        //@formatter:off        
+        eventList.add(new Event.Builder()
+                            .withEventInfo(new EventInfo.Builder()                                                 
+                                                 .withIbgeOrgan(IBGEOrgan.PR)
+                                                 .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
+                                                 .withAuthorCnpj("01219338000100")
+                                                 .withAcessKey("41150801219338000100550000000000021765232807")
+                                                 .withEventDateTime("2015-08-29T09:56:43-03:00")
+                                                 .withEventType(EventType.CCE)
+                                                 .withEventSeqNumber("1")
+                                                 .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
+                                                 .withEventDetail(new EventDetailCCe.Builder()                                                                        
+                                                                        .withCorrection("Correção teste de Carta de Correção")
                                                                         .build())
                                                  .build())
                             .build(this.signer));

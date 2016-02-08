@@ -18,8 +18,6 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.domain.SignatureType;
@@ -36,10 +34,10 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlType(propOrder = { "version", "eventInfo", "signature" })
 public class Event extends Assignable implements Serializable {
 
-    private static final long serialVersionUID = 1L;    
-    
+    private static final long serialVersionUID = 1L;
+
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
-    
+
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
 
     private @XmlElement(name = "infEvento") @NotNull @Valid final EventInfo eventInfo;
@@ -86,7 +84,7 @@ public class Event extends Assignable implements Serializable {
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).serialize();
+        return new FiscalDocumentSerializer<>(this).considering(Event.getValidationConsideringClasses()).serialize();
     }
 
     @Override
@@ -110,7 +108,7 @@ public class Event extends Assignable implements Serializable {
     }
 
     public static List<Class<?>> getValidationConsideringClasses() {
-        return Arrays.asList(LegalEntityDocuments.class, NaturalPersonDocuments.class, SignatureType.class);
+        return Arrays.asList(EventDetailCancellation.class, EventDetailCCe.class, SignatureType.class);
     }
 
 }

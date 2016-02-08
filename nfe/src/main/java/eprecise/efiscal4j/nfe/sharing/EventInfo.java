@@ -50,7 +50,6 @@ public class EventInfo implements Serializable {
 
     private @XmlElement(name = "verEvento") @NotNull final String eventVersion;
 
-    // TODO rever estrutura de detalhes do evento, especializando conforme o tipo de evento
     private @XmlElement(name = "detEvento") @NotNull final EventDetail eventDetail;
 
     public static class Builder {
