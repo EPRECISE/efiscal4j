@@ -86,6 +86,10 @@ public class Receiver implements Serializable {
             return new LegalEntityBuilder(this);
         }
 
+        public ForeignPersonBuilder asForeignPerson() {
+            return new ForeignPersonBuilder(this);
+        }
+
         public Receiver build() {
             final Receiver entity = new Receiver(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -130,6 +134,11 @@ public class Receiver implements Serializable {
 
         @Override
         public NaturalPersonBuilder asNaturalPerson() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ForeignPersonBuilder asForeignPerson() {
             throw new UnsupportedOperationException();
         }
 
@@ -183,6 +192,11 @@ public class Receiver implements Serializable {
         }
 
         @Override
+        public ForeignPersonBuilder asForeignPerson() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public Receiver build() {
             final Receiver entity = new Receiver(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -192,6 +206,60 @@ public class Receiver implements Serializable {
         @Override
         protected NaturalPersonDocuments getDocuments() {
             return (NaturalPersonDocuments) super.documents;
+        }
+    }
+
+    public static class ForeignPersonBuilder extends Builder {
+
+        protected ForeignPersonBuilder(Builder builder) {
+            super.documents = new ForeignPersonDocuments();
+        }
+
+        public ForeignPersonBuilder withForeignId(String foreignId) {
+            this.getDocuments().setForeignId(foreignId);
+            return this;
+        }
+
+        public ForeignPersonBuilder withCorporateName(String corporateName) {
+            this.getDocuments().setCorporateName(corporateName);
+            return this;
+        }
+
+        @Override
+        public ForeignPersonBuilder withStateRegistration(String stateRegistration) {
+            return (ForeignPersonBuilder) super.withStateRegistration(stateRegistration);
+        }
+
+        @Override
+        public ForeignPersonBuilder withMunicipalRegistration(String municipalRegistration) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public LegalEntityBuilder asLegalEntity() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public NaturalPersonBuilder asNaturalPerson() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ForeignPersonBuilder asForeignPerson() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Receiver build() {
+            final Receiver entity = new Receiver(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+
+        @Override
+        protected ForeignPersonDocuments getDocuments() {
+            return (ForeignPersonDocuments) super.documents;
         }
     }
 

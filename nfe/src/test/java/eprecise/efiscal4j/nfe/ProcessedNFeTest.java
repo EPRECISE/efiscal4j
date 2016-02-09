@@ -1,9 +1,9 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.domain.NFeDomain;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
@@ -33,17 +35,20 @@ public class ProcessedNFeTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final DecimalFormat formatter = new DecimalFormat("000");
-        for (int fileCount = 1; fileCount <= 999; fileCount++) {
-            final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfeProc/" + (formatter.format(fileCount)) + ".xml";
-            final URL xmlUrl = this.getClass().getResource(xmlPath);
-            if (xmlUrl == null) {
-                System.out.println("Arquivo " + xmlPath + " não encontrado. Finalizando teste.");
-                return;
-            }
-            System.out.println("Importando " + xmlPath + "...");
+        final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfeProc";
+
+        final File folder = new File(this.getClass().getResource(xmlPath).toURI());
+        final File[] fileList = folder.listFiles();
+
+        if (fileList == null) {
+            return;
+        }
+
+        for (final File file : fileList) {
+            final URL xmlUrl = this.getClass().getResource(xmlPath + "/" + file.getName());
+            System.out.println("Importando " + xmlUrl.toString() + "...");
             this.xmlImportTest(xmlUrl);
-            System.out.println(xmlPath + " - Importação finalizada\n");
+            System.out.println(xmlUrl.toString() + " - Importação finalizada\n");
         }
     }
 
@@ -52,6 +57,13 @@ public class ProcessedNFeTest implements Testable {
         Assert.assertNotNull(processedNFe);
         try {
             ValidationBuilder.from(processedNFe).validate().throwIfViolate();
+
+            final String xml = new FiscalDocumentSerializer<>(processedNFe).serialize();
+
+            System.out.println(xml + "\n");
+
+            final ValidationResult validate = this.getTestDomain().getValidator().validate(xml);
+            Assert.assertTrue(validate.getError(), validate.isValid());
         } catch (final ConstraintViolationException e) {
             this.handleErrors(e);
         }

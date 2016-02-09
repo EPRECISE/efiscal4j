@@ -1,9 +1,9 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
@@ -32,17 +32,20 @@ public class NFeTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final DecimalFormat formatter = new DecimalFormat("000");
-        for (int fileCount = 1; fileCount <= 999; fileCount++) {
-            final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfe/" + (formatter.format(fileCount)) + ".xml";
-            final URL xmlUrl = this.getClass().getResource(xmlPath);
-            if (xmlUrl == null) {
-                System.out.println("Arquivo " + xmlPath + " não encontrado. Finalizando teste.");
-                return;
-            }
-            System.out.println("Importando " + xmlPath + "...");
+        final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfe";
+
+        final File folder = new File(this.getClass().getResource(xmlPath).toURI());
+        final File[] fileList = folder.listFiles();
+
+        if (fileList == null) {
+            return;
+        }
+
+        for (final File file : fileList) {
+            final URL xmlUrl = this.getClass().getResource(xmlPath + "/" + file.getName());
+            System.out.println("Importando " + xmlUrl.toString() + "...");
             this.xmlImportTest(xmlUrl);
-            System.out.println(xmlPath + " - Importação finalizada\n");
+            System.out.println(xmlUrl.toString() + " - Importação finalizada\n");
         }
     }
 

@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1110Variable;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
@@ -69,7 +69,9 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
 
-    private @XmlElement(name = "med") @Size(max = 500) @NotNull @Valid final List<Medications> medications;
+    private @XmlElement(name = "med") @Size(max = 500) @Valid final List<Medications> medications;
+
+    private @XmlElement(name = "DI") @Size(max = 100) @Valid final List<ImportDeclaration> importDeclarations;
 
     public static class Builder {
 
@@ -110,6 +112,8 @@ public class NFeItem implements Serializable {
         private String othersValue;
 
         private List<Medications> medications;
+
+        private List<ImportDeclaration> importDeclarations;
 
         /**
          * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
@@ -309,8 +313,8 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * Medicamentos e matérias-primas farmacêuticas
-         *
+         * 
+         * @see Medications
          * @param medications
          * @return
          */
@@ -320,16 +324,13 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * Medicamentos e matérias-primas farmacêuticas
-         *
-         * @param medication
+         * 
+         * @see ImportDeclaration
+         * @param importDeclarations
          * @return
          */
-        public Builder addMedication(final Medications medication) {
-            if (this.medications == null) {
-                this.medications = new ArrayList<>();
-            }
-            this.medications.add(medication);
+        public Builder withImportDeclarations(final List<ImportDeclaration> importDeclarations) {
+            this.importDeclarations = importDeclarations;
             return this;
         }
 
@@ -360,6 +361,7 @@ public class NFeItem implements Serializable {
         this.freightValue = null;
         this.othersValue = null;
         this.medications = null;
+        this.importDeclarations = null;
     }
 
     public NFeItem(final Builder builder) {
@@ -382,6 +384,7 @@ public class NFeItem implements Serializable {
         this.freightValue = builder.freightValue;
         this.othersValue = builder.othersValue;
         this.medications = builder.medications;
+        this.importDeclarations = builder.importDeclarations;
     }
 
     public String getItemCode() {
@@ -462,6 +465,10 @@ public class NFeItem implements Serializable {
 
     public List<Medications> getMedications() {
         return this.medications;
+    }
+
+    public List<ImportDeclaration> getImportDeclarations() {
+        return this.importDeclarations;
     }
 
 }

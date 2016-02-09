@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe.address;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,9 +16,9 @@ public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "cPais") @NotNull final String ibgeCode;
+    private @XmlElement(name = "cPais") final String ibgeCode;
 
-    private @XmlElement(name = "xPais") @NotNull @Size(min = 2, max = 60) final String description;
+    private @XmlElement(name = "xPais") @Size(min = 2, max = 60) final String description;
 
     public static class Builder {
 
@@ -38,7 +37,7 @@ public class Country implements Serializable {
         }
 
         public Country build() {
-            Country entity = new Country(this);
+            final Country entity = new Country(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }

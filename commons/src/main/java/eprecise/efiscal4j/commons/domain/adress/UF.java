@@ -43,7 +43,8 @@ public enum UF implements Serializable {
     @XmlEnumValue("42") SC("42", "Santa Catarina"),
     @XmlEnumValue("28") SE("28", "Sergipe"),
     @XmlEnumValue("35") SP("35", "Sao Paulo"),
-    @XmlEnumValue("17") TO("17", "Tocantins");
+    @XmlEnumValue("17") TO("17", "Tocantins"),
+    @XmlEnumValue("99") EX("99", "Exterior");
 
     private static final long serialVersionUID = 1L;
 

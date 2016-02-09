@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import eprecise.efiscal4j.nfe.ForeignPersonDocuments;
 import eprecise.efiscal4j.nfe.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.Receiver;
@@ -20,6 +21,10 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
 
     @Override
     public Receiver unmarshal(AdaptedReceiver adaptedReceiver) throws Exception {
+        if (adaptedReceiver == null) {
+            return null;
+        }
+
         Receiver receiver;
 
         //@formatter:off
@@ -34,7 +39,7 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
             .withEmail(adaptedReceiver.getAdaptedEmail())
             .withAdress(adaptedReceiver.getAdaptedAdress())
             .build();
-        }else{
+        }else if(adaptedReceiver.getAdaptedCnpj() != null){
             receiver = new Receiver.Builder()
             .asLegalEntity()
             .withCnpj(adaptedReceiver.getAdaptedCnpj())
@@ -45,22 +50,32 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
             .withEmail(adaptedReceiver.getAdaptedEmail())
             .withAdress(adaptedReceiver.getAdaptedAdress())
             .build();
+        }else if(adaptedReceiver.getAdaptedForeignId() != null){
+            receiver = new Receiver.Builder()
+            .asForeignPerson()
+            .withForeignId(adaptedReceiver.getAdaptedForeignId())
+            .withCorporateName(adaptedReceiver.getAdaptedName())
+            .withStateRegistration(adaptedReceiver.getAdaptedStateRegistration())            
+            .withStateRegistrationReceiverIndicator(adaptedReceiver.getAdaptedStateRegistrationReceiverIndicator())
+            .withEmail(adaptedReceiver.getAdaptedEmail())
+            .withAdress(adaptedReceiver.getAdaptedAdress())
+            .build();
+        }else{
+            throw new UnsupportedOperationException();            
         }
-
         //@formatter:on
+
         return receiver;
     }
 
     @Override
     public AdaptedReceiver marshal(Receiver receiver) throws Exception {
-        //@formatter:off
-
-        if(receiver == null){
+        if (receiver == null) {
             return null;
         }
 
         AdaptedReceiver adaptedReceiver = null;
-
+        //@formatter:off
         adaptedReceiver = new AdaptedReceiver(receiver.getDocuments().getStateRegistration()
                 ,receiver.getMunicipalRegistration()
                 ,receiver.getAdress()
@@ -73,14 +88,19 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
         } else if (receiver.getDocuments() instanceof LegalEntityDocuments) {
             adaptedReceiver.setAdaptedCnpj(((LegalEntityDocuments)receiver.getDocuments()).getCnpj());
             adaptedReceiver.setAdaptedName(((LegalEntityDocuments)receiver.getDocuments()).getCorporateName());
-        }
+        } else if (receiver.getDocuments() instanceof ForeignPersonDocuments) {
+            adaptedReceiver.setAdaptedForeignId(((ForeignPersonDocuments)receiver.getDocuments()).getForeignId());
+            adaptedReceiver.setAdaptedName(((ForeignPersonDocuments)receiver.getDocuments()).getCorporateName());
+        }else{
+            throw new UnsupportedOperationException();            
+        }        
         //@formatter:on
 
         return adaptedReceiver;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(propOrder = { "cnpj", "cpf", "name", "adress", "stateRegistrationReceiverIndicator", "stateRegistration", "municipalRegistration", "email" })
+    @XmlType(propOrder = { "cnpj", "cpf", "foreignId", "name", "adress", "stateRegistrationReceiverIndicator", "stateRegistration", "municipalRegistration", "email" })
     protected static class AdaptedReceiver implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -88,6 +108,8 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
         private @XmlElement(name = "CNPJ") String cnpj;
 
         private @XmlElement(name = "CPF") String cpf;
+
+        private @XmlElement(name = "idEstrangeiro") String foreignId;
 
         private @XmlElement(name = "xNome") String name;
 
@@ -129,6 +151,10 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
             return this.cpf;
         }
 
+        public String getAdaptedForeignId() {
+            return this.foreignId;
+        }
+
         public String getAdaptedStateRegistration() {
             return this.stateRegistration;
         }
@@ -159,6 +185,10 @@ public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver,
 
         public void setAdaptedCpf(String cpf) {
             this.cpf = cpf;
+        }
+
+        public void setAdaptedForeignId(String foreignId) {
+            this.foreignId = foreignId;
         }
 
     }

@@ -91,10 +91,10 @@ public class NFe extends Assignable implements Serializable {
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (NFe) signer.sign(entity);
             if (entity.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
-                if (csc == null) {
+                if (this.csc == null) {
                     throw new IllegalStateException("CSC não informado para NFCE");
                 }
-                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, csc).build()).build());
+                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, this.csc).build()).build());
             }
             return entity;
         }
@@ -102,10 +102,12 @@ public class NFe extends Assignable implements Serializable {
 
     public NFe() {
         this.nFeInfo = null;
+        this.nFeSuplementaryInfo = null;
     }
 
     public NFe(final Builder builder) {
         this.nFeInfo = builder.nFeInfo;
+        this.nFeSuplementaryInfo = builder.nFeSuplementaryInfo;
     }
 
     public String getXmlns() {
@@ -117,10 +119,10 @@ public class NFe extends Assignable implements Serializable {
     }
 
     public NFeSuplementaryInfo getnFeSuplementaryInfo() {
-        return nFeSuplementaryInfo;
+        return this.nFeSuplementaryInfo;
     }
 
-    public void setnFeSuplementaryInfo(final NFeSuplementaryInfo nFeSuplementaryInfo) {
+    private void setnFeSuplementaryInfo(final NFeSuplementaryInfo nFeSuplementaryInfo) {
         this.nFeSuplementaryInfo = nFeSuplementaryInfo;
     }
 
