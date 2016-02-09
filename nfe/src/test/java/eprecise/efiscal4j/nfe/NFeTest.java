@@ -2,8 +2,9 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.IOException;
+import java.net.URL;
+import java.text.DecimalFormat;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
 
@@ -12,8 +13,6 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.domain.NFeDomain;
 
 
@@ -23,51 +22,47 @@ public class NFeTest implements Testable {
 
     @Test
     public void validateByBeanValidation() throws Exception {
-        try {
-            ValidationBuilder.from(this.getTestDomain().buildNFe()).validate().throwIfViolate();
-        } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-
-            Assert.assertTrue(message.toString(), false);
-        }
+        this.validateByBeanValidationDefault();
     }
 
     @Test
     public void validateByXSD() throws Exception {
-        final String xml = new FiscalDocumentSerializer<>(this.getTestDomain().buildNFe()).serialize();
-        System.out.println(xml);
-        final ValidationResult validate = this.getTestDomain().getValidator().validate(xml);
-        Assert.assertTrue(validate.getError(), validate.isValid());
+        this.validateByXSDDefault();
     }
 
     @Test
-    public void xmlImportTest() throws JAXBException, IOException {
-        //@formatter:off
-        final NFe nfe = new FiscalDocumentDeserializer<NFe>(this.getClass().getResource("/eprecise/efiscal4j/nfe/in/xml/test_nfe.xml"), NFe.class)
-                .considering(NFe.getValidationConsideringClasses()).deserialize();
-        //@formatter:on
+    public void xmlImportTestBatch() throws Exception {
+        final DecimalFormat formatter = new DecimalFormat("000");
+        for (int fileCount = 1; fileCount <= 999; fileCount++) {
+            final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfe/" + (formatter.format(fileCount)) + ".xml";
+            final URL xmlUrl = this.getClass().getResource(xmlPath);
+            if (xmlUrl == null) {
+                System.out.println("Arquivo " + xmlPath + " não encontrado. Finalizando teste.");
+                return;
+            }
+            System.out.println("Importando " + xmlPath + "...");
+            this.xmlImportTest(xmlUrl);
+            System.out.println(xmlPath + " - Importação finalizada\n");
+        }
+    }
 
+    private void xmlImportTest(URL xmlUrl) throws JAXBException, IOException {
+        final NFe nfe = new FiscalDocumentDeserializer<NFe>(xmlUrl, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
         Assert.assertNotNull(nfe);
-        Assert.assertEquals("11707347000195", nfe.getNFeInfo().getEmitter().getDocuments().getCnpjCpf());
-
         try {
             ValidationBuilder.from(nfe).validate().throwIfViolate();
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
     @Override
     public NFeDomain getTestDomain() {
         return this.nFeDomain;
+    }
+
+    @Override
+    public Object getBuiltEntity() throws Exception {
+        return this.getTestDomain().buildNFe();
     }
 }

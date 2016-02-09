@@ -4,12 +4,12 @@ package eprecise.efiscal4j.nfe;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfe.domain.NFeDomain;
-import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
+import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 
 
-public class NFeDispatchResponseTest implements Testable {
+public class EventDispatchCorrectionLetterTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain(NFeDispatchResponse.XSD);
+    private final NFeDomain nFeDomain = new NFeDomain(EventDispatch.XSD_CORRECT_LETTER);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -18,7 +18,7 @@ public class NFeDispatchResponseTest implements Testable {
 
     @Test
     public void validateByXSD() throws Exception {
-        this.validateByBeanValidationDefault();
+        this.validateByXSDDefault();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class NFeDispatchResponseTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildNFeDispatchResponse();
+        return this.getTestDomain().buildEventDispatchCorrectionLetter();
     }
 
 }

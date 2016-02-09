@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<nfeCabecMsg>
-    <enviNFe xsi:type="nFeDispatch" xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<nfeDadosMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3">
+    <enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
         <idLote>1</idLote>
         <indSinc>1</indSinc>
-        <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-            <infNFe versao="3.10" Id="NFe41150314241297000191550010000000011765232801">
+        <NFe>
+            <infNFe Id="NFe41150314241297000191550010000000011765232801" versao="3.10">
                 <ide>
                     <cUF>41</cUF>
                     <cNF>76523280</cNF>
@@ -215,4 +215,4 @@
             </infNFe>
         </NFe>
     </enviNFe>
-</nfeCabecMsg>
+</nfeDadosMsg>

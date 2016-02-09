@@ -51,6 +51,7 @@ import eprecise.efiscal4j.nfe.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.charging.Duplicate;
 import eprecise.efiscal4j.nfe.charging.Invoice;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.sharing.BatchReceipt;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.CancellationRequestResult;
@@ -65,6 +66,7 @@ import eprecise.efiscal4j.nfe.sharing.EventResponse;
 import eprecise.efiscal4j.nfe.sharing.EventResponseInfo;
 import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
@@ -139,11 +141,11 @@ public class NFeDomain {
         this.setXsdPath(xsdPath);
     }
 
-    public boolean containsCertificate() {
+    private boolean containsCertificate() {
         return this.signer != null && this.transmissionChannel != null;
     }
 
-    public void assertCertificate() {
+    private void assertCertificate() {
         if (!this.containsCertificate()) {
             throw new IllegalStateException(NFeDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
         }
@@ -842,6 +844,23 @@ public class NFeDomain {
         //@formatter:on
     }
 
+    public NFeDispatchResponse buildNFeDispatchResponse() throws Exception {
+        //@formatter:off
+        return new NFeDispatchResponse.Builder()
+                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
+                     .withApplicationVersion("PR-v3_3_2")
+                     .withStatusCode("103")
+                     .withStatusDescription("Lote recebido com sucesso")
+                     .withServiceUf(UF.PR)
+                     .withReceptionDateTime("2013-02-06T14:51:09-02:00")
+                     .withBatchReceipt(new BatchReceipt.Builder()
+                                             .withReceiptNumber("431000015906453")
+                                             .withAverageTime("1")
+                                             .build())                                                                  
+                    .build();
+        //@formatter:on
+    }
+
     public NFeStatusSearchResponse buildNFeStatusSearchResponse() throws Exception {
         //@formatter:off
         return new NFeStatusSearchResponse.Builder()
@@ -1021,7 +1040,7 @@ public class NFeDomain {
                             .withEventInfo(new EventInfo.Builder()                                                 
                                                  .withIbgeOrgan(IBGEOrgan.PR)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("01219338000100")
+                                                 .withAuthorCnpj("14241297000191")
                                                  .withAcessKey("41150801219338000100550000000000021765232807")
                                                  .withEventDateTime("2015-08-29T09:56:43-03:00")
                                                  .withEventType(EventType.CANC_NFE)
@@ -1050,7 +1069,7 @@ public class NFeDomain {
                             .withEventInfo(new EventInfo.Builder()                                                 
                                                  .withIbgeOrgan(IBGEOrgan.PR)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("01219338000100")
+                                                 .withAuthorCnpj("14241297000191")
                                                  .withAcessKey("41150801219338000100550000000000021765232807")
                                                  .withEventDateTime("2015-08-29T09:56:43-03:00")
                                                  .withEventType(EventType.CCE)

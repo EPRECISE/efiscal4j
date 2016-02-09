@@ -14,7 +14,6 @@ import javax.xml.namespace.QName;
  * @author Felipe Bueno
  *
  */
-
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlTransient
 public abstract class Receivable {

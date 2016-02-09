@@ -1,10 +1,8 @@
 
 package eprecise.efiscal4j.nfe;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
@@ -55,11 +53,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
@@ -88,11 +82,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
@@ -132,11 +122,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
@@ -175,11 +161,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
@@ -205,15 +187,10 @@ public class SOAPMessageTest implements Testable {
             final String returnXml = new FiscalDocumentSerializer<EventDispatchResponseMethod>(eventDispatchResponseMethod).serialize();
 
             System.out.println(returnXml);
-            System.out.println("RecepcaoEvento - Cancelamento - teste concluído");
-            System.out.println("");
+            System.out.println("RecepcaoEvento - Cancelamento - teste concluído\n");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
@@ -243,17 +220,18 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            final StringBuilder message = new StringBuilder("Erro de validação:");
-            for (final ConstraintViolation<?> v : e.getConstraintViolations()) {
-                message.append("\n").append(v.getLeafBean()).append(" ").append(v.getPropertyPath()).append(" ").append(v.getMessage());
-            }
-            Assert.assertTrue(message.toString(), false);
+            this.handleErrors(e);
         }
     }
 
     @Override
     public NFeDomain getTestDomain() {
         return this.nFeDomain;
+    }
+
+    @Override
+    public Object getBuiltEntity() throws Exception {
+        return null;
     }
 
 }
