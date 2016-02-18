@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.sharing;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import javax.validation.constraints.NotNull;
@@ -236,7 +237,7 @@ public class EventInfo implements Serializable {
         eventId.append("ID");
         eventId.append(this.getEventType().getCode());
         eventId.append(this.getAcessKey());
-        eventId.append("0" + this.getEventSeqNumber());
+        eventId.append(new DecimalFormat("00").format(Integer.valueOf(this.getEventSeqNumber())));
 
         return eventId.toString();
     }

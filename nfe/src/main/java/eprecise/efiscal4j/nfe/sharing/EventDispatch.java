@@ -38,7 +38,7 @@ public class EventDispatch extends TransmissibleBodyImpl implements Serializable
 
     public static final String XSD_CANC = "/eprecise/efiscal4j/nfe/xsd/event/cancellation/envEventoCancNFe_v1.00.xsd";
 
-    public static final String XSD_CORRECT_LETTER = "/eprecise/efiscal4j/nfe/xsd/event/correctionLetter/envCCe_v1.00.xsd";
+    public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/xsd/event/cce/envCCe_v1.00.xsd";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

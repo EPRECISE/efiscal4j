@@ -1061,7 +1061,7 @@ public class NFeDomain {
         //@formatter:on
     }
 
-    public EventDispatch buildEventDispatchCorrectionLetter() throws Exception {
+    public EventDispatch buildEventDispatchCCe() throws Exception {
         this.assertCertificate();
         final ArrayList<Event> eventList = new ArrayList<>();
         //@formatter:off        

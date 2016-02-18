@@ -166,7 +166,7 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCorrectionLetter(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCCe(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());

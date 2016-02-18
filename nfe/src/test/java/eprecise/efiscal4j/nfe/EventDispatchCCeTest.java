@@ -7,9 +7,9 @@ import eprecise.efiscal4j.nfe.domain.NFeDomain;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 
 
-public class EventDispatchCorrectionLetterTest implements Testable {
+public class EventDispatchCCeTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain(EventDispatch.XSD_CORRECT_LETTER);
+    private final NFeDomain nFeDomain = new NFeDomain(EventDispatch.XSD_CCE);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -28,7 +28,7 @@ public class EventDispatchCorrectionLetterTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildEventDispatchCorrectionLetter();
+        return this.getTestDomain().buildEventDispatchCCe();
     }
 
 }

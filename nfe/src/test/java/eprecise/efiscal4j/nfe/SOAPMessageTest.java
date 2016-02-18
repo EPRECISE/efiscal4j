@@ -200,13 +200,13 @@ public class SOAPMessageTest implements Testable {
      * @throws Exception
      */
     @Test
-    public void validateEventDispatchCorrectionLetter() throws Exception {
+    public void validateEventDispatchCCe() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Carta de Correção...");
 
-            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCorrectionLetter();
+            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCCe();
 
-            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCorrectionLetter(eventDispatch, FiscalDocumentModel.NFE);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCCe(eventDispatch, FiscalDocumentModel.NFE);
 
             final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<EventDispatchResponseMethod>(transmissionResult.getResponseXml(),
                     EventDispatchResponseMethod.class).deserialize();
