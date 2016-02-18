@@ -12,10 +12,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.AbstractDocuments;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.address.City;
+import eprecise.efiscal4j.nfe.person.AbstractDocuments;
+import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
 

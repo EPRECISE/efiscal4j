@@ -2,7 +2,9 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -12,6 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.refdocuments.ReferencedDocuments;
 import eprecise.efiscal4j.nfe.types.NFeCityIBGECode;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeFiscalDocumentNumber;
@@ -66,6 +69,8 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @NFeString final String applicationVersion;
 
+    private @XmlElement(name = "NFref") @Size(max = 500) @Valid final List<ReferencedDocuments> referencedDocuments;
+
     public static class Builder {
 
         private UF ufIbgeCode;
@@ -107,6 +112,8 @@ public class NFeIdentification implements Serializable {
         private NFeTransmissionProcess nFeTransmissionProcess;
 
         private String applicationVersion;
+
+        private List<ReferencedDocuments> referencedDocuments;
 
         public Builder withUFIbgeCode(UF ufIbgeCode) {
             this.ufIbgeCode = ufIbgeCode;
@@ -214,6 +221,16 @@ public class NFeIdentification implements Serializable {
             return this;
         }
 
+        /**
+         * @see ReferencedDocuments
+         * @param referencedDocuments
+         * @return
+         */
+        public Builder withReferencedDocuments(List<ReferencedDocuments> referencedDocuments) {
+            this.referencedDocuments = referencedDocuments;
+            return this;
+        }
+
         public NFeIdentification build() {
             return new NFeIdentification(this);
         }
@@ -237,6 +254,7 @@ public class NFeIdentification implements Serializable {
         this.purchaserPresenceIndicator = null;
         this.nFeTransmissionProcess = null;
         this.applicationVersion = null;
+        this.referencedDocuments = null;
     }
 
     public NFeIdentification(Builder builder) {
@@ -260,6 +278,7 @@ public class NFeIdentification implements Serializable {
         this.purchaserPresenceIndicator = builder.purchaserPresenceIndicator;
         this.nFeTransmissionProcess = builder.nFeTransmissionProcess;
         this.applicationVersion = builder.applicationVersion;
+        this.referencedDocuments = builder.referencedDocuments;
     }
 
     public UF getUfIbgeCode() {
@@ -340,6 +359,10 @@ public class NFeIdentification implements Serializable {
 
     public String getApplicationVersion() {
         return this.applicationVersion;
+    }
+
+    public List<ReferencedDocuments> getReferencedDocuments() {
+        return this.referencedDocuments;
     }
 
     protected void setChecksum(int checksum) {

@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import eprecise.efiscal4j.commons.domain.adress.UF;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.address.City;
+import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 
 
 public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor, Conveyor> {

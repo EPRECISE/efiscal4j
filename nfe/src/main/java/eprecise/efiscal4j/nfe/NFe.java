@@ -18,6 +18,8 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfce.CSC;
+import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.qrCode.NFCeQRCodeBuilder;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;

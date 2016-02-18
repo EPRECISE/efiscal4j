@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.person;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.CRT;
 import eprecise.efiscal4j.nfe.adapter.EmitterAdapter;
 import eprecise.efiscal4j.nfe.address.Address;
 import eprecise.efiscal4j.nfe.types.NFeString;

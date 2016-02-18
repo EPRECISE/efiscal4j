@@ -4,8 +4,8 @@ package eprecise.efiscal4j.nfe.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eprecise.efiscal4j.nfe.Receiver;
 import eprecise.efiscal4j.nfe.StateRegistrationReceiverIndicator;
+import eprecise.efiscal4j.nfe.person.Receiver;
 
 
 /**

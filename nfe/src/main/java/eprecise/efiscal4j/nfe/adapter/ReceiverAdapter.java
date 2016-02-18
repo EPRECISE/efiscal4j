@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import eprecise.efiscal4j.nfe.ForeignPersonDocuments;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.Receiver;
 import eprecise.efiscal4j.nfe.StateRegistrationReceiverIndicator;
 import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.person.ForeignPersonDocuments;
+import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.person.Receiver;
 
 
 public class ReceiverAdapter extends XmlAdapter<ReceiverAdapter.AdaptedReceiver, Receiver> {

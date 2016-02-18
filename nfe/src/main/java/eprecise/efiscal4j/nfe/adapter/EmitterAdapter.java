@@ -10,10 +10,10 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import eprecise.efiscal4j.nfe.CRT;
-import eprecise.efiscal4j.nfe.Emitter;
-import eprecise.efiscal4j.nfe.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.address.Address;
+import eprecise.efiscal4j.nfe.person.Emitter;
+import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 
 
 public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Emitter> {

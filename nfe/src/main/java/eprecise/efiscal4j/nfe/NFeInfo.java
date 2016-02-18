@@ -24,6 +24,8 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.payment.NFePayment;
+import eprecise.efiscal4j.nfe.person.Emitter;
+import eprecise.efiscal4j.nfe.person.Receiver;
 import eprecise.efiscal4j.nfe.total.NFeTotal;
 import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.validation.NFePaymentValidation;

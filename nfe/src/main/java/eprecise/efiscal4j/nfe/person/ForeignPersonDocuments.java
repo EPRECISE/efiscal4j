@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.person;
 
 import java.io.Serializable;
 

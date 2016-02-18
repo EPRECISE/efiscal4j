@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe;
+package eprecise.efiscal4j.nfe.person;
 
 import java.io.Serializable;
 
@@ -27,11 +27,11 @@ public abstract class AbstractDocuments implements Serializable {
 
     private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
 
-    protected String getAbstractName() {
+    public String getAbstractName() {
         return this.abstractName;
     }
 
-    protected void setAbstractName(final String abstractName) {
+    public void setAbstractName(final String abstractName) {
         this.abstractName = abstractName.trim();
     }
 

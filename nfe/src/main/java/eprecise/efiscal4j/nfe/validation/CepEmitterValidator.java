@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eprecise.efiscal4j.nfe.Emitter;
+import eprecise.efiscal4j.nfe.person.Emitter;
 
 
 /**
