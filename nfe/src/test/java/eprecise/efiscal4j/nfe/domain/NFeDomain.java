@@ -49,6 +49,10 @@ import eprecise.efiscal4j.nfe.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.charging.Duplicate;
 import eprecise.efiscal4j.nfe.charging.Invoice;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.item.di.Addition;
+import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
+import eprecise.efiscal4j.nfe.item.di.IntermediaryImportType;
+import eprecise.efiscal4j.nfe.item.di.InternationalTransportPathway;
 import eprecise.efiscal4j.nfe.person.Emitter;
 import eprecise.efiscal4j.nfe.person.Receiver;
 import eprecise.efiscal4j.nfe.sharing.BatchReceipt;
@@ -216,6 +220,34 @@ public class NFeDomain {
     public NFe buildNFe() throws Exception {
         this.assertCertificate();
         //@formatter:off       
+        
+        final List<Addition> additionList = new ArrayList<>();
+        additionList.add(new Addition.Builder()
+                        .withDiscountValue("3.00")
+                        .withDrawbackNumber("4444")
+                        .withManufacturerCode("2222")
+                        .withNumber("111")
+                        .withSequence("1")
+                        .build()); 
+        
+        
+        final List<ImportDeclaration> importDeclarationList = new ArrayList<>();
+        importDeclarationList.add(new ImportDeclaration.Builder()
+                                 .withNumber("001")
+                                 .withDate("2016-02-01")
+                                 .withClearanceSpot("Everywhere")
+                                 .withClearanceUf(UF.AC)
+                                 .withClearanceDate("2016-01-01")
+                                 .withInternationalTransportPathway(InternationalTransportPathway.LACUSTRE)
+                                 .withAdditValShipMerchMarineRenovation("10.00")
+                                 .withIntermediaryImportType(IntermediaryImportType.POR_CONTA_PROPRIA)
+                                 .withAcquirerOrOrderingPartyCnpj("88088688000154")
+                                 .withAcquirerOrOrderingPartyUf(UF.AC)
+                                 .withExporterCode("1234")
+                                 .withAdditions(additionList)
+                                 .build()); 
+        
+        
         final List<NFeDetail> nFeDetailList = new ArrayList<>();
         nFeDetailList.add(new NFeDetail.Builder()
                          .withItemOrder("1")
@@ -235,6 +267,7 @@ public class NFeDomain {
                                 .withTaxableUnit("UN")
                                 .withTaxableUnitGlobalTradeItemNumber("123456789012")
                                 .withTaxationUnitaryValue("10.00")
+                                .withImportDeclarations(importDeclarationList)
                                 .build())
                          .withTax(
                              new Tax.Builder()
@@ -614,6 +647,15 @@ public class NFeDomain {
                           .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL) 
                           .build());
                     
+//        final List<ReferencedDocuments> referencedDocuments = new ArrayList<>();
+//        referencedDocuments.add(
+//                           new ReferencedDocuments.Builder()
+//                          .withReferencedNFe(
+//                                  new ReferencedNFe.Builder()
+//                                  .withAcessKey("31120501474452000178550010000002101000002102")
+//                                  .build())
+//                          .build());
+        
         return new NFe.Builder()
             .withNFeInfo(new NFeInfo.Builder()
                          .withNFeIdentification(
@@ -637,6 +679,7 @@ public class NFeDomain {
                                           .withTaxableEventCityIbgeCode("4104659")
                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                           .withUFIbgeCode(UF.PR)
+//                                          .withReferencedDocuments(referencedDocuments)
                                           .build())            
                          .withEmitter(
                                  new Emitter.Builder()

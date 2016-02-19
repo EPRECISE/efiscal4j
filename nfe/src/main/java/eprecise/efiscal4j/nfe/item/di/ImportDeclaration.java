@@ -49,7 +49,7 @@ public class ImportDeclaration implements Serializable {
 
     private @XmlElement(name = "CNPJ") @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String acquirerOrOrderingPartyCnpj;
 
-    private @XmlElement(name = "UFTerceiro") final UF acquirerOrOrderingPartyUf;
+    private @XmlElement(name = "UFTerceiro") final String acquirerOrOrderingPartyUf;
 
     private @XmlElement(name = "cExportador") @NotNull @Size(min = 1, max = 60) @NFeString final String exporterCode;
 
@@ -75,7 +75,7 @@ public class ImportDeclaration implements Serializable {
 
         private String acquirerOrOrderingPartyCnpj;
 
-        private UF acquirerOrOrderingPartyUf;
+        private String acquirerOrOrderingPartyUf;
 
         private String exporterCode;
 
@@ -185,7 +185,7 @@ public class ImportDeclaration implements Serializable {
          * @return
          */
         public Builder withAcquirerOrOrderingPartyUf(UF acquirerOrOrderingPartyUf) {
-            this.acquirerOrOrderingPartyUf = acquirerOrOrderingPartyUf;
+            this.acquirerOrOrderingPartyUf = acquirerOrOrderingPartyUf.getAcronym();
             return this;
         }
 
@@ -286,7 +286,7 @@ public class ImportDeclaration implements Serializable {
     }
 
     public UF getAcquirerOrOrderingPartyUf() {
-        return this.acquirerOrOrderingPartyUf;
+        return UF.findByAcronym(this.acquirerOrOrderingPartyUf);
     }
 
     public String getExporterCode() {
