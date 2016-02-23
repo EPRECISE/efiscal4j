@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.person;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -32,7 +33,7 @@ public abstract class AbstractDocuments implements Serializable {
     }
 
     public void setAbstractName(final String abstractName) {
-        this.abstractName = abstractName.trim();
+        this.abstractName = Optional.ofNullable(abstractName).map(String::trim).orElse(null);
     }
 
     public String getStateRegistration() {
