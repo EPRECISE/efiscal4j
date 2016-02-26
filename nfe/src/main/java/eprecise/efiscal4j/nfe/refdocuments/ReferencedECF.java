@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -107,10 +108,10 @@ public class ReferencedECF implements Serializable {
 
     @XmlType
     @XmlEnum(String.class)
-    enum ReferecedECFModel {
-                            NAO_ECF("2B", "Cupom emitido por registradora (não ECF)"),
-                            ECF_PDV("2C", "Cupom fiscal PDV"),
-                            ECF("2D", "Cupom fiscal ECF");
+    public enum ReferecedECFModel {
+                                   @XmlEnumValue("2B") NAO_ECF("2B", "Cupom emitido por registradora (não ECF)"),
+                                   @XmlEnumValue("2C") ECF_PDV("2C", "Cupom fiscal PDV"),
+                                   @XmlEnumValue("2D") ECF("2D", "Cupom fiscal ECF");
 
         private final String value;
 
