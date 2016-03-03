@@ -17,9 +17,9 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 
 /**
  * Dados dos veículos da NF-e
- * 
+ *
  * @author Fernando C Glizt
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Vehicle implements Serializable {
@@ -30,7 +30,7 @@ public class Vehicle implements Serializable {
 
     private @XmlElement(name = "UF") @NotNull final UF uf;
 
-    private @XmlElement(name = "RNTC") @NotNull @Size(min = 1, max = 20) @NFeString final String rntc;
+    private @XmlElement(name = "RNTC") @Size(max = 20) @NFeString final String rntc;
 
     public static class Builder {
 
