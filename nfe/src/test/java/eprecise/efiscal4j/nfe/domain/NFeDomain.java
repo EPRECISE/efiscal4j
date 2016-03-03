@@ -55,6 +55,12 @@ import eprecise.efiscal4j.nfe.item.di.IntermediaryImportType;
 import eprecise.efiscal4j.nfe.item.di.InternationalTransportPathway;
 import eprecise.efiscal4j.nfe.person.Emitter;
 import eprecise.efiscal4j.nfe.person.Receiver;
+import eprecise.efiscal4j.nfe.refdocuments.ProducerReferencedNF;
+import eprecise.efiscal4j.nfe.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel;
+import eprecise.efiscal4j.nfe.refdocuments.ReferencedDocuments;
+import eprecise.efiscal4j.nfe.refdocuments.ReferencedECF;
+import eprecise.efiscal4j.nfe.refdocuments.ReferencedECF.ReferecedECFModel;
+import eprecise.efiscal4j.nfe.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.sharing.BatchReceipt;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponse;
@@ -647,14 +653,39 @@ public class NFeDomain {
                           .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL) 
                           .build());
                     
-//        final List<ReferencedDocuments> referencedDocuments = new ArrayList<>();
-//        referencedDocuments.add(
-//                           new ReferencedDocuments.Builder()
-//                          .withReferencedNFe(
-//                                  new ReferencedNFe.Builder()
-//                                  .withAcessKey("31120501474452000178550010000002101000002102")
-//                                  .build())
-//                          .build());
+        final List<ReferencedDocuments> referencedDocuments = new ArrayList<>();
+        
+        referencedDocuments.add(
+                new ReferencedDocuments.Builder()
+               .withReferencedNF(new ReferencedNF.Builder()
+                                .withEmissionDate("1512")
+                                .withEmitterCnpj("02122908000101")
+                                .withEmitterUf(UF.AC)
+                                .withNumber("23232")
+                                .withSeries("13")
+                                .build())
+               .build());
+        referencedDocuments.add(
+                new ReferencedDocuments.Builder()
+               .withProducerReferencedNF(new ProducerReferencedNF.Builder()
+                                            .withEmissionYearMonth("1601")
+                                            .withEmitterCpf("51857496442")
+                                            .withEmitterUf(UF.PR)
+                                            .withModel(ProducerReferencedNFModel.PRODUCER_NF)
+                                            .withNumber("111")
+                                            .withSeries("1")
+                                            .withStateRegistration("9989777111")
+                                            .build())
+               .build());
+        
+        referencedDocuments.add(
+                new ReferencedDocuments.Builder()
+               .withReferencedECF(new ReferencedECF.Builder()
+                                 .withCooNumber("1231")
+                                 .withEcfNumber("222")
+                                 .withModel(ReferecedECFModel.NAO_ECF)
+                                 .build())
+               .build());
         
         return new NFe.Builder()
             .withNFeInfo(new NFeInfo.Builder()
@@ -679,7 +710,7 @@ public class NFeDomain {
                                           .withTaxableEventCityIbgeCode("4104659")
                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                           .withUFIbgeCode(UF.PR)
-//                                          .withReferencedDocuments(referencedDocuments)
+                                          .withReferencedDocuments(referencedDocuments)
                                           .build())            
                          .withEmitter(
                                  new Emitter.Builder()

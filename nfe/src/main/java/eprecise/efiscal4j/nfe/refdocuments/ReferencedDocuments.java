@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 
 
 /**
@@ -19,35 +20,36 @@ public class ReferencedDocuments implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final ReferencedNFe referencedNFe;
+    private @XmlElement(name = "refNFe") @NFeAccessKey final String referencedNFeAccessKey;
 
     private @XmlElement(name = "refNF") final ReferencedNF referencedNF;
 
     private @XmlElement(name = "refNFP") final ProducerReferencedNF producerReferencedNF;
 
-    private final ReferencedCTe referencedCTe;
+    private @XmlElement(name = "refCTe") @NFeAccessKey final String referencedCTeAccessKey;
 
     private @XmlElement(name = "refECF") final ReferencedECF referencedECF;
 
     public static class Builder {
 
-        private ReferencedNFe referencedNFe;
+        private String referencedNFeAccessKey;
 
         private ReferencedNF referencedNF;
 
         private ProducerReferencedNF producerReferencedNF;
 
-        private ReferencedCTe referencedCTe;
+        private String referencedCTeAccessKey;
 
         private ReferencedECF referencedECF;
 
         /**
-         * @see ReferencedNFe
-         * @param referencedNFe
+         * NF-e referenciadas
+         * 
+         * @param referencedNFeAcessKey
          * @return
          */
-        public Builder withReferencedNFe(ReferencedNFe referencedNFe) {
-            this.referencedNFe = referencedNFe;
+        public Builder withReferencedNFeAccessKey(String referencedNFeAcessKey) {
+            this.referencedNFeAccessKey = referencedNFeAcessKey;
             return this;
         }
 
@@ -66,18 +68,19 @@ public class ReferencedDocuments implements Serializable {
          * @param producerReferencedNF
          * @return
          */
-        public Builder withproducerReferencedNF(ProducerReferencedNF producerReferencedNF) {
+        public Builder withProducerReferencedNF(ProducerReferencedNF producerReferencedNF) {
             this.producerReferencedNF = producerReferencedNF;
             return this;
         }
 
         /**
-         * @see ReferencedCTe
-         * @param referencedCTe
+         * CT-e referenciado emitido anteriormente, vinculado à NF-e atual
+         * 
+         * @param referencedCTeAccessKey
          * @return
          */
-        public Builder withReferencedCTe(ReferencedCTe referencedCTe) {
-            this.referencedCTe = referencedCTe;
+        public Builder withReferencedCTeAccessKey(String referencedCTeAccessKey) {
+            this.referencedCTeAccessKey = referencedCTeAccessKey;
             return this;
         }
 
@@ -86,7 +89,7 @@ public class ReferencedDocuments implements Serializable {
          * @param referencedECF
          * @return
          */
-        public Builder withreferencedECF(ReferencedECF referencedECF) {
+        public Builder withReferencedECF(ReferencedECF referencedECF) {
             this.referencedECF = referencedECF;
             return this;
         }
@@ -100,23 +103,23 @@ public class ReferencedDocuments implements Serializable {
     }
 
     public ReferencedDocuments() {
-        this.referencedNFe = null;
+        this.referencedNFeAccessKey = null;
         this.referencedNF = null;
         this.producerReferencedNF = null;
-        this.referencedCTe = null;
+        this.referencedCTeAccessKey = null;
         this.referencedECF = null;
     }
 
     public ReferencedDocuments(Builder builder) {
-        this.referencedNFe = builder.referencedNFe;
+        this.referencedNFeAccessKey = builder.referencedNFeAccessKey;
         this.referencedNF = builder.referencedNF;
         this.producerReferencedNF = builder.producerReferencedNF;
-        this.referencedCTe = builder.referencedCTe;
+        this.referencedCTeAccessKey = builder.referencedCTeAccessKey;
         this.referencedECF = builder.referencedECF;
     }
 
-    public ReferencedNFe getReferencedNFe() {
-        return this.referencedNFe;
+    public String getReferencedNFeAccessKey() {
+        return this.referencedNFeAccessKey;
     }
 
     public ReferencedNF getReferencedNF() {
@@ -127,8 +130,8 @@ public class ReferencedDocuments implements Serializable {
         return this.producerReferencedNF;
     }
 
-    public ReferencedCTe getReferencedCTe() {
-        return this.referencedCTe;
+    public String getReferencedCTeAccessKey() {
+        return this.referencedCTeAccessKey;
     }
 
     public ReferencedECF getReferencedECF() {

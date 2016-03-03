@@ -2,8 +2,6 @@
 package eprecise.efiscal4j.nfe.refdocuments;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.commons.domain.adress.UF;
@@ -34,7 +33,7 @@ public class ProducerReferencedNF implements Serializable {
 
     private @XmlElement(name = "cUF") @NotNull final UF emitterUf;
 
-    private @XmlElement(name = "AAMM") @NotNull @Pattern(regexp = "[0-9]{2}[0]{1}[1-9]{1}|[0-9]{2}[1]{1}[0-2]{1}") final String emissionDate;
+    private @XmlElement(name = "AAMM") @NotNull @Pattern(regexp = "[0-9]{2}[0]{1}[1-9]{1}|[0-9]{2}[1]{1}[0-2]{1}") final String emissionYearMonth;
 
     private @XmlElement(name = "CNPJ") @NFeCNPJ final String emitterCnpj;
 
@@ -42,7 +41,7 @@ public class ProducerReferencedNF implements Serializable {
 
     private @XmlElement(name = "IE") @NotNull final String stateRegistration;
 
-    private @XmlElement(name = "mod") final ProducerReferecedNFModel model;
+    private @XmlElement(name = "mod") @NotNull final ProducerReferencedNFModel model;
 
     private @XmlElement(name = "serie") @NotNull @NFeFiscalDocumentSeries String series = "0";
 
@@ -52,7 +51,7 @@ public class ProducerReferencedNF implements Serializable {
 
         private UF emitterUf;
 
-        private String emissionDate;
+        private String emissionYearMonth;
 
         private String emitterCnpj;
 
@@ -60,7 +59,7 @@ public class ProducerReferencedNF implements Serializable {
 
         private String stateRegistration;
 
-        private ProducerReferecedNFModel model;
+        private ProducerReferencedNFModel model;
 
         private String series;
 
@@ -78,13 +77,13 @@ public class ProducerReferencedNF implements Serializable {
         }
 
         /**
+         * Ano e mês de emissão - AAMM
          * 
-         * @param emissionDate
+         * @param emissionYearMonth
          * @return
-         * @throws ParseException
          */
-        public Builder withEmissionDate(String emissionDate) throws ParseException {
-            this.emissionDate = new SimpleDateFormat("yymm").parse(emissionDate).toString();
+        public Builder withEmissionYearMonth(String emissionYearMonth) {
+            this.emissionYearMonth = emissionYearMonth;
             return this;
         }
 
@@ -127,7 +126,7 @@ public class ProducerReferencedNF implements Serializable {
          * @param model
          * @return
          */
-        public Builder withModel(ProducerReferecedNFModel model) {
+        public Builder withModel(ProducerReferencedNFModel model) {
             this.model = model;
             return this;
         }
@@ -164,7 +163,7 @@ public class ProducerReferencedNF implements Serializable {
 
     public ProducerReferencedNF() {
         this.emitterUf = null;
-        this.emissionDate = null;
+        this.emissionYearMonth = null;
         this.emitterCnpj = null;
         this.emitterCpf = null;
         this.stateRegistration = null;
@@ -175,7 +174,7 @@ public class ProducerReferencedNF implements Serializable {
 
     public ProducerReferencedNF(Builder builder) {
         this.emitterUf = builder.emitterUf;
-        this.emissionDate = builder.emissionDate;
+        this.emissionYearMonth = builder.emissionYearMonth;
         this.emitterCnpj = builder.emitterCnpj;
         this.emitterCpf = builder.emitterCpf;
         this.stateRegistration = builder.stateRegistration;
@@ -188,8 +187,8 @@ public class ProducerReferencedNF implements Serializable {
         return this.emitterUf;
     }
 
-    public String getEmissionDate() {
-        return this.emissionDate;
+    public String getEmissionYearMonth() {
+        return this.emissionYearMonth;
     }
 
     public String getEmitterCnpj() {
@@ -204,7 +203,7 @@ public class ProducerReferencedNF implements Serializable {
         return this.stateRegistration;
     }
 
-    public ProducerReferecedNFModel getModel() {
+    public ProducerReferencedNFModel getModel() {
         return this.model;
     }
 
@@ -218,15 +217,17 @@ public class ProducerReferencedNF implements Serializable {
 
     @XmlType
     @XmlEnum(String.class)
-    enum ProducerReferecedNFModel {
-                                   PRODUCER_NF("04", "NF de produtor"),
-                                   SPARE_NF("01", "NF Avulsa");
+    public enum ProducerReferencedNFModel implements Serializable {
+                                                                   @XmlEnumValue("04") PRODUCER_NF("04", "NF de produtor"),
+                                                                   @XmlEnumValue("01") SPARE_NF("01", "NF Avulsa");
+
+        private static final long serialVersionUID = 1L;
 
         private final String value;
 
         private final String description;
 
-        private ProducerReferecedNFModel(String value, String description) {
+        private ProducerReferencedNFModel(String value, String description) {
             this.value = value;
             this.description = description;
         }

@@ -2,8 +2,6 @@
 package eprecise.efiscal4j.nfe.refdocuments;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -31,7 +29,7 @@ public class ReferencedNF implements Serializable {
 
     private @XmlElement(name = "cUF") @NotNull final UF emitterUf;
 
-    private @XmlElement(name = "AAMM") @NotNull @Pattern(regexp = "[0-9]{2}[0]{1}[1-9]{1}|[0-9]{2}[1]{1}[0-2]{1}") final String emissionDate;
+    private @XmlElement(name = "AAMM") @NotNull @Pattern(regexp = "[0-9]{2}[0]{1}[1-9]{1}|[0-9]{2}[1]{1}[0-2]{1}") final String emissionYearMonth;
 
     private @XmlElement(name = "CNPJ") @NotNull @NFeCNPJ final String emitterCnpj;
 
@@ -45,7 +43,7 @@ public class ReferencedNF implements Serializable {
 
         private UF emitterUf;
 
-        private String emissionDate;
+        private String emissionYearMonth;
 
         private String emitterCnpj;
 
@@ -66,12 +64,12 @@ public class ReferencedNF implements Serializable {
 
         /**
          * 
-         * @param emissionDate
+         * @param emissionYearMonth
          * @return
-         * @throws ParseException
+         * 
          */
-        public Builder withEmissionDate(String emissionDate) throws ParseException {
-            this.emissionDate = new SimpleDateFormat("yymm").parse(emissionDate).toString();
+        public Builder withEmissionDate(String emissionYearMonth) {
+            this.emissionYearMonth = emissionYearMonth;
             return this;
         }
 
@@ -118,7 +116,7 @@ public class ReferencedNF implements Serializable {
 
     public ReferencedNF() {
         this.emitterUf = null;
-        this.emissionDate = null;
+        this.emissionYearMonth = null;
         this.emitterCnpj = null;
         this.series = null;
         this.number = null;
@@ -126,7 +124,7 @@ public class ReferencedNF implements Serializable {
 
     public ReferencedNF(Builder builder) {
         this.emitterUf = builder.emitterUf;
-        this.emissionDate = builder.emissionDate;
+        this.emissionYearMonth = builder.emissionYearMonth;
         this.emitterCnpj = builder.emitterCnpj;
         this.series = builder.series;
         this.number = builder.number;
@@ -140,8 +138,8 @@ public class ReferencedNF implements Serializable {
         return this.series;
     }
 
-    public String getEmissionDate() {
-        return this.emissionDate;
+    public String getEmissionYearMonth() {
+        return this.emissionYearMonth;
     }
 
     public String getEmitterCnpj() {
