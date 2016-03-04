@@ -30,11 +30,11 @@ public class NFeTransport implements Serializable {
 
     private @XmlElement(name = "retTransp") TransportICMSRetention transportICMSRetention;
 
-    private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
-
     private @XmlElement(name = "veicTransp") Vehicle vehicle;
 
     private @XmlElement(name = "reboque") @Size(max = 5) List<Vehicle> towing;
+
+    private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
 
     public static class Builder {
 
