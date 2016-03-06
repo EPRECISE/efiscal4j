@@ -29,7 +29,11 @@ public class ICMSTotal implements Serializable {
 
     private @XmlElement(name = "vICMSDeson") @NotNull @NFeDecimal1302 String icmsTotalDesoneration;
 
-    private @XmlElement(name = "vFCPUFDest") @NFeDecimal1302 String targetUfFCPValue;
+    private @XmlElement(name = "vFCPUFDest") @NFeDecimal1302 String receiverUfFCPTotalValue;
+
+    private @XmlElement(name = "vICMSUFDest") @NFeDecimal1302 String receiverUfIcmsShareTotalValue;
+
+    private @XmlElement(name = "vICMSUFRemet") @NFeDecimal1302 String emitterUfIcmsShareTotalValue;
 
     private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 String icmsSTCalculationBasis;
 
@@ -65,7 +69,11 @@ public class ICMSTotal implements Serializable {
 
         private String icmsTotalDesoneration;
 
-        private String targetUfFCPValue;
+        private String receiverUfFCPTotalValue;
+
+        private String receiverUfIcmsShareTotalValue;
+
+        private String emitterUfIcmsShareTotalValue;
 
         private String icmsSTCalculationBasis;
 
@@ -121,11 +129,33 @@ public class ICMSTotal implements Serializable {
         /**
          * Valor total do ICMS relativo ao Fundo de Combate à Pobreza (FCP) para a UF de destino.
          * 
-         * @param targetUfFCPValue
+         * @param receiverUfFCPTotalValue
          * @return
          */
-        public Builder withTargetUfFCPValue(String targetUfFCPValue) {
-            this.targetUfFCPValue = targetUfFCPValue;
+        public Builder withReceiverUfFCPTotalValue(String receiverUfFCPTotalValue) {
+            this.receiverUfFCPTotalValue = receiverUfFCPTotalValue;
+            return this;
+        }
+
+        /**
+         * Valor total do ICMS de partilha para a UF do destinatário
+         * 
+         * @param receiverUfIcmsShareTotalValue
+         * @return
+         */
+        public Builder withReceiverUfIcmsShareTotalValue(String receiverUfIcmsShareTotalValue) {
+            this.receiverUfIcmsShareTotalValue = receiverUfIcmsShareTotalValue;
+            return this;
+        }
+
+        /**
+         * Valor total do ICMS de partilha para a UF do remetente
+         * 
+         * @param emitterUfIcmsShareTotalValue
+         * @return
+         */
+        public Builder withEmitterUfIcmsShareTotalValue(String emitterUfIcmsShareTotalValue) {
+            this.emitterUfIcmsShareTotalValue = emitterUfIcmsShareTotalValue;
             return this;
         }
 
@@ -284,7 +314,9 @@ public class ICMSTotal implements Serializable {
         this.icmsCalculationBasis = builder.icmsCalculationBasis;
         this.icmsTotalValue = builder.icmsTotalValue;
         this.icmsTotalDesoneration = builder.icmsTotalDesoneration;
-        this.targetUfFCPValue = builder.targetUfFCPValue;
+        this.receiverUfFCPTotalValue = builder.receiverUfFCPTotalValue;
+        this.receiverUfIcmsShareTotalValue = builder.receiverUfIcmsShareTotalValue;
+        this.emitterUfIcmsShareTotalValue = builder.emitterUfIcmsShareTotalValue;
         this.icmsSTCalculationBasis = builder.icmsSTCalculationBasis;
         this.icmsSTTotalValue = builder.icmsSTTotalValue;
         this.itemsTotalValue = builder.itemsTotalValue;
@@ -320,12 +352,28 @@ public class ICMSTotal implements Serializable {
         this.icmsTotalDesoneration = icmsTotalDesoneration;
     }
 
-    public String getTargetUfFCPValue() {
-        return this.targetUfFCPValue;
+    public String getReceiverUfFCPTotalValue() {
+        return this.receiverUfFCPTotalValue;
     }
 
-    public void setTargetUfFCPValue(String targetUfFCPValue) {
-        this.targetUfFCPValue = targetUfFCPValue;
+    public void setReceiverUfFCPTotalValue(String receiverUfFCPTotalValue) {
+        this.receiverUfFCPTotalValue = receiverUfFCPTotalValue;
+    }
+
+    public String getReceiverUfIcmsShareTotalValue() {
+        return this.receiverUfIcmsShareTotalValue;
+    }
+
+    public void setReceiverUfIcmsShareTotalValue(String receiverUfIcmsShareTotalValue) {
+        this.receiverUfIcmsShareTotalValue = receiverUfIcmsShareTotalValue;
+    }
+
+    public String getEmitterUfIcmsShareTotalValue() {
+        return this.emitterUfIcmsShareTotalValue;
+    }
+
+    public void setEmitterUfIcmsShareTotalValue(String emitterUfIcmsShareTotalValue) {
+        this.emitterUfIcmsShareTotalValue = emitterUfIcmsShareTotalValue;
     }
 
     public String getIcmsSTCalculationBasis() {

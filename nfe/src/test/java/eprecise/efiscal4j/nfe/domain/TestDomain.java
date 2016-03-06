@@ -88,6 +88,8 @@ import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINS;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
+import eprecise.efiscal4j.nfe.tax.icms.ICMSUFReceiver;
+import eprecise.efiscal4j.nfe.tax.icms.InterstateICMSUFAliquot;
 import eprecise.efiscal4j.nfe.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.tax.ii.II;
 import eprecise.efiscal4j.nfe.tax.ipi.IPI;
@@ -362,10 +364,10 @@ public class TestDomain {
 //                                        .build())         
                              //ICMS40, ICMS41, ICMS50
 //                              .withIcms(new ICMS.Builder()
-//                                          .fromCode(ICMS.CST_50)
+//                                          .fromCode(ICMS.CST_40)
 //                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OLIMPIADAS_RIO_2016)                                            
 //                                          .build())
                              //ICMS51
 //                              .withIcms(new ICMS.Builder()
@@ -452,11 +454,11 @@ public class TestDomain {
 //                                          .build())
                              //ICMSSN101
                               .withIcms(new ICMS.Builder()
-                                          .fromCode(ICMS.CSOSN_101)
-                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
-                                            .withCreditSnAliquot("10.00")
-                                            .withCreditSnIcmsValue("100.00")
-                                          .build())
+                                           .fromCode(ICMS.CSOSN_101)
+                                           .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+                                           .withCreditSnAliquot("10.00")
+                                           .withCreditSnIcmsValue("100.00")
+                                           .build())
                              //ICMSSN102, ICMSSN103, ICMSSN300 e ICMSSN400
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_400)
@@ -510,8 +512,19 @@ public class TestDomain {
 //                                        .withIcmsStValue("10.00")
 //                                        .withCreditSnAliquot("10.00")
 //                                        .withCreditSnIcmsValue("100.00")                                                
-//                                        .build())
-                                
+//                                        .build())                                
+                              //ICMSUFDest
+                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()                                                                                                                               
+                                                   .withReceiverUfBcValue("2.00")
+                                                   .withReceiverUfFCPPercentual("1.00")
+                                                   .withReceiverUfIcmsAliquot("5.00")
+                                                   .withInterstateIcmsUfAliquot(InterstateICMSUFAliquot.PRODUTOS_IMPORTADOS)
+                                                   .withReceiverUfSharePercentual("40.00")
+                                                   .withReceiverUfFCPValue("0.10")
+                                                   .withReceiverUfIcmsShareValue("2.00")
+                                                   .withEmitterUfIcmsShareValue("2.00")
+                                                   .build())  
+                              
                              //IPI00, IPI49, IPI50, IPI99      
                                 .withIpi(new IPI.Builder()                                
                                             .fromCode(IPI.CST_99)
@@ -837,6 +850,9 @@ public class TestDomain {
                                           .withICMSSTTotalValue("0")
                                           .withICMSTotalDesoneration("0")
                                           .withICMSTotalValue("0")
+                                          .withReceiverUfFCPTotalValue("1.00")
+                                          .withReceiverUfIcmsShareTotalValue("0.20")
+                                          .withEmitterUfIcmsShareTotalValue("0.10")
                                           .withInsuranceTotalValue("0")
                                           .withItemsTotalValue("10.00")
                                           .withNFeTotalValue("15.00")
@@ -1153,7 +1169,19 @@ public class TestDomain {
 //                                        .withCreditSnAliquot("10.00")
 //                                        .withCreditSnIcmsValue("100.00")                                                
 //                                        .build())                                                                 
-                                            
+                                      
+                              //ICMSUFDest
+//                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()                                                                                                                               
+//                                               .withReceiverUfBcValue("2.00")
+//                                               .withReceiverUfFCPPercentual("1.00")
+//                                               .withReceiverUfIcmsAliquot("5.00")
+//                                               .withInterstateIcmsUfAliquot(InterstateICMSUFAliquot.PRODUTOS_IMPORTADOS)
+//                                               .withReceiverUfSharePercentual("40.00")
+//                                               .withReceiverUfFCPValue("0.10")
+//                                               .withReceiverUfIcmsShareValue("2.00")
+//                                               .withEmitterUfIcmsShareValue("2.00")
+//                                               .build())                              
+                            
                              //PIS01, PIS02      
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_01)
