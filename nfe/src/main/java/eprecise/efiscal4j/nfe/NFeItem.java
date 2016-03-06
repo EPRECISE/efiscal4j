@@ -41,6 +41,8 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "NCM") @NotNull @Pattern(regexp = "[0-9]{2}|[0-9]{8}") final String ncm;
 
+    private @XmlElement(name = "CEST") @Pattern(regexp = "[0-9]{7}") final String cest;
+
     private @XmlElement(name = "CFOP") @NotNull final CFOP cfop;
 
     private @XmlElement(name = "uCom") @NotNull @Size(min = 1, max = 6) @NFeString final String comercialUnit;
@@ -82,6 +84,8 @@ public class NFeItem implements Serializable {
         private String itemDescription;
 
         private String ncm;
+
+        private String cest;
 
         private CFOP cfop;
 
@@ -149,14 +153,30 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * Código NCM (8 posições), será permitida a informação do gênero (posição do capítulo do NCM) quando a Operação Não for de comércio exterior (importação/exportação) ou o produto Não seja
-         * tributado pelo IPI. Em caso de item de serviço ou item que Não tenham produto (Ex. transferência de crédito, crédito do ativo imobilizado, etc.), informar o código 00 (zeros) (v2.0)
+         * Código NCM (8 posições), será permitida a informação do gênero (posição do capítulo do NCM)<br>
+         * quando a Operação Não for de comércio exterior (importação/exportação)<br>
+         * ou o produto Não seja tributado pelo IPI. Em caso de item de serviço ou item que<br>
+         * não tenham produto (Ex. transferência de crédito, crédito do ativo imobilizado, etc.), <br>
+         * informar o código 00 (zeros) (v2.0)
          *
          * @param ncm
          * @return
          */
         public Builder withNCM(final String ncm) {
             this.ncm = ncm;
+            return this;
+        }
+
+        /**
+         * Codigo especificador da Substuicao Tributaria - CEST, que identifica a<br>
+         * mercadoria sujeita aos regimes de substituicao tributária e de<br>
+         * antecipação do recolhimento do imposto
+         * 
+         * @param cest
+         * @return
+         */
+        public Builder withCest(String cest) {
+            this.cest = cest;
             return this;
         }
 
@@ -346,6 +366,7 @@ public class NFeItem implements Serializable {
         this.globalTradeItemNumber = null;
         this.itemDescription = null;
         this.ncm = null;
+        this.cest = null;
         this.cfop = null;
         this.comercialUnit = null;
         this.comercialQuantity = null;
@@ -369,6 +390,7 @@ public class NFeItem implements Serializable {
         this.globalTradeItemNumber = builder.globalTradeItemNumber;
         this.itemDescription = builder.itemDescription;
         this.ncm = builder.ncm;
+        this.cest = builder.cest;
         this.cfop = builder.cfop;
         this.comercialUnit = builder.comercialUnit;
         this.comercialQuantity = builder.comercialQuantity;
@@ -405,6 +427,10 @@ public class NFeItem implements Serializable {
 
     public String getNcm() {
         return this.ncm;
+    }
+
+    public String getCest() {
+        return this.cest;
     }
 
     public CFOP getCfop() {

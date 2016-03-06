@@ -6,7 +6,6 @@ package eprecise.efiscal4j.nfe.payment;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -23,85 +22,105 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  */
 public class CardSet implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "CNPJ") @NFeCNPJ @NotNull final String cnpj;
+    private @XmlElement(name = "tpIntegra") final PaymentIntegrationType paymentIntegrationType;
 
-	private @XmlElement(name = "tBand") @NotNull final CardFlag cardFlag;
+    private @XmlElement(name = "CNPJ") @NFeCNPJ final String cnpj;
 
-	private @XmlElement(name = "cAut") @Size(min = 1, max = 20) @NFeString @NotNull final String authorizationNumber;
+    private @XmlElement(name = "tBand") final CardFlag cardFlag;
 
-	public static class Builder {
+    private @XmlElement(name = "cAut") @Size(min = 1, max = 20) @NFeString final String authorizationNumber;
 
-		private String cnpj;
+    public static class Builder {
 
-		private CardFlag cardFlag;
+        private PaymentIntegrationType paymentIntegrationType;
 
-		private String authorizationNumber;
+        private String cnpj;
 
-		/**
-		 * CNPJ da credenciadora de cartão de crédito/débito
-		 * 
-		 * @param cnpj
-		 * @return
-		 */
-		public Builder withCnpj(String cnpj) {
-			this.cnpj = cnpj;
-			return this;
-		}
+        private CardFlag cardFlag;
 
-		/**
-		 * @see CardFlag
-		 * @param cardFlag
-		 * @return
-		 */
-		public Builder withCardFlag(CardFlag cardFlag) {
-			this.cardFlag = cardFlag;
-			return this;
-		}
+        private String authorizationNumber;
 
-		/**
-		 * Número de autorização da operação cartão de crédito/débito
-		 * 
-		 * @param authorizationNumber
-		 * @return
-		 */
-		public Builder withAuthorizationNumber(String authorizationNumber) {
-			this.authorizationNumber = authorizationNumber;
-			return this;
-		}
+        /**
+         * @see PaymentIntegrationType
+         * @param paymentIntegrationType
+         * @return
+         */
+        public Builder withPaymentIntegrationType(PaymentIntegrationType paymentIntegrationType) {
+            this.paymentIntegrationType = paymentIntegrationType;
+            return this;
+        }
 
-		public CardSet build() {
-			CardSet entity = new CardSet(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
+        /**
+         * CNPJ da credenciadora de cartão de crédito/débito
+         * 
+         * @param cnpj
+         * @return
+         */
+        public Builder withCnpj(String cnpj) {
+            this.cnpj = cnpj;
+            return this;
+        }
 
-	}
+        /**
+         * @see CardFlag
+         * @param cardFlag
+         * @return
+         */
+        public Builder withCardFlag(CardFlag cardFlag) {
+            this.cardFlag = cardFlag;
+            return this;
+        }
 
-	public CardSet() {
-		this.cnpj = null;
-		this.cardFlag = null;
-		this.authorizationNumber = null;
-	}
+        /**
+         * Número de autorização da operação cartão de crédito/débito
+         * 
+         * @param authorizationNumber
+         * @return
+         */
+        public Builder withAuthorizationNumber(String authorizationNumber) {
+            this.authorizationNumber = authorizationNumber;
+            return this;
+        }
 
-	public CardSet(Builder builder) {
-		this.cnpj = builder.cnpj;
-		this.cardFlag = builder.cardFlag;
-		this.authorizationNumber = builder.authorizationNumber;
+        public CardSet build() {
+            final CardSet entity = new CardSet(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
 
-	}
+    }
 
-	public String getCnpj() {
-		return this.cnpj;
-	}
+    public CardSet() {
+        this.paymentIntegrationType = null;
+        this.cnpj = null;
+        this.cardFlag = null;
+        this.authorizationNumber = null;
+    }
 
-	public CardFlag getCardFlag() {
-		return this.cardFlag;
-	}
+    public CardSet(Builder builder) {
+        this.paymentIntegrationType = builder.paymentIntegrationType;
+        this.cnpj = builder.cnpj;
+        this.cardFlag = builder.cardFlag;
+        this.authorizationNumber = builder.authorizationNumber;
 
-	public String getAuthorizationNumber() {
-		return this.authorizationNumber;
-	}
+    }
+
+    public PaymentIntegrationType getPaymentIntegrationType() {
+        return this.paymentIntegrationType;
+    }
+
+    public String getCnpj() {
+        return this.cnpj;
+    }
+
+    public CardFlag getCardFlag() {
+        return this.cardFlag;
+    }
+
+    public String getAuthorizationNumber() {
+        return this.authorizationNumber;
+    }
 
 }

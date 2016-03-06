@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.total;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,13 +19,17 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ICMSTotal {
+public class ICMSTotal implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 String icmsCalculationBasis;
 
     private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 String icmsTotalValue;
 
     private @XmlElement(name = "vICMSDeson") @NotNull @NFeDecimal1302 String icmsTotalDesoneration;
+
+    private @XmlElement(name = "vFCPUFDest") @NFeDecimal1302 String targetUfFCPValue;
 
     private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 String icmsSTCalculationBasis;
 
@@ -58,6 +64,8 @@ public class ICMSTotal {
         private String icmsTotalValue;
 
         private String icmsTotalDesoneration;
+
+        private String targetUfFCPValue;
 
         private String icmsSTCalculationBasis;
 
@@ -107,6 +115,17 @@ public class ICMSTotal {
          */
         public Builder withICMSTotalDesoneration(String icmsTotalDesoneration) {
             this.icmsTotalDesoneration = icmsTotalDesoneration;
+            return this;
+        }
+
+        /**
+         * Valor total do ICMS relativo ao Fundo de Combate à Pobreza (FCP) para a UF de destino.
+         * 
+         * @param targetUfFCPValue
+         * @return
+         */
+        public Builder withTargetUfFCPValue(String targetUfFCPValue) {
+            this.targetUfFCPValue = targetUfFCPValue;
             return this;
         }
 
@@ -259,13 +278,13 @@ public class ICMSTotal {
     }
 
     public ICMSTotal() {
-
     }
 
     public ICMSTotal(Builder builder) {
         this.icmsCalculationBasis = builder.icmsCalculationBasis;
         this.icmsTotalValue = builder.icmsTotalValue;
         this.icmsTotalDesoneration = builder.icmsTotalDesoneration;
+        this.targetUfFCPValue = builder.targetUfFCPValue;
         this.icmsSTCalculationBasis = builder.icmsSTCalculationBasis;
         this.icmsSTTotalValue = builder.icmsSTTotalValue;
         this.itemsTotalValue = builder.itemsTotalValue;
@@ -299,6 +318,14 @@ public class ICMSTotal {
 
     public void setIcmsTotalDesoneration(String icmsTotalDesoneration) {
         this.icmsTotalDesoneration = icmsTotalDesoneration;
+    }
+
+    public String getTargetUfFCPValue() {
+        return this.targetUfFCPValue;
+    }
+
+    public void setTargetUfFCPValue(String targetUfFCPValue) {
+        this.targetUfFCPValue = targetUfFCPValue;
     }
 
     public String getIcmsSTCalculationBasis() {
