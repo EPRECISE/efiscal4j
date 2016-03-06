@@ -9,12 +9,12 @@ import org.junit.Assert;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 
 
 public interface Testable {
 
-    NFeDomain getTestDomain();
+    TestDomain getTestDomain();
 
     Object getBuiltEntity() throws Exception;
 

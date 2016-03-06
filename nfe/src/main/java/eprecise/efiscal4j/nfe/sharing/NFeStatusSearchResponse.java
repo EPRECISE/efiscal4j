@@ -57,7 +57,7 @@ public class NFeStatusSearchResponse implements Serializable {
 
     private @XmlElement(name = "protNFe") @Valid final ProcessingStatusProtocol processingStatusProtocol;
 
-    private @XmlElement(name = "retCancNFe") @Valid final CancellationRequestResult cancellationRequestResult;
+    private @XmlElement(name = "retCancNFe") @Valid final CancellationRequestResponse cancellationRequestResponse;
 
     private @XmlElement(name = "procEventoNFe") @Valid final ArrayList<EventProtocol> eventProtocols;
 
@@ -79,7 +79,7 @@ public class NFeStatusSearchResponse implements Serializable {
 
         private ProcessingStatusProtocol processingStatusProtocol;
 
-        private CancellationRequestResult cancellationRequestResult;
+        private CancellationRequestResponse cancellationRequestResponse;
 
         private ArrayList<EventProtocol> eventProtocols;
 
@@ -173,12 +173,12 @@ public class NFeStatusSearchResponse implements Serializable {
         /**
          * Protocolo de homologação de cancelamento de uso da NF-e
          * 
-         * @see CancellationRequestResult
-         * @param cancellationRequestResult
+         * @see CancellationRequestResponse
+         * @param cancellationRequestResponse
          * @return
          */
-        public Builder withCancellationRequestResult(CancellationRequestResult cancellationRequestResult) {
-            this.cancellationRequestResult = cancellationRequestResult;
+        public Builder withCancellationRequestResponse(CancellationRequestResponse cancellationRequestResponse) {
+            this.cancellationRequestResponse = cancellationRequestResponse;
             return this;
         }
 
@@ -210,7 +210,7 @@ public class NFeStatusSearchResponse implements Serializable {
         this.receptionDateTime = null;
         this.acessKey = null;
         this.processingStatusProtocol = null;
-        this.cancellationRequestResult = null;
+        this.cancellationRequestResponse = null;
         this.eventProtocols = null;
     }
 
@@ -223,7 +223,7 @@ public class NFeStatusSearchResponse implements Serializable {
         this.receptionDateTime = builder.receptionDateTime;
         this.acessKey = builder.acessKey;
         this.processingStatusProtocol = builder.processingStatusProtocol;
-        this.cancellationRequestResult = builder.cancellationRequestResult;
+        this.cancellationRequestResponse = builder.cancellationRequestResponse;
         this.eventProtocols = builder.eventProtocols;
     }
 
@@ -267,8 +267,8 @@ public class NFeStatusSearchResponse implements Serializable {
         return this.processingStatusProtocol;
     }
 
-    public CancellationRequestResult getCancellationRequestResult() {
-        return this.cancellationRequestResult;
+    public CancellationRequestResponse getCancellationRequestResponse() {
+        return this.cancellationRequestResponse;
     }
 
     public ArrayList<EventProtocol> getEventProtocols() {

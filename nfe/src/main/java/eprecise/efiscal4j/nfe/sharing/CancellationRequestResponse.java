@@ -21,48 +21,48 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CancellationRequestResult implements Serializable {
+public class CancellationRequestResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
-    private @XmlElement(name = "infCanc") @NotNull @Valid final CancellationRequestResultInfo cancellationRequestResultInfo;
+    private @XmlElement(name = "infCanc") @NotNull @Valid final CancellationRequestResponseInfo cancellationRequestResponseInfo;
 
     public static class Builder {
 
-        private CancellationRequestResultInfo cancellationRequestResultInfo;
+        private CancellationRequestResponseInfo cancellationRequestResponseInfo;
 
         /**
-         * @see CancellationRequestResultInfo
-         * @param cancellationRequestResultInfo
+         * @see CancellationRequestResponseInfo
+         * @param cancellationRequestResponseInfo
          * @return
          */
-        public Builder withCancellationRequestResultInfo(CancellationRequestResultInfo cancellationRequestResultInfo) {
-            this.cancellationRequestResultInfo = cancellationRequestResultInfo;
+        public Builder withCancellationRequestResponseInfo(CancellationRequestResponseInfo cancellationRequestResponseInfo) {
+            this.cancellationRequestResponseInfo = cancellationRequestResponseInfo;
             return this;
         }
 
-        public CancellationRequestResult build() {
-            final CancellationRequestResult entity = new CancellationRequestResult(this);
+        public CancellationRequestResponse build() {
+            final CancellationRequestResponse entity = new CancellationRequestResponse(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public CancellationRequestResult() {
-        this.cancellationRequestResultInfo = null;
+    public CancellationRequestResponse() {
+        this.cancellationRequestResponseInfo = null;
     }
 
-    public CancellationRequestResult(Builder builder) {
-        this.cancellationRequestResultInfo = builder.cancellationRequestResultInfo;
+    public CancellationRequestResponse(Builder builder) {
+        this.cancellationRequestResponseInfo = builder.cancellationRequestResponseInfo;
     }
 
     public FiscalDocumentVersion getVersion() {
         return this.version;
     }
 
-    public CancellationRequestResultInfo getCancellationRequestResultInfo() {
-        return this.cancellationRequestResultInfo;
+    public CancellationRequestResponseInfo getCancellationRequestResponseInfo() {
+        return this.cancellationRequestResponseInfo;
     }
 }

@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.domain;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +47,6 @@ import eprecise.efiscal4j.nfe.additionalinfo.ReferencedProcess;
 import eprecise.efiscal4j.nfe.address.Address;
 import eprecise.efiscal4j.nfe.address.City;
 import eprecise.efiscal4j.nfe.address.Country;
-import eprecise.efiscal4j.nfe.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.charging.Duplicate;
 import eprecise.efiscal4j.nfe.charging.Invoice;
 import eprecise.efiscal4j.nfe.charging.NFeCharging;
@@ -70,17 +70,9 @@ import eprecise.efiscal4j.nfe.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.sharing.BatchReceipt;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponse;
-import eprecise.efiscal4j.nfe.sharing.CancellationRequestResult;
-import eprecise.efiscal4j.nfe.sharing.CancellationRequestResultInfo;
-import eprecise.efiscal4j.nfe.sharing.Event;
-import eprecise.efiscal4j.nfe.sharing.EventDetailCCe;
-import eprecise.efiscal4j.nfe.sharing.EventDetailCancellation;
+import eprecise.efiscal4j.nfe.sharing.CancellationRequestResponse;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.sharing.EventInfo;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
-import eprecise.efiscal4j.nfe.sharing.EventResponse;
-import eprecise.efiscal4j.nfe.sharing.EventResponseInfo;
-import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
@@ -118,7 +110,25 @@ import eprecise.efiscal4j.nfe.transport.VolumeSeal;
 import eprecise.efiscal4j.signer.Signer;
 
 
-public class NFeDomain {
+public class TestDomain {
+
+    private static final String EMITTER_CSC_CLDTOKEN_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.cldtoken";
+
+    private static final String EMITTER_CSC_VALUE_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.value";
+
+    private static final String EMITTER_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.emitter.cnpj";
+
+    private static final String EMITTER_IE_PROPERTY = "eprecise.efiscal4j.nfe.emitter.ie";
+
+    private static final String RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.corporatename";
+
+    private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
+
+    private static final String RECEIVER_LEGAL_ENTITY_IE_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.ie";
+
+    private static final String RECEIVER_NATURAL_PERSON_CPF_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.cpf";
+
+    private static final String RECEIVER_NATURAL_PERSON_IE_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.ie";
 
     private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
 
@@ -126,7 +136,9 @@ public class NFeDomain {
 
     private static final String CERTIFICATE_NOT_PRESENT_MESSAGE = "Certificado ou pin não estão presente";
 
-    private final Logger logger = LoggerFactory.getLogger(NFeDomain.class);
+    private static final String FIELD_NOT_PRESENT_MESSAGE = "O campo {0} não estão presente nos argumentos em \"Run Configurations\"";
+
+    private final Logger logger = LoggerFactory.getLogger(TestDomain.class);
 
     private FiscalDocumentValidator validator;
 
@@ -134,10 +146,42 @@ public class NFeDomain {
 
     private final TransmissionChannel transmissionChannel;
 
-    public NFeDomain() {
+    private final CSC emitterCsc;
+
+    private final String emitterCnpj;
+
+    private final String emitterIe;
+
+    private final String receiverLegalEntityCorporateName;
+
+    private final String receiverLegalEntityCnpj;
+
+    private final String receiverLegalEntityIe;
+
+    private final String receiverNaturalPersonCpf;
+
+    private final String receiverNaturalPersonIe;
+
+    public TestDomain() {
         try {
-            final String certificatePath = System.getProperty(NFeDomain.CERTIFICATE_PATH_PROPERTY);
-            final String certificatePin = System.getProperty(NFeDomain.CERTIFICATE_PIN_PROPERTY);
+            this.emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
+            this.emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
+            this.receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
+            this.receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
+            this.receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
+            this.receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
+            this.receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
+
+            final String emitterCscCldToken = System.getProperty(TestDomain.EMITTER_CSC_CLDTOKEN_PROPERTY);
+            final String emitterCscValue = System.getProperty(TestDomain.EMITTER_CSC_VALUE_PROPERTY);
+            if (StringUtils.isEmpty(emitterCscCldToken) || StringUtils.isEmpty(emitterCscValue)) {
+                this.emitterCsc = null;
+            } else {
+                this.emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
+            }
+
+            final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
+            final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
             if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
                 this.signer = null;
                 this.transmissionChannel = null;
@@ -152,7 +196,7 @@ public class NFeDomain {
         }
     }
 
-    public NFeDomain(String xsdPath) {
+    public TestDomain(String xsdPath) {
         this();
         this.setXsdPath(xsdPath);
     }
@@ -163,7 +207,7 @@ public class NFeDomain {
 
     private void assertCertificate() {
         if (!this.containsCertificate()) {
-            throw new IllegalStateException(NFeDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
+            throw new IllegalStateException(TestDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
         }
     }
 
@@ -177,56 +221,39 @@ public class NFeDomain {
     }
 
     public SOAPEnvelope buildSoapEnvelope(SOAPHeader soapHeader, SOAPBody soapBody) {
-        //@formatter:off 
-        return new SOAPEnvelope.Builder()
-              .withSoapHeader(soapHeader) 
-              .withSoapBody(soapBody)
-              .build();
-        //@formatter:on                      
+        return SoapEnvelopeDomain.getInstance().buildSoapEnvelope(soapHeader, soapBody);
     }
 
     public SOAPHeader buildSoapHeader(NFeHeader nFeHeader) {
-        //@formatter:off 
-        return new SOAPHeader.Builder()
-              .withNfeHeader(nFeHeader)
-              .build();
-        //@formatter:on                      
+        return SoapEnvelopeDomain.getInstance().buildSoapHeader(nFeHeader);
     }
 
     public SOAPBody buildSoapBody(NFeBody nFeBody) {
-        //@formatter:off 
-        return new SOAPBody.Builder()
-              .withNfeBody(nFeBody)
-              .build();
-        //@formatter:on                      
+        return SoapEnvelopeDomain.getInstance().buildSoapBody(nFeBody);
     }
 
     public NFeHeader buildNFeHeader(String xmlns, UF uf) {
-        //@formatter:off 
-        return new NFeHeader.Builder()
-              .withXmlns(xmlns)
-              .withUf(uf)
-              .build();
-        //@formatter:on 
+        return SoapEnvelopeDomain.getInstance().buildNFeHeader(xmlns, uf);
     }
 
     public NFeHeader buildNFeHeader(String xmlns, UF uf, FiscalDocumentVersion dataVersion) {
-        //@formatter:off 
-        return new NFeHeader.Builder()
-              .withXmlns(xmlns)
-              .withUf(uf)
-              .withDataVersion(dataVersion)
-              .build();
-        //@formatter:on 
+        return SoapEnvelopeDomain.getInstance().buildNFeHeader(xmlns, uf, dataVersion);
     }
 
     public NFeBody buildNFeBody(String xmlns, TransmissibleBodyImpl transmissible) {
-        //@formatter:off 
-        return new NFeBody.Builder()
-              .withXmlns(xmlns)
-              .withTransmissible(transmissible)
-              .build();
-        //@formatter:on 
+        return SoapEnvelopeDomain.getInstance().buildNFeBody(xmlns, transmissible);
+    }
+
+    public SOAPEnvelopeResponse buildSOAPEnvelopeResponse(SOAPHeaderResponse soapHeaderResponse, SOAPBodyResponse soapBodyResponse) {
+        return SoapEnvelopeDomain.getInstance().buildSOAPEnvelopeResponse(soapHeaderResponse, soapBodyResponse);
+    }
+
+    public SOAPHeaderResponse buildSoapHeaderResponse(NFeHeader nFeHeader) {
+        return SoapEnvelopeDomain.getInstance().buildSoapHeaderResponse(nFeHeader);
+    }
+
+    public SOAPBodyResponse buildSoapBodyResponse(Receivable receivable) {
+        return SoapEnvelopeDomain.getInstance().buildSoapBodyResponse(receivable);
     }
 
     public NFe buildNFe() throws Exception {
@@ -708,19 +735,14 @@ public class NFeDomain {
                                           .build())            
                          .withEmitter(
                                  new Emitter.Builder()
-                                .asLegalEntity()
+                                .asLegalEntity()                                                       
                                 
-                                .withCnpj("01219338000100")                                
-                                .withCorporateName("EMPRESA TESTE")
+                                .withCnpj(this.getEmitterCnpj())                                
+                                .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
-                                .withFancyName("EMPRESA TESTE")                                
+                                .withFancyName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB")
                                 
-//                                .withCnpj("14241297000191")                                
-//                                .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")
-//                                .withCrt(CRT.SIMPLES_NACIONAL)
-//                                .withFancyName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB")
-                                
-                                .withStateRegistration("9010576218")
+                                .withStateRegistration(this.getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -769,9 +791,9 @@ public class NFeDomain {
 //                                 .withEmail("teste")
                                  new Receiver.Builder()
                                 .asLegalEntity()
-                                .withCnpj("77500049002858")
-                                .withCorporateName("MERCADOMOVEIS  (PARANAGUA LOJA 1)")
-                                .withStateRegistration("9018591402")
+                                .withCnpj(this.getReceiverLegalEntityCnpj())
+                                .withCorporateName(this.getReceiverLegalEntityCorporateName())
+                                .withStateRegistration(this.getReceiverLegalEntityIe())
 //                                .withMunicipalRegistration("123456789")
                                 .withAdress(
                                        new Address.Builder()
@@ -1130,33 +1152,7 @@ public class NFeDomain {
 //                                        .withIcmsStValue("10.00")
 //                                        .withCreditSnAliquot("10.00")
 //                                        .withCreditSnIcmsValue("100.00")                                                
-//                                        .build())
-                                
-                             //IPI00, IPI49, IPI50, IPI99      
-                                .withIpi(new IPI.Builder()                                
-                                            .fromCode(IPI.CST_99)
-                                            .withLegalFramework("999")
-                                            .withUnityQuantity("1")
-                                            .withUnityValue("3")
-                                            .withIpiValue("3")                                              
-                                            .build())                                            
-                             //IPI01, IPI02, IPI03, IPI04, IPI05, IPI51, IPI52, IPI53, IPI54, IPI55      
-//                                .withIpi(new IPI.Builder()                                
-//                                            .fromCode(IPI.CST_01)
-//                                            .withIpiFrameworkClass("2")
-//                                            .withIpiSealCode("33")
-//                                            .withIpiSealQuantity("4")
-//                                            .withProducerCNPJ("12345678909876")
-//                                            .withLegalFramework("999")
-//                                            .build())
-                                            
-                             //II      
-                                .withIi(new II.Builder()
-                                            .withBcValue("10")
-                                            .withCustomsCharge("0")
-                                            .withIiValue("2")
-                                            .withIofValue("0")
-                                            .build())                                            
+//                                        .build())                                                                 
                                             
                              //PIS01, PIS02      
 //                                .withPis(new PIS.Builder()
@@ -1220,15 +1216,7 @@ public class NFeDomain {
                                             .withBcValue("10")
                                             .withCofinsAliquot("5")
                                             .withCofinsValue("0.50")
-                                            .build())
-                             //COFINSST
-                                .withCofinsSt(new COFINSST.Builder()                                                
-//                                            .withProductQuantity("3")
-//                                            .withProductAliquot("5")
-                                            .withBcValue("4")
-                                            .withCofinsAliquot("5")
-                                            .withCofinsValue("3")
-                                            .build())                                                
+                                            .build())                                               
                             .build())
 //                         .withReturnedTax(new ReturnedTax.Builder()
 //                                         .withReturnedProductPerc("70")
@@ -1253,15 +1241,7 @@ public class NFeDomain {
                               .withNetWeight("55.555")
                               .withGrossWeight("60.000")
                               .withSeals(seals)
-                              .build());    
-        
-        final List<Duplicate> duplicates = new ArrayList<>();
-        duplicates.add(
-                  new Duplicate.Builder()
-                 .withNumber("1")
-                 .withDueDate("2014-12-07")
-                 .withValue("10")
-                 .build());
+                              .build());        
         
         final List<NFePayment> nFePayments = new ArrayList<>();
         nFePayments.add(
@@ -1307,40 +1287,7 @@ public class NFeDomain {
                           .withProcessNumber("123")
                           .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL) 
                           .build());
-                    
-        final List<ReferencedDocuments> referencedDocuments = new ArrayList<>();
-        
-        referencedDocuments.add(
-                new ReferencedDocuments.Builder()
-               .withReferencedNF(new ReferencedNF.Builder()
-                                .withEmissionDate("1512")
-                                .withEmitterCnpj("02122908000101")
-                                .withEmitterUf(UF.AC)
-                                .withNumber("23232")
-                                .withSeries("13")
-                                .build())
-               .build());
-        referencedDocuments.add(
-                new ReferencedDocuments.Builder()
-               .withProducerReferencedNF(new ProducerReferencedNF.Builder()
-                                            .withEmissionYearMonth("1601")
-                                            .withEmitterCpf("51857496442")
-                                            .withEmitterUf(UF.PR)
-                                            .withModel(ProducerReferencedNFModel.PRODUCER_NF)
-                                            .withNumber("111")
-                                            .withSeries("1")
-                                            .withStateRegistration("9989777111")
-                                            .build())
-               .build());
-        
-        referencedDocuments.add(
-                new ReferencedDocuments.Builder()
-               .withReferencedECF(new ReferencedECF.Builder()
-                                 .withCooNumber("1231")
-                                 .withEcfNumber("222")
-                                 .withModel(ReferecedECFModel.NAO_ECF)
-                                 .build())
-               .build());
+                        
         
         return new NFe.Builder()
             .withNFeInfo(new NFeInfo.Builder()
@@ -1365,23 +1312,17 @@ public class NFeDomain {
                                           .withTaxableEventCityIbgeCode("4104659")
                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                           .withUFIbgeCode(UF.PR)
-                                          .withReferencedDocuments(referencedDocuments)
                                           .build())            
                          .withEmitter(
                                  new Emitter.Builder()
                                 .asLegalEntity()
                                 
-                                .withCnpj("01219338000100")                                
+                                .withCnpj(this.getEmitterCnpj())
                                 .withCorporateName("EMPRESA TESTE")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
                                 .withFancyName("EMPRESA TESTE")                                
                                 
-//                                .withCnpj("14241297000191")                                
-//                                .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")
-//                                .withCrt(CRT.SIMPLES_NACIONAL)
-//                                .withFancyName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB")
-                                
-                                .withStateRegistration("9010576218")
+                                .withStateRegistration(this.getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -1404,9 +1345,8 @@ public class NFeDomain {
                          .withReceiver(
                                   new Receiver.Builder()
                                  .asNaturalPerson()
-                                 .withCpf("14712931060")
-                                 .withName("Joao")
-                                 .withStateRegistration("2339165443")
+                                 .withCpf(this.getReceiverNaturalPersonCpf())
+                                 .withName("Joao")                                 
                                  .withMunicipalRegistration("123456789")
                                  .withAdress(
                                         new Address.Builder()
@@ -1427,33 +1367,7 @@ public class NFeDomain {
                                            .build())
                                        .build())
                                  .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)        
-                                 .withEmail("teste")
-//                                 new Receiver.Builder()
-//                                .asLegalEntity()
-//                                .withCnpj("77500049002858")
-//                                .withCorporateName("MERCADOMOVEIS  (PARANAGUA LOJA 1)")
-//                                .withStateRegistration("9018591402")
-//                                .withMunicipalRegistration("123456789")
-//                                .withAdress(
-//                                       new Address.Builder()
-//                                      .withStreet("Rua 10")
-//                                      .withNumber("Sem Número")
-//                                      .withDistrict("Centro")
-//                                      .withCep("83203270")
-//                                      .withCity(
-//                                           new City.Builder()
-//                                          .withCountry(
-//                                                  new Country.Builder()
-//                                                 .withIbgeCode("1058")
-//                                                 .withDescription("Brasil")
-//                                                 .build())
-//                                          .withIbgeCode("4118204")
-//                                          .withDescription("Paranaguá")
-//                                          .withUF(UF.PR)
-//                                          .build())
-//                                      .build())
-//                                .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)        
-//                                .withEmail("felipe@e-precise.com.br")                                 
+                                 .withEmail("teste")                               
                                  .build())                                    
                          .withNFeDetail(nFeDetailList) 
                          .withNFeTotal(
@@ -1512,17 +1426,6 @@ public class NFeDomain {
 //                                                           .build())
                                      .withTransportedVolume(transportedVolumes)
                                      .build())
-                         .withNFeCharging(
-                                     new NFeCharging.Builder()
-                                    .withInvoice(
-                                            new Invoice.Builder()
-                                           .withNumber("C33")
-                                           .withOriginalValue("10.00")
-                                           .withDiscountValue("3.00")
-                                           .withNumber("7.00")
-                                           .build())
-                                    .withDuplicates(duplicates)
-                                    .build())
                          .withNFePayments(nFePayments)
                          .withAdditionalInfo(
                                         new AdditionalInfo.Builder()
@@ -1534,7 +1437,7 @@ public class NFeDomain {
                                        .build()                           
                                  )                             
                          .build())
-           .withCSC(new CSC("2111", "111"))
+           .withCSC(this.getEmitterCsc())
         .build(this.signer);           
         //@formatter:on
     }
@@ -1591,266 +1494,54 @@ public class NFeDomain {
         //@formatter:on
     }
 
-    public NFeStatusSearchResponse buildNFeStatusSearchResponse() throws Exception {
-        //@formatter:off
-        return new NFeStatusSearchResponse.Builder()
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                     .withApplicationVersion("RS20100311145427")
-                     .withStatusCode("217")
-                     .withStatusDescription("Rejeicao: NF-e nao consta na base de dados da SEFAZ")
-                     .withServiceUf(UF.RS)
-                     .withReceptionDateTime("2013-02-06T14:51:09-02:00")
-                     .withAcessKey("43060659104422005704550990000070080007055470")     
-                     .withProcessingStatusProtocol(this.buildProcessingStatusProtocol())
-                     .withCancellationRequestResult(this.buildCancellationRequestResult())
-                     .withEventProtocols(this.buildEventProtocolList())
-                     .build();
-        //@formatter:on
+    public ArrayList<EventProtocol> buildEventProtocolList() throws Exception {
+        return TransmissionDomain.getInstance().buildEventProtocolList(this.getSigner());
     }
 
     public ProcessingStatusProtocol buildProcessingStatusProtocol() throws Exception {
-        //@formatter:off        
-        return new ProcessingStatusProtocol.Builder()
-                     .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
-                                                             .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                             .withApplicationVersion("RS20100311145427")
-                                                             .withAcessKey("43060659104422005704550990000070080007055470")
-                                                             .withProcessingDateTime("2013-02-06T14:51:15-02:00")
-                                                             .withProtocolNumber("243150000000001")
-                                                             .withStatusCode("100")
-                                                             .withStatusDescription("Autorizado o uso da NF-e")
-                                                             .build())
-                     .build();
-        //@formatter:on        
+        return TransmissionDomain.getInstance().buildProcessingStatusProtocol();
     }
 
-    public CancellationRequestResult buildCancellationRequestResult() throws Exception {
-        //@formatter:off       
-        return new CancellationRequestResult.Builder()
-                     .withCancellationRequestResultInfo(new CancellationRequestResultInfo.Builder()
-                                                              .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                              .withApplicationVersion("RS20100311145427")
-                                                              .withStatusCode("101")
-                                                              .withStatusDescription("Cancelamento homologado com sucesso")
-                                                              .withServiceUf(UF.RS)                                                                                                                           
-                                                              .build())
-                     .build();
-        //@formatter:on                
-    }
-
-    public ArrayList<EventProtocol> buildEventProtocolList() throws Exception {
-        final ArrayList<EventProtocol> eventProtocolList = new ArrayList<>();
-        //@formatter:off       
-        eventProtocolList.add(new EventProtocol.Builder()
-                                    .withEvent(new Event.Builder()
-                                                     .withEventInfo(new EventInfo.Builder()                                                                          
-                                                                          .withIbgeOrgan(IBGEOrgan.AMB_NAC_90)
-                                                                          .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                                          .withAuthorCpf("33462170279")
-                                                                          .withAcessKey("43060659104422005704550990000070080007055470")
-                                                                          .withEventDateTime("2013-02-06T14:51:15-02:00")
-                                                                          .withEventType(EventType.OPERACAO_NAO_REALIZADA)
-                                                                          .withEventSeqNumber("1")
-                                                                          .withEventVersion("1.00")
-                                                                          .withEventDetail(new EventDetailCancellation.Builder()                                                                                                 
-                                                                                                 .withProtocolNumber("135120005426259")
-                                                                                                 .withJustification("Teste de Cancelamento como Evento")
-                                                                                                 .build())
-                                                                          .build())
-                                                     .build(this.getSigner()))
-                                    .withEventResponse(new EventResponse.Builder()
-                                                             .witheventResponseInfo(new EventResponseInfo.Builder()
-                                                                                          .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                                                          .withApplicationVersion("RS20100311145427")
-                                                                                          .withIbgeOrgan(IBGEOrgan.AMB_NAC_90)
-                                                                                          .withStatusCode("100")
-                                                                                          .withStatusDescription("Autorizado o uso de NF-e")
-                                                                                          .withAcessKey("43060659104422005704550990000070080007055470")
-                                                                                          .withEventType(EventType.CIENCIA_OPERACAO)
-                                                                                          .withEventDescription(EventType.CIENCIA_OPERACAO.getFullDescription())
-                                                                                          .withEventRegisterDateTime("2013-02-06T14:51:15-02:00")                                                                                          
-                                                                                          .build())
-                                                             .build())                         
-                                    .build());
-        //@formatter:on                
-        return eventProtocolList;
-    }
-
-    public BatchReceiptSearchResponse buildBatchReceiptSearchResponse() throws Exception {
-        final ArrayList<ProcessingStatusProtocol> statusProtocolList = new ArrayList<>();
-        //@formatter:off
-        statusProtocolList.add(new ProcessingStatusProtocol.Builder()
-                                     .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
-                                                                   .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                                   .withApplicationVersion("RS20110816085649")
-                                                                   .withAcessKey("43091299999090910199551140912140011007055475")
-                                                                   .withProcessingDateTime("2013-02-06T14:51:09-02:00")                                                                   
-                                                                   .withDigestValue("t9CNzgSoHYd0DyIN+N0ZAz1vN6Y=")
-                                                                   .withStatusCode("233")
-                                                                   .withStatusDescription("Rejeicao: IE do destinatario nao cadastrada")
-                                                                   .withId("ID160820111004039060")
-                                                                   .build())
-                                     .build());
-        
-        statusProtocolList.add(new ProcessingStatusProtocol.Builder()
-                                     .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
-                                                                   .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                                   .withApplicationVersion("RS20110816085649")
-                                                                   .withAcessKey("43110899999090910199550110118160951007055470")
-                                                                   .withProcessingDateTime("2013-02-06T14:51:19-02:00")
-                                                                   .withProtocolNumber("143110000000289")
-                                                                   .withDigestValue("c1wZvqlmu38VP0WzYtbannOjCC0=")
-                                                                   .withStatusCode("100")
-                                                                   .withStatusDescription("Autorizado o uso da NF-e")
-                                                                   .withId("ID143110000000289")
-                                                                   .build())
-        .build());        
-        
-        return new BatchReceiptSearchResponse.Builder()
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                     .withApplicationVersion("RS20110816085649")
-                     .withReceiptNumber("431000001271650")
-                     .withStatusCode("104")
-                     .withStatusDescription("Lote processado")
-                     .withServiceUf(UF.RS)
-                     .withReceptionDateTime("2013-02-06T14:51:09-02:00")
-                     .withProcessingStatusProtocols(statusProtocolList)                                                                  
-                     .build();
-        //@formatter:on
-    }
-
-    public BatchReceiptSearch buildBatchReceiptSearch() throws Exception {
-        //@formatter:off
-        return new BatchReceiptSearch.Builder()
-                     
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)                           
-                     .withReceiptNumber("411110212500268")
-//                     .withReceiptNumber("411110212500418")                                          
-                     .build();
-        //@formatter:on
+    public CancellationRequestResponse buildCancellationRequestResponse() throws Exception {
+        return TransmissionDomain.getInstance().buildCancellationRequestResponse();
     }
 
     public NFeStatusSearch buildNFeStatusSearch() throws Exception {
-        //@formatter:off
-        return new NFeStatusSearch.Builder()
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                     .withAcessKey("43060659104422005704550990000070080007055470")                                                                                      
-                     .build();
-        //@formatter:on
+        return TransmissionDomain.getInstance().buildNFeStatusSearch();
     }
 
-    public ServiceStatusSearchResponse buildServiceStatusSearchResponse() throws Exception {
-        //@formatter:off
-        return new ServiceStatusSearchResponse.Builder()
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                     .withApplicationVersion("RS20100311142157")
-                     .withStatusCode("107")
-                     .withStatusDescription("Servico em Operacao")
-                     .withServiceUf(UF.PR)                      
-                     .withReceptionDateTime("2010-03-11T14:48:06-02:00")
-                     .withAverageTime("1")
-                     .build();
-        //@formatter:on
+    public NFeStatusSearchResponse buildNFeStatusSearchResponse() throws Exception {
+        return TransmissionDomain.getInstance().buildNFeStatusSearchResponse(this.getSigner());
+    }
+
+    public BatchReceiptSearch buildBatchReceiptSearch() throws Exception {
+        return TransmissionDomain.getInstance().buildBatchReceiptSearch();
+    }
+
+    public BatchReceiptSearchResponse buildBatchReceiptSearchResponse() throws Exception {
+        return TransmissionDomain.getInstance().buildBatchReceiptSearchResponse();
     }
 
     public ServiceStatusSearch buildServiceStatusSearch() throws Exception {
-        //@formatter:off
-        return new ServiceStatusSearch.Builder()
-                     .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)                           
-                     .withServiceUf(UF.PR)                                                                  
-                     .build();
-        //@formatter:on
+        return TransmissionDomain.getInstance().buildServiceStatusSearch();
+    }
+
+    public ServiceStatusSearchResponse buildServiceStatusSearchResponse() throws Exception {
+        return TransmissionDomain.getInstance().buildServiceStatusSearchResponse();
+    }
+
+    public ServiceStatusSearchResponseMethod buildServiceStatusSearchResponseMethod(String xmlns, ServiceStatusSearchResponse serviceStatusSearchResponse) {
+        return TransmissionDomain.getInstance().buildServiceStatusSearchResponseMethod(xmlns, serviceStatusSearchResponse);
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {
         this.assertCertificate();
-        final ArrayList<Event> eventList = new ArrayList<>();
-        //@formatter:off        
-        eventList.add(new Event.Builder()
-                            .withEventInfo(new EventInfo.Builder()                                                 
-                                                 .withIbgeOrgan(IBGEOrgan.PR)
-                                                 .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("14241297000191")
-                                                 .withAcessKey("41150801219338000100550000000000021765232807")
-                                                 .withEventDateTime("2015-08-29T09:56:43-03:00")
-                                                 .withEventType(EventType.CANC_NFE)
-                                                 .withEventSeqNumber("1")
-                                                 .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
-                                                 .withEventDetail(new EventDetailCancellation.Builder()                                                                        
-                                                                        .withProtocolNumber("141150000887513")
-                                                                        .withJustification("Teste Teste Teste Teste")
-                                                                        .build())
-                                                 .build())
-                            .build(this.signer));
-        
-        
-        return new EventDispatch.Builder()
-                     .withBatchId("1")
-                     .withEvents(eventList)                                                                 
-                     .build();
-        //@formatter:on
+        return EventDomain.getInstance().buildEventDispatchCancellation(this.getSigner());
     }
 
     public EventDispatch buildEventDispatchCCe() throws Exception {
         this.assertCertificate();
-        final ArrayList<Event> eventList = new ArrayList<>();
-        //@formatter:off        
-        eventList.add(new Event.Builder()
-                            .withEventInfo(new EventInfo.Builder()                                                 
-                                                 .withIbgeOrgan(IBGEOrgan.PR)
-                                                 .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("14241297000191")
-                                                 .withAcessKey("41150801219338000100550000000000021765232807")
-                                                 .withEventDateTime("2015-08-29T09:56:43-03:00")
-                                                 .withEventType(EventType.CCE)
-                                                 .withEventSeqNumber("1")
-                                                 .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
-                                                 .withEventDetail(new EventDetailCCe.Builder()                                                                        
-                                                                        .withCorrection("Correção teste de Carta de Correção")
-                                                                        .build())
-                                                 .build())
-                            .build(this.signer));
-        
-        
-        return new EventDispatch.Builder()
-                     .withBatchId("1")
-                     .withEvents(eventList)                                                                 
-                     .build();
-        //@formatter:on
-    }
-
-    public SOAPEnvelopeResponse buildSOAPEnvelopeResponse(SOAPHeaderResponse soapHeaderResponse, SOAPBodyResponse soapBodyResponse) {
-        //@formatter:off
-        return new SOAPEnvelopeResponse.Builder()
-                 .withSoapHeaderResponse(soapHeaderResponse)
-                 .withSoapBodyResponse(soapBodyResponse)
-                 .build();        
-        //@formatter:on                
-    }
-
-    public SOAPHeaderResponse buildSoapHeaderResponse(NFeHeader nFeHeader) {
-        //@formatter:off
-        return new SOAPHeaderResponse.Builder()
-                 .withNfeHeader(nFeHeader)
-                 .build();
-        //@formatter:on
-    }
-
-    public SOAPBodyResponse buildSoapBodyResponse(Receivable receivable) {
-        //@formatter:off
-        return new SOAPBodyResponse.Builder()
-                 .withReceivable(receivable)
-                 .build();
-        //@formatter:on
-    }
-
-    public ServiceStatusSearchResponseMethod buildServiceStatusSearchResponseMethod(String xmlns, ServiceStatusSearchResponse serviceStatusSearchResponse) {
-        //@formatter:off
-        return new ServiceStatusSearchResponseMethod.Builder()
-                 .withXmlns(xmlns)
-                 .withServiceStatusSearchResponse(serviceStatusSearchResponse)
-                 .build();
-        //@formatter:on        
+        return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
     }
 
     public Logger getLogger() {
@@ -1871,4 +1562,59 @@ public class NFeDomain {
         return this.transmissionChannel;
     }
 
+    public CSC getEmitterCsc() {
+        if (this.emitterCsc == null) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CSC - Emitente"));
+        }
+        return this.emitterCsc;
+    }
+
+    public String getEmitterCnpj() {
+        if (StringUtils.isEmpty(this.emitterCnpj)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Emitente"));
+        }
+        return this.emitterCnpj;
+    }
+
+    public String getEmitterIe() {
+        if (StringUtils.isEmpty(this.emitterIe)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Emitente"));
+        }
+        return this.emitterIe;
+    }
+
+    public String getReceiverLegalEntityCorporateName() {
+        if (StringUtils.isEmpty(this.receiverLegalEntityCorporateName)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "Razão Social - Destinatário"));
+        }
+        return this.receiverLegalEntityCorporateName;
+    }
+
+    public String getReceiverLegalEntityCnpj() {
+        if (StringUtils.isEmpty(this.receiverLegalEntityCnpj)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Destinatário"));
+        }
+        return this.receiverLegalEntityCnpj;
+    }
+
+    public String getReceiverLegalEntityIe() {
+        if (StringUtils.isEmpty(this.receiverLegalEntityIe)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PJ)"));
+        }
+        return this.receiverLegalEntityIe;
+    }
+
+    public String getReceiverNaturalPersonCpf() {
+        if (StringUtils.isEmpty(this.receiverNaturalPersonCpf)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CPF - Destinatário"));
+        }
+        return this.receiverNaturalPersonCpf;
+    }
+
+    public String getReceiverNaturalPersonIe() {
+        if (StringUtils.isEmpty(this.receiverNaturalPersonIe)) {
+            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PF)"));
+        }
+        return this.receiverNaturalPersonIe;
+    }
 }

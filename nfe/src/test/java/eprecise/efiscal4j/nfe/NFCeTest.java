@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 
 
 public class NFCeTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain(NFe.XSD);
+    private final TestDomain nFeDomain = new TestDomain(NFe.XSD);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -60,7 +60,7 @@ public class NFCeTest implements Testable {
     }
 
     @Override
-    public NFeDomain getTestDomain() {
+    public TestDomain getTestDomain() {
         return this.nFeDomain;
     }
 
