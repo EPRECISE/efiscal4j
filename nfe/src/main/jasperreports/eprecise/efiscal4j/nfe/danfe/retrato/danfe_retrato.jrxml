@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-01-12T16:20:27 -->
+<!-- 2016-03-03T16:31:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_leiaute_2xx_cr" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="22" bottomMargin="22" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -166,6 +166,9 @@
 	<field name="transportadoraCNPJ" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/transporta/CNPJ]]></fieldDescription>
 	</field>
+	<field name="transportadoraCPF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/transporta/CPF]]></fieldDescription>
+	</field>
 	<field name="transportadoraIE" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/transporta/IE]]></fieldDescription>
 	</field>
@@ -185,22 +188,22 @@
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/transporta/xNome]]></fieldDescription>
 	</field>
 	<field name="veiculoPlaca" class="java.lang.String">
-		<fieldDescription><![CDATA[veiculoPlaca]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/veicTransp/placa]]></fieldDescription>
 	</field>
 	<field name="veiculoRNTC" class="java.lang.String">
-		<fieldDescription><![CDATA[veiculoRNTC]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/veicTransp/RNTC]]></fieldDescription>
 	</field>
 	<field name="veiculoUF" class="java.lang.String">
-		<fieldDescription><![CDATA[veiculoUF]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/veicTransp/UF]]></fieldDescription>
 	</field>
 	<field name="volumeEsp" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/vol/esp]]></fieldDescription>
 	</field>
 	<field name="volumeMarca" class="java.lang.String">
-		<fieldDescription><![CDATA[volumeMarca]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/vol/marca]]></fieldDescription>
 	</field>
 	<field name="volumeNVol" class="java.lang.String">
-		<fieldDescription><![CDATA[volumeNVol]]></fieldDescription>
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/vol/nVol]]></fieldDescription>
 	</field>
 	<field name="volumePesoB" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/transp/vol/pesoB]]></fieldDescription>
@@ -958,7 +961,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{transportadoraCNPJ}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{transportadoraCNPJ}!=null?$F{transportadoraCNPJ}:$F{transportadoraCPF}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="2" y="328" width="236" height="12" uuid="0f62c415-1f10-4bb2-abb8-34931a83890d"/>

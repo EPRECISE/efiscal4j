@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.transport;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,9 +18,9 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 
 /**
  * Dados dos veículos da NF-e
- * 
+ *
  * @author Fernando C Glizt
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Vehicle implements Serializable {
@@ -28,9 +29,9 @@ public class Vehicle implements Serializable {
 
     private @XmlElement(name = "placa") @NotNull @NFeString @NFeLicensePlate final String licensePlate;
 
-    private @XmlElement(name = "UF") @NotNull final UF uf;
+    private @XmlElement(name = "UF") @NotNull final String uf;
 
-    private @XmlElement(name = "RNTC") @NotNull @Size(min = 1, max = 20) @NFeString final String rntc;
+    private @XmlElement(name = "RNTC") @Size(max = 20) @NFeString final String rntc;
 
     public static class Builder {
 
@@ -87,7 +88,7 @@ public class Vehicle implements Serializable {
 
     public Vehicle(final Builder builder) {
         this.licensePlate = builder.licensePlate;
-        this.uf = builder.uf;
+        this.uf = Optional.ofNullable(builder.uf).map(uf -> uf.getAcronym()).orElse(null);
         this.rntc = builder.rntc;
     }
 
@@ -96,7 +97,7 @@ public class Vehicle implements Serializable {
     }
 
     public UF getUf() {
-        return this.uf;
+        return UF.findByAcronym(this.uf);
     }
 
     public String getRntc() {
