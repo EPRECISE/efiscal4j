@@ -38,7 +38,7 @@ public class EventResponse implements Serializable {
          * @param eventResponseInfo
          * @return
          */
-        public Builder witheventResponseInfo(EventResponseInfo eventResponseInfo) {
+        public Builder withEventResponseInfo(EventResponseInfo eventResponseInfo) {
             this.eventResponseInfo = eventResponseInfo;
             return this;
         }

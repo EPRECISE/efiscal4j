@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeString;
@@ -29,7 +30,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "retConsSitNFe")
+@XmlRootElement(name = ObjectFactory.RET_CONS_SIT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeStatusSearchResponse implements Serializable {
 

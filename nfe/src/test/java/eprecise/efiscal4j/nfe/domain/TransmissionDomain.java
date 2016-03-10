@@ -62,7 +62,7 @@ class TransmissionDomain {
                                                                           .build())
                                                      .build(signer))
                                     .withEventResponse(new EventResponse.Builder()
-                                                             .witheventResponseInfo(new EventResponseInfo.Builder()
+                                                             .withEventResponseInfo(new EventResponseInfo.Builder()
                                                                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                                                                           .withApplicationVersion("RS20100311145427")
                                                                                           .withIbgeOrgan(IBGEOrgan.AMB_NAC_90)
