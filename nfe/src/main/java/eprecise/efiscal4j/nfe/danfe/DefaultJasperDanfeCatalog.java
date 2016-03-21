@@ -18,15 +18,16 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
         private static final long serialVersionUID = 1L;
         {
             this.put(DANFEPrintFormat.SEM_DANFE, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
-            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem.jasper");
             this.put(DANFEPrintFormat.DANFE_RETRATO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_PAISAGEM, "eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem.jasper");
             this.put(DANFEPrintFormat.DANFE_NFCE, "eprecise/efiscal4j/nfce/danfe/danfe_nfce.jasper");
             this.put(DANFEPrintFormat.DANFE_NFCE_MENSAGEM_ELETRONICA, "eprecise/efiscal4j/nfce/danfe/danfe_nfce.jasper");
         }
     };
 
     @Override
-    public InputStream get(DANFEPrintFormat printFormat) {
+    public InputStream get(final DANFEPrintFormat printFormat) {
         if (!this.danfeMap.containsKey(printFormat)) {
             throw new IllegalArgumentException("Não existe formato padrão para " + printFormat);
         }
