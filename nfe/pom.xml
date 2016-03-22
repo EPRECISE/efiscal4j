@@ -88,6 +88,11 @@
 			<groupId>eprecise.jasper.fonts</groupId>
 			<artifactId>jasper-fonts-arial</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>eprecise.jasperreports</groupId>
+			<artifactId>jasperreports-fonts-times-new-roman</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
