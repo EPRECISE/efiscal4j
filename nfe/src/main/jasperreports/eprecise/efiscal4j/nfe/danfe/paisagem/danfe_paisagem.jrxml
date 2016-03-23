@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-23T01:36:06 -->
+<!-- 2016-03-23T01:43:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_paisagem_leiaute_2xx_cr" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -285,7 +285,7 @@
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/det]]></fieldDescription>
 	</field>
 	<background>
-		<band height="581">
+		<band height="582">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 			<rectangle radius="1">
@@ -384,19 +384,19 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="700" y="321" width="132" height="20" uuid="952e4940-e782-4d4c-a47f-5ea94cf86009"/>
+				<reportElement positionType="Float" mode="Transparent" x="712" y="321" width="120" height="20" uuid="952e4940-e782-4d4c-a47f-5ea94cf86009"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="528" y="321" width="137" height="20" uuid="9b0d36e2-fe36-40af-9703-3ba648e4ee5a"/>
+				<reportElement positionType="Float" mode="Transparent" x="540" y="321" width="137" height="20" uuid="9b0d36e2-fe36-40af-9703-3ba648e4ee5a"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="528" y="301" width="69" height="20" uuid="08838cd9-2ba6-4e8b-ba4e-c010a2ca110d"/>
+				<reportElement positionType="Float" mode="Transparent" x="540" y="301" width="69" height="20" uuid="08838cd9-2ba6-4e8b-ba4e-c010a2ca110d"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -474,25 +474,25 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="597" y="301" width="68" height="20" uuid="60b7036d-cbfa-49da-b240-3b3416643880"/>
+				<reportElement positionType="Float" mode="Transparent" x="609" y="301" width="68" height="20" uuid="60b7036d-cbfa-49da-b240-3b3416643880"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="700" y="301" width="132" height="20" uuid="e846de83-5dff-4650-82b3-97502f1ef908"/>
+				<reportElement positionType="Float" mode="Transparent" x="712" y="301" width="120" height="20" uuid="e846de83-5dff-4650-82b3-97502f1ef908"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="665" y="301" width="35" height="20" uuid="bf0b53b2-9b0b-4eae-937f-452c3d179e33"/>
+				<reportElement positionType="Float" mode="Transparent" x="677" y="301" width="35" height="20" uuid="bf0b53b2-9b0b-4eae-937f-452c3d179e33"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="60" y="321" width="468" height="20" uuid="d70f51d8-1089-4856-a700-72b989ba19cd"/>
+				<reportElement positionType="Float" mode="Transparent" x="60" y="321" width="480" height="20" uuid="d70f51d8-1089-4856-a700-72b989ba19cd"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -606,7 +606,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="381" y="301" width="147" height="20" uuid="6d9c0220-b9af-4b47-ad32-1374c7d524a0"/>
+				<reportElement positionType="Float" mode="Transparent" x="381" y="301" width="159" height="20" uuid="6d9c0220-b9af-4b47-ad32-1374c7d524a0"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -630,7 +630,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="665" y="321" width="35" height="20" uuid="a81b7a5c-9fc6-47b0-a9db-5ce60926f146"/>
+				<reportElement positionType="Float" mode="Transparent" x="677" y="321" width="35" height="20" uuid="a81b7a5c-9fc6-47b0-a9db-5ce60926f146"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -739,21 +739,21 @@
 				<text><![CDATA[RAZAO SOCIAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="598" y="302" width="50" height="6" uuid="de5c670b-08f8-446c-b506-3b0218247d64"/>
+				<reportElement positionType="Float" mode="Transparent" x="610" y="302" width="50" height="6" uuid="de5c670b-08f8-446c-b506-3b0218247d64"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[PLACA DO VEICULO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="666" y="302" width="7" height="6" uuid="80416e62-d7b6-46b5-a89a-8d29c01ae57f"/>
+				<reportElement positionType="Float" mode="Transparent" x="678" y="302" width="7" height="6" uuid="80416e62-d7b6-46b5-a89a-8d29c01ae57f"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[UF]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="703" y="302" width="25" height="6" uuid="392ed27b-8a60-4e65-b4c3-acb64a7b1481"/>
+				<reportElement positionType="Float" mode="Transparent" x="715" y="302" width="25" height="6" uuid="392ed27b-8a60-4e65-b4c3-acb64a7b1481"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
@@ -767,21 +767,21 @@
 				<text><![CDATA[ENDERECO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="530" y="322" width="27" height="6" uuid="697241cb-0996-4c14-99c1-88ff3c9f3a1e"/>
+				<reportElement positionType="Float" mode="Transparent" x="542" y="322" width="27" height="6" uuid="697241cb-0996-4c14-99c1-88ff3c9f3a1e"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[MUNICIPIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="667" y="322" width="7" height="6" uuid="fbc23a0e-1649-4327-b058-823a49f25b24"/>
+				<reportElement positionType="Float" mode="Transparent" x="679" y="322" width="7" height="6" uuid="fbc23a0e-1649-4327-b058-823a49f25b24"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[UF]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="703" y="322" width="61" height="6" uuid="24e159cd-9142-49cb-bf36-dc3979bde8a9"/>
+				<reportElement positionType="Float" mode="Transparent" x="715" y="322" width="61" height="6" uuid="24e159cd-9142-49cb-bf36-dc3979bde8a9"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
@@ -956,7 +956,7 @@
 				<text><![CDATA[VALOR TOTAL DA NOTA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="529" y="302" width="37" height="6" uuid="820c343d-9068-4f7c-843e-e7d43481e068"/>
+				<reportElement positionType="Float" mode="Transparent" x="541" y="302" width="37" height="6" uuid="820c343d-9068-4f7c-843e-e7d43481e068"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
@@ -1147,7 +1147,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{totalVFrete} != null ? new java.math.BigDecimal($F{totalVFrete}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="529" y="309" width="67" height="11" uuid="e5223116-d869-4011-8949-2b97f8cb6dd2"/>
+				<reportElement positionType="Float" mode="Transparent" x="541" y="309" width="67" height="11" uuid="e5223116-d869-4011-8949-2b97f8cb6dd2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1190,14 +1190,14 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{chaveAcesso}.replaceAll("(.{4})(?!$)", "$1 ")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="598" y="309" width="66" height="12" uuid="e0ef558d-3661-44be-9792-1fd8fad44a63"/>
+				<reportElement positionType="Float" mode="Transparent" x="610" y="309" width="66" height="12" uuid="e0ef558d-3661-44be-9792-1fd8fad44a63"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{veiculoPlaca}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="666" y="309" width="33" height="12" uuid="d2cb2331-294e-40d7-b8ad-3ab55e0a0f19"/>
+				<reportElement positionType="Float" mode="Transparent" x="678" y="309" width="33" height="12" uuid="d2cb2331-294e-40d7-b8ad-3ab55e0a0f19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1253,7 +1253,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{destIE}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="700" y="309" width="131" height="12" uuid="a20334ef-9ce6-48a5-8f06-8aa58fd6efcb"/>
+				<reportElement positionType="Float" mode="Transparent" x="712" y="309" width="119" height="12" uuid="a20334ef-9ce6-48a5-8f06-8aa58fd6efcb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1263,21 +1263,21 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
                 : $F{transportadoraCPF} != null ? $F{transportadoraCPF}.substring(0, 3) + "." + $F{transportadoraCPF}.substring(3, 6) + "." + $F{transportadoraCPF}.substring(6, 9) + "-" + $F{transportadoraCPF}.substring(9, 11) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="62" y="328" width="464" height="12" uuid="0f62c415-1f10-4bb2-abb8-34931a83890d"/>
+				<reportElement positionType="Float" mode="Transparent" x="62" y="328" width="478" height="12" uuid="0f62c415-1f10-4bb2-abb8-34931a83890d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{transportadoraXEnder}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="530" y="328" width="137" height="12" uuid="ff35262b-6f6c-41b7-999d-27c760a774fc"/>
+				<reportElement positionType="Float" mode="Transparent" x="542" y="328" width="137" height="12" uuid="ff35262b-6f6c-41b7-999d-27c760a774fc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{transportadoraXMun}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="667" y="328" width="32" height="12" uuid="22fa6663-b0f6-47db-b721-9cccc6086198"/>
+				<reportElement positionType="Float" mode="Transparent" x="679" y="328" width="32" height="12" uuid="22fa6663-b0f6-47db-b721-9cccc6086198"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true" isUnderline="false"/>
 				</textElement>
@@ -1298,7 +1298,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{totalVNF} != null ? new java.math.BigDecimal($F{totalVNF}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="700" y="328" width="131" height="12" uuid="d67fc693-9f9b-47f4-96ff-b843641f40d0"/>
+				<reportElement positionType="Float" mode="Transparent" x="712" y="328" width="119" height="12" uuid="d67fc693-9f9b-47f4-96ff-b843641f40d0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1369,7 +1369,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{totalVProd} != null ? new java.math.BigDecimal($F{totalVProd}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="381" y="309" width="147" height="11" uuid="5c4544ca-617d-48e6-9ea4-bd893ff3bfb4"/>
+				<reportElement positionType="Float" mode="Transparent" x="381" y="309" width="159" height="11" uuid="5c4544ca-617d-48e6-9ea4-bd893ff3bfb4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1901,15 +1901,16 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 		<band height="61">
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals( new Integer("1") ))]]></printWhenExpression>
 			<rectangle radius="1">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="60" y="10" width="620" height="50" isPrintWhenDetailOverflows="true" uuid="4e2f1120-577d-4c11-b073-1d7eb5219939">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="60" y="10" width="620" height="45" isPrintWhenDetailOverflows="true" uuid="4e2f1120-577d-4c11-b073-1d7eb5219939">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="680" y="10" width="152" height="50" uuid="6842bc71-0774-4cf9-bceb-58d35e10904c"/>
+				<reportElement positionType="Float" mode="Transparent" x="680" y="10" width="152" height="45" uuid="6842bc71-0774-4cf9-bceb-58d35e10904c"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
