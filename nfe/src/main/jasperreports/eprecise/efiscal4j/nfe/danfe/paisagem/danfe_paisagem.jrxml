@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-23T01:43:46 -->
+<!-- 2016-03-23T14:43:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_paisagem_leiaute_2xx_cr" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -285,7 +285,7 @@
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/det]]></fieldDescription>
 	</field>
 	<background>
-		<band height="582">
+		<band height="583">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 			<rectangle radius="1">
@@ -353,6 +353,30 @@
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="DefaultStyle" positionType="Float" mode="Transparent" x="0" y="61" width="27" height="517" uuid="608e5d97-aa28-42cf-a273-cd245f354516">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RECEBEMOS DE "+ $F{emitxNome} + " OS PRODUTOS E/OU SERVIÇOS CONSTANTES DA NOTA FISCAL ELETRÔNICA INDICADA AO LADO. EMISSÃO: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi})) + ", VALOR TOTAL: R$ "+$F{totalVNF}.replaceAll("\\.",",") + ", DESTINATÁRIO: "+$F{destxNome}+" - "+$F{destEnderxLgr} + ", " + $F{destEndernro}+", "+$F{destEnderxBairro}+ ", "+$F{destEnderxMun}+"-"+$F{destEnderUF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="DefaultStyle" positionType="Float" mode="Transparent" x="29" y="478" width="11" height="100" uuid="629e1de0-01c0-4ef0-b415-42c1f74a5739"/>
+				<textElement rotation="Left">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATA DO RECEBIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DefaultStyle" positionType="Float" mode="Transparent" x="29" y="210" width="11" height="219" uuid="ba24be00-a4cc-40e4-b316-bac890120fa4"/>
+				<textElement rotation="Left">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR]]></text>
+			</staticText>
 		</band>
 	</background>
 	<title>
@@ -367,12 +391,6 @@
 				<reportElement positionType="Float" mode="Transparent" x="369" y="1" width="129" height="93" uuid="0b8d5a47-6abf-413f-b307-044a1bb4836e">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.7"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="60" y="215" width="539" height="20" isPrintWhenDetailOverflows="true" uuid="386c186a-2321-46d6-9b29-d5d5ec1a0369"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -1019,11 +1037,11 @@
 				<text><![CDATA[TRANSPORTADOR/VOLUMES TRANSPORTADOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="61" y="208" width="27" height="7" uuid="670f8f88-053d-4bc2-a970-79be85046630"/>
+				<reportElement positionType="Float" mode="Transparent" x="61" y="208" width="83" height="7" uuid="670f8f88-053d-4bc2-a970-79be85046630"/>
 				<textElement>
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[FATURA]]></text>
+				<text><![CDATA[FATURA / DUPLICATA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" mode="Transparent" x="284" y="342" width="20" height="6" uuid="40bf4f24-e575-4673-9346-e34e3ecccaeb"/>
@@ -1441,12 +1459,6 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{volumePesoL} != null ? new java.math.BigDecimal($F{volumePesoL}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="62" y="218" width="534" height="15" isPrintWhenDetailOverflows="true" uuid="88933abe-9d4c-4a0d-a454-503f9db85ec9"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-			</textField>
 			<elementGroup>
 				<textField>
 					<reportElement positionType="Float" mode="Transparent" x="395" y="84" width="47" height="8" uuid="ca0ff6ff-df99-4377-9250-1af32aaf128d"/>
@@ -1622,6 +1634,11 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalVII} != null ? new java.math.BigDecimal($F{totalVII}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="61" y="217" width="770" height="23" uuid="33a915f0-e9ac-4036-bed1-141b16c97dd8"/>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/cobr/dup")]]></dataSourceExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem_duplicatas.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</title>
 	<pageHeader>
@@ -1889,7 +1906,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 	<detail>
 		<band height="70">
 			<subreport>
-				<reportElement positionType="Float" x="1" y="0" width="832" height="20" uuid="7cda2b51-517e-4559-9146-31a49492b650">
+				<reportElement positionType="Float" x="1" y="0" width="832" height="70" uuid="7cda2b51-517e-4559-9146-31a49492b650">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/det")]]></dataSourceExpression>
