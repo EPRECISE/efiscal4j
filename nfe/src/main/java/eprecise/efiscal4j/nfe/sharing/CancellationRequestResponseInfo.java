@@ -26,7 +26,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CancellationRequestResultInfo implements Serializable {
+public class CancellationRequestResponseInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -170,14 +170,14 @@ public class CancellationRequestResultInfo implements Serializable {
             return this;
         }
 
-        public CancellationRequestResultInfo build() {
-            final CancellationRequestResultInfo entity = new CancellationRequestResultInfo(this);
+        public CancellationRequestResponseInfo build() {
+            final CancellationRequestResponseInfo entity = new CancellationRequestResponseInfo(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public CancellationRequestResultInfo() {
+    public CancellationRequestResponseInfo() {
         this.id = null;
         this.transmissionEnvironment = null;
         this.applicationVersion = null;
@@ -189,7 +189,7 @@ public class CancellationRequestResultInfo implements Serializable {
         this.protocolNumber = null;
     }
 
-    public CancellationRequestResultInfo(Builder builder) {
+    public CancellationRequestResponseInfo(Builder builder) {
         this.id = builder.id;
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.applicationVersion = builder.applicationVersion;

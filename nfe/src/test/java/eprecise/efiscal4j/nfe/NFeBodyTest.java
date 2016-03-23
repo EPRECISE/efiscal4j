@@ -13,7 +13,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
@@ -23,7 +23,7 @@ import eprecise.efiscal4j.nfe.transmission.NFeService;
 
 public class NFeBodyTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain();
+    private final TestDomain nFeDomain = new TestDomain();
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -52,7 +52,7 @@ public class NFeBodyTest implements Testable {
     }
 
     @Override
-    public NFeDomain getTestDomain() {
+    public TestDomain getTestDomain() {
         return this.nFeDomain;
     }
 

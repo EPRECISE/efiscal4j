@@ -5,11 +5,11 @@
                              http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>eprecise.efiscal4j</groupId>
-	<artifactId>efiscal4j</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0.56-DEV-SNAPSHOT</version>
-	<name>e-Fiscal4J</name>
+    <groupId>eprecise.efiscal4j</groupId>
+    <artifactId>efiscal4j</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.56</version>
+    <name>e-Fiscal4J</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

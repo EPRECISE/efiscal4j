@@ -3,13 +3,13 @@ package eprecise.efiscal4j.nfe;
 
 import org.junit.Test;
 
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
 
 
 public class NFeStatusSearchResponseTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain(NFeStatusSearchResponse.XSD);
+    private final TestDomain nFeDomain = new TestDomain(NFeStatusSearchResponse.XSD);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -22,7 +22,7 @@ public class NFeStatusSearchResponseTest implements Testable {
     }
 
     @Override
-    public NFeDomain getTestDomain() {
+    public TestDomain getTestDomain() {
         return this.nFeDomain;
     }
 

@@ -15,13 +15,13 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 
 
 public class ProcessedNFeTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain(ProcessedNFe.XSD);
+    private final TestDomain testDomain = new TestDomain(ProcessedNFe.XSD);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -70,8 +70,8 @@ public class ProcessedNFeTest implements Testable {
     }
 
     @Override
-    public NFeDomain getTestDomain() {
-        return this.nFeDomain;
+    public TestDomain getTestDomain() {
+        return this.testDomain;
     }
 
     @Override

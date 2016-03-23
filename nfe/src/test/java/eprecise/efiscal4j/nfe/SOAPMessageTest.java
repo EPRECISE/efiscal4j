@@ -10,7 +10,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.domain.NFeDomain;
+import eprecise.efiscal4j.nfe.domain.TestDomain;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
@@ -25,7 +25,7 @@ import eprecise.efiscal4j.nfe.transmission.TransmissionChannel.TransmissionResul
 
 public class SOAPMessageTest implements Testable {
 
-    private final NFeDomain nFeDomain = new NFeDomain();
+    private final TestDomain nFeDomain = new TestDomain();
 
     /**
      * Teste do serviço de NFeStatusServico
@@ -225,7 +225,7 @@ public class SOAPMessageTest implements Testable {
     }
 
     @Override
-    public NFeDomain getTestDomain() {
+    public TestDomain getTestDomain() {
         return this.nFeDomain;
     }
 

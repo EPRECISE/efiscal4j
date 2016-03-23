@@ -15,6 +15,7 @@ import eprecise.efiscal4j.nfe.tax.cofins.COFINSAdapter;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINSST;
 import eprecise.efiscal4j.nfe.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.tax.icms.ICMSAdapter;
+import eprecise.efiscal4j.nfe.tax.icms.ICMSUFReceiver;
 import eprecise.efiscal4j.nfe.tax.ii.II;
 import eprecise.efiscal4j.nfe.tax.ipi.IPI;
 import eprecise.efiscal4j.nfe.tax.ipi.IPIAdapter;
@@ -54,6 +55,8 @@ public class Tax implements Serializable {
 
     private @XmlElement(name = "COFINSST") @Valid final COFINSST cofinsSt;
 
+    private @XmlElement(name = "ICMSUFDest") @Valid final ICMSUFReceiver icmsUfReceiver;
+
     public static class Builder {
 
         private ICMS icms;
@@ -72,8 +75,16 @@ public class Tax implements Serializable {
 
         private COFINSST cofinsSt;
 
+        private ICMSUFReceiver icmsUfReceiver;
+
         private String taxTotalValue;
 
+        /**
+         * 
+         * @see ICMS
+         * @param icms
+         * @return
+         */
         public Builder withIcms(final ICMS icms) {
             this.icms = icms;
             return this;
@@ -83,34 +94,80 @@ public class Tax implements Serializable {
         // this.issqn = issqn;
         // return this;
         // }
-
+        /**
+         * 
+         * @see IPI
+         * @param ipi
+         * @return
+         */
         public Builder withIpi(final IPI ipi) {
             this.ipi = ipi;
             return this;
         }
 
+        /**
+         * 
+         * @see II
+         * @param ii
+         * @return
+         */
         public Builder withIi(final II ii) {
             this.ii = ii;
             return this;
         }
 
+        /**
+         * 
+         * @see PIS
+         * @param pis
+         * @return
+         */
         public Builder withPis(final PIS pis) {
             this.pis = pis;
             return this;
         }
 
+        /**
+         * 
+         * @see PISST
+         * @param pisSt
+         * @return
+         */
         public Builder withPisSt(final PISST pisSt) {
             this.pisSt = pisSt;
             return this;
         }
 
+        /**
+         * 
+         * @see COFINS
+         * @param cofins
+         * @return
+         */
         public Builder withCofins(final COFINS cofins) {
             this.cofins = cofins;
             return this;
         }
 
+        /**
+         * 
+         * @see COFINSST
+         * @param cofinsSt
+         * @return
+         */
         public Builder withCofinsSt(final COFINSST cofinsSt) {
             this.cofinsSt = cofinsSt;
+            return this;
+        }
+
+        /**
+         * 
+         * @see ICMSUFReceiver
+         * @param icmsUfReceiver
+         * @return
+         */
+        public Builder withIcmsUfReceiver(ICMSUFReceiver icmsUfReceiver) {
+            this.icmsUfReceiver = icmsUfReceiver;
             return this;
         }
 
@@ -135,6 +192,7 @@ public class Tax implements Serializable {
         this.pisSt = null;
         this.cofins = null;
         this.cofinsSt = null;
+        this.icmsUfReceiver = null;
         this.taxTotalValue = null;
     }
 
@@ -147,11 +205,20 @@ public class Tax implements Serializable {
         this.pisSt = builder.pisSt;
         this.cofins = builder.cofins;
         this.cofinsSt = builder.cofinsSt;
+        this.icmsUfReceiver = builder.icmsUfReceiver;
         this.taxTotalValue = builder.taxTotalValue;
     }
 
     public ICMS getIcms() {
         return this.icms;
+    }
+
+    public IPI getIpi() {
+        return this.ipi;
+    }
+
+    public II getIi() {
+        return this.ii;
     }
 
     public PIS getPis() {
@@ -170,12 +237,8 @@ public class Tax implements Serializable {
         return this.cofinsSt;
     }
 
-    public IPI getIpi() {
-        return this.ipi;
-    }
-
-    public II getIi() {
-        return this.ii;
+    public ICMSUFReceiver getIcmsUfReceiver() {
+        return this.icmsUfReceiver;
     }
 
     public String getTaxTotalValue() {

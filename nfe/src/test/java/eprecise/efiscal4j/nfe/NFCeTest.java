@@ -16,7 +16,7 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
 
 
-public class NFeTest implements Testable {
+public class NFCeTest implements Testable {
 
     private final TestDomain nFeDomain = new TestDomain(NFe.XSD);
 
@@ -66,6 +66,6 @@ public class NFeTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildNFe();
+        return this.getTestDomain().buildNFCe();
     }
 }

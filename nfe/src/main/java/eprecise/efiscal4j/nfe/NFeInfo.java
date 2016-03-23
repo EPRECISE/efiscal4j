@@ -158,7 +158,7 @@ public class NFeInfo implements Serializable {
         }
 
         /**
-         * List of NFePayments
+         * List of NFePayment
          *
          * @see NFePayment
          * @param nFePayments
