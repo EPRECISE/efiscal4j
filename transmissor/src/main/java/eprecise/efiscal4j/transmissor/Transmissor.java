@@ -23,6 +23,11 @@ import org.slf4j.LoggerFactory;
 import eprecise.efiscal4j.commons.utils.Certificate;
 
 
+/**
+ * 
+ * @author Felipe Bueno
+ *
+ */
 public class Transmissor {
 
     private final Logger logger = LoggerFactory.getLogger(Transmissor.class);

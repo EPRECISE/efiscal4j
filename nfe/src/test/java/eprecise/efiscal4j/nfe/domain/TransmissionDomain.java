@@ -23,7 +23,6 @@ import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.signer.Signer;
 
 
@@ -113,7 +112,7 @@ class TransmissionDomain {
         //@formatter:off
         return new NFeStatusSearch.Builder()
                      .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                     .withAcessKey("43060659104422005704550990000070080007055470")                                                                                      
+                     .withAcessKey("41160314241297000191550070000000211142463507")                                                                                      
                      .build();
         //@formatter:on
     }
@@ -210,15 +209,6 @@ class TransmissionDomain {
                      .withAverageTime("1")
                      .build();
         //@formatter:on
-    }
-
-    public ServiceStatusSearchResponseMethod buildServiceStatusSearchResponseMethod(String xmlns, ServiceStatusSearchResponse serviceStatusSearchResponse) {
-        //@formatter:off
-        return new ServiceStatusSearchResponseMethod.Builder()
-                 .withXmlns(xmlns)
-                 .withServiceStatusSearchResponse(serviceStatusSearchResponse)
-                 .build();
-        //@formatter:on        
     }
 
 }

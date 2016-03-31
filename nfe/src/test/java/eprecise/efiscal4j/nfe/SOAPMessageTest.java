@@ -16,6 +16,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
+import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
@@ -50,6 +51,36 @@ public class SOAPMessageTest implements Testable {
             System.out.println(returnXml);
 
             System.out.println("NFeStatusServico - teste concluído");
+            System.out.println("");
+
+        } catch (final ConstraintViolationException e) {
+            this.handleErrors(e);
+        }
+    }
+
+    /**
+     * Teste do serviço de NFeConsultaProtocolo
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void validateNFeStatusSearch() throws Exception {
+        try {
+            System.out.println("Testando NFeConsultaProtocolo...");
+
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitNFeStatusSearch(this.getTestDomain().buildNFeStatusSearch(), FiscalDocumentModel.NFE,
+                    UF.PR);
+
+            final NFeStatusSearchResponseMethod nfeStatusSearchResponseMethod = new FiscalDocumentDeserializer<NFeStatusSearchResponseMethod>(transmissionResult.getResponseXml(),
+                    NFeStatusSearchResponseMethod.class).deserialize();
+
+            System.out.println("Retorno convertido:");
+
+            final String returnXml = new FiscalDocumentSerializer<NFeStatusSearchResponseMethod>(nfeStatusSearchResponseMethod).serialize();
+
+            System.out.println(returnXml);
+
+            System.out.println("NFeConsultaProtocolo - teste concluído");
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
@@ -170,7 +201,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateEventDispatchCancellation() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Cancelamento...");
@@ -199,7 +230,7 @@ public class SOAPMessageTest implements Testable {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateEventDispatchCCe() throws Exception {
         try {
             System.out.println("Testando RecepcaoEvento - Carta de Correção...");

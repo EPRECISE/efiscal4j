@@ -82,7 +82,6 @@ import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.tax.Tax;
 import eprecise.efiscal4j.nfe.tax.cofins.COFINS;
@@ -1556,10 +1555,6 @@ public class TestDomain {
 
     public ServiceStatusSearchResponse buildServiceStatusSearchResponse() throws Exception {
         return TransmissionDomain.getInstance().buildServiceStatusSearchResponse();
-    }
-
-    public ServiceStatusSearchResponseMethod buildServiceStatusSearchResponseMethod(String xmlns, ServiceStatusSearchResponse serviceStatusSearchResponse) {
-        return TransmissionDomain.getInstance().buildServiceStatusSearchResponseMethod(xmlns, serviceStatusSearchResponse);
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {

@@ -21,6 +21,11 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 
+/**
+ * 
+ * @author JavaC Community
+ *
+ */
 public class NFeBuildAllCacerts {
 
     private static final int TIMEOUT_WS = 30;
@@ -160,7 +165,7 @@ public class NFeBuildAllCacerts {
 
         this.info("| Opening connection to " + host + ":" + port + "...");
         final SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
-        socket.setSoTimeout(TIMEOUT_WS * 1000);
+        socket.setSoTimeout(NFeBuildAllCacerts.TIMEOUT_WS * 1000);
         try {
             this.info("| Starting SSL handshake...");
             socket.startHandshake();

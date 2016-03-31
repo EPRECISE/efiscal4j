@@ -22,12 +22,19 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
+import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
+/**
+ * 
+ * @author Felipe Bueno
+ *
+ */
 public class TransmissionChannel {
 
     private final Transmissor transmissor;
@@ -199,6 +206,48 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    public TypedTransmissionResult<NFeStatusSearch, NFeStatusSearchResponseMethod> transmitNFeStatusSearch(final NFeStatusSearch nfeStatusSearch, final FiscalDocumentModel documentModel,
+            final UF uf) {
+        String serviceUrl = null;
+
+        switch (nfeStatusSearch.getTransmissionEnvironment()) {
+        case HOMOLOGACAO:
+            if (documentModel.equals(FiscalDocumentModel.NFE)) {
+                serviceUrl = NFeService.PROTOCOL_SEARCH.getHomologUrl(uf);
+            } else if (documentModel.equals(FiscalDocumentModel.NFCE)) {
+                serviceUrl = NFCeService.PROTOCOL_SEARCH.getHomologUrl(uf);
+            } else {
+                throw new IllegalStateException(documentModel.toString() + " not supported");
+            }
+            break;
+        case PRODUCAO:
+            if (documentModel.equals(FiscalDocumentModel.NFE)) {
+                serviceUrl = NFeService.PROTOCOL_SEARCH.getProductionUrl(uf);
+            } else if (documentModel.equals(FiscalDocumentModel.NFCE)) {
+                serviceUrl = NFCeService.PROTOCOL_SEARCH.getProductionUrl(uf);
+            } else {
+                throw new IllegalStateException(documentModel.toString() + " not supported");
+            }
+            break;
+        }
+
+        final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
+
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeStatusSearch.getVersion(), nfeStatusSearch);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(nfeStatusSearch).serialize();
+
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+
+        responseXml = responseXml.substring(
+                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
+
+        return new TypedTransmissionResult<>(NFeStatusSearch.class, NFeStatusSearchResponseMethod.class, requestXml, responseXml);
+    }
+
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
         //@formatter:off         
         return new SOAPEnvelope.Builder()
@@ -247,6 +296,13 @@ public class TransmissionChannel {
         }
     }
 
+    /**
+     * 
+     * @author Clécius J. Martinkoski
+     *
+     * @param <RQ>
+     * @param <RP>
+     */
     public static class TypedTransmissionResult<RQ, RP> extends TransmissionResult {
 
         private final Class<RQ> requestType;

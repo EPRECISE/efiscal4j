@@ -17,6 +17,7 @@ import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
+import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
@@ -46,6 +47,8 @@ public class ObjectFactory {
     public static final String RET_ENV_EVENTO = "retEnvEvento";
 
     public static final String NFE_STAT_SERV_RESULT = "nfeStatusServicoNFResult";
+
+    public static final String NFE_CONS_NFE_RESULT = "nfeConsultaNFResult";
 
     public static final String NFE_AUT_LOTE_RESULT = "nfeAutorizacaoLoteResult";
 
@@ -106,6 +109,11 @@ public class ObjectFactory {
     @XmlElementDecl(name = ObjectFactory.NFE_STAT_SERV_RESULT)
     public JAXBElement<ServiceStatusSearchResponseMethod> createServiceStatusSearchResponseMethod(ServiceStatusSearchResponseMethod receivable) {
         return new JAXBElement<ServiceStatusSearchResponseMethod>(new QName(ObjectFactory.NFE_STAT_SERV_RESULT), ServiceStatusSearchResponseMethod.class, receivable);
+    }
+
+    @XmlElementDecl(name = ObjectFactory.NFE_CONS_NFE_RESULT)
+    public JAXBElement<NFeStatusSearchResponseMethod> createNFeStatusSearchResponseMethod(NFeStatusSearchResponseMethod receivable) {
+        return new JAXBElement<NFeStatusSearchResponseMethod>(new QName(ObjectFactory.NFE_CONS_NFE_RESULT), NFeStatusSearchResponseMethod.class, receivable);
     }
 
     @XmlElementDecl(name = ObjectFactory.NFE_AUT_LOTE_RESULT)
