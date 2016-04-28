@@ -15,7 +15,6 @@ import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
@@ -150,45 +149,6 @@ public class SOAPMessageTest implements Testable {
             // System.out.println(returnXml);
 
             System.out.println("NFeRetAutorizacao - teste concluído");
-            System.out.println("");
-
-        } catch (final ConstraintViolationException e) {
-            this.handleErrors(e);
-        }
-    }
-
-    /**
-     * Teste do serviço de NFeConsultaProtocolo
-     * 
-     * @throws Exception
-     */
-    // @Test
-    public void validateNfeProtocolSearch() throws Exception {
-        try {
-            System.out.println("Testando NFeConsultaProtocolo...");
-            final SOAPHeader soapHeader = this.getTestDomain().buildSoapHeader(this.getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3", UF.PR));
-
-            final NFeStatusSearch nFeStatusSearch = this.getTestDomain().buildNFeStatusSearch();
-
-            final SOAPBody soapBody = this.getTestDomain().buildSoapBody(this.getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3", nFeStatusSearch));
-
-            final SOAPEnvelope soapEnvelope = this.getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
-
-            ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
-
-            final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
-
-            // final String returnXml = this.nFeDomain.getTransmissor().transmit(requestXml, NFeService.PROTOCOL_SEARCH.getHomologUrl(UF.PR));
-
-            // final SOAPEnvelopeResponse soapEnvelopeResponse = new FiscalDocumentDeserializer<SOAPEnvelopeResponse>(returnXml, SOAPEnvelopeResponse.class).deserialize();
-            //
-            // System.out.println("retorno convertido:");
-            //
-            // returnXml = new FiscalDocumentSerializer<SOAPEnvelopeResponse>(soapEnvelopeResponse).serialize();
-            //
-            // System.out.println(returnXml);
-
-            System.out.println("NFeConsultaProtocolo - teste concluído");
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {

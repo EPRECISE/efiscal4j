@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.address;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,7 +17,7 @@ public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "cPais") final String ibgeCode;
+    private @XmlElement(name = "cPais") @Pattern(regexp = "[0-9]{1,4}") final String ibgeCode;
 
     private @XmlElement(name = "xPais") @Size(min = 2, max = 60) final String description;
 
