@@ -1,14 +1,12 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
-import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
+import eprecise.efiscal4j.nfe.types.NFeDecimal1302Optional;
 
 
 /**
@@ -24,31 +22,31 @@ class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
+    private @XmlElement(name = "modBC") final BCModality bcModality;
 
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
+    private @XmlElement(name = "vBC") @NFeDecimal1302Optional final String bcValue;
 
     private @XmlElement(name = "pRedBC") @NFeDecimal0302a04Optional final String bcReductionPercent;
 
-    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+    private @XmlElement(name = "pICMS") @NFeDecimal0302a04Optional final String icmsAliquot;
 
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+    private @XmlElement(name = "vICMS") @NFeDecimal1302Optional final String icmsValue;
 
-    private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+    private @XmlElement(name = "modBCST") final BCModalityST bcModalitySt;
 
     private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
     private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
-    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+    private @XmlElement(name = "vBCST") @NFeDecimal1302Optional final String bcValueST;
 
-    private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+    private @XmlElement(name = "pICMSST") @NFeDecimal0302a04Optional final String icmsStAliquot;
 
-    private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+    private @XmlElement(name = "vICMSST") @NFeDecimal1302Optional final String icmsStValue;
 
-    private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
+    private @XmlElement(name = "pCredSN") @NFeDecimal0302a04Optional final String creditSnAliquot;
 
-    private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
+    private @XmlElement(name = "vCredICMSSN") @NFeDecimal1302Optional final String creditSnIcmsValue;
 
     public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
 
