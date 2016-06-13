@@ -21,6 +21,7 @@
 		<module>signer</module>
 		<module>nfe</module>
 		<module>cte</module>
+		<module>mdfe</module>
 	</modules>
 
 	<dependencyManagement>
