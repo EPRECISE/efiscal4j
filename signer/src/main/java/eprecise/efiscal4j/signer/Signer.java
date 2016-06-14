@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * 
+ *
  * @author Felipe Bueno
  *
  */
@@ -62,17 +62,17 @@ public class Signer {
 
     private KeyInfo keyInfo;
 
-    public Signer(eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
+    public Signer(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
         this.init();
     }
 
     /**
-     * 
+     *
      * Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.<br>
      * Create a list of Transforms, including ENVELOPED and C14N Transforms<br>
      * Load the KeyStore and get the signing key and certificate<br>
-     * 
+     *
      * @throws Exception
      */
     private void init() throws Exception {
@@ -93,18 +93,17 @@ public class Signer {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
 
-        KeyStore.PrivateKeyEntry pkEntry = null;
+        Certificate cert = null;
         final Enumeration<String> aliasesEnum = ks.aliases();
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
             if (ks.isKeyEntry(alias)) {
-                pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(alias, new KeyStore.PasswordProtection(this.getKeyCertificate().getPassphrase().toCharArray()));
-                this.privateKey = pkEntry.getPrivateKey();
+                cert = ks.getCertificate(alias);
+                this.privateKey = (PrivateKey) ks.getKey(alias, this.getKeyCertificate().getPassphrase().toCharArray());
                 break;
             }
         }
 
-        final Certificate cert = pkEntry.getCertificate();
         final KeyInfoFactory keyInfoFactory = this.signatureFactory.getKeyInfoFactory();
         final List<Certificate> x509Content = new ArrayList<Certificate>();
         x509Content.add(cert);
@@ -116,7 +115,7 @@ public class Signer {
 
     /**
      * Assina o documento assinável, retornando a mesma entidade com as tags de Signature preenchidas
-     * 
+     *
      * @param assignable
      * @throws NoSuchAlgorithmException
      * @throws InvalidAlgorithmParameterException
@@ -127,7 +126,7 @@ public class Signer {
      * @throws ParserConfigurationException
      * @throws TransformerException
      */
-    public Assignable sign(Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
+    public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException, TransformerException {
         // Instantiate the document to be signed.
         final Document document = this.documentFactory(assignable.getAsXml());
@@ -145,22 +144,22 @@ public class Signer {
             //@formatter:off
             final Reference reference = this.signatureFactory.newReference("#" + idAttribute,
                                                                            this.signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
-                                                                           this.transformList, 
-                                                                           null, 
+                                                                           this.transformList,
+                                                                           null,
                                                                            null);
             //Create the signedInfo element
             final SignedInfo signedInfo = this.signatureFactory.newSignedInfo(
-                    this.signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE, 
+                    this.signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
                                                                    (C14NMethodParameterSpec) null),
-                    this.signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, 
+                    this.signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,
                                                              null),
-                    Collections.singletonList(reference));            
-        
+                    Collections.singletonList(reference));
+
             // Create a DOMSignContext and specify the RSA PrivateKey and
             // location of the resulting XMLSignature's parent element.
-            final DOMSignContext signContext = new DOMSignContext(this.privateKey, 
+            final DOMSignContext signContext = new DOMSignContext(this.privateKey,
                                                                   document.getElementsByTagName(assignable.getRootTagName()).item(i));
-    
+
             //@formatter:on
             // Create the XMLSignature, but don't sign it yet.
             final XMLSignature xmlSignature = this.signatureFactory.newXMLSignature(signedInfo, this.keyInfo);
@@ -172,13 +171,13 @@ public class Signer {
         return assignable.getAsEntity(this.outputXML(document));
     }
 
-    private Document documentFactory(String xml) throws SAXException, IOException, ParserConfigurationException {
+    private Document documentFactory(final String xml) throws SAXException, IOException, ParserConfigurationException {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").getBytes()));
     }
 
-    private String outputXML(Document document) throws TransformerException {
+    private String outputXML(final Document document) throws TransformerException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final TransformerFactory transformerFactory = TransformerFactory.newInstance();
         final Transformer transformer = transformerFactory.newTransformer();
