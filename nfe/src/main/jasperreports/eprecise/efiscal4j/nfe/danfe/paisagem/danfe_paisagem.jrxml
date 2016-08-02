@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-07-28T18:02:35 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-08-01T21:33:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_paisagem_leiaute_2xx_cr" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -382,6 +382,15 @@
 	</background>
 	<title>
 		<band height="345" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="63" y="10" width="100" height="75" uuid="071ef9ac-2fec-44b6-8902-cf2aed2a88f9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<box padding="1"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
 			<rectangle radius="0">
 				<reportElement positionType="Float" mode="Transparent" x="498" y="45" width="334" height="21" uuid="ec2502e6-a7d5-46af-b373-756343b9d031"/>
 				<graphicElement>
@@ -1106,7 +1115,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{idetpNF}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="320" y="121" width="250" height="12" uuid="ecdae28a-c3b9-4dd2-8e29-f8d788799a24"/>
+				<reportElement positionType="Float" mode="Transparent" x="320" y="120" width="250" height="12" uuid="ecdae28a-c3b9-4dd2-8e29-f8d788799a24"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -1401,8 +1410,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="63" y="61" width="302" height="30" uuid="368373c2-e939-40f6-b9c1-c407c82ad91a">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="63" y="56" width="302" height="30" uuid="368373c2-e939-40f6-b9c1-c407c82ad91a">
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
@@ -1412,7 +1421,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="63" y="31" width="302" height="14" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504">
+				<reportElement positionType="Float" mode="Transparent" x="63" y="24" width="302" height="14" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
@@ -1480,7 +1489,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{idedhEmi}!=null ? new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi}):null]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="63" y="10" width="302" height="14" uuid="266aedf4-789f-4eed-a5ab-1092ceaf4cff">
+				<reportElement positionType="Float" mode="Transparent" x="63" y="3" width="302" height="14" uuid="266aedf4-789f-4eed-a5ab-1092ceaf4cff">
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -1647,17 +1656,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/cobr/dup")]]></dataSourceExpression>
 				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem_duplicatas.jasper"]]></subreportExpression>
 			</subreport>
-			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-				<reportElement x="63" y="10" width="100" height="75" uuid="071ef9ac-2fec-44b6-8902-cf2aed2a88f9">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
-				</reportElement>
-				<box padding="1"/>
-				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
-			</image>
-			<textField isBlankWhenNull="true">
-				<reportElement x="63" y="47" width="302" height="12" uuid="3ffb0f72-4122-4fd3-aac8-fb2b85e87fbd">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="63" y="42" width="302" height="12" uuid="3ffb0f72-4122-4fd3-aac8-fb2b85e87fbd">
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -1665,8 +1665,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="165" y="61" width="202" height="30" uuid="a2c58106-1e72-40cc-b412-fac3aa8bfe04">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="165" y="67" width="202" height="24" uuid="a2c58106-1e72-40cc-b412-fac3aa8bfe04">
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
@@ -1675,8 +1675,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="165" y="47" width="202" height="12" uuid="ac595508-03f9-488e-82b4-512110d0e052">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="165" y="53" width="202" height="12" uuid="ac595508-03f9-488e-82b4-512110d0e052">
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -1684,9 +1684,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="165" y="31" width="202" height="14" uuid="4d49e00f-5f38-4fb9-8c66-823299218499">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="165" y="19" width="202" height="28" uuid="4d49e00f-5f38-4fb9-8c66-823299218499">
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -1695,7 +1694,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{emitxNome}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="165" y="10" width="202" height="14" uuid="1ed3ee40-0ee0-4f99-a57f-387571e5aa44">
+				<reportElement positionType="Float" mode="Transparent" x="165" y="3" width="202" height="14" uuid="1ed3ee40-0ee0-4f99-a57f-387571e5aa44">
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
