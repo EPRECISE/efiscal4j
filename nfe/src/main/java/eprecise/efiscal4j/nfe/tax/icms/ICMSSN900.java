@@ -1,11 +1,15 @@
 
 package eprecise.efiscal4j.nfe.tax.icms;
 
+import java.util.Arrays;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import eprecise.efiscal4j.nfe.tax.icms.adapters.ICMSSN900Adapter;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
@@ -18,37 +22,100 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
  * @see ICMS
  * @author Clécius J. Martinkoski
  * @author Felipe Bueno
+ * @author Fernando Glizt
  */
+@XmlJavaTypeAdapter(ICMSSN900Adapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
+public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
+    private final ICMSSN900FieldGroup1 fieldGroup1;
 
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
+    private final ICMSSN900FieldGroup2 fieldGroup2;
 
-    private @XmlElement(name = "pRedBC") @NFeDecimal0302a04Optional final String bcReductionPercent;
+    private final ICMSSN900FieldGroup3 fieldGroup3;
 
-    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+    static class ICMSSN900FieldGroup1 {
 
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+        private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
 
-    private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+        private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
 
-    private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
+        private @XmlElement(name = "pRedBC") @NFeDecimal0302a04Optional final String bcReductionPercent;
 
-    private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
+        private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
 
-    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+        private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
-    private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+        public ICMSSN900FieldGroup1() {
+            this.bcModality = null;
+            this.bcReductionPercent = null;
+            this.bcValue = null;
+            this.icmsAliquot = null;
+            this.icmsValue = null;
+        }
 
-    private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+        protected ICMSSN900FieldGroup1(final ICMSSN900.Builder builder) {
+            this.bcModality = builder.bcModality;
+            this.bcReductionPercent = builder.bcReductionPercent;
+            this.bcValue = builder.bcValue;
+            this.icmsAliquot = builder.icmsAliquot;
+            this.icmsValue = builder.icmsValue;
+        }
+    }
 
-    private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
+    static class ICMSSN900FieldGroup2 {
 
-    private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
+        private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+
+        private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
+
+        private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
+
+        private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+
+        private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+
+        private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+
+        public ICMSSN900FieldGroup2() {
+            this.bcModalitySt = null;
+            this.valueMarginAddedStPercent = null;
+            this.bcReductionStPercent = null;
+            this.bcValueST = null;
+            this.icmsStAliquot = null;
+            this.icmsStValue = null;
+        }
+
+        protected ICMSSN900FieldGroup2(final ICMSSN900.Builder builder) {
+            this.bcModalitySt = builder.bcModalitySt;
+            this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
+            this.bcReductionStPercent = builder.bcReductionStPercent;
+            this.bcValueST = builder.bcValueST;
+            this.icmsStAliquot = builder.icmsStAliquot;
+            this.icmsStValue = builder.icmsStValue;
+        }
+
+    }
+
+    static class ICMSSN900FieldGroup3 {
+
+        private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
+
+        private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
+
+        public ICMSSN900FieldGroup3() {
+            this.creditSnAliquot = null;
+            this.creditSnIcmsValue = null;
+        }
+
+        protected ICMSSN900FieldGroup3(final ICMSSN900.Builder builder) {
+            this.creditSnAliquot = builder.creditSnAliquot;
+            this.creditSnIcmsValue = builder.creditSnIcmsValue;
+        }
+
+    }
 
     public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
 
@@ -208,90 +275,87 @@ class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
     }
 
     public ICMSSN900() {
-        this.bcModality = null;
-        this.bcReductionPercent = null;
-        this.bcValue = null;
-        this.icmsAliquot = null;
-        this.icmsValue = null;
-        this.bcModalitySt = null;
-        this.valueMarginAddedStPercent = null;
-        this.bcReductionStPercent = null;
-        this.bcValueST = null;
-        this.icmsStAliquot = null;
-        this.icmsStValue = null;
-        this.creditSnAliquot = null;
-        this.creditSnIcmsValue = null;
+        this.fieldGroup1 = null;
+        this.fieldGroup2 = null;
+        this.fieldGroup3 = null;
     }
 
     protected ICMSSN900(final ICMSSN900.Builder builder) {
         super(builder.origin, "900");
-        this.bcModality = builder.bcModality;
-        this.bcReductionPercent = builder.bcReductionPercent;
-        this.bcValue = builder.bcValue;
-        this.icmsAliquot = builder.icmsAliquot;
-        this.icmsValue = builder.icmsValue;
-        this.bcModalitySt = builder.bcModalitySt;
-        this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
-        this.bcReductionStPercent = builder.bcReductionStPercent;
-        this.bcValueST = builder.bcValueST;
-        this.icmsStAliquot = builder.icmsStAliquot;
-        this.icmsStValue = builder.icmsStValue;
-        this.creditSnAliquot = builder.creditSnAliquot;
-        this.creditSnIcmsValue = builder.creditSnIcmsValue;
+
+        if (!Arrays.asList(builder.bcModality, builder.bcReductionPercent, builder.bcValue, builder.icmsAliquot, builder.icmsValue)
+                .containsAll(Arrays.asList(new Object[] { null, null, null, null, null }))) {
+            this.fieldGroup1 = new ICMSSN900FieldGroup1(builder);
+        } else {
+            this.fieldGroup1 = null;
+        }
+
+        if (!Arrays.asList(builder.bcModalitySt, builder.valueMarginAddedStPercent, builder.bcReductionStPercent, builder.bcValueST, builder.icmsStAliquot, builder.icmsStValue)
+                .containsAll(Arrays.asList(new Object[] { null, null, null, null, null, null }))) {
+            this.fieldGroup2 = new ICMSSN900FieldGroup2(builder);
+        } else {
+            this.fieldGroup2 = null;
+        }
+
+        if (!Arrays.asList(builder.creditSnAliquot, builder.creditSnIcmsValue).containsAll(Arrays.asList(new Object[] { null, null }))) {
+            this.fieldGroup3 = new ICMSSN900FieldGroup3(builder);
+        } else {
+            this.fieldGroup3 = null;
+        }
     }
 
     public BCModality getBcModality() {
-        return this.bcModality;
+        return this.fieldGroup1 != null ? this.fieldGroup1.bcModality : null;
     }
 
     public String getBcValue() {
-        return this.bcValue;
+        return this.fieldGroup1 != null ? this.fieldGroup1.bcValue : null;
     }
 
     public String getBcReductionPercent() {
-        return this.bcReductionPercent;
+        return this.fieldGroup1 != null ? this.fieldGroup1.bcReductionPercent : null;
     }
 
     public String getIcmsAliquot() {
-        return this.icmsAliquot;
+        return this.fieldGroup1 != null ? this.fieldGroup1.icmsAliquot : null;
     }
 
     @Override
     public String getIcmsValue() {
-        return this.icmsValue;
+        return this.fieldGroup1 != null ? this.fieldGroup1.icmsValue : null;
     }
 
     public BCModalityST getBcModalitySt() {
-        return this.bcModalitySt;
+        return this.fieldGroup2 != null ? this.fieldGroup2.bcModalitySt : null;
     }
 
     public String getValueMarginAddedStPercent() {
-        return this.valueMarginAddedStPercent;
+        return this.fieldGroup2 != null ? this.fieldGroup2.valueMarginAddedStPercent : null;
     }
 
     public String getBcReductionStPercent() {
-        return this.bcReductionStPercent;
+        return this.fieldGroup2 != null ? this.fieldGroup2.bcReductionStPercent : null;
     }
 
     public String getBcValueST() {
-        return this.bcValueST;
+        return this.fieldGroup2 != null ? this.fieldGroup2.bcValueST : null;
     }
 
     public String getIcmsStAliquot() {
-        return this.icmsStAliquot;
+        return this.fieldGroup2 != null ? this.fieldGroup2.icmsStAliquot : null;
     }
 
     @Override
     public String getIcmsStValue() {
-        return this.icmsStValue;
+        return this.fieldGroup2 != null ? this.fieldGroup2.icmsStValue : null;
     }
 
     public String getCreditSnAliquot() {
-        return this.creditSnAliquot;
+        return this.fieldGroup3 != null ? this.fieldGroup3.creditSnAliquot : null;
     }
 
     public String getCreditSnIcmsValue() {
-        return this.creditSnIcmsValue;
+        return this.fieldGroup3 != null ? this.fieldGroup3.creditSnIcmsValue : null;
     }
 
 }
