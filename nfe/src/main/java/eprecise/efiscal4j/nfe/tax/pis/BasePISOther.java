@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.tax.pis;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,7 +14,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Classe base para os PIS com os outros CST (49, 50, 51, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 70, 71, 72, 73, 74, 75, 98, 99)
- * 
+ *
  * @see BasePISOtherStandard
  * @see BasePIS
  * @see PIS
@@ -34,7 +33,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
     private @XmlElement(name = "vAliqProd") @NFeDecimal1104Variable final String productAliquot;
 
-    private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisValue;
+    private @XmlElement(name = "vPIS") @NFeDecimal1302 final String pisValue;
 
     static abstract class Builder extends BasePIS.Builder {
 
@@ -50,7 +49,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
         /**
          * Valor da BC do PIS
-         * 
+         *
          * @param bcValue
          * @return
          */
@@ -61,7 +60,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
         /**
          * Alíquota do PIS (em percentual)
-         * 
+         *
          * @param pisAliquot
          * @return
          */
@@ -72,7 +71,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
         /**
          * Quantidade Vendida (NT2011/004)
-         * 
+         *
          * @param productQuantity
          * @return
          */
@@ -83,7 +82,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
         /**
          * Alíquota do PIS (em reais) (NT2011/004)
-         * 
+         *
          * @param productAliquot
          * @return
          */
@@ -94,7 +93,7 @@ abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
         /**
          * Valor do PIS
-         * 
+         *
          * @param pisValue
          * @return
          */

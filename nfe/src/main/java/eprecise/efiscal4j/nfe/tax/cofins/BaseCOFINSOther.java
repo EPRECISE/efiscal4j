@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.tax.cofins;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,7 +14,7 @@ import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
 
 /**
  * Classe base para os COFINS com os outros CST (49, 50, 51, 52, 53, 54, 55, 56, 60, 61, 62, 63, 64, 65, 66, 67, 70, 71, 72, 73, 74, 75, 98, 99)
- * 
+ *
  * @see BaseCOFINSOtherStandard
  * @see BaseCOFINS
  * @see COFINS
@@ -34,7 +33,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
     private @XmlElement(name = "vAliqProd") @NFeDecimal1104Variable final String productAliquot;
 
-    private @XmlElement(name = "vCOFINS") @NotNull @NFeDecimal1302 final String cofinsValue;
+    private @XmlElement(name = "vCOFINS") @NFeDecimal1302 final String cofinsValue;
 
     static abstract class Builder extends BaseCOFINS.Builder {
 
@@ -50,7 +49,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
         /**
          * Valor da BC do COFINS
-         * 
+         *
          * @param bcValue
          * @return
          */
@@ -61,7 +60,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
         /**
          * Alíquota do COFINS (em percentual)
-         * 
+         *
          * @param cofinsAliquot
          * @return
          */
@@ -72,7 +71,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
         /**
          * Quantidade Vendida (NT2011/004)
-         * 
+         *
          * @param productQuantity
          * @return
          */
@@ -83,7 +82,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
         /**
          * Alíquota do COFINS (em reais) (NT2011/004)
-         * 
+         *
          * @param productAliquot
          * @return
          */
@@ -94,7 +93,7 @@ abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStan
 
         /**
          * Valor do COFINS
-         * 
+         *
          * @param cofinsValue
          * @return
          */
