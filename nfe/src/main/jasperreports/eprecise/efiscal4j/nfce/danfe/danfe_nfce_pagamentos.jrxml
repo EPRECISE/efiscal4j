@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-12-15T14:47:21 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce_pagamentos" pageWidth="198" pageHeight="297" columnWidth="198" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2bbc612f-ad68-429b-84a1-551fd49320a0">
+<!-- 2016-12-23T14:49:42 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce_pagamentos" pageWidth="194" pageHeight="297" columnWidth="194" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2bbc612f-ad68-429b-84a1-551fd49320a0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="XmlDataAdapter "/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -28,9 +28,7 @@
 	<columnHeader>
 		<band height="8" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="152" height="8" uuid="5b8afd1b-4294-41b1-aee4-da39a1ee5103">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="0" width="148" height="8" uuid="5b8afd1b-4294-41b1-aee4-da39a1ee5103"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6"/>
@@ -38,7 +36,7 @@
 				<text><![CDATA[FORMA DE PAGAMENTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="152" y="0" width="46" height="8" uuid="d5e7ee30-b248-404d-af2e-2164179168a4">
+				<reportElement x="148" y="0" width="46" height="8" uuid="d5e7ee30-b248-404d-af2e-2164179168a4">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
@@ -53,7 +51,7 @@
 	<detail>
 		<band height="8" splitType="Stretch">
 			<textField>
-				<reportElement x="152" y="0" width="46" height="8" uuid="ecdbad5a-f7ac-498e-9259-e9115c358ccb">
+				<reportElement x="148" y="0" width="46" height="8" uuid="ecdbad5a-f7ac-498e-9259-e9115c358ccb">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -62,7 +60,7 @@
 				<textFieldExpression><![CDATA[$F{vPag}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="152" height="8" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1">
+				<reportElement x="0" y="0" width="148" height="8" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">

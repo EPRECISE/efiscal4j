@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-12-15T14:43:47 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="198" leftMargin="10" rightMargin="2" topMargin="4" bottomMargin="2" whenResourceMissingType="Error" isIgnorePagination="true" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
+<!-- 2016-12-23T14:59:52 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="194" leftMargin="8" rightMargin="8" topMargin="4" bottomMargin="2" whenResourceMissingType="Error" isIgnorePagination="true" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
@@ -115,7 +115,7 @@
 	<title>
 		<band height="58" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="45" y="0" width="153" height="8" uuid="8a1e26f3-2a95-44e7-a204-ec49167b81af">
+				<reportElement positionType="Float" x="45" y="0" width="149" height="8" uuid="8a1e26f3-2a95-44e7-a204-ec49167b81af">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
@@ -133,7 +133,7 @@
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="45" y="8" width="153" height="8" uuid="c41de7a2-71cb-4d68-9b05-e412adbec629">
+				<reportElement positionType="Float" x="45" y="8" width="149" height="8" uuid="c41de7a2-71cb-4d68-9b05-e412adbec629">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
@@ -144,7 +144,7 @@
 				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="45" y="16" width="153" height="8" uuid="e0554636-d7ac-4322-8dcb-91d22891e349">
+				<reportElement positionType="Float" x="45" y="16" width="149" height="8" uuid="e0554636-d7ac-4322-8dcb-91d22891e349">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
@@ -154,13 +154,13 @@
 				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement positionType="Float" x="0" y="35" width="198" height="1" uuid="81b4d4b5-e6f5-4ea8-8e69-230848d85287"/>
+				<reportElement positionType="Float" x="0" y="35" width="194" height="1" uuid="81b4d4b5-e6f5-4ea8-8e69-230848d85287"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="37" width="198" height="14" uuid="61367979-e5ba-4b89-9530-95c0e0b05695">
+				<reportElement positionType="Float" x="0" y="37" width="194" height="14" uuid="61367979-e5ba-4b89-9530-95c0e0b05695">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -171,7 +171,7 @@
 da Nota Fiscal de Consumidor Eletrônica]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="51" width="198" height="7" uuid="1692cab7-ad92-4cd1-a74a-9a4f4af92569">
+				<reportElement positionType="Float" x="0" y="51" width="194" height="7" uuid="1692cab7-ad92-4cd1-a74a-9a4f4af92569">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -180,7 +180,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Não permite aproveitamento de crédito de ICMS]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="45" y="24" width="153" height="8" uuid="0fb7741b-f2c5-4334-8972-adb14d6e367b">
+				<reportElement positionType="Float" x="45" y="24" width="149" height="8" uuid="0fb7741b-f2c5-4334-8972-adb14d6e367b">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
@@ -191,7 +191,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="24" width="198" height="8" uuid="0c6cb3d2-c95d-4e6e-b440-3927a75355a0">
+				<reportElement positionType="Float" x="0" y="24" width="194" height="8" uuid="0c6cb3d2-c95d-4e6e-b440-3927a75355a0">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
@@ -202,7 +202,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="0" y="16" width="198" height="8" uuid="aa61197e-72c5-4653-ab67-9bb42d7e3169">
+				<reportElement positionType="Float" x="0" y="16" width="194" height="8" uuid="aa61197e-72c5-4653-ab67-9bb42d7e3169">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
@@ -212,7 +212,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="8" width="198" height="8" uuid="033cac54-7280-427a-9f20-7e4ecf317b4a">
+				<reportElement positionType="Float" x="0" y="8" width="194" height="8" uuid="033cac54-7280-427a-9f20-7e4ecf317b4a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
@@ -223,8 +223,9 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="0" width="198" height="8" uuid="3adde7ee-d838-40c0-bf52-b835a6c53779">
+				<reportElement positionType="Float" x="0" y="0" width="194" height="8" uuid="3adde7ee-d838-40c0-bf52-b835a6c53779">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -240,7 +241,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 	<detail>
 		<band height="11" splitType="Stretch">
 			<subreport>
-				<reportElement positionType="Float" x="0" y="1" width="198" height="10" uuid="2dc45840-bf4a-417b-adf0-f6a00d5cfee6">
+				<reportElement positionType="Float" x="0" y="1" width="194" height="10" uuid="2dc45840-bf4a-417b-adf0-f6a00d5cfee6">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/det")]]></dataSourceExpression>
@@ -249,7 +250,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 		</band>
 		<band height="36">
 			<staticText>
-				<reportElement positionType="Float" x="0" y="0" width="160" height="8" uuid="9ef96011-70b6-46eb-94f5-d2616584af25"/>
+				<reportElement positionType="Float" x="0" y="0" width="156" height="8" uuid="9ef96011-70b6-46eb-94f5-d2616584af25"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6"/>
@@ -257,7 +258,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Qtd. Total de Itens]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="16" width="160" height="8" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
+				<reportElement positionType="Float" x="0" y="16" width="156" height="8" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -267,14 +268,14 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Valor Total R$]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="26" width="198" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
+				<reportElement positionType="Float" x="0" y="26" width="194" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag")]]></dataSourceExpression>
 				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_pagamentos.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="160" y="0" width="38" height="8" uuid="1fdc8792-da51-4c21-a926-99d9b141708c">
+				<reportElement positionType="Float" x="156" y="0" width="38" height="8" uuid="1fdc8792-da51-4c21-a926-99d9b141708c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -284,7 +285,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{qtdTotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="160" y="16" width="38" height="8" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
+				<reportElement positionType="Float" x="156" y="16" width="38" height="8" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -295,7 +296,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{vNF}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="8" width="160" height="8" uuid="8f32ef05-6330-4480-a23f-ec74cad139e0">
+				<reportElement positionType="Float" x="0" y="8" width="156" height="8" uuid="8f32ef05-6330-4480-a23f-ec74cad139e0">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -305,7 +306,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Desconto Total R$]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="160" y="8" width="38" height="8" uuid="1a8bb3de-d35b-4791-94e6-7352fe769b4a">
+				<reportElement positionType="Float" x="156" y="8" width="38" height="8" uuid="1a8bb3de-d35b-4791-94e6-7352fe769b4a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -318,13 +319,13 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 		</band>
 		<band height="104">
 			<line>
-				<reportElement positionType="Float" x="0" y="17" width="198" height="1" uuid="ed165487-24d7-4707-a197-c4e67c2a2875"/>
+				<reportElement positionType="Float" x="0" y="17" width="194" height="1" uuid="ed165487-24d7-4707-a197-c4e67c2a2875"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="1" width="140" height="17" uuid="fa8a1037-7c45-472e-a87b-864b36756b69"/>
+				<reportElement positionType="Float" x="0" y="1" width="136" height="17" uuid="fa8a1037-7c45-472e-a87b-864b36756b69"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6"/>
@@ -333,13 +334,13 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 (Lei Federal 12.741 /2012) Fonte IBPT]]></text>
 			</staticText>
 			<line>
-				<reportElement positionType="Float" x="0" y="0" width="198" height="1" uuid="2f837681-d225-490e-9b64-c9b42992913e"/>
+				<reportElement positionType="Float" x="0" y="0" width="194" height="1" uuid="2f837681-d225-490e-9b64-c9b42992913e"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement positionType="Float" x="0" y="85" width="198" height="1" uuid="9a79de07-3538-4598-8777-fbf49b99c369">
+				<reportElement positionType="Float" x="0" y="85" width="194" height="1" uuid="9a79de07-3538-4598-8777-fbf49b99c369">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<graphicElement>
@@ -347,7 +348,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="18" width="198" height="8" isRemoveLineWhenBlank="true" uuid="7cb0cc30-62d9-4d03-aa7b-1e66043cb707">
+				<reportElement positionType="Float" x="0" y="18" width="194" height="8" isRemoveLineWhenBlank="true" uuid="7cb0cc30-62d9-4d03-aa7b-1e66043cb707">
 					<printWhenExpression><![CDATA[$F{infCpl} != null && !$F{infCpl}.isEmpty()]]></printWhenExpression>
 				</reportElement>
 				<box topPadding="0"/>
@@ -357,7 +358,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{infCpl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="26" width="198" height="8" uuid="c9f59d91-8b46-4c44-a60c-59d2a4647828"/>
+				<reportElement positionType="Float" x="0" y="26" width="194" height="8" uuid="c9f59d91-8b46-4c44-a60c-59d2a4647828"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -365,7 +366,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{tpAmb}.equals(2) ? "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL" : !$F{tpEmis}.equals(1) ? "EMITIDA EM CONTINGÊNCIA" : ""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="35" width="198" height="8" uuid="417f3505-de84-4fbf-8c24-e0fd3397f685"/>
+				<reportElement positionType="Float" x="0" y="35" width="194" height="8" uuid="417f3505-de84-4fbf-8c24-e0fd3397f685"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -373,7 +374,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA["Número "+$F{nNF}+ "     Série "+$F{serie}+ "     Emissão "+new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-").parse($F{dhEmi}))]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="45" width="198" height="8" uuid="52e4c561-5c29-44ec-bf72-af0ad5d75c39">
+				<reportElement positionType="Float" x="0" y="45" width="194" height="8" uuid="52e4c561-5c29-44ec-bf72-af0ad5d75c39">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -383,7 +384,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Consulte pela Chave de Acesso em]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="53" width="198" height="8" uuid="6aed8044-fac9-4150-8315-29df9911f9e1"/>
+				<reportElement positionType="Float" x="0" y="53" width="194" height="8" uuid="6aed8044-fac9-4150-8315-29df9911f9e1"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -391,7 +392,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$P{url_consulta_nfce}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="68" width="198" height="8" uuid="9efe88ac-9eb1-43df-b7c6-ee5f9a067b12">
+				<reportElement positionType="Float" x="0" y="68" width="194" height="8" uuid="9efe88ac-9eb1-43df-b7c6-ee5f9a067b12">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -401,7 +402,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[CHAVE DE ACESSO]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="76" width="198" height="8" uuid="5bcef188-74f1-437c-8eea-5ceff1145d5d"/>
+				<reportElement positionType="Float" x="0" y="76" width="194" height="8" uuid="5bcef188-74f1-437c-8eea-5ceff1145d5d"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -409,7 +410,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{chNFe}.replaceAll("(.{4})(?!$)", "$1 ")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="87" width="198" height="8" uuid="c28027c7-5fd9-4c7e-8822-d2cf239eb3b4">
+				<reportElement positionType="Float" x="0" y="87" width="194" height="8" uuid="c28027c7-5fd9-4c7e-8822-d2cf239eb3b4">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -419,7 +420,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[CONSUMIDOR]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="96" width="198" height="8" uuid="39e83556-cb6a-4e42-a63e-f886869c7eb3"/>
+				<reportElement positionType="Float" x="0" y="96" width="194" height="8" uuid="39e83556-cb6a-4e42-a63e-f886869c7eb3"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -429,7 +430,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 : "CONSUMIDOR NÃO IDENTIFICADO"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="140" y="1" width="58" height="16" uuid="66979463-d704-47f7-8e11-c0b011069d62"/>
+				<reportElement positionType="Float" x="136" y="1" width="58" height="16" uuid="66979463-d704-47f7-8e11-c0b011069d62"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="6"/>
@@ -439,13 +440,13 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 		</band>
 		<band height="153">
 			<line>
-				<reportElement positionType="Float" x="0" y="0" width="198" height="1" uuid="c14a4f30-cc77-4833-b2a8-c75e7df448cc"/>
+				<reportElement positionType="Float" x="0" y="0" width="194" height="1" uuid="c14a4f30-cc77-4833-b2a8-c75e7df448cc"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="2" width="198" height="8" uuid="ef9a598e-8965-498e-91e8-ee422341fe30">
+				<reportElement positionType="Float" x="0" y="2" width="194" height="8" uuid="ef9a598e-8965-498e-91e8-ee422341fe30">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
@@ -455,7 +456,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Consulta via leitor de QR Code]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="141" width="198" height="8" uuid="6b8c6e26-ba12-4d39-b152-b8dee79ed639"/>
+				<reportElement positionType="Float" x="0" y="141" width="194" height="8" uuid="6b8c6e26-ba12-4d39-b152-b8dee79ed639"/>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
