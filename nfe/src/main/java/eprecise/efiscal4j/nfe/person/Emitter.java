@@ -23,9 +23,9 @@ import eprecise.efiscal4j.nfe.validation.CepEmitterValidation;
 
 /**
  * Identificação do emitente
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @CepEmitterValidation
 @XmlJavaTypeAdapter(EmitterAdapter.class)
@@ -42,6 +42,8 @@ public class Emitter implements Serializable {
 
     private @XmlElement(name = "IE") @NotNull @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}|ISENTO") final String stateRegistration;
 
+    private @XmlElement(name = "IEST") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") final String stateRegistrationST;
+
     private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString final String municipalRegistration;
 
     private @XmlElement(name = "CRT") @NotNull final CRT crt;
@@ -56,31 +58,38 @@ public class Emitter implements Serializable {
 
         private String stateRegistration;
 
+        private String stateRegistrationST;
+
         private String municipalRegistration;
 
         private CRT crt;
 
-        public Builder withFancyName(String fancyName) {
+        public Builder withFancyName(final String fancyName) {
             this.fancyName = Optional.ofNullable(fancyName).map(String::trim).orElse(null);
             return this;
         }
 
-        public Builder withAdress(Address adress) {
+        public Builder withAdress(final Address adress) {
             this.adress = adress;
             return this;
         }
 
-        public Builder withStateRegistration(String stateRegistration) {
+        public Builder withStateRegistration(final String stateRegistration) {
             this.stateRegistration = stateRegistration;
             return this;
         }
 
-        public Builder withMunicipalRegistration(String municipalRegistration) {
+        public Builder withStateRegistrationST(final String stateRegistrationST) {
+            this.stateRegistrationST = stateRegistrationST;
+            return this;
+        }
+
+        public Builder withMunicipalRegistration(final String municipalRegistration) {
             this.municipalRegistration = municipalRegistration;
             return this;
         }
 
-        public Builder withCrt(CRT crt) {
+        public Builder withCrt(final CRT crt) {
             this.crt = crt;
             return this;
         }
@@ -106,27 +115,27 @@ public class Emitter implements Serializable {
 
     public static class LegalEntityBuilder extends Builder {
 
-        protected LegalEntityBuilder(Builder builder) {
+        protected LegalEntityBuilder(final Builder builder) {
             super.documents = new LegalEntityDocuments();
         }
 
-        public LegalEntityBuilder withCorporateName(String corporateName) {
-            this.getDocuments().setCorporateName(corporateName);
+        public LegalEntityBuilder withCorporateName(final String corporateName) {
+            getDocuments().setCorporateName(corporateName);
             return this;
         }
 
-        public LegalEntityBuilder withCnpj(String cnpj) {
-            this.getDocuments().setCnpj(cnpj);
+        public LegalEntityBuilder withCnpj(final String cnpj) {
+            getDocuments().setCnpj(cnpj);
             return this;
         }
 
         @Override
-        public LegalEntityBuilder withStateRegistration(String stateRegistration) {
+        public LegalEntityBuilder withStateRegistration(final String stateRegistration) {
             return (LegalEntityBuilder) super.withStateRegistration(stateRegistration);
         }
 
         @Override
-        public LegalEntityBuilder withMunicipalRegistration(String municipalRegistration) {
+        public LegalEntityBuilder withMunicipalRegistration(final String municipalRegistration) {
             return (LegalEntityBuilder) super.withMunicipalRegistration(municipalRegistration);
         }
 
@@ -155,27 +164,27 @@ public class Emitter implements Serializable {
 
     public static class NaturalPersonBuilder extends Builder {
 
-        protected NaturalPersonBuilder(Builder builder) {
+        protected NaturalPersonBuilder(final Builder builder) {
             super.documents = new NaturalPersonDocuments();
         }
 
-        public NaturalPersonBuilder withCpf(String cpf) {
-            this.getDocuments().setCpf(cpf);
+        public NaturalPersonBuilder withCpf(final String cpf) {
+            getDocuments().setCpf(cpf);
             return this;
         }
 
-        public NaturalPersonBuilder withName(String name) {
-            this.getDocuments().setName(name);
+        public NaturalPersonBuilder withName(final String name) {
+            getDocuments().setName(name);
             return this;
         }
 
         @Override
-        public NaturalPersonBuilder withStateRegistration(String stateRegistration) {
+        public NaturalPersonBuilder withStateRegistration(final String stateRegistration) {
             return (NaturalPersonBuilder) super.withStateRegistration(stateRegistration);
         }
 
         @Override
-        public NaturalPersonBuilder withMunicipalRegistration(String municipalRegistration) {
+        public NaturalPersonBuilder withMunicipalRegistration(final String municipalRegistration) {
             return (NaturalPersonBuilder) super.withMunicipalRegistration(municipalRegistration);
         }
 
@@ -207,15 +216,17 @@ public class Emitter implements Serializable {
         this.fancyName = null;
         this.adress = null;
         this.stateRegistration = null;
+        this.stateRegistrationST = null;
         this.municipalRegistration = null;
         this.crt = null;
     }
 
-    public Emitter(Builder builder) {
+    public Emitter(final Builder builder) {
         this.documents = builder.documents;
         this.fancyName = builder.fancyName;
         this.adress = builder.adress;
         this.stateRegistration = builder.stateRegistration;
+        this.stateRegistrationST = builder.stateRegistrationST;
         this.municipalRegistration = builder.municipalRegistration;
         this.crt = builder.crt;
     }
@@ -234,6 +245,10 @@ public class Emitter implements Serializable {
 
     public String getStateRegistration() {
         return this.stateRegistration;
+    }
+
+    public String getStateRegistrationST() {
+        return this.stateRegistrationST;
     }
 
     public String getMunicipalRegistration() {
