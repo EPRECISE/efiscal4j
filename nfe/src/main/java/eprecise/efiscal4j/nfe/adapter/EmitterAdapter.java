@@ -42,6 +42,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
                            .withCorporateName(adaptedEmitter.getAdaptedName())
                            .withFancyName(adaptedEmitter.getAdaptedFancyName())
                            .withStateRegistration(adaptedEmitter.getAdaptedStateRegistration())
+                           .withStateRegistrationST(adaptedEmitter.getAdaptedStateRegistrationST())
                            .withMunicipalRegistration(adaptedEmitter.getAdaptedMunicipalRegistration())
                            .withCrt(adaptedEmitter.getCrt())
                            .withAdress(adaptedEmitter.getAdaptedAdress())
@@ -77,7 +78,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(propOrder = { "cnpj", "cpf", "name", "fancyName", "adress", "stateRegistration", "municipalRegistration", "crt" })
+    @XmlType(propOrder = { "cnpj", "cpf", "name", "fancyName", "adress", "stateRegistration", "stateRegistrationST", "municipalRegistration", "crt" })
     protected static class AdaptedEmitter implements Serializable {
 
         private static final long serialVersionUID = 1L;
