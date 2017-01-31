@@ -19,21 +19,22 @@ import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Emitter> {
 
     @Override
-    public Emitter unmarshal(AdaptedEmitter adaptedEmitter) throws Exception {
+    public Emitter unmarshal(final AdaptedEmitter adaptedEmitter) throws Exception {
         Emitter emitter;
 
         //@formatter:off
         if (adaptedEmitter.getAdaptedCpf() != null) {
             emitter = new Emitter.Builder()
                            .asNaturalPerson()
-                           .withCpf(adaptedEmitter.getAdaptedCpf())    
+                           .withCpf(adaptedEmitter.getAdaptedCpf())
                            .withName(adaptedEmitter.getAdaptedName())
                            .withFancyName(adaptedEmitter.getAdaptedFancyName())
                            .withStateRegistration(adaptedEmitter.getAdaptedStateRegistration())
+                           .withStateRegistrationST(adaptedEmitter.getAdaptedStateRegistration())
                            .withMunicipalRegistration(adaptedEmitter.getAdaptedMunicipalRegistration())
-                           .withCrt(adaptedEmitter.getCrt())                           
+                           .withCrt(adaptedEmitter.getCrt())
                            .withAdress(adaptedEmitter.getAdaptedAdress())
-                           .build();                           
+                           .build();
         }else{
             emitter = new Emitter.Builder()
                            .asLegalEntity()
@@ -42,9 +43,9 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
                            .withFancyName(adaptedEmitter.getAdaptedFancyName())
                            .withStateRegistration(adaptedEmitter.getAdaptedStateRegistration())
                            .withMunicipalRegistration(adaptedEmitter.getAdaptedMunicipalRegistration())
-                           .withCrt(adaptedEmitter.getCrt())                           
+                           .withCrt(adaptedEmitter.getCrt())
                            .withAdress(adaptedEmitter.getAdaptedAdress())
-                           .build();                     
+                           .build();
         }
 
         //@formatter:on
@@ -52,24 +53,25 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
     }
 
     @Override
-    public AdaptedEmitter marshal(Emitter emitter) throws Exception {
+    public AdaptedEmitter marshal(final Emitter emitter) throws Exception {
         //@formatter:off
         AdaptedEmitter adaptedEmitter = null;
-       
+
         adaptedEmitter = new AdaptedEmitter(emitter.getFancyName()
                                            ,emitter.getStateRegistration()
+                                           ,emitter.getStateRegistrationST()
                                            ,emitter.getMunicipalRegistration()
-                                           ,emitter.getAdress()                
+                                           ,emitter.getAdress()
                                            ,emitter.getCrt());
-        
+
         if (emitter.getDocuments() instanceof NaturalPersonDocuments) {
             adaptedEmitter.setAdaptedCpf(((NaturalPersonDocuments)emitter.getDocuments()).getCpf());
             adaptedEmitter.setAdaptedName(((NaturalPersonDocuments)emitter.getDocuments()).getName());
         } else if (emitter.getDocuments() instanceof LegalEntityDocuments) {
             adaptedEmitter.setAdaptedCnpj(((LegalEntityDocuments)emitter.getDocuments()).getCnpj());
             adaptedEmitter.setAdaptedName(((LegalEntityDocuments)emitter.getDocuments()).getCorporateName());
-        }        
-        //@formatter:on       
+        }
+        //@formatter:on
 
         return adaptedEmitter;
     }
@@ -92,6 +94,8 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
 
         private @XmlElement(name = "IE") final String stateRegistration;
 
+        private @XmlElement(name = "IEST") final String stateRegistrationST;
+
         private @XmlElement(name = "IM") final String municipalRegistration;
 
         private @XmlElement(name = "CRT") final CRT crt;
@@ -100,13 +104,15 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
             this.fancyName = null;
             this.stateRegistration = null;
             this.municipalRegistration = null;
+            this.stateRegistrationST = null;
             this.adress = null;
             this.crt = null;
         }
 
-        public AdaptedEmitter(String fancyName, String stateRegistration, String municipalRegistration, Address adress, CRT crt) {
+        public AdaptedEmitter(final String fancyName, final String stateRegistration, final String stateRegistrationST, final String municipalRegistration, final Address adress, final CRT crt) {
             this.fancyName = fancyName;
             this.stateRegistration = stateRegistration;
+            this.stateRegistrationST = stateRegistrationST;
             this.municipalRegistration = municipalRegistration;
             this.adress = adress;
             this.crt = crt;
@@ -132,6 +138,10 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
             return this.stateRegistration;
         }
 
+        public String getAdaptedStateRegistrationST() {
+            return this.stateRegistrationST;
+        }
+
         public String getAdaptedMunicipalRegistration() {
             return this.municipalRegistration;
         }
@@ -144,15 +154,15 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
             return this.crt;
         }
 
-        public void setAdaptedName(String name) {
+        public void setAdaptedName(final String name) {
             this.name = name;
         }
 
-        public void setAdaptedCnpj(String cnpj) {
+        public void setAdaptedCnpj(final String cnpj) {
             this.cnpj = cnpj;
         }
 
-        public void setAdaptedCpf(String cpf) {
+        public void setAdaptedCpf(final String cpf) {
             this.cpf = cpf;
         }
 
