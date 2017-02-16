@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-23T16:47:23 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_duplicatas_leiaute_2xx" columnCount="12" printOrder="Horizontal" pageWidth="770" pageHeight="25" orientation="Landscape" columnWidth="64" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba88e909-9e95-486d-b7af-82289d15b596">
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2017-02-16T17:07:07 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_duplicatas_leiaute_2xx" columnCount="12" printOrder="Horizontal" pageWidth="770" pageHeight="34" orientation="Landscape" columnWidth="64" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba88e909-9e95-486d-b7af-82289d15b596">
 	<property name="ireport.zoom" value="2.4793388429752077"/>
 	<property name="ireport.x" value="340"/>
 	<property name="ireport.y" value="0"/>
@@ -29,10 +29,10 @@
 		<fieldDescription><![CDATA[vDup]]></fieldDescription>
 	</field>
 	<detail>
-		<band height="25" splitType="Prevent">
+		<band height="34" splitType="Prevent">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<rectangle radius="2">
-				<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="61" height="25" uuid="6d28ef2d-f1f1-4ba2-ab5c-8a737ec34704">
+				<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="60" height="34" uuid="6d28ef2d-f1f1-4ba2-ab5c-8a737ec34704">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<graphicElement>
@@ -40,7 +40,7 @@
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="20" y="1" width="40" height="8" uuid="0d9e6e38-f887-42ad-b5b4-3860f2011fd9">
+				<reportElement x="20" y="5" width="40" height="8" uuid="0d9e6e38-f887-42ad-b5b4-3860f2011fd9">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -50,35 +50,35 @@
 				<textFieldExpression><![CDATA[$F{nDup}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="20" y="9" width="40" height="8" uuid="72bd4ceb-43bb-46c1-b67c-829cca936ca2"/>
+				<reportElement x="20" y="13" width="40" height="8" uuid="72bd4ceb-43bb-46c1-b67c-829cca936ca2"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{dVenc})]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="20" y="17" width="40" height="8" uuid="23daabc9-46af-4337-be1a-d81818701074"/>
+				<reportElement x="20" y="21" width="40" height="8" uuid="23daabc9-46af-4337-be1a-d81818701074"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.math.BigDecimal($F{vDup})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="1" width="19" height="8" uuid="94980085-dc4e-4173-969c-8f73262ca1ac"/>
+				<reportElement x="1" y="5" width="19" height="8" uuid="94980085-dc4e-4173-969c-8f73262ca1ac"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Num.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="9" width="19" height="8" uuid="1c07dbe1-ba14-47e0-a1f8-0ae508bee6be"/>
+				<reportElement x="1" y="13" width="19" height="8" uuid="1c07dbe1-ba14-47e0-a1f8-0ae508bee6be"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Venc.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="17" width="19" height="8" uuid="a0268c05-acd6-49a2-84ed-c43f0386e2ee"/>
+				<reportElement x="1" y="21" width="19" height="8" uuid="a0268c05-acd6-49a2-84ed-c43f0386e2ee"/>
 				<textElement textAlignment="Left">
 					<font size="8"/>
 				</textElement>
