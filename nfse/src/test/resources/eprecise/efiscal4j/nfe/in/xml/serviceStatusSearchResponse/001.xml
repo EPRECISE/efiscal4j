@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<retConsStatServ versao="3.10" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <tpAmb>1</tpAmb>
+    <verAplic>PR-v3_3_2</verAplic>
+    <cStat>242</cStat>
+    <xMotivo>Cabeçalho - Falha no Schema XML</xMotivo>
+    <cUF>41</cUF>
+    <dhRecbto>2015-03-26T17:36:49-03:00</dhRecbto>
+</retConsStatServ>

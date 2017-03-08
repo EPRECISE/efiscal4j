@@ -22,6 +22,7 @@
 		<module>nfe</module>
 		<module>cte</module>
 		<module>mdfe</module>
+		<module>nfse</module>
 	</modules>
 
 	<dependencyManagement>
