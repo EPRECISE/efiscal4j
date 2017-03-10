@@ -5,13 +5,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.validator.constraints.Length;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -27,12 +28,12 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
  */
 @XmlRootElement(name = "LoteRps")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "NumeroLote" })
+@XmlType(propOrder = { "number" })
 public class LotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "NumeroLote") @NotNull @Max(15) final String number;
+    private @XmlElement(name = "NumeroLote") @NotNull @Length(max = 15) final String number;
 
     public static class Builder {
 
@@ -42,7 +43,7 @@ public class LotRps implements Serializable {
          * @param number
          * @return
          */
-        public Builder withNFeInfo(final String number) {
+        public Builder withNumber(final String number) {
             this.number = number;
             return this;
         }
