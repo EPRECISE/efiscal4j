@@ -11,6 +11,12 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.statements.ServiceProvider;
+import eprecise.efiscal4j.nfse.statements.ServiceTaker;
+import eprecise.efiscal4j.nfse.statements.StatementProvisionService;
+import eprecise.efiscal4j.nfse.statements.TaxIncentive;
+import eprecise.efiscal4j.nfse.statements.rps.Rps;
+import eprecise.efiscal4j.nfse.statements.services.Service;
 
 
 public class NFSeTest {
@@ -45,7 +51,16 @@ public class NFSeTest {
     public LotRps getBuiltEntity() {
         try {
             LotRps lotRps;
-            lotRps = new LotRps.Builder().withLotNumber("1000").withRpsQuantity(1).withStatementProvisionService(Arrays.asList(new StatementProvisionService())).build();
+            lotRps = new LotRps.Builder().withLotNumber("1000").withRpsQuantity(1).withStatementProvisionService(
+                    Arrays.asList(new StatementProvisionService.Builder()
+                            .withInfo(new StatementProvisionService.Info.Builder()
+                                    .withCompetence("2017-01-01")
+                                    .withRps(new Rps())
+                                    .withService(new Service())
+                                    .withServiceProvider(new ServiceProvider())
+                                    .withServiceTaker(new ServiceTaker())
+                                    .withTaxIncentive(TaxIncentive.YES)
+                                    .build()).build())).build();
             return lotRps;
         } catch (final Exception e) {
             throw new RuntimeException(e);

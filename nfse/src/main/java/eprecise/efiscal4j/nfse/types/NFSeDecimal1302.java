@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.types;
+package eprecise.efiscal4j.nfse.types;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
@@ -15,8 +15,6 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * TDec_1302
- *
  * Tipo Decimal com 15 dígitos, sendo 13 de corpo e 2 decimais
  *
  * @author Clécius J. Martinkoski
@@ -27,7 +25,7 @@ import javax.validation.constraints.Pattern;
 @Constraint(validatedBy = {})
 @Documented
 @Pattern(regexp = "0|0\\.[0-9]{2}|[1-9]{1}[0-9]{0,12}(\\.[0-9]{2})?")
-public @interface NFeDecimal1302 {
+public @interface NFSeDecimal1302 {
 
     String message() default "Viola restrição - Tipo Decimal com 15 dígitos, sendo 13 de corpo e 2 decimais";
 

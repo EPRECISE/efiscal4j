@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse;
+package eprecise.efiscal4j.nfse.statements;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.statements.rps.Rps;
+import eprecise.efiscal4j.nfse.statements.services.Service;
 import eprecise.efiscal4j.nfse.types.NFSeDate;
 
 
@@ -19,7 +21,7 @@ import eprecise.efiscal4j.nfse.types.NFSeDate;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StatementProvisionService {
 
-    private final @XmlElement(name = "IdentificacaoRequerente") @NotNull Info info;
+    private final @XmlElement(name = "InfDeclaracaoPrestacaoServico") @NotNull Info info;
 
     public static class Builder {
 
