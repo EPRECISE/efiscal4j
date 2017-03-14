@@ -15,23 +15,23 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * nonNegativeInteger
- *
- * Tipo Inteiro com valor entre 1 e 999999
- *
- * @author Fernando C Glizt
- *
+ * TData
+ * 
+ * Tipo data AAAA-MM-DD
+ * 
+ * @author Felipe Bueno
+ * 
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^[0-9]\\d*$")
-public @interface NFSeNonNegativeInteger {
+@Pattern(regexp = "(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))")
+public @interface NFSeDate {
 
-    String message() default "Viola restrição - Tipo Inteiro com valor entre 1 e 999999";
+	String message() default "Viola restrição - Tipo data AAAA-MM-DD";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

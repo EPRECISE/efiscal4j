@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfse;
 
+import java.util.Arrays;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -15,20 +17,20 @@ public class NFSeTest {
 
     @Test
     public void validateByBeanValidation() throws Exception {
-        this.validateByBeanValidationDefault();
+        validateByBeanValidationDefault();
     }
 
     @Test
     public void testXml() {
-        final String xml = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
+        final String xml = new FiscalDocumentSerializer<>(getBuiltEntity()).serialize();
         System.out.println(xml + "\n");
     }
 
     public void validateByBeanValidationDefault() throws Exception {
         try {
-            ValidationBuilder.from(this.getBuiltEntity()).validate().throwIfViolate();
+            ValidationBuilder.from(getBuiltEntity()).validate().throwIfViolate();
         } catch (final ConstraintViolationException e) {
-            this.handleErrors(e);
+            handleErrors(e);
         }
     }
 
@@ -43,7 +45,7 @@ public class NFSeTest {
     public LotRps getBuiltEntity() {
         try {
             LotRps lotRps;
-            lotRps = new LotRps.Builder().withNumber("100000000000000").build();
+            lotRps = new LotRps.Builder().withLotNumber("1000").withRpsQuantity(1).withStatementProvisionService(Arrays.asList(new StatementProvisionService())).build();
             return lotRps;
         } catch (final Exception e) {
             throw new RuntimeException(e);
