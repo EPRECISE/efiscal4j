@@ -15,23 +15,23 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * nonNegativeInteger
- *
- * Tipo Inteiro com valores não negativos
- *
- * @author Fernando C Glizt
- *
+ * TDec_0302a04
+ * 
+ * Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais
+ * 
+ * @author Clécius J. Martinkoski
+ * 
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^[0-9]\\d*$")
-public @interface NFSeNonNegativeInteger {
+@Pattern(regexp = "0|0\\.[0-9]{2,4}|[1-9]{1}[0-9]{0,2}(\\.[0-9]{2,4})?")
+public @interface NFSeAliquot {
 
-    String message() default "Viola restrição - Tipo Inteiro com valor não negativo";
+	String message() default "Viola restrição - Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

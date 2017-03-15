@@ -15,12 +15,11 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * TDec_0302a04
- * 
+ *
  * Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais
- * 
+ *
  * @author Clécius J. Martinkoski
- * 
+ *
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,9 +28,9 @@ import javax.validation.constraints.Pattern;
 @Pattern(regexp = "0|0\\.[0-9]{2,4}|[1-9]{1}[0-9]{0,2}(\\.[0-9]{2,4})?")
 public @interface NFeDecimal0302a04 {
 
-	String message() default "Viola restrição - Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais";
+    String message() default "Viola restrição - Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
