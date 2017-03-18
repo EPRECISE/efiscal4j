@@ -14,8 +14,11 @@ import eprecise.efiscal4j.nfse.statements.ServiceTaker;
 import eprecise.efiscal4j.nfse.statements.StatementProvisionService;
 import eprecise.efiscal4j.nfse.statements.TaxIncentive;
 import eprecise.efiscal4j.nfse.statements.rps.Rps;
+import eprecise.efiscal4j.nfse.statements.services.IssRequirement;
 import eprecise.efiscal4j.nfse.statements.services.IssWithheld;
+import eprecise.efiscal4j.nfse.statements.services.ResponsibleRetention;
 import eprecise.efiscal4j.nfse.statements.services.Service;
+import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
 import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
 
 
@@ -69,7 +72,14 @@ public class TestDomain {
                                                     .withDiscountConditionedValue("0")
                                                     .build())
                                             .withIssWithheld(IssWithheld.NO)
+                                            .withResponsibleRetention(ResponsibleRetention.NO)
+                                            .withDiscrimination("Teste discriminação")
+                                            .withCountryCode("5555")
+                                            .withIssRequirement(IssRequirement.NO_INCIDENCE)
+                                            .withCityIncidenceCode("1100015")
+                                            .withProcessNumber("406540")
                                             .withCityCode("1100015")
+                                            .withServiceItems(Arrays.asList(new ServiceItem()))
                                             .build())
                                     .withServiceProvider(new ServiceProvider())
                                     .withServiceTaker(new ServiceTaker())

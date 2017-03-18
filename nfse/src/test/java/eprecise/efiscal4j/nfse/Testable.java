@@ -1,13 +1,15 @@
 
 package eprecise.efiscal4j.nfse;
 
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
 
@@ -27,8 +29,12 @@ public interface Testable {
     }
 
     default void validateByXSDDefault() throws Exception {
-        final String xml = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
+        // final String xml = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
+        // System.out.println(xml + "\n");
+
+        final String xml = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/eprecise/efiscal4j/nfse/xsd/req7.xml"))).useDelimiter("\\Z").next();
         System.out.println(xml + "\n");
+
         final ValidationResult validate = this.getTestDomain().getValidator().validate(xml);
         Assert.assertTrue(validate.getError(), validate.isValid());
     }
