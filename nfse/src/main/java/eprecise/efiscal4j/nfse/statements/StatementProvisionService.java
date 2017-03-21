@@ -64,6 +64,10 @@ public class StatementProvisionService {
 
         private final @XmlElement(name = "Tomador") ServiceTaker serviceTaker;
 
+        private final @XmlElement(name = "Intermediario") ServiceIntermediary serviceIntermediary;
+
+        private final @XmlElement(name = "RegimeEspecialTributacao") SpecialTaxationRegime specialTaxationRegime;
+
         private final @XmlElement(name = "IncentivoFiscal") @NotNull TaxIncentive taxIncentive;
 
         public static class Builder {
@@ -77,6 +81,10 @@ public class StatementProvisionService {
             private ServiceProvider serviceProvider;
 
             private ServiceTaker serviceTaker;
+
+            private ServiceIntermediary serviceIntermediary;
+
+            private SpecialTaxationRegime specialTaxationRegime;
 
             private TaxIncentive taxIncentive;
 
@@ -126,6 +134,24 @@ public class StatementProvisionService {
             }
 
             /**
+             * @param serviceIntermediary
+             * @return
+             */
+            public Builder withServiceIntermediary(final ServiceIntermediary serviceIntermediary) {
+                this.serviceIntermediary = serviceIntermediary;
+                return this;
+            }
+
+            /**
+             * @param specialTaxationRegime
+             * @return
+             */
+            public Builder withSpecialTaxationRegime(final SpecialTaxationRegime specialTaxationRegime) {
+                this.specialTaxationRegime = specialTaxationRegime;
+                return this;
+            }
+
+            /**
              * @param taxIncentive
              * @return
              */
@@ -147,6 +173,8 @@ public class StatementProvisionService {
             service = null;
             serviceProvider = null;
             serviceTaker = null;
+            serviceIntermediary = null;
+            specialTaxationRegime = null;
             taxIncentive = null;
         }
 
@@ -156,6 +184,8 @@ public class StatementProvisionService {
             service = builder.service;
             serviceProvider = builder.serviceProvider;
             serviceTaker = builder.serviceTaker;
+            serviceIntermediary = builder.serviceIntermediary;
+            specialTaxationRegime = builder.specialTaxationRegime;
             taxIncentive = builder.taxIncentive;
         }
 
@@ -177,6 +207,14 @@ public class StatementProvisionService {
 
         public ServiceTaker getServiceTaker() {
             return serviceTaker;
+        }
+
+        public ServiceIntermediary getServiceIntermediary() {
+            return serviceIntermediary;
+        }
+
+        public SpecialTaxationRegime getSpecialTaxationRegime() {
+            return specialTaxationRegime;
         }
 
         public TaxIncentive getTaxIncentive() {

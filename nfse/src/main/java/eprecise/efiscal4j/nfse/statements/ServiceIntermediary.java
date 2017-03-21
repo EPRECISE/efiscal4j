@@ -9,35 +9,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.person.address.NFSeAddress;
-import eprecise.efiscal4j.nfse.person.address.NFSeContact;
 import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ServiceProvider {
+public class ServiceIntermediary {
 
-    private final @XmlElement(name = "IdentificacaoPrestador") @NotNull Identifier identifier;
+    private final @NotNull @XmlElement(name = "IdentificacaoIntermediario") Identifier identifier;
 
-    private final @XmlElement(name = "RazaoSocial") @NotNull @Size(min = 1, max = 150) String socialName;
-
-    private final @XmlElement(name = "NomeFantasia") @NotNull @Size(min = 1, max = 60) String fancyName;
-
-    private final @XmlElement(name = "Endereco") @NotNull NFSeAddress address;
-
-    private final @XmlElement(name = "Contato") NFSeContact contact;
+    private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 150) String socialName;
 
     public static class Builder {
 
         private Identifier identifier;
 
         private String socialName;
-
-        private String fancyName;
-
-        private NFSeAddress address;
-
-        private NFSeContact contact;
 
         /**
          * @param identifier
@@ -57,54 +43,21 @@ public class ServiceProvider {
             return this;
         }
 
-        /**
-         * @param fancyName
-         * @return
-         */
-        public Builder withFancyName(final String fancyName) {
-            this.fancyName = fancyName;
-            return this;
-        }
-
-        /**
-         * @param address
-         * @return
-         */
-        public Builder withAddress(final NFSeAddress address) {
-            this.address = address;
-            return this;
-        }
-
-        /**
-         * @param contact
-         * @return
-         */
-        public Builder withContact(final NFSeContact contact) {
-            this.contact = contact;
-            return this;
-        }
-
-        public ServiceProvider build() throws Exception {
-            final ServiceProvider entity = new ServiceProvider(this);
+        public ServiceIntermediary build() throws Exception {
+            final ServiceIntermediary entity = new ServiceIntermediary(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public ServiceProvider() {
+    public ServiceIntermediary() {
         this.identifier = null;
         this.socialName = null;
-        this.fancyName = null;
-        this.address = null;
-        this.contact = null;
     }
 
-    public ServiceProvider(final Builder builder) {
+    public ServiceIntermediary(final Builder builder) {
         this.identifier = builder.identifier;
         this.socialName = builder.socialName;
-        this.fancyName = builder.fancyName;
-        this.address = builder.address;
-        this.contact = builder.contact;
     }
 
     public Identifier getIdentifier() {
@@ -113,18 +66,6 @@ public class ServiceProvider {
 
     public String getSocialName() {
         return socialName;
-    }
-
-    public String getFancyName() {
-        return fancyName;
-    }
-
-    public NFSeAddress getAddress() {
-        return address;
-    }
-
-    public NFSeContact getContact() {
-        return contact;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

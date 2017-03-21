@@ -36,7 +36,7 @@ public class LotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech_nfse.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/nfse_v1_2.xsd";
 
     private final @XmlElement(name = "NumeroLote") @NotNull @NFSeNonNegativeInteger @Size(max = 15) String lotNumber;
 

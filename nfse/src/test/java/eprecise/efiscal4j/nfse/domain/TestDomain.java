@@ -72,7 +72,7 @@ public class TestDomain {
                                                     .withDiscountConditionedValue("0")
                                                     .build())
                                             .withIssWithheld(IssWithheld.NO)
-                                            .withResponsibleRetention(ResponsibleRetention.NO)
+                                            .withResponsibleRetention(ResponsibleRetention.INTERMEDIARY)
                                             .withDiscrimination("Teste discriminação")
                                             .withCountryCode("5555")
                                             .withIssRequirement(IssRequirement.NO_INCIDENCE)

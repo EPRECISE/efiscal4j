@@ -7,28 +7,28 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Responsável Retenção: 1 - Tomador; 2 - Intermediário
+ * Tipo de dedução: M - Materiais; S - Sub-empreiteras
  *
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ResponsibleRetention {
+public enum DeductionType {
 
-                                  @XmlEnumValue("1") TAKER(1, "Tomador"),
-                                  @XmlEnumValue("2") INTERMEDIARY(2, "Intermediário");
+                           @XmlEnumValue("M") MATERIALS("M", "Materiais"),
+                           @XmlEnumValue("S") SUBCONTRACTORS("S", "Sub-empreiteras");
 
-    private final int value;
+    private final String value;
 
     private final String description;
 
-    private ResponsibleRetention(final int value, final String description) {
+    private DeductionType(final String value, final String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
