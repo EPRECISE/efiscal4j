@@ -22,9 +22,9 @@ public interface Testable {
 
     default void validateByBeanValidationDefault() throws Exception {
         try {
-            ValidationBuilder.from(this.getBuiltEntity()).validate().throwIfViolate();
+            ValidationBuilder.from(getBuiltEntity()).validate().throwIfViolate();
         } catch (final ConstraintViolationException e) {
-            this.handleErrors(e);
+            handleErrors(e);
         }
     }
 
@@ -32,10 +32,10 @@ public interface Testable {
         // final String xml = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
         // System.out.println(xml + "\n");
 
-        final String xml = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/eprecise/efiscal4j/nfse/xsd/req7.xml"))).useDelimiter("\\Z").next();
+        final String xml = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/eprecise/efiscal4j/nfse/xsd/req7_test.xml"))).useDelimiter("\\Z").next();
         System.out.println(xml + "\n");
 
-        final ValidationResult validate = this.getTestDomain().getValidator().validate(xml);
+        final ValidationResult validate = getTestDomain().getValidator().validate(xml);
         Assert.assertTrue(validate.getError(), validate.isValid());
     }
 
