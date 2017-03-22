@@ -13,11 +13,13 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlType
-@XmlEnum(Integer.class)
+@XmlEnum(String.class)
 public enum DeductionType {
 
-                           @XmlEnumValue("M") MATERIALS("M", "Materiais"),
-                           @XmlEnumValue("S") SUBCONTRACTORS("S", "Sub-empreiteras");
+                           @XmlEnumValue("M")
+                           MATERIALS("M", "Materiais"),
+                           @XmlEnumValue("S")
+                           SUBCONTRACTORS("S", "Sub-empreiteras");
 
     private final String value;
 

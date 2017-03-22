@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -31,12 +30,9 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
  */
 @XmlRootElement(name = "LoteRps")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "lotNumber", "rpsQuantity", "statementProvisionServices" })
 public class LotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/nfse_v1_2.xsd";
 
     private final @XmlElement(name = "NumeroLote") @NotNull @NFSeNonNegativeInteger @Size(max = 15) String lotNumber;
 

@@ -18,7 +18,7 @@ public enum RpsType {
 
                      @XmlEnumValue("1") PROVISIONAL_SERVICE_RECEIPT(1, "Recibo Provisório de Serviços"),
                      @XmlEnumValue("2") RPS_NF_CONJUGATED(2, "RPS Nota Fiscal Conjugada (Mista)"),
-                     @XmlEnumValue("3") COUPON(2, "Cupom");
+                     @XmlEnumValue("3") COUPON(3, "Cupom");
 
     private final int value;
 

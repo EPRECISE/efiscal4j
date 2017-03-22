@@ -83,7 +83,7 @@ public class NFSeAddress {
          * @return
          */
         public Builder withDistrict(final String district) {
-            this.complement = district;
+            complement = district;
             return this;
         }
 
@@ -93,6 +93,15 @@ public class NFSeAddress {
          */
         public Builder withCityCode(final String cityCode) {
             this.cityCode = cityCode;
+            return this;
+        }
+
+        /**
+         * @param cityName
+         * @return
+         */
+        public Builder withCityName(final String cityName) {
+            this.cityName = cityName;
             return this;
         }
 
@@ -131,27 +140,27 @@ public class NFSeAddress {
     }
 
     public NFSeAddress() {
-        this.address = null;
-        this.number = null;
-        this.complement = null;
-        this.district = null;
-        this.cityCode = null;
-        this.cityName = null;
-        this.uf = null;
-        this.countryCode = null;
-        this.cep = null;
+        address = null;
+        number = null;
+        complement = null;
+        district = null;
+        cityCode = null;
+        cityName = null;
+        uf = null;
+        countryCode = null;
+        cep = null;
     }
 
     public NFSeAddress(final Builder builder) {
-        this.address = builder.address;
-        this.number = builder.number;
-        this.complement = builder.complement;
-        this.district = builder.district;
-        this.cityCode = builder.cityCode;
-        this.cityName = builder.cityName;
-        this.uf = builder.uf;
-        this.countryCode = builder.countryCode;
-        this.cep = builder.cep;
+        address = builder.address;
+        number = builder.number;
+        complement = builder.complement;
+        district = builder.district;
+        cityCode = builder.cityCode;
+        cityName = builder.cityName;
+        uf = builder.uf;
+        countryCode = builder.countryCode;
+        cep = builder.cep;
     }
 
     public String getAddress() {

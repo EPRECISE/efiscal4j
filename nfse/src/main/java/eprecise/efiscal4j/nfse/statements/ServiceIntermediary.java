@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
@@ -15,13 +14,13 @@ import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceIntermediary {
 
-    private final @NotNull @XmlElement(name = "IdentificacaoIntermediario") Identifier identifier;
+    private final @NotNull @XmlElement(name = "IdentificacaoIntermediario") ServiceIntermediaryIdentifier identifier;
 
     private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 150) String socialName;
 
     public static class Builder {
 
-        private Identifier identifier;
+        private ServiceIntermediaryIdentifier identifier;
 
         private String socialName;
 
@@ -29,7 +28,7 @@ public class ServiceIntermediary {
          * @param identifier
          * @return
          */
-        public Builder withIdentifier(final Identifier identifier) {
+        public Builder withIdentifier(final ServiceIntermediaryIdentifier identifier) {
             this.identifier = identifier;
             return this;
         }
@@ -51,16 +50,16 @@ public class ServiceIntermediary {
     }
 
     public ServiceIntermediary() {
-        this.identifier = null;
-        this.socialName = null;
+        identifier = null;
+        socialName = null;
     }
 
     public ServiceIntermediary(final Builder builder) {
-        this.identifier = builder.identifier;
-        this.socialName = builder.socialName;
+        identifier = builder.identifier;
+        socialName = builder.socialName;
     }
 
-    public Identifier getIdentifier() {
+    public ServiceIntermediaryIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -69,9 +68,9 @@ public class ServiceIntermediary {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Identifier {
+    public static class ServiceIntermediaryIdentifier {
 
-        private final @XmlElementWrapper(name = "CpfCnpj") NFSeCnp cnp;
+        private final @XmlElement(name = "CpfCnpj") NFSeCnp cnp;
 
         private final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 10) String municipalRegistration;
 
@@ -99,21 +98,21 @@ public class ServiceIntermediary {
                 return this;
             }
 
-            public Identifier build() throws Exception {
-                final Identifier entity = new Identifier(this);
+            public ServiceIntermediaryIdentifier build() throws Exception {
+                final ServiceIntermediaryIdentifier entity = new ServiceIntermediaryIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Identifier() {
-            this.cnp = null;
-            this.municipalRegistration = null;
+        public ServiceIntermediaryIdentifier() {
+            cnp = null;
+            municipalRegistration = null;
         }
 
-        public Identifier(final Builder builder) {
-            this.cnp = builder.cnp;
-            this.municipalRegistration = builder.municipalRegistration;
+        public ServiceIntermediaryIdentifier(final Builder builder) {
+            cnp = builder.cnp;
+            municipalRegistration = builder.municipalRegistration;
         }
 
         public NFSeCnp getCnp() {

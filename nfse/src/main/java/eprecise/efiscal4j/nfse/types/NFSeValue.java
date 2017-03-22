@@ -26,7 +26,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^(?:\\d{1,3}(?:\\.\\d{3}){0,4}|\\d{1,14})(?:,\\d{1,2})?$")
+@Pattern(regexp = "^(\\d{1,14})(?:.\\d{1,2})?$")
 public @interface NFSeValue {
 
     String message() default "Viola restrição - Tipo Decimal com 15 dígitos, sendo 13 de corpo e 2 decimais";

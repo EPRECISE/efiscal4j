@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.person.address.NFSeAddress;
@@ -17,11 +16,11 @@ import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceProvider {
 
-    private final @XmlElement(name = "IdentificacaoPrestador") @NotNull Identifier identifier;
+    private final @XmlElement(name = "IdentificacaoPrestador") @NotNull ServiceProviderIdentifier identifier;
 
     private final @XmlElement(name = "RazaoSocial") @NotNull @Size(min = 1, max = 150) String socialName;
 
-    private final @XmlElement(name = "NomeFantasia") @NotNull @Size(min = 1, max = 60) String fancyName;
+    private final @XmlElement(name = "NomeFantasia") @Size(min = 1, max = 60) String fancyName;
 
     private final @XmlElement(name = "Endereco") @NotNull NFSeAddress address;
 
@@ -29,7 +28,7 @@ public class ServiceProvider {
 
     public static class Builder {
 
-        private Identifier identifier;
+        private ServiceProviderIdentifier identifier;
 
         private String socialName;
 
@@ -43,7 +42,7 @@ public class ServiceProvider {
          * @param identifier
          * @return
          */
-        public Builder withIdentifier(final Identifier identifier) {
+        public Builder withIdentifier(final ServiceProviderIdentifier identifier) {
             this.identifier = identifier;
             return this;
         }
@@ -92,22 +91,22 @@ public class ServiceProvider {
     }
 
     public ServiceProvider() {
-        this.identifier = null;
-        this.socialName = null;
-        this.fancyName = null;
-        this.address = null;
-        this.contact = null;
+        identifier = null;
+        socialName = null;
+        fancyName = null;
+        address = null;
+        contact = null;
     }
 
     public ServiceProvider(final Builder builder) {
-        this.identifier = builder.identifier;
-        this.socialName = builder.socialName;
-        this.fancyName = builder.fancyName;
-        this.address = builder.address;
-        this.contact = builder.contact;
+        identifier = builder.identifier;
+        socialName = builder.socialName;
+        fancyName = builder.fancyName;
+        address = builder.address;
+        contact = builder.contact;
     }
 
-    public Identifier getIdentifier() {
+    public ServiceProviderIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -128,9 +127,9 @@ public class ServiceProvider {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Identifier {
+    public static class ServiceProviderIdentifier {
 
-        private final @XmlElementWrapper(name = "CpfCnpj") NFSeCnp cnp;
+        private final @XmlElement(name = "CpfCnpj") NFSeCnp cnp;
 
         private final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 10) String municipalRegistration;
 
@@ -158,21 +157,21 @@ public class ServiceProvider {
                 return this;
             }
 
-            public Identifier build() throws Exception {
-                final Identifier entity = new Identifier(this);
+            public ServiceProviderIdentifier build() throws Exception {
+                final ServiceProviderIdentifier entity = new ServiceProviderIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Identifier() {
-            this.cnp = null;
-            this.municipalRegistration = null;
+        public ServiceProviderIdentifier() {
+            cnp = null;
+            municipalRegistration = null;
         }
 
-        public Identifier(final Builder builder) {
-            this.cnp = builder.cnp;
-            this.municipalRegistration = builder.municipalRegistration;
+        public ServiceProviderIdentifier(final Builder builder) {
+            cnp = builder.cnp;
+            municipalRegistration = builder.municipalRegistration;
         }
 
         public NFSeCnp getCnp() {

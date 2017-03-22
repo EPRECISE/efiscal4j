@@ -4,6 +4,7 @@ package eprecise.efiscal4j.nfse;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfse.domain.TestDomain;
+import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
 
 
 public class NFSeTest implements Testable {
@@ -15,17 +16,17 @@ public class NFSeTest implements Testable {
 
     @Test
     public void validateByXSD() throws Exception {
-        this.validateByXSDDefault();
+        validateByXSDDefault();
     }
 
     @Override
     public TestDomain getTestDomain() {
-        return new TestDomain(LotRps.XSD);
+        return new TestDomain(LotRpsDispatch.XSD);
     }
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildLotRps();
+        return getTestDomain().buildLotRpsDispatch();
     }
 
 }

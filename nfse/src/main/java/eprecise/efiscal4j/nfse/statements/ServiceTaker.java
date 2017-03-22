@@ -5,7 +5,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.person.address.NFSeAddress;
@@ -16,7 +15,7 @@ import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceTaker {
 
-    private final @XmlElement(name = "IdentificacaoTomador") Identifier identifier;
+    private final @XmlElement(name = "IdentificacaoTomador") ServiceTakerIdentifier identifier;
 
     private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 150) String socialName;
 
@@ -28,7 +27,7 @@ public class ServiceTaker {
 
     public static class Builder {
 
-        private Identifier identifier;
+        private ServiceTakerIdentifier identifier;
 
         private String socialName;
 
@@ -42,7 +41,7 @@ public class ServiceTaker {
          * @param identifier
          * @return
          */
-        public Builder withIdentifier(final Identifier identifier) {
+        public Builder withIdentifier(final ServiceTakerIdentifier identifier) {
             this.identifier = identifier;
             return this;
         }
@@ -91,22 +90,22 @@ public class ServiceTaker {
     }
 
     public ServiceTaker() {
-        this.identifier = null;
-        this.socialName = null;
-        this.address = null;
-        this.contact = null;
-        this.stateRegistration = null;
+        identifier = null;
+        socialName = null;
+        address = null;
+        contact = null;
+        stateRegistration = null;
     }
 
     public ServiceTaker(final Builder builder) {
-        this.identifier = builder.identifier;
-        this.socialName = builder.socialName;
-        this.address = builder.address;
-        this.contact = builder.contact;
-        this.stateRegistration = builder.stateRegistration;
+        identifier = builder.identifier;
+        socialName = builder.socialName;
+        address = builder.address;
+        contact = builder.contact;
+        stateRegistration = builder.stateRegistration;
     }
 
-    public Identifier getIdentifier() {
+    public ServiceTakerIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -127,9 +126,9 @@ public class ServiceTaker {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Identifier {
+    public static class ServiceTakerIdentifier {
 
-        private final @XmlElementWrapper(name = "CpfCnpj") NFSeCnp cnp;
+        private final @XmlElement(name = "CpfCnpj") NFSeCnp cnp;
 
         private final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 10) String municipalRegistration;
 
@@ -157,21 +156,21 @@ public class ServiceTaker {
                 return this;
             }
 
-            public Identifier build() throws Exception {
-                final Identifier entity = new Identifier(this);
+            public ServiceTakerIdentifier build() throws Exception {
+                final ServiceTakerIdentifier entity = new ServiceTakerIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Identifier() {
-            this.cnp = null;
-            this.municipalRegistration = null;
+        public ServiceTakerIdentifier() {
+            cnp = null;
+            municipalRegistration = null;
         }
 
-        public Identifier(final Builder builder) {
-            this.cnp = builder.cnp;
-            this.municipalRegistration = builder.municipalRegistration;
+        public ServiceTakerIdentifier(final Builder builder) {
+            cnp = builder.cnp;
+            municipalRegistration = builder.municipalRegistration;
         }
 
         public NFSeCnp getCnp() {

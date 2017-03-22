@@ -3,12 +3,15 @@ package eprecise.efiscal4j.nfse.person.documents;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class NFSeCnpj extends NFSeCnp {
 
     private static final long serialVersionUID = 1L;
@@ -36,11 +39,11 @@ public class NFSeCnpj extends NFSeCnp {
     }
 
     public NFSeCnpj() {
-        this.cnpj = null;
+        cnpj = null;
     }
 
     public NFSeCnpj(final Builder builder) {
-        this.cnpj = builder.cnpj;
+        cnpj = builder.cnpj;
     }
 
     public String getCnpj() {
@@ -49,7 +52,7 @@ public class NFSeCnpj extends NFSeCnp {
 
     @Override
     public String getCnp() {
-        return this.cnpj;
+        return cnpj;
     }
 
 }
