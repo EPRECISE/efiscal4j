@@ -22,11 +22,11 @@ public class LotRpsDispatch implements Serializable {
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/nfse_v1_2.xsd";
 
+    private @XmlAttribute(name = "xmlns") final String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
+
     private final @NotNull @XmlElement(name = "IdentificacaoRequerente") Applicant applicant;
 
     private final @NotNull @XmlElement(name = "LoteRps") LotRps lotRps;
-
-    private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
 
     public static class Builder {
 
@@ -75,6 +75,10 @@ public class LotRpsDispatch implements Serializable {
 
     public LotRps getLotRps() {
         return lotRps;
+    }
+
+    public String getXmlns() {
+        return xmlns;
     }
 
 }

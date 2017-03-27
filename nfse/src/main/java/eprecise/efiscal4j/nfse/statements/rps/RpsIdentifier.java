@@ -62,10 +62,16 @@ public class RpsIdentifier {
         }
     }
 
+    public RpsIdentifier() {
+        number = null;
+        serie = null;
+        type = null;
+    }
+
     public RpsIdentifier(final Builder builder) {
-        this.number = builder.number;
-        this.serie = builder.serie;
-        this.type = builder.type;
+        number = builder.number;
+        serie = builder.serie;
+        type = builder.type;
     }
 
     public String getNumber() {

@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -28,7 +27,6 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
  * @author Fernando C Glizt
  *
  */
-@XmlRootElement(name = "LoteRps")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LotRps implements Serializable {
 

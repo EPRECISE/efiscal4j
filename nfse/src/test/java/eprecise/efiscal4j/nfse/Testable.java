@@ -30,9 +30,6 @@ public interface Testable {
         final String xml = new FiscalDocumentSerializer<>(getBuiltEntity()).serialize();
         System.out.println(xml + "\n");
 
-        // final String xml = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/eprecise/efiscal4j/nfse/xsd/req7_test.xml"))).useDelimiter("\\Z").next();
-        // System.out.println(xml + "\n");
-
         final ValidationResult validate = getTestDomain().getValidator().validate(xml);
         Assert.assertTrue(validate.getError(), validate.isValid());
     }

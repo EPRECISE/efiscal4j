@@ -43,6 +43,10 @@ public class StatementProvisionService {
         }
     }
 
+    public StatementProvisionService() {
+        info = null;
+    }
+
     public StatementProvisionService(final Builder builder) {
         info = builder.info;
     }
