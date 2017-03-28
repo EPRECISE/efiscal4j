@@ -70,6 +70,8 @@ public class StatementProvisionService {
 
         private final @XmlElement(name = "Intermediario") ServiceIntermediary serviceIntermediary;
 
+        private final @XmlElement(name = "ConstrucaoCivil") ServiceConstruction construction;
+
         private final @XmlElement(name = "RegimeEspecialTributacao") SpecialTaxationRegime specialTaxationRegime;
 
         private final @XmlElement(name = "IncentivoFiscal") @NotNull TaxIncentive taxIncentive;
@@ -87,6 +89,8 @@ public class StatementProvisionService {
             private ServiceTaker serviceTaker;
 
             private ServiceIntermediary serviceIntermediary;
+
+            private ServiceConstruction construction;
 
             private SpecialTaxationRegime specialTaxationRegime;
 
@@ -147,6 +151,15 @@ public class StatementProvisionService {
             }
 
             /**
+             * @param construction
+             * @return
+             */
+            public Builder withConstruction(final ServiceConstruction construction) {
+                this.construction = construction;
+                return this;
+            }
+
+            /**
              * @param specialTaxationRegime
              * @return
              */
@@ -178,6 +191,7 @@ public class StatementProvisionService {
             serviceProvider = null;
             serviceTaker = null;
             serviceIntermediary = null;
+            construction = null;
             specialTaxationRegime = null;
             taxIncentive = null;
         }
@@ -189,6 +203,7 @@ public class StatementProvisionService {
             serviceProvider = builder.serviceProvider;
             serviceTaker = builder.serviceTaker;
             serviceIntermediary = builder.serviceIntermediary;
+            construction = builder.construction;
             specialTaxationRegime = builder.specialTaxationRegime;
             taxIncentive = builder.taxIncentive;
         }
@@ -215,6 +230,10 @@ public class StatementProvisionService {
 
         public ServiceIntermediary getServiceIntermediary() {
             return serviceIntermediary;
+        }
+
+        public ServiceConstruction getConstruction() {
+            return construction;
         }
 
         public SpecialTaxationRegime getSpecialTaxationRegime() {

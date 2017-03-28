@@ -9,14 +9,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.LotRps;
 
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LotRpsDispatch implements Serializable {
+public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +30,8 @@ public class LotRpsDispatch implements Serializable {
     private final @NotNull @XmlElement(name = "IdentificacaoRequerente") Applicant applicant;
 
     private final @NotNull @XmlElement(name = "LoteRps") LotRps lotRps;
+
+    private @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoEnvio");
 
     public static class Builder {
 
@@ -77,8 +82,14 @@ public class LotRpsDispatch implements Serializable {
         return lotRps;
     }
 
-    public String getXmlns() {
-        return xmlns;
+    @Override
+    public void setQName(final QName qName) {
+        this.qName = qName;
+    }
+
+    @Override
+    public QName getQName() {
+        return qName;
     }
 
 }

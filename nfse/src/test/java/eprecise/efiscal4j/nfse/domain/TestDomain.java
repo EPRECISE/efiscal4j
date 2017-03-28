@@ -30,6 +30,9 @@ import eprecise.efiscal4j.nfse.statements.services.Service;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItemTaxable;
 import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
+import eprecise.efiscal4j.nfse.transmission.SOAPBody;
+import eprecise.efiscal4j.nfse.transmission.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.SOAPHeader;
 
 
 public class TestDomain {
@@ -53,6 +56,15 @@ public class TestDomain {
         } catch (final IOException ex) {
             getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
+        }
+    }
+
+    public SOAPEnvelope buildSOAPEnvelope() throws Exception {
+        try {
+            return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(buildLotRpsDispatch()).build()).build();
+        } catch (final Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
