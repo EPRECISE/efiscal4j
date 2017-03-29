@@ -19,6 +19,9 @@
 	<field name="xNome" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/xNome]]></fieldDescription>
 	</field>
+	<field name="xFant" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/xFant]]></fieldDescription>
+	</field>
 	<field name="CNPJ" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/CNPJ]]></fieldDescription>
 	</field>
@@ -122,7 +125,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{xNome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{xFant}]]></textFieldExpression>
 			</textField>
 			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 				<reportElement positionType="Float" x="0" y="0" width="45" height="34" uuid="50c8c8c1-c3ca-4fbf-8ed2-bca9b7c19cf7">
@@ -169,15 +172,6 @@
 				</textElement>
 				<text><![CDATA[DANFE NFC-e - Documento Auxiliar
 da Nota Fiscal de Consumidor Eletrônica]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="51" width="194" height="7" uuid="1692cab7-ad92-4cd1-a74a-9a4f4af92569">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Não permite aproveitamento de crédito de ICMS]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="45" y="24" width="149" height="8" uuid="0fb7741b-f2c5-4334-8972-adb14d6e367b">
@@ -231,7 +225,7 @@ da Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{xNome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{xFant}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
