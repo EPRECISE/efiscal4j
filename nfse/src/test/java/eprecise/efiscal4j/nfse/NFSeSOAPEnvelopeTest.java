@@ -12,7 +12,7 @@ public class NFSeSOAPEnvelopeTest implements Testable {
 
     private final TestDomain testDomain = new TestDomain();
 
-    @Test
+    // @Test
     public void validateByBeanValidation() throws Exception {
         validateByBeanValidationDefault();
     }

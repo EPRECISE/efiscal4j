@@ -1,12 +1,15 @@
 
 package eprecise.efiscal4j.nfse.domain;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.nfse.LotRps;
 import eprecise.efiscal4j.nfse.person.address.NFSeAddress;
@@ -33,16 +36,66 @@ import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
 import eprecise.efiscal4j.nfse.transmission.SOAPBody;
 import eprecise.efiscal4j.nfse.transmission.SOAPEnvelope;
 import eprecise.efiscal4j.nfse.transmission.SOAPHeader;
+import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
+import eprecise.efiscal4j.signer.Signer;
 
 
 public class TestDomain {
+
+    private static final String EMITTER_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.emitter.cnpj";
+
+    private static final String EMITTER_IM_PROPERTY = "eprecise.efiscal4j.nfe.emitter.im";
+
+    private static final String RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.corporatename";
+
+    private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
+
+    private static final String RECEIVER_NATURAL_PERSON_CPF_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.cpf";
+
+    private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
+
+    private static final String CERTIFICATE_PATH_PROPERTY = "eprecise.efiscal4j.commons.certificate.path";
 
     private final Logger logger = LoggerFactory.getLogger(TestDomain.class);
 
     private FiscalDocumentValidator validator;
 
-    public TestDomain() {
+    private final Signer signer;
 
+    private final TransmissionChannel transmissionChannel;
+
+    private final String emitterCnpj;
+
+    private final String emitterIM;
+
+    private final String receiverLegalEntityCorporateName;
+
+    private final String receiverLegalEntityCnpj;
+
+    private final String receiverNaturalPersonCpf;
+
+    public TestDomain() {
+        try {
+            emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
+            emitterIM = System.getProperty(TestDomain.EMITTER_IM_PROPERTY);
+            receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
+            receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
+            receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
+
+            final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
+            final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
+            if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
+                signer = null;
+                transmissionChannel = null;
+            } else {
+                final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
+                signer = new Signer(keyCertificate);
+                transmissionChannel = new TransmissionChannel(keyCertificate);
+            }
+        } catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
+        }
     }
 
     public TestDomain(final String xsdPath) {
@@ -61,7 +114,7 @@ public class TestDomain {
 
     public SOAPEnvelope buildSOAPEnvelope() throws Exception {
         try {
-            return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(buildLotRpsDispatch()).build()).build();
+            return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build(signer)).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(buildLotRpsDispatch()).build()).build();
         } catch (final Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

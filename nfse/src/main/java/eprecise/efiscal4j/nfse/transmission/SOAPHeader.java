@@ -5,12 +5,18 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.Signer;
 
 
+@XmlRootElement(name = "SOAP-ENV:Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPHeader implements Serializable {
+public class SOAPHeader extends Assignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,6 +27,13 @@ public class SOAPHeader implements Serializable {
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
+
+        public SOAPHeader build(final Signer signer) throws Exception {
+            SOAPHeader entity = new SOAPHeader(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            entity = (SOAPHeader) signer.sign(entity);
+            return entity;
+        }
     }
 
     public SOAPHeader() {
@@ -28,6 +41,31 @@ public class SOAPHeader implements Serializable {
     }
 
     public SOAPHeader(final Builder builder) {
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
+    }
+
+    @Override
+    public Assignable getAsEntity(final String xml) {
+        return new FiscalDocumentDeserializer<>(xml, SOAPHeader.class).deserialize();
+    }
+
+    @Override
+    public String getRootTagName() {
+        return "SOAP-ENV:Header";
+    }
+
+    @Override
+    public String getAssignableTagName() {
+        return "SOAP-ENV:Header";
+    }
+
+    @Override
+    public String getIdAttributeTagName() {
+        return "Id";
     }
 
 }

@@ -165,100 +165,100 @@ public class TestDomain {
 
     public TestDomain() {
         try {
-            this.emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
-            this.emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
-            this.receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
-            this.receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
-            this.receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
-            this.receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
-            this.receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
+            emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
+            emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
+            receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
+            receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
+            receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
+            receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
+            receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
 
             final String emitterCscCldToken = System.getProperty(TestDomain.EMITTER_CSC_CLDTOKEN_PROPERTY);
             final String emitterCscValue = System.getProperty(TestDomain.EMITTER_CSC_VALUE_PROPERTY);
             if (StringUtils.isEmpty(emitterCscCldToken) || StringUtils.isEmpty(emitterCscValue)) {
-                this.emitterCsc = null;
+                emitterCsc = null;
             } else {
-                this.emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
+                emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
             }
 
             final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
             final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
             if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
-                this.signer = null;
-                this.transmissionChannel = null;
+                signer = null;
+                transmissionChannel = null;
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                this.signer = new Signer(keyCertificate);
-                this.transmissionChannel = new TransmissionChannel(keyCertificate);
+                signer = new Signer(keyCertificate);
+                transmissionChannel = new TransmissionChannel(keyCertificate);
             }
         } catch (final Exception ex) {
-            this.getLogger().error(ex.getMessage(), ex);
+            getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
-    public TestDomain(String xsdPath) {
+    public TestDomain(final String xsdPath) {
         this();
-        this.setXsdPath(xsdPath);
+        setXsdPath(xsdPath);
     }
 
     private boolean containsCertificate() {
-        return this.signer != null && this.transmissionChannel != null;
+        return (signer != null) && (transmissionChannel != null);
     }
 
     private void assertCertificate() {
-        if (!this.containsCertificate()) {
+        if (!containsCertificate()) {
             throw new IllegalStateException(TestDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
         }
     }
 
-    public void setXsdPath(String xsdPath) {
+    public void setXsdPath(final String xsdPath) {
         try {
-            this.validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
+            validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
         } catch (final IOException ex) {
-            this.getLogger().error(ex.getMessage(), ex);
+            getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
-    public SOAPEnvelope buildSoapEnvelope(SOAPHeader soapHeader, SOAPBody soapBody) {
+    public SOAPEnvelope buildSoapEnvelope(final SOAPHeader soapHeader, final SOAPBody soapBody) {
         return SoapEnvelopeDomain.getInstance().buildSoapEnvelope(soapHeader, soapBody);
     }
 
-    public SOAPHeader buildSoapHeader(NFeHeader nFeHeader) {
+    public SOAPHeader buildSoapHeader(final NFeHeader nFeHeader) {
         return SoapEnvelopeDomain.getInstance().buildSoapHeader(nFeHeader);
     }
 
-    public SOAPBody buildSoapBody(NFeBody nFeBody) {
+    public SOAPBody buildSoapBody(final NFeBody nFeBody) {
         return SoapEnvelopeDomain.getInstance().buildSoapBody(nFeBody);
     }
 
-    public NFeHeader buildNFeHeader(String xmlns, UF uf) {
+    public NFeHeader buildNFeHeader(final String xmlns, final UF uf) {
         return SoapEnvelopeDomain.getInstance().buildNFeHeader(xmlns, uf);
     }
 
-    public NFeHeader buildNFeHeader(String xmlns, UF uf, FiscalDocumentVersion dataVersion) {
+    public NFeHeader buildNFeHeader(final String xmlns, final UF uf, final FiscalDocumentVersion dataVersion) {
         return SoapEnvelopeDomain.getInstance().buildNFeHeader(xmlns, uf, dataVersion);
     }
 
-    public NFeBody buildNFeBody(String xmlns, TransmissibleBodyImpl transmissible) {
+    public NFeBody buildNFeBody(final String xmlns, final TransmissibleBodyImpl transmissible) {
         return SoapEnvelopeDomain.getInstance().buildNFeBody(xmlns, transmissible);
     }
 
-    public SOAPEnvelopeResponse buildSOAPEnvelopeResponse(SOAPHeaderResponse soapHeaderResponse, SOAPBodyResponse soapBodyResponse) {
+    public SOAPEnvelopeResponse buildSOAPEnvelopeResponse(final SOAPHeaderResponse soapHeaderResponse, final SOAPBodyResponse soapBodyResponse) {
         return SoapEnvelopeDomain.getInstance().buildSOAPEnvelopeResponse(soapHeaderResponse, soapBodyResponse);
     }
 
-    public SOAPHeaderResponse buildSoapHeaderResponse(NFeHeader nFeHeader) {
+    public SOAPHeaderResponse buildSoapHeaderResponse(final NFeHeader nFeHeader) {
         return SoapEnvelopeDomain.getInstance().buildSoapHeaderResponse(nFeHeader);
     }
 
-    public SOAPBodyResponse buildSoapBodyResponse(Receivable receivable) {
+    public SOAPBodyResponse buildSoapBodyResponse(final Receivable receivable) {
         return SoapEnvelopeDomain.getInstance().buildSoapBodyResponse(receivable);
     }
 
     public NFe buildNFe() throws Exception {
-        this.assertCertificate();
+        assertCertificate();
         //@formatter:off       
         
         final List<Addition> additionList = new ArrayList<>();
@@ -749,12 +749,12 @@ public class TestDomain {
                                  new Emitter.Builder()
                                 .asLegalEntity()                                                       
                                 
-                                .withCnpj(this.getEmitterCnpj())                                
+                                .withCnpj(getEmitterCnpj())                                
                                 .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
                                 .withFancyName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB")
                                 
-                                .withStateRegistration(this.getEmitterIe())
+                                .withStateRegistration(getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -803,9 +803,9 @@ public class TestDomain {
 //                                 .withEmail("teste")
                                  new Receiver.Builder()
                                 .asLegalEntity()
-                                .withCnpj(this.getReceiverLegalEntityCnpj())
-                                .withCorporateName(this.getReceiverLegalEntityCorporateName())
-                                .withStateRegistration(this.getReceiverLegalEntityIe())
+                                .withCnpj(getReceiverLegalEntityCnpj())
+                                .withCorporateName(getReceiverLegalEntityCorporateName())
+                                .withStateRegistration(getReceiverLegalEntityIe())
 //                                .withMunicipalRegistration("123456789")
                                 .withAdress(
                                        new Address.Builder()
@@ -909,12 +909,12 @@ public class TestDomain {
                                        .build()                           
                                  )                             
                          .build())
-        .build(this.signer);           
+        .build(signer);           
         //@formatter:on
     }
 
     public NFe buildNFCe() throws Exception {
-        this.assertCertificate();
+        assertCertificate();
         //@formatter:off       
         
         final List<Addition> additionList = new ArrayList<>();
@@ -1344,12 +1344,12 @@ public class TestDomain {
                                  new Emitter.Builder()
                                 .asLegalEntity()
                                 
-                                .withCnpj(this.getEmitterCnpj())
+                                .withCnpj(getEmitterCnpj())
                                 .withCorporateName("EMPRESA TESTE")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
                                 .withFancyName("EMPRESA TESTE")                                
                                 
-                                .withStateRegistration(this.getEmitterIe())
+                                .withStateRegistration(getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -1372,7 +1372,7 @@ public class TestDomain {
                          .withReceiver(
                                   new Receiver.Builder()
                                  .asNaturalPerson()
-                                 .withCpf(this.getReceiverNaturalPersonCpf())
+                                 .withCpf(getReceiverNaturalPersonCpf())
                                  .withName("Joao")                                 
                                  .withMunicipalRegistration("123456789")
                                  .withAdress(
@@ -1464,15 +1464,15 @@ public class TestDomain {
                                        .build()                           
                                  )                             
                          .build())
-           .withCSC(this.getEmitterCsc())
-        .build(this.signer);           
+           .withCSC(getEmitterCsc())
+        .build(signer);           
         //@formatter:on
     }
 
     public ProcessedNFe buildProcessedNFe() throws Exception {
         //@formatter:off
         return new ProcessedNFe.Builder()
-                    .withNfe(this.buildNFe())
+                    .withNfe(buildNFe())
                     .withProcessingStatusProtocol(new ProcessingStatusProtocol.Builder()
                                               .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
                                                                             .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
@@ -1493,7 +1493,7 @@ public class TestDomain {
     public NFeDispatch buildNFeDispatch() throws Exception {
         final List<NFe> nFeList = new ArrayList<>();
 
-        nFeList.add(this.buildNFe());
+        nFeList.add(buildNFe());
 
         //@formatter:off
         return new NFeDispatch.Builder()
@@ -1522,7 +1522,7 @@ public class TestDomain {
     }
 
     public ArrayList<EventProtocol> buildEventProtocolList() throws Exception {
-        return TransmissionDomain.getInstance().buildEventProtocolList(this.getSigner());
+        return TransmissionDomain.getInstance().buildEventProtocolList(getSigner());
     }
 
     public ProcessingStatusProtocol buildProcessingStatusProtocol() throws Exception {
@@ -1538,7 +1538,7 @@ public class TestDomain {
     }
 
     public NFeStatusSearchResponse buildNFeStatusSearchResponse() throws Exception {
-        return TransmissionDomain.getInstance().buildNFeStatusSearchResponse(this.getSigner());
+        return TransmissionDomain.getInstance().buildNFeStatusSearchResponse(getSigner());
     }
 
     public BatchReceiptSearch buildBatchReceiptSearch() throws Exception {
@@ -1558,86 +1558,86 @@ public class TestDomain {
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {
-        this.assertCertificate();
-        return EventDomain.getInstance().buildEventDispatchCancellation(this.getSigner());
+        assertCertificate();
+        return EventDomain.getInstance().buildEventDispatchCancellation(getSigner());
     }
 
     public EventDispatch buildEventDispatchCCe() throws Exception {
-        this.assertCertificate();
-        return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
+        assertCertificate();
+        return EventDomain.getInstance().buildEventDispatchCCe(getSigner());
     }
 
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     public FiscalDocumentValidator getValidator() {
-        return this.validator;
+        return validator;
     }
 
     public Signer getSigner() {
-        this.assertCertificate();
-        return this.signer;
+        assertCertificate();
+        return signer;
     }
 
     public TransmissionChannel getTransmissionChannel() {
-        this.assertCertificate();
-        return this.transmissionChannel;
+        assertCertificate();
+        return transmissionChannel;
     }
 
     public CSC getEmitterCsc() {
-        if (this.emitterCsc == null) {
+        if (emitterCsc == null) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CSC - Emitente"));
         }
-        return this.emitterCsc;
+        return emitterCsc;
     }
 
     public String getEmitterCnpj() {
-        if (StringUtils.isEmpty(this.emitterCnpj)) {
+        if (StringUtils.isEmpty(emitterCnpj)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Emitente"));
         }
-        return this.emitterCnpj;
+        return emitterCnpj;
     }
 
     public String getEmitterIe() {
-        if (StringUtils.isEmpty(this.emitterIe)) {
+        if (StringUtils.isEmpty(emitterIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Emitente"));
         }
-        return this.emitterIe;
+        return emitterIe;
     }
 
     public String getReceiverLegalEntityCorporateName() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityCorporateName)) {
+        if (StringUtils.isEmpty(receiverLegalEntityCorporateName)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "Razão Social - Destinatário"));
         }
-        return this.receiverLegalEntityCorporateName;
+        return receiverLegalEntityCorporateName;
     }
 
     public String getReceiverLegalEntityCnpj() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityCnpj)) {
+        if (StringUtils.isEmpty(receiverLegalEntityCnpj)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Destinatário"));
         }
-        return this.receiverLegalEntityCnpj;
+        return receiverLegalEntityCnpj;
     }
 
     public String getReceiverLegalEntityIe() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityIe)) {
+        if (StringUtils.isEmpty(receiverLegalEntityIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PJ)"));
         }
-        return this.receiverLegalEntityIe;
+        return receiverLegalEntityIe;
     }
 
     public String getReceiverNaturalPersonCpf() {
-        if (StringUtils.isEmpty(this.receiverNaturalPersonCpf)) {
+        if (StringUtils.isEmpty(receiverNaturalPersonCpf)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CPF - Destinatário"));
         }
-        return this.receiverNaturalPersonCpf;
+        return receiverNaturalPersonCpf;
     }
 
     public String getReceiverNaturalPersonIe() {
-        if (StringUtils.isEmpty(this.receiverNaturalPersonIe)) {
+        if (StringUtils.isEmpty(receiverNaturalPersonIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PF)"));
         }
-        return this.receiverNaturalPersonIe;
+        return receiverNaturalPersonIe;
     }
 }
