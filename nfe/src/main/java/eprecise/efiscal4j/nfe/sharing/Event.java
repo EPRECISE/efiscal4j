@@ -18,16 +18,16 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
-import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 /**
  * Tipo Evento
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = "evento")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,16 +48,16 @@ public class Event extends DefaultAssignable implements Serializable {
 
         /**
          * Dados do evento
-         * 
+         *
          * @param eventInfo
          * @return
          */
-        public Builder withEventInfo(EventInfo eventInfo) {
+        public Builder withEventInfo(final EventInfo eventInfo) {
             this.eventInfo = eventInfo;
             return this;
         }
 
-        public Event build(DefaultSigner signer) throws Exception {
+        public Event build(final Signer signer) throws Exception {
             Event entity = new Event(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (Event) signer.sign(entity);
@@ -67,19 +67,19 @@ public class Event extends DefaultAssignable implements Serializable {
     }
 
     public Event() {
-        this.eventInfo = null;
+        eventInfo = null;
     }
 
-    public Event(Builder builder) {
-        this.eventInfo = builder.eventInfo;
+    public Event(final Builder builder) {
+        eventInfo = builder.eventInfo;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public EventInfo getEventInfo() {
-        return this.eventInfo;
+        return eventInfo;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class Event extends DefaultAssignable implements Serializable {
     }
 
     @Override
-    public DefaultAssignable getAsEntity(String xml) {
-        return new FiscalDocumentDeserializer<Event>(xml, Event.class).considering(Event.getValidationConsideringClasses()).deserialize();
+    public DefaultAssignable getAsEntity(final String xml) {
+        return new FiscalDocumentDeserializer<>(xml, Event.class).considering(Event.getValidationConsideringClasses()).deserialize();
     }
 
     public static List<Class<?>> getValidationConsideringClasses() {

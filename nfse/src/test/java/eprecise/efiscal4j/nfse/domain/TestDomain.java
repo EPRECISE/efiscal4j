@@ -17,6 +17,7 @@ import eprecise.efiscal4j.nfse.person.address.NFSeUF;
 import eprecise.efiscal4j.nfse.person.documents.NFSeCnpj;
 import eprecise.efiscal4j.nfse.sharing.Applicant;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
+import eprecise.efiscal4j.nfse.signer.NFSeSigner;
 import eprecise.efiscal4j.nfse.statements.ServiceProvider;
 import eprecise.efiscal4j.nfse.statements.ServiceTaker;
 import eprecise.efiscal4j.nfse.statements.SpecialTaxationRegime;
@@ -89,7 +90,7 @@ public class TestDomain {
                 transmissionChannel = null;
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                signer = new Signer(keyCertificate);
+                signer = new NFSeSigner(keyCertificate);
                 transmissionChannel = new TransmissionChannel(keyCertificate);
             }
         } catch (final Exception ex) {

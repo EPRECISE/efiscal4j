@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.signer.defaults;
+package eprecise.efiscal4j.nfse.signer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Optional;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
@@ -51,10 +50,10 @@ import eprecise.efiscal4j.signer.Signer;
 
 /**
  *
- * @author Felipe Bueno
+ * @author Fernando C Glizt
  *
  */
-public class DefaultSigner implements Signer {
+public class NFSeSigner implements Signer {
 
     private final eprecise.efiscal4j.commons.utils.Certificate keyCertificate;
 
@@ -66,7 +65,7 @@ public class DefaultSigner implements Signer {
 
     private KeyInfo keyInfo;
 
-    public DefaultSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
+    public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
         init();
     }
@@ -84,7 +83,7 @@ public class DefaultSigner implements Signer {
 
         transformList = new ArrayList<>();
         transformList.add(signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null));
-        transformList.add(signatureFactory.newTransform("http://www.w3.org/TR/2001/REC-xml-c14n-20010315", (TransformParameterSpec) null));
+        transformList.add(signatureFactory.newTransform("http://www.w3.org/2001/10/xml-exc-c14n#", (TransformParameterSpec) null));
 
         loadCertificates();
     }
@@ -131,23 +130,20 @@ public class DefaultSigner implements Signer {
      * @throws TransformerException
      */
     @Override
-    public DefaultAssignable sign(final Assignable assignableParam) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException,
-            IOException, ParserConfigurationException, TransformerException {
-
-        final DefaultAssignable assignable = Optional.ofNullable(assignableParam).filter(DefaultAssignable.class::isInstance).map(DefaultAssignable.class::cast)
-                .orElseThrow(IllegalArgumentException::new);
+    public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
+            ParserConfigurationException, TransformerException {
 
         // Instantiate the document to be signed.
         final Document document = documentFactory(assignable.getAsXml());
 
         // Loop through all root tags of assignable elements in document (may be a batch of assignable elements)
-        for (int i = 0; i < document.getElementsByTagName(assignable.getRootTagName()).getLength(); i++) {
+        for (int i = 0; i < document.getElementsByTagName("Header").getLength(); i++) {
             // Retrieve the assignable element
-            final Element element = (Element) document.getElementsByTagName(assignable.getAssignableTagName()).item(i);
+            final Element element = (Element) document.getElementsByTagName("Header").item(i);
             // Retrieve the assignable element´s id
-            final String idAttribute = element.getAttribute(assignable.getIdAttributeTagName());
+            final String idAttribute = element.getAttribute("Id");
 
-            element.setIdAttribute(assignable.getIdAttributeTagName(), true);
+            element.setIdAttribute("Id", true);
 
             // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
             //@formatter:off
@@ -167,7 +163,7 @@ public class DefaultSigner implements Signer {
             // Create a DOMSignContext and specify the RSA PrivateKey and
             // location of the resulting XMLSignature's parent element.
             final DOMSignContext signContext = new DOMSignContext(privateKey,
-                                                                  document.getElementsByTagName(assignable.getRootTagName()).item(i));
+                                                                  document.getElementsByTagName("Header").item(i));
 
             //@formatter:on
             // Create the XMLSignature, but don't sign it yet.
@@ -177,7 +173,7 @@ public class DefaultSigner implements Signer {
             xmlSignature.sign(signContext);
         }
 
-        return (DefaultAssignable) assignable.getAsEntity(outputXML(document));
+        return assignable.getAsEntity(outputXML(document));
     }
 
     private Document documentFactory(final String xml) throws SAXException, IOException, ParserConfigurationException {

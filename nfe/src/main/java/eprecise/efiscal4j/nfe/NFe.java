@@ -21,8 +21,8 @@ import eprecise.efiscal4j.nfce.CSC;
 import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.qrCode.NFCeQRCodeBuilder;
+import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
-import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
@@ -88,40 +88,40 @@ public class NFe extends DefaultAssignable implements Serializable {
             return this;
         }
 
-        public NFe build(final DefaultSigner signer) throws Exception {
+        public NFe build(final Signer signer) throws Exception {
             NFe entity = new NFe(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (NFe) signer.sign(entity);
             if (entity.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
-                if (this.csc == null) {
+                if (csc == null) {
                     throw new IllegalStateException("CSC não informado para NFCE");
                 }
-                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, this.csc).build()).build());
+                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, csc).build()).build());
             }
             return entity;
         }
     }
 
     public NFe() {
-        this.nFeInfo = null;
-        this.nFeSuplementaryInfo = null;
+        nFeInfo = null;
+        nFeSuplementaryInfo = null;
     }
 
     public NFe(final Builder builder) {
-        this.nFeInfo = builder.nFeInfo;
-        this.nFeSuplementaryInfo = builder.nFeSuplementaryInfo;
+        nFeInfo = builder.nFeInfo;
+        nFeSuplementaryInfo = builder.nFeSuplementaryInfo;
     }
 
     public String getXmlns() {
-        return this.xmlns;
+        return xmlns;
     }
 
     public NFeInfo getNFeInfo() {
-        return this.nFeInfo;
+        return nFeInfo;
     }
 
     public NFeSuplementaryInfo getnFeSuplementaryInfo() {
-        return this.nFeSuplementaryInfo;
+        return nFeSuplementaryInfo;
     }
 
     private void setnFeSuplementaryInfo(final NFeSuplementaryInfo nFeSuplementaryInfo) {
@@ -130,7 +130,7 @@ public class NFe extends DefaultAssignable implements Serializable {
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<NFe>(this).considering(NFe.getValidationConsideringClasses()).serialize();
+        return new FiscalDocumentSerializer<>(this).considering(NFe.getValidationConsideringClasses()).serialize();
     }
 
     @Override
@@ -150,7 +150,7 @@ public class NFe extends DefaultAssignable implements Serializable {
 
     @Override
     public DefaultAssignable getAsEntity(final String xml) {
-        return new FiscalDocumentDeserializer<NFe>(xml, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
+        return new FiscalDocumentDeserializer<>(xml, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
     }
 
     public static List<Class<?>> getValidationConsideringClasses() {

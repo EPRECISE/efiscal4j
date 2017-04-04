@@ -8,12 +8,12 @@
 	<parent>
 		<artifactId>efiscal4j</artifactId>
 		<groupId>eprecise.efiscal4j</groupId>
-		<version>1.0.73-DEV</version>
+		<version>1.0.72</version>
 	</parent>
 
-	<artifactId>nfe</artifactId>
+	<artifactId>nfse</artifactId>
 
-	<name>e-Fiscal4J NF-e</name>
+	<name>e-Fiscal4J NFS-e</name>
 
 	<dependencies>
 		<dependency>

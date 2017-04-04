@@ -29,30 +29,30 @@ public class FiscalDocumentDeserializer<T> {
 
     private final List<Class<?>> toConsider = new ArrayList<>();
 
-    public FiscalDocumentDeserializer(String xml, Class<T> mainClass) {
+    public FiscalDocumentDeserializer(final String xml, final Class<T> mainClass) {
         this.xmlContent = xml;
         this.mainClass = mainClass;
         this.toConsider.add(this.mainClass);
     }
 
-    public FiscalDocumentDeserializer(InputStream xml, Class<T> mainClass) throws IOException {
+    public FiscalDocumentDeserializer(final InputStream xml, final Class<T> mainClass) throws IOException {
         this(IOUtils.toString(xml), mainClass);
     }
 
-    public FiscalDocumentDeserializer(URL xml, Class<T> mainClass) throws IOException {
+    public FiscalDocumentDeserializer(final URL xml, final Class<T> mainClass) throws IOException {
         this(IOUtils.toString(xml.openStream()), mainClass);
     }
 
-    public FiscalDocumentDeserializer(File xml, Class<T> mainClass) throws IOException {
+    public FiscalDocumentDeserializer(final File xml, final Class<T> mainClass) throws IOException {
         this(IOUtils.toString(new FileInputStream(xml)), mainClass);
     }
 
-    public FiscalDocumentDeserializer<T> considering(Class<?>... classes) {
+    public FiscalDocumentDeserializer<T> considering(final Class<?>... classes) {
         this.toConsider.addAll(Arrays.asList(classes));
         return this;
     }
 
-    public FiscalDocumentDeserializer<T> considering(List<Class<?>> classes) {
+    public FiscalDocumentDeserializer<T> considering(final List<Class<?>> classes) {
         this.toConsider.addAll(classes);
         return this;
     }
@@ -84,6 +84,6 @@ public class FiscalDocumentDeserializer<T> {
 
     private String getPreparedXML() {
         return this.xmlContent.replace("xmlns=\"http://www.portalfiscal.inf.br/cte\"", "").replace("xmlns=\"http://www.portalfiscal.inf.br/nfe\"", "")
-                .replace("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"", "");
+                .replace("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"", "").replace("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"", "");
     }
 }

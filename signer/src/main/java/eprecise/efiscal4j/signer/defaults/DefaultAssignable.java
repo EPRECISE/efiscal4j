@@ -15,28 +15,25 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.io.IOUtils;
 
+import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlTransient
-public abstract class DefaultAssignable {
+public abstract class DefaultAssignable implements Assignable {
 
     public @XmlElement(name = "Signature") SignatureType signature;
 
-    public abstract String getAsXml();
-
-    public abstract DefaultAssignable getAsEntity(String xml);
-
-    public DefaultAssignable getAsEntity(final InputStream xml) throws IOException {
+    public Assignable getAsEntity(final InputStream xml) throws IOException {
         return this.getAsEntity(IOUtils.toString(xml));
     }
 
-    public DefaultAssignable getAsEntity(final URL xml) throws IOException {
+    public Assignable getAsEntity(final URL xml) throws IOException {
         return this.getAsEntity(IOUtils.toString(xml.openStream()));
     }
 
-    public DefaultAssignable getAsEntity(final File xml) throws FileNotFoundException, IOException {
+    public Assignable getAsEntity(final File xml) throws FileNotFoundException, IOException {
         return this.getAsEntity(IOUtils.toString(new FileInputStream(xml)));
     }
 
