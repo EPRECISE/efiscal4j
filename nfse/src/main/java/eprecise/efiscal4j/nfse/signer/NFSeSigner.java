@@ -179,7 +179,7 @@ public class NFSeSigner implements Signer {
     private Document documentFactory(final String xml) throws SAXException, IOException, ParserConfigurationException {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
-        return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").getBytes()));
+        return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").replaceAll("SOAP-ENV:", "").getBytes()));
     }
 
     private String outputXML(final Document document) throws TransformerException {
@@ -189,7 +189,9 @@ public class NFSeSigner implements Signer {
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "no");
         transformer.transform(new DOMSource(document), new StreamResult(outputStream));
-        return outputStream.toString();
+        final String outputXML = outputStream.toString().replaceAll("Header", "SOAP-ENV:Header");
+        System.out.println("Assinatura: " + outputXML);
+        return outputXML;
     }
 
     public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {
