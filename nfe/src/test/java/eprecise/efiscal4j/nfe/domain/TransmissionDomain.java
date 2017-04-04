@@ -23,7 +23,7 @@ import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
-import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 class TransmissionDomain {
@@ -40,7 +40,7 @@ class TransmissionDomain {
         return TransmissionDomain.internalEntity;
     }
 
-    public ArrayList<EventProtocol> buildEventProtocolList(Signer signer) throws Exception {
+    public ArrayList<EventProtocol> buildEventProtocolList(DefaultSigner signer) throws Exception {
         final ArrayList<EventProtocol> eventProtocolList = new ArrayList<>();
         //@formatter:off       
         eventProtocolList.add(new EventProtocol.Builder()
@@ -117,7 +117,7 @@ class TransmissionDomain {
         //@formatter:on
     }
 
-    public NFeStatusSearchResponse buildNFeStatusSearchResponse(Signer signer) throws Exception {
+    public NFeStatusSearchResponse buildNFeStatusSearchResponse(DefaultSigner signer) throws Exception {
         //@formatter:off
         return new NFeStatusSearchResponse.Builder()
                      .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)

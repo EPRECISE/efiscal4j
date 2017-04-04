@@ -21,8 +21,8 @@ import eprecise.efiscal4j.nfce.CSC;
 import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.qrCode.NFCeQRCodeBuilder;
-import eprecise.efiscal4j.signer.Assignable;
-import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
@@ -35,7 +35,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlRootElement(name = "NFe")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "xmlns", "nFeInfo", "nFeSuplementaryInfo", "signature" })
-public class NFe extends Assignable implements Serializable {
+public class NFe extends DefaultAssignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -88,7 +88,7 @@ public class NFe extends Assignable implements Serializable {
             return this;
         }
 
-        public NFe build(final Signer signer) throws Exception {
+        public NFe build(final DefaultSigner signer) throws Exception {
             NFe entity = new NFe(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (NFe) signer.sign(entity);
@@ -149,7 +149,7 @@ public class NFe extends Assignable implements Serializable {
     }
 
     @Override
-    public Assignable getAsEntity(final String xml) {
+    public DefaultAssignable getAsEntity(final String xml) {
         return new FiscalDocumentDeserializer<NFe>(xml, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
     }
 

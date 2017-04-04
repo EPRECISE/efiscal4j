@@ -14,7 +14,7 @@ import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 
 
-@XmlRootElement(name = "SOAP-ENV:Envelope")
+@XmlRootElement(name = "Header")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPHeader extends Assignable implements Serializable {
 
@@ -55,12 +55,12 @@ public class SOAPHeader extends Assignable implements Serializable {
 
     @Override
     public String getRootTagName() {
-        return "SOAP-ENV:Header";
+        return "Header";
     }
 
     @Override
     public String getAssignableTagName() {
-        return "SOAP-ENV:Header";
+        return "Header";
     }
 
     @Override

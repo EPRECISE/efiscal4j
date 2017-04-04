@@ -12,7 +12,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDetailCancellation;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventInfo;
 import eprecise.efiscal4j.nfe.sharing.EventType;
-import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 class EventDomain {
@@ -29,7 +29,7 @@ class EventDomain {
         return EventDomain.internalEntity;
     }
 
-    public EventDispatch buildEventDispatchCancellation(Signer signer) throws Exception {
+    public EventDispatch buildEventDispatchCancellation(DefaultSigner signer) throws Exception {
         final ArrayList<Event> eventList = new ArrayList<>();
         //@formatter:off        
         eventList.add(new Event.Builder()
@@ -57,7 +57,7 @@ class EventDomain {
         //@formatter:on
     }
 
-    public EventDispatch buildEventDispatchCCe(Signer signer) throws Exception {
+    public EventDispatch buildEventDispatchCCe(DefaultSigner signer) throws Exception {
         final ArrayList<Event> eventList = new ArrayList<>();
         //@formatter:off        
         eventList.add(new Event.Builder()

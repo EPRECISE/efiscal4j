@@ -18,8 +18,8 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.signer.Assignable;
-import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
@@ -32,7 +32,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlRootElement(name = "evento")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "version", "eventInfo", "signature" })
-public class Event extends Assignable implements Serializable {
+public class Event extends DefaultAssignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class Event extends Assignable implements Serializable {
             return this;
         }
 
-        public Event build(Signer signer) throws Exception {
+        public Event build(DefaultSigner signer) throws Exception {
             Event entity = new Event(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (Event) signer.sign(entity);
@@ -103,7 +103,7 @@ public class Event extends Assignable implements Serializable {
     }
 
     @Override
-    public Assignable getAsEntity(String xml) {
+    public DefaultAssignable getAsEntity(String xml) {
         return new FiscalDocumentDeserializer<Event>(xml, Event.class).considering(Event.getValidationConsideringClasses()).deserialize();
     }
 

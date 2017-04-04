@@ -108,7 +108,7 @@ import eprecise.efiscal4j.nfe.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.transport.ShippingModality;
 import eprecise.efiscal4j.nfe.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.transport.VolumeSeal;
-import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 public class TestDomain {
@@ -143,7 +143,7 @@ public class TestDomain {
 
     private FiscalDocumentValidator validator;
 
-    private final Signer signer;
+    private final DefaultSigner signer;
 
     private final TransmissionChannel transmissionChannel;
 
@@ -188,7 +188,7 @@ public class TestDomain {
                 transmissionChannel = null;
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                signer = new Signer(keyCertificate);
+                signer = new DefaultSigner(keyCertificate);
                 transmissionChannel = new TransmissionChannel(keyCertificate);
             }
         } catch (final Exception ex) {
@@ -1575,7 +1575,7 @@ public class TestDomain {
         return validator;
     }
 
-    public Signer getSigner() {
+    public DefaultSigner getSigner() {
         assertCertificate();
         return signer;
     }
