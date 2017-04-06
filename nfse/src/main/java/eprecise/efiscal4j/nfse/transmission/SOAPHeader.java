@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -15,13 +14,11 @@ import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 
 
-@XmlRootElement(name = "SOAP-ENV:Header")
+@XmlRootElement(name = "Header")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPHeader implements Assignable, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private @XmlAttribute(name = "Id") final String id = "Teste";
 
     public static class Builder {
 

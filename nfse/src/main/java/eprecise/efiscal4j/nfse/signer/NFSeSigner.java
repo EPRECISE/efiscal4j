@@ -4,6 +4,7 @@ package eprecise.efiscal4j.nfse.signer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
@@ -11,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -31,17 +33,20 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPHeaderElement;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import eprecise.efiscal4j.signer.Assignable;
@@ -83,7 +88,6 @@ public class NFSeSigner implements Signer {
 
         transformList = new ArrayList<>();
         transformList.add(signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null));
-        transformList.add(signatureFactory.newTransform("http://www.w3.org/2001/10/xml-exc-c14n#", (TransformParameterSpec) null));
 
         loadCertificates();
     }
@@ -128,74 +132,121 @@ public class NFSeSigner implements Signer {
      * @throws IOException
      * @throws ParserConfigurationException
      * @throws TransformerException
+     * @throws SOAPException
+     * @throws DatatypeConfigurationException
      */
     @Override
     public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
-            ParserConfigurationException, TransformerException {
+            ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException {
 
-        // Instantiate the document to be signed.
-        final Document document = documentFactory(assignable.getAsXml());
+        // final Document request = documentFactory(assignable.getAsXml());
+        //
+        // request.normalizeDocument();
+        // // request.getDocumentElement().getAttributeNS("urn:oasis:names:tc:SAML:2.0:protocol", "ID");
+        // final XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+        // final Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null), Collections.singletonList(fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)),
+        // null,
+        // null);
+        // final SignedInfo si = fac.newSignedInfo(fac.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null), fac.newSignatureMethod(SignatureMethod.RSA_SHA1,
+        // null),
+        // Collections.singletonList(ref));
+        // final DOMSignContext dsc = new DOMSignContext(privateKey, request.getDocumentElement());
+        // // dsc.setIdAttributeNS(request.getDocumentElement(), "urn:oasis:names:tc:SAML:2.0:protocol", "Id");
+        // final XMLSignature signature = fac.newXMLSignature(si, keyInfo);
+        // signature.sign(dsc);
+        //
+        // return assignable.getAsEntity(outputXML(request));
 
-        // Loop through all root tags of assignable elements in document (may be a batch of assignable elements)
-        for (int i = 0; i < document.getElementsByTagName("Header").getLength(); i++) {
-            // Retrieve the assignable element
-            final Element element = (Element) document.getElementsByTagName("Header").item(i);
-            // Retrieve the assignable element´s id
-            final String idAttribute = element.getAttribute("Id");
+        final String NAMESPACEURI_WSSECURITY_WSU = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
 
-            element.setIdAttribute("Id", true);
+        final String NAMESPACEURI_WSSECURITY_WSSE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 
-            // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
-            //@formatter:off
-            final Reference reference = signatureFactory.newReference("#" + idAttribute,
-                                                                           signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
-                                                                           transformList,
-                                                                           null,
-                                                                           null);
-            //Create the signedInfo element
-            final SignedInfo signedInfo = signatureFactory.newSignedInfo(
-                    signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
-                                                                   (C14NMethodParameterSpec) null),
-                    signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,
-                                                             null),
-                    Collections.singletonList(reference));
+        final String ATTRIBUTENAME_X509TOKEN = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
 
-            // Create a DOMSignContext and specify the RSA PrivateKey and
-            // location of the resulting XMLSignature's parent element.
-            final DOMSignContext signContext = new DOMSignContext(privateKey,
-                                                                  document.getElementsByTagName("Header").item(i));
+        final String xml = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header></Header><Body Id=\"body\"></Body></Envelope>";
+        // final String xml = assignable.getAsXml();
+        final InputStream is = new ByteArrayInputStream(xml.getBytes());
+        final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 
-            //@formatter:on
-            // Create the XMLSignature, but don't sign it yet.
-            final XMLSignature xmlSignature = signatureFactory.newXMLSignature(signedInfo, keyInfo);
+        // Prepare envelope
+        final SOAPPart soapPart = msg.getSOAPPart();
+        final SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("u", NAMESPACEURI_WSSECURITY_WSU);
 
-            // Marshal, generate, and sign the enveloped signature.
-            xmlSignature.sign(signContext);
+        // Prepare header
+        SOAPHeader header = envelope.getHeader();
+        if (header == null) {
+            header = envelope.addHeader();
         }
+        final SOAPHeaderElement securityElement = header.addHeaderElement(new QName(NAMESPACEURI_WSSECURITY_WSSE, "Security", "wsse"));
+        securityElement.setMustUnderstand(true);
 
-        return assignable.getAsEntity(outputXML(document));
-    }
+        // Prepare body
+        final SOAPBody body = envelope.getBody();
+        body.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "body");
 
-    private Document documentFactory(final String xml) throws SAXException, IOException, ParserConfigurationException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        return factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.replaceAll("\\>[\\n\\t ]+\\<", "><").replaceAll(" standalone=\"no\"", "").replaceAll("SOAP-ENV:", "").getBytes()));
-    }
+        // // Generate timestamps
+        // final GregorianCalendar calendar = new GregorianCalendar();
+        // DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+        // calendar.add(Calendar.MINUTE, 5);
+        // DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 
-    private String outputXML(final Document document) throws TransformerException {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        final Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.INDENT, "no");
-        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
-        final String outputXML = outputStream.toString().replaceAll("Header", "SOAP-ENV:Header");
-        System.out.println("Assinatura: " + outputXML);
-        return outputXML;
+        // // Prepare timestamp element
+        // final SOAPElement timeStampElement = securityElement.addChildElement("Timestamp", "u");
+        // timeStampElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "timestamp");
+        // final SOAPElement createdElement = timeStampElement.addChildElement("Created", "u");
+        // createdElement.addTextNode(xmlNow.toString());
+        // final SOAPElement expiresElement = timeStampElement.addChildElement("Expires", "u");
+        // expiresElement.addTextNode(xmlLater.toString());
+
+        // Prepare security token element
+        final SOAPElement binarySecurityTokenElement = securityElement.addChildElement("BinarySecurityToken", "wsse");
+        binarySecurityTokenElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "cert");
+        binarySecurityTokenElement.addAttribute(new QName("ValueType"), ATTRIBUTENAME_X509TOKEN);
+        binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(privateKey.getEncoded())));
+
+        // Signature generation
+        final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM", new org.jcp.xml.dsig.internal.dom.XMLDSigRI());
+        final C14NMethodParameterSpec spec1 = null;
+        final CanonicalizationMethod c14nMethod = signFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, spec1);
+        final DigestMethod digestMethod = signFactory.newDigestMethod(DigestMethod.SHA1, null);
+        final SignatureMethod signMethod = signFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
+        final TransformParameterSpec spec2 = null;
+        final Transform transform = signFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, spec2);
+        final List<Transform> transformList = Collections.singletonList(transform);
+        final List<Reference> referenceList = new ArrayList<>();
+        final Reference reference1 = signFactory.newReference("#body", digestMethod, transformList, null, null);
+        referenceList.add(reference1);
+        // final Reference reference2 = signFactory.newReference("#timestamp", digestMethod, transformList, null, null);
+        // referenceList.add(reference2);
+        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, referenceList);
+        final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
+        final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
+        signature.sign(dsc);
+
+        // Prepare key info element
+        final SOAPElement signatureElement = (SOAPElement) securityElement.getLastChild();
+        final SOAPElement keyInfoElement = signatureElement.addChildElement("KeyInfo");
+        final SOAPElement securityTokenReferenceElement = keyInfoElement.addChildElement("SecurityTokenReference", "wsse");
+        final SOAPElement referenceElement = securityTokenReferenceElement.addChildElement("Reference", "wsse");
+        referenceElement.setAttribute("URI", "#cert");
+        referenceElement.setAttribute("ValueType", NAMESPACEURI_WSSECURITY_WSU);
+
+        return assignable.getAsEntity(outputXML(msg));
     }
 
     public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {
         return keyCertificate;
+    }
+
+    private String outputXML(final SOAPMessage message) throws TransformerException, SOAPException, IOException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+
+        message.writeTo(outputStream);
+
+        final String outputXML = outputStream.toString();
+        System.out.println("Assinatura: " + outputXML);
+        return outputXML;
     }
 
 }

@@ -12,15 +12,15 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 
-@XmlRootElement(name = "SOAP-ENV:Envelope")
+@XmlRootElement(name = "Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPEnvelope implements Serializable, TransmissibleEnvelope {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "SOAP-ENV:Header") SOAPHeader soapHeader;
+    private @XmlElement(name = "Header") SOAPHeader soapHeader;
 
-    private @XmlElement(name = "SOAP-ENV:Body") SOAPBody soapBody;
+    private @XmlElement(name = "Body") SOAPBody soapBody;
 
     public static class Builder {
 
