@@ -10,6 +10,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -68,6 +69,8 @@ public class NFSeSigner implements Signer {
 
     private PrivateKey privateKey;
 
+    private PublicKey publicKey;
+
     private KeyInfo keyInfo;
 
     public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
@@ -107,6 +110,7 @@ public class NFSeSigner implements Signer {
             if (ks.isKeyEntry(alias)) {
                 cert = ks.getCertificate(alias);
                 privateKey = (PrivateKey) ks.getKey(alias, getKeyCertificate().getPassphrase().toCharArray());
+                publicKey = cert.getPublicKey();
                 break;
             }
         }
@@ -163,15 +167,15 @@ public class NFSeSigner implements Signer {
 
         final String ATTRIBUTENAME_X509TOKEN = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
 
-        final String xml = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header></Header><Body Id=\"body\"></Body></Envelope>";
-        // final String xml = assignable.getAsXml();
+        // final String xml = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header></Header><Body Id=\"body\"><Teste>teste</Teste></Body></Envelope>";
+        final String xml = assignable.getAsXml();
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 
         // Prepare envelope
         final SOAPPart soapPart = msg.getSOAPPart();
         final SOAPEnvelope envelope = soapPart.getEnvelope();
-        envelope.addNamespaceDeclaration("u", NAMESPACEURI_WSSECURITY_WSU);
+        envelope.addNamespaceDeclaration("wsu", NAMESPACEURI_WSSECURITY_WSU);
 
         // Prepare header
         SOAPHeader header = envelope.getHeader();
@@ -183,25 +187,11 @@ public class NFSeSigner implements Signer {
 
         // Prepare body
         final SOAPBody body = envelope.getBody();
-        body.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "body");
-
-        // // Generate timestamps
-        // final GregorianCalendar calendar = new GregorianCalendar();
-        // DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-        // calendar.add(Calendar.MINUTE, 5);
-        // DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-
-        // // Prepare timestamp element
-        // final SOAPElement timeStampElement = securityElement.addChildElement("Timestamp", "u");
-        // timeStampElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "timestamp");
-        // final SOAPElement createdElement = timeStampElement.addChildElement("Created", "u");
-        // createdElement.addTextNode(xmlNow.toString());
-        // final SOAPElement expiresElement = timeStampElement.addChildElement("Expires", "u");
-        // expiresElement.addTextNode(xmlLater.toString());
+        body.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "wsu"), "body");
 
         // Prepare security token element
         final SOAPElement binarySecurityTokenElement = securityElement.addChildElement("BinarySecurityToken", "wsse");
-        binarySecurityTokenElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "u"), "cert");
+        binarySecurityTokenElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "wsu"), "cert");
         binarySecurityTokenElement.addAttribute(new QName("ValueType"), ATTRIBUTENAME_X509TOKEN);
         binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(privateKey.getEncoded())));
 

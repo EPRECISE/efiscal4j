@@ -3,8 +3,10 @@ package eprecise.efiscal4j.nfse.transmission;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 
@@ -17,6 +19,8 @@ import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
 public class SOAPBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @XmlAttribute(name = "Id") @NotNull final String id = "body";
 
   //@formatter:off
     @XmlElementRefs({

@@ -115,7 +115,7 @@ public class TestDomain {
 
     public SOAPEnvelope buildSOAPEnvelope() throws Exception {
         try {
-            return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build(signer)).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(buildLotRpsDispatch()).build()).build();
+            return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(buildLotRpsDispatch()).build()).build(signer);
         } catch (final Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

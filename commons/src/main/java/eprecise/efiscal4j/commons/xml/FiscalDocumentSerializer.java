@@ -5,10 +5,13 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 
 public class FiscalDocumentSerializer<T> {
@@ -17,17 +20,24 @@ public class FiscalDocumentSerializer<T> {
 
     private final List<Class<?>> toConsider = new ArrayList<>();
 
-    public FiscalDocumentSerializer(T entity) {
+    private Optional<NamespacePrefixMapper> namespacePrefixMapper = Optional.empty();
+
+    public FiscalDocumentSerializer(final T entity) {
         this.entity = entity;
         this.toConsider.add(this.entity.getClass());
     }
 
-    public FiscalDocumentSerializer<T> considering(Class<?>... classes) {
+    public FiscalDocumentSerializer<T> considering(final Class<?>... classes) {
         this.toConsider.addAll(Arrays.asList(classes));
         return this;
     }
 
-    public FiscalDocumentSerializer<T> considering(List<Class<?>> classes) {
+    public FiscalDocumentSerializer<T> withNamespacePrefixMapper(final NamespacePrefixMapper namespacePrefixMapper) {
+        this.namespacePrefixMapper = Optional.ofNullable(namespacePrefixMapper);
+        return this;
+    }
+
+    public FiscalDocumentSerializer<T> considering(final List<Class<?>> classes) {
         this.toConsider.addAll(classes);
         return this;
     }
@@ -41,6 +51,10 @@ public class FiscalDocumentSerializer<T> {
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            if (namespacePrefixMapper.isPresent()) {
+                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", namespacePrefixMapper.get());
+            }
+
             // marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new PreferredMapper());
 
             final StringWriter out = new StringWriter();

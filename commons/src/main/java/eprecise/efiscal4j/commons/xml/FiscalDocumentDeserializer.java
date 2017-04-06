@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -83,7 +85,21 @@ public class FiscalDocumentDeserializer<T> {
     }
 
     private String getPreparedXML() {
-        return this.xmlContent.replace("xmlns=\"http://www.portalfiscal.inf.br/cte\"", "").replace("xmlns=\"http://www.portalfiscal.inf.br/nfe\"", "")
-                .replace("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"", "").replace("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"", "");
+        final Collection<String> toRemove = new HashSet<>();
+        toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/cte\"");
+        toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/nfe\"");
+        toRemove.add("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"");
+        toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"");
+        toRemove.add("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"");
+        toRemove.add("xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"");
+        toRemove.add("xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3\"");
+
+        String xml = this.xmlContent;
+
+        for (final String str : toRemove) {
+            xml = xml.replace(str, "");
+        }
+
+        return xml;
     }
 }
