@@ -93,6 +93,7 @@ public class FiscalDocumentDeserializer<T> {
         toRemove.add("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"");
         toRemove.add("xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"");
         toRemove.add("xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3\"");
+        toRemove.add("xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"");
 
         String xml = this.xmlContent;
 

@@ -10,18 +10,14 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
 import javax.xml.crypto.dsig.DigestMethod;
-import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.SignatureMethod;
 import javax.xml.crypto.dsig.SignedInfo;
 import javax.xml.crypto.dsig.Transform;
@@ -29,9 +25,6 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMSignContext;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
-import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
-import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -48,6 +41,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.TransformerException;
 
+import org.jcp.xml.dsig.internal.dom.XMLDSigRI;
 import org.xml.sax.SAXException;
 
 import eprecise.efiscal4j.signer.Assignable;
@@ -59,7 +53,14 @@ import eprecise.efiscal4j.signer.Signer;
  * @author Fernando C Glizt
  *
  */
+@SuppressWarnings("restriction")
 public class NFSeSigner implements Signer {
+
+    private static final String NAMESPACEURI_WSSECURITY_WSU = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
+
+    private static final String NAMESPACEURI_WSSECURITY_WSSE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+
+    private static final String ATTRIBUTENAME_X509TOKEN = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
 
     private final eprecise.efiscal4j.commons.utils.Certificate keyCertificate;
 
@@ -68,10 +69,6 @@ public class NFSeSigner implements Signer {
     private ArrayList<Transform> transformList;
 
     private PrivateKey privateKey;
-
-    private PublicKey publicKey;
-
-    private KeyInfo keyInfo;
 
     public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
@@ -90,7 +87,8 @@ public class NFSeSigner implements Signer {
         signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
         transformList = new ArrayList<>();
-        transformList.add(signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null));
+        final Transform transform = signatureFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
+        transformList.add(transform);
 
         loadCertificates();
     }
@@ -103,73 +101,24 @@ public class NFSeSigner implements Signer {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
 
-        Certificate cert = null;
         final Enumeration<String> aliasesEnum = ks.aliases();
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
             if (ks.isKeyEntry(alias)) {
-                cert = ks.getCertificate(alias);
                 privateKey = (PrivateKey) ks.getKey(alias, getKeyCertificate().getPassphrase().toCharArray());
-                publicKey = cert.getPublicKey();
                 break;
             }
         }
-
-        final KeyInfoFactory keyInfoFactory = signatureFactory.getKeyInfoFactory();
-        final List<Certificate> x509Content = new ArrayList<>();
-        x509Content.add(cert);
-
-        final X509Data x509Data = keyInfoFactory.newX509Data(x509Content);
-
-        keyInfo = keyInfoFactory.newKeyInfo(Collections.singletonList(x509Data));
     }
 
     /**
      * Assina o documento assinável, retornando a mesma entidade com as tags de Signature preenchidas
      *
-     * @param assignableParam
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidAlgorithmParameterException
-     * @throws MarshalException
-     * @throws XMLSignatureException
-     * @throws SAXException
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws TransformerException
-     * @throws SOAPException
-     * @throws DatatypeConfigurationException
      */
     @Override
     public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException {
-
-        // final Document request = documentFactory(assignable.getAsXml());
-        //
-        // request.normalizeDocument();
-        // // request.getDocumentElement().getAttributeNS("urn:oasis:names:tc:SAML:2.0:protocol", "ID");
-        // final XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-        // final Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null), Collections.singletonList(fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)),
-        // null,
-        // null);
-        // final SignedInfo si = fac.newSignedInfo(fac.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null), fac.newSignatureMethod(SignatureMethod.RSA_SHA1,
-        // null),
-        // Collections.singletonList(ref));
-        // final DOMSignContext dsc = new DOMSignContext(privateKey, request.getDocumentElement());
-        // // dsc.setIdAttributeNS(request.getDocumentElement(), "urn:oasis:names:tc:SAML:2.0:protocol", "Id");
-        // final XMLSignature signature = fac.newXMLSignature(si, keyInfo);
-        // signature.sign(dsc);
-        //
-        // return assignable.getAsEntity(outputXML(request));
-
-        final String NAMESPACEURI_WSSECURITY_WSU = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
-
-        final String NAMESPACEURI_WSSECURITY_WSSE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
-
-        final String ATTRIBUTENAME_X509TOKEN = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
-
-        // final String xml = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header></Header><Body Id=\"body\"><Teste>teste</Teste></Body></Envelope>";
         final String xml = assignable.getAsXml();
-        System.out.println(xml);
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 
@@ -178,7 +127,6 @@ public class NFSeSigner implements Signer {
 
         final SOAPEnvelope envelope = soapPart.getEnvelope();
         envelope.addNamespaceDeclaration("wsu", NAMESPACEURI_WSSECURITY_WSU);
-        envelope.removeNamespaceDeclaration("SOAP-ENV");
 
         // Prepare header
         SOAPHeader header = envelope.getHeader();
@@ -199,20 +147,12 @@ public class NFSeSigner implements Signer {
         binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(privateKey.getEncoded())));
 
         // Signature generation
-        final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM", new org.jcp.xml.dsig.internal.dom.XMLDSigRI());
+        final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM", new XMLDSigRI());
         final C14NMethodParameterSpec spec1 = null;
         final CanonicalizationMethod c14nMethod = signFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, spec1);
         final DigestMethod digestMethod = signFactory.newDigestMethod(DigestMethod.SHA1, null);
         final SignatureMethod signMethod = signFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
-        final TransformParameterSpec spec2 = null;
-        final Transform transform = signFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, spec2);
-        final List<Transform> transformList = Collections.singletonList(transform);
-        final List<Reference> referenceList = new ArrayList<>();
-        final Reference reference1 = signFactory.newReference("#body", digestMethod, transformList, null, null);
-        referenceList.add(reference1);
-        // final Reference reference2 = signFactory.newReference("#timestamp", digestMethod, transformList, null, null);
-        // referenceList.add(reference2);
-        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, referenceList);
+        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#body", digestMethod, transformList, null, null)));
         final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
         final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
         signature.sign(dsc);
@@ -225,7 +165,7 @@ public class NFSeSigner implements Signer {
         referenceElement.setAttribute("URI", "#cert");
         referenceElement.setAttribute("ValueType", NAMESPACEURI_WSSECURITY_WSU);
 
-        return assignable.getAsEntity(outputXML(msg));
+        return assignable.getAsEntity(outputXML(msg).replaceAll("SOAP-ENV:", ""));
     }
 
     public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {

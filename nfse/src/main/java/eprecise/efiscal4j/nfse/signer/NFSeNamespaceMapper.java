@@ -8,7 +8,7 @@ public class NFSeNamespaceMapper extends NamespacePrefixMapper {
 
     @Override
     public String getPreferredPrefix(final String namespaceUri, final String suggestion, final boolean requirePrefix) {
-        return suggestion;
+        return "SOAP-ENV";
     }
 
     @Override
