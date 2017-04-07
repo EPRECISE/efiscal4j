@@ -169,13 +169,16 @@ public class NFSeSigner implements Signer {
 
         // final String xml = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header></Header><Body Id=\"body\"><Teste>teste</Teste></Body></Envelope>";
         final String xml = assignable.getAsXml();
+        System.out.println(xml);
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 
         // Prepare envelope
         final SOAPPart soapPart = msg.getSOAPPart();
+
         final SOAPEnvelope envelope = soapPart.getEnvelope();
         envelope.addNamespaceDeclaration("wsu", NAMESPACEURI_WSSECURITY_WSU);
+        envelope.removeNamespaceDeclaration("SOAP-ENV");
 
         // Prepare header
         SOAPHeader header = envelope.getHeader();

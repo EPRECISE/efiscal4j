@@ -19,7 +19,7 @@ import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 
-@XmlRootElement(name = "Envelope")
+@XmlRootElement(name = "SOAP-ENV:Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope {
 
@@ -27,9 +27,9 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://schemas.xmlsoap.org/soap/envelope/";
 
-    private @XmlElement(name = "Header") SOAPHeader soapHeader;
+    private @XmlElement(name = "SOAP-ENV:Header") SOAPHeader soapHeader;
 
-    private @XmlElement(name = "Body") SOAPBody soapBody;
+    private @XmlElement(name = "SOAP-ENV:Body") SOAPBody soapBody;
 
     public static class Builder {
 
