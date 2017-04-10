@@ -9,3 +9,5 @@ Projeto para emissão de documentos fiscais eletrônicos, visando geração, ass
 * MDF-e
 
 Este projeto visa permitir emissão simples e rápida de documentos fiscais eletrônicos em Java
+
+Contamos com a contribuição de todos para documentar e evoluir o projeto.
