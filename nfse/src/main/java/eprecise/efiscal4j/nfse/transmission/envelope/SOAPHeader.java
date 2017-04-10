@@ -1,20 +1,21 @@
 
-package eprecise.efiscal4j.nfse.transmission;
+package eprecise.efiscal4j.nfse.transmission.envelope;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
-@XmlRootElement(name = "Header")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @XmlElement(name = "wsse:Security") SOAPHeaderSecurity security;
 
     public static class Builder {
 

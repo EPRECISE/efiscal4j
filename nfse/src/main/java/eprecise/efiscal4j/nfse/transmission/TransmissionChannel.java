@@ -3,6 +3,9 @@ package eprecise.efiscal4j.nfse.transmission;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPBody;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPHeader;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 

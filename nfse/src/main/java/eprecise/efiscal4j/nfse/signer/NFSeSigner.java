@@ -118,7 +118,7 @@ public class NFSeSigner implements Signer {
     @Override
     public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException {
-        final String xml = assignable.getAsXml();
+        final String xml = assignable.getAsXml().replaceAll("SOAP-ENV:", "");
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 
@@ -165,7 +165,7 @@ public class NFSeSigner implements Signer {
         referenceElement.setAttribute("URI", "#cert");
         referenceElement.setAttribute("ValueType", NAMESPACEURI_WSSECURITY_WSU);
 
-        return assignable.getAsEntity(outputXML(msg).replaceAll("SOAP-ENV:", ""));
+        return assignable.getAsEntity(outputXML(msg));
     }
 
     public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {

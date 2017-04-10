@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
-import eprecise.efiscal4j.nfse.transmission.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
 
 
 public class NFSeSOAPEnvelopeTest implements Testable {

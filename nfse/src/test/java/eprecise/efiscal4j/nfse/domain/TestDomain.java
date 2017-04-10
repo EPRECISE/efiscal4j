@@ -34,10 +34,10 @@ import eprecise.efiscal4j.nfse.statements.services.Service;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItemTaxable;
 import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
-import eprecise.efiscal4j.nfse.transmission.SOAPBody;
-import eprecise.efiscal4j.nfse.transmission.SOAPEnvelope;
-import eprecise.efiscal4j.nfse.transmission.SOAPHeader;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPBody;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.envelope.SOAPHeader;
 import eprecise.efiscal4j.signer.Signer;
 
 

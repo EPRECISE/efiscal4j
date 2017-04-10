@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.transmission;
+package eprecise.efiscal4j.nfse.transmission.envelope;
 
 import java.io.Serializable;
 
