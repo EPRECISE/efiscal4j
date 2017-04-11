@@ -11,8 +11,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
-
 
 public class FiscalDocumentSerializer<T> {
 
@@ -20,7 +18,7 @@ public class FiscalDocumentSerializer<T> {
 
     private final List<Class<?>> toConsider = new ArrayList<>();
 
-    private Optional<NamespacePrefixMapper> namespacePrefixMapper = Optional.empty();
+    private Optional<FiscalDocumentXmlAdapter> adapter = Optional.empty();
 
     public FiscalDocumentSerializer(final T entity) {
         this.entity = entity;
@@ -32,8 +30,8 @@ public class FiscalDocumentSerializer<T> {
         return this;
     }
 
-    public FiscalDocumentSerializer<T> withNamespacePrefixMapper(final NamespacePrefixMapper namespacePrefixMapper) {
-        this.namespacePrefixMapper = Optional.ofNullable(namespacePrefixMapper);
+    public FiscalDocumentSerializer<T> withAdapter(final FiscalDocumentXmlAdapter adapter) {
+        this.adapter = Optional.ofNullable(adapter);
         return this;
     }
 
@@ -51,14 +49,14 @@ public class FiscalDocumentSerializer<T> {
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            if (namespacePrefixMapper.isPresent()) {
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", namespacePrefixMapper.get());
-            }
 
             // marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new PreferredMapper());
 
             final StringWriter out = new StringWriter();
             marshaller.marshal(this.entity, out);
+            if (adapter.isPresent()) {
+                return adapter.get().process(out.toString());
+            }
             return out.toString();
         } catch (final JAXBException e) {
             throw new RuntimeException(e);

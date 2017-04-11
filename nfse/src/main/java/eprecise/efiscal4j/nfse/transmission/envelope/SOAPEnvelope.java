@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfse.transmission.envelope;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,19 +12,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.signer.NFSeNamespaceMapper;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 
-@XmlRootElement(name = "SOAP-ENV:Envelope", namespace = "http://schemas.xmlsoap.org/soap/envelope/")
+@XmlRootElement(name = "SOAP-ENV:Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://schemas.xmlsoap.org/soap/envelope/";
+    private final @XmlAttribute(name = "xmlns:SOAP-ENV") String xmlnsSoap = "http://schemas.xmlsoap.org/soap/envelope/";
 
     private @XmlElement(name = "SOAP-ENV:Header") SOAPHeader soapHeader;
 
@@ -83,11 +81,16 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).withNamespacePrefixMapper(new NFSeNamespaceMapper()).serialize();
+        return new FiscalDocumentSerializer<>(this).serialize();
     }
 
     @Override
     public Assignable getAsEntity(final String xml) {
-        return new FiscalDocumentDeserializer<>(xml, SOAPEnvelope.class).deserialize();
+        return new FiscalDocumentDeserializer<>(xml, SOAPEnvelope.class).withAdapter(x -> {
+            String xmlAdapted = x;
+            xmlAdapted = xmlAdapted.replaceAll("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"", "");
+            xmlAdapted = xmlAdapted.replaceAll("", "");
+            return xmlAdapted;
+        }).deserialize();
     }
 }

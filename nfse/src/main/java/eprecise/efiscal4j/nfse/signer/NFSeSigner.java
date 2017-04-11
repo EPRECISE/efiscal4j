@@ -118,7 +118,7 @@ public class NFSeSigner implements Signer {
     @Override
     public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException {
-        final String xml = assignable.getAsXml().replaceAll("SOAP-ENV:", "");
+        final String xml = assignable.getAsXml();
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
 

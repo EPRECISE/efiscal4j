@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -30,6 +31,8 @@ public class FiscalDocumentDeserializer<T> {
     private boolean stopOnError = true;
 
     private final List<Class<?>> toConsider = new ArrayList<>();
+
+    private Optional<FiscalDocumentXmlAdapter> adapter = Optional.empty();
 
     public FiscalDocumentDeserializer(final String xml, final Class<T> mainClass) {
         this.xmlContent = xml;
@@ -69,6 +72,11 @@ public class FiscalDocumentDeserializer<T> {
         return this;
     }
 
+    public FiscalDocumentDeserializer<T> withAdapter(final FiscalDocumentXmlAdapter adapter) {
+        this.adapter = Optional.ofNullable(adapter);
+        return this;
+    }
+
     public T deserialize() {
         final Class<?>[] considering = new Class<?>[this.toConsider.size()];
         this.toConsider.toArray(considering);
@@ -90,15 +98,15 @@ public class FiscalDocumentDeserializer<T> {
         toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/nfe\"");
         toRemove.add("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"");
         toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"");
-        toRemove.add("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"");
-        toRemove.add("xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"");
-        toRemove.add("xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3\"");
-        toRemove.add("xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"");
 
         String xml = this.xmlContent;
 
         for (final String str : toRemove) {
             xml = xml.replace(str, "");
+        }
+
+        if (adapter.isPresent()) {
+            return adapter.get().process(xml);
         }
 
         return xml;
