@@ -17,7 +17,7 @@ public class Security implements Serializable {
 
     private @XmlElement(name = "BinarySecurityToken", namespace = NFSeNamespacesPrefixMapper.WSSE_URI) BinarySecurityToken binarySecurityToken;
 
-    private @XmlElement(name = "Signature", namespace = NFSeNamespacesPrefixMapper.SIGNATURE_URI) Signature signature;
+    private @XmlElement(name = "Signature") Signature signature;
 
     public BinarySecurityToken getBinarySecurityToken() {
         return binarySecurityToken;

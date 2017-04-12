@@ -17,7 +17,7 @@ public class Signature implements Serializable {
 
     private @XmlElement(name = "SignatureValue") String signatureValue;
 
-    private @XmlElement(name = "KeyInfo") SignedInfo keyInfo;
+    private @XmlElement(name = "KeyInfo") KeyInfo keyInfo;
 
     public SignedInfo getSignedInfo() {
         return signedInfo;
@@ -27,7 +27,7 @@ public class Signature implements Serializable {
         return signatureValue;
     }
 
-    public SignedInfo getKeyInfo() {
+    public KeyInfo getKeyInfo() {
         return keyInfo;
     }
 
