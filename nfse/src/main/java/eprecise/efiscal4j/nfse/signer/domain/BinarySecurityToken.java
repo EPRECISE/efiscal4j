@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.transmission.envelope;
+package eprecise.efiscal4j.nfse.signer.domain;
 
 import java.io.Serializable;
 
@@ -8,9 +8,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
+import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
+
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SoapHeaderBinarySecurityToken implements Serializable {
+public class BinarySecurityToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +20,7 @@ public class SoapHeaderBinarySecurityToken implements Serializable {
 
     private @XmlAttribute(name = "ValueType") String valueType;
 
-    private @XmlAttribute(name = "wsu:Id") String id;
+    private @XmlAttribute(name = "Id", namespace = NFSeNamespacesPrefixMapper.WSU_URI) String id;
 
     private @XmlValue String value;
 

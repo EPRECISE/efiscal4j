@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
+import eprecise.efiscal4j.nfse.signer.domain.Security;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -15,7 +17,7 @@ public class SOAPHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "wsse:Security") SOAPHeaderSecurity security;
+    private @XmlElement(name = "Security", namespace = NFSeNamespacesPrefixMapper.WSSE_URI) Security security;
 
     public static class Builder {
 

@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
 
 public class FiscalDocumentSerializer<T> {
 
@@ -19,6 +21,8 @@ public class FiscalDocumentSerializer<T> {
     private final List<Class<?>> toConsider = new ArrayList<>();
 
     private Optional<FiscalDocumentXmlAdapter> adapter = Optional.empty();
+
+    private Optional<NamespacePrefixMapper> namespacePrefixMapper = Optional.empty();
 
     public FiscalDocumentSerializer(final T entity) {
         this.entity = entity;
@@ -40,6 +44,11 @@ public class FiscalDocumentSerializer<T> {
         return this;
     }
 
+    public FiscalDocumentSerializer<T> withNamespacePrefixMapper(final NamespacePrefixMapper namespacePrefixMapper) {
+        this.namespacePrefixMapper = Optional.ofNullable(namespacePrefixMapper);
+        return this;
+    }
+
     public String serialize() {
         final Class<?>[] considering = new Class<?>[this.toConsider.size()];
         this.toConsider.toArray(considering);
@@ -51,6 +60,9 @@ public class FiscalDocumentSerializer<T> {
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
             // marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new PreferredMapper());
+            if (namespacePrefixMapper.isPresent()) {
+                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", namespacePrefixMapper.get());
+            }
 
             final StringWriter out = new StringWriter();
             marshaller.marshal(this.entity, out);
