@@ -111,6 +111,10 @@ public class LotRps implements Serializable {
         return new FiscalDocumentDeserializer<>(xml, LotRps.class).considering(LotRps.getValidationConsideringClasses()).deserialize();
     }
 
+    public Collection<StatementProvisionService> getStatementProvisionServices() {
+        return statementProvisionServices;
+    }
+
     public static List<Class<?>> getValidationConsideringClasses() {
         return Arrays.asList(SignatureType.class);
     }
