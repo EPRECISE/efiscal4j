@@ -6,6 +6,8 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
@@ -26,12 +28,16 @@ public interface Testable {
         }
     }
 
-    default void validateByXSDDefault() throws Exception {
-        final String xml = new FiscalDocumentSerializer<>(getBuiltEntity()).serialize();
+    default void validateByXSDDefault(final NamespacePrefixMapper namespacePrefixMapper) throws Exception {
+        final String xml = new FiscalDocumentSerializer<>(getBuiltEntity()).withNamespacePrefixMapper(namespacePrefixMapper).serialize();
         System.out.println(xml + "\n");
 
         final ValidationResult validate = getTestDomain().getValidator().validate(xml);
         Assert.assertTrue(validate.getError(), validate.isValid());
+    }
+
+    default void validateByXSDDefault() throws Exception {
+        this.validateByXSDDefault(null);
     }
 
     default void handleErrors(final ConstraintViolationException e) {

@@ -25,7 +25,7 @@ public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializabl
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/nfse_v1_2.xsd";
 
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
+    private final @XmlAttribute(name = "xmlns") String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
 
     private final @NotNull @XmlElement(name = "IdentificacaoRequerente") Applicant applicant;
 

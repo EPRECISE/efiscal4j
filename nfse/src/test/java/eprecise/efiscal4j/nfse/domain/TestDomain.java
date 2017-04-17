@@ -4,6 +4,7 @@ package eprecise.efiscal4j.nfse.domain;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -47,6 +48,8 @@ public class TestDomain {
 
     private static final String EMITTER_IM_PROPERTY = "eprecise.efiscal4j.nfe.emitter.im";
 
+    private static final String EMITTER_PASSWORD_PROPERTY = "eprecise.efiscal4j.nfe.emitter.password";
+
     private static final String RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.corporatename";
 
     private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
@@ -69,6 +72,8 @@ public class TestDomain {
 
     private final String emitterIM;
 
+    private final String emitterPassword;
+
     private final String receiverLegalEntityCorporateName;
 
     private final String receiverLegalEntityCnpj;
@@ -79,6 +84,7 @@ public class TestDomain {
         try {
             emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
             emitterIM = System.getProperty(TestDomain.EMITTER_IM_PROPERTY);
+            emitterPassword = System.getProperty(TestDomain.EMITTER_PASSWORD_PROPERTY);
             receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
             receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
             receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
@@ -91,7 +97,7 @@ public class TestDomain {
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
                 signer = new NFSeSigner(keyCertificate);
-                transmissionChannel = new TransmissionChannel(keyCertificate);
+                transmissionChannel = new TransmissionChannel((NFSeSigner) signer);
             }
         } catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
@@ -127,9 +133,9 @@ public class TestDomain {
         try {
             final LotRpsDispatch lotRpsDispatch = new LotRpsDispatch.Builder()
                     .withApplicant(new Applicant.Builder()
-                            .withCnp(new NFSeCnpj.Builder().withCnpj("14445087000115").build())
-                            .withMunicipalRegistration("00083700")
-                            .withPassword("abcdef")
+                            .withCnp(new NFSeCnpj.Builder().withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115")).build())
+                            .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
+                            .withPassword(Optional.ofNullable(emitterPassword).orElse("abcdef"))
                             .withHomologation(true)
                             .build())
                     .withLotRps(

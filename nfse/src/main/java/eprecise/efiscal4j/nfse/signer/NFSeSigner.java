@@ -174,11 +174,8 @@ public class NFSeSigner implements Signer {
 
     private String outputXML(final SOAPMessage message) throws TransformerException, SOAPException, IOException {
         final OutputStream outputStream = new ByteArrayOutputStream();
-
         message.writeTo(outputStream);
-
         final String outputXML = outputStream.toString();
-        System.out.println("Assinatura: " + outputXML);
         return outputXML;
     }
 
