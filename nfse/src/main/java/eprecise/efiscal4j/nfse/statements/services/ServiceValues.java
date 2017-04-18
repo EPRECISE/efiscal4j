@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.types.NFSeAliquot;
 import eprecise.efiscal4j.nfse.types.NFSeValue;
 
 
@@ -31,7 +32,7 @@ public class ServiceValues {
 
     private final @XmlElement(name = "ValorIss") @NFSeValue String issValue;
 
-    private final @XmlElement(name = "Aliquota") @NFSeValue String issAliquot;
+    private final @XmlElement(name = "Aliquota") @NFSeAliquot String issAliquot;
 
     private final @XmlElement(name = "DescontoIncondicionado") @NFSeValue String discountUnconditionedValue;
 
@@ -179,33 +180,33 @@ public class ServiceValues {
     }
 
     public ServiceValues() {
-        this.serviceValue = null;
-        this.deductionValue = null;
-        this.pisValue = null;
-        this.cofinsValue = null;
-        this.inssValue = null;
-        this.irValue = null;
-        this.csllValue = null;
-        this.otherRetentionsValue = null;
-        this.issValue = null;
-        this.issAliquot = null;
-        this.discountUnconditionedValue = null;
-        this.discountConditionedValue = null;
+        serviceValue = null;
+        deductionValue = null;
+        pisValue = null;
+        cofinsValue = null;
+        inssValue = null;
+        irValue = null;
+        csllValue = null;
+        otherRetentionsValue = null;
+        issValue = null;
+        issAliquot = null;
+        discountUnconditionedValue = null;
+        discountConditionedValue = null;
     }
 
     public ServiceValues(final Builder builder) {
-        this.serviceValue = builder.serviceValue;
-        this.deductionValue = builder.deductionValue;
-        this.pisValue = builder.pisValue;
-        this.cofinsValue = builder.cofinsValue;
-        this.inssValue = builder.inssValue;
-        this.irValue = builder.irValue;
-        this.csllValue = builder.csllValue;
-        this.otherRetentionsValue = builder.otherRetentionsValue;
-        this.issValue = builder.issValue;
-        this.issAliquot = builder.issAliquot;
-        this.discountUnconditionedValue = builder.discountUnconditionedValue;
-        this.discountConditionedValue = builder.discountConditionedValue;
+        serviceValue = builder.serviceValue;
+        deductionValue = builder.deductionValue;
+        pisValue = builder.pisValue;
+        cofinsValue = builder.cofinsValue;
+        inssValue = builder.inssValue;
+        irValue = builder.irValue;
+        csllValue = builder.csllValue;
+        otherRetentionsValue = builder.otherRetentionsValue;
+        issValue = builder.issValue;
+        issAliquot = builder.issAliquot;
+        discountUnconditionedValue = builder.discountUnconditionedValue;
+        discountConditionedValue = builder.discountConditionedValue;
     }
 
     public String getServiceValue() {

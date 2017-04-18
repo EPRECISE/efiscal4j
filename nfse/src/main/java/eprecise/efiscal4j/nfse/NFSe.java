@@ -4,13 +4,17 @@ package eprecise.efiscal4j.nfse;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.statements.StatementProvisionService;
+import eprecise.efiscal4j.nfse.types.NFSeAccessKey;
 import eprecise.efiscal4j.nfse.types.NFSeDate;
+import eprecise.efiscal4j.nfse.types.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.types.NFSeValue;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -55,17 +59,25 @@ public class NFSe implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Info {
 
-        private final @NotNull @XmlElement(name = "Numero") String number;
+        private final @NotNull @XmlElement(name = "Numero") @NFSeNonNegativeInteger @Size(max = 15) String number;
 
-        private final @NotNull @XmlElement(name = "CodigoVerificacao") String verificationCode;
+        private final @NotNull @XmlElement(name = "CodigoVerificacao") @Size(min = 1, max = 9) String verificationCode;
 
         private final @NotNull @XmlElement(name = "DataEmissao") @NFSeDate String emissionDate;
 
-        private final @XmlElement(name = "OutrasInformacoes") String otherInformation;
+        private final @XmlElement(name = "NfseSubstituida") @NFSeNonNegativeInteger @Size(max = 15) String nfseSubstitutedNumber;
+
+        private final @XmlElement(name = "OutrasInformacoes") @Size(min = 1, max = 255) String otherInformation;
 
         private final @NotNull @XmlElement(name = "ValoresNfse") NFSeValues nfseValues;
 
+        private final @XmlElement(name = "ValorCredito") @NFSeValue String creditValue;
+
+        private final @NotNull @XmlElement(name = "OrgaoGerador") @NFSeValue GeneratorOrgan generatorOrgan;
+
         private final @XmlElement(name = "DeclaracaoPrestacaoServico") StatementProvisionService statementProvisionService;
+
+        private final @NotNull @XmlElement(name = "ChaveAcesso") @NFSeAccessKey String accessKey;
 
         public static class Builder {
 
@@ -75,11 +87,19 @@ public class NFSe implements Serializable {
 
             private String emissionDate;
 
+            private String nfseSubstitutedNumber;
+
             private String otherInformation;
 
             private NFSeValues nfseValues;
 
+            private String creditValue;
+
+            private GeneratorOrgan generatorOrgan;
+
             private StatementProvisionService statementProvisionService;
+
+            private String accessKey;
 
             /**
              * @param number
@@ -109,6 +129,15 @@ public class NFSe implements Serializable {
             }
 
             /**
+             * @param nfseSubstitutedNumber
+             * @return
+             */
+            public Builder withNfseSubstitutedNumber(final String nfseSubstitutedNumber) {
+                this.nfseSubstitutedNumber = nfseSubstitutedNumber;
+                return this;
+            }
+
+            /**
              * @param otherInformation
              * @return
              */
@@ -127,11 +156,38 @@ public class NFSe implements Serializable {
             }
 
             /**
+             * @param creditValue
+             * @return
+             */
+            public Builder withCreditValue(final String creditValue) {
+                this.creditValue = creditValue;
+                return this;
+            }
+
+            /**
+             * @param generatorOrgan
+             * @return
+             */
+            public Builder withGeneratorOrgan(final GeneratorOrgan generatorOrgan) {
+                this.generatorOrgan = generatorOrgan;
+                return this;
+            }
+
+            /**
              * @param statementProvisionService
              * @return
              */
             public Builder withStatementProvisionService(final StatementProvisionService statementProvisionService) {
                 this.statementProvisionService = statementProvisionService;
+                return this;
+            }
+
+            /**
+             * @param accessKey
+             * @return
+             */
+            public Builder withAccessKey(final String accessKey) {
+                this.accessKey = accessKey;
                 return this;
             }
 
@@ -143,22 +199,72 @@ public class NFSe implements Serializable {
         }
 
         public Info() {
+
             number = null;
             verificationCode = null;
             emissionDate = null;
+            nfseSubstitutedNumber = null;
             otherInformation = null;
             nfseValues = null;
+            creditValue = null;
+            generatorOrgan = null;
             statementProvisionService = null;
+            accessKey = null;
         }
 
         public Info(final Builder builder) {
             number = builder.number;
             verificationCode = builder.verificationCode;
             emissionDate = builder.emissionDate;
+            nfseSubstitutedNumber = builder.nfseSubstitutedNumber;
             otherInformation = builder.otherInformation;
             nfseValues = builder.nfseValues;
+            creditValue = builder.creditValue;
+            generatorOrgan = builder.generatorOrgan;
             statementProvisionService = builder.statementProvisionService;
+            accessKey = builder.accessKey;
         }
+
+        public String getNumber() {
+            return number;
+        }
+
+        public String getVerificationCode() {
+            return verificationCode;
+        }
+
+        public String getEmissionDate() {
+            return emissionDate;
+        }
+
+        public String getNfseSubstitutedNumber() {
+            return nfseSubstitutedNumber;
+        }
+
+        public String getOtherInformation() {
+            return otherInformation;
+        }
+
+        public NFSeValues getNfseValues() {
+            return nfseValues;
+        }
+
+        public String getCreditValue() {
+            return creditValue;
+        }
+
+        public GeneratorOrgan getGeneratorOrgan() {
+            return generatorOrgan;
+        }
+
+        public StatementProvisionService getStatementProvisionService() {
+            return statementProvisionService;
+        }
+
+        public String getAccessKey() {
+            return accessKey;
+        }
+
     }
 
 }

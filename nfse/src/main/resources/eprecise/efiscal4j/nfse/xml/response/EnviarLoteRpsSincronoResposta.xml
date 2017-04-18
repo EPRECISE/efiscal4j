@@ -1,0 +1,194 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" SOAP-ENV:mustUnderstand="1"><wsse:BinarySecurityToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="CertId-FBA1B942F8374873DF133970723993119" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">MIIDzTCCArWgAwIBAgIBBTANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCQlIxDzANBgNVBAgTBlBhcmFuYTEQMA4GA1UEBxMHTWFyaW5nYTEtMCsGA1UEChMkRWxvdGVjaCBJbmZvcm1hdGljYSBlIFNpc3RlbWFzIExUREEuMRgwFgYDVQQLEw9EZXNlbnZvbHZpbWVudG8xFzAVBgNVBAMTDmVsb3RlY2guY29tLmJyMB4XDTEyMDYwNTEzNDIzOFoXDTE0MDYwNTEzNDIzOFowgbgxCzAJBgNVBAYTAkJSMQ8wDQYDVQQIEwZQYXJhbmExEDAOBgNVBAcTB01hcmluZ2ExMzAxBgNVBAoTKkVsb3RlY2ggSW5mb3JtYXRpY2EgZSBTaXN0ZW1hcyAoU2VydmVyIFYyKTEXMBUGA1UEChMOZWxvdGVjaC5jb20uYnIxGDAWBgNVBAsTD0Rlc2Vudm9sdmltZW50bzEeMBwGA1UEAxMVc2VydmVyLmVsb3RlY2guY29tLmJyMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDD3pOIMRddqqkyYTwCrGbB0BXu9261n25lOzIb+14i6dTRdXe2rRq/ldSRTPHMJaLu0e+qQazx11owjxjPXVVVjgNEeUtD68kzfbKjwbPnkwyFCkVLhawPrEm6hFhhIJuW9sOotwqWeSWHowg5jU2nxsIdGtwtP17TTAfeZvm9QQIDAQABo4GJMIGGMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgXgMCwGCWCGSAGG+EIBDQQfFh1DZXJ0aWZpY2Fkb3MgZGUgdGVzdGUgZWxvdGVjaDAdBgNVHQ4EFgQUUxcDkt4SWJ0mKIF1vUVIXkU/PMUwHwYDVR0jBBgwFoAUngGQ2gCSGSUrxN3udI7+iRmtUeUwDQYJKoZIhvcNAQEFBQADggEBAGTMjZ9PKui+p+p66pjC2xU/gwZKs7LolSGBk0nNbNuB8uOTvI2EElsae7Pfl35qyLqHd9z6Q0sA+GbcFWQICaYMcTAtbi6wGZN08wTLjwo3oAXEHyChyF7gJpk+cKHx2LCKNRySpVnMfGpyvPOMNKrLYENrpjmcK6DOE2SknPqrRkVTOJoTfCXo0Gkp9JyZioCx8LC4tc+oFa5OTB68EUBKZcu6oyYh5+mpK34wFg1he2584DPcZpmQaYSkvdKZ8YQPff6yQk4neT50ZRU1k7mI+S9562556gBoPdmZiZRRatgN33rOrvV9FdKIW4xEanSRrxo5+SuX9cbF6jUKq+Q=</wsse:BinarySecurityToken><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature-13">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ds:Reference URI="#id-14">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>iB8bn+FRk8bGCV/xF62nWERnU5I=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue>
+swgRvg0ShvT4z7kvzQFHLMLZhk71O40CeVS2xCSfXP2Ug+w82lOclq5DW30+UQ+ZPQ2izls8lWIO
+WlodkHI2LHlNr3ntk+Kd+g9UbQSpG9pRKx13hgu1TpEP6CE3GYSvvg8jA/J32Arq/DKBg2mYNmx5
+/j473zrHL8cEvCRyrd0=
+</ds:SignatureValue>
+<ds:KeyInfo Id="KeyId-FBA1B942F8374873DF133970723993120">
+<wsse:SecurityTokenReference xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="STRId-FBA1B942F8374873DF133970723993121" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><wsse:Reference URI="#CertId-FBA1B942F8374873DF133970723993119" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"/></wsse:SecurityTokenReference>
+</ds:KeyInfo>
+</ds:Signature></wsse:Security></SOAP-ENV:Header><SOAP-ENV:Body xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="id-14"><EnviarLoteRpsSincronoResposta xmlns="http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd"><NumeroLote>406</NumeroLote><DataRecebimento>2012-06-14</DataRecebimento><ListaNfse><CompNfse><Nfse><InfNfse><Numero>62</Numero><CodigoVerificacao>139952517</CodigoVerificacao><DataEmissao>2012-06-14</DataEmissao><OutrasInformacoes>discriminação</OutrasInformacoes><ValoresNfse><BaseCalculo>13.00</BaseCalculo><Aliquota>4.0000</Aliquota><ValorIss>0.52</ValorIss><ValorLiquidoNfse>13.00</ValorLiquidoNfse></ValoresNfse><ValorCredito>0</ValorCredito><OrgaoGerador><CodigoMunicipio>4116901</CodigoMunicipio><Uf>PR</Uf></OrgaoGerador><DeclaracaoPrestacaoServico><InfDeclaracaoPrestacaoServico><Rps><IdentificacaoRps><Numero>408</Numero><Serie>E</Serie><Tipo>1</Tipo></IdentificacaoRps><DataEmissao>2012-06-14</DataEmissao><Status>1</Status></Rps><Competencia>2012-06-14</Competencia><Servico><Valores><ValorServicos>13.00</ValorServicos><ValorDeducoes>0.00</ValorDeducoes><ValorPis>0.00</ValorPis><ValorCofins>0.00</ValorCofins><ValorInss>0.00</ValorInss><ValorIr>0.00</ValorIr><ValorCsll>0.00</ValorCsll><OutrasRetencoes>0.00</OutrasRetencoes><ValorIss>0.52</ValorIss><Aliquota>4.0000</Aliquota><DescontoIncondicionado>0.00</DescontoIncondicionado><DescontoCondicionado>0.00</DescontoCondicionado></Valores><IssRetido>2</IssRetido><ResponsavelRetencao>1</ResponsavelRetencao><Discriminacao>discriminação</Discriminacao><CodigoMunicipio>1100015</CodigoMunicipio><ExigibilidadeISS>1</ExigibilidadeISS><MunicipioIncidencia>1100015</MunicipioIncidencia><ListaItensServico><ItemServico><ItemListaServico>106000</ItemListaServico><CodigoCnae>6209100</CodigoCnae><Descricao>descricao servico 1</Descricao><Tributavel>1</Tributavel><Quantidade>1.00</Quantidade><ValorUnitario>1.50000</ValorUnitario><ValorDesconto>0.00</ValorDesconto><ValorLiquido>1.5000000</ValorLiquido></ItemServico><ItemServico><ItemListaServico>106000</ItemListaServico><CodigoCnae>6209100</CodigoCnae><Descricao>descricao servico 2</Descricao><Tributavel>1</Tributavel><Quantidade>1.00</Quantidade><ValorUnitario>1.50000</ValorUnitario><ValorDesconto>0.00</ValorDesconto><ValorLiquido>1.5000000</ValorLiquido></ItemServico><ItemServico><ItemListaServico>106000</ItemListaServico><CodigoCnae>6209100</CodigoCnae><Descricao>descricao servico 3</Descricao><Tributavel>1</Tributavel><Quantidade>5.00</Quantidade><ValorUnitario>2.00000</ValorUnitario><ValorDesconto>0.00</ValorDesconto><ValorLiquido>10.0000000</ValorLiquido></ItemServico></ListaItensServico></Servico><DadosPrestador><IdentificacaoPrestador><CpfCnpj><Cnpj>80896194000194</Cnpj></CpfCnpj><InscricaoMunicipal>00005610</InscricaoMunicipal></IdentificacaoPrestador><RazaoSocial>ELOTECH INFORMATICA LTDA</RazaoSocial><Endereco><Endereco>RUA ANTONINO DE A. BARBOSA, 324,  - VILA POMPEIA</Endereco><Numero>324</Numero><Bairro>VILA POMPEIA</Bairro><CodigoMunicipio>4116901</CodigoMunicipio><Uf>PR</Uf><Cep>87600000</Cep></Endereco></DadosPrestador><Tomador><IdentificacaoTomador><CpfCnpj><Cnpj>56656657000166</Cnpj></CpfCnpj><InscricaoMunicipal>00008084</InscricaoMunicipal></IdentificacaoTomador><RazaoSocial>Razao tomador</RazaoSocial><Endereco><Endereco>endereco tal</Endereco><Numero>n 7</Numero><Bairro>bairro</Bairro><CodigoMunicipio>4116901</CodigoMunicipio><Uf>PR</Uf><Cep>87005400</Cep></Endereco><Contato><Telefone>40093550</Telefone><Email>40093550</Email></Contato></Tomador><ConstrucaoCivil><CodigoObra>455</CodigoObra><Art>41</Art></ConstrucaoCivil><RegimeEspecialTributacao>1</RegimeEspecialTributacao><IncentivoFiscal>1</IncentivoFiscal></InfDeclaracaoPrestacaoServico></DeclaracaoPrestacaoServico><ChaveAcesso>1b4a5a1232f66adfc85ca912b1005965</ChaveAcesso></InfNfse></Nfse><Xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;CompNfse xmlns="http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd"&gt;&#13;
+  &lt;Nfse&gt;&#13;
+    &lt;InfNfse id="sec_id_1"&gt;&#13;
+      &lt;Numero&gt;62&lt;/Numero&gt;&#13;
+      &lt;CodigoVerificacao&gt;139952517&lt;/CodigoVerificacao&gt;&#13;
+      &lt;DataEmissao&gt;2012-06-14&lt;/DataEmissao&gt;&#13;
+      &lt;OutrasInformacoes&gt;discriminaÃ§Ã£o&lt;/OutrasInformacoes&gt;&#13;
+      &lt;ValoresNfse&gt;&#13;
+        &lt;BaseCalculo&gt;13.00&lt;/BaseCalculo&gt;&#13;
+        &lt;Aliquota&gt;4.0000&lt;/Aliquota&gt;&#13;
+        &lt;ValorIss&gt;0.52&lt;/ValorIss&gt;&#13;
+        &lt;ValorLiquidoNfse&gt;13.00&lt;/ValorLiquidoNfse&gt;&#13;
+      &lt;/ValoresNfse&gt;&#13;
+      &lt;ValorCredito&gt;0&lt;/ValorCredito&gt;&#13;
+      &lt;OrgaoGerador&gt;&#13;
+        &lt;CodigoMunicipio&gt;4116901&lt;/CodigoMunicipio&gt;&#13;
+        &lt;Uf&gt;PR&lt;/Uf&gt;&#13;
+      &lt;/OrgaoGerador&gt;&#13;
+      &lt;DeclaracaoPrestacaoServico&gt;&#13;
+        &lt;InfDeclaracaoPrestacaoServico&gt;&#13;
+          &lt;Rps&gt;&#13;
+            &lt;IdentificacaoRps&gt;&#13;
+              &lt;Numero&gt;408&lt;/Numero&gt;&#13;
+              &lt;Serie&gt;E&lt;/Serie&gt;&#13;
+              &lt;Tipo&gt;1&lt;/Tipo&gt;&#13;
+            &lt;/IdentificacaoRps&gt;&#13;
+            &lt;DataEmissao&gt;2012-06-14&lt;/DataEmissao&gt;&#13;
+            &lt;Status&gt;1&lt;/Status&gt;&#13;
+          &lt;/Rps&gt;&#13;
+          &lt;Competencia&gt;2012-06-14&lt;/Competencia&gt;&#13;
+          &lt;Servico&gt;&#13;
+            &lt;Valores&gt;&#13;
+              &lt;ValorServicos&gt;13.00&lt;/ValorServicos&gt;&#13;
+              &lt;ValorDeducoes&gt;0.00&lt;/ValorDeducoes&gt;&#13;
+              &lt;ValorPis&gt;0.00&lt;/ValorPis&gt;&#13;
+              &lt;ValorCofins&gt;0.00&lt;/ValorCofins&gt;&#13;
+              &lt;ValorInss&gt;0.00&lt;/ValorInss&gt;&#13;
+              &lt;ValorIr&gt;0.00&lt;/ValorIr&gt;&#13;
+              &lt;ValorCsll&gt;0.00&lt;/ValorCsll&gt;&#13;
+              &lt;OutrasRetencoes&gt;0.00&lt;/OutrasRetencoes&gt;&#13;
+              &lt;ValorIss&gt;0.52&lt;/ValorIss&gt;&#13;
+              &lt;Aliquota&gt;4.0000&lt;/Aliquota&gt;&#13;
+              &lt;DescontoIncondicionado&gt;0.00&lt;/DescontoIncondicionado&gt;&#13;
+              &lt;DescontoCondicionado&gt;0.00&lt;/DescontoCondicionado&gt;&#13;
+            &lt;/Valores&gt;&#13;
+            &lt;IssRetido&gt;2&lt;/IssRetido&gt;&#13;
+            &lt;ResponsavelRetencao&gt;1&lt;/ResponsavelRetencao&gt;&#13;
+            &lt;Discriminacao&gt;discriminaÃ§Ã£o&lt;/Discriminacao&gt;&#13;
+            &lt;CodigoMunicipio&gt;1100015&lt;/CodigoMunicipio&gt;&#13;
+            &lt;ExigibilidadeISS&gt;1&lt;/ExigibilidadeISS&gt;&#13;
+            &lt;MunicipioIncidencia&gt;1100015&lt;/MunicipioIncidencia&gt;&#13;
+            &lt;ListaItensServico&gt;&#13;
+              &lt;ItemServico&gt;&#13;
+                &lt;ItemListaServico&gt;106000&lt;/ItemListaServico&gt;&#13;
+                &lt;CodigoCnae&gt;6209100&lt;/CodigoCnae&gt;&#13;
+                &lt;Descricao&gt;descricao servico 1&lt;/Descricao&gt;&#13;
+                &lt;Tributavel&gt;1&lt;/Tributavel&gt;&#13;
+                &lt;Quantidade&gt;1.00&lt;/Quantidade&gt;&#13;
+                &lt;ValorUnitario&gt;1.50000&lt;/ValorUnitario&gt;&#13;
+                &lt;ValorDesconto&gt;0.00&lt;/ValorDesconto&gt;&#13;
+                &lt;ValorLiquido&gt;1.5000000&lt;/ValorLiquido&gt;&#13;
+              &lt;/ItemServico&gt;&#13;
+              &lt;ItemServico&gt;&#13;
+                &lt;ItemListaServico&gt;106000&lt;/ItemListaServico&gt;&#13;
+                &lt;CodigoCnae&gt;6209100&lt;/CodigoCnae&gt;&#13;
+                &lt;Descricao&gt;descricao servico 2&lt;/Descricao&gt;&#13;
+                &lt;Tributavel&gt;1&lt;/Tributavel&gt;&#13;
+                &lt;Quantidade&gt;1.00&lt;/Quantidade&gt;&#13;
+                &lt;ValorUnitario&gt;1.50000&lt;/ValorUnitario&gt;&#13;
+                &lt;ValorDesconto&gt;0.00&lt;/ValorDesconto&gt;&#13;
+                &lt;ValorLiquido&gt;1.5000000&lt;/ValorLiquido&gt;&#13;
+              &lt;/ItemServico&gt;&#13;
+              &lt;ItemServico&gt;&#13;
+                &lt;ItemListaServico&gt;106000&lt;/ItemListaServico&gt;&#13;
+                &lt;CodigoCnae&gt;6209100&lt;/CodigoCnae&gt;&#13;
+                &lt;Descricao&gt;descricao servico 3&lt;/Descricao&gt;&#13;
+                &lt;Tributavel&gt;1&lt;/Tributavel&gt;&#13;
+                &lt;Quantidade&gt;5.00&lt;/Quantidade&gt;&#13;
+                &lt;ValorUnitario&gt;2.00000&lt;/ValorUnitario&gt;&#13;
+                &lt;ValorDesconto&gt;0.00&lt;/ValorDesconto&gt;&#13;
+                &lt;ValorLiquido&gt;10.0000000&lt;/ValorLiquido&gt;&#13;
+              &lt;/ItemServico&gt;&#13;
+            &lt;/ListaItensServico&gt;&#13;
+          &lt;/Servico&gt;&#13;
+          &lt;DadosPrestador&gt;&#13;
+            &lt;IdentificacaoPrestador&gt;&#13;
+              &lt;CpfCnpj&gt;&#13;
+                &lt;Cnpj&gt;80896194000194&lt;/Cnpj&gt;&#13;
+              &lt;/CpfCnpj&gt;&#13;
+              &lt;InscricaoMunicipal&gt;00005610&lt;/InscricaoMunicipal&gt;&#13;
+            &lt;/IdentificacaoPrestador&gt;&#13;
+            &lt;RazaoSocial&gt;ELOTECH INFORMATICA LTDA&lt;/RazaoSocial&gt;&#13;
+            &lt;Endereco&gt;&#13;
+              &lt;Endereco&gt;RUA ANTONINO DE A. BARBOSA, 324,  - VILA POMPEIA&lt;/Endereco&gt;&#13;
+              &lt;Numero&gt;324&lt;/Numero&gt;&#13;
+              &lt;Bairro&gt;VILA POMPEIA&lt;/Bairro&gt;&#13;
+              &lt;CodigoMunicipio&gt;4116901&lt;/CodigoMunicipio&gt;&#13;
+              &lt;Uf&gt;PR&lt;/Uf&gt;&#13;
+              &lt;Cep&gt;87600000&lt;/Cep&gt;&#13;
+            &lt;/Endereco&gt;&#13;
+          &lt;/DadosPrestador&gt;&#13;
+          &lt;Tomador&gt;&#13;
+            &lt;IdentificacaoTomador&gt;&#13;
+              &lt;CpfCnpj&gt;&#13;
+                &lt;Cnpj&gt;56656657000166&lt;/Cnpj&gt;&#13;
+              &lt;/CpfCnpj&gt;&#13;
+              &lt;InscricaoMunicipal&gt;00008084&lt;/InscricaoMunicipal&gt;&#13;
+            &lt;/IdentificacaoTomador&gt;&#13;
+            &lt;RazaoSocial&gt;Razao tomador&lt;/RazaoSocial&gt;&#13;
+            &lt;Endereco&gt;&#13;
+              &lt;Endereco&gt;endereco tal&lt;/Endereco&gt;&#13;
+              &lt;Numero&gt;n 7&lt;/Numero&gt;&#13;
+              &lt;Bairro&gt;bairro&lt;/Bairro&gt;&#13;
+              &lt;CodigoMunicipio&gt;4116901&lt;/CodigoMunicipio&gt;&#13;
+              &lt;Uf&gt;PR&lt;/Uf&gt;&#13;
+              &lt;Cep&gt;87005400&lt;/Cep&gt;&#13;
+            &lt;/Endereco&gt;&#13;
+            &lt;Contato&gt;&#13;
+              &lt;Telefone&gt;40093550&lt;/Telefone&gt;&#13;
+              &lt;Email&gt;40093550&lt;/Email&gt;&#13;
+            &lt;/Contato&gt;&#13;
+          &lt;/Tomador&gt;&#13;
+          &lt;ConstrucaoCivil&gt;&#13;
+            &lt;CodigoObra&gt;455&lt;/CodigoObra&gt;&#13;
+            &lt;Art&gt;41&lt;/Art&gt;&#13;
+          &lt;/ConstrucaoCivil&gt;&#13;
+          &lt;RegimeEspecialTributacao&gt;1&lt;/RegimeEspecialTributacao&gt;&#13;
+          &lt;IncentivoFiscal&gt;1&lt;/IncentivoFiscal&gt;&#13;
+        &lt;/InfDeclaracaoPrestacaoServico&gt;&#13;
+      &lt;/DeclaracaoPrestacaoServico&gt;&#13;
+      &lt;ChaveAcesso&gt;1b4a5a1232f66adfc85ca912b1005965&lt;/ChaveAcesso&gt;&#13;
+    &lt;/InfNfse&gt;&#13;
+    &lt;Signature xmlns="http://www.w3.org/2000/09/xmldsig#"&gt;&#13;
+      &lt;SignedInfo&gt;&#13;
+        &lt;CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/&gt;&#13;
+        &lt;SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/&gt;&#13;
+        &lt;Reference URI="#sec_id_1"&gt;&#13;
+          &lt;Transforms&gt;&#13;
+            &lt;Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/&gt;&#13;
+            &lt;Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/&gt;&#13;
+          &lt;/Transforms&gt;&#13;
+          &lt;DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/&gt;&#13;
+          &lt;DigestValue&gt;2nAbHA9AXp49d3tplWlIELjI24s=&lt;/DigestValue&gt;&#13;
+        &lt;/Reference&gt;&#13;
+      &lt;/SignedInfo&gt;&#13;
+      &lt;SignatureValue&gt;sx2SH7G1CHZ5CECPDB6CLwyI3tSLTMUhtIwJ4og8WubrVuYuJZkUPMAP77z+Vaq/aO4YiMC87cRx&#13;
+8Vy76Iukih5kq6ThQ9eFsjCJc7uj2fWY7LqALoDmjKdv+O1lFI/QHi7lcCBrHAuriE1VFM8wHYbI&#13;
+cQvdbLCg5M41FJr2iv0=&lt;/SignatureValue&gt;&#13;
+      &lt;KeyInfo&gt;&#13;
+        &lt;X509Data&gt;&#13;
+          &lt;X509Certificate&gt;MIIDzTCCArWgAwIBAgIBBTANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCQlIxDzANBgNVBAgT&#13;
+BlBhcmFuYTEQMA4GA1UEBxMHTWFyaW5nYTEtMCsGA1UEChMkRWxvdGVjaCBJbmZvcm1hdGljYSBl&#13;
+IFNpc3RlbWFzIExUREEuMRgwFgYDVQQLEw9EZXNlbnZvbHZpbWVudG8xFzAVBgNVBAMTDmVsb3Rl&#13;
+Y2guY29tLmJyMB4XDTEyMDYwNTEzNDIzOFoXDTE0MDYwNTEzNDIzOFowgbgxCzAJBgNVBAYTAkJS&#13;
+MQ8wDQYDVQQIEwZQYXJhbmExEDAOBgNVBAcTB01hcmluZ2ExMzAxBgNVBAoTKkVsb3RlY2ggSW5m&#13;
+b3JtYXRpY2EgZSBTaXN0ZW1hcyAoU2VydmVyIFYyKTEXMBUGA1UEChMOZWxvdGVjaC5jb20uYnIx&#13;
+GDAWBgNVBAsTD0Rlc2Vudm9sdmltZW50bzEeMBwGA1UEAxMVc2VydmVyLmVsb3RlY2guY29tLmJy&#13;
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDD3pOIMRddqqkyYTwCrGbB0BXu9261n25lOzIb&#13;
++14i6dTRdXe2rRq/ldSRTPHMJaLu0e+qQazx11owjxjPXVVVjgNEeUtD68kzfbKjwbPnkwyFCkVL&#13;
+hawPrEm6hFhhIJuW9sOotwqWeSWHowg5jU2nxsIdGtwtP17TTAfeZvm9QQIDAQABo4GJMIGGMAkG&#13;
+A1UdEwQCMAAwCwYDVR0PBAQDAgXgMCwGCWCGSAGG+EIBDQQfFh1DZXJ0aWZpY2Fkb3MgZGUgdGVz&#13;
+dGUgZWxvdGVjaDAdBgNVHQ4EFgQUUxcDkt4SWJ0mKIF1vUVIXkU/PMUwHwYDVR0jBBgwFoAUngGQ&#13;
+2gCSGSUrxN3udI7+iRmtUeUwDQYJKoZIhvcNAQEFBQADggEBAGTMjZ9PKui+p+p66pjC2xU/gwZK&#13;
+s7LolSGBk0nNbNuB8uOTvI2EElsae7Pfl35qyLqHd9z6Q0sA+GbcFWQICaYMcTAtbi6wGZN08wTL&#13;
+jwo3oAXEHyChyF7gJpk+cKHx2LCKNRySpVnMfGpyvPOMNKrLYENrpjmcK6DOE2SknPqrRkVTOJoT&#13;
+fCXo0Gkp9JyZioCx8LC4tc+oFa5OTB68EUBKZcu6oyYh5+mpK34wFg1he2584DPcZpmQaYSkvdKZ&#13;
+8YQPff6yQk4neT50ZRU1k7mI+S9562556gBoPdmZiZRRatgN33rOrvV9FdKIW4xEanSRrxo5+SuX&#13;
+9cbF6jUKq+Q=&lt;/X509Certificate&gt;&#13;
+        &lt;/X509Data&gt;&#13;
+      &lt;/KeyInfo&gt;&#13;
+    &lt;/Signature&gt;&#13;
+  &lt;/Nfse&gt;&#13;
+&lt;/CompNfse&gt;&#13;
+</Xml></CompNfse></ListaNfse></EnviarLoteRpsSincronoResposta></SOAP-ENV:Body></SOAP-ENV:Envelope>

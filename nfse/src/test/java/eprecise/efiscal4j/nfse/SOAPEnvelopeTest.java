@@ -9,7 +9,7 @@ import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
 
 
-public class NFSeSOAPEnvelopeTest implements Testable {
+public class SOAPEnvelopeTest implements Testable {
 
     private final TestDomain testDomain = new TestDomain();
 

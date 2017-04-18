@@ -7,6 +7,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
+import eprecise.efiscal4j.nfse.sharing.LotRpsDispatchResponse;
 import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
 import eprecise.efiscal4j.nfse.signer.NFSeSigner;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPBody;
@@ -36,7 +37,7 @@ public class TransmissionChannel {
         this.signer = signer;
     }
 
-    public void transmitAuthorization(final LotRpsDispatch lotRpsDispatch) throws Exception {
+    public TypedTransmissionResult<SOAPEnvelope, LotRpsDispatchResponse> transmitAuthorization(final LotRpsDispatch lotRpsDispatch) throws Exception {
 
         final String cityCode = lotRpsDispatch.getLotRps().getStatementProvisionServices().stream().findAny().orElseThrow(IllegalStateException::new).getInfo().getServiceProvider().getAddress()
                 .getCityCode();
@@ -47,9 +48,13 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
 
-        final String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
+        String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
+
+        responseXml = responseXml.substring(responseXml.indexOf("<SOAP-ENV:Body"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
 
         System.out.println(responseXml);
+
+        return new TypedTransmissionResult<>(SOAPEnvelope.class, LotRpsDispatchResponse.class, requestXml, responseXml);
 
     }
 

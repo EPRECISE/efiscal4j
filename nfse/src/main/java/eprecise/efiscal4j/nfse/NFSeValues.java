@@ -3,11 +3,13 @@ package eprecise.efiscal4j.nfse;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.types.NFSeAliquot;
 import eprecise.efiscal4j.nfse.types.NFSeValue;
 
 
@@ -18,11 +20,11 @@ public class NFSeValues implements Serializable {
 
     private final @XmlElement(name = "BaseCalculo") @NFSeValue String bcValue;
 
-    private final @XmlElement(name = "Aliquota") String issAliquot;
+    private final @XmlElement(name = "Aliquota") @NFSeAliquot String issAliquot;
 
     private final @XmlElement(name = "ValorIss") @NFSeValue String issValue;
 
-    private final @XmlElement(name = "ValorLiquidoNfse") @NFSeValue String issNetValue;
+    private final @NotNull @XmlElement(name = "ValorLiquidoNfse") @NFSeValue String issNetValue;
 
     public static class Builder {
 

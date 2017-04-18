@@ -17,7 +17,7 @@ import eprecise.efiscal4j.nfse.domain.TestDomain;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
 
 
-public class NFSeTest implements Testable {
+public class LotRpsDispatchTest implements Testable {
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -31,7 +31,7 @@ public class NFSeTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final String xmlPath = "/eprecise/efiscal4j/nfse/xml/";
+        final String xmlPath = "/eprecise/efiscal4j/nfse/xml/request";
 
         final File folder = new File(this.getClass().getResource(xmlPath).toURI());
         final File[] fileList = folder.listFiles();
