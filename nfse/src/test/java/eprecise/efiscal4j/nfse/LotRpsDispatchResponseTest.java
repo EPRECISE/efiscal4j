@@ -3,13 +3,15 @@ package eprecise.efiscal4j.nfse;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
@@ -18,16 +20,6 @@ import eprecise.efiscal4j.nfse.sharing.LotRpsDispatchResponse;
 
 
 public class LotRpsDispatchResponseTest implements Testable {
-
-    // @Test
-    // public void validateByBeanValidation() throws Exception {
-    // validateByBeanValidationDefault();
-    // }
-    //
-    // @Test
-    // public void validateByXSD() throws Exception {
-    // validateByXSDDefault();
-    // }
 
     @Test
     public void xmlImportTestBatch() throws Exception {
@@ -41,12 +33,14 @@ public class LotRpsDispatchResponseTest implements Testable {
         }
 
         for (final File file : fileList) {
-            final URL xmlUrl = this.getClass().getResource(xmlPath + "/" + file.getName());
-            String responseXml = xmlUrl.toString();
-            responseXml = responseXml.substring(responseXml.indexOf("<SOAP-ENV:Body"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
-            System.out.println("Importando " + responseXml + "...");
+
+            String responseXml = Files.toString(file, Charsets.UTF_8);
+
+            responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+
+            System.out.println("Importando " + file.getName() + "...");
             xmlImportTest(responseXml);
-            System.out.println(xmlUrl.toString() + " - Importação finalizada\n");
+            System.out.println(file.getName() + " - Importação finalizada\n");
         }
     }
 

@@ -48,9 +48,9 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
 
-        String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
+        final String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
 
-        responseXml = responseXml.substring(responseXml.indexOf("<SOAP-ENV:Body"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+        responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
 
         System.out.println(responseXml);
 

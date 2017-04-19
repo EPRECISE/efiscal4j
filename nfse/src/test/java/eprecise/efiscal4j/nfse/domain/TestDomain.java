@@ -3,7 +3,9 @@ package eprecise.efiscal4j.nfse.domain;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,15 +52,13 @@ public class TestDomain {
 
     private static final String EMITTER_PASSWORD_PROPERTY = "eprecise.efiscal4j.nfe.emitter.password";
 
-    private static final String RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.corporatename";
-
     private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
-
-    private static final String RECEIVER_NATURAL_PERSON_CPF_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.cpf";
 
     private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
 
     private static final String CERTIFICATE_PATH_PROPERTY = "eprecise.efiscal4j.commons.certificate.path";
+
+    private static final String CERTIFICATE_NOT_PRESENT_MESSAGE = "Certificado ou pin não estão presente";
 
     private final Logger logger = LoggerFactory.getLogger(TestDomain.class);
 
@@ -74,21 +74,14 @@ public class TestDomain {
 
     private final String emitterPassword;
 
-    private final String receiverLegalEntityCorporateName;
-
     private final String receiverLegalEntityCnpj;
-
-    private final String receiverNaturalPersonCpf;
 
     public TestDomain() {
         try {
             emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
             emitterIM = System.getProperty(TestDomain.EMITTER_IM_PROPERTY);
             emitterPassword = System.getProperty(TestDomain.EMITTER_PASSWORD_PROPERTY);
-            receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
             receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
-            receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
-
             final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
             final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
             if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
@@ -108,6 +101,16 @@ public class TestDomain {
     public TestDomain(final String xsdPath) {
         this();
         setXsdPath(xsdPath);
+    }
+
+    private boolean containsCertificate() {
+        return (signer != null) && (transmissionChannel != null);
+    }
+
+    private void assertCertificate() {
+        if (!containsCertificate()) {
+            throw new IllegalStateException(TestDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
+        }
     }
 
     public void setXsdPath(final String xsdPath) {
@@ -139,10 +142,10 @@ public class TestDomain {
                             .withHomologation(true)
                             .build())
                     .withLotRps(
-                    new LotRps.Builder().withLotNumber("1000").withRpsQuantity(1).withStatementProvisionService(
+                    new LotRps.Builder().withLotNumber("1").withRpsQuantity(1).withStatementProvisionService(
                     Arrays.asList(new StatementProvisionService.Builder()
                             .withInfo(new StatementProvisionService.Info.Builder()
-                                    .withCompetence("2017-01-20")
+                                    .withCompetence(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                     .withRps(new Rps.Builder()
                                             .withIdentifier(new RpsIdentifier.Builder()
                                                     .withType(RpsType.PROVISIONAL_SERVICE_RECEIPT)
@@ -150,7 +153,7 @@ public class TestDomain {
                                                     .withNumber("410")
                                                     .build())
                                             .withStatus(RpsStatus.NORMAL)
-                                            .withEmissionDate("2017-03-20")
+                                            .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             .build())
                                     .withService(new Service.Builder()
                                             .withServiceValues(new ServiceValues.Builder()
@@ -186,8 +189,8 @@ public class TestDomain {
                                             .build())
                                     .withServiceProvider(new ServiceProvider.Builder()
                                             .withIdentifier(new ServiceProvider.ServiceProviderIdentifier.Builder()
-                                                    .withCnp(new NFSeCnpj.Builder().withCnpj("14445087000115").build())
-                                                    .withMunicipalRegistration("00083700")
+                                                    .withCnp(new NFSeCnpj.Builder().withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115")).build())
+                                                    .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
                                                     .build())
                                             .withSocialName("Razão Social Prestador")
                                             .withAddress(new NFSeAddress.Builder()
@@ -202,7 +205,7 @@ public class TestDomain {
                                             .build())
                                     .withServiceTaker(new ServiceTaker.Builder()
                                             .withIdentifier(new ServiceTaker.ServiceTakerIdentifier.Builder()
-                                                    .withCnp(new NFSeCnpj.Builder().withCnpj("76591569000130").build())
+                                                    .withCnp(new NFSeCnpj.Builder().withCnpj(Optional.ofNullable(receiverLegalEntityCnpj).orElse("76591569000130")).build())
                                                     .build())
                                             .withSocialName("Razão Social Tomador")
                                             .withAddress(new NFSeAddress.Builder()
@@ -233,6 +236,16 @@ public class TestDomain {
 
     public FiscalDocumentValidator getValidator() {
         return validator;
+    }
+
+    public Signer getSigner() {
+        assertCertificate();
+        return signer;
+    }
+
+    public TransmissionChannel getTransmissionChannel() {
+        assertCertificate();
+        return transmissionChannel;
     }
 
 }

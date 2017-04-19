@@ -22,17 +22,17 @@ public class NFSe implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "InfNfse") @NotNull Info info;
+    private final @XmlElement(name = "InfNfse") @NotNull NFSeInfo info;
 
     public static class Builder {
 
-        private Info info;
+        private NFSeInfo info;
 
         /**
          * @param info
          * @return
          */
-        public Builder withInfo(final Info info) {
+        public Builder withInfo(final NFSeInfo info) {
             this.info = info;
             return this;
         }
@@ -52,12 +52,12 @@ public class NFSe implements Serializable {
         info = builder.info;
     }
 
-    public Info getInfo() {
+    public NFSeInfo getInfo() {
         return info;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Info {
+    public static class NFSeInfo {
 
         private final @NotNull @XmlElement(name = "Numero") @NFSeNonNegativeInteger @Size(max = 15) String number;
 
@@ -191,14 +191,14 @@ public class NFSe implements Serializable {
                 return this;
             }
 
-            public Info build() throws Exception {
-                final Info entity = new Info(this);
+            public NFSeInfo build() throws Exception {
+                final NFSeInfo entity = new NFSeInfo(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Info() {
+        public NFSeInfo() {
 
             number = null;
             verificationCode = null;
@@ -212,7 +212,7 @@ public class NFSe implements Serializable {
             accessKey = null;
         }
 
-        public Info(final Builder builder) {
+        public NFSeInfo(final Builder builder) {
             number = builder.number;
             verificationCode = builder.verificationCode;
             emissionDate = builder.emissionDate;
