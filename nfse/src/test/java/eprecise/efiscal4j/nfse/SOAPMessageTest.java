@@ -17,7 +17,7 @@ public class SOAPMessageTest implements Testable {
 
     /**
      * Teste do serviço de NFeAutorizacao
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -45,7 +45,7 @@ public class SOAPMessageTest implements Testable {
 
     @Override
     public TestDomain getTestDomain() {
-        return new TestDomain(LotRpsDispatch.XSD);
+        return new TestDomain(LotRpsDispatchResponse.XSD);
     }
 
     @Override

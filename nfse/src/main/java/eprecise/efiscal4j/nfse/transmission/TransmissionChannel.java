@@ -48,6 +48,14 @@ public class TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
 
+        // requestXml = requestXml.replaceAll("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"", "");
+        // requestXml = requestXml.replaceAll("xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"", "");
+        // requestXml = requestXml.replaceAll("xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3\"", "");
+        // requestXml = requestXml.replaceAll(" ", "");
+        // requestXml = requestXml.replaceAll("", "");
+        // requestXml = requestXml.replaceAll("", "");
+        // requestXml = requestXml.replaceAll("", "");
+
         final String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
 
         responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
