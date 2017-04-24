@@ -84,10 +84,6 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
 
     @Override
     public Assignable getAsEntity(final String xml) {
-        return new FiscalDocumentDeserializer<>(xml, SOAPEnvelope.class).withAdapter(x -> {
-            final String xmlAdapted = x;
-            // xmlAdapted = xmlAdapted.replaceAll("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"", "");
-            return xmlAdapted;
-        }).deserialize();
+        return new FiscalDocumentDeserializer<>(xml, SOAPEnvelope.class).deserialize();
     }
 }

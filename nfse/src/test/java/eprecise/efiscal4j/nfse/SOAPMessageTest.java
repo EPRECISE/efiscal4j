@@ -36,7 +36,6 @@ public class SOAPMessageTest implements Testable {
             System.out.println(returnXml);
 
             System.out.println("NFSeAutorizacao - teste concluído");
-            System.out.println("");
 
         } catch (final ConstraintViolationException e) {
             handleErrors(e);

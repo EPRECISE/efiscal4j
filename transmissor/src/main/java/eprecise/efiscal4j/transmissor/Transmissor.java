@@ -24,7 +24,7 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 
 
 /**
- * 
+ *
  * @author Felipe Bueno
  *
  */
@@ -149,6 +149,7 @@ public class Transmissor {
         final StringBuilder sb = new StringBuilder();
         InputStream in = null;
         BufferedReader br = null;
+        BufferedReader bre = null;
         try {
             in = connection.getInputStream();
             br = new BufferedReader(new InputStreamReader(in));
@@ -156,12 +157,23 @@ public class Transmissor {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
+        } catch (final IOException e) {
+            bre = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            String ln;
+            System.out.println("\nERRO: ");
+            while ((ln = bre.readLine()) != null) {
+                System.out.println(ln);
+            }
+            throw e;
         } finally {
             if (br != null) {
                 br.close();
             }
             if (in != null) {
                 in.close();
+            }
+            if (bre != null) {
+                bre.close();
             }
         }
         return sb.toString();

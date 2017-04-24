@@ -10,10 +10,13 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.crypto.MarshalException;
@@ -26,6 +29,9 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMSignContext;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -69,6 +75,8 @@ public class NFSeSigner implements Signer {
 
     private PrivateKey privateKey;
 
+    private KeyInfo keyInfo;
+
     public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
         init();
@@ -100,14 +108,24 @@ public class NFSeSigner implements Signer {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
 
+        Certificate cert = null;
         final Enumeration<String> aliasesEnum = ks.aliases();
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
             if (ks.isKeyEntry(alias)) {
+                cert = ks.getCertificate(alias);
                 privateKey = (PrivateKey) ks.getKey(alias, getKeyCertificate().getPassphrase().toCharArray());
                 break;
             }
         }
+
+        final KeyInfoFactory keyInfoFactory = signatureFactory.getKeyInfoFactory();
+        final List<Certificate> x509Content = new ArrayList<>();
+        x509Content.add(cert);
+
+        final X509Data x509Data = keyInfoFactory.newX509Data(x509Content);
+
+        keyInfo = keyInfoFactory.newKeyInfo(Collections.singletonList(x509Data));
     }
 
     /**
@@ -158,7 +176,7 @@ public class NFSeSigner implements Signer {
         final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, transformList, null, null)));
         final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
         dsc.setDefaultNamespacePrefix(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX);
-        final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
+        final XMLSignature signature = signFactory.newXMLSignature(signInfo, keyInfo);
         signature.sign(dsc);
 
         // Prepare key info element
@@ -171,6 +189,8 @@ public class NFSeSigner implements Signer {
         final SOAPElement referenceElement = securityTokenReferenceElement.addChildElement("Reference", "wsse");
         referenceElement.setAttribute("URI", "#" + certId);
         referenceElement.setAttribute("ValueType", SECURITY_VALUE_TYPE);
+
+        System.out.println(outputXML(msg));
 
         return assignable.getAsEntity(outputXML(msg));
     }
