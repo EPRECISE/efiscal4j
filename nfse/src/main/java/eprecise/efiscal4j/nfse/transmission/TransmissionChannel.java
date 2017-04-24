@@ -46,15 +46,9 @@ public class TransmissionChannel {
                 .build(signer);
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
-
-        // requestXml = requestXml.replaceAll("xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"", "");
-        // requestXml = requestXml.replaceAll("xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"", "");
-        // requestXml = requestXml.replaceAll("xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3\"", "");
-        // requestXml = requestXml.replaceAll(" ", "");
-        // requestXml = requestXml.replaceAll("", "");
-        // requestXml = requestXml.replaceAll("", "");
-        // requestXml = requestXml.replaceAll("", "");
+        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize().replaceAll(
+                "xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"",
+                "xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"");
 
         final String responseXml = transmissor.transmit(requestXml, NFSeService.getUrl(cityCode));
 

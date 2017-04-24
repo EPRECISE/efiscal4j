@@ -16,6 +16,8 @@ public class BinarySecurityToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private @XmlAttribute(name = "xmlns:" + NFSeNamespacesPrefixMapper.WSU_PREFIX) final String xmlns = NFSeNamespacesPrefixMapper.WSU_URI;
+
     private @XmlAttribute(name = "EncodingType") String encodingType;
 
     private @XmlAttribute(name = "ValueType") String valueType;

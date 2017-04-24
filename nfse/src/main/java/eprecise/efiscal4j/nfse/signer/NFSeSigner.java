@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Enumeration;
+import java.util.UUID;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
@@ -56,11 +57,9 @@ import eprecise.efiscal4j.signer.Signer;
 @SuppressWarnings("restriction")
 public class NFSeSigner implements Signer {
 
-    private static final String NAMESPACEURI_WSSECURITY_WSU = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
+    private static final String SECURITY_VALUE_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
 
-    private static final String NAMESPACEURI_WSSECURITY_WSSE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
-
-    private static final String ATTRIBUTENAME_X509TOKEN = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
+    private static final String SECURITY_ENCODING_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
 
     private final eprecise.efiscal4j.commons.utils.Certificate keyCertificate;
 
@@ -121,29 +120,33 @@ public class NFSeSigner implements Signer {
         final String xml = assignable.getAsXml();
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
+        final String certId = new StringBuilder("CertId-").append(UUID.randomUUID().toString().replaceAll("-", "")).toString();
+        final String bodyId = new StringBuilder("BodyId-").append(UUID.randomUUID().toString().replaceAll("-", "")).toString();
+        final String keyId = new StringBuilder("KeyId-").append(UUID.randomUUID().toString().replaceAll("-", "")).toString();
 
         // Prepare envelope
         final SOAPPart soapPart = msg.getSOAPPart();
 
         final SOAPEnvelope envelope = soapPart.getEnvelope();
-        envelope.addNamespaceDeclaration("wsu", NAMESPACEURI_WSSECURITY_WSU);
 
         // Prepare header
         SOAPHeader header = envelope.getHeader();
         if (header == null) {
             header = envelope.addHeader();
         }
-        final SOAPHeaderElement securityElement = header.addHeaderElement(new QName(NAMESPACEURI_WSSECURITY_WSSE, "Security", "wsse"));
+        final SOAPHeaderElement securityElement = header.addHeaderElement(new QName(NFSeNamespacesPrefixMapper.WSSE_URI, "Security", NFSeNamespacesPrefixMapper.WSSE_PREFIX));
         securityElement.setMustUnderstand(true);
 
         // Prepare body
         final SOAPBody body = envelope.getBody();
-        body.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "wsu"), "body");
+        body.addAttribute(new QName(NFSeNamespacesPrefixMapper.WSU_URI, "Id", NFSeNamespacesPrefixMapper.WSU_PREFIX), bodyId);
 
         // Prepare security token element
         final SOAPElement binarySecurityTokenElement = securityElement.addChildElement("BinarySecurityToken", "wsse");
-        binarySecurityTokenElement.addAttribute(new QName(NAMESPACEURI_WSSECURITY_WSU, "Id", "wsu"), "cert");
-        binarySecurityTokenElement.addAttribute(new QName("ValueType"), ATTRIBUTENAME_X509TOKEN);
+        binarySecurityTokenElement.addNamespaceDeclaration(NFSeNamespacesPrefixMapper.WSU_PREFIX, NFSeNamespacesPrefixMapper.WSU_URI);
+        binarySecurityTokenElement.addAttribute(new QName(NFSeNamespacesPrefixMapper.WSU_URI, "Id", NFSeNamespacesPrefixMapper.WSU_PREFIX), certId);
+        binarySecurityTokenElement.addAttribute(new QName("ValueType"), SECURITY_VALUE_TYPE);
+        binarySecurityTokenElement.addAttribute(new QName("EncodingType"), SECURITY_ENCODING_TYPE);
         binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(privateKey.getEncoded())));
 
         // Signature generation
@@ -152,18 +155,22 @@ public class NFSeSigner implements Signer {
         final CanonicalizationMethod c14nMethod = signFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, spec1);
         final DigestMethod digestMethod = signFactory.newDigestMethod(DigestMethod.SHA1, null);
         final SignatureMethod signMethod = signFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
-        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#body", digestMethod, transformList, null, null)));
+        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, transformList, null, null)));
         final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
+        dsc.setDefaultNamespacePrefix(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX);
         final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
         signature.sign(dsc);
 
         // Prepare key info element
         final SOAPElement signatureElement = (SOAPElement) securityElement.getLastChild();
-        final SOAPElement keyInfoElement = signatureElement.addChildElement("KeyInfo");
+        signatureElement.setAttribute("Id", "Signature-" + UUID.randomUUID().toString().replaceAll("-", ""));
+        signatureElement.addNamespaceDeclaration(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX, NFSeNamespacesPrefixMapper.SIGNATURE_URI);
+        final SOAPElement keyInfoElement = signatureElement.addChildElement("KeyInfo", NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX, NFSeNamespacesPrefixMapper.SIGNATURE_URI);
+        keyInfoElement.addAttribute(new QName("Id"), keyId);
         final SOAPElement securityTokenReferenceElement = keyInfoElement.addChildElement("SecurityTokenReference", "wsse");
         final SOAPElement referenceElement = securityTokenReferenceElement.addChildElement("Reference", "wsse");
-        referenceElement.setAttribute("URI", "#cert");
-        referenceElement.setAttribute("ValueType", NAMESPACEURI_WSSECURITY_WSU);
+        referenceElement.setAttribute("URI", "#" + certId);
+        referenceElement.setAttribute("ValueType", SECURITY_VALUE_TYPE);
 
         return assignable.getAsEntity(outputXML(msg));
     }

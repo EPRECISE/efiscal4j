@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfse.transmission.envelope;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,6 +12,7 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
+import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,7 +20,9 @@ public class SOAPBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "Id") @NotNull final String id = "body";
+    private @XmlAttribute(name = "xmlns:" + NFSeNamespacesPrefixMapper.WSU_PREFIX) final String xmlns = NFSeNamespacesPrefixMapper.WSU_URI;
+
+    private @XmlAttribute(name = "Id", namespace = NFSeNamespacesPrefixMapper.WSU_URI) String id;
 
   //@formatter:off
     @XmlElementRefs({

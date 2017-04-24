@@ -42,55 +42,55 @@ public class Transmissor {
 
     private SSLContext sslContext;
 
-    public Transmissor(Certificate keyCertificate, Certificate trustCertificate) {
-        this.init(keyCertificate, trustCertificate);
+    public Transmissor(final Certificate keyCertificate, final Certificate trustCertificate) {
+        init(keyCertificate, trustCertificate);
     }
 
-    public Transmissor(Certificate keyCertificate) {
+    public Transmissor(final Certificate keyCertificate) {
         this(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
     }
 
-    private void init(Certificate keyCertificate, Certificate trustCertificate) {
-        this.initializeKeyStore(keyCertificate);
-        this.initializeTrustStore(trustCertificate);
-        this.initializeSSLContext();
+    private void init(final Certificate keyCertificate, final Certificate trustCertificate) {
+        initializeKeyStore(keyCertificate);
+        initializeTrustStore(trustCertificate);
+        initializeSSLContext();
     }
 
-    private void initializeKeyStore(Certificate certificate) {
+    private void initializeKeyStore(final Certificate certificate) {
         try {
-            this.keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
-            this.keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
-            this.keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            this.keyManagerFactory.init(this.keyStore, certificate.getPassphrase().toCharArray());
+            keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
+            keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
+            keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, certificate.getPassphrase().toCharArray());
         } catch (final Exception ex) {
-            this.getLogger().error("Erro ao inicializar certificado PKCS", ex);
+            getLogger().error("Erro ao inicializar certificado PKCS", ex);
             throw new RuntimeException(ex);
         }
     }
 
-    private void initializeTrustStore(Certificate certificate) {
+    private void initializeTrustStore(final Certificate certificate) {
         try {
-            this.trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
-            this.trustStore.load(certificate.getCertificate(), null);
-            this.trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            this.trustManagerFactory.init(this.trustStore);
+            trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
+            trustStore.load(certificate.getCertificate(), null);
+            trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(trustStore);
         } catch (final Exception ex) {
-            this.getLogger().error("Erro ao inicializar certificado JKS", ex);
+            getLogger().error("Erro ao inicializar certificado JKS", ex);
             throw new RuntimeException(ex);
         }
     }
 
     private void initializeSSLContext() {
         try {
-            this.sslContext = SSLContext.getInstance("SSL");
-            this.sslContext.init(this.keyManagerFactory.getKeyManagers(), this.trustManagerFactory.getTrustManagers(), null);
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
         } catch (final Exception ex) {
-            this.getLogger().error("Erro ao inicializar contexto SSL", ex);
+            getLogger().error("Erro ao inicializar contexto SSL", ex);
             throw new RuntimeException(ex);
         }
     }
 
-    public String transmit(String requestSoapEnvelope, String serviceUrl) {
+    public String transmit(final String requestSoapEnvelope, final String serviceUrl) {
 
         System.out.println("Service url:\n" + serviceUrl);
 
@@ -102,7 +102,7 @@ public class Transmissor {
 
             if (url.getProtocol().equalsIgnoreCase("HTTPS")) {
                 httpConnection = (HttpsURLConnection) url.openConnection();
-                ((HttpsURLConnection) httpConnection).setSSLSocketFactory(this.sslContext.getSocketFactory());
+                ((HttpsURLConnection) httpConnection).setSSLSocketFactory(sslContext.getSocketFactory());
             } else {
                 httpConnection = (HttpURLConnection) url.openConnection();
             }
@@ -114,20 +114,20 @@ public class Transmissor {
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             httpConnection.connect();
 
-            this.sendRequest(httpConnection, requestSoapEnvelope);
+            sendRequest(httpConnection, requestSoapEnvelope);
 
-            final String responseXml = this.getResponse(httpConnection);
+            final String responseXml = getResponse(httpConnection);
 
             System.out.println("Response xml:\n" + responseXml);
 
             return responseXml;
         } catch (final Exception ex) {
-            this.logger.error(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
-    private void sendRequest(HttpURLConnection connection, String envelopeXML) throws IOException {
+    private void sendRequest(final HttpURLConnection connection, final String envelopeXML) throws IOException {
         OutputStream out = null;
         Writer wout = null;
         try {
@@ -145,7 +145,7 @@ public class Transmissor {
         }
     }
 
-    private String getResponse(HttpURLConnection connection) throws IOException {
+    private String getResponse(final HttpURLConnection connection) throws IOException {
         final StringBuilder sb = new StringBuilder();
         InputStream in = null;
         BufferedReader br = null;
@@ -168,6 +168,6 @@ public class Transmissor {
     }
 
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }
