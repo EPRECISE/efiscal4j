@@ -158,11 +158,13 @@ public class Transmissor {
                 sb.append(line);
             }
         } catch (final IOException e) {
-            bre = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-            String ln;
-            System.out.println("\nERRO: ");
-            while ((ln = bre.readLine()) != null) {
-                System.out.println(ln);
+            if (connection.getErrorStream() != null) {
+                bre = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                String ln;
+                System.out.println("\nERRO: ");
+                while ((ln = bre.readLine()) != null) {
+                    System.out.println(ln);
+                }
             }
             throw e;
         } finally {

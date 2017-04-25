@@ -176,7 +176,7 @@ public class NFSeSigner implements Signer {
         final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, transformList, null, null)));
         final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
         dsc.setDefaultNamespacePrefix(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX);
-        final XMLSignature signature = signFactory.newXMLSignature(signInfo, keyInfo);
+        final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
         signature.sign(dsc);
 
         // Prepare key info element
@@ -189,8 +189,6 @@ public class NFSeSigner implements Signer {
         final SOAPElement referenceElement = securityTokenReferenceElement.addChildElement("Reference", "wsse");
         referenceElement.setAttribute("URI", "#" + certId);
         referenceElement.setAttribute("ValueType", SECURITY_VALUE_TYPE);
-
-        System.out.println(outputXML(msg));
 
         return assignable.getAsEntity(outputXML(msg));
     }
