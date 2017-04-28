@@ -48,7 +48,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.TransformerException;
 
-import org.jcp.xml.dsig.internal.dom.XMLDSigRI;
+import org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI;
 import org.xml.sax.SAXException;
 
 import eprecise.efiscal4j.signer.Assignable;
