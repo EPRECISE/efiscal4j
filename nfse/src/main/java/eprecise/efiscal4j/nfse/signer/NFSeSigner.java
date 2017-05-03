@@ -11,6 +11,7 @@ import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -48,7 +49,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.TransformerException;
 
-import org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI;
 import org.xml.sax.SAXException;
 
 import eprecise.efiscal4j.signer.Assignable;
@@ -76,6 +76,8 @@ public class NFSeSigner implements Signer {
     private PrivateKey privateKey;
 
     private KeyInfo keyInfo;
+
+    private Certificate cert;
 
     public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
@@ -108,7 +110,7 @@ public class NFSeSigner implements Signer {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
 
-        Certificate cert = null;
+        cert = null;
         final Enumeration<String> aliasesEnum = ks.aliases();
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
@@ -130,11 +132,13 @@ public class NFSeSigner implements Signer {
 
     /**
      * Assina o documento assinável, retornando a mesma entidade com as tags de Signature preenchidas
+     * 
+     * @throws CertificateEncodingException
      *
      */
     @Override
     public Assignable sign(final Assignable assignable) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, SAXException, IOException,
-            ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException {
+            ParserConfigurationException, TransformerException, SOAPException, DatatypeConfigurationException, CertificateEncodingException {
         final String xml = assignable.getAsXml();
         final InputStream is = new ByteArrayInputStream(xml.getBytes());
         final SOAPMessage msg = MessageFactory.newInstance().createMessage(null, is);
@@ -165,10 +169,10 @@ public class NFSeSigner implements Signer {
         binarySecurityTokenElement.addAttribute(new QName(NFSeNamespacesPrefixMapper.WSU_URI, "Id", NFSeNamespacesPrefixMapper.WSU_PREFIX), certId);
         binarySecurityTokenElement.addAttribute(new QName("ValueType"), SECURITY_VALUE_TYPE);
         binarySecurityTokenElement.addAttribute(new QName("EncodingType"), SECURITY_ENCODING_TYPE);
-        binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(privateKey.getEncoded())));
+        binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(cert.getEncoded())));
 
         // Signature generation
-        final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM", new XMLDSigRI());
+        final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM");
         final C14NMethodParameterSpec spec1 = null;
         final CanonicalizationMethod c14nMethod = signFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, spec1);
         final DigestMethod digestMethod = signFactory.newDigestMethod(DigestMethod.SHA1, null);

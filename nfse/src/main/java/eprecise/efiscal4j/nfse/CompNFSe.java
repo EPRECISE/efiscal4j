@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -14,6 +15,8 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 public class CompNFSe implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @XmlAttribute(name = "xmlns") String xmlns;
 
     private final @XmlElement(name = "Nfse") NFSe nfse;
 
