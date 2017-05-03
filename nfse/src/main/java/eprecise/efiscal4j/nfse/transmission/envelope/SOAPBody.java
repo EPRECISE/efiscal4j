@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
-import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
+import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,9 +20,7 @@ public class SOAPBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "xmlns:" + NFSeNamespacesPrefixMapper.WSU_PREFIX) final String xmlns = NFSeNamespacesPrefixMapper.WSU_URI;
-
-    private @XmlAttribute(name = "Id", namespace = NFSeNamespacesPrefixMapper.WSU_URI) String id;
+    private @XmlAttribute(name = "Id", namespace = OasisNamespacesPrefixMapper.WSU_URI) String id;
 
   //@formatter:off
     @XmlElementRefs({

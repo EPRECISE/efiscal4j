@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.signer;
+package eprecise.efiscal4j.signer.oasis;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -60,12 +60,7 @@ import eprecise.efiscal4j.signer.Signer;
  * @author Fernando C Glizt
  *
  */
-@SuppressWarnings("restriction")
-public class NFSeSigner implements Signer {
-
-    private static final String SECURITY_VALUE_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
-
-    private static final String SECURITY_ENCODING_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
+public class OasisSigner implements Signer {
 
     private final eprecise.efiscal4j.commons.utils.Certificate keyCertificate;
 
@@ -79,7 +74,7 @@ public class NFSeSigner implements Signer {
 
     private Certificate cert;
 
-    public NFSeSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
+    public OasisSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
         init();
     }
@@ -132,7 +127,7 @@ public class NFSeSigner implements Signer {
 
     /**
      * Assina o documento assinável, retornando a mesma entidade com as tags de Signature preenchidas
-     * 
+     *
      * @throws CertificateEncodingException
      *
      */
@@ -156,19 +151,19 @@ public class NFSeSigner implements Signer {
         if (header == null) {
             header = envelope.addHeader();
         }
-        final SOAPHeaderElement securityElement = header.addHeaderElement(new QName(NFSeNamespacesPrefixMapper.WSSE_URI, "Security", NFSeNamespacesPrefixMapper.WSSE_PREFIX));
+        final SOAPHeaderElement securityElement = header.addHeaderElement(new QName(OasisNamespacesPrefixMapper.WSSE_URI, "Security", OasisNamespacesPrefixMapper.WSSE_PREFIX));
         securityElement.setMustUnderstand(true);
 
         // Prepare body
         final SOAPBody body = envelope.getBody();
-        body.addAttribute(new QName(NFSeNamespacesPrefixMapper.WSU_URI, "Id", NFSeNamespacesPrefixMapper.WSU_PREFIX), bodyId);
+        body.addAttribute(new QName(OasisNamespacesPrefixMapper.WSU_URI, "Id", OasisNamespacesPrefixMapper.WSU_PREFIX), bodyId);
 
         // Prepare security token element
         final SOAPElement binarySecurityTokenElement = securityElement.addChildElement("BinarySecurityToken", "wsse");
-        binarySecurityTokenElement.addNamespaceDeclaration(NFSeNamespacesPrefixMapper.WSU_PREFIX, NFSeNamespacesPrefixMapper.WSU_URI);
-        binarySecurityTokenElement.addAttribute(new QName(NFSeNamespacesPrefixMapper.WSU_URI, "Id", NFSeNamespacesPrefixMapper.WSU_PREFIX), certId);
-        binarySecurityTokenElement.addAttribute(new QName("ValueType"), SECURITY_VALUE_TYPE);
-        binarySecurityTokenElement.addAttribute(new QName("EncodingType"), SECURITY_ENCODING_TYPE);
+        binarySecurityTokenElement.addNamespaceDeclaration(OasisNamespacesPrefixMapper.WSU_PREFIX, OasisNamespacesPrefixMapper.WSU_URI);
+        binarySecurityTokenElement.addAttribute(new QName(OasisNamespacesPrefixMapper.WSU_URI, "Id", OasisNamespacesPrefixMapper.WSU_PREFIX), certId);
+        binarySecurityTokenElement.addAttribute(new QName("ValueType"), OasisNamespacesPrefixMapper.SECURITY_VALUE_TYPE);
+        binarySecurityTokenElement.addAttribute(new QName("EncodingType"), OasisNamespacesPrefixMapper.SECURITY_ENCODING_TYPE);
         binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(cert.getEncoded())));
 
         // Signature generation
@@ -179,20 +174,20 @@ public class NFSeSigner implements Signer {
         final SignatureMethod signMethod = signFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
         final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, transformList, null, null)));
         final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
-        dsc.setDefaultNamespacePrefix(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX);
+        dsc.setDefaultNamespacePrefix(OasisNamespacesPrefixMapper.SIGNATURE_PREFIX);
         final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
         signature.sign(dsc);
 
         // Prepare key info element
         final SOAPElement signatureElement = (SOAPElement) securityElement.getLastChild();
         signatureElement.setAttribute("Id", "Signature-" + UUID.randomUUID().toString().replaceAll("-", ""));
-        signatureElement.addNamespaceDeclaration(NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX, NFSeNamespacesPrefixMapper.SIGNATURE_URI);
-        final SOAPElement keyInfoElement = signatureElement.addChildElement("KeyInfo", NFSeNamespacesPrefixMapper.SIGNATURE_PREFIX, NFSeNamespacesPrefixMapper.SIGNATURE_URI);
+        signatureElement.addNamespaceDeclaration(OasisNamespacesPrefixMapper.SIGNATURE_PREFIX, OasisNamespacesPrefixMapper.SIGNATURE_URI);
+        final SOAPElement keyInfoElement = signatureElement.addChildElement("KeyInfo", OasisNamespacesPrefixMapper.SIGNATURE_PREFIX, OasisNamespacesPrefixMapper.SIGNATURE_URI);
         keyInfoElement.addAttribute(new QName("Id"), keyId);
         final SOAPElement securityTokenReferenceElement = keyInfoElement.addChildElement("SecurityTokenReference", "wsse");
         final SOAPElement referenceElement = securityTokenReferenceElement.addChildElement("Reference", "wsse");
         referenceElement.setAttribute("URI", "#" + certId);
-        referenceElement.setAttribute("ValueType", SECURITY_VALUE_TYPE);
+        referenceElement.setAttribute("ValueType", OasisNamespacesPrefixMapper.SECURITY_VALUE_TYPE);
 
         return assignable.getAsEntity(outputXML(msg));
     }

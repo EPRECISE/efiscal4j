@@ -11,21 +11,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 
-@XmlRootElement(name = "Envelope", namespace = NFSeNamespacesPrefixMapper.SOAPENV_URI)
+@XmlRootElement(name = "Envelope", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "Header", namespace = NFSeNamespacesPrefixMapper.SOAPENV_URI) SOAPHeader soapHeader;
+    private @XmlElement(name = "Header", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) SOAPHeader soapHeader;
 
-    private @XmlElement(name = "Body", namespace = NFSeNamespacesPrefixMapper.SOAPENV_URI) SOAPBody soapBody;
+    private @XmlElement(name = "Body", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) SOAPBody soapBody;
 
     public static class Builder {
 
@@ -79,7 +79,7 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
+        return new FiscalDocumentSerializer<>(this).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
     }
 
     @Override

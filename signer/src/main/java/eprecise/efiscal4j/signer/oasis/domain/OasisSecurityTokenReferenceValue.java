@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.signer.domain;
+package eprecise.efiscal4j.signer.oasis.domain;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SecurityTokenReferenceValue implements Serializable {
+public class OasisSecurityTokenReferenceValue implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

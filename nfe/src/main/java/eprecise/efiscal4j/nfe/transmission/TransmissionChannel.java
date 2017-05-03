@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe.transmission;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -13,9 +12,9 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
+import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
@@ -31,7 +30,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
 
 
 /**
- * 
+ *
  * @author Felipe Bueno
  *
  */
@@ -40,7 +39,7 @@ public class TransmissionChannel {
     private final Transmissor transmissor;
 
     public TransmissionChannel(final Certificate certificate) {
-        this.transmissor = new Transmissor(certificate);
+        transmissor = new Transmissor(certificate);
     }
 
     public TypedTransmissionResult<NFe, NFeDispatchResponseMethod> transmitAuthorization(final NFe nfe) throws SAXException, IOException, ParserConfigurationException {
@@ -69,17 +68,17 @@ public class TransmissionChannel {
                                            .withSynchronousProcessing(SynchronousProcessing.SINCRONO)
                                            .withNFes(Arrays.asList(nfe))
                                            .build();
-        //@formatter:on 
+        //@formatter:on
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeDispatch.getVersion(), nfeDispatch);
+        final SOAPEnvelope soapEnvelope = buildSOAPEnvelope(xmlnsServiceName, uf, nfeDispatch.getVersion(), nfeDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -117,13 +116,13 @@ public class TransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, serviceStatusSearch.getVersion(), serviceStatusSearch);
+        final SOAPEnvelope soapEnvelope = buildSOAPEnvelope(xmlnsServiceName, uf, serviceStatusSearch.getVersion(), serviceStatusSearch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(serviceStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -158,13 +157,13 @@ public class TransmissionChannel {
             break;
         }
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+        final SOAPEnvelope soapEnvelope = buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -191,13 +190,13 @@ public class TransmissionChannel {
             break;
         }
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+        final SOAPEnvelope soapEnvelope = buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -233,13 +232,13 @@ public class TransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeStatusSearch.getVersion(), nfeStatusSearch);
+        final SOAPEnvelope soapEnvelope = buildSOAPEnvelope(xmlnsServiceName, uf, nfeStatusSearch.getVersion(), nfeStatusSearch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
         responseXml = responseXml.substring(
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
@@ -249,7 +248,7 @@ public class TransmissionChannel {
     }
 
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
-        //@formatter:off         
+        //@formatter:off
         return new SOAPEnvelope.Builder()
                   .withSoapHeader(new SOAPHeader.Builder()
                                      .withNfeHeader(new NFeHeader.Builder()
@@ -264,75 +263,8 @@ public class TransmissionChannel {
                                                    .withTransmissible(transmissible)
                                                    .build())
                                    .build())
-                  .build();       
+                  .build();
         //@formatter:on
     }
 
-    public static class TransmissionResult {
-
-        private final String requestXml;
-
-        private final String responseXml;
-
-        public TransmissionResult(final String requestXml, final String responseXml) {
-            this.requestXml = requestXml;
-            this.responseXml = responseXml;
-        }
-
-        public String getRequestXml() {
-            return this.requestXml;
-        }
-
-        public String getResponseXml() {
-            return this.responseXml;
-        }
-
-        public <T> T getRequest(final Class<T> type) {
-            return new FiscalDocumentDeserializer<>(this.requestXml, type).deserialize();
-        }
-
-        public <T> T getRespose(final Class<T> type) {
-            return new FiscalDocumentDeserializer<>(this.responseXml, type).deserialize();
-        }
-    }
-
-    /**
-     * 
-     * @author Clécius J. Martinkoski
-     *
-     * @param <RQ>
-     * @param <RP>
-     */
-    public static class TypedTransmissionResult<RQ, RP> extends TransmissionResult {
-
-        private final Class<RQ> requestType;
-
-        private final Class<RP> responseType;
-
-        private Optional<RQ> request = Optional.empty();
-
-        private Optional<RP> response = Optional.empty();
-
-        public TypedTransmissionResult(final Class<RQ> requestType, final Class<RP> responseType, final String requestXml, final String responseXml) {
-            super(requestXml, responseXml);
-            this.requestType = requestType;
-            this.responseType = responseType;
-
-        }
-
-        public RQ getRequest() {
-            return this.request.orElseGet(() -> {
-                this.request = Optional.of(this.getRequest(this.requestType));
-                return this.request.get();
-            });
-        }
-
-        public RP getResponse() {
-            return this.response.orElseGet(() -> {
-                this.response = Optional.of(this.getRespose(this.responseType));
-                return this.response.get();
-            });
-        }
-
-    }
 }

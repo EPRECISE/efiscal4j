@@ -33,7 +33,9 @@ public class LotRpsDispatchResponse extends Receivable implements Serializable {
 
     private final @XmlElement(name = "DataRecebimento") @NotNull @NFSeDate String receiptDate;
 
-    private final @XmlElementWrapper(name = "ListaNfse") @XmlElement(name = "CompNfse") @NotNull Collection<CompNFSe> compNFSeList;
+    private final @XmlElementWrapper(name = "ListaNfse") @XmlElement(name = "CompNfse") Collection<CompNFSe> compNFSeList;
+
+    private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<LotRpsDispatchReturnMessage> returnMessageList;
 
     private @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoResposta");
 
@@ -44,6 +46,8 @@ public class LotRpsDispatchResponse extends Receivable implements Serializable {
         private String receiptDate;
 
         private Collection<CompNFSe> compNFSeList;
+
+        private Collection<LotRpsDispatchReturnMessage> returnMessageList;
 
         /**
          * @param lotNumber
@@ -72,6 +76,15 @@ public class LotRpsDispatchResponse extends Receivable implements Serializable {
             return this;
         }
 
+        /**
+         * @param returnMessageList
+         * @return
+         */
+        public Builder withReturnMessageList(final Collection<LotRpsDispatchReturnMessage> returnMessageList) {
+            this.returnMessageList = returnMessageList;
+            return this;
+        }
+
         public LotRpsDispatchResponse build() throws Exception {
             final LotRpsDispatchResponse entity = new LotRpsDispatchResponse(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -83,12 +96,14 @@ public class LotRpsDispatchResponse extends Receivable implements Serializable {
         lotNumber = null;
         receiptDate = null;
         compNFSeList = null;
+        returnMessageList = null;
     }
 
     public LotRpsDispatchResponse(final Builder builder) {
         lotNumber = builder.lotNumber;
         receiptDate = builder.receiptDate;
         compNFSeList = builder.compNFSeList;
+        returnMessageList = builder.returnMessageList;
     }
 
     public QName getqName() {
@@ -109,6 +124,10 @@ public class LotRpsDispatchResponse extends Receivable implements Serializable {
 
     public Collection<CompNFSe> getCompNFSeList() {
         return compNFSeList;
+    }
+
+    public Collection<LotRpsDispatchReturnMessage> getReturnMessageList() {
+        return returnMessageList;
     }
 
     @Override

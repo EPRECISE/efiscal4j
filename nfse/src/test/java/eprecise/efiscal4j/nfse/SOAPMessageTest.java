@@ -5,12 +5,12 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 
+import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatchResponse;
-import eprecise.efiscal4j.nfse.transmission.TransmissionChannel.TransmissionResult;
 
 
 public class SOAPMessageTest implements Testable {

@@ -20,7 +20,6 @@ import eprecise.efiscal4j.nfse.person.address.NFSeUF;
 import eprecise.efiscal4j.nfse.person.documents.NFSeCnpj;
 import eprecise.efiscal4j.nfse.sharing.Applicant;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
-import eprecise.efiscal4j.nfse.signer.NFSeSigner;
 import eprecise.efiscal4j.nfse.statements.ServiceProvider;
 import eprecise.efiscal4j.nfse.statements.ServiceTaker;
 import eprecise.efiscal4j.nfse.statements.SpecialTaxationRegime;
@@ -37,11 +36,12 @@ import eprecise.efiscal4j.nfse.statements.services.Service;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItemTaxable;
 import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
-import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.ElotechTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPBody;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPHeader;
 import eprecise.efiscal4j.signer.Signer;
+import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
 
 public class TestDomain {
@@ -66,7 +66,7 @@ public class TestDomain {
 
     private final Signer signer;
 
-    private final TransmissionChannel transmissionChannel;
+    private final ElotechTransmissionChannel transmissionChannel;
 
     private final String emitterCnpj;
 
@@ -89,8 +89,8 @@ public class TestDomain {
                 transmissionChannel = null;
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                signer = new NFSeSigner(keyCertificate);
-                transmissionChannel = new TransmissionChannel((NFSeSigner) signer);
+                signer = new OasisSigner(keyCertificate);
+                transmissionChannel = new ElotechTransmissionChannel((OasisSigner) signer);
             }
         } catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
@@ -104,7 +104,7 @@ public class TestDomain {
     }
 
     private boolean containsCertificate() {
-        return (signer != null) && (transmissionChannel != null);
+        return signer != null && transmissionChannel != null;
     }
 
     private void assertCertificate() {
@@ -150,7 +150,7 @@ public class TestDomain {
                                             .withIdentifier(new RpsIdentifier.Builder()
                                                     .withType(RpsType.PROVISIONAL_SERVICE_RECEIPT)
                                                     .withSerie("E")
-                                                    .withNumber("410")
+                                                    .withNumber("1")
                                                     .build())
                                             .withStatus(RpsStatus.NORMAL)
                                             .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
@@ -243,7 +243,7 @@ public class TestDomain {
         return signer;
     }
 
-    public TransmissionChannel getTransmissionChannel() {
+    public ElotechTransmissionChannel getTransmissionChannel() {
         assertCertificate();
         return transmissionChannel;
     }

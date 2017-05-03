@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
-import eprecise.efiscal4j.nfse.signer.domain.Security;
+import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
+import eprecise.efiscal4j.signer.oasis.domain.OasisSecurity;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -17,7 +17,7 @@ public class SOAPHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "Security", namespace = NFSeNamespacesPrefixMapper.WSSE_URI) Security security;
+    private @XmlElement(name = "Security", namespace = OasisNamespacesPrefixMapper.WSSE_URI) OasisSecurity security;
 
     public static class Builder {
 

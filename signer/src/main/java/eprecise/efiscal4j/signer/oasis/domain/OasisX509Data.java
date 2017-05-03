@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.signer.domain;
+package eprecise.efiscal4j.signer.oasis.domain;
 
 import java.io.Serializable;
 
@@ -7,15 +7,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
+import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Data implements Serializable {
+public class OasisX509Data implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "X509Certificate", namespace = NFSeNamespacesPrefixMapper.SIGNATURE_URI) byte[] x509Certificate;
+    private @XmlElement(name = "X509Certificate", namespace = OasisNamespacesPrefixMapper.SIGNATURE_URI) byte[] x509Certificate;
 
     public byte[] getX509Certificate() {
         return x509Certificate;

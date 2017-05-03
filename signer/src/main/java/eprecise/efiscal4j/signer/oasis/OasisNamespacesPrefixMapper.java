@@ -1,10 +1,14 @@
 
-package eprecise.efiscal4j.nfse.signer;
+package eprecise.efiscal4j.signer.oasis;
 
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 
-public class NFSeNamespacesPrefixMapper extends NamespacePrefixMapper {
+public class OasisNamespacesPrefixMapper extends NamespacePrefixMapper {
+
+    public static final String SECURITY_VALUE_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3";
+
+    public static final String SECURITY_ENCODING_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
 
     public static final String SOAPENV_PREFIX = "SOAP-ENV";
 

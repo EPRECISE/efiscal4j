@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
-import eprecise.efiscal4j.nfse.signer.NFSeNamespacesPrefixMapper;
 import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
+import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 
 
 public class SOAPEnvelopeTest implements Testable {
@@ -22,7 +22,7 @@ public class SOAPEnvelopeTest implements Testable {
     public void domainTest() throws Exception {
         final SOAPEnvelope buildSOAPEnvelope = getTestDomain().buildSOAPEnvelope();
         try {
-            final String xml = new FiscalDocumentSerializer<>(buildSOAPEnvelope).withNamespacePrefixMapper(new NFSeNamespacesPrefixMapper()).serialize();
+            final String xml = new FiscalDocumentSerializer<>(buildSOAPEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
             System.out.println("xml final: " + xml + "\n");
         } catch (final Exception e) {
             e.printStackTrace();

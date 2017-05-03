@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.signer.domain;
+package eprecise.efiscal4j.signer.oasis.domain;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CanonicalizationMethod implements Serializable {
+public class OasisDigestMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,4 +18,5 @@ public class CanonicalizationMethod implements Serializable {
     public String getAlgorithm() {
         return algorithm;
     }
+
 }
