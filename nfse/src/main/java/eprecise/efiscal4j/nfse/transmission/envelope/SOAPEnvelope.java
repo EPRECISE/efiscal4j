@@ -77,6 +77,14 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
         soapBody = builder.soapBody;
     }
 
+    public SOAPHeader getSoapHeader() {
+        return soapHeader;
+    }
+
+    public SOAPBody getSoapBody() {
+        return soapBody;
+    }
+
     @Override
     public String getAsXml() {
         return new FiscalDocumentSerializer<>(this).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();

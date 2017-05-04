@@ -46,8 +46,13 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
         final String cityCode = lotRpsDispatch.getLotRps().getStatementProvisionServices().stream().findAny().orElseThrow(IllegalStateException::new).getInfo().getServiceProvider().getAddress()
                 .getCityCode();
 
+        lotRpsDispatch.setXmlns(NFSeService.getXmlns(cityCode));
+
         final SOAPEnvelope soapEnvelope = new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(lotRpsDispatch).build())
                 .build(signer);
+
+        ((LotRpsDispatch) soapEnvelope.getSoapBody().getTransmissibleBody()).setXmlns(NFSeService.getXmlns(cityCode));
+
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();

@@ -25,7 +25,7 @@ public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializabl
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/nfse_v1_2.xsd";
 
-    private final @XmlAttribute(name = "xmlns") String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
+    private @XmlAttribute(name = "xmlns") String xmlns;
 
     private final @NotNull @XmlElement(name = "IdentificacaoRequerente") Applicant applicant;
 
@@ -38,6 +38,8 @@ public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializabl
         private Applicant applicant;
 
         private LotRps lotRps;
+
+        private String xmlns;
 
         /**
          * @param applicant
@@ -57,6 +59,15 @@ public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializabl
             return this;
         }
 
+        /**
+         * @param xmlns
+         * @return
+         */
+        public Builder withXmlns(final String xmlns) {
+            this.xmlns = xmlns;
+            return this;
+        }
+
         public LotRpsDispatch build() throws Exception {
             final LotRpsDispatch entity = new LotRpsDispatch(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -67,11 +78,21 @@ public class LotRpsDispatch extends TransmissibleBodyImpl implements Serializabl
     public LotRpsDispatch() {
         applicant = null;
         lotRps = null;
+        xmlns = null;
     }
 
     public LotRpsDispatch(final Builder builder) {
         applicant = builder.applicant;
         lotRps = builder.lotRps;
+        xmlns = builder.xmlns;
+    }
+
+    public String getXmlns() {
+        return xmlns;
+    }
+
+    public void setXmlns(final String xmlns) {
+        this.xmlns = xmlns;
     }
 
     public Applicant getApplicant() {

@@ -22,7 +22,6 @@ import eprecise.efiscal4j.nfse.sharing.Applicant;
 import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
 import eprecise.efiscal4j.nfse.statements.ServiceProvider;
 import eprecise.efiscal4j.nfse.statements.ServiceTaker;
-import eprecise.efiscal4j.nfse.statements.SpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.statements.StatementProvisionService;
 import eprecise.efiscal4j.nfse.statements.TaxIncentive;
 import eprecise.efiscal4j.nfse.statements.rps.Rps;
@@ -31,7 +30,6 @@ import eprecise.efiscal4j.nfse.statements.rps.RpsStatus;
 import eprecise.efiscal4j.nfse.statements.rps.RpsType;
 import eprecise.efiscal4j.nfse.statements.services.IssRequirement;
 import eprecise.efiscal4j.nfse.statements.services.IssWithheld;
-import eprecise.efiscal4j.nfse.statements.services.ResponsibleRetention;
 import eprecise.efiscal4j.nfse.statements.services.Service;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
 import eprecise.efiscal4j.nfse.statements.services.ServiceItemTaxable;
@@ -90,7 +88,7 @@ public class TestDomain {
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
                 signer = new OasisSigner(keyCertificate);
-                transmissionChannel = new ElotechTransmissionChannel((OasisSigner) signer);
+                transmissionChannel = new ElotechTransmissionChannel(keyCertificate);
             }
         } catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
@@ -104,7 +102,7 @@ public class TestDomain {
     }
 
     private boolean containsCertificate() {
-        return signer != null && transmissionChannel != null;
+        return (signer != null) && (transmissionChannel != null);
     }
 
     private void assertCertificate() {
@@ -142,7 +140,7 @@ public class TestDomain {
                             .withHomologation(true)
                             .build())
                     .withLotRps(
-                    new LotRps.Builder().withLotNumber("1").withRpsQuantity(1).withStatementProvisionService(
+                    new LotRps.Builder().withLotNumber("5").withRpsQuantity(1).withStatementProvisionService(
                     Arrays.asList(new StatementProvisionService.Builder()
                             .withInfo(new StatementProvisionService.Info.Builder()
                                     .withCompetence(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
@@ -150,14 +148,14 @@ public class TestDomain {
                                             .withIdentifier(new RpsIdentifier.Builder()
                                                     .withType(RpsType.PROVISIONAL_SERVICE_RECEIPT)
                                                     .withSerie("E")
-                                                    .withNumber("1")
+                                                    .withNumber("5")
                                                     .build())
                                             .withStatus(RpsStatus.NORMAL)
                                             .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             .build())
                                     .withService(new Service.Builder()
                                             .withServiceValues(new ServiceValues.Builder()
-                                                    .withServiceValue("2868.41")
+                                                    .withServiceValue("10.00")
                                                     .withDeductionValue("0.00")
                                                     .withPisValue("0.00")
                                                     .withCofinsValue("0.00")
@@ -165,26 +163,25 @@ public class TestDomain {
                                                     .withIrValue("0.00")
                                                     .withCsllValue("0.00")
                                                     .withOtherRetentionsValue("0.00")
-                                                    .withIssValue("57.37")
-                                                    .withIssAliquot("2")
+//                                                    .withIssValue("57.37")
+                                                    .withIssAliquot("3")
                                                     .withDiscountUnconditionedValue("0.00")
                                                     .withDiscountConditionedValue("0.00")
                                                     .build())
                                             .withIssWithheld(IssWithheld.NO)
-                                            .withResponsibleRetention(ResponsibleRetention.TAKER)
                                             .withDiscrimination("Teste discriminação")
                                             .withCityCode("4119905")
                                             .withIssRequirement(IssRequirement.REQUIRED)
                                             .withCityIncidenceCode("4119905")
                                             .withServiceItems(Arrays.asList(new ServiceItem.Builder()
-                                                    .withItemServiceList("1702")
-                                                    .withCnaeCode("8211300")
+                                                    .withItemServiceList("106")
+                                                    .withCnaeCode("6204000")
                                                     .withDescription("Teste descrição")
                                                     .withTaxable(ServiceItemTaxable.YES)
                                                     .withQuantity("1")
-                                                    .withUnitaryValue("2868.41")
+                                                    .withUnitaryValue("10.00")
                                                     .withDiscountValue("0.00")
-                                                    .withNetValue("2868.41")
+                                                    .withNetValue("10.00")
                                                     .build()))
                                             .build())
                                     .withServiceProvider(new ServiceProvider.Builder()
@@ -192,7 +189,7 @@ public class TestDomain {
                                                     .withCnp(new NFSeCnpj.Builder().withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115")).build())
                                                     .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
                                                     .build())
-                                            .withSocialName("Razão Social Prestador")
+                                            .withSocialName("Teste Razão Social")
                                             .withAddress(new NFSeAddress.Builder()
                                                     .withAddress("Rua xyz")
                                                     .withNumber("123")
@@ -218,7 +215,7 @@ public class TestDomain {
                                                     .withCep("84010000")
                                                     .build())
                                             .build())
-                                    .withSpecialTaxationRegime(SpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE)
+//                                    .withSpecialTaxationRegime(SpecialTaxationRegime.ME_EPP)
                                     .withTaxIncentive(TaxIncentive.NO)
                                     .build()).build())).build())
                     .build();
