@@ -150,7 +150,7 @@ public class TestDomain {
                                                     .withSerie("E")
                                                     .withNumber("5")
                                                     .build())
-                                            .withStatus(RpsStatus.NORMAL)
+                                            .withStatus(RpsStatus.CANCELED)
                                             .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             .build())
                                     .withService(new Service.Builder()
