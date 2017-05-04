@@ -21,7 +21,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
  * @author Fernando C Glizt
  *
  */
-public class ElotechTransmissionChannel implements TransmissionChannel {
+public class ElotechTransmissionChannel implements TransmissionChannel<SOAPEnvelope, LotRpsDispatchResponse> {
 
     private final Transmissor transmissor;
 
@@ -41,6 +41,7 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
         }
     }
 
+    @Override
     public TypedTransmissionResult<SOAPEnvelope, LotRpsDispatchResponse> transmitAuthorization(final LotRpsDispatch lotRpsDispatch) throws Exception {
 
         final String cityCode = lotRpsDispatch.getLotRps().getStatementProvisionServices().stream().findAny().orElseThrow(IllegalStateException::new).getInfo().getServiceProvider().getAddress()

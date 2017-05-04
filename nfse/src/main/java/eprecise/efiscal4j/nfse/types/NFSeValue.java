@@ -16,11 +16,11 @@ import javax.validation.constraints.Pattern;
 
 /**
  * tsValor
- * 
+ *
  * Tipo Decimal com 14 inteiros e 2 decimais
- * 
+ *
  * @author Fernando C Glizt
- * 
+ *
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,7 +29,7 @@ import javax.validation.constraints.Pattern;
 @Pattern(regexp = "^(\\d{1,14})(?:.\\d{1,2})?$")
 public @interface NFSeValue {
 
-    String message() default "Viola restrição - Tipo Decimal com 15 dígitos, sendo 13 de corpo e 2 decimais";
+    String message() default "Viola restrição - Tipo Decimal com 16 dígitos, sendo 14 de corpo e 2 decimais";
 
     Class<?>[] groups() default {};
 

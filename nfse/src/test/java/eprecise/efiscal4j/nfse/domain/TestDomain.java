@@ -102,7 +102,7 @@ public class TestDomain {
     }
 
     private boolean containsCertificate() {
-        return (signer != null) && (transmissionChannel != null);
+        return signer != null && transmissionChannel != null;
     }
 
     private void assertCertificate() {
@@ -150,7 +150,7 @@ public class TestDomain {
                                                     .withSerie("E")
                                                     .withNumber("5")
                                                     .build())
-                                            .withStatus(RpsStatus.CANCELED)
+                                            .withStatus(RpsStatus.NORMAL)
                                             .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             .build())
                                     .withService(new Service.Builder()
