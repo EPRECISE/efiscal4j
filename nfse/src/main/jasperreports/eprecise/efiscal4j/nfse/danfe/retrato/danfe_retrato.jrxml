@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-03T16:31:39 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-05-09T11:54:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_leiaute_2xx_cr" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="22" bottomMargin="22" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
 	<parameter name="danfe_logo" class="java.io.InputStream"/>
+	<parameter name="cityName" class="java.lang.String"/>
 	<queryString language="xPath">
 		<![CDATA[/]]>
 	</queryString>
-	
+	<title>
+		<band height="123">
+			<rectangle radius="1">
+				<reportElement positionType="Float" mode="Transparent" x="0" y="1" width="390" height="93" uuid="e0b63a78-be29-4251-ba15-9e2d7bae2e6e"/>
+				<graphicElement>
+					<pen lineWidth="0.7"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="1">
+				<reportElement positionType="Float" mode="Transparent" x="390" y="1" width="150" height="93" uuid="d9b36839-6c48-469c-83ff-537ac19b0e1d"/>
+				<graphicElement>
+					<pen lineWidth="0.7"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="40" width="390" height="20" uuid="4ad92c3e-84d5-495d-8d53-db6be31eaecd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA FISCAL DE SERVIÇO ELETRÔNICA]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="14" width="390" height="20" uuid="d9f77413-894c-4fe4-867c-a98350f779c3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PREFEITURA DO MUNICÍPIO DE "+$P{cityName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
 </jasperReport>

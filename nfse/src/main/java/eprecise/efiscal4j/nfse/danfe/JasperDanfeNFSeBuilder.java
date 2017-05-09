@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
@@ -58,8 +59,11 @@ public class JasperDanfeNFSeBuilder {
 
     private DataSourceType type = DataSourceType.XML;
 
-    public JasperDanfeNFSeBuilder(final CompNFSe nfse) {
+    private final Function<String, String> cityNameByCode;
+
+    public JasperDanfeNFSeBuilder(final CompNFSe nfse, final Function<String, String> cityNameByCode) {
         this.nfse = nfse;
+        this.cityNameByCode = cityNameByCode;
     }
 
     public JasperDanfeNFSeBuilder usingEntity() {
@@ -89,6 +93,7 @@ public class JasperDanfeNFSeBuilder {
 
     public JasperPrint build() throws IOException, JRException {
         params.putAll(paramsSource.getParamsOf(nfse));
+        params.put("cityName", cityNameByCode.apply(nfse.getNfse().getInfo().getGeneratorOrgan().getCityCode()));
         return JasperFillManager.fillReport(catalog.get(), params, type.generate(nfse));
     }
 
