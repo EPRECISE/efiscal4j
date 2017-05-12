@@ -37,10 +37,11 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeStatusServico...");
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(getTestDomain().buildServiceStatusSearch(), FiscalDocumentModel.NFE);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitServiceStatusSearch(this.getTestDomain().buildServiceStatusSearch(),
+                    FiscalDocumentModel.NFE);
 
-            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(),
-                    ServiceStatusSearchResponseMethod.class).deserialize();
+            final ServiceStatusSearchResponseMethod serviceStatusSearchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ServiceStatusSearchResponseMethod.class)
+                    .deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -52,7 +53,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -66,10 +67,11 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeConsultaProtocolo...");
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitNFeStatusSearch(getTestDomain().buildNFeStatusSearch(), FiscalDocumentModel.NFE, UF.PR);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitNFeStatusSearch(this.getTestDomain().buildNFeStatusSearch(), FiscalDocumentModel.NFE,
+                    UF.PR);
 
-            final NFeStatusSearchResponseMethod nfeStatusSearchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(),
-                    NFeStatusSearchResponseMethod.class).deserialize();
+            final NFeStatusSearchResponseMethod nfeStatusSearchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeStatusSearchResponseMethod.class)
+                    .deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -81,7 +83,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -95,10 +97,9 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeAutorizacao...");
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitAuthorization(getTestDomain().buildNFe());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFe());
 
-            final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeDispatchResponseMethod.class)
-                    .deserialize();
+            final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeDispatchResponseMethod.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -110,7 +111,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -124,13 +125,13 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeRetAutorizacao");
 
-            final SOAPHeader soapHeader = getTestDomain().buildSoapHeader(getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3", UF.PR));
+            final SOAPHeader soapHeader = this.getTestDomain().buildSoapHeader(this.getTestDomain().buildNFeHeader("http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3", UF.PR));
 
-            final BatchReceiptSearch batchReceiptSearch = getTestDomain().buildBatchReceiptSearch();
+            final BatchReceiptSearch batchReceiptSearch = this.getTestDomain().buildBatchReceiptSearch();
 
-            final SOAPBody soapBody = getTestDomain().buildSoapBody(getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3", batchReceiptSearch));
+            final SOAPBody soapBody = this.getTestDomain().buildSoapBody(this.getTestDomain().buildNFeBody("http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3", batchReceiptSearch));
 
-            final SOAPEnvelope soapEnvelope = getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
+            final SOAPEnvelope soapEnvelope = this.getTestDomain().buildSoapEnvelope(soapHeader, soapBody);
 
             ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
@@ -147,10 +148,11 @@ public class SOAPMessageTest implements Testable {
             // System.out.println(returnXml);
 
             System.out.println("NFeRetAutorizacao - teste concluído");
+            System.out.println(requestXml);
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -164,12 +166,11 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando RecepcaoEvento - Cancelamento...");
 
-            final EventDispatch eventDispatch = getTestDomain().buildEventDispatchCancellation();
+            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCancellation();
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch, FiscalDocumentModel.NFE);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCancellation(eventDispatch, FiscalDocumentModel.NFE);
 
-            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(),
-                    EventDispatchResponseMethod.class).deserialize();
+            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), EventDispatchResponseMethod.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -179,7 +180,7 @@ public class SOAPMessageTest implements Testable {
             System.out.println("RecepcaoEvento - Cancelamento - teste concluído\n");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -193,12 +194,11 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando RecepcaoEvento - Carta de Correção...");
 
-            final EventDispatch eventDispatch = getTestDomain().buildEventDispatchCCe();
+            final EventDispatch eventDispatch = this.getTestDomain().buildEventDispatchCCe();
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitEventReceptionCCe(eventDispatch, FiscalDocumentModel.NFE);
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitEventReceptionCCe(eventDispatch, FiscalDocumentModel.NFE);
 
-            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(),
-                    EventDispatchResponseMethod.class).deserialize();
+            final EventDispatchResponseMethod eventDispatchResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), EventDispatchResponseMethod.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -209,13 +209,13 @@ public class SOAPMessageTest implements Testable {
             System.out.println("");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
     @Override
     public TestDomain getTestDomain() {
-        return nFeDomain;
+        return this.nFeDomain;
     }
 
     @Override

@@ -76,7 +76,7 @@ public class OasisSigner implements Signer {
 
     public OasisSigner(final eprecise.efiscal4j.commons.utils.Certificate keyCertificate) throws Exception {
         this.keyCertificate = keyCertificate;
-        init();
+        this.init();
     }
 
     /**
@@ -88,41 +88,41 @@ public class OasisSigner implements Signer {
      * @throws Exception
      */
     private void init() throws Exception {
-        signatureFactory = XMLSignatureFactory.getInstance("DOM");
+        this.signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
-        transformList = new ArrayList<>();
-        final Transform transform = signatureFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
-        transformList.add(transform);
+        this.transformList = new ArrayList<>();
+        final Transform transform = this.signatureFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
+        this.transformList.add(transform);
 
-        loadCertificates();
+        this.loadCertificates();
     }
 
     private void loadCertificates() throws Exception {
         final KeyStore ks = KeyStore.getInstance("pkcs12");
         try {
-            ks.load(getKeyCertificate().getCertificate(), getKeyCertificate().getPassphrase().toCharArray());
+            ks.load(this.getKeyCertificate().getCertificate(), this.getKeyCertificate().getPassphrase().toCharArray());
         } catch (final IOException e) {
             throw new Exception("Senha do Certificado Digital incorreta ou Certificado inválido.");
         }
 
-        cert = null;
+        this.cert = null;
         final Enumeration<String> aliasesEnum = ks.aliases();
         while (aliasesEnum.hasMoreElements()) {
             final String alias = aliasesEnum.nextElement();
             if (ks.isKeyEntry(alias)) {
-                cert = ks.getCertificate(alias);
-                privateKey = (PrivateKey) ks.getKey(alias, getKeyCertificate().getPassphrase().toCharArray());
+                this.cert = ks.getCertificate(alias);
+                this.privateKey = (PrivateKey) ks.getKey(alias, this.getKeyCertificate().getPassphrase().toCharArray());
                 break;
             }
         }
 
-        final KeyInfoFactory keyInfoFactory = signatureFactory.getKeyInfoFactory();
+        final KeyInfoFactory keyInfoFactory = this.signatureFactory.getKeyInfoFactory();
         final List<Certificate> x509Content = new ArrayList<>();
-        x509Content.add(cert);
+        x509Content.add(this.cert);
 
         final X509Data x509Data = keyInfoFactory.newX509Data(x509Content);
 
-        keyInfo = keyInfoFactory.newKeyInfo(Collections.singletonList(x509Data));
+        this.keyInfo = keyInfoFactory.newKeyInfo(Collections.singletonList(x509Data));
     }
 
     /**
@@ -164,7 +164,7 @@ public class OasisSigner implements Signer {
         binarySecurityTokenElement.addAttribute(new QName(OasisNamespacesPrefixMapper.WSU_URI, "Id", OasisNamespacesPrefixMapper.WSU_PREFIX), certId);
         binarySecurityTokenElement.addAttribute(new QName("ValueType"), OasisNamespacesPrefixMapper.SECURITY_VALUE_TYPE);
         binarySecurityTokenElement.addAttribute(new QName("EncodingType"), OasisNamespacesPrefixMapper.SECURITY_ENCODING_TYPE);
-        binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(cert.getEncoded())));
+        binarySecurityTokenElement.addTextNode(new String(Base64.getEncoder().encode(this.cert.getEncoded())));
 
         // Signature generation
         final XMLSignatureFactory signFactory = XMLSignatureFactory.getInstance("DOM");
@@ -172,8 +172,8 @@ public class OasisSigner implements Signer {
         final CanonicalizationMethod c14nMethod = signFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, spec1);
         final DigestMethod digestMethod = signFactory.newDigestMethod(DigestMethod.SHA1, null);
         final SignatureMethod signMethod = signFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
-        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, transformList, null, null)));
-        final DOMSignContext dsc = new DOMSignContext(privateKey, securityElement);
+        final SignedInfo signInfo = signFactory.newSignedInfo(c14nMethod, signMethod, Arrays.asList(signFactory.newReference("#" + bodyId, digestMethod, this.transformList, null, null)));
+        final DOMSignContext dsc = new DOMSignContext(this.privateKey, securityElement);
         dsc.setDefaultNamespacePrefix(OasisNamespacesPrefixMapper.SIGNATURE_PREFIX);
         final XMLSignature signature = signFactory.newXMLSignature(signInfo, null);
         signature.sign(dsc);
@@ -189,11 +189,16 @@ public class OasisSigner implements Signer {
         referenceElement.setAttribute("URI", "#" + certId);
         referenceElement.setAttribute("ValueType", OasisNamespacesPrefixMapper.SECURITY_VALUE_TYPE);
 
-        return assignable.getAsEntity(outputXML(msg));
+        return assignable.getAsEntity(this.outputXML(msg));
     }
 
+    public KeyInfo getKeyInfo() {
+        return this.keyInfo;
+    }
+
+    @Override
     public eprecise.efiscal4j.commons.utils.Certificate getKeyCertificate() {
-        return keyCertificate;
+        return this.keyCertificate;
     }
 
     private String outputXML(final SOAPMessage message) throws TransformerException, SOAPException, IOException {

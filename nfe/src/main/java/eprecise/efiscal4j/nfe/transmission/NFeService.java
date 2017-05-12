@@ -2,8 +2,6 @@
 package eprecise.efiscal4j.nfe.transmission;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
@@ -30,7 +28,6 @@ public enum NFeService implements FiscalDocumentService, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private List<ServiceDomainVersion> serviceDomainVersion;
 
     private FiscalDocumentVersion supportedVersion;
 
@@ -41,167 +38,6 @@ public enum NFeService implements FiscalDocumentService, Serializable {
     private NFeService(String propertiesHomologPath, String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesHomologPath).create();
         this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesProductionPath).create();
-        // this.initServiceDomainMap();
-    }
-
-    private void initServiceDomainMap() {
-        this.serviceDomainVersion = new ArrayList<ServiceDomainVersion>();
-        //@formatter:off
-        switch(this){
-            case AUTHORIZATION:
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.AM, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.BA, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.CE, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.GO, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MG, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MS, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MT, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.PE, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.PR, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.RS, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SP, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVAN, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVRS, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVC_AN, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVC_RS, FiscalDocumentVersion.VERSION_3_10));
-                break;                
-            case AUTHORIZATION_RESULT:
-                break;
-            case EVENT_RECEPTION:
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.AM, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.BA, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.CE, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.GO, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MG, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MS, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.MT, FiscalDocumentVersion.VERSION_2_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.PE, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.PR, FiscalDocumentVersion.VERSION_3_10));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.RS, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SP, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVAN, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVRS, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVC_AN, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.SVC_RS, FiscalDocumentVersion.VERSION_1_00));
-                this.serviceDomainVersion.add(new ServiceDomainVersion(ServiceDomain.AN, FiscalDocumentVersion.VERSION_3_10));
-                break;                                
-            case PROTOCOL_SEARCH:
-                break;
-            case DISABILITY:
-                break;
-            case SERVICE_STATUS:
-                break;
-
-//            AM(UF.AM.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            BA(UF.BA.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            CE(UF.CE.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            GO(UF.GO.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),    
-//            MG(UF.MG.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            MA(UF.MA.getDescription()),            
-//            MS(UF.MS.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            MT(UF.MT.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_2_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_2_00), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_2_00), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_2_00)),
-//            PE(UF.PE.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            PR(UF.PR.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            RS(UF.RS.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00),
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            SP(UF.SP.getDescription(), 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            SVAN("Sefaz Virtual - Ambiente Nacional", 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            SVRS("Sefaz Virtual - Rio Grande do Sul", 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            SVC_AN("Sefaz Virtual Contingência - Ambiente Nacional", 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            SVC_RS("Sefaz Virtual Contingência - Rio Grande do Sul", 
-//                    NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
-//                    NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-//                    NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-//            AN("Ambiente Nacional",              
-//                    NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10));                  
-        //@formatter:on        
-        }
-
     }
 
     public String getHomologUrl(ServiceDomain serviceDomain) {
