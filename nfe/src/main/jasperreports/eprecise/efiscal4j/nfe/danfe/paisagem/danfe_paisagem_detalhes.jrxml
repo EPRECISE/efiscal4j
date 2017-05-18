@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-23T13:51:18 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-05-18T10:17:03 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_retrato_detalhes_leiaute_2xx" pageWidth="832" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba88e909-9e95-486d-b7af-82289d15b596">
 	<property name="ireport.zoom" value="2.4793388429752077"/>
 	<property name="ireport.x" value="340"/>
@@ -29,6 +29,9 @@
 	</field>
 	<field name="valorIcms" class="java.lang.String">
 		<fieldDescription><![CDATA[imposto/ICMS/*/vICMS]]></fieldDescription>
+	</field>
+	<field name="valorIcmsSt" class="java.lang.String">
+		<fieldDescription><![CDATA[imposto/ICMS/*/vICMSST]]></fieldDescription>
 	</field>
 	<field name="quantidade" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/qCom]]></fieldDescription>
@@ -61,7 +64,7 @@
 		<fieldDescription><![CDATA[imposto/ICMS/*/pICMS]]></fieldDescription>
 	</field>
 	<background>
-		<band height="8" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="12" splitType="Stretch">
@@ -97,7 +100,7 @@
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="94" y="0" width="276" height="20" uuid="242bdf67-b9a7-47dd-8d0f-2f4369524d42">
+					<reportElement positionType="Float" mode="Transparent" x="94" y="0" width="236" height="20" uuid="242bdf67-b9a7-47dd-8d0f-2f4369524d42">
 						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
 					</reportElement>
 					<graphicElement>
@@ -105,31 +108,31 @@
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="370" y="0" width="40" height="20" uuid="6d9a2546-4606-45bb-a798-5aa8593f3d08"/>
+					<reportElement positionType="Float" mode="Transparent" x="330" y="0" width="40" height="20" uuid="6d9a2546-4606-45bb-a798-5aa8593f3d08"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="410" y="0" width="30" height="20" uuid="1acc990e-a5be-4d99-95db-b33ef85ce6cd"/>
+					<reportElement positionType="Float" mode="Transparent" x="370" y="0" width="30" height="20" uuid="1acc990e-a5be-4d99-95db-b33ef85ce6cd"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="440" y="0" width="30" height="20" uuid="ae419dea-1013-4cd8-879a-9f2c14166a9d"/>
+					<reportElement positionType="Float" mode="Transparent" x="400" y="0" width="30" height="20" uuid="ae419dea-1013-4cd8-879a-9f2c14166a9d"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="470" y="0" width="20" height="20" uuid="fc818f7a-acd2-4f35-9f68-e0c10a9aa473"/>
+					<reportElement positionType="Float" mode="Transparent" x="430" y="0" width="20" height="20" uuid="fc818f7a-acd2-4f35-9f68-e0c10a9aa473"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="490" y="0" width="35" height="20" uuid="4764d087-256e-4f4f-bef4-e2b4d23c52f5">
+					<reportElement positionType="Float" mode="Transparent" x="450" y="0" width="35" height="20" uuid="4764d087-256e-4f4f-bef4-e2b4d23c52f5">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<graphicElement>
@@ -137,19 +140,19 @@
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="525" y="0" width="40" height="20" uuid="01736771-641e-42c1-8346-e054e2b9fb22"/>
+					<reportElement positionType="Float" mode="Transparent" x="485" y="0" width="40" height="20" uuid="01736771-641e-42c1-8346-e054e2b9fb22"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="565" y="0" width="45" height="20" uuid="9b52b4f1-f530-4171-9dbf-7d742b7e8da6"/>
+					<reportElement positionType="Float" mode="Transparent" x="525" y="0" width="45" height="20" uuid="9b52b4f1-f530-4171-9dbf-7d742b7e8da6"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="610" y="0" width="39" height="20" uuid="d8d90f09-71e9-4dc0-84ff-e668db1afa7d">
+					<reportElement positionType="Float" mode="Transparent" x="570" y="0" width="39" height="20" uuid="d8d90f09-71e9-4dc0-84ff-e668db1afa7d">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<graphicElement>
@@ -157,13 +160,13 @@
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="649" y="0" width="38" height="20" uuid="0577c985-78e6-480b-958f-b27163524596"/>
+					<reportElement positionType="Float" mode="Transparent" x="609" y="0" width="38" height="20" uuid="0577c985-78e6-480b-958f-b27163524596"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle radius="1">
-					<reportElement positionType="Float" mode="Transparent" x="687" y="0" width="38" height="20" uuid="f44ce0ef-bbf3-4de7-b96b-0f5e2101bd9c"/>
+					<reportElement positionType="Float" mode="Transparent" x="647" y="0" width="38" height="20" uuid="f44ce0ef-bbf3-4de7-b96b-0f5e2101bd9c"/>
 					<graphicElement>
 						<pen lineWidth="0.7"/>
 					</graphicElement>
@@ -200,7 +203,7 @@
 					<text><![CDATA[CODIGO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="94" y="0" width="276" height="20" uuid="1fbd17a0-c312-4971-9b24-ca47cc25f4ed">
+					<reportElement positionType="Float" mode="Transparent" x="94" y="0" width="236" height="20" uuid="1fbd17a0-c312-4971-9b24-ca47cc25f4ed">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
 					</reportElement>
@@ -210,35 +213,35 @@
 					<text><![CDATA[DESCRICAO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="370" y="0" width="40" height="20" uuid="9a458bc6-863f-485a-8594-ed57c1aecccb"/>
+					<reportElement positionType="Float" mode="Transparent" x="330" y="0" width="40" height="20" uuid="9a458bc6-863f-485a-8594-ed57c1aecccb"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<text><![CDATA[NCM/SH]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="410" y="0" width="30" height="20" uuid="af82c249-bd12-4f1a-a014-9aeeb30caf3a"/>
+					<reportElement positionType="Float" mode="Transparent" x="370" y="0" width="30" height="20" uuid="af82c249-bd12-4f1a-a014-9aeeb30caf3a"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<text><![CDATA[CST]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="440" y="0" width="30" height="20" uuid="e7cf5bcd-f1f8-4ff4-a607-a4d3fa1f56d7"/>
+					<reportElement positionType="Float" mode="Transparent" x="400" y="0" width="30" height="20" uuid="e7cf5bcd-f1f8-4ff4-a607-a4d3fa1f56d7"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<text><![CDATA[CFOP]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="470" y="0" width="20" height="20" uuid="55f67a34-6e80-43d8-913f-41a7817b954f"/>
+					<reportElement positionType="Float" mode="Transparent" x="430" y="0" width="20" height="20" uuid="55f67a34-6e80-43d8-913f-41a7817b954f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<text><![CDATA[UN]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="490" y="0" width="35" height="20" uuid="a419337b-016b-48f6-b5e7-f3733f8257bb">
+					<reportElement positionType="Float" mode="Transparent" x="450" y="0" width="35" height="20" uuid="a419337b-016b-48f6-b5e7-f3733f8257bb">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -247,48 +250,54 @@
 					<text><![CDATA[QUANT.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="525" y="0" width="40" height="20" uuid="64496bad-3853-41e2-89db-1ab1065f6985"/>
+					<reportElement positionType="Float" mode="Transparent" x="485" y="0" width="40" height="20" uuid="64496bad-3853-41e2-89db-1ab1065f6985"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[VLR. UNIT.]]></text>
+					<text><![CDATA[VALOR
+UNIT.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="565" y="0" width="45" height="20" uuid="5b205895-9045-484c-8190-7a901e1210fb"/>
+					<reportElement positionType="Float" mode="Transparent" x="525" y="0" width="45" height="20" uuid="5b205895-9045-484c-8190-7a901e1210fb"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[VLR. TOTAL]]></text>
+					<text><![CDATA[VALOR
+TOTAL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="649" y="0" width="38" height="20" uuid="7d18ee97-0c84-4f7a-a55a-1040d4d472ef">
+					<reportElement positionType="Float" mode="Transparent" x="609" y="0" width="38" height="20" uuid="7d18ee97-0c84-4f7a-a55a-1040d4d472ef">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[BC ICMS]]></text>
+					<text><![CDATA[B. CALC. 
+ICMS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="686" y="0" width="38" height="20" uuid="119a0ed6-2f65-48b9-b5c7-de67d70817e6"/>
+					<reportElement positionType="Float" mode="Transparent" x="646" y="0" width="38" height="20" uuid="119a0ed6-2f65-48b9-b5c7-de67d70817e6"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[VLR. ICMS]]></text>
+					<text><![CDATA[VALOR
+ICMS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement positionType="Float" mode="Transparent" x="726" y="0" width="35" height="20" uuid="b6a17b44-318d-44f5-994f-73d9d6873c08"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[VLR. IPI]]></text>
+					<text><![CDATA[VALOR
+IPI]]></text>
 				</staticText>
 				<staticText>
 					<reportElement positionType="Float" mode="Transparent" x="760" y="0" width="40" height="20" uuid="0cb55315-63a8-4291-9454-d8ab2868a33d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[ALIQ. ICMS]]></text>
+					<text><![CDATA[ALIQ.
+ICMS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement positionType="Float" mode="Transparent" x="800" y="0" width="30" height="20" uuid="baf6528b-20f7-4d3c-95c3-131db2c901a8">
@@ -297,10 +306,11 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[ALIQ. IPI]]></text>
+					<text><![CDATA[ALIQ. 
+IPI]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" mode="Transparent" x="610" y="0" width="39" height="20" uuid="f41f9d95-9e2d-44e2-a412-80a179fcf17e">
+					<reportElement positionType="Float" mode="Transparent" x="570" y="0" width="39" height="20" uuid="f41f9d95-9e2d-44e2-a412-80a179fcf17e">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -318,7 +328,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="1">
-				<reportElement positionType="Float" mode="Transparent" x="153" y="0" width="217" height="20" uuid="ef7496fc-f2e6-49f4-8908-e56bc7817a7c">
+				<reportElement positionType="Float" mode="Transparent" x="153" y="0" width="177" height="20" uuid="ef7496fc-f2e6-49f4-8908-e56bc7817a7c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
@@ -336,7 +346,7 @@
 				<text><![CDATA[CODIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="153" y="0" width="217" height="20" uuid="5e21c6a0-62db-4e68-8358-f4b858026be5">
+				<reportElement positionType="Float" mode="Transparent" x="153" y="0" width="177" height="20" uuid="5e21c6a0-62db-4e68-8358-f4b858026be5">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
@@ -344,6 +354,20 @@
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[DESCRICAO]]></text>
+			</staticText>
+			<rectangle radius="1">
+				<reportElement positionType="Float" mode="Transparent" x="685" y="0" width="40" height="20" uuid="d3949e64-3e8a-4609-a7cc-614c639149c4"/>
+				<graphicElement>
+					<pen lineWidth="0.7"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="686" y="0" width="38" height="20" uuid="65d77ca5-2f4b-47e4-b1ef-104340291d88"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[VALOR
+ICMS ST]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -359,7 +383,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="94" y="0" width="276" height="9" isPrintWhenDetailOverflows="true" uuid="f7d9eac2-f5aa-4ad7-a33a-9bb7bba4b90a">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="94" y="0" width="236" height="9" isPrintWhenDetailOverflows="true" uuid="f7d9eac2-f5aa-4ad7-a33a-9bb7bba4b90a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
 				</reportElement>
@@ -368,31 +392,31 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="370" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="15a4f7b3-0dad-4bd6-ba98-0ec91de4332f"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="330" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="15a4f7b3-0dad-4bd6-ba98-0ec91de4332f"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="410" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="536cb5f1-9770-4629-879a-799d97173503"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="370" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="536cb5f1-9770-4629-879a-799d97173503"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="440" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="b186f1f1-595b-4bc8-a830-2d17e01fc10e"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="400" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="b186f1f1-595b-4bc8-a830-2d17e01fc10e"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="470" y="0" width="20" height="9" isPrintWhenDetailOverflows="true" uuid="d56d132f-616e-4794-9e1d-1bd42f7dcf4b"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="430" y="0" width="20" height="9" isPrintWhenDetailOverflows="true" uuid="d56d132f-616e-4794-9e1d-1bd42f7dcf4b"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="490" y="0" width="35" height="9" isPrintWhenDetailOverflows="true" uuid="653c9bef-fe80-49bb-89da-64b4f3093a82">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="450" y="0" width="35" height="9" isPrintWhenDetailOverflows="true" uuid="653c9bef-fe80-49bb-89da-64b4f3093a82">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<graphicElement>
@@ -400,19 +424,19 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="525" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="78f2976c-6f4f-4d20-be56-a69a2cf54b05"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="485" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="78f2976c-6f4f-4d20-be56-a69a2cf54b05"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="565" y="0" width="45" height="9" isPrintWhenDetailOverflows="true" uuid="9edb4b0e-4a7a-44e8-8542-28499330588f"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="525" y="0" width="45" height="9" isPrintWhenDetailOverflows="true" uuid="9edb4b0e-4a7a-44e8-8542-28499330588f"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="649" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="94a3fabc-9d02-400e-a68f-1604f1ba418d">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="609" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="94a3fabc-9d02-400e-a68f-1604f1ba418d">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<graphicElement>
@@ -420,7 +444,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="610" y="0" width="39" height="9" isPrintWhenDetailOverflows="true" uuid="f81e2ff1-4888-43d8-961f-002bdf579cef">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="570" y="0" width="39" height="9" isPrintWhenDetailOverflows="true" uuid="f81e2ff1-4888-43d8-961f-002bdf579cef">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<graphicElement>
@@ -428,7 +452,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="687" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="8bc7a1af-9bd6-48ee-adc4-d04f7aa88fc2"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="647" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="8bc7a1af-9bd6-48ee-adc4-d04f7aa88fc2"/>
 				<graphicElement>
 					<pen lineWidth="0.7"/>
 				</graphicElement>
@@ -463,7 +487,7 @@
 				<textFieldExpression><![CDATA[$F{produtoCodigo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="95" y="0" width="276" height="9" isPrintWhenDetailOverflows="true" uuid="d2463971-9bbf-4243-bf88-254a83f4c182">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="95" y="0" width="236" height="9" isPrintWhenDetailOverflows="true" uuid="d2463971-9bbf-4243-bf88-254a83f4c182">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -472,42 +496,42 @@
 				<textFieldExpression><![CDATA[$F{produtoDescricao}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="470" y="0" width="20" height="9" isPrintWhenDetailOverflows="true" uuid="9f404735-15a7-43dd-8102-e033e2eefa54"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="430" y="0" width="20" height="9" isPrintWhenDetailOverflows="true" uuid="9f404735-15a7-43dd-8102-e033e2eefa54"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{produtoUM}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="440" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="cb055ed2-7a24-435f-b39f-0c4aef6fd650"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="400" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="cb055ed2-7a24-435f-b39f-0c4aef6fd650"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{produtoCfop}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="410" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="998898c0-710c-412b-a87b-5ae76e2dfaa2"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="370" y="0" width="30" height="9" isPrintWhenDetailOverflows="true" uuid="998898c0-710c-412b-a87b-5ae76e2dfaa2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{produtoCst}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="370" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="befe5158-964f-4397-9b6d-be25ad7e8f82"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="330" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="befe5158-964f-4397-9b6d-be25ad7e8f82"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{produtoNcm}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="687" y="0" width="36" height="9" isPrintWhenDetailOverflows="true" uuid="3b131bfc-2c3f-429f-9ad3-64c0a3318f11"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="647" y="0" width="36" height="9" isPrintWhenDetailOverflows="true" uuid="3b131bfc-2c3f-429f-9ad3-64c0a3318f11"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorIcms} != null ? new java.math.BigDecimal($F{valorIcms}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="649" y="0" width="37" height="9" isPrintWhenDetailOverflows="true" uuid="5a7655b4-feb6-4ee1-8e27-6432727e087c">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="609" y="0" width="37" height="9" isPrintWhenDetailOverflows="true" uuid="5a7655b4-feb6-4ee1-8e27-6432727e087c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -516,21 +540,21 @@
 				<textFieldExpression><![CDATA[$F{baseCalculoIcms} != null ? new java.math.BigDecimal($F{baseCalculoIcms}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="565" y="0" width="43" height="9" isPrintWhenDetailOverflows="true" uuid="ef7665a6-30a2-4d18-963d-0c455aece150"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="525" y="0" width="43" height="9" isPrintWhenDetailOverflows="true" uuid="ef7665a6-30a2-4d18-963d-0c455aece150"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal} != null ? new java.math.BigDecimal($F{valorTotal}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.0000" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="525" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="7ca097cb-4755-4097-b9b1-18bb91f7d826"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="485" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="7ca097cb-4755-4097-b9b1-18bb91f7d826"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorUnitario} != null ? new java.math.BigDecimal($F{valorUnitario}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,####0.0000" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="490" y="0" width="34" height="9" isPrintWhenDetailOverflows="true" uuid="01bdd39f-a55a-45d8-9f00-e5dc79caae75">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="450" y="0" width="34" height="9" isPrintWhenDetailOverflows="true" uuid="01bdd39f-a55a-45d8-9f00-e5dc79caae75">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -553,7 +577,7 @@
 				<textFieldExpression><![CDATA[$F{aliquotaIcms} != null ? new java.math.BigDecimal($F{aliquotaIcms}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="610" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="31004a86-6b6d-467d-9f04-814840a8b6d3">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="570" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="31004a86-6b6d-467d-9f04-814840a8b6d3">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -580,7 +604,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="153" y="0" width="217" height="9" isPrintWhenDetailOverflows="true" uuid="9e1e8c93-f780-4393-981d-87b673894f3b">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="153" y="0" width="177" height="9" isPrintWhenDetailOverflows="true" uuid="9e1e8c93-f780-4393-981d-87b673894f3b">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
@@ -598,13 +622,28 @@
 				<textFieldExpression><![CDATA[$F{produtoCodigo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="154" y="0" width="216" height="9" isPrintWhenDetailOverflows="true" uuid="0a7fa930-a7a6-4b59-9685-fa4abb004d6d">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="154" y="0" width="176" height="9" isPrintWhenDetailOverflows="true" uuid="0a7fa930-a7a6-4b59-9685-fa4abb004d6d">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{produtoDescricao}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="685" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="edd097b3-8afb-4039-a012-4e58b9420449">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.7"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="686" y="0" width="38" height="9" isPrintWhenDetailOverflows="true" uuid="06960118-c0cd-497a-911e-76630b7de0bb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorIcmsSt} != null ? new java.math.BigDecimal($F{valorIcmsSt}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
