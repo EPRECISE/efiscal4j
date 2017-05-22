@@ -64,18 +64,18 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("1355") CFOP_1355,
       @XmlEnumValue("1356") CFOP_1356,
       @XmlEnumValue("1360") CFOP_1360,
-      @XmlEnumValue("1401") CFOP_1401,
-      @XmlEnumValue("1403") CFOP_1403,
-      @XmlEnumValue("1406") CFOP_1406,
-      @XmlEnumValue("1407") CFOP_1407,
-      @XmlEnumValue("1408") CFOP_1408,
-      @XmlEnumValue("1409") CFOP_1409,
-      @XmlEnumValue("1410") CFOP_1410,
-      @XmlEnumValue("1411") CFOP_1411,
-      @XmlEnumValue("1414") CFOP_1414,
-      @XmlEnumValue("1415") CFOP_1415,
-      @XmlEnumValue("1451") CFOP_1451,
-      @XmlEnumValue("1452") CFOP_1452,
+      @XmlEnumValue("1401") CFOP_1401(false,true),
+      @XmlEnumValue("1403") CFOP_1403(false,true),
+      @XmlEnumValue("1406") CFOP_1406(false,true),
+      @XmlEnumValue("1407") CFOP_1407(false,true),
+      @XmlEnumValue("1408") CFOP_1408(false,true),
+      @XmlEnumValue("1409") CFOP_1409(false,true),
+      @XmlEnumValue("1410") CFOP_1410(false,true),
+      @XmlEnumValue("1411") CFOP_1411(false,true),
+      @XmlEnumValue("1414") CFOP_1414(false,true),
+      @XmlEnumValue("1415") CFOP_1415(false,true),
+      @XmlEnumValue("1451") CFOP_1451(false,true),
+      @XmlEnumValue("1452") CFOP_1452(false,true),
       @XmlEnumValue("1501") CFOP_1501,
       @XmlEnumValue("1503") CFOP_1503,
       @XmlEnumValue("1504") CFOP_1504,
@@ -181,16 +181,16 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("2354") CFOP_2354,
       @XmlEnumValue("2355") CFOP_2355,
       @XmlEnumValue("2356") CFOP_2356,
-      @XmlEnumValue("2401") CFOP_2401,
-      @XmlEnumValue("2403") CFOP_2403,
-      @XmlEnumValue("2406") CFOP_2406,
-      @XmlEnumValue("2407") CFOP_2407,
-      @XmlEnumValue("2408") CFOP_2408,
-      @XmlEnumValue("2409") CFOP_2409,
-      @XmlEnumValue("2410") CFOP_2410,
-      @XmlEnumValue("2411") CFOP_2411,
-      @XmlEnumValue("2414") CFOP_2414,
-      @XmlEnumValue("2415") CFOP_2415,
+      @XmlEnumValue("2401") CFOP_2401(false,true),
+      @XmlEnumValue("2403") CFOP_2403(false,true),
+      @XmlEnumValue("2406") CFOP_2406(false,true),
+      @XmlEnumValue("2407") CFOP_2407(false,true),
+      @XmlEnumValue("2408") CFOP_2408(false,true),
+      @XmlEnumValue("2409") CFOP_2409(false,true),
+      @XmlEnumValue("2410") CFOP_2410(false,true),
+      @XmlEnumValue("2411") CFOP_2411(false,true),
+      @XmlEnumValue("2414") CFOP_2414(false,true),
+      @XmlEnumValue("2415") CFOP_2415(false,true),
       @XmlEnumValue("2501") CFOP_2501,
       @XmlEnumValue("2503") CFOP_2503,
       @XmlEnumValue("2504") CFOP_2504,
@@ -327,19 +327,19 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("5357") CFOP_5357(true),
       @XmlEnumValue("5359") CFOP_5359(true),
       @XmlEnumValue("5360") CFOP_5360(true),
-      @XmlEnumValue("5401") CFOP_5401,
-      @XmlEnumValue("5402") CFOP_5402,
-      @XmlEnumValue("5403") CFOP_5403,
-      @XmlEnumValue("5405") CFOP_5405,
-      @XmlEnumValue("5408") CFOP_5408,
-      @XmlEnumValue("5409") CFOP_5409,
-      @XmlEnumValue("5410") CFOP_5410,
-      @XmlEnumValue("5411") CFOP_5411,
-      @XmlEnumValue("5412") CFOP_5412,
-      @XmlEnumValue("5413") CFOP_5413,
-      @XmlEnumValue("5414") CFOP_5414,
-      @XmlEnumValue("5415") CFOP_5415,
-      @XmlEnumValue("5451") CFOP_5451,
+      @XmlEnumValue("5401") CFOP_5401(false,true),
+      @XmlEnumValue("5402") CFOP_5402(false,true),
+      @XmlEnumValue("5403") CFOP_5403(false,true),
+      @XmlEnumValue("5405") CFOP_5405(false,true),
+      @XmlEnumValue("5408") CFOP_5408(false,true),
+      @XmlEnumValue("5409") CFOP_5409(false,true),
+      @XmlEnumValue("5410") CFOP_5410(false,true),
+      @XmlEnumValue("5411") CFOP_5411(false,true),
+      @XmlEnumValue("5412") CFOP_5412(false,true),
+      @XmlEnumValue("5413") CFOP_5413(false,true),
+      @XmlEnumValue("5414") CFOP_5414(false,true),
+      @XmlEnumValue("5415") CFOP_5415(false,true),
+      @XmlEnumValue("5451") CFOP_5451(false,true),
       @XmlEnumValue("5501") CFOP_5501,
       @XmlEnumValue("5502") CFOP_5502,
       @XmlEnumValue("5503") CFOP_5503,
@@ -463,18 +463,18 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("6357") CFOP_6357(true),
       @XmlEnumValue("6359") CFOP_6359(true),
       @XmlEnumValue("6360") CFOP_6360(true),
-      @XmlEnumValue("6401") CFOP_6401,
-      @XmlEnumValue("6402") CFOP_6402,
-      @XmlEnumValue("6403") CFOP_6403,
-      @XmlEnumValue("6404") CFOP_6404,
-      @XmlEnumValue("6408") CFOP_6408,
-      @XmlEnumValue("6409") CFOP_6409,
-      @XmlEnumValue("6410") CFOP_6410,
-      @XmlEnumValue("6411") CFOP_6411,
-      @XmlEnumValue("6412") CFOP_6412,
-      @XmlEnumValue("6413") CFOP_6413,
-      @XmlEnumValue("6414") CFOP_6414,
-      @XmlEnumValue("6415") CFOP_6415,
+      @XmlEnumValue("6401") CFOP_6401(false,true),
+      @XmlEnumValue("6402") CFOP_6402(false,true),
+      @XmlEnumValue("6403") CFOP_6403(false,true),
+      @XmlEnumValue("6404") CFOP_6404(false,true),
+      @XmlEnumValue("6408") CFOP_6408(false,true),
+      @XmlEnumValue("6409") CFOP_6409(false,true),
+      @XmlEnumValue("6410") CFOP_6410(false,true),
+      @XmlEnumValue("6411") CFOP_6411(false,true),
+      @XmlEnumValue("6412") CFOP_6412(false,true),
+      @XmlEnumValue("6413") CFOP_6413(false,true),
+      @XmlEnumValue("6414") CFOP_6414(false,true),
+      @XmlEnumValue("6415") CFOP_6415(false,true),
       @XmlEnumValue("6501") CFOP_6501,
       @XmlEnumValue("6502") CFOP_6502,
       @XmlEnumValue("6503") CFOP_6503,
@@ -541,7 +541,7 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("7105") CFOP_7105,
       @XmlEnumValue("7106") CFOP_7106,
       @XmlEnumValue("7127") CFOP_7127,
-      @XmlEnumValue("7129") CFOP_7129,      
+      @XmlEnumValue("7129") CFOP_7129,
       @XmlEnumValue("7201") CFOP_7201,
       @XmlEnumValue("7202") CFOP_7202,
       @XmlEnumValue("7205") CFOP_7205,
@@ -569,8 +569,15 @@ public enum CFOP implements Serializable {
 
     private final boolean isTransport;
 
+    private boolean isSt;
+
     private CFOP() {
         this(false);
+    }
+
+    private CFOP(final boolean isTransport, final boolean isSt) {
+        this(null, isTransport);
+        this.isSt = isSt;
     }
 
     private CFOP(final boolean isTransport) {
@@ -582,29 +589,33 @@ public enum CFOP implements Serializable {
     }
 
     private CFOP(final String value, final boolean isTransport) {
-        this.value = StringUtils.isEmpty(value) ? this.name().replace("CFOP_", "") : value;
+        this.value = StringUtils.isEmpty(value) ? name().replace("CFOP_", "") : value;
         this.isTransport = isTransport;
     }
 
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     public String getDescription() {
-        return this.cfopMap.valueFrom(this.value);
+        return cfopMap.valueFrom(value);
     }
 
     public String getCfopWithDescription() {
-        return this.value + " - " + this.cfopMap.valueFrom(this.value);
+        return value + " - " + cfopMap.valueFrom(value);
     }
 
     public boolean isTransport() {
-        return this.isTransport;
+        return isTransport;
+    }
+
+    public boolean isSt() {
+        return isSt;
     }
 
     @Override
     public String toString() {
-        return this.getCfopWithDescription();
+        return getCfopWithDescription();
     }
 
     public static CFOP findByCode(final String code) {
