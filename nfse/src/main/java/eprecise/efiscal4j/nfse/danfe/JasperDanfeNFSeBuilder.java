@@ -14,7 +14,7 @@ import java.util.function.Function;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.CompNFSe;
+import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -34,19 +34,19 @@ public class JasperDanfeNFSeBuilder {
                                  ENTITY {
 
                                      @Override
-                                     public JRDataSource generate(final CompNFSe nfse) throws JRException {
+                                     public JRDataSource generate(final ElotechCompNFSe nfse) throws JRException {
                                          return new JRBeanCollectionDataSource(Arrays.asList(nfse));
                                      }
                                  },
                                  XML {
 
                                      @Override
-                                     public JRDataSource generate(final CompNFSe nfse) throws JRException {
+                                     public JRDataSource generate(final ElotechCompNFSe nfse) throws JRException {
                                          return new JRXmlDataSource(new ByteArrayInputStream(new FiscalDocumentSerializer<>(nfse).serialize().getBytes()));
                                      }
                                  };
 
-        public abstract JRDataSource generate(CompNFSe nfse) throws JRException;
+        public abstract JRDataSource generate(ElotechCompNFSe nfse) throws JRException;
     }
 
     private JasperDanfeNFSeCatalog catalog = new DefaultJasperDanfeNFSeCatalog();
@@ -55,13 +55,13 @@ public class JasperDanfeNFSeBuilder {
 
     private final Map<String, Object> params = new HashMap<>();
 
-    private final CompNFSe nfse;
+    private final ElotechCompNFSe nfse;
 
     private DataSourceType type = DataSourceType.XML;
 
     private final Function<String, String> cityNameByCode;
 
-    public JasperDanfeNFSeBuilder(final CompNFSe nfse, final Function<String, String> cityNameByCode) {
+    public JasperDanfeNFSeBuilder(final ElotechCompNFSe nfse, final Function<String, String> cityNameByCode) {
         this.nfse = nfse;
         this.cityNameByCode = cityNameByCode;
     }

@@ -16,7 +16,7 @@ import com.google.common.io.Files;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
-import eprecise.efiscal4j.nfse.sharing.LotRpsDispatchResponse;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.LotRpsDispatchSyncResponse;
 
 
 public class LotRpsDispatchResponseTest implements Testable {
@@ -45,7 +45,7 @@ public class LotRpsDispatchResponseTest implements Testable {
     }
 
     private void xmlImportTest(final String xmlUrl) throws JAXBException, IOException {
-        final LotRpsDispatchResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(xmlUrl, LotRpsDispatchResponse.class).deserialize();
+        final LotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(xmlUrl, LotRpsDispatchSyncResponse.class).deserialize();
         Assert.assertNotNull(lotRpsDispatchResponse);
         try {
             ValidationBuilder.from(lotRpsDispatchResponse).validate().throwIfViolate();
@@ -56,7 +56,7 @@ public class LotRpsDispatchResponseTest implements Testable {
 
     @Override
     public TestDomain getTestDomain() {
-        return new TestDomain(LotRpsDispatchResponse.XSD);
+        return new TestDomain(LotRpsDispatchSyncResponse.XSD);
     }
 
     @Override

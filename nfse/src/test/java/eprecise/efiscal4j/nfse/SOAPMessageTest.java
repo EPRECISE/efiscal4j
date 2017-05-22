@@ -9,8 +9,8 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
-import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
-import eprecise.efiscal4j.nfse.sharing.LotRpsDispatchResponse;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.LotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.LotRpsDispatchSyncResponse;
 
 
 public class SOAPMessageTest implements Testable {
@@ -27,7 +27,7 @@ public class SOAPMessageTest implements Testable {
 
             final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitAuthorization(getTestDomain().buildLotRpsDispatch());
 
-            final LotRpsDispatchResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), LotRpsDispatchResponse.class).deserialize();
+            final LotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), LotRpsDispatchSyncResponse.class).deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -44,11 +44,11 @@ public class SOAPMessageTest implements Testable {
 
     @Override
     public TestDomain getTestDomain() {
-        return new TestDomain(LotRpsDispatchResponse.XSD);
+        return new TestDomain(LotRpsDispatchSyncResponse.XSD);
     }
 
     @Override
-    public LotRpsDispatch getBuiltEntity() throws Exception {
+    public LotRpsDispatchSync getBuiltEntity() throws Exception {
         return getTestDomain().buildLotRpsDispatch();
     }
 

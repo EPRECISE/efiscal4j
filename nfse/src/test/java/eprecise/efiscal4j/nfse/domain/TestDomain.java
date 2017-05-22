@@ -14,30 +14,30 @@ import org.slf4j.LoggerFactory;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
-import eprecise.efiscal4j.nfse.LotRps;
-import eprecise.efiscal4j.nfse.person.address.NFSeAddress;
-import eprecise.efiscal4j.nfse.person.address.NFSeUF;
-import eprecise.efiscal4j.nfse.person.documents.NFSeCnpj;
-import eprecise.efiscal4j.nfse.sharing.Applicant;
-import eprecise.efiscal4j.nfse.sharing.LotRpsDispatch;
-import eprecise.efiscal4j.nfse.statements.ServiceProvider;
-import eprecise.efiscal4j.nfse.statements.ServiceTaker;
-import eprecise.efiscal4j.nfse.statements.StatementProvisionService;
-import eprecise.efiscal4j.nfse.statements.TaxIncentive;
-import eprecise.efiscal4j.nfse.statements.rps.Rps;
-import eprecise.efiscal4j.nfse.statements.rps.RpsIdentifier;
-import eprecise.efiscal4j.nfse.statements.rps.RpsStatus;
-import eprecise.efiscal4j.nfse.statements.rps.RpsType;
-import eprecise.efiscal4j.nfse.statements.services.IssRequirement;
-import eprecise.efiscal4j.nfse.statements.services.IssWithheld;
-import eprecise.efiscal4j.nfse.statements.services.Service;
-import eprecise.efiscal4j.nfse.statements.services.ServiceItem;
-import eprecise.efiscal4j.nfse.statements.services.ServiceItemTaxable;
-import eprecise.efiscal4j.nfse.statements.services.ServiceValues;
-import eprecise.efiscal4j.nfse.transmission.ElotechTransmissionChannel;
-import eprecise.efiscal4j.nfse.transmission.envelope.SOAPBody;
-import eprecise.efiscal4j.nfse.transmission.envelope.SOAPEnvelope;
-import eprecise.efiscal4j.nfse.transmission.envelope.SOAPHeader;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
+import eprecise.efiscal4j.nfse.tc.elotech.services.Applicant;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.LotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.ServiceProvider;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.ServiceTaker;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.StatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.TaxIncentive;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.rps.Rps;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.IssRequirement;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.IssWithheld;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.Service;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ServiceItem;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ServiceItemTaxable;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ServiceValues;
+import eprecise.efiscal4j.nfse.tc.person.address.NFSeAddress;
+import eprecise.efiscal4j.nfse.tc.person.address.NFSeUF;
+import eprecise.efiscal4j.nfse.tc.person.documents.NFSeCnpj;
+import eprecise.efiscal4j.nfse.tc.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPBody;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPHeader;
+import eprecise.efiscal4j.nfse.ts.rps.RpsStatus;
+import eprecise.efiscal4j.nfse.ts.rps.RpsType;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
@@ -129,10 +129,10 @@ public class TestDomain {
         }
     }
 
-    public LotRpsDispatch buildLotRpsDispatch() throws Exception {
+    public LotRpsDispatchSync buildLotRpsDispatch() throws Exception {
         //@formatter:off
         try {
-            final LotRpsDispatch lotRpsDispatch = new LotRpsDispatch.Builder()
+            final LotRpsDispatchSync lotRpsDispatch = new LotRpsDispatchSync.Builder()
                     .withApplicant(new Applicant.Builder()
                             .withCnp(new NFSeCnpj.Builder().withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115")).build())
                             .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
@@ -140,7 +140,7 @@ public class TestDomain {
                             .withHomologation(true)
                             .build())
                     .withLotRps(
-                    new LotRps.Builder().withLotNumber("5").withRpsQuantity(1).withStatementProvisionService(
+                    new ElotechLotRps.Builder().withLotNumber("5").withRpsQuantity(1).withStatementProvisionService(
                     Arrays.asList(new StatementProvisionService.Builder()
                             .withInfo(new StatementProvisionService.Info.Builder()
                                     .withCompetence(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))

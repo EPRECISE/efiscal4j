@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import eprecise.efiscal4j.nfse.person.documents.NFSeCnp;
-import eprecise.efiscal4j.nfse.person.documents.NFSeCnpj;
-import eprecise.efiscal4j.nfse.person.documents.NFSeCpf;
+import eprecise.efiscal4j.nfse.tc.person.documents.NFSeCnp;
+import eprecise.efiscal4j.nfse.tc.person.documents.NFSeCnpj;
+import eprecise.efiscal4j.nfse.tc.person.documents.NFSeCpf;
 
 
 public class NFSeCnpAdapter extends XmlAdapter<NFSeCnpAdapter.AdaptedCnp, NFSeCnp> {
