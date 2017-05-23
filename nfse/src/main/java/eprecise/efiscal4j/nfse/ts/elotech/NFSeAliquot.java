@@ -29,7 +29,7 @@ import javax.validation.constraints.Pattern;
 @Pattern(regexp = "^(\\d{1,6})(?:.\\d{1,4})?$")
 public @interface NFSeAliquot {
 
-    String message() default "Viola restrição - Tipo Decimal com até 3 dígitos inteiros, podendo ter de 2 até 4 decimais";
+    String message() default "Viola restrição - Tipo Decimal com até 6 dígitos inteiros, podendo ter até 4 decimais";
 
     Class<?>[] groups() default {};
 

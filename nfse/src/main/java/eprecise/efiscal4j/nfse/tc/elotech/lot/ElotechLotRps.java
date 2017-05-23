@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.StatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
@@ -36,7 +36,7 @@ public class ElotechLotRps implements Serializable {
 
     private final @XmlElement(name = "QuantidadeRps") @NotNull Integer rpsQuantity;
 
-    private final @XmlElementWrapper(name = "ListaRps") @XmlElement(name = "DeclaracaoPrestacaoServico") @NotNull Collection<StatementProvisionService> statementProvisionServices;
+    private final @XmlElementWrapper(name = "ListaRps") @XmlElement(name = "DeclaracaoPrestacaoServico") @NotNull Collection<ElotechStatementProvisionService> statementProvisionServices;
 
     public static class Builder {
 
@@ -44,7 +44,7 @@ public class ElotechLotRps implements Serializable {
 
         private Integer rpsQuantity;
 
-        private Collection<StatementProvisionService> statementProvisionServices;
+        private Collection<ElotechStatementProvisionService> statementProvisionServices;
 
         /**
          * @param lotNumber
@@ -59,7 +59,7 @@ public class ElotechLotRps implements Serializable {
          * @param statementProvisionServices
          * @return
          */
-        public Builder withStatementProvisionService(final Collection<StatementProvisionService> statementProvisionServices) {
+        public Builder withStatementProvisionService(final Collection<ElotechStatementProvisionService> statementProvisionServices) {
             this.statementProvisionServices = statementProvisionServices;
             return this;
         }
@@ -111,7 +111,7 @@ public class ElotechLotRps implements Serializable {
         return new FiscalDocumentDeserializer<>(xml, ElotechLotRps.class).considering(ElotechLotRps.getValidationConsideringClasses()).deserialize();
     }
 
-    public Collection<StatementProvisionService> getStatementProvisionServices() {
+    public Collection<ElotechStatementProvisionService> getStatementProvisionServices() {
         return statementProvisionServices;
     }
 

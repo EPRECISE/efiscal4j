@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.person.address.NFSeUF;
+import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
 
 
@@ -21,13 +21,13 @@ public class GeneratorOrgan implements Serializable {
 
     private final @NotNull @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(min = 1, max = 7) String cityCode;
 
-    private final @NotNull @XmlElement(name = "Uf") NFSeUF uf;
+    private final @NotNull @XmlElement(name = "Uf") CommonsNFSeUF uf;
 
     public static class Builder {
 
         private String cityCode;
 
-        private NFSeUF uf;
+        private CommonsNFSeUF uf;
 
         /**
          * @param cityCode
@@ -42,7 +42,7 @@ public class GeneratorOrgan implements Serializable {
          * @param uf
          * @return
          */
-        public Builder withUf(final NFSeUF uf) {
+        public Builder withUf(final CommonsNFSeUF uf) {
             this.uf = uf;
             return this;
         }

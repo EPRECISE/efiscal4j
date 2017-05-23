@@ -14,47 +14,38 @@ import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
 @SuppressWarnings("rawtypes")
 public enum NFSeTransmissor {
 
-                         ELOTECH(ElotechTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/serviceUrl/elotechServiceUrl.properties",
-                                 "/eprecise/efiscal4j/nfse/transmission/serviceXmlns/elotechXmlns.properties", "4119905");
+                             ELOTECH(ElotechTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/elotechTransmissionHomologUrl.properties", "4119905");
 
     private final Class<? extends TransmissionChannel> transmissionChannelClass;
 
     private final Collection<String> supportedCityCodes;
 
-    private final PropertiesLoader nfseServiceUrlMap;
+    private final PropertiesLoader nfseTransmissionProdMap;
 
-    private final PropertiesLoader nfseServiceXmlnsMap;
+    private final PropertiesLoader nfseTransmissionHomologMap;
 
-    private NFSeTransmissor(final Class<? extends TransmissionChannel> transmissionChannelClass, final String serviceUrlProperty, final String serviceXmlnsProperty, final String... supportedCityCodes) {
+    private NFSeTransmissor(final Class<? extends TransmissionChannel> transmissionChannelClass, final String nfseTransmissionProdProperty, final String nfseTransmissionHomologProperty,
+            final String... supportedCityCodes) {
         this.transmissionChannelClass = transmissionChannelClass;
         this.supportedCityCodes = Arrays.asList(supportedCityCodes);
-        nfseServiceUrlMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(serviceUrlProperty).create();
-        nfseServiceXmlnsMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(serviceXmlnsProperty).create();
+        nfseTransmissionProdMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(nfseTransmissionProdProperty).create();
+        nfseTransmissionHomologMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(nfseTransmissionHomologProperty).create();
     }
 
-    public String getServiceUrl(final String cityCode) {
-        return nfseServiceUrlMap.valueFrom(cityCode);
+    public String getTransmissionUrl(final String cityCode, final boolean homolog) {
+        if (homolog) {
+            return nfseTransmissionHomologMap.valueFrom(cityCode);
+        } else {
+            return nfseTransmissionProdMap.valueFrom(cityCode);
+        }
     }
 
-    public String getServiceXmlns(final String cityCode) {
-        return nfseServiceXmlnsMap.valueFrom(cityCode);
-    }
-
-    public static String getUrl(final String cityCode) {
+    public static String getUrl(final String cityCode, final boolean homolog) {
         for (final NFSeTransmissor service : Arrays.asList(NFSeTransmissor.values())) {
-            final Optional<String> url = Optional.ofNullable(service.getServiceUrl(cityCode));
+            final Optional<String> url = Optional.ofNullable(service.getTransmissionUrl(cityCode, homolog));
             if (url.isPresent()) {
                 return url.get();
-            }
-        }
-        return null;
-    }
-
-    public static String getXmlns(final String cityCode) {
-        for (final NFSeTransmissor service : Arrays.asList(NFSeTransmissor.values())) {
-            final Optional<String> xmlns = Optional.ofNullable(service.getServiceXmlns(cityCode));
-            if (xmlns.isPresent()) {
-                return xmlns.get();
             }
         }
         return null;

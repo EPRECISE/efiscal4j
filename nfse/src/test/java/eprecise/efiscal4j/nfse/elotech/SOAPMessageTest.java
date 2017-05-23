@@ -1,0 +1,55 @@
+
+package eprecise.efiscal4j.nfse.elotech;
+
+import javax.validation.ConstraintViolationException;
+
+import org.junit.Test;
+
+import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.elotech.domain.TestDomain;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
+
+
+public class SOAPMessageTest implements Testable {
+
+    /**
+     * Teste do serviço de NFeAutorizacao
+     *
+     * @throws Exception
+     */
+    @Test
+    public void validateNfseAuthorization() throws Exception {
+        try {
+            System.out.println("Testando NFSeAutorizacao...");
+
+            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitAuthorization(getTestDomain().buildLotRpsDispatch());
+
+            final ElotechLotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ElotechLotRpsDispatchSyncResponse.class).deserialize();
+
+            System.out.println("Retorno convertido:");
+
+            final String returnXml = new FiscalDocumentSerializer<>(lotRpsDispatchResponse).serialize();
+
+            System.out.println(returnXml);
+
+            System.out.println("NFSeAutorizacao - teste concluído");
+
+        } catch (final ConstraintViolationException e) {
+            handleErrors(e);
+        }
+    }
+
+    @Override
+    public TestDomain getTestDomain() {
+        return new TestDomain(ElotechLotRpsDispatchSyncResponse.XSD);
+    }
+
+    @Override
+    public ElotechLotRpsDispatchSync getBuiltEntity() throws Exception {
+        return getTestDomain().buildLotRpsDispatch();
+    }
+
+}

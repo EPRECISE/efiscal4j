@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfse.tc.elotech.compNfse;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
@@ -13,8 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.compNfse.GeneratorOrgan;
 import eprecise.efiscal4j.nfse.tc.compNfse.NFSe;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.StatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.tc.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.transmission.elotech.ElotechNFSeAdapter;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeAccessKey;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
@@ -72,14 +75,19 @@ public class ElotechNFSe implements NFSe {
     }
 
     @Override
-    public String getEmissionDate() {
-        return Optional.ofNullable(info).map(i -> i.getEmissionDate()).orElse(null);
+    public Date getEmissionDate() {
+        return Optional.ofNullable(info).map(i -> i.getEmissionDate()).map(t -> {
+            try {
+                return ElotechNFSeAdapter.NFSE_DATE_FORMAT.parse(t);
+            } catch (final ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }).orElse(null);
     }
 
     @Override
     public RpsIdentifier getRpsIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
+        return Optional.ofNullable(info).map(i -> i.getStatementProvisionService().getInfo().getRps().getIdentifier()).orElse(null);
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -101,7 +109,7 @@ public class ElotechNFSe implements NFSe {
 
         private final @NotNull @XmlElement(name = "OrgaoGerador") @NFSeValue GeneratorOrgan generatorOrgan;
 
-        private final @XmlElement(name = "DeclaracaoPrestacaoServico") StatementProvisionService statementProvisionService;
+        private final @XmlElement(name = "DeclaracaoPrestacaoServico") ElotechStatementProvisionService statementProvisionService;
 
         private final @NotNull @XmlElement(name = "ChaveAcesso") @NFSeAccessKey String accessKey;
 
@@ -123,7 +131,7 @@ public class ElotechNFSe implements NFSe {
 
             private GeneratorOrgan generatorOrgan;
 
-            private StatementProvisionService statementProvisionService;
+            private ElotechStatementProvisionService statementProvisionService;
 
             private String accessKey;
 
@@ -203,7 +211,7 @@ public class ElotechNFSe implements NFSe {
              * @param statementProvisionService
              * @return
              */
-            public Builder withStatementProvisionService(final StatementProvisionService statementProvisionService) {
+            public Builder withStatementProvisionService(final ElotechStatementProvisionService statementProvisionService) {
                 this.statementProvisionService = statementProvisionService;
                 return this;
             }
@@ -283,7 +291,7 @@ public class ElotechNFSe implements NFSe {
             return generatorOrgan;
         }
 
-        public StatementProvisionService getStatementProvisionService() {
+        public ElotechStatementProvisionService getStatementProvisionService() {
             return statementProvisionService;
         }
 
