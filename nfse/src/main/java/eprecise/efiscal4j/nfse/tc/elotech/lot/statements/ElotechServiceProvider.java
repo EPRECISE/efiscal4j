@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.commons.person.contacts.CommonsNFSeContact;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
+import eprecise.efiscal4j.nfse.tc.elotech.person.address.ElotechNFSeAddress;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -22,7 +22,7 @@ public class ElotechServiceProvider {
 
     private final @XmlElement(name = "NomeFantasia") @Size(min = 1, max = 60) String fancyName;
 
-    private final @XmlElement(name = "Endereco") @NotNull CommonsNFSeAddress address;
+    private final @XmlElement(name = "Endereco") @NotNull ElotechNFSeAddress address;
 
     private final @XmlElement(name = "Contato") CommonsNFSeContact contact;
 
@@ -34,7 +34,7 @@ public class ElotechServiceProvider {
 
         private String fancyName;
 
-        private CommonsNFSeAddress address;
+        private ElotechNFSeAddress address;
 
         private CommonsNFSeContact contact;
 
@@ -69,7 +69,7 @@ public class ElotechServiceProvider {
          * @param address
          * @return
          */
-        public Builder withAddress(final CommonsNFSeAddress address) {
+        public Builder withAddress(final ElotechNFSeAddress address) {
             this.address = address;
             return this;
         }
@@ -118,7 +118,7 @@ public class ElotechServiceProvider {
         return fancyName;
     }
 
-    public CommonsNFSeAddress getAddress() {
+    public ElotechNFSeAddress getAddress() {
         return address;
     }
 

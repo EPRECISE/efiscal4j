@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
-import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
@@ -30,6 +29,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceItem;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceItemTaxable;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceValues;
+import eprecise.efiscal4j.nfse.tc.elotech.person.address.ElotechNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
@@ -102,7 +102,7 @@ public class TestDomain {
     }
 
     private boolean containsCertificate() {
-        return signer != null && transmissionChannel != null;
+        return (signer != null) && (transmissionChannel != null);
     }
 
     private void assertCertificate() {
@@ -190,7 +190,7 @@ public class TestDomain {
                                                     .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
                                                     .build())
                                             .withSocialName("Teste Razão Social")
-                                            .withAddress(new CommonsNFSeAddress.Builder()
+                                            .withAddress(new ElotechNFSeAddress.Builder()
                                                     .withAddress("Rua xyz")
                                                     .withNumber("123")
                                                     .withDistrict("Centro")
@@ -204,7 +204,7 @@ public class TestDomain {
                                                     .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(Optional.ofNullable(receiverLegalEntityCnpj).orElse("76591569000130")).build())
                                                     .build())
                                             .withSocialName("Razão Social Tomador")
-                                            .withAddress(new CommonsNFSeAddress.Builder()
+                                            .withAddress(new ElotechNFSeAddress.Builder()
                                                     .withAddress("Rua xyz")
                                                     .withNumber("123")
                                                     .withDistrict("Centro")

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.commons.person.address;
+package eprecise.efiscal4j.nfse.tc.elotech.person.address;
 
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,11 +7,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CommonsNFSeAddress {
+public class ElotechNFSeAddress {
 
     private final @XmlElement(name = "Endereco") @Size(min = 1, max = 125) String address;
 
@@ -23,7 +24,11 @@ public class CommonsNFSeAddress {
 
     private final @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(min = 1, max = 7) String cityCode;
 
+    private final @XmlElement(name = "CidadeNome") @NFSeNonNegativeInteger @Size(min = 1, max = 125) String cityName;
+
     private final @XmlElement(name = "Uf") CommonsNFSeUF uf;
+
+    private final @XmlElement(name = "CodigoPais") @NFSeNonNegativeInteger @Size(min = 4, max = 4) String countryCode;
 
     private final @XmlElement(name = "Cep") @Size(min = 8, max = 8) String cep;
 
@@ -39,7 +44,11 @@ public class CommonsNFSeAddress {
 
         private String cityCode;
 
+        private String cityName;
+
         private CommonsNFSeUF uf;
+
+        private String countryCode;
 
         private String cep;
 
@@ -89,11 +98,29 @@ public class CommonsNFSeAddress {
         }
 
         /**
+         * @param cityName
+         * @return
+         */
+        public Builder withCityName(final String cityName) {
+            this.cityName = cityName;
+            return this;
+        }
+
+        /**
          * @param uf
          * @return
          */
         public Builder withUf(final CommonsNFSeUF uf) {
             this.uf = uf;
+            return this;
+        }
+
+        /**
+         * @param countryCode
+         * @return
+         */
+        public Builder withCountryCode(final String countryCode) {
+            this.countryCode = countryCode;
             return this;
         }
 
@@ -106,30 +133,34 @@ public class CommonsNFSeAddress {
             return this;
         }
 
-        public CommonsNFSeAddress build() throws Exception {
-            final CommonsNFSeAddress entity = new CommonsNFSeAddress(this);
+        public ElotechNFSeAddress build() throws Exception {
+            final ElotechNFSeAddress entity = new ElotechNFSeAddress(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public CommonsNFSeAddress() {
+    public ElotechNFSeAddress() {
         address = null;
         number = null;
         complement = null;
         district = null;
         cityCode = null;
+        cityName = null;
         uf = null;
+        countryCode = null;
         cep = null;
     }
 
-    public CommonsNFSeAddress(final Builder builder) {
+    public ElotechNFSeAddress(final Builder builder) {
         address = builder.address;
         number = builder.number;
         complement = builder.complement;
         district = builder.district;
         cityCode = builder.cityCode;
+        cityName = builder.cityName;
         uf = builder.uf;
+        countryCode = builder.countryCode;
         cep = builder.cep;
     }
 
@@ -153,8 +184,16 @@ public class CommonsNFSeAddress {
         return cityCode;
     }
 
+    public String getCityName() {
+        return cityName;
+    }
+
     public CommonsNFSeUF getUf() {
         return uf;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
     }
 
     public String getCep() {
