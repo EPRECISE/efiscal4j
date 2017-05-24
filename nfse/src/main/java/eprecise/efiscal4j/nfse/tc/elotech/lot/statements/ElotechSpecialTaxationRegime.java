@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

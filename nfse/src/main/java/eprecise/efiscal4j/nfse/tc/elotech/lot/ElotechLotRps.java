@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechStatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import java.io.Serializable;
 

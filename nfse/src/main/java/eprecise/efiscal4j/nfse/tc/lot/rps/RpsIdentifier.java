@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.rps;
+package eprecise.efiscal4j.nfse.tc.lot.rps;
 
 import java.io.Serializable;
 

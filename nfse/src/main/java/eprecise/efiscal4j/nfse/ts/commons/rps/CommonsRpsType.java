@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements.services;
+package eprecise.efiscal4j.nfse.ts.commons.rps;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -7,23 +7,24 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Responsável Retenção: 1 - Tomador; 2 - Intermediário
+ * Tipo do Rps
  *
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechResponsibleRetention {
+public enum CommonsRpsType {
 
-                                  @XmlEnumValue("1") TAKER(1, "Tomador"),
-                                  @XmlEnumValue("2") INTERMEDIARY(2, "Intermediário");
+                     @XmlEnumValue("1") PROVISIONAL_SERVICE_RECEIPT(1, "Recibo Provisório de Serviços"),
+                     @XmlEnumValue("2") RPS_NF_CONJUGATED(2, "RPS Nota Fiscal Conjugada (Mista)"),
+                     @XmlEnumValue("3") COUPON(3, "Cupom");
 
     private final int value;
 
     private final String description;
 
-    private ElotechResponsibleRetention(final int value, final String description) {
+    private CommonsRpsType(final int value, final String description) {
         this.value = value;
         this.description = description;
     }

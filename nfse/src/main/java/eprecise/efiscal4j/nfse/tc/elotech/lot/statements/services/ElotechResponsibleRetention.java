@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements.services;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -7,25 +7,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Item tributável: 1 - Sim 2 - Não
+ * Responsável Retenção: 1 - Tomador; 2 - Intermediário
  *
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechServiceItemTaxable {
+public enum ElotechResponsibleRetention {
 
-                                @XmlEnumValue("1")
-                                YES(1, "Sim"),
-                                @XmlEnumValue("2")
-                                NO(2, "Não");
+                                  @XmlEnumValue("1") TAKER(1, "Tomador"),
+                                  @XmlEnumValue("2") INTERMEDIARY(2, "Intermediário");
 
     private final int value;
 
     private final String description;
 
-    private ElotechServiceItemTaxable(final int value, final String description) {
+    private ElotechResponsibleRetention(final int value, final String description) {
         this.value = value;
         this.description = description;
     }

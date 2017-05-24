@@ -1,34 +1,47 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeAddress;
+import eprecise.efiscal4j.nfse.tc.commons.person.contacts.CommonsNFSeContact;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechServiceIntermediary {
+public class ElotechServiceTaker {
 
-    private final @NotNull @XmlElement(name = "IdentificacaoIntermediario") ServiceIntermediaryIdentifier identifier;
+    private final @XmlElement(name = "IdentificacaoTomador") ElotechServiceTakerIdentifier identifier;
 
     private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 150) String socialName;
 
+    private final @XmlElement(name = "Endereco") CommonsNFSeAddress address;
+
+    private final @XmlElement(name = "Contato") CommonsNFSeContact contact;
+
+    private final @XmlElement(name = "InscricaoEstadual") @Size(min = 1, max = 20) String stateRegistration;
+
     public static class Builder {
 
-        private ServiceIntermediaryIdentifier identifier;
+        private ElotechServiceTakerIdentifier identifier;
 
         private String socialName;
+
+        private CommonsNFSeAddress address;
+
+        private CommonsNFSeContact contact;
+
+        private String stateRegistration;
 
         /**
          * @param identifier
          * @return
          */
-        public Builder withIdentifier(final ServiceIntermediaryIdentifier identifier) {
+        public Builder withIdentifier(final ElotechServiceTakerIdentifier identifier) {
             this.identifier = identifier;
             return this;
         }
@@ -42,24 +55,57 @@ public class ElotechServiceIntermediary {
             return this;
         }
 
-        public ElotechServiceIntermediary build() throws Exception {
-            final ElotechServiceIntermediary entity = new ElotechServiceIntermediary(this);
+        /**
+         * @param address
+         * @return
+         */
+        public Builder withAddress(final CommonsNFSeAddress address) {
+            this.address = address;
+            return this;
+        }
+
+        /**
+         * @param contact
+         * @return
+         */
+        public Builder withContact(final CommonsNFSeContact contact) {
+            this.contact = contact;
+            return this;
+        }
+
+        /**
+         * @param stateRegistration
+         * @return
+         */
+        public Builder withStateRegistration(final String stateRegistration) {
+            this.stateRegistration = stateRegistration;
+            return this;
+        }
+
+        public ElotechServiceTaker build() throws Exception {
+            final ElotechServiceTaker entity = new ElotechServiceTaker(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public ElotechServiceIntermediary() {
+    public ElotechServiceTaker() {
         identifier = null;
         socialName = null;
+        address = null;
+        contact = null;
+        stateRegistration = null;
     }
 
-    public ElotechServiceIntermediary(final Builder builder) {
+    public ElotechServiceTaker(final Builder builder) {
         identifier = builder.identifier;
         socialName = builder.socialName;
+        address = builder.address;
+        contact = builder.contact;
+        stateRegistration = builder.stateRegistration;
     }
 
-    public ServiceIntermediaryIdentifier getIdentifier() {
+    public ElotechServiceTakerIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -67,8 +113,20 @@ public class ElotechServiceIntermediary {
         return socialName;
     }
 
+    public String getStateRegistration() {
+        return stateRegistration;
+    }
+
+    public CommonsNFSeAddress getAddress() {
+        return address;
+    }
+
+    public CommonsNFSeContact getContact() {
+        return contact;
+    }
+
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class ServiceIntermediaryIdentifier {
+    public static class ElotechServiceTakerIdentifier {
 
         private final @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
 
@@ -98,19 +156,19 @@ public class ElotechServiceIntermediary {
                 return this;
             }
 
-            public ServiceIntermediaryIdentifier build() throws Exception {
-                final ServiceIntermediaryIdentifier entity = new ServiceIntermediaryIdentifier(this);
+            public ElotechServiceTakerIdentifier build() throws Exception {
+                final ElotechServiceTakerIdentifier entity = new ElotechServiceTakerIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public ServiceIntermediaryIdentifier() {
+        public ElotechServiceTakerIdentifier() {
             cnp = null;
             municipalRegistration = null;
         }
 
-        public ServiceIntermediaryIdentifier(final Builder builder) {
+        public ElotechServiceTakerIdentifier(final Builder builder) {
             cnp = builder.cnp;
             municipalRegistration = builder.municipalRegistration;
         }

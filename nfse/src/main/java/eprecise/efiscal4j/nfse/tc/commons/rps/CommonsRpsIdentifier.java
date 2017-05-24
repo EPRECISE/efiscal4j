@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.rps.RpsIdentifier;
-import eprecise.efiscal4j.nfse.ts.commons.rps.RpsType;
+import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
 
 
@@ -22,7 +22,7 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
 
     private final @XmlElement(name = "Serie") @NotNull @Size(min = 1, max = 5) String serie;
 
-    private final @XmlElement(name = "Tipo") @NotNull RpsType type;
+    private final @XmlElement(name = "Tipo") @NotNull CommonsRpsType type;
 
     public static class Builder {
 
@@ -30,7 +30,7 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
 
         private String serie;
 
-        private RpsType type;
+        private CommonsRpsType type;
 
         /**
          * @param number
@@ -54,7 +54,7 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
          * @param type
          * @return
          */
-        public Builder withType(final RpsType type) {
+        public Builder withType(final CommonsRpsType type) {
             this.type = type;
             return this;
         }
@@ -86,7 +86,7 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
         return serie;
     }
 
-    public RpsType getType() {
+    public CommonsRpsType getType() {
         return type;
     }
 

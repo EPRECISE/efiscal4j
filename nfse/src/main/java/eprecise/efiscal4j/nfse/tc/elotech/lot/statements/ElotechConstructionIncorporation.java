@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements.services;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -7,23 +7,25 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * ISS Retido: 1 - Sim 2 - Não
+ * Incorporação: 1 - Sim 2 - Não
  *
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechIssWithheld {
+public enum ElotechConstructionIncorporation {
 
-                         @XmlEnumValue("1") YES(1, "Sim"),
-                         @XmlEnumValue("2") NO(2, "Não");
+                           @XmlEnumValue("1")
+                           YES(1, "Sim"),
+                           @XmlEnumValue("2")
+                           NO(2, "Não");
 
     private final int value;
 
     private final String description;
 
-    private ElotechIssWithheld(final int value, final String description) {
+    private ElotechConstructionIncorporation(final int value, final String description) {
         this.value = value;
         this.description = description;
     }

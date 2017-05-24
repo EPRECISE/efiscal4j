@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.ts.commons.rps;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -7,25 +7,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Incentivo Fiscal: 1 - Sim 2 - Não
- * 
+ * Status do Rps: 1 - Normal, 2 - Cancelado
+ *
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechTaxIncentive {
+public enum CommonsRpsStatus {
 
-                          @XmlEnumValue("1")
-                          YES(1, "Sim"),
-                          @XmlEnumValue("2")
-                          NO(2, "Não");
+                       @XmlEnumValue("1") NORMAL(1, "Normal"),
+                       @XmlEnumValue("2") CANCELED(2, "Cancelado");
 
     private final int value;
 
     private final String description;
 
-    private ElotechTaxIncentive(final int value, final String description) {
+    private CommonsRpsStatus(final int value, final String description) {
         this.value = value;
         this.description = description;
     }

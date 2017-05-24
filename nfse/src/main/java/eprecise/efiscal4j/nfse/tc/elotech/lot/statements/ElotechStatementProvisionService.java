@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.rps.ElotechRps;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechService;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
 
 

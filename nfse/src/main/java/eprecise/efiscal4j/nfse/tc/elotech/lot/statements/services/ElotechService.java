@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements.services;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services;
 
 import java.util.Collection;
 

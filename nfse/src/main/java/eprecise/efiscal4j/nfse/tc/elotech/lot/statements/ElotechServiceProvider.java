@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,7 +16,7 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ElotechServiceProvider {
 
-    private final @XmlElement(name = "IdentificacaoPrestador") @NotNull ServiceProviderIdentifier identifier;
+    private final @XmlElement(name = "IdentificacaoPrestador") @NotNull ElotechServiceProviderIdentifier identifier;
 
     private final @XmlElement(name = "RazaoSocial") @NotNull @Size(min = 1, max = 150) String socialName;
 
@@ -28,7 +28,7 @@ public class ElotechServiceProvider {
 
     public static class Builder {
 
-        private ServiceProviderIdentifier identifier;
+        private ElotechServiceProviderIdentifier identifier;
 
         private String socialName;
 
@@ -42,7 +42,7 @@ public class ElotechServiceProvider {
          * @param identifier
          * @return
          */
-        public Builder withIdentifier(final ServiceProviderIdentifier identifier) {
+        public Builder withIdentifier(final ElotechServiceProviderIdentifier identifier) {
             this.identifier = identifier;
             return this;
         }
@@ -106,7 +106,7 @@ public class ElotechServiceProvider {
         contact = builder.contact;
     }
 
-    public ServiceProviderIdentifier getIdentifier() {
+    public ElotechServiceProviderIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -127,7 +127,7 @@ public class ElotechServiceProvider {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class ServiceProviderIdentifier {
+    public static class ElotechServiceProviderIdentifier {
 
         private final @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
 
@@ -157,19 +157,19 @@ public class ElotechServiceProvider {
                 return this;
             }
 
-            public ServiceProviderIdentifier build() throws Exception {
-                final ServiceProviderIdentifier entity = new ServiceProviderIdentifier(this);
+            public ElotechServiceProviderIdentifier build() throws Exception {
+                final ElotechServiceProviderIdentifier entity = new ElotechServiceProviderIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public ServiceProviderIdentifier() {
+        public ElotechServiceProviderIdentifier() {
             cnp = null;
             municipalRegistration = null;
         }
 
-        public ServiceProviderIdentifier(final Builder builder) {
+        public ElotechServiceProviderIdentifier(final Builder builder) {
             cnp = builder.cnp;
             municipalRegistration = builder.municipalRegistration;
         }

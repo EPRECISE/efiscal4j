@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Incorporação: 1 - Sim 2 - Não
- *
+ * Incentivo Fiscal: 1 - Sim 2 - Não
+ * 
  * @author Fernando C Glizt
  *
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechConstructionIncorporation {
+public enum ElotechTaxIncentive {
 
-                           @XmlEnumValue("1")
-                           YES(1, "Sim"),
-                           @XmlEnumValue("2")
-                           NO(2, "Não");
+                          @XmlEnumValue("1")
+                          YES(1, "Sim"),
+                          @XmlEnumValue("2")
+                          NO(2, "Não");
 
     private final int value;
 
     private final String description;
 
-    private ElotechConstructionIncorporation(final int value, final String description) {
+    private ElotechTaxIncentive(final int value, final String description) {
         this.value = value;
         this.description = description;
     }

@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfse.tc.compNfse;
 import java.io.Serializable;
 import java.util.Date;
 
-import eprecise.efiscal4j.nfse.tc.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
 
 
 public interface NFSe extends Serializable {

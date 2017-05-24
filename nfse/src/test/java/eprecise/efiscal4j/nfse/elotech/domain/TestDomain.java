@@ -19,25 +19,25 @@ import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceTaker;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechTaxIncentive;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssRequirement;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssWithheld;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceItem;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceItemTaxable;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechServiceValues;
 import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechServiceProvider;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechServiceTaker;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechStatementProvisionService;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.ElotechTaxIncentive;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.rps.ElotechRps;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechIssRequirement;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechIssWithheld;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechService;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechServiceItem;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechServiceItemTaxable;
-import eprecise.efiscal4j.nfse.tc.elotech.statements.services.ElotechServiceValues;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPBody;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPEnvelope;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPHeader;
-import eprecise.efiscal4j.nfse.ts.commons.rps.RpsStatus;
-import eprecise.efiscal4j.nfse.ts.commons.rps.RpsType;
+import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
+import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
@@ -146,11 +146,11 @@ public class TestDomain {
                                     .withCompetence(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                     .withRps(new ElotechRps.Builder()
                                             .withIdentifier(new CommonsRpsIdentifier.Builder()
-                                                    .withType(RpsType.PROVISIONAL_SERVICE_RECEIPT)
+                                                    .withType(CommonsRpsType.PROVISIONAL_SERVICE_RECEIPT)
                                                     .withSerie("E")
                                                     .withNumber("5")
                                                     .build())
-                                            .withStatus(RpsStatus.NORMAL)
+                                            .withStatus(CommonsRpsStatus.NORMAL)
                                             .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                                             .build())
                                     .withService(new ElotechService.Builder()
@@ -185,7 +185,7 @@ public class TestDomain {
                                                     .build()))
                                             .build())
                                     .withServiceProvider(new ElotechServiceProvider.Builder()
-                                            .withIdentifier(new ElotechServiceProvider.ServiceProviderIdentifier.Builder()
+                                            .withIdentifier(new ElotechServiceProvider.ElotechServiceProviderIdentifier.Builder()
                                                     .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115")).build())
                                                     .withMunicipalRegistration(Optional.ofNullable(emitterIM).orElse("00083700"))
                                                     .build())
@@ -200,7 +200,7 @@ public class TestDomain {
                                                     .build())
                                             .build())
                                     .withServiceTaker(new ElotechServiceTaker.Builder()
-                                            .withIdentifier(new ElotechServiceTaker.ServiceTakerIdentifier.Builder()
+                                            .withIdentifier(new ElotechServiceTaker.ElotechServiceTakerIdentifier.Builder()
                                                     .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(Optional.ofNullable(receiverLegalEntityCnpj).orElse("76591569000130")).build())
                                                     .build())
                                             .withSocialName("Razão Social Tomador")

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.elotech.statements.rps;
+package eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
-import eprecise.efiscal4j.nfse.ts.commons.rps.RpsStatus;
+import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
 
 
@@ -19,7 +19,7 @@ public class ElotechRps {
 
     private final @XmlElement(name = "DataEmissao") @NotNull @NFSeDate String emissionDate;
 
-    private final @XmlElement(name = "Status") @NotNull RpsStatus status;
+    private final @XmlElement(name = "Status") @NotNull CommonsRpsStatus status;
 
     public static class Builder {
 
@@ -27,7 +27,7 @@ public class ElotechRps {
 
         private String emissionDate;
 
-        private RpsStatus status;
+        private CommonsRpsStatus status;
 
         /**
          * @param identifier
@@ -51,7 +51,7 @@ public class ElotechRps {
          * @param status
          * @return
          */
-        public Builder withStatus(final RpsStatus status) {
+        public Builder withStatus(final CommonsRpsStatus status) {
             this.status = status;
             return this;
         }
@@ -83,7 +83,7 @@ public class ElotechRps {
         return emissionDate;
     }
 
-    public RpsStatus getStatus() {
+    public CommonsRpsStatus getStatus() {
         return status;
     }
 
