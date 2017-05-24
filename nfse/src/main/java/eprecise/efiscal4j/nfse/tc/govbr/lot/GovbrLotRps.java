@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrRps;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 
 
 /**

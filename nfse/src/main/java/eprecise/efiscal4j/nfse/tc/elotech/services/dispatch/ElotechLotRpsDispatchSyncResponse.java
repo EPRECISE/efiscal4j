@@ -19,8 +19,8 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
 import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoResposta")

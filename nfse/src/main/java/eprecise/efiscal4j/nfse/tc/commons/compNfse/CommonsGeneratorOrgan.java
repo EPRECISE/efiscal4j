@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.compNfse;
+package eprecise.efiscal4j.nfse.tc.commons.compNfse;
 
 import java.io.Serializable;
 
@@ -11,11 +11,11 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GeneratorOrgan implements Serializable {
+public class CommonsGeneratorOrgan implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,19 +47,19 @@ public class GeneratorOrgan implements Serializable {
             return this;
         }
 
-        public GeneratorOrgan build() throws Exception {
-            final GeneratorOrgan entity = new GeneratorOrgan(this);
+        public CommonsGeneratorOrgan build() throws Exception {
+            final CommonsGeneratorOrgan entity = new CommonsGeneratorOrgan(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public GeneratorOrgan() {
+    public CommonsGeneratorOrgan() {
         cityCode = null;
         uf = null;
     }
 
-    public GeneratorOrgan(final Builder builder) {
+    public CommonsGeneratorOrgan(final Builder builder) {
         cityCode = builder.cityCode;
         uf = builder.uf;
     }

@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeValue;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)

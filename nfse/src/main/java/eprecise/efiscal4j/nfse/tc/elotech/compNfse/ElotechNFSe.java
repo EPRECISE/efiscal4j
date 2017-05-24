@@ -13,15 +13,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.compNfse.GeneratorOrgan;
+import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
 import eprecise.efiscal4j.nfse.tc.compNfse.NFSe;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechNFSeAdapter;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeAccessKey;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeNonNegativeInteger;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeValue;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
+import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeAccessKey;
+import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 @XmlRootElement(name = "CompNfse")
@@ -107,7 +107,7 @@ public class ElotechNFSe implements NFSe {
 
         private final @XmlElement(name = "ValorCredito") @NFSeValue String creditValue;
 
-        private final @NotNull @XmlElement(name = "OrgaoGerador") @NFSeValue GeneratorOrgan generatorOrgan;
+        private final @NotNull @XmlElement(name = "OrgaoGerador") CommonsGeneratorOrgan generatorOrgan;
 
         private final @XmlElement(name = "DeclaracaoPrestacaoServico") ElotechStatementProvisionService statementProvisionService;
 
@@ -129,7 +129,7 @@ public class ElotechNFSe implements NFSe {
 
             private String creditValue;
 
-            private GeneratorOrgan generatorOrgan;
+            private CommonsGeneratorOrgan generatorOrgan;
 
             private ElotechStatementProvisionService statementProvisionService;
 
@@ -202,7 +202,7 @@ public class ElotechNFSe implements NFSe {
              * @param generatorOrgan
              * @return
              */
-            public Builder withGeneratorOrgan(final GeneratorOrgan generatorOrgan) {
+            public Builder withGeneratorOrgan(final CommonsGeneratorOrgan generatorOrgan) {
                 this.generatorOrgan = generatorOrgan;
                 return this;
             }
@@ -287,7 +287,7 @@ public class ElotechNFSe implements NFSe {
             return creditValue;
         }
 
-        public GeneratorOrgan getGeneratorOrgan() {
+        public CommonsGeneratorOrgan getGeneratorOrgan() {
             return generatorOrgan;
         }
 

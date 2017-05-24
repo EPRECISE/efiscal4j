@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.ts.elotech;
+package eprecise.efiscal4j.nfse.ts.commons.types;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
@@ -15,21 +15,21 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * tsValorUnitario
- * 
- * Tipo Decimal com 14 inteiros e 5 decimais
- * 
+ * nonNegativeInteger
+ *
+ * Tipo Inteiro com valores não negativos
+ *
  * @author Fernando C Glizt
- * 
+ *
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^(\\d{1,14})(?:.\\d{1,5})?$")
-public @interface NFSeUnitaryValue {
+@Pattern(regexp = "^[0-9]\\d*$")
+public @interface NFSeNonNegativeInteger {
 
-    String message() default "Viola restrição - Tipo Decimal com 14 inteiros e 5 decimais";
+    String message() default "Viola restrição - Tipo Inteiro com valor não negativo";
 
     Class<?>[] groups() default {};
 

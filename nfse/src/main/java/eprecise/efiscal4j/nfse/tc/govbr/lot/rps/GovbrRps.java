@@ -11,7 +11,7 @@ import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -56,7 +56,7 @@ public class GovbrRps {
 
         private final @XmlElement(name = "IdentificacaoRps") @NotNull CommonsRpsIdentifier identifier;
 
-        private final @XmlElement(name = "DataEmissao") @NotNull @NFSeDate String emissionDate;
+        private final @XmlElement(name = "DataEmissao") @NotNull @NFSeDateTimeUTC String emissionDate;
 
         private final @XmlElement(name = "NaturezaOperacao") @NotNull GovbrNatureOperation natureOperation;
 
@@ -74,7 +74,7 @@ public class GovbrRps {
 
         private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier;
 
-        private final @XmlElement(name = "Tomador") GovbrServiceTaker serviceTaker;
+        private final @XmlElement(name = "Tomador") @NotNull GovbrServiceTaker serviceTaker;
 
         private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
 

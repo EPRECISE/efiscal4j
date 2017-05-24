@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeAliquot;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeValue;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeAliquot;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)

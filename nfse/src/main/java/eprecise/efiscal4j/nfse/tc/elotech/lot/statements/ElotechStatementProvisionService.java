@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService;
-import eprecise.efiscal4j.nfse.ts.elotech.NFSeDate;
+import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 /**

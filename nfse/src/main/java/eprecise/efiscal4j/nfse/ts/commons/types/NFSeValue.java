@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.ts.elotech;
+package eprecise.efiscal4j.nfse.ts.commons.types;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
@@ -15,7 +15,9 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * tsChaveAcesso
+ * tsValor
+ *
+ * Tipo Decimal com 13 inteiros e 2 decimais
  *
  * @author Fernando C Glizt
  *
@@ -24,10 +26,10 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9a-fA-F]{32}")
-public @interface NFSeAccessKey {
+@Pattern(regexp = "^(\\d{1,13})(?:.\\d{1,2})?$")
+public @interface NFSeValue {
 
-    String message() default "Viola restrição - Chave de Acesso Inválida";
+    String message() default "Viola restrição - Tipo Decimal com 15 dígitos, sendo 13 de corpo e 2 decimais";
 
     Class<?>[] groups() default {};
 
