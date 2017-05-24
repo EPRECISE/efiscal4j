@@ -16,7 +16,7 @@ public class CommonsNFSeReturnMessage {
 
     private final @XmlElement(name = "Mensagem") @NotNull String message;
 
-    private final @XmlElement(name = "Correcao") @NotNull String correction;
+    private final @XmlElement(name = "Correcao") String correction;
 
     public static class Builder {
 

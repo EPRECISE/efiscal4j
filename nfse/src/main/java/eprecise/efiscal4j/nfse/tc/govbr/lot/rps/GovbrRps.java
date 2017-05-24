@@ -8,14 +8,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceConstruction;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceIntermediary;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceTaker;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechSpecialTaxationRegime;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechTaxIncentive;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
@@ -68,7 +60,7 @@ public class GovbrRps {
 
         private final @XmlElement(name = "NaturezaOperacao") @NotNull GovbrNatureOperation natureOperation;
 
-        private final @XmlElement(name = "RegimeEspecialTributacao") ElotechSpecialTaxationRegime specialTaxationRegime;
+        private final @XmlElement(name = "RegimeEspecialTributacao") GovbrSpecialTaxationRegime specialTaxationRegime;
 
         private final @XmlElement(name = "OptanteSimplesNacional") @NotNull CommonsNFSeBoolean simpleNational;
 
@@ -80,37 +72,48 @@ public class GovbrRps {
 
         private final @XmlElement(name = "Servico") @NotNull GovbrService service;
 
-        private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProvider;
+        private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier;
 
         private final @XmlElement(name = "Tomador") GovbrServiceTaker serviceTaker;
 
-        private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediary;
+        private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
 
-        private final @XmlElement(name = "ConstrucaoCivil") ElotechServiceConstruction construction;
+        private final @XmlElement(name = "ConstrucaoCivil") GovbrServiceConstruction construction;
 
         public static class Builder {
 
-            private String competence;
+            private CommonsRpsIdentifier identifier;
 
-            private ElotechService service;
+            private String emissionDate;
 
-            private ElotechServiceProvider serviceProvider;
+            private GovbrNatureOperation natureOperation;
 
-            private ElotechServiceTaker serviceTaker;
+            private GovbrSpecialTaxationRegime specialTaxationRegime;
 
-            private ElotechServiceIntermediary serviceIntermediary;
+            private CommonsNFSeBoolean simpleNational;
 
-            private ElotechServiceConstruction construction;
+            private CommonsNFSeBoolean culturalPromoter;
 
-            private ElotechSpecialTaxationRegime specialTaxationRegime;
+            private CommonsRpsStatus status;
 
-            private ElotechTaxIncentive taxIncentive;
+            private CommonsRpsIdentifier rpsSubstituted;
+
+            private GovbrService service;
+
+            private GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier;
+
+            private GovbrServiceTaker serviceTaker;
+
+            private GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
+
+            private GovbrServiceConstruction construction;
 
             /**
              * @param identifier
              * @return
              */
             public Builder withIdentifier(final CommonsRpsIdentifier identifier) {
+                this.identifier = identifier;
                 return this;
             }
 
@@ -119,6 +122,43 @@ public class GovbrRps {
              * @return
              */
             public Builder withEmissionDate(final String emissionDate) {
+                this.emissionDate = emissionDate;
+                return this;
+            }
+
+            /**
+             * @param natureOperation
+             * @return
+             */
+            public Builder withNatureOperation(final GovbrNatureOperation natureOperation) {
+                this.natureOperation = natureOperation;
+                return this;
+            }
+
+            /**
+             * @param specialTaxationRegime
+             * @return
+             */
+            public Builder withSpecialTaxationRegime(final GovbrSpecialTaxationRegime specialTaxationRegime) {
+                this.specialTaxationRegime = specialTaxationRegime;
+                return this;
+            }
+
+            /**
+             * @param simpleNational
+             * @return
+             */
+            public Builder withSimpleNational(final CommonsNFSeBoolean simpleNational) {
+                this.simpleNational = simpleNational;
+                return this;
+            }
+
+            /**
+             * @param culturalPromoter
+             * @return
+             */
+            public Builder withCulturalPromoter(final CommonsNFSeBoolean culturalPromoter) {
+                this.culturalPromoter = culturalPromoter;
                 return this;
             }
 
@@ -127,15 +167,16 @@ public class GovbrRps {
              * @return
              */
             public Builder withStatus(final CommonsRpsStatus status) {
+                this.status = status;
                 return this;
             }
 
             /**
-             * @param competence
+             * @param rpsSubstituted
              * @return
              */
-            public Builder withCompetence(final String competence) {
-                this.competence = competence;
+            public Builder withRpsSubstituted(final CommonsRpsIdentifier rpsSubstituted) {
+                this.rpsSubstituted = rpsSubstituted;
                 return this;
             }
 
@@ -143,17 +184,17 @@ public class GovbrRps {
              * @param service
              * @return
              */
-            public Builder withService(final ElotechService service) {
+            public Builder withService(final GovbrService service) {
                 this.service = service;
                 return this;
             }
 
             /**
-             * @param serviceProvider
+             * @param serviceProviderIdentifier
              * @return
              */
-            public Builder withServiceProvider(final ElotechServiceProvider serviceProvider) {
-                this.serviceProvider = serviceProvider;
+            public Builder withServiceProviderIdentifier(final GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier) {
+                this.serviceProviderIdentifier = serviceProviderIdentifier;
                 return this;
             }
 
@@ -161,17 +202,17 @@ public class GovbrRps {
              * @param serviceTaker
              * @return
              */
-            public Builder withServiceTaker(final ElotechServiceTaker serviceTaker) {
+            public Builder withServiceTaker(final GovbrServiceTaker serviceTaker) {
                 this.serviceTaker = serviceTaker;
                 return this;
             }
 
             /**
-             * @param serviceIntermediary
+             * @param serviceIntermediaryIdentifier
              * @return
              */
-            public Builder withServiceIntermediary(final ElotechServiceIntermediary serviceIntermediary) {
-                this.serviceIntermediary = serviceIntermediary;
+            public Builder withServiceIntermediaryIdentifier(final GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier) {
+                this.serviceIntermediaryIdentifier = serviceIntermediaryIdentifier;
                 return this;
             }
 
@@ -179,26 +220,8 @@ public class GovbrRps {
              * @param construction
              * @return
              */
-            public Builder withConstruction(final ElotechServiceConstruction construction) {
+            public Builder withConstruction(final GovbrServiceConstruction construction) {
                 this.construction = construction;
-                return this;
-            }
-
-            /**
-             * @param specialTaxationRegime
-             * @return
-             */
-            public Builder withSpecialTaxationRegime(final ElotechSpecialTaxationRegime specialTaxationRegime) {
-                this.specialTaxationRegime = specialTaxationRegime;
-                return this;
-            }
-
-            /**
-             * @param taxIncentive
-             * @return
-             */
-            public Builder withTaxIncentive(final ElotechTaxIncentive taxIncentive) {
-                this.taxIncentive = taxIncentive;
                 return this;
             }
 
@@ -210,64 +233,89 @@ public class GovbrRps {
         }
 
         public Info() {
-            rps = null;
-            competence = null;
-            service = null;
-            serviceProvider = null;
-            serviceTaker = null;
-            serviceIntermediary = null;
-            construction = null;
+            identifier = null;
+            emissionDate = null;
+            natureOperation = null;
             specialTaxationRegime = null;
-            taxIncentive = null;
+            simpleNational = null;
+            culturalPromoter = null;
+            status = null;
+            rpsSubstituted = null;
+            service = null;
+            serviceProviderIdentifier = null;
+            serviceTaker = null;
+            serviceIntermediaryIdentifier = null;
+            construction = null;
         }
 
         public Info(final Builder builder) {
-            rps = builder.rps;
-            competence = builder.competence;
-            service = builder.service;
-            serviceProvider = builder.serviceProvider;
-            serviceTaker = builder.serviceTaker;
-            serviceIntermediary = builder.serviceIntermediary;
-            construction = builder.construction;
+            identifier = builder.identifier;
+            emissionDate = builder.emissionDate;
+            natureOperation = builder.natureOperation;
             specialTaxationRegime = builder.specialTaxationRegime;
-            taxIncentive = builder.taxIncentive;
+            simpleNational = builder.simpleNational;
+            culturalPromoter = builder.culturalPromoter;
+            status = builder.status;
+            rpsSubstituted = builder.rpsSubstituted;
+            service = builder.service;
+            serviceProviderIdentifier = builder.serviceProviderIdentifier;
+            serviceTaker = builder.serviceTaker;
+            serviceIntermediaryIdentifier = builder.serviceIntermediaryIdentifier;
+            construction = builder.construction;
         }
 
-        public ElotechRps getRps() {
-            return rps;
+        public CommonsRpsIdentifier getIdentifier() {
+            return identifier;
         }
 
-        public String getCompetence() {
-            return competence;
+        public String getEmissionDate() {
+            return emissionDate;
         }
 
-        public ElotechService getService() {
-            return service;
+        public GovbrNatureOperation getNatureOperation() {
+            return natureOperation;
         }
 
-        public ElotechServiceProvider getServiceProvider() {
-            return serviceProvider;
-        }
-
-        public ElotechServiceTaker getServiceTaker() {
-            return serviceTaker;
-        }
-
-        public ElotechServiceIntermediary getServiceIntermediary() {
-            return serviceIntermediary;
-        }
-
-        public ElotechServiceConstruction getConstruction() {
-            return construction;
-        }
-
-        public ElotechSpecialTaxationRegime getSpecialTaxationRegime() {
+        public GovbrSpecialTaxationRegime getSpecialTaxationRegime() {
             return specialTaxationRegime;
         }
 
-        public ElotechTaxIncentive getTaxIncentive() {
-            return taxIncentive;
+        public CommonsNFSeBoolean getSimpleNational() {
+            return simpleNational;
         }
+
+        public CommonsNFSeBoolean getCulturalPromoter() {
+            return culturalPromoter;
+        }
+
+        public CommonsRpsStatus getStatus() {
+            return status;
+        }
+
+        public CommonsRpsIdentifier getRpsSubstituted() {
+            return rpsSubstituted;
+        }
+
+        public GovbrService getService() {
+            return service;
+        }
+
+        public GovbrServiceProvider.GovbrServiceProviderIdentifier getServiceProviderIdentifier() {
+            return serviceProviderIdentifier;
+        }
+
+        public GovbrServiceTaker getServiceTaker() {
+            return serviceTaker;
+        }
+
+        public GovbrServiceIntermediaryIdentifier getServiceIntermediaryIdentifier() {
+            return serviceIntermediaryIdentifier;
+        }
+
+        public GovbrServiceConstruction getConstruction() {
+            return construction;
+        }
+
     }
 
 }

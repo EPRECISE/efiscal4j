@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 /**
  * tsAliquota
  * 
- * Tipo Decimal com 6 inteiros e 4 decimais
+ * Tipo Decimal com 5 inteiros e 4 decimais
  * 
  * @author Clécius J. Martinkoski
  * 
@@ -26,10 +26,10 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^(\\d{1,6})(?:.\\d{1,4})?$")
+@Pattern(regexp = "^(\\d{1,5})(?:.\\d{1,4})?$")
 public @interface NFSeAliquot {
 
-    String message() default "Viola restrição - Tipo Decimal com até 6 dígitos inteiros, podendo ter até 4 decimais";
+    String message() default "Viola restrição - Tipo Decimal com até 5 dígitos inteiros, podendo ter até 4 decimais";
 
     Class<?>[] groups() default {};
 
