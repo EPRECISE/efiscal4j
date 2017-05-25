@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
-import eprecise.efiscal4j.nfse.tc.compNfse.NFSe;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrNatureOperation;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceConstruction;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceIntermediaryIdentifier;
@@ -32,9 +32,9 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
-@XmlRootElement(name = "CompNfse")
+@XmlRootElement(name = "Nfse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrNFSe implements NFSe {
+public class GovbrNFSe implements ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
 

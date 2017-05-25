@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
-import eprecise.efiscal4j.nfse.tc.compNfse.NFSe;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechNFSeAdapter;
@@ -24,9 +24,9 @@ import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeAccessKey;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
-@XmlRootElement(name = "CompNfse")
+@XmlRootElement(name = "Nfse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechNFSe implements NFSe {
+public class ElotechNFSe implements ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
 

@@ -93,7 +93,7 @@ public class JasperDanfeNFSeBuilder {
 
     public JasperPrint build() throws IOException, JRException {
         params.putAll(paramsSource.getParamsOf(nfse));
-        params.put("cityName", cityNameByCode.apply(nfse.getNfse().getInfo().getGeneratorOrgan().getCityCode()));
+        params.put("cityName", cityNameByCode.apply(nfse.getProcessedNfse().getInfo().getGeneratorOrgan().getCityCode()));
         return JasperFillManager.fillReport(catalog.get(), params, type.generate(nfse));
     }
 

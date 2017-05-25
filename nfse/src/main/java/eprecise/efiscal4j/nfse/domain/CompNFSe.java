@@ -1,11 +1,11 @@
 
-package eprecise.efiscal4j.nfse.tc.compNfse;
+package eprecise.efiscal4j.nfse.domain;
 
 import java.io.Serializable;
 
 
 public interface CompNFSe extends Serializable {
 
-    NFSe getNfse();
+    ProcessedNFSe getProcessedNfse();
 
 }

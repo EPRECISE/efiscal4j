@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.compNfse.CompNFSe;
-import eprecise.efiscal4j.nfse.tc.compNfse.NFSe;
+import eprecise.efiscal4j.nfse.domain.CompNFSe;
+import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
 
 
 @XmlRootElement(name = "CompNfse")
@@ -20,7 +20,7 @@ public class ElotechCompNFSe implements CompNFSe {
 
     private @XmlAttribute(name = "xmlns") String xmlns;
 
-    private final @XmlElement(name = "Nfse") NFSe nfse;
+    private final @XmlElement(name = "Nfse") ProcessedNFSe nfse;
 
     private final @XmlElement(name = "Xml") String xml;
 
@@ -68,7 +68,7 @@ public class ElotechCompNFSe implements CompNFSe {
     }
 
     @Override
-    public ElotechNFSe getNfse() {
+    public ElotechNFSe getProcessedNfse() {
         return (ElotechNFSe) nfse;
     }
 
