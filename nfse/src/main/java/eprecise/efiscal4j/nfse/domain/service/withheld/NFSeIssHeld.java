@@ -9,6 +9,6 @@ import java.io.Serializable;
  * Iss Retido. Caso seja retido, é informado o tipo do responsável da retenção
  *
  */
-public interface NFSeIssWithheld extends Serializable {
+public interface NFSeIssHeld extends Serializable {
 
 }

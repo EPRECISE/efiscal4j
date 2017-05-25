@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfse.domain.service.emitter.specificData;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
-public class NFSeServiceEmitterWithPassword implements NFSeServiceEmitterSpecificData {
+public class NFSeServiceEmitterElotechData implements NFSeServiceEmitterSpecificData {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,18 +19,18 @@ public class NFSeServiceEmitterWithPassword implements NFSeServiceEmitterSpecifi
             return this;
         }
 
-        public NFSeServiceEmitterWithPassword build() throws Exception {
-            final NFSeServiceEmitterWithPassword entity = new NFSeServiceEmitterWithPassword(this);
+        public NFSeServiceEmitterElotechData build() throws Exception {
+            final NFSeServiceEmitterElotechData entity = new NFSeServiceEmitterElotechData(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public NFSeServiceEmitterWithPassword() {
+    public NFSeServiceEmitterElotechData() {
         password = null;
     }
 
-    public NFSeServiceEmitterWithPassword(final Builder builder) {
+    public NFSeServiceEmitterElotechData(final Builder builder) {
         password = builder.password;
     }
 
