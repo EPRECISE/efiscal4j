@@ -43,6 +43,11 @@ public class NFSeNaturalPersonDocuments implements NFSeDocuments {
         cpf = builder.cpf;
     }
 
+    @Override
+    public String getCnp() {
+        return cpf;
+    }
+
     public String getCpf() {
         return cpf;
     }

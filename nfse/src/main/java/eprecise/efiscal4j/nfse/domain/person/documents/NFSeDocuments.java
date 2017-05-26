@@ -6,4 +6,6 @@ import java.io.Serializable;
 
 public interface NFSeDocuments extends Serializable {
 
+    String getCnp();
+
 }

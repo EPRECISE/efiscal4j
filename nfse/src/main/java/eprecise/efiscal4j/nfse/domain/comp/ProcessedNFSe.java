@@ -1,10 +1,10 @@
 
-package eprecise.efiscal4j.nfse.domain;
+package eprecise.efiscal4j.nfse.domain.comp;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 
 
 public interface ProcessedNFSe extends Serializable {

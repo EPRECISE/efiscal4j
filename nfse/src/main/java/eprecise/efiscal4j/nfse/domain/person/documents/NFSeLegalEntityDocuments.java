@@ -79,6 +79,11 @@ public class NFSeLegalEntityDocuments implements NFSeDocuments {
         im = builder.im;
     }
 
+    @Override
+    public String getCnp() {
+        return cnpj;
+    }
+
     public String getCorporateName() {
         return corporateName;
     }

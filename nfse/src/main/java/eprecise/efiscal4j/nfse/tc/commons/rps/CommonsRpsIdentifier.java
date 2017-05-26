@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
+import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 

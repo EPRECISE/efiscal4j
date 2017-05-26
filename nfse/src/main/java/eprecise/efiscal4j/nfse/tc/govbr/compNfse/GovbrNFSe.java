@@ -13,7 +13,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrNatureOperation;
@@ -23,7 +24,6 @@ import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceProvider;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceTaker;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
-import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechNFSeAdapter;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.nfse.adapters.NFSeCnpAdapter;
+import eprecise.efiscal4j.nfse.tc.adapters.NFSeCnpAdapter;
 
 
 @XmlJavaTypeAdapter(NFSeCnpAdapter.class)

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.adapters;
+package eprecise.efiscal4j.nfse.tc.adapters;
 
 import java.io.Serializable;
 

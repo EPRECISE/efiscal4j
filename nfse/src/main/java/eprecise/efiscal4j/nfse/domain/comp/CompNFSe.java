@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.domain;
+package eprecise.efiscal4j.nfse.domain.comp;
 
 import java.io.Serializable;
 

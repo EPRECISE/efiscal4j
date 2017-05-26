@@ -11,6 +11,8 @@ public class NFSeService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private final String name;
+
     private final String cnaeCode;
 
     private final String nationalServiceCode;
@@ -27,19 +29,26 @@ public class NFSeService implements Serializable {
 
     public static class Builder {
 
+        private String name;
+
         private String cnaeCode;
 
         private String nationalServiceCode;
 
         private String discrimination;
 
-        private BigDecimal unitaryValue;
+        private BigDecimal unitaryValue = BigDecimal.ZERO;
 
-        private BigDecimal amount;
+        private BigDecimal amount = BigDecimal.ZERO;
 
-        private BigDecimal discount;
+        private BigDecimal discount = BigDecimal.ZERO;
 
-        private BigDecimal deduction;
+        private BigDecimal deduction = BigDecimal.ZERO;
+
+        public Builder withName(final String name) {
+            this.name = name;
+            return this;
+        }
 
         public Builder withCnaeCode(final String cnaeCode) {
             this.cnaeCode = cnaeCode;
@@ -85,6 +94,7 @@ public class NFSeService implements Serializable {
     }
 
     public NFSeService() {
+        name = null;
         cnaeCode = null;
         nationalServiceCode = null;
         discrimination = null;
@@ -95,6 +105,7 @@ public class NFSeService implements Serializable {
     }
 
     public NFSeService(final Builder builder) {
+        name = builder.name;
         cnaeCode = builder.cnaeCode;
         nationalServiceCode = builder.nationalServiceCode;
         discrimination = builder.discrimination;
@@ -102,6 +113,10 @@ public class NFSeService implements Serializable {
         amount = builder.amount;
         discount = builder.discount;
         deduction = builder.deduction;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getCnaeCode() {
@@ -126,6 +141,10 @@ public class NFSeService implements Serializable {
 
     public BigDecimal getDiscount() {
         return discount;
+    }
+
+    public BigDecimal getNetValue() {
+        return getUnitaryValue().multiply(getAmount()).subtract(getDiscount());
     }
 
     public BigDecimal getDeduction() {

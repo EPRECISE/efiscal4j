@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.CompNFSe;
-import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 
 
 @XmlRootElement(name = "CompNfse")

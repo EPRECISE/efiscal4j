@@ -13,10 +13,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.ProcessedNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
-import eprecise.efiscal4j.nfse.tc.lot.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechNFSeAdapter;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;

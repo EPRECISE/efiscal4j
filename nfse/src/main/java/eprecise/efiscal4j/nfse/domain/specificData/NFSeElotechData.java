@@ -13,11 +13,19 @@ public class NFSeElotechData implements NFSeSpecificData {
 
     private final String judicialProcessNumber;
 
+    private final boolean homologation;
+
+    private final boolean taxIncentive;
+
     public static class Builder {
 
         private ElotechIssRequirement issRequirement;
 
         private String judicialProcessNumber;
+
+        private boolean homologation;
+
+        private boolean taxIncentive;
 
         public Builder withIssRequirement(final ElotechIssRequirement issRequirement) {
             this.issRequirement = issRequirement;
@@ -26,6 +34,16 @@ public class NFSeElotechData implements NFSeSpecificData {
 
         public Builder withJudicialProcessNumber(final String judicialProcessNumber) {
             this.judicialProcessNumber = judicialProcessNumber;
+            return this;
+        }
+
+        public Builder withHomologation(final boolean homologation) {
+            this.homologation = homologation;
+            return this;
+        }
+
+        public Builder withTaxIncentive(final boolean taxIncentive) {
+            this.taxIncentive = taxIncentive;
             return this;
         }
 
@@ -41,11 +59,15 @@ public class NFSeElotechData implements NFSeSpecificData {
         super();
         issRequirement = null;
         judicialProcessNumber = null;
+        homologation = false;
+        taxIncentive = false;
     }
 
     public NFSeElotechData(final Builder builder) {
         issRequirement = builder.issRequirement;
         judicialProcessNumber = builder.judicialProcessNumber;
+        homologation = builder.homologation;
+        taxIncentive = builder.taxIncentive;
     }
 
     public ElotechIssRequirement getIssRequirement() {
@@ -54,6 +76,14 @@ public class NFSeElotechData implements NFSeSpecificData {
 
     public String getJudicialProcessNumber() {
         return judicialProcessNumber;
+    }
+
+    public boolean isHomologation() {
+        return homologation;
+    }
+
+    public boolean isTaxIncentive() {
+        return taxIncentive;
     }
 
 }

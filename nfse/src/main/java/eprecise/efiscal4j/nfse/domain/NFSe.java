@@ -6,6 +6,7 @@ import java.util.Date;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
+import eprecise.efiscal4j.nfse.domain.serie.NFSeSerie;
 import eprecise.efiscal4j.nfse.domain.service.NFSeService;
 import eprecise.efiscal4j.nfse.domain.service.emitter.NFSeServiceEmitter;
 import eprecise.efiscal4j.nfse.domain.service.intermediary.NFSeServiceIntermediary;
@@ -19,9 +20,7 @@ public class NFSe implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String lotNumber;
-
-    private final String rpsNumber;
+    private final NFSeSerie serie;
 
     private final Date emission;
 
@@ -43,9 +42,7 @@ public class NFSe implements Serializable {
 
     public static class Builder {
 
-        private String lotNumber;
-
-        private String rpsNumber;
+        private NFSeSerie serie;
 
         private Date emission;
 
@@ -65,13 +62,8 @@ public class NFSe implements Serializable {
 
         private NFSeSpecificData specificData;
 
-        public Builder withLotNumber(final String lotNumber) {
-            this.lotNumber = lotNumber;
-            return this;
-        }
-
-        public Builder withRpsNumber(final String rpsNumber) {
-            this.rpsNumber = rpsNumber;
+        public Builder withSerie(final NFSeSerie serie) {
+            this.serie = serie;
             return this;
         }
 
@@ -129,8 +121,7 @@ public class NFSe implements Serializable {
     }
 
     public NFSe() {
-        lotNumber = null;
-        rpsNumber = null;
+        serie = null;
         emission = null;
         emitter = null;
         taker = null;
@@ -143,9 +134,7 @@ public class NFSe implements Serializable {
     }
 
     public NFSe(final Builder builder) {
-        super();
-        lotNumber = builder.lotNumber;
-        rpsNumber = builder.rpsNumber;
+        serie = builder.serie;
         emission = builder.emission;
         emitter = builder.emitter;
         taker = builder.taker;
@@ -157,12 +146,8 @@ public class NFSe implements Serializable {
         specificData = builder.specificData;
     }
 
-    public String getLotNumber() {
-        return lotNumber;
-    }
-
-    public String getRpsNumber() {
-        return rpsNumber;
+    public NFSeSerie getSerie() {
+        return serie;
     }
 
     public Date getEmission() {

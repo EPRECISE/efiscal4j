@@ -20,6 +20,8 @@ public class NFSeAddress implements Serializable {
 
     private final NFSeCity city;
 
+    private final String zipCode;
+
     public static class Builder {
 
         private String street;
@@ -31,6 +33,8 @@ public class NFSeAddress implements Serializable {
         private String details;
 
         private NFSeCity city;
+
+        private String zipCode;
 
         public Builder withStreet(final String street) {
             this.street = street;
@@ -57,6 +61,11 @@ public class NFSeAddress implements Serializable {
             return this;
         }
 
+        public Builder withZipCode(final String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
         public NFSeAddress build() throws Exception {
             final NFSeAddress entity = new NFSeAddress(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -71,6 +80,7 @@ public class NFSeAddress implements Serializable {
         number = null;
         details = null;
         city = null;
+        zipCode = null;
     }
 
     public NFSeAddress(final Builder builder) {
@@ -79,6 +89,7 @@ public class NFSeAddress implements Serializable {
         number = builder.number;
         details = builder.details;
         city = builder.city;
+        zipCode = builder.zipCode;
     }
 
     public String getDistrict() {
@@ -99,6 +110,10 @@ public class NFSeAddress implements Serializable {
 
     public String getStreet() {
         return street;
+    }
+
+    public String getZipCode() {
+        return zipCode;
     }
 
 }
