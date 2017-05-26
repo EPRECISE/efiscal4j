@@ -13,7 +13,7 @@ import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 public interface NFSeDomainAdapter {
 
     public static enum NFSeAdapter {
-                                    ELOTECH(ElotechEfiscal4jNFSeAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes());
+                                    ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes());
 
         private final Collection<String> supportedCityCodes;
 
@@ -73,7 +73,7 @@ public interface NFSeDomainAdapter {
         }
 
         public NFSeDomainAdapter build() {
-            final String cityCode = nfse.getCityService().getIbgeCode();
+            final String cityCode = nfse.getService().getCityService().getIbgeCode();
             try {
                 return NFSeAdapter.findAdapterBy(cityCode).getConstructor(Builder.class).newInstance(this);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {

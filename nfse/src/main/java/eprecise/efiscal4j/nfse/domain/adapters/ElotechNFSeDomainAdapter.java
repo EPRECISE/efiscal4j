@@ -31,6 +31,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceIntermediary;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceTaker;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechTaxIncentive;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
@@ -47,11 +48,11 @@ import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
 
 
-public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
+public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private static final DecimalFormat NFSE_TWO_DECIMALS_FORMAT = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
 
-    private static final DateFormat NFSE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final DateFormat NFSE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private final NFSe nfse;
 
@@ -59,7 +60,7 @@ public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
 
     private final String lotNumber;
 
-    public ElotechEfiscal4jNFSeAdapter(final NFSeDomainAdapter.Builder builder) {
+    public ElotechNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
         number = builder.getNumber();
         lotNumber = builder.getLotNumber();
@@ -96,7 +97,7 @@ public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
                         .withServiceIntermediary(buildServiceIntermediary())
                         .withServiceProvider(buildServiceProvider())
                         .withServiceTaker(buildServiceTaker())
-//                        .withSpecialTaxationRegime(getSpecialTaxationRegime(nfse.getEmitter().getFiscalData().getNfseFiscalDocumentData().getSpecialTaxationRegime()))
+                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getSpecialTaxationRegime()).filter(ElotechSpecialTaxationRegime.class::isInstance).map(ElotechSpecialTaxationRegime.class::cast).orElse(null))
                         .withTaxIncentive(Optional.ofNullable(nfse.getSpecificData()).map(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isTaxIncentive).map(ti-> ti ? ElotechTaxIncentive.YES : ElotechTaxIncentive.NO).orElse(null))
                         .build())
                 .build();
@@ -123,7 +124,7 @@ public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
                 .withServiceValues(buildServiceValues())
                 .withIssWithheld(nfse.getIssHeld() instanceof NFSeWithIssHeld ? ElotechIssWithheld.YES : ElotechIssWithheld.NO)
                 .withDiscrimination(nfse.getService().getDiscrimination())
-                .withCityCode(nfse.getCityService().getIbgeCode())
+                .withCityCode(nfse.getService().getCityService().getIbgeCode())
                 .withIssRequirement(Optional.ofNullable(nfse.getSpecificData()).map(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getIssRequirement).orElse(null))
                 .withCityIncidenceCode(nfse.getEmitter().getAddress().getCity().getIbgeCode())
                 .withServiceItems(buildServiceItems());
@@ -146,7 +147,7 @@ public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
     private ElotechServiceValues buildServiceValues() throws Exception {
         //@formatter:off
         return new ElotechServiceValues.Builder()
-                .withServiceValue(formatNFSeValue(nfse.getService().getNetValue()))
+                .withServiceValue(formatNFSeValue(nfse.getService().getServiceValue()))
                 .withDeductionValue(formatNFSeValue(nfse.getService().getDeduction()))
                 .withPisValue(formatNFSeValue(nfse.getTax().getPisValue()))
                 .withCofinsValue(formatNFSeValue(nfse.getTax().getCofinsValue()))
@@ -168,11 +169,11 @@ public class ElotechEfiscal4jNFSeAdapter implements NFSeDomainAdapter {
                     .withItemServiceList(nfse.getService().getNationalServiceCode())
                     .withCnaeCode(nfse.getService().getCnaeCode())
                     .withDescription(nfse.getService().getName())
-                    .withTaxable(ElotechServiceItemTaxable.YES)
+                    .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
                     .withQuantity(formatNFSeValue(nfse.getService().getAmount()))
                     .withUnitaryValue(formatNFSeValue(nfse.getService().getUnitaryValue()))
                     .withDiscountValue(formatNFSeValue(nfse.getService().getDiscount()))
-                    .withNetValue(formatNFSeValue(nfse.getService().getNetValue()))
+                    .withNetValue(formatNFSeValue(nfse.getService().getServiceValue()))
                     .build());
 
         return items;

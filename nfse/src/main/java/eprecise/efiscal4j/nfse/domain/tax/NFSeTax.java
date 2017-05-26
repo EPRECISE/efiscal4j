@@ -15,6 +15,8 @@ public class NFSeTax implements Serializable {
 
     private final BigDecimal issAliquot;
 
+    private final BigDecimal issValue;
+
     private final BigDecimal pisValue;
 
     private final BigDecimal cofinsValue;
@@ -27,6 +29,8 @@ public class NFSeTax implements Serializable {
 
     private final BigDecimal cppValue;
 
+    private final BigDecimal issRetentionValue;
+
     private final BigDecimal otherRetentionsValue;
 
     public static class Builder {
@@ -34,6 +38,8 @@ public class NFSeTax implements Serializable {
         private BigDecimal bcValue;
 
         private BigDecimal issAliquot;
+
+        private BigDecimal issValue;
 
         private BigDecimal pisValue;
 
@@ -47,6 +53,8 @@ public class NFSeTax implements Serializable {
 
         private BigDecimal cppValue;
 
+        private BigDecimal issRetentionValue;
+
         private BigDecimal otherRetentionsValue;
 
         public Builder withBcValue(final BigDecimal bcValue) {
@@ -56,6 +64,11 @@ public class NFSeTax implements Serializable {
 
         public Builder withIssAliquot(final BigDecimal issAliquot) {
             this.issAliquot = issAliquot;
+            return this;
+        }
+
+        public Builder withIssValue(final BigDecimal issValue) {
+            this.issValue = issValue;
             return this;
         }
 
@@ -89,6 +102,11 @@ public class NFSeTax implements Serializable {
             return this;
         }
 
+        public Builder withIssRetentionValue(final BigDecimal issRetentionValue) {
+            this.issRetentionValue = issRetentionValue;
+            return this;
+        }
+
         public Builder withOtherRetentionsValue(final BigDecimal otherRetentionsValue) {
             this.otherRetentionsValue = otherRetentionsValue;
             return this;
@@ -105,24 +123,28 @@ public class NFSeTax implements Serializable {
     public NFSeTax() {
         bcValue = null;
         issAliquot = null;
+        issValue = null;
         pisValue = null;
         cofinsValue = null;
         inssValue = null;
         irValue = null;
         csllValue = null;
         cppValue = null;
+        issRetentionValue = null;
         otherRetentionsValue = null;
     }
 
     public NFSeTax(final Builder builder) {
         bcValue = builder.bcValue;
         issAliquot = builder.issAliquot;
+        issValue = builder.issValue;
         pisValue = builder.pisValue;
         cofinsValue = builder.cofinsValue;
         inssValue = builder.inssValue;
         irValue = builder.irValue;
         csllValue = builder.csllValue;
         cppValue = builder.cppValue;
+        issRetentionValue = builder.issRetentionValue;
         otherRetentionsValue = builder.otherRetentionsValue;
     }
 
@@ -132,6 +154,10 @@ public class NFSeTax implements Serializable {
 
     public BigDecimal getIssAliquot() {
         return issAliquot;
+    }
+
+    public BigDecimal getIssValue() {
+        return issValue;
     }
 
     public BigDecimal getPisValue() {
@@ -156,6 +182,10 @@ public class NFSeTax implements Serializable {
 
     public BigDecimal getCppValue() {
         return cppValue;
+    }
+
+    public BigDecimal getIssRetentionValue() {
+        return issRetentionValue;
     }
 
     public BigDecimal getOtherRetentionsValue() {

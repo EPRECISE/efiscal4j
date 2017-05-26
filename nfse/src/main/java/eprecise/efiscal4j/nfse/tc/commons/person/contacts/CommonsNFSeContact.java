@@ -40,7 +40,7 @@ public class CommonsNFSeContact {
             return this;
         }
 
-        public CommonsNFSeContact build() throws Exception {
+        public CommonsNFSeContact build() {
             final CommonsNFSeContact entity = new CommonsNFSeContact(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

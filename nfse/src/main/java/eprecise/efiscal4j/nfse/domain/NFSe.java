@@ -2,16 +2,17 @@
 package eprecise.efiscal4j.nfse.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
 import eprecise.efiscal4j.nfse.domain.serie.NFSeSerie;
 import eprecise.efiscal4j.nfse.domain.service.NFSeService;
 import eprecise.efiscal4j.nfse.domain.service.emitter.NFSeServiceEmitter;
 import eprecise.efiscal4j.nfse.domain.service.intermediary.NFSeServiceIntermediary;
 import eprecise.efiscal4j.nfse.domain.service.taker.NFSeServiceTaker;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeIssHeld;
+import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeSpecificData;
 import eprecise.efiscal4j.nfse.domain.tax.NFSeTax;
 
@@ -32,13 +33,15 @@ public class NFSe implements Serializable {
 
     private final NFSeIssHeld issHeld;
 
-    private final NFSeCity cityService;
-
     private final NFSeService service;
 
     private final NFSeTax tax;
 
+    private final NFSeSpecialTaxationRegime specialTaxationRegime;
+
     private final NFSeSpecificData specificData;
+
+    private final BigDecimal netValue;
 
     public static class Builder {
 
@@ -54,13 +57,15 @@ public class NFSe implements Serializable {
 
         private NFSeIssHeld issHeld;
 
-        private NFSeCity cityService;
-
         private NFSeService service;
 
         private NFSeTax tax;
 
+        private NFSeSpecialTaxationRegime specialTaxationRegime;
+
         private NFSeSpecificData specificData;
+
+        private BigDecimal netValue;
 
         public Builder withSerie(final NFSeSerie serie) {
             this.serie = serie;
@@ -92,11 +97,6 @@ public class NFSe implements Serializable {
             return this;
         }
 
-        public Builder withCityService(final NFSeCity cityService) {
-            this.cityService = cityService;
-            return this;
-        }
-
         public Builder withService(final NFSeService service) {
             this.service = service;
             return this;
@@ -107,8 +107,18 @@ public class NFSe implements Serializable {
             return this;
         }
 
+        public Builder withSpecialTaxationRegime(final NFSeSpecialTaxationRegime specialTaxationRegime) {
+            this.specialTaxationRegime = specialTaxationRegime;
+            return this;
+        }
+
         public Builder withSpecificData(final NFSeSpecificData specificData) {
             this.specificData = specificData;
+            return this;
+        }
+
+        public Builder withNetValue(final BigDecimal netValue) {
+            this.netValue = netValue;
             return this;
         }
 
@@ -127,10 +137,11 @@ public class NFSe implements Serializable {
         taker = null;
         intermediary = null;
         issHeld = null;
-        cityService = null;
         service = null;
         tax = null;
+        specialTaxationRegime = null;
         specificData = null;
+        netValue = null;
     }
 
     public NFSe(final Builder builder) {
@@ -140,10 +151,11 @@ public class NFSe implements Serializable {
         taker = builder.taker;
         intermediary = builder.intermediary;
         issHeld = builder.issHeld;
-        cityService = builder.cityService;
         service = builder.service;
         tax = builder.tax;
+        specialTaxationRegime = builder.specialTaxationRegime;
         specificData = builder.specificData;
+        netValue = builder.netValue;
     }
 
     public NFSeSerie getSerie() {
@@ -170,10 +182,6 @@ public class NFSe implements Serializable {
         return issHeld;
     }
 
-    public NFSeCity getCityService() {
-        return cityService;
-    }
-
     public NFSeService getService() {
         return service;
     }
@@ -182,8 +190,16 @@ public class NFSe implements Serializable {
         return tax;
     }
 
+    public NFSeSpecialTaxationRegime getSpecialTaxationRegime() {
+        return specialTaxationRegime;
+    }
+
     public NFSeSpecificData getSpecificData() {
         return specificData;
+    }
+
+    public BigDecimal getNetValue() {
+        return netValue;
     }
 
 }

@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
+
 
 /**
  * Regime especial de tributação
@@ -14,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum ElotechSpecialTaxationRegime {
+public enum ElotechSpecialTaxationRegime implements NFSeSpecialTaxationRegime{
 
                                    @XmlEnumValue("1") MUNICIPAL_MICRO_ENTERPRISE(1, "Microempresa Municipal"),
                                    @XmlEnumValue("2") ESTIMATE(2, "Estimativa"),
