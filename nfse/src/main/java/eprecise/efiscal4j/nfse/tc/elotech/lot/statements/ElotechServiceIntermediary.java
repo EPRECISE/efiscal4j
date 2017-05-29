@@ -42,7 +42,7 @@ public class ElotechServiceIntermediary {
             return this;
         }
 
-        public ElotechServiceIntermediary build() throws Exception {
+        public ElotechServiceIntermediary build() {
             final ElotechServiceIntermediary entity = new ElotechServiceIntermediary(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -98,7 +98,7 @@ public class ElotechServiceIntermediary {
                 return this;
             }
 
-            public ElotechServiceIntermediaryIdentifier build() throws Exception {
+            public ElotechServiceIntermediaryIdentifier build() {
                 final ElotechServiceIntermediaryIdentifier entity = new ElotechServiceIntermediaryIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

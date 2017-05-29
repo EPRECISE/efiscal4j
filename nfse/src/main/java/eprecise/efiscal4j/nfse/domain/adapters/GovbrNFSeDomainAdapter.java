@@ -50,20 +50,14 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private final NFSe nfse;
 
-    private final String number;
-
-    private final String lotNumber;
-
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
-        number = builder.getNumber();
-        lotNumber = builder.getLotNumber();
     }
 
     @Override
     public TransmissibleBodyImpl toTransmissible() {
         try {
-            return new GovbrLotRpsDispatchAsync.Builder().withLotRps(new GovbrLotRps.Builder().withLotNumber(lotNumber).withRpsQuantity(1)
+            return new GovbrLotRpsDispatchAsync.Builder().withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1)
                     .withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
                             .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                     .withRpsList(Arrays.asList(buildRps())).build()).build();
@@ -79,7 +73,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                         .withIdentifier(new CommonsRpsIdentifier.Builder()
                                 .withType(CommonsRpsType.PROVISIONAL_SERVICE_RECEIPT)
                                 .withSerie(nfse.getSerie().getSerie())
-                                .withNumber(number)
+                                .withNumber(nfse.getSerie().getRpsNumber())
                                 .build())
                         .withEmissionDate(NFSE_DATETIME_FORMAT.format(nfse.getEmission()))
                         .withNatureOperation(Optional.ofNullable(nfse.getSpecificData()).map(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))

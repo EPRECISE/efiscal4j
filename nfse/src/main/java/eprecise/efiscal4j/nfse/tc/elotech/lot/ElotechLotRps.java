@@ -80,7 +80,7 @@ public class ElotechLotRps implements Serializable {
         // return entity;
         // }
 
-        public ElotechLotRps build() throws Exception {
+        public ElotechLotRps build() {
             final ElotechLotRps entity = new ElotechLotRps(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

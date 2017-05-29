@@ -9,7 +9,7 @@ public class NFSeServiceTaker extends NFSePerson {
 
     private static final long serialVersionUID = 1L;
 
-    public static class Builder extends NFSePerson.Builder {
+    public static class Builder extends NFSePerson.Builder<Builder> {
 
         public NFSeServiceTaker build() throws Exception {
             final NFSeServiceTaker entity = new NFSeServiceTaker(this);

@@ -8,9 +8,11 @@ import org.junit.Test;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.elotech.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.Testable;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
+import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 
 
 public class SOAPMessageTest implements Testable {
@@ -25,9 +27,10 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFSeAutorizacao...");
 
-            final TransmissionResult transmissionResult = getTestDomain().getTransmissionChannel().transmitAuthorization(getTestDomain().buildLotRpsDispatch());
+            final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.ELOTECH).transmitAuthorization(getTestDomain().buildElotechLotRpsDispatch());
 
-            final ElotechLotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ElotechLotRpsDispatchSyncResponse.class).deserialize();
+            final ElotechLotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ElotechLotRpsDispatchSyncResponse.class)
+                    .deserialize();
 
             System.out.println("Retorno convertido:");
 
@@ -49,7 +52,7 @@ public class SOAPMessageTest implements Testable {
 
     @Override
     public ElotechLotRpsDispatchSync getBuiltEntity() throws Exception {
-        return getTestDomain().buildLotRpsDispatch();
+        return getTestDomain().buildElotechLotRpsDispatch();
     }
 
 }

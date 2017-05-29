@@ -82,7 +82,7 @@ public class ElotechServiceTaker {
             return this;
         }
 
-        public ElotechServiceTaker build() throws Exception {
+        public ElotechServiceTaker build() {
             final ElotechServiceTaker entity = new ElotechServiceTaker(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -156,7 +156,7 @@ public class ElotechServiceTaker {
                 return this;
             }
 
-            public ElotechServiceTakerIdentifier build() throws Exception {
+            public ElotechServiceTakerIdentifier build() {
                 final ElotechServiceTakerIdentifier entity = new ElotechServiceTakerIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

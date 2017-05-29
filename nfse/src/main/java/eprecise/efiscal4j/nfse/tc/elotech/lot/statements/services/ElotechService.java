@@ -149,7 +149,7 @@ public class ElotechService {
             return this;
         }
 
-        public ElotechService build() throws Exception {
+        public ElotechService build() {
             final ElotechService entity = new ElotechService(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -157,29 +157,29 @@ public class ElotechService {
     }
 
     public ElotechService() {
-        this.values = null;
-        this.issWithheld = null;
-        this.responsibleRetention = null;
-        this.discrimination = null;
-        this.cityCode = null;
-        this.countryCode = null;
-        this.issRequirement = null;
-        this.cityIncidenceCode = null;
-        this.processNumber = null;
-        this.serviceItems = null;
+        values = null;
+        issWithheld = null;
+        responsibleRetention = null;
+        discrimination = null;
+        cityCode = null;
+        countryCode = null;
+        issRequirement = null;
+        cityIncidenceCode = null;
+        processNumber = null;
+        serviceItems = null;
     }
 
     public ElotechService(final Builder builder) {
-        this.values = builder.values;
-        this.issWithheld = builder.issWithheld;
-        this.responsibleRetention = builder.responsibleRetention;
-        this.discrimination = builder.discrimination;
-        this.cityCode = builder.cityCode;
-        this.countryCode = builder.countryCode;
-        this.issRequirement = builder.issRequirement;
-        this.cityIncidenceCode = builder.cityIncidenceCode;
-        this.processNumber = builder.processNumber;
-        this.serviceItems = builder.serviceItems;
+        values = builder.values;
+        issWithheld = builder.issWithheld;
+        responsibleRetention = builder.responsibleRetention;
+        discrimination = builder.discrimination;
+        cityCode = builder.cityCode;
+        countryCode = builder.countryCode;
+        issRequirement = builder.issRequirement;
+        cityIncidenceCode = builder.cityIncidenceCode;
+        processNumber = builder.processNumber;
+        serviceItems = builder.serviceItems;
     }
 
     public ElotechServiceValues getValues() {

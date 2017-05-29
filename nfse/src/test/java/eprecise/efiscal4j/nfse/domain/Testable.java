@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.elotech;
+package eprecise.efiscal4j.nfse.domain;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -11,7 +11,6 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
-import eprecise.efiscal4j.nfse.elotech.domain.TestDomain;
 
 
 public interface Testable {

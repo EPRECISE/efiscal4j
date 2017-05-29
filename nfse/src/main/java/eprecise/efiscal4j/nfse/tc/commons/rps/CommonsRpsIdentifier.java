@@ -59,7 +59,7 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
             return this;
         }
 
-        public CommonsRpsIdentifier build() throws Exception {
+        public CommonsRpsIdentifier build() {
             final CommonsRpsIdentifier entity = new CommonsRpsIdentifier(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -78,14 +78,17 @@ public class CommonsRpsIdentifier implements RpsIdentifier {
         type = builder.type;
     }
 
+    @Override
     public String getNumber() {
         return number;
     }
 
+    @Override
     public String getSerie() {
         return serie;
     }
 
+    @Override
     public CommonsRpsType getType() {
         return type;
     }

@@ -12,7 +12,7 @@ public class NFSeServiceEmitter extends NFSePerson {
 
     private final NFSeServiceEmitterSpecificData specificData;
 
-    public static class Builder extends NFSePerson.Builder {
+    public static class Builder extends NFSePerson.Builder<Builder> {
 
         private NFSeServiceEmitterSpecificData specificData;
 

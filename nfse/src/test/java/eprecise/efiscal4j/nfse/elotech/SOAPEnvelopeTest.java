@@ -4,9 +4,13 @@ package eprecise.efiscal4j.nfse.elotech;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.elotech.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.Testable;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPBody;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPHeader;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
+import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
 
 public class SOAPEnvelopeTest implements Testable {
@@ -20,7 +24,7 @@ public class SOAPEnvelopeTest implements Testable {
 
     @Test
     public void domainTest() throws Exception {
-        final SOAPEnvelope buildSOAPEnvelope = getTestDomain().buildSOAPEnvelope();
+        final SOAPEnvelope buildSOAPEnvelope = buildSOAPEnvelope();
         try {
             final String xml = new FiscalDocumentSerializer<>(buildSOAPEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
             System.out.println("xml final: " + xml + "\n");
@@ -37,7 +41,13 @@ public class SOAPEnvelopeTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildSOAPEnvelope();
+        return getTestDomain();
+    }
+
+    public SOAPEnvelope buildSOAPEnvelope() throws Exception {
+        return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(testDomain.buildElotechLotRpsDispatch()).build())
+                .build(new OasisSigner(testDomain.getCertificate()));
+
     }
 
 }

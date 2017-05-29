@@ -172,7 +172,7 @@ public class ElotechServiceValues {
             return this;
         }
 
-        public ElotechServiceValues build() throws Exception {
+        public ElotechServiceValues build() {
             final ElotechServiceValues entity = new ElotechServiceValues(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

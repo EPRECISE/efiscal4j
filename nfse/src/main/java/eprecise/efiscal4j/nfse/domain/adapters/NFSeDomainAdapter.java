@@ -13,7 +13,8 @@ import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 public interface NFSeDomainAdapter {
 
     public static enum NFSeAdapter {
-                                    ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes());
+                                    ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes()),
+                                    GOVBR(GovbrNFSeDomainAdapter.class, NFSeTransmissor.GOVBR.getSupportedCityCodes());
 
         private final Collection<String> supportedCityCodes;
 
@@ -48,10 +49,6 @@ public interface NFSeDomainAdapter {
 
         private Certificate certificate;
 
-        private String number;
-
-        private String lotNumber;
-
         public Builder withNFSe(final NFSe nfse) {
             this.nfse = nfse;
             return this;
@@ -59,16 +56,6 @@ public interface NFSeDomainAdapter {
 
         public Builder withCertificate(final Certificate certificate) {
             this.certificate = certificate;
-            return this;
-        }
-
-        public Builder withNumber(final String number) {
-            this.number = number;
-            return this;
-        }
-
-        public Builder withLotNumber(final String lotNumber) {
-            this.lotNumber = lotNumber;
             return this;
         }
 
@@ -87,14 +74,6 @@ public interface NFSeDomainAdapter {
 
         public Certificate getCertificate() {
             return certificate;
-        }
-
-        public String getNumber() {
-            return number;
-        }
-
-        public String getLotNumber() {
-            return lotNumber;
         }
 
     }

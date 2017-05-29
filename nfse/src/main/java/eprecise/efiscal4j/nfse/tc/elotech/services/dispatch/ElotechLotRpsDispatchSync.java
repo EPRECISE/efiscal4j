@@ -66,7 +66,7 @@ public class ElotechLotRpsDispatchSync extends TransmissibleBodyImpl implements 
             return this;
         }
 
-        public ElotechLotRpsDispatchSync build() throws Exception {
+        public ElotechLotRpsDispatchSync build() {
             final ElotechLotRpsDispatchSync entity = new ElotechLotRpsDispatchSync(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

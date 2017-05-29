@@ -13,7 +13,8 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
-import eprecise.efiscal4j.nfse.elotech.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.TestDomain;
+import eprecise.efiscal4j.nfse.domain.Testable;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
 
 
@@ -65,7 +66,7 @@ public class LotRpsDispatchTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildLotRpsDispatch();
+        return getTestDomain().buildElotechLotRpsDispatch();
     }
 
 }

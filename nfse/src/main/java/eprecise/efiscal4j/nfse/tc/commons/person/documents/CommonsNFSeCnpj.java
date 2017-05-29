@@ -31,7 +31,7 @@ public class CommonsNFSeCnpj extends CommonsNFSeCnp {
             return this;
         }
 
-        public CommonsNFSeCnpj build() throws Exception {
+        public CommonsNFSeCnpj build() {
             final CommonsNFSeCnpj entity = new CommonsNFSeCnpj(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

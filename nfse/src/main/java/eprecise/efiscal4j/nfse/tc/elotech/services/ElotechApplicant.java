@@ -72,7 +72,7 @@ public class ElotechApplicant implements Serializable {
             return this;
         }
 
-        public ElotechApplicant build() throws Exception {
+        public ElotechApplicant build() {
             final ElotechApplicant entity = new ElotechApplicant(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

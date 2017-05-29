@@ -83,7 +83,7 @@ public class ElotechServiceProvider {
             return this;
         }
 
-        public ElotechServiceProvider build() throws Exception {
+        public ElotechServiceProvider build() {
             final ElotechServiceProvider entity = new ElotechServiceProvider(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -157,7 +157,7 @@ public class ElotechServiceProvider {
                 return this;
             }
 
-            public ElotechServiceProviderIdentifier build() throws Exception {
+            public ElotechServiceProviderIdentifier build() {
                 final ElotechServiceProviderIdentifier entity = new ElotechServiceProviderIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

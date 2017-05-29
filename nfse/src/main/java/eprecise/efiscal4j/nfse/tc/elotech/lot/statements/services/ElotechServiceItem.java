@@ -135,7 +135,7 @@ public class ElotechServiceItem {
             return this;
         }
 
-        public ElotechServiceItem build() throws Exception {
+        public ElotechServiceItem build() {
             final ElotechServiceItem entity = new ElotechServiceItem(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -143,27 +143,27 @@ public class ElotechServiceItem {
     }
 
     public ElotechServiceItem() {
-        this.itemServiceList = null;
-        this.cnaeCode = null;
-        this.description = null;
-        this.taxable = null;
-        this.quantity = null;
-        this.unitaryValue = null;
-        this.discountValue = null;
-        this.netValue = null;
-        this.deductionData = null;
+        itemServiceList = null;
+        cnaeCode = null;
+        description = null;
+        taxable = null;
+        quantity = null;
+        unitaryValue = null;
+        discountValue = null;
+        netValue = null;
+        deductionData = null;
     }
 
     public ElotechServiceItem(final Builder builder) {
-        this.itemServiceList = builder.itemServiceList;
-        this.cnaeCode = builder.cnaeCode;
-        this.description = builder.description;
-        this.taxable = builder.taxable;
-        this.quantity = builder.quantity;
-        this.unitaryValue = builder.unitaryValue;
-        this.discountValue = builder.discountValue;
-        this.netValue = builder.netValue;
-        this.deductionData = builder.deductionData;
+        itemServiceList = builder.itemServiceList;
+        cnaeCode = builder.cnaeCode;
+        description = builder.description;
+        taxable = builder.taxable;
+        quantity = builder.quantity;
+        unitaryValue = builder.unitaryValue;
+        discountValue = builder.discountValue;
+        netValue = builder.netValue;
+        deductionData = builder.deductionData;
     }
 
     public String getItemServiceList() {

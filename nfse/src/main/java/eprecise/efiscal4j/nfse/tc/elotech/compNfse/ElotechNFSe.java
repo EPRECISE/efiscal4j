@@ -26,7 +26,7 @@ import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 @XmlRootElement(name = "Nfse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechNFSe implements ProcessedNFSe {
+public class ElotechNFSe extends ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
 

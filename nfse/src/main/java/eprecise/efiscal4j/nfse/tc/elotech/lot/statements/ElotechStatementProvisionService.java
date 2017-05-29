@@ -36,7 +36,7 @@ public class ElotechStatementProvisionService {
             return this;
         }
 
-        public ElotechStatementProvisionService build() throws Exception {
+        public ElotechStatementProvisionService build() {
             final ElotechStatementProvisionService entity = new ElotechStatementProvisionService(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -177,7 +177,7 @@ public class ElotechStatementProvisionService {
                 return this;
             }
 
-            public Info build() throws Exception {
+            public Info build() {
                 final Info entity = new Info(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

@@ -56,7 +56,7 @@ public class ElotechRps {
             return this;
         }
 
-        public ElotechRps build() throws Exception {
+        public ElotechRps build() {
             final ElotechRps entity = new ElotechRps(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -64,15 +64,15 @@ public class ElotechRps {
     }
 
     public ElotechRps() {
-        this.identifier = null;
-        this.emissionDate = null;
-        this.status = null;
+        identifier = null;
+        emissionDate = null;
+        status = null;
     }
 
     public ElotechRps(final Builder builder) {
-        this.identifier = builder.identifier;
-        this.emissionDate = builder.emissionDate;
-        this.status = builder.status;
+        identifier = builder.identifier;
+        emissionDate = builder.emissionDate;
+        status = builder.status;
     }
 
     public CommonsRpsIdentifier getIdentifier() {

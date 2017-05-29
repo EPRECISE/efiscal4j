@@ -7,14 +7,14 @@ import java.util.Date;
 import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 
 
-public interface ProcessedNFSe extends Serializable {
+public abstract class ProcessedNFSe implements Serializable {
 
-    String getNumber();
+    public abstract String getNumber();
 
-    String getVerificationCode();
+    public abstract String getVerificationCode();
 
-    Date getEmissionDate();
+    public abstract Date getEmissionDate();
 
-    RpsIdentifier getRpsIdentifier();
+    public abstract RpsIdentifier getRpsIdentifier();
 
 }

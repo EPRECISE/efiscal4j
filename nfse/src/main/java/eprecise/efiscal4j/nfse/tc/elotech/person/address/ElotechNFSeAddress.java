@@ -24,7 +24,7 @@ public class ElotechNFSeAddress {
 
     private final @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(min = 1, max = 7) String cityCode;
 
-    private final @XmlElement(name = "CidadeNome") @NFSeNonNegativeInteger @Size(min = 1, max = 125) String cityName;
+    private final @XmlElement(name = "CidadeNome") @Size(min = 1, max = 125) String cityName;
 
     private final @XmlElement(name = "Uf") CommonsNFSeUF uf;
 
@@ -133,7 +133,7 @@ public class ElotechNFSeAddress {
             return this;
         }
 
-        public ElotechNFSeAddress build() throws Exception {
+        public ElotechNFSeAddress build() {
             final ElotechNFSeAddress entity = new ElotechNFSeAddress(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

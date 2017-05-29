@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfse.domain.specificData;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrNatureOperation;
-import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
 
 
 public class NFSeGovbrData implements NFSeSpecificData {
@@ -16,8 +15,6 @@ public class NFSeGovbrData implements NFSeSpecificData {
 
     private final Boolean culturalPromoter;
 
-    private final GovbrSpecialTaxationRegime specialTaxationRegime;
-
     public static class Builder {
 
         private GovbrNatureOperation natureOperation;
@@ -25,8 +22,6 @@ public class NFSeGovbrData implements NFSeSpecificData {
         private Boolean simpleNational;
 
         private Boolean culturalPromoter;
-
-        private GovbrSpecialTaxationRegime specialTaxationRegime;
 
         public Builder withNatureOperation(final GovbrNatureOperation natureOperation) {
             this.natureOperation = natureOperation;
@@ -43,11 +38,6 @@ public class NFSeGovbrData implements NFSeSpecificData {
             return this;
         }
 
-        public Builder withSpecialTaxationRegime(final GovbrSpecialTaxationRegime specialTaxationRegime) {
-            this.specialTaxationRegime = specialTaxationRegime;
-            return this;
-        }
-
         public NFSeGovbrData build() {
             final NFSeGovbrData entity = new NFSeGovbrData(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -60,14 +50,12 @@ public class NFSeGovbrData implements NFSeSpecificData {
         natureOperation = null;
         simpleNational = null;
         culturalPromoter = null;
-        specialTaxationRegime = null;
     }
 
     public NFSeGovbrData(final Builder builder) {
         natureOperation = builder.natureOperation;
         simpleNational = builder.simpleNational;
         culturalPromoter = builder.culturalPromoter;
-        specialTaxationRegime = builder.specialTaxationRegime;
     }
 
     public GovbrNatureOperation getNatureOperation() {
@@ -80,10 +68,6 @@ public class NFSeGovbrData implements NFSeSpecificData {
 
     public Boolean getCulturalPromoter() {
         return culturalPromoter;
-    }
-
-    public GovbrSpecialTaxationRegime getSpecialTaxationRegime() {
-        return specialTaxationRegime;
     }
 
 }

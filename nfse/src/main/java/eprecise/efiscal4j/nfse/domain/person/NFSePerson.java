@@ -8,6 +8,7 @@ import eprecise.efiscal4j.nfse.domain.person.contact.NFSeContact;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
 
 
+@SuppressWarnings("unchecked")
 public abstract class NFSePerson implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,7 +21,7 @@ public abstract class NFSePerson implements Serializable {
 
     private final NFSeContact contact;
 
-    public abstract static class Builder {
+    public abstract static class Builder<T> {
 
         private String name;
 
@@ -30,24 +31,24 @@ public abstract class NFSePerson implements Serializable {
 
         private NFSeContact contact;
 
-        public Builder withName(final String name) {
+        public T withName(final String name) {
             this.name = name;
-            return this;
+            return (T) this;
         }
 
-        public Builder withDocuments(final NFSeDocuments documents) {
+        public T withDocuments(final NFSeDocuments documents) {
             this.documents = documents;
-            return this;
+            return (T) this;
         }
 
-        public Builder withAddress(final NFSeAddress address) {
+        public T withAddress(final NFSeAddress address) {
             this.address = address;
-            return this;
+            return (T) this;
         }
 
-        public Builder withContact(final NFSeContact contact) {
+        public T withContact(final NFSeContact contact) {
             this.contact = contact;
-            return this;
+            return (T) this;
         }
     }
 
@@ -58,7 +59,7 @@ public abstract class NFSePerson implements Serializable {
         contact = null;
     }
 
-    public NFSePerson(final Builder builder) {
+    public NFSePerson(final Builder<?> builder) {
         name = builder.name;
         documents = builder.documents;
         address = builder.address;

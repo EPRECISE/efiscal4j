@@ -19,7 +19,7 @@ public class NFSeServiceEmitterElotechData implements NFSeServiceEmitterSpecific
             return this;
         }
 
-        public NFSeServiceEmitterElotechData build() throws Exception {
+        public NFSeServiceEmitterElotechData build() {
             final NFSeServiceEmitterElotechData entity = new NFSeServiceEmitterElotechData(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

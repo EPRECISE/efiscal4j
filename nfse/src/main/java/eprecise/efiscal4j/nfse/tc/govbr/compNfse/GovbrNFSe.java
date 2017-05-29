@@ -34,7 +34,7 @@ import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 @XmlRootElement(name = "Nfse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrNFSe implements ProcessedNFSe {
+public class GovbrNFSe extends ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
 
