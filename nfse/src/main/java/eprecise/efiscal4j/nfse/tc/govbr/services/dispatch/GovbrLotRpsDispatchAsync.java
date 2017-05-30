@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
@@ -15,11 +16,13 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.GovbrLotRps;
 import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 
 
 @XmlRootElement(name = "EnviarLoteRpsEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = { "lotRps", "signature" })
 public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +49,13 @@ public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements Trans
         public GovbrLotRpsDispatchAsync build() {
             final GovbrLotRpsDispatchAsync entity = new GovbrLotRpsDispatchAsync(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+
+        public GovbrLotRpsDispatchAsync build(final Signer signer) throws Exception {
+            GovbrLotRpsDispatchAsync entity = new GovbrLotRpsDispatchAsync(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            entity = (GovbrLotRpsDispatchAsync) signer.sign(entity);
             return entity;
         }
     }

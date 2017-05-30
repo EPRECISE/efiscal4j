@@ -45,12 +45,10 @@ public class ElotechTransmissionChannel implements TransmissionChannel<SOAPEnvel
     }
 
     @Override
-    public TypedTransmissionResult<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible) throws Exception {
+    public TypedTransmissionResult<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
+            throws Exception {
 
         final ElotechLotRpsDispatchSync lotRpsDispatch = (ElotechLotRpsDispatchSync) transmissible;
-
-        final String cityCode = lotRpsDispatch.getLotRps().getStatementProvisionServices().stream().findAny().orElseThrow(IllegalStateException::new).getInfo().getServiceProvider().getAddress()
-                .getCityCode();
 
         final SOAPEnvelope soapEnvelope = new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(lotRpsDispatch).build())
                 .build(signer);

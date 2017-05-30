@@ -3,11 +3,13 @@ package eprecise.efiscal4j.nfse.tc.govbr.lot;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
@@ -27,6 +29,8 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 public class GovbrLotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @XmlAttribute(name = "Id") final String id = UUID.randomUUID().toString();
 
     private final @XmlElement(name = "NumeroLote") @NotNull @NFSeNonNegativeInteger @Size(max = 15) String lotNumber;
 

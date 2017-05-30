@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
 import eprecise.efiscal4j.nfse.domain.person.contact.NFSeContact;
@@ -38,6 +39,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsy
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
@@ -50,16 +52,25 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private final NFSe nfse;
 
+    private final Certificate certificate;
+
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
+        certificate = builder.getCertificate();
     }
 
     @Override
     public TransmissibleBodyImpl toTransmissible() {
-        return new GovbrLotRpsDispatchAsync.Builder().withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber())
-                .withRpsQuantity(1).withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
-                        .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                .withRpsList(Arrays.asList(buildRps())).build()).build();
+        try {
+            return new GovbrLotRpsDispatchAsync.Builder()
+                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1).withCnpj(nfse.getEmitter().getDocuments().getCnp())
+                            .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
+                                    .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                            .withRpsList(Arrays.asList(buildRps())).build())
+                    .build(new DefaultSigner(certificate));
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private GovbrRps buildRps() {

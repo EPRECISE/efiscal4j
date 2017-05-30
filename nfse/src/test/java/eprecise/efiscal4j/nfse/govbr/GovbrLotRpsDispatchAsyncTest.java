@@ -25,7 +25,7 @@ public class GovbrLotRpsDispatchAsyncTest implements Testable {
         validateByBeanValidationDefault();
     }
 
-    // @Test
+    @Test
     public void validateByXSD() throws Exception {
         validateByXSDDefault();
     }

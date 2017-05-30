@@ -27,7 +27,8 @@ public class ElotechSOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFSeAutorizacao...");
 
-            final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.ELOTECH).transmitAuthorization(getTestDomain().buildElotechLotRpsDispatch());
+            final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.ELOTECH).transmitAuthorization(getTestDomain().buildElotechLotRpsDispatch(), "4119905",
+                    true);
 
             final ElotechLotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ElotechLotRpsDispatchSyncResponse.class)
                     .deserialize();
