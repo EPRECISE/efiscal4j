@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfe.sharing;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,7 +34,7 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  */
 @XmlRootElement(name = ObjectFactory.ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeDispatch extends TransmissibleBodyImpl implements Serializable {
+public class NFeDispatch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,7 +66,7 @@ public class NFeDispatch extends TransmissibleBodyImpl implements Serializable {
          * @param batchId
          * @return
          */
-        public Builder withBatchId(String batchId) {
+        public Builder withBatchId(final String batchId) {
             this.batchId = batchId;
             return this;
         }
@@ -77,7 +76,7 @@ public class NFeDispatch extends TransmissibleBodyImpl implements Serializable {
          * @param synchronousProcessing
          * @return
          */
-        public Builder withSynchronousProcessing(SynchronousProcessing synchronousProcessing) {
+        public Builder withSynchronousProcessing(final SynchronousProcessing synchronousProcessing) {
             this.synchronousProcessing = synchronousProcessing;
             return this;
         }
@@ -89,7 +88,7 @@ public class NFeDispatch extends TransmissibleBodyImpl implements Serializable {
          * @param nFes
          * @return
          */
-        public Builder withNFes(List<NFe> nFes) {
+        public Builder withNFes(final List<NFe> nFes) {
             this.nFes = nFes;
             return this;
         }
@@ -102,43 +101,43 @@ public class NFeDispatch extends TransmissibleBodyImpl implements Serializable {
     }
 
     public NFeDispatch() {
-        this.xmlns = null;
-        this.batchId = null;
-        this.synchronousProcessing = null;
-        this.nFes = null;
+        xmlns = null;
+        batchId = null;
+        synchronousProcessing = null;
+        nFes = null;
     }
 
-    public NFeDispatch(Builder builder) {
-        this.xmlns = (builder.nFes.isEmpty() ? null : builder.nFes.get(0).getXmlns());
-        this.batchId = builder.batchId;
-        this.synchronousProcessing = builder.synchronousProcessing;
-        this.nFes = builder.nFes;
+    public NFeDispatch(final Builder builder) {
+        xmlns = (builder.nFes.isEmpty() ? null : builder.nFes.get(0).getXmlns());
+        batchId = builder.batchId;
+        synchronousProcessing = builder.synchronousProcessing;
+        nFes = builder.nFes;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public String getBatchId() {
-        return this.batchId;
+        return batchId;
     }
 
     public SynchronousProcessing getSynchronousProcessing() {
-        return this.synchronousProcessing;
+        return synchronousProcessing;
     }
 
     public List<NFe> getnFes() {
-        return this.nFes;
+        return nFes;
     }
 
     @Override
-    public void setQName(QName qName) {
+    public void setQName(final QName qName) {
         this.qName = qName;
     }
 
     @Override
     public QName getQName() {
-        return this.qName;
+        return qName;
     }
 
 }

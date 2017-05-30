@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,12 +11,16 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.GovbrLotRps;
+import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 
 
 @XmlRootElement(name = "EnviarLoteRpsEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchAsync extends TransmissibleBodyImpl implements Serializable {
+public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,6 +70,31 @@ public class GovbrLotRpsDispatchAsync extends TransmissibleBodyImpl implements S
     @Override
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
+    }
+
+    @Override
+    public Assignable getAsEntity(final String xml) {
+        return new FiscalDocumentDeserializer<>(xml, GovbrLotRpsDispatchAsync.class).deserialize();
+    }
+
+    @Override
+    public String getRootTagName() {
+        return "EnviarLoteRpsEnvio";
+    }
+
+    @Override
+    public String getAssignableTagName() {
+        return "LoteRps";
+    }
+
+    @Override
+    public String getIdAttributeTagName() {
+        return "Id";
     }
 
 }

@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.sharing;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
@@ -30,7 +29,7 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  */
 @XmlRootElement(name = ObjectFactory.ENV_EVENTO)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventDispatch extends TransmissibleBodyImpl implements Serializable {
+public class EventDispatch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +64,7 @@ public class EventDispatch extends TransmissibleBodyImpl implements Serializable
          * @param batchId
          * @return
          */
-        public Builder withBatchId(String batchId) {
+        public Builder withBatchId(final String batchId) {
             this.batchId = batchId;
             return this;
         }
@@ -77,7 +76,7 @@ public class EventDispatch extends TransmissibleBodyImpl implements Serializable
          * @param events
          * @return
          */
-        public Builder withEvents(ArrayList<Event> events) {
+        public Builder withEvents(final ArrayList<Event> events) {
             this.events = events;
             return this;
         }
@@ -90,34 +89,34 @@ public class EventDispatch extends TransmissibleBodyImpl implements Serializable
     }
 
     public EventDispatch() {
-        this.batchId = null;
-        this.events = null;
+        batchId = null;
+        events = null;
     }
 
-    public EventDispatch(Builder builder) {
-        this.batchId = builder.batchId;
-        this.events = builder.events;
+    public EventDispatch(final Builder builder) {
+        batchId = builder.batchId;
+        events = builder.events;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public String getBatchId() {
-        return this.batchId;
+        return batchId;
     }
 
     public ArrayList<Event> getEvents() {
-        return this.events;
+        return events;
     }
 
     @Override
-    public void setQName(QName qName) {
+    public void setQName(final QName qName) {
         this.qName = qName;
     }
 
     @Override
     public QName getQName() {
-        return this.qName;
+        return qName;
     }
 }

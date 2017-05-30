@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfse.tc.elotech.services.dispatch;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,7 +18,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechLotRpsDispatchSync extends TransmissibleBodyImpl implements Serializable {
+public class ElotechLotRpsDispatchSync implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 

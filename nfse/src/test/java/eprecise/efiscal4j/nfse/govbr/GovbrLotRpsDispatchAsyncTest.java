@@ -20,7 +20,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsy
 
 public class GovbrLotRpsDispatchAsyncTest implements Testable {
 
-    // @Test
+    @Test
     public void validateByBeanValidation() throws Exception {
         validateByBeanValidationDefault();
     }

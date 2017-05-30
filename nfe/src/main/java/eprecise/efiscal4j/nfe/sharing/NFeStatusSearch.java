@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,7 +28,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  */
 @XmlRootElement(name = ObjectFactory.CONS_SIT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeStatusSearch extends TransmissibleBodyImpl implements Serializable {
+public class NFeStatusSearch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +57,7 @@ public class NFeStatusSearch extends TransmissibleBodyImpl implements Serializab
          * @param transmissionEnvironment
          * @return
          */
-        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+        public Builder withTransmissionEnvironment(final TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
@@ -69,7 +67,7 @@ public class NFeStatusSearch extends TransmissibleBodyImpl implements Serializab
          * @param acessKey
          * @return
          */
-        public Builder withAcessKey(String acessKey) {
+        public Builder withAcessKey(final String acessKey) {
             this.acessKey = acessKey;
             return this;
         }
@@ -82,42 +80,42 @@ public class NFeStatusSearch extends TransmissibleBodyImpl implements Serializab
     }
 
     public NFeStatusSearch() {
-        this.transmissionEnvironment = null;
-        this.acessKey = null;
+        transmissionEnvironment = null;
+        acessKey = null;
     }
 
-    public NFeStatusSearch(Builder builder) {
-        this.transmissionEnvironment = builder.transmissionEnvironment;
-        this.acessKey = builder.acessKey;
+    public NFeStatusSearch(final Builder builder) {
+        transmissionEnvironment = builder.transmissionEnvironment;
+        acessKey = builder.acessKey;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public String getXmlns() {
-        return this.xmlns;
+        return xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
-        return this.transmissionEnvironment;
+        return transmissionEnvironment;
     }
 
     public String getRequestedService() {
-        return this.requestedService;
+        return requestedService;
     }
 
     public String getAcessKey() {
-        return this.acessKey;
+        return acessKey;
     }
 
     @Override
-    public void setQName(QName qName) {
+    public void setQName(final QName qName) {
         this.qName = qName;
     }
 
     @Override
     public QName getQName() {
-        return this.qName;
+        return qName;
     }
 }

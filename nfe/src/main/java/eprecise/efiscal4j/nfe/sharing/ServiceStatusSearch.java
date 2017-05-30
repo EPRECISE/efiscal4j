@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,7 +30,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 @XmlRootElement(name = "consStatServ")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "version", "xmlns", "transmissionEnvironment", "serviceUf", "requestedService" })
-public class ServiceStatusSearch extends TransmissibleBodyImpl implements Serializable {
+public class ServiceStatusSearch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,7 +59,7 @@ public class ServiceStatusSearch extends TransmissibleBodyImpl implements Serial
          * @param transmissionEnvironment
          * @return
          */
-        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+        public Builder withTransmissionEnvironment(final TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
@@ -72,7 +70,7 @@ public class ServiceStatusSearch extends TransmissibleBodyImpl implements Serial
          * @param serviceUf
          * @return
          */
-        public Builder withServiceUf(UF serviceUf) {
+        public Builder withServiceUf(final UF serviceUf) {
             this.serviceUf = serviceUf;
             return this;
         }
@@ -86,42 +84,42 @@ public class ServiceStatusSearch extends TransmissibleBodyImpl implements Serial
     }
 
     public ServiceStatusSearch() {
-        this.transmissionEnvironment = null;
-        this.serviceUf = null;
+        transmissionEnvironment = null;
+        serviceUf = null;
     }
 
-    public ServiceStatusSearch(Builder builder) {
-        this.transmissionEnvironment = builder.transmissionEnvironment;
-        this.serviceUf = builder.serviceUf;
+    public ServiceStatusSearch(final Builder builder) {
+        transmissionEnvironment = builder.transmissionEnvironment;
+        serviceUf = builder.serviceUf;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public String getXmlns() {
-        return this.xmlns;
+        return xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
-        return this.transmissionEnvironment;
+        return transmissionEnvironment;
     }
 
     public UF getServiceUf() {
-        return this.serviceUf;
+        return serviceUf;
     }
 
     public String getRequestedService() {
-        return this.requestedService;
+        return requestedService;
     }
 
     @Override
-    public void setQName(QName qName) {
+    public void setQName(final QName qName) {
         this.qName = qName;
     }
 
     @Override
     public QName getQName() {
-        return this.qName;
+        return qName;
     }
 }

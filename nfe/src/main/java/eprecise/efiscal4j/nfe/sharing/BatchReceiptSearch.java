@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -30,7 +28,7 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
  */
 @XmlRootElement(name = ObjectFactory.CONS_RECI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BatchReceiptSearch extends TransmissibleBodyImpl implements Serializable {
+public class BatchReceiptSearch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,7 +55,7 @@ public class BatchReceiptSearch extends TransmissibleBodyImpl implements Seriali
          * @param transmissionEnvironment
          * @return
          */
-        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+        public Builder withTransmissionEnvironment(final TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
@@ -68,7 +66,7 @@ public class BatchReceiptSearch extends TransmissibleBodyImpl implements Seriali
          * @param receiptNumber
          * @return
          */
-        public Builder withReceiptNumber(String receiptNumber) {
+        public Builder withReceiptNumber(final String receiptNumber) {
             this.receiptNumber = receiptNumber;
             return this;
         }
@@ -82,38 +80,38 @@ public class BatchReceiptSearch extends TransmissibleBodyImpl implements Seriali
     }
 
     public BatchReceiptSearch() {
-        this.transmissionEnvironment = null;
-        this.receiptNumber = null;
+        transmissionEnvironment = null;
+        receiptNumber = null;
     }
 
-    public BatchReceiptSearch(Builder builder) {
-        this.transmissionEnvironment = builder.transmissionEnvironment;
-        this.receiptNumber = builder.receiptNumber;
+    public BatchReceiptSearch(final Builder builder) {
+        transmissionEnvironment = builder.transmissionEnvironment;
+        receiptNumber = builder.receiptNumber;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return this.version;
+        return version;
     }
 
     public String getXmlns() {
-        return this.xmlns;
+        return xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
-        return this.transmissionEnvironment;
+        return transmissionEnvironment;
     }
 
     public String getReceiptNumber() {
-        return this.receiptNumber;
+        return receiptNumber;
     }
 
     @Override
-    public void setQName(QName qName) {
+    public void setQName(final QName qName) {
         this.qName = qName;
     }
 
     @Override
     public QName getQName() {
-        return this.qName;
+        return qName;
     }
 }
