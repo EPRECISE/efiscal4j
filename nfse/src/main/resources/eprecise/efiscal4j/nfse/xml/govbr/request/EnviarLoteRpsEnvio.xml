@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnviarLoteRpsEnvio xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><LoteRps Id="lote"><NumeroLote>2</NumeroLote><Cnpj>05266329000384</Cnpj><InscricaoMunicipal>337325</InscricaoMunicipal><QuantidadeRps>1</QuantidadeRps><ListaRps><Rps><InfRps Id="rps:000001.F"><IdentificacaoRps><Numero>000001</Numero><Serie>F</Serie><Tipo>1</Tipo></IdentificacaoRps><DataEmissao>2015-05-29T00:00:00</DataEmissao><NaturezaOperacao>1</NaturezaOperacao><OptanteSimplesNacional>2</OptanteSimplesNacional><IncentivadorCultural>2</IncentivadorCultural><Status>1</Status><Servico><Valores><ValorServicos>16.00</ValorServicos><IssRetido>2</IssRetido><ValorIss>0.32</ValorIss><Aliquota>0.02</Aliquota><ValorLiquidoNfse>16.00</ValorLiquidoNfse></Valores><ItemListaServico>1401</ItemListaServico><CodigoTributacaoMunicipio>9529199</CodigoTributacaoMunicipio><Discriminacao>2 - UN  - MONT FIO DE NYLON CR-39 - R$ 16,00; NOTA FISCAL DISPONIVEL NO SITE:
+https://isscuritiba.curitiba.pr.gov.br/portalnfse; NOTA FISCAL DISPONIVEL NO SITE:
+https://isscuritiba.curitiba.pr.gov.br/portalnfse;PEDIDO: 000055.001 -;CLIENTE: 833 RELOJOARIA E OPTICA VATICANO ( PATO BRANCO )</Discriminacao><CodigoMunicipio>4118501</CodigoMunicipio></Servico><Prestador><Cnpj>05266329000384</Cnpj><InscricaoMunicipal>337325</InscricaoMunicipal></Prestador><Tomador><IdentificacaoTomador><CpfCnpj><Cnpj>75131813000110</Cnpj></CpfCnpj></IdentificacaoTomador><RazaoSocial>RELOJOARIA E OPTICA VATICANO LTDA</RazaoSocial><Endereco><Endereco>RUA GUARANI</Endereco><Numero>460</Numero><Bairro>CENTRO</Bairro><CodigoMunicipio>4118501</CodigoMunicipio><Uf>PR</Uf><Cep>85501050</Cep></Endereco><Contato><Email>OPTICAVATICANO@GMAIL.COM</Email></Contato></Tomador></InfRps></Rps></ListaRps></LoteRps><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#lote"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>dp3xLMHkjOU/M2wh2QQ8hKpzlOo=</DigestValue></Reference></SignedInfo><SignatureValue>
+    dLk7fyehN0pWfFz3IyWzfC/dTkvpaYA00I721kziaj0PlMzAHFE5/y4D7HgJlzo/1Np2EvJu
+    0C4WG0FafLwKesD2JyBGrNdpO8H6aQ0KtlSTdZS0KCPagk2udjzMwYGmy14JBMhcMXn/Bey+
+    E+Ril+zWf6NnbOQhkwqxH4GTys7ykOcRXK0dsPIAzdR2WCo8/HVTn5zLy83okKkLufJBIhiT
+    alUYK715zh/QRmCMeVr/CWhnVyW6jP/GgE3pUIvdCSkfdCJ0yI6txI17IkYqS2uhQv+oaTpS
+    F1DoEEzT0a4R9A2fSc990KqZCrCikBKA6dUwXKl3B5ok1qbOTKCrEQ==
+  </SignatureValue><KeyInfo>
+			<X509Data>
+				<X509Certificate>
+          MIIIizCCBnOgAwIBAgIQKnCFapxPfymY02otVwej6TANBgkqhkiG9w0BAQsFADCBgDELMAkG
+          A1UEBhMCQlIxEzARBgNVBAoTCklDUC1CcmFzaWwxNjA0BgNVBAsTLVNlY3JldGFyaWEgZGEg
+          UmVjZWl0YSBGZWRlcmFsIGRvIEJyYXNpbCAtIFJGQjEkMCIGA1UEAxMbQUMgSW5zdGl0dXRv
+          IEZlbmFjb24gUkZCIEcyMB4XDTE0MTExOTAwMDAwMFoXDTE1MTExODIzNTk1OVowgf8xCzAJ
+          BgNVBAYTAkJSMRMwEQYDVQQKFApJQ1AtQnJhc2lsMQswCQYDVQQIEwJQUjERMA8GA1UEBxQI
+          Q1VSSVRJQkExNjA0BgNVBAsULVNlY3JldGFyaWEgZGEgUmVjZWl0YSBGZWRlcmFsIGRvIEJy
+          YXNpbCAtIFJGQjEWMBQGA1UECxQNUkZCIGUtQ05QSiBBMTElMCMGA1UECxQcQXV0ZW50aWNh
+          ZG8gcG9yIEFSIFNlc2NhcCBQUjFEMEIGA1UEAxM7Q09NT1BUSUNPUyBDT01FUkNJTyBERSBQ
+          Uk9EVVRPUyBPUFRJQ09TIExUREE6MDUyNjYzMjkwMDAxMTIwggEiMA0GCSqGSIb3DQEBAQUA
+          A4IBDwAwggEKAoIBAQCJvtQTm36NWne78E5jfZ0DO68x3KgXh99mrR+RPRUb9E29JxGu/0if
+          UnKU3tgZ3G964dcKGFTECbTn+YzdkzhzN2mVu+0XIWed5NMccs+iUIheC+oSKWl0pq971zRa
+          rPz47vfBAWpUPFG8GlljcD0ivahbNec//ZAKgZYj4ICZEezuCR8kyTCHkK+uzTNFxHhdtsLm
+          5+xbh01+kAwjO40pQCDcQ9gCpuPMVJTkMPW7lUzc4l1FBb+BVY47ZdJf5g3wcn1IbW6DGqeh
+          hqeVkY+z3kClbTnkMZp5cDjRiodzi//wDWXbox9kZeHEoQzpU7Wpj0ysMiDohaS9NaaT3E3V
+          AgMBAAGjggN+MIIDejCBwQYDVR0RBIG5MIG2oD4GBWBMAQMEoDUEMzAyMTAxOTc5MDI4NTAy
+          MTU5MTAwMDAwMDAwMDAwMDAwMDAwMDA3NTEzMjAwMFNFU1BQUqAoBgVgTAEDAqAfBB1NQVJJ
+          QU5BIE1BUklBTkkgUk9TU09OSSBHQUlEQaAZBgVgTAEDA6AQBA4wNTI2NjMyOTAwMDExMqAX
+          BgVgTAEDB6AOBAwwMDAwMDAwMDAwMDCBFm1hcmlhbmFAbGFib3B0aWxhYi5jb20wCQYDVR0T
+          BAIwADAfBgNVHSMEGDAWgBTselvPhkiDtwMVtclNRtbcWnUW3TAOBgNVHQ8BAf8EBAMCBeAw
+          ggErBgNVHR8EggEiMIIBHjBeoFygWoZYaHR0cDovL2ljcC1icmFzaWwuYWNmZW5hY29uLmNv
+          bS5ici9yZXBvc2l0b3Jpby9sY3IvQUNJbnN0aXR1dG9GZW5hY29uUkZCRzIvTGF0ZXN0Q1JM
+          LmNybDBdoFugWYZXaHR0cDovL2ljcC1icmFzaWwub3V0cmFsY3IuY29tLmJyL3JlcG9zaXRv
+          cmlvL2xjci9BQ0luc3RpdHV0b0ZlbmFjb25SRkJHMi9MYXRlc3RDUkwuY3JsMF2gW6BZhldo
+          dHRwOi8vcmVwb3NpdG9yaW8uaWNwYnJhc2lsLmdvdi5ici9sY3IvQ2VydGlzaWduL0FDSW5z
+          dGl0dXRvRmVuYWNvblJGQkcyL0xhdGVzdENSTC5jcmwwgYYGA1UdIAR/MH0wewYGYEwBAgEi
+          MHEwbwYIKwYBBQUHAgEWY2h0dHA6Ly9pY3AtYnJhc2lsLmFjZmVuYWNvbi5jb20uYnIvcmVw
+          b3NpdG9yaW8vZHBjL0FDLUluc3RpdHV0by1GZW5hY29uLVJGQi9EUENfQUNfSUZlbmFjb25f
+          UkZCLnBkZjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgaAGCCsGAQUFBwEBBIGT
+          MIGQMGQGCCsGAQUFBzAChlhodHRwOi8vaWNwLWJyYXNpbC5hY2ZlbmFjb24uY29tLmJyL3Jl
+          cG9zaXRvcmlvL2NlcnRpZmljYWRvcy9BQ19JbnN0aXR1dG9fRmVuYWNvbl9SRkIucDdjMCgG
+          CCsGAQUFBzABhhxodHRwOi8vb2NzcC5jZXJ0aXNpZ24uY29tLmJyMA0GCSqGSIb3DQEBCwUA
+          A4ICAQAgjflIlpJ02pbFafJ4cp5440Fzzga2irlbageUhPtftp4PZBC5Mn0xEWGFY/nc9RIh
+          PgXj8kzNClBsX6kWEt0IQphuh0yioDMx1HXa/65mIJbhxwUXi3SyqAYarH5+7cqWu04BImHU
+          QteSTMOjjizjOCsYGdP/+IAzDJcqvnw6kzhFwqFGLftgPY0MRBmocazswm4xmezs3AHyyJVI
+          O44uC+qwUqglNiIzZFqSpSXFoVfFDagW0p7IoIxNhFDJaQJmvURnbTfpUDdB2AtxgctDOOOi
+          oXFWOKYTGnY5rfSJFW3a9tYk6cDG7z7iLRL8GpHYZAyJuLKTLl4dXMX3hcCo5p8yo0ak3+K1
+          FIXr4L0DngDOS4UcbvhFr6ahkVk4e+TlpEwFb0DVorD31rStJBnO209LRhE+80myBIH3VL5C
+          2VtMvbT551w3MITRrfNpuGsE2ELsR3mJByzrO6WPsoltC0UrSZaapQBFGhShn213oDMkM8Uk
+          /KaLkaRMbpAbcdN0LYLxERQqthzdR7dK/blY1Bc5f1lPjPHCo177+ZNLdoJqDz6sYFoFx1tE
+          3uxuKLwsNO5bXwPuHmqRsbUkhP5fyyU0OiNjqaC1Cr9ALF5rEF2yyEQVKfo9KkX8NHTspGQB
+          UY6C3kIPYOjWU07LYM8fC+FNOwtGyYE9OQtQU7rSig==
+        </X509Certificate>
+			</X509Data>
+		</KeyInfo></Signature></EnviarLoteRpsEnvio>

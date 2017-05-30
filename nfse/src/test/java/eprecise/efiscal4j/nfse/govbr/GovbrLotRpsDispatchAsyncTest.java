@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.elotech;
+package eprecise.efiscal4j.nfse.govbr;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,24 +15,24 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
 import eprecise.efiscal4j.nfse.domain.Testable;
-import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
 
 
-public class LotRpsDispatchTest implements Testable {
+public class GovbrLotRpsDispatchAsyncTest implements Testable {
 
-    @Test
+    // @Test
     public void validateByBeanValidation() throws Exception {
         validateByBeanValidationDefault();
     }
 
-    @Test
+    // @Test
     public void validateByXSD() throws Exception {
         validateByXSDDefault();
     }
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final String xmlPath = "/eprecise/efiscal4j/nfse/xml/elotech/request";
+        final String xmlPath = "/eprecise/efiscal4j/nfse/xml/govbr/request";
 
         final File folder = new File(this.getClass().getResource(xmlPath).toURI());
         final File[] fileList = folder.listFiles();
@@ -50,7 +50,7 @@ public class LotRpsDispatchTest implements Testable {
     }
 
     private void xmlImportTest(final URL xmlUrl) throws JAXBException, IOException {
-        final ElotechLotRpsDispatchSync lotRpsDispatch = new FiscalDocumentDeserializer<>(xmlUrl, ElotechLotRpsDispatchSync.class).deserialize();
+        final GovbrLotRpsDispatchAsync lotRpsDispatch = new FiscalDocumentDeserializer<>(xmlUrl, GovbrLotRpsDispatchAsync.class).deserialize();
         Assert.assertNotNull(lotRpsDispatch);
         try {
             ValidationBuilder.from(lotRpsDispatch).validate().throwIfViolate();
@@ -61,12 +61,12 @@ public class LotRpsDispatchTest implements Testable {
 
     @Override
     public TestDomain getTestDomain() {
-        return new TestDomain(ElotechLotRpsDispatchSync.XSD);
+        return new TestDomain(GovbrLotRpsDispatchAsync.XSD);
     }
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildElotechLotRpsDispatch();
+        return getTestDomain().buildGovbrLotRpsDispatch();
     }
 
 }

@@ -22,6 +22,8 @@ public class GovbrLotRpsDispatchAsync extends TransmissibleBodyImpl implements S
 
     private static final long serialVersionUID = 1L;
 
+    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/servico_enviar_lote_rps_envio.xsd";
+
     private final @NotNull @XmlElement(name = "LoteRps") GovbrLotRps lotRps;
 
     private @XmlTransient QName qName = new QName("EnviarLoteRpsEnvio");
@@ -39,7 +41,7 @@ public class GovbrLotRpsDispatchAsync extends TransmissibleBodyImpl implements S
             return this;
         }
 
-        public GovbrLotRpsDispatchAsync build() throws Exception {
+        public GovbrLotRpsDispatchAsync build() {
             final GovbrLotRpsDispatchAsync entity = new GovbrLotRpsDispatchAsync(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

@@ -95,7 +95,7 @@ public class GovbrLotRps implements Serializable {
             return this;
         }
 
-        public GovbrLotRps build() throws Exception {
+        public GovbrLotRps build() {
             final GovbrLotRps entity = new GovbrLotRps(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

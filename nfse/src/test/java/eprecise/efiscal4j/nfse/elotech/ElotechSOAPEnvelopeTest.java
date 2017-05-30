@@ -13,7 +13,7 @@ import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
 
-public class SOAPEnvelopeTest implements Testable {
+public class ElotechSOAPEnvelopeTest implements Testable {
 
     private final TestDomain testDomain = new TestDomain();
 

@@ -15,7 +15,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatc
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 
 
-public class SOAPMessageTest implements Testable {
+public class ElotechSOAPMessageTest implements Testable {
 
     /**
      * Teste do serviço de NFeAutorizacao

@@ -225,7 +225,7 @@ public class GovbrValues {
             return this;
         }
 
-        public GovbrValues build() throws Exception {
+        public GovbrValues build() {
             final GovbrValues entity = new GovbrValues(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

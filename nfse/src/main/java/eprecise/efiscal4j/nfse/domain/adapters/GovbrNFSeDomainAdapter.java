@@ -56,17 +56,13 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public TransmissibleBodyImpl toTransmissible() {
-        try {
-            return new GovbrLotRpsDispatchAsync.Builder().withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1)
-                    .withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
-                            .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                    .withRpsList(Arrays.asList(buildRps())).build()).build();
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
+        return new GovbrLotRpsDispatchAsync.Builder().withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber())
+                .withRpsQuantity(1).withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
+                        .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withRpsList(Arrays.asList(buildRps())).build()).build();
     }
 
-    private GovbrRps buildRps() throws Exception {
+    private GovbrRps buildRps() {
         //@formatter:off
         return new GovbrRps.Builder()
                 .withInfo(new GovbrRps.Info.Builder()
@@ -76,10 +72,10 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                                 .withNumber(nfse.getSerie().getRpsNumber())
                                 .build())
                         .withEmissionDate(NFSE_DATETIME_FORMAT.format(nfse.getEmission()))
-                        .withNatureOperation(Optional.ofNullable(nfse.getSpecificData()).map(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))
+                        .withNatureOperation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))
                         .withSpecialTaxationRegime(Optional.ofNullable(nfse.getSpecialTaxationRegime()).filter(GovbrSpecialTaxationRegime.class::isInstance).map(GovbrSpecialTaxationRegime.class::cast).orElse(null))
-                        .withSimpleNational(Optional.ofNullable(nfse.getSpecificData()).map(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getSimpleNational).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
-                        .withCulturalPromoter(Optional.ofNullable(nfse.getSpecificData()).map(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getCulturalPromoter).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
+                        .withSimpleNational(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getSimpleNational).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
+                        .withCulturalPromoter(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getCulturalPromoter).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
                         .withStatus(CommonsRpsStatus.NORMAL)
                         .withService(buildService())
                         .withServiceProviderIdentifier(buildServiceProviderIdentifier())
@@ -91,7 +87,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:on
     }
 
-    private GovbrService buildService() throws Exception {
+    private GovbrService buildService() {
         //@formatter:off
         final GovbrService.Builder builder = new GovbrService.Builder()
                 .withServiceValues(buildServiceValues())
@@ -105,7 +101,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     }
 
-    private GovbrValues buildServiceValues() throws Exception {
+    private GovbrValues buildServiceValues() {
         //@formatter:off
         return new GovbrValues.Builder()
                 .withServiceValue(formatNFSeValue(nfse.getService().getServiceValue()))
@@ -127,7 +123,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:on
     }
 
-    private GovbrServiceProviderIdentifier buildServiceProviderIdentifier() throws Exception {
+    private GovbrServiceProviderIdentifier buildServiceProviderIdentifier() {
         //@formatter:off
         return new GovbrServiceProviderIdentifier.Builder()
                 .withCnpj(nfse.getEmitter().getDocuments().getCnp())
@@ -136,7 +132,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:on
     }
 
-    private GovbrServiceTaker buildServiceTaker() throws Exception {
+    private GovbrServiceTaker buildServiceTaker() {
         if (nfse.getTaker() == null) {
             return null;
         }
@@ -155,7 +151,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:on
     }
 
-    private GovbrServiceIntermediaryIdentifier buildServiceIntermediaryIdentifier() throws Exception {
+    private GovbrServiceIntermediaryIdentifier buildServiceIntermediaryIdentifier() {
         if (nfse.getIntermediary() == null) {
             return null;
         }
@@ -168,7 +164,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:on
     }
 
-    private CommonsNFSeCnp buildCnp(final NFSeDocuments documents) throws Exception {
+    private CommonsNFSeCnp buildCnp(final NFSeDocuments documents) {
         if (documents instanceof NFSeLegalEntityDocuments) {
             return new CommonsNFSeCnpj.Builder().withCnpj(documents.getCnp()).build();
         } else if (documents instanceof NFSeNaturalPersonDocuments) {
@@ -179,12 +175,14 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private CommonsNFSeContact buildNFSeContacts(final NFSeContact contact) {
-        return new CommonsNFSeContact.Builder().withEmail(contact.getEmail()).withPhone(contact.getPhone()).build();
+        return Optional.ofNullable(contact).map(c -> new CommonsNFSeContact.Builder().withEmail(c.getEmail()).withPhone(c.getPhone()).build()).orElse(null);
     }
 
     private CommonsNFSeAddress buildNFSeAddress(final NFSeAddress address) {
+        if (address == null) {
+            return null;
+        }
         //@formatter:off
-        try {
             return new CommonsNFSeAddress.Builder()
             .withAddress(address.getStreet())
             .withNumber(address.getNumber())
@@ -193,9 +191,6 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
             .withUf(CommonsNFSeUF.findByAcronym(address.getCity().getUf().getAcronym()))
             .withCep(address.getZipCode())
             .build();
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
         //@formatter:on
 
     }

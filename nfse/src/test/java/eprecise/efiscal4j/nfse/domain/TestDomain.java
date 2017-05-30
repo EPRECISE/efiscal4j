@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssRequ
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrNatureOperation;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 
@@ -106,14 +107,10 @@ public class TestDomain {
         }
     }
 
-    public NFSe buildNFSe(final NFSeAdapter adapter) throws Exception {
+    public NFSe buildNFSe(final NFSeCity city) throws Exception {
       //@formatter:off
         try{
-            final NFSeCity city = new NFSeCity.Builder()
-                    .withName("Ponta Grossa")
-                    .withUf(NFSeUF.PR)
-                    .withIbgeCode("4119905")
-                    .build();
+            final NFSeAdapter adapter = Optional.ofNullable(NFSeAdapter.findAdapterBy(city.getIbgeCode())).orElseThrow(UnsupportedOperationException::new);
             
             final NFSe nfse = new NFSe.Builder()
                     .withSerie(new NFSeSerie.Builder()
@@ -177,6 +174,7 @@ public class TestDomain {
                             .build())
                     .withSpecialTaxationRegime(buildNFSeSpecialTaxationRegime(adapter))
                     .withSpecificData(buildNFSeSpecificData(adapter))
+                    .withNetValue(new BigDecimal("10.00"))
                     .build();
             
             return nfse;
@@ -224,8 +222,16 @@ public class TestDomain {
     }
 
     public ElotechLotRpsDispatchSync buildElotechLotRpsDispatch() throws Exception {
-        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(NFSeAdapter.ELOTECH)).withCertificate(keyCertificate).build();
+        final NFSeCity city = new NFSeCity.Builder().withName("Ponta Grossa").withUf(NFSeUF.PR).withIbgeCode("4119905").build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(city)).withCertificate(keyCertificate).build();
         return Optional.ofNullable(domainAdapter.toTransmissible()).filter(ElotechLotRpsDispatchSync.class::isInstance).map(ElotechLotRpsDispatchSync.class::cast)
+                .orElseThrow(IllegalStateException::new);
+    }
+
+    public GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch() throws Exception {
+        final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(city)).withCertificate(keyCertificate).build();
+        return Optional.ofNullable(domainAdapter.toTransmissible()).filter(GovbrLotRpsDispatchAsync.class::isInstance).map(GovbrLotRpsDispatchAsync.class::cast)
                 .orElseThrow(IllegalStateException::new);
     }
 

@@ -20,7 +20,7 @@ import eprecise.efiscal4j.nfse.domain.Testable;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
 
 
-public class LotRpsDispatchResponseTest implements Testable {
+public class ElotechLotRpsDispatchSyncResponseTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {

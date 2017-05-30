@@ -106,7 +106,7 @@ public class CommonsNFSeAddress {
             return this;
         }
 
-        public CommonsNFSeAddress build() throws Exception {
+        public CommonsNFSeAddress build() {
             final CommonsNFSeAddress entity = new CommonsNFSeAddress(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

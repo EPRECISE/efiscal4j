@@ -157,7 +157,7 @@ public class GovbrServiceProvider {
                 return this;
             }
 
-            public GovbrServiceProviderIdentifier build() throws Exception {
+            public GovbrServiceProviderIdentifier build() {
                 final GovbrServiceProviderIdentifier entity = new GovbrServiceProviderIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

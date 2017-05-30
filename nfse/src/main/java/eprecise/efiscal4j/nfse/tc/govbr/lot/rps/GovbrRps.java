@@ -32,7 +32,7 @@ public class GovbrRps {
             return this;
         }
 
-        public GovbrRps build() throws Exception {
+        public GovbrRps build() {
             final GovbrRps entity = new GovbrRps(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -225,7 +225,7 @@ public class GovbrRps {
                 return this;
             }
 
-            public Info build() throws Exception {
+            public Info build() {
                 final Info entity = new Info(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

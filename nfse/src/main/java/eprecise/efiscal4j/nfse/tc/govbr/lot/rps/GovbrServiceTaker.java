@@ -69,7 +69,7 @@ public class GovbrServiceTaker {
             return this;
         }
 
-        public GovbrServiceTaker build() throws Exception {
+        public GovbrServiceTaker build() {
             final GovbrServiceTaker entity = new GovbrServiceTaker(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
@@ -137,7 +137,7 @@ public class GovbrServiceTaker {
                 return this;
             }
 
-            public GovbrServiceTakerIdentifier build() throws Exception {
+            public GovbrServiceTakerIdentifier build() {
                 final GovbrServiceTakerIdentifier entity = new GovbrServiceTakerIdentifier(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;

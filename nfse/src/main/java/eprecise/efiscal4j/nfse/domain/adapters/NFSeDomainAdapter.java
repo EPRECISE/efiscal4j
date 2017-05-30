@@ -33,10 +33,19 @@ public interface NFSeDomainAdapter {
             return nfseAdapterClass;
         }
 
-        public static Class<? extends NFSeDomainAdapter> findAdapterBy(final String cityCode) {
+        public static Class<? extends NFSeDomainAdapter> findNFSeDomainAdapterBy(final String cityCode) {
             for (final NFSeAdapter adapter : NFSeAdapter.values()) {
                 if (adapter.supportedCityCodes.contains(cityCode)) {
                     return adapter.getNfseAdapterClass();
+                }
+            }
+            return null;
+        }
+
+        public static NFSeAdapter findAdapterBy(final String cityCode) {
+            for (final NFSeAdapter adapter : NFSeAdapter.values()) {
+                if (adapter.supportedCityCodes.contains(cityCode)) {
+                    return adapter;
                 }
             }
             return null;
@@ -62,7 +71,7 @@ public interface NFSeDomainAdapter {
         public NFSeDomainAdapter build() {
             final String cityCode = nfse.getService().getCityService().getIbgeCode();
             try {
-                return NFSeAdapter.findAdapterBy(cityCode).getConstructor(Builder.class).newInstance(this);
+                return NFSeAdapter.findNFSeDomainAdapterBy(cityCode).getConstructor(Builder.class).newInstance(this);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
             }

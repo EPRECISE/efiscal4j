@@ -94,7 +94,7 @@ public class GovbrService {
             return this;
         }
 
-        public GovbrService build() throws Exception {
+        public GovbrService build() {
             final GovbrService entity = new GovbrService(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

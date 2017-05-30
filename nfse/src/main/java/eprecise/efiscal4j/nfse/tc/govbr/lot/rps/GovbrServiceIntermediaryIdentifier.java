@@ -55,7 +55,7 @@ public class GovbrServiceIntermediaryIdentifier {
             return this;
         }
 
-        public GovbrServiceIntermediaryIdentifier build() throws Exception {
+        public GovbrServiceIntermediaryIdentifier build() {
             final GovbrServiceIntermediaryIdentifier entity = new GovbrServiceIntermediaryIdentifier(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
