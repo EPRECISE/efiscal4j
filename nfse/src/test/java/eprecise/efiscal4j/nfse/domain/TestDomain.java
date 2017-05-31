@@ -111,7 +111,7 @@ public class TestDomain {
       //@formatter:off
         try{
             final NFSeAdapter adapter = Optional.ofNullable(NFSeAdapter.findAdapterBy(city.getIbgeCode())).orElseThrow(UnsupportedOperationException::new);
-            
+
             final NFSe nfse = new NFSe.Builder()
                     .withSerie(new NFSeSerie.Builder()
                             .withSerie("E")
@@ -158,8 +158,8 @@ public class TestDomain {
                     .withIssHeld(new NFSeWithoutIssHeld())
                     .withService(new NFSeService.Builder()
                             .withName("Serviço xyz")
-                            .withCnaeCode("6204000")
-                            .withNationalServiceCode("106")
+                            .withCnaeCode("6550200")
+                            .withNationalServiceCode("4.23")
                             .withCityService(city)
                             .withDiscrimination("Teste de discriminação de serviço")
                             .withUnitaryValue(new BigDecimal("10.00"))
@@ -176,7 +176,7 @@ public class TestDomain {
                     .withSpecificData(buildNFSeSpecificData(adapter))
                     .withNetValue(new BigDecimal("10.00"))
                     .build();
-            
+
             return nfse;
         } catch(final Exception e){
             throw new RuntimeException(e);
@@ -196,7 +196,7 @@ public class TestDomain {
             return new NFSeGovbrData.Builder()
                     .withCulturalPromoter(false)
                     .withNatureOperation(GovbrNatureOperation.MUNICIPAL_TAXATION)
-                    .withSimpleNational(true)
+                    .withSimpleNational(false)
                     .build();
         }
         return null;
