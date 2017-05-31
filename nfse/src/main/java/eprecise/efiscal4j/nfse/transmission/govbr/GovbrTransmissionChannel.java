@@ -19,7 +19,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
  * @author Fernando C Glizt
  *
  */
-public class GovbrTransmissionChannel implements TransmissionChannel<GovbrLotRpsDispatchAsync, GovbrLotRpsDispatchAsyncResponse> {
+public class GovbrTransmissionChannel implements TransmissionChannel {
 
     private final Transmissor transmissor;
 
@@ -51,6 +51,13 @@ public class GovbrTransmissionChannel implements TransmissionChannel<GovbrLotRps
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
 
+    }
+
+    @Override
+    public TypedTransmissionResult<GovbrLotRpsDispatchAsync, GovbrLotRpsDispatchAsyncResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
+            final boolean homologation) throws Exception {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -24,7 +24,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
  * @author Fernando C Glizt
  *
  */
-public class ElotechTransmissionChannel implements TransmissionChannel<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> {
+public class ElotechTransmissionChannel implements TransmissionChannel {
 
     private final Transmissor transmissor;
 
@@ -63,6 +63,12 @@ public class ElotechTransmissionChannel implements TransmissionChannel<SOAPEnvel
 
         return new TypedTransmissionResult<>(SOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
 
+    }
+
+    @Override
+    public TypedTransmissionResult<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
+            throws Exception {
+        throw new UnsupportedOperationException();
     }
 
 }
