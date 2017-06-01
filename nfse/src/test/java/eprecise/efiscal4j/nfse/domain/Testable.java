@@ -29,6 +29,7 @@ public interface Testable {
 
     default void validateByXSDDefault(final NamespacePrefixMapper namespacePrefixMapper) throws Exception {
         final String xml = new FiscalDocumentSerializer<>(getBuiltEntity()).withNamespacePrefixMapper(namespacePrefixMapper).serialize();
+        // final String xml = FileUtils.readFileToString(new File(getClass().getResource("/eprecise/efiscal4j/nfse/xml/govbr/request/EnviarLoteRpsEnvio.xml").getFile()));
         System.out.println(xml + "\n");
 
         final ValidationResult validate = getTestDomain().getValidator().validate(xml);

@@ -52,22 +52,26 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private final NFSe nfse;
 
-    private final Certificate certificate;
+    private final Optional<Certificate> certificate;
 
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
-        certificate = builder.getCertificate();
+        certificate = Optional.ofNullable(builder.getCertificate());
     }
 
     @Override
     public TransmissibleBodyImpl toTransmissible() {
         try {
-            return new GovbrLotRpsDispatchAsync.Builder()
-                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1).withCnpj(nfse.getEmitter().getDocuments().getCnp())
-                            .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
-                                    .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                            .withRpsList(Arrays.asList(buildRps())).build())
-                    .build(new DefaultSigner(certificate));
+            final GovbrLotRpsDispatchAsync.Builder lotRpsDispatchBuilder = new GovbrLotRpsDispatchAsync.Builder()
+                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1)
+                            .withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
+                                    .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                            .withRpsList(Arrays.asList(buildRps())).build());
+            if (certificate.isPresent()) {
+                return lotRpsDispatchBuilder.build(new DefaultSigner(certificate.get()));
+            } else {
+                return lotRpsDispatchBuilder.build();
+            }
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

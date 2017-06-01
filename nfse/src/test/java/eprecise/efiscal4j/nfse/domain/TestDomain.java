@@ -230,7 +230,7 @@ public class TestDomain {
 
     public GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
-        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(city)).withCertificate(keyCertificate).build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(city)).build();
         return Optional.ofNullable(domainAdapter.toTransmissible()).filter(GovbrLotRpsDispatchAsync.class::isInstance).map(GovbrLotRpsDispatchAsync.class::cast)
                 .orElseThrow(IllegalStateException::new);
     }

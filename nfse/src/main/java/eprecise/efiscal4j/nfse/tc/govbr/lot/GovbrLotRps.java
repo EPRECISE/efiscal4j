@@ -30,7 +30,7 @@ public class GovbrLotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlAttribute(name = "Id") final String id = UUID.randomUUID().toString();
+    private @XmlAttribute(name = "Id") final String id = UUID.randomUUID().toString().replaceAll("-", "");
 
     private final @XmlElement(name = "NumeroLote") @NotNull @NFSeNonNegativeInteger @Size(max = 15) String lotNumber;
 
