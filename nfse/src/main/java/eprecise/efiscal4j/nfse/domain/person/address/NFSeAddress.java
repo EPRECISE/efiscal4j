@@ -66,7 +66,7 @@ public class NFSeAddress implements Serializable {
             return this;
         }
 
-        public NFSeAddress build() throws Exception {
+        public NFSeAddress build() {
             final NFSeAddress entity = new NFSeAddress(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

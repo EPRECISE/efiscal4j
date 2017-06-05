@@ -10,7 +10,7 @@ public class NFSeWithIssHeld implements NFSeIssHeld {
 
     private final NFSeWithIssHeldSpecificData specificData;
 
-    public class Builder {
+    public static class Builder {
 
         private NFSeWithIssHeldSpecificData specificData;
 

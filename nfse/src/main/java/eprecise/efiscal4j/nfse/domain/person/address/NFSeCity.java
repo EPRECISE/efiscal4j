@@ -35,7 +35,7 @@ public class NFSeCity {
             return this;
         }
 
-        public NFSeCity build() throws Exception {
+        public NFSeCity build() {
             final NFSeCity entity = new NFSeCity(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

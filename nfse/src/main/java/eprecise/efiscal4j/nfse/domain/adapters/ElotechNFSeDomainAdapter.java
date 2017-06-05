@@ -18,7 +18,6 @@ import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeLegalEntityDocuments;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeNaturalPersonDocuments;
-import eprecise.efiscal4j.nfse.domain.service.emitter.specificData.NFSeServiceEmitterElotechData;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeld;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeldElotechData;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeElotechData;
@@ -72,7 +71,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
             return new ElotechApplicant.Builder()
                         .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(nfse.getEmitter().getDocuments().getCnp()).build())
                         .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                        .withPassword(Optional.ofNullable(nfse.getEmitter().getSpecificData()).filter(NFSeServiceEmitterElotechData.class::isInstance).map(NFSeServiceEmitterElotechData.class::cast).map(NFSeServiceEmitterElotechData::getPassword).orElse(null))
+                        .withPassword(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getTransmissionPassword).orElse(null))
                         .withHomologation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isHomologation).orElse(false))
                         .build();
         

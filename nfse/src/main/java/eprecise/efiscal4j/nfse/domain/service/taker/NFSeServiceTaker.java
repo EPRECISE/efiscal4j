@@ -11,7 +11,7 @@ public class NFSeServiceTaker extends NFSePerson {
 
     public static class Builder extends NFSePerson.Builder<Builder> {
 
-        public NFSeServiceTaker build() throws Exception {
+        public NFSeServiceTaker build() {
             final NFSeServiceTaker entity = new NFSeServiceTaker(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

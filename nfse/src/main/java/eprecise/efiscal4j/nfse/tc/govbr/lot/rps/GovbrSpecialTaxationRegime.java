@@ -16,12 +16,16 @@ import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationR
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum GovbrSpecialTaxationRegime implements NFSeSpecialTaxationRegime{
+public enum GovbrSpecialTaxationRegime implements NFSeSpecialTaxationRegime {
 
-                                   @XmlEnumValue("1") MUNICIPAL_MICRO_ENTERPRISE(1, "Microempresa Municipal"),
-                                   @XmlEnumValue("2") ESTIMATE(2, "Estimativa"),
-                                   @XmlEnumValue("3") PROFESSIONAL_SOCIETY(3, "Sociedade de Profissionais"),
-                                   @XmlEnumValue("4") COOPERATIVE(4, "Cooperativa");
+                                                                             @XmlEnumValue("1")
+                                                                             MUNICIPAL_MICRO_ENTERPRISE(1, "Microempresa Municipal"),
+                                                                             @XmlEnumValue("2")
+                                                                             ESTIMATE(2, "Estimativa"),
+                                                                             @XmlEnumValue("3")
+                                                                             PROFESSIONAL_SOCIETY(3, "Sociedade de Profissionais"),
+                                                                             @XmlEnumValue("4")
+                                                                             COOPERATIVE(4, "Cooperativa");
 
     private final int value;
 
@@ -43,6 +47,15 @@ public enum GovbrSpecialTaxationRegime implements NFSeSpecialTaxationRegime{
     @Override
     public String toString() {
         return getDescription();
+    }
+
+    public static GovbrSpecialTaxationRegime findByValue(final int value) {
+        for (final GovbrSpecialTaxationRegime entity : GovbrSpecialTaxationRegime.values()) {
+            if (entity.getValue() == value) {
+                return entity;
+            }
+        }
+        return null;
     }
 
 }

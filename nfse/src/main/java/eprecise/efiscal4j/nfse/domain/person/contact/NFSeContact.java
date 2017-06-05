@@ -38,7 +38,7 @@ public class NFSeContact implements Serializable {
             return this;
         }
 
-        public NFSeContact build() throws Exception {
+        public NFSeContact build() {
             final NFSeContact entity = new NFSeContact(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

@@ -22,8 +22,6 @@ import eprecise.efiscal4j.nfse.domain.person.documents.NFSeLegalEntityDocuments;
 import eprecise.efiscal4j.nfse.domain.serie.NFSeSerie;
 import eprecise.efiscal4j.nfse.domain.service.NFSeService;
 import eprecise.efiscal4j.nfse.domain.service.emitter.NFSeServiceEmitter;
-import eprecise.efiscal4j.nfse.domain.service.emitter.specificData.NFSeServiceEmitterElotechData;
-import eprecise.efiscal4j.nfse.domain.service.emitter.specificData.NFSeServiceEmitterSpecificData;
 import eprecise.efiscal4j.nfse.domain.service.taker.NFSeServiceTaker;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithoutIssHeld;
 import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
@@ -135,7 +133,6 @@ public class TestDomain {
                                     .withCity(city)
                                     .withZipCode("84010000")
                                     .build())
-                            .withSpecificData(buildNFSeServiceEmitterSpecificData(adapter))
                             .build())
                     .withTaker(new NFSeServiceTaker.Builder()
                             .withName("Teste Nome Fantasia")
@@ -188,6 +185,7 @@ public class TestDomain {
       //@formatter:off
         if(adapter.equals(NFSeAdapter.ELOTECH)){
             return new NFSeElotechData.Builder()
+                    .withTransmissionPassword(Optional.ofNullable(emitterPassword).orElse("12345"))
                     .withHomologation(true)
                     .withIssRequirement(ElotechIssRequirement.REQUIRED)
                     .withTaxIncentive(false)
@@ -208,15 +206,6 @@ public class TestDomain {
             return ElotechSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
         } else if (adapter.equals(NFSeAdapter.GOVBR)) {
             return GovbrSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
-        }
-        return null;
-    }
-
-    private NFSeServiceEmitterSpecificData buildNFSeServiceEmitterSpecificData(final NFSeAdapter adapter) {
-        if (adapter.equals(NFSeAdapter.ELOTECH)) {
-            return new NFSeServiceEmitterElotechData.Builder().withPassword(Optional.ofNullable(emitterPassword).orElse("abcdef")).build();
-        } else if (adapter.equals(NFSeAdapter.GOVBR)) {
-            return null;
         }
         return null;
     }

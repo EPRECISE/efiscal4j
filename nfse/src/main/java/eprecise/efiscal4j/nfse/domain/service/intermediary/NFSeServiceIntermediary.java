@@ -9,9 +9,9 @@ public class NFSeServiceIntermediary extends NFSePerson {
 
     private static final long serialVersionUID = 1L;
 
-    public static class Builder extends NFSePerson.Builder {
+    public static class Builder extends NFSePerson.Builder<Builder> {
 
-        public NFSeServiceIntermediary build() throws Exception {
+        public NFSeServiceIntermediary build() {
             final NFSeServiceIntermediary entity = new NFSeServiceIntermediary(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

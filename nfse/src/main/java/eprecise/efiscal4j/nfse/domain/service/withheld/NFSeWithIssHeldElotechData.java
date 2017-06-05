@@ -20,7 +20,7 @@ public class NFSeWithIssHeldElotechData implements NFSeWithIssHeldSpecificData {
             return this;
         }
 
-        public NFSeWithIssHeldElotechData build() throws Exception {
+        public NFSeWithIssHeldElotechData build() {
             final NFSeWithIssHeldElotechData entity = new NFSeWithIssHeldElotechData(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

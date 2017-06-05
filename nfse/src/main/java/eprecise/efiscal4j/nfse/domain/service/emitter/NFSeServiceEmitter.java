@@ -21,7 +21,7 @@ public class NFSeServiceEmitter extends NFSePerson {
             return this;
         }
 
-        public NFSeServiceEmitter build() throws Exception {
+        public NFSeServiceEmitter build() {
             final NFSeServiceEmitter entity = new NFSeServiceEmitter(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;

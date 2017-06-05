@@ -9,6 +9,8 @@ public class NFSeElotechData implements NFSeSpecificData {
 
     private static final long serialVersionUID = 1L;
 
+    private final String transmissionPassword;
+
     private final ElotechIssRequirement issRequirement;
 
     private final String judicialProcessNumber;
@@ -19,6 +21,8 @@ public class NFSeElotechData implements NFSeSpecificData {
 
     public static class Builder {
 
+        private String transmissionPassword;
+
         private ElotechIssRequirement issRequirement;
 
         private String judicialProcessNumber;
@@ -26,6 +30,11 @@ public class NFSeElotechData implements NFSeSpecificData {
         private boolean homologation;
 
         private boolean taxIncentive;
+
+        public Builder withTransmissionPassword(final String transmissionPassword) {
+            this.transmissionPassword = transmissionPassword;
+            return this;
+        }
 
         public Builder withIssRequirement(final ElotechIssRequirement issRequirement) {
             this.issRequirement = issRequirement;
@@ -56,7 +65,7 @@ public class NFSeElotechData implements NFSeSpecificData {
     }
 
     public NFSeElotechData() {
-        super();
+        transmissionPassword = null;
         issRequirement = null;
         judicialProcessNumber = null;
         homologation = false;
@@ -64,10 +73,15 @@ public class NFSeElotechData implements NFSeSpecificData {
     }
 
     public NFSeElotechData(final Builder builder) {
+        transmissionPassword = builder.transmissionPassword;
         issRequirement = builder.issRequirement;
         judicialProcessNumber = builder.judicialProcessNumber;
         homologation = builder.homologation;
         taxIncentive = builder.taxIncentive;
+    }
+
+    public String getTransmissionPassword() {
+        return transmissionPassword;
     }
 
     public ElotechIssRequirement getIssRequirement() {

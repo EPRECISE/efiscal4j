@@ -16,12 +16,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum GovbrNatureOperation {
 
-                            @XmlEnumValue("1") MUNICIPAL_TAXATION(1, "Tributação no município"),
-                            @XmlEnumValue("2") MUNICIPAL_OUTSIDE_TAXATION(2, "Tributação fora do município"),
-                            @XmlEnumValue("3") EXEMPTION(3, "Isenção"),
-                            @XmlEnumValue("4") IMMUNITY(4, "Imune"),
-                            @XmlEnumValue("5") SUSPENDED_BY_JUDICIAL_DECISION(5, "Suspensa por decisão judicial"),
-                            @XmlEnumValue("6") SUSPENDED_BY_ADMINISTRATIVE_PROCEDURE(6, "Suspensa por procedimento administrativo");
+                                  @XmlEnumValue("1")
+                                  MUNICIPAL_TAXATION(1, "Tributação no município"),
+                                  @XmlEnumValue("2")
+                                  MUNICIPAL_OUTSIDE_TAXATION(2, "Tributação fora do município"),
+                                  @XmlEnumValue("3")
+                                  EXEMPTION(3, "Isenção"),
+                                  @XmlEnumValue("4")
+                                  IMMUNITY(4, "Imune"),
+                                  @XmlEnumValue("5")
+                                  SUSPENDED_BY_JUDICIAL_DECISION(5, "Suspensa por decisão judicial"),
+                                  @XmlEnumValue("6")
+                                  SUSPENDED_BY_ADMINISTRATIVE_PROCEDURE(6, "Suspensa por procedimento administrativo");
 
     private final int value;
 
@@ -43,6 +49,15 @@ public enum GovbrNatureOperation {
     @Override
     public String toString() {
         return getDescription();
+    }
+
+    public static GovbrNatureOperation findByCode(final Integer natureOperation) {
+        for (final GovbrNatureOperation entity : GovbrNatureOperation.values()) {
+            if (entity.getValue() == natureOperation) {
+                return entity;
+            }
+        }
+        return null;
     }
 
 }
