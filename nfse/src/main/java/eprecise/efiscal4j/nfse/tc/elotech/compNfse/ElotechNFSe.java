@@ -17,6 +17,8 @@ import eprecise.efiscal4j.nfse.domain.adapters.ElotechNFSeDomainAdapter;
 import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider.ElotechServiceProviderIdentifier;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechStatementProvisionService;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
@@ -88,6 +90,23 @@ public class ElotechNFSe extends ProcessedNFSe {
     @Override
     public RpsIdentifier getRpsIdentifier() {
         return Optional.ofNullable(info).map(i -> i.getStatementProvisionService().getInfo().getRps().getIdentifier()).orElse(null);
+    }
+
+    @Override
+    public CommonsGeneratorOrgan getGeneratorOrgan() {
+        return Optional.ofNullable(info).map(i -> i.getGeneratorOrgan()).orElse(null);
+    }
+
+    @Override
+    public String getProviderIm() {
+      //@formatter:off
+        return Optional.ofNullable(info).map(i -> i.getStatementProvisionService())
+                .map(ElotechStatementProvisionService::getInfo)
+                .map(ElotechStatementProvisionService.Info::getServiceProvider)
+                .map(ElotechServiceProvider::getIdentifier)
+                .map(ElotechServiceProviderIdentifier::getMunicipalRegistration)
+                .orElse(null);
+      //@formatter:on
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

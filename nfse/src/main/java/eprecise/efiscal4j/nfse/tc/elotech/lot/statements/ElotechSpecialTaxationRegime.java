@@ -33,16 +33,16 @@ public enum ElotechSpecialTaxationRegime implements NFSeSpecialTaxationRegime {
                                                                                @XmlEnumValue("7")
                                                                                SIMPLE_NATIONAL(7, "Simples Nacional");
 
-    private final int value;
+    private final Integer value;
 
     private final String description;
 
-    private ElotechSpecialTaxationRegime(final int value, final String description) {
+    private ElotechSpecialTaxationRegime(final Integer value, final String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -55,9 +55,9 @@ public enum ElotechSpecialTaxationRegime implements NFSeSpecialTaxationRegime {
         return getDescription();
     }
 
-    public static ElotechSpecialTaxationRegime findByValue(final int value) {
+    public static ElotechSpecialTaxationRegime findByValue(final Integer value) {
         for (final ElotechSpecialTaxationRegime entity : ElotechSpecialTaxationRegime.values()) {
-            if (entity.getValue() == value) {
+            if (entity.getValue().equals(value)) {
                 return entity;
             }
         }

@@ -27,16 +27,16 @@ public enum GovbrSpecialTaxationRegime implements NFSeSpecialTaxationRegime {
                                                                              @XmlEnumValue("4")
                                                                              COOPERATIVE(4, "Cooperativa");
 
-    private final int value;
+    private final Integer value;
 
     private final String description;
 
-    private GovbrSpecialTaxationRegime(final int value, final String description) {
+    private GovbrSpecialTaxationRegime(final Integer value, final String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -49,9 +49,9 @@ public enum GovbrSpecialTaxationRegime implements NFSeSpecialTaxationRegime {
         return getDescription();
     }
 
-    public static GovbrSpecialTaxationRegime findByValue(final int value) {
+    public static GovbrSpecialTaxationRegime findByValue(final Integer value) {
         for (final GovbrSpecialTaxationRegime entity : GovbrSpecialTaxationRegime.values()) {
-            if (entity.getValue() == value) {
+            if (entity.getValue().equals(value)) {
                 return entity;
             }
         }

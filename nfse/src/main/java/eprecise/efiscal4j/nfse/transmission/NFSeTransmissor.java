@@ -12,7 +12,6 @@ import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.govbr.GovbrTransmissionChannel;
 
 
-@SuppressWarnings("rawtypes")
 public enum NFSeTransmissor {
 
                              ELOTECH(ElotechTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",

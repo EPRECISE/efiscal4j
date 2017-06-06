@@ -98,6 +98,16 @@ public class GovbrNFSe extends ProcessedNFSe {
         return Optional.ofNullable(info).map(i -> i.getRpsIdentifier()).orElse(null);
     }
 
+    @Override
+    public CommonsGeneratorOrgan getGeneratorOrgan() {
+        return Optional.ofNullable(info).map(i -> i.getGeneratorOrgan()).orElse(null);
+    }
+
+    @Override
+    public String getProviderIm() {
+        return Optional.ofNullable(info).map(i -> i.getServiceProvider().getIdentifier().getMunicipalRegistration()).orElse(null);
+    }
+
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class GovbrNFSeInfo {
 
