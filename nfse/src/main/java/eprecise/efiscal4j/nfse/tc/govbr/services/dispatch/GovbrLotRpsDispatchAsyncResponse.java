@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
@@ -17,13 +16,14 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 @XmlRootElement(name = "EnviarLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements Serializable {
+public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSeDispatchAsyncResponse {
 
     private static final long serialVersionUID = 1L;
 
@@ -124,6 +124,7 @@ public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements Seri
         return protocol;
     }
 
+    @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
     }

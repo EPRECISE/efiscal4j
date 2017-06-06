@@ -8,13 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.CompNFSeWithXml;
 import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 
 
 @XmlRootElement(name = "CompNfse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechCompNFSe implements CompNFSe {
+public class ElotechCompNFSe implements CompNFSeWithXml {
 
     private static final long serialVersionUID = 1L;
 
@@ -72,6 +72,7 @@ public class ElotechCompNFSe implements CompNFSe {
         return (ElotechNFSe) nfse;
     }
 
+    @Override
     public String getXml() {
         return xml;
     }

@@ -133,6 +133,7 @@ public class TestDomain {
                                     .withCity(city)
                                     .withZipCode("84010000")
                                     .build())
+                            .withSpecialTaxationRegime(buildNFSeSpecialTaxationRegime(adapter))
                             .build())
                     .withTaker(new NFSeServiceTaker.Builder()
                             .withName("Teste Nome Fantasia")
@@ -169,7 +170,6 @@ public class TestDomain {
                             .withIssAliquot(new BigDecimal("3.00"))
                             .withIssValue(new BigDecimal("0.3"))
                             .build())
-                    .withSpecialTaxationRegime(buildNFSeSpecialTaxationRegime(adapter))
                     .withSpecificData(buildNFSeSpecificData(adapter))
                     .withNetValue(new BigDecimal("10.00"))
                     .build();

@@ -88,7 +88,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                         .withServiceIntermediary(buildServiceIntermediary())
                         .withServiceProvider(buildServiceProvider())
                         .withServiceTaker(buildServiceTaker())
-                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getSpecialTaxationRegime()).filter(ElotechSpecialTaxationRegime.class::isInstance).map(ElotechSpecialTaxationRegime.class::cast).orElse(null))
+                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getEmitter().getSpecialTaxationRegime()).filter(ElotechSpecialTaxationRegime.class::isInstance).map(ElotechSpecialTaxationRegime.class::cast).orElse(null))
                         .withTaxIncentive(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isTaxIncentive).map(ti-> ti ? ElotechTaxIncentive.YES : ElotechTaxIncentive.NO).orElse(null))
                         .build())
                 .build();

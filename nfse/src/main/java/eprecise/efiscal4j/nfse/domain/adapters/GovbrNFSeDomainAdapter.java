@@ -88,7 +88,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                                 .build())
                         .withEmissionDate(NFSE_DATETIME_FORMAT.format(nfse.getEmission()))
                         .withNatureOperation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))
-                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getSpecialTaxationRegime()).filter(GovbrSpecialTaxationRegime.class::isInstance).map(GovbrSpecialTaxationRegime.class::cast).orElse(null))
+                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getEmitter().getSpecialTaxationRegime()).filter(GovbrSpecialTaxationRegime.class::isInstance).map(GovbrSpecialTaxationRegime.class::cast).orElse(null))
                         .withSimpleNational(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getSimpleNational).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
                         .withCulturalPromoter(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getCulturalPromoter).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
                         .withStatus(CommonsRpsStatus.NORMAL)

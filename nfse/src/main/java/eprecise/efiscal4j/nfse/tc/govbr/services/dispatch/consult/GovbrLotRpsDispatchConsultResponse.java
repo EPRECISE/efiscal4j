@@ -1,8 +1,8 @@
 
 package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult;
 
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,13 +14,15 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.compNfse.GovbrCompNFSe;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
 
 
 @XmlRootElement(name = "ConsultarLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchConsultResponse extends Receivable implements Serializable {
+public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NFSeDispatchSyncResponse {
 
     private static final long serialVersionUID = 1L;
 
@@ -85,6 +87,7 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements Se
         return compNFSeList;
     }
 
+    @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
     }
@@ -98,6 +101,11 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements Se
     @Override
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public Optional<CompNFSe> getCompNFSe() {
+        return compNFSeList.stream().findAny().map(CompNFSe.class::cast);
     }
 
 }

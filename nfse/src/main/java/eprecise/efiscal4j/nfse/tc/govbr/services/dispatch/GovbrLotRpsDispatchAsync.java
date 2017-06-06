@@ -15,6 +15,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.GovbrLotRps;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
@@ -23,7 +24,7 @@ import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 @XmlRootElement(name = "EnviarLoteRpsEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "lotRps", "signature" })
-public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements TransmissibleBodyImpl {
+public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements TransmissibleBodyImpl, NFSeRequest {
 
     private static final long serialVersionUID = 1L;
 

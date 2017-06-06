@@ -1,8 +1,8 @@
 
 package eprecise.efiscal4j.nfse.tc.elotech.services.dispatch;
 
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,16 +16,18 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
 import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechLotRpsDispatchSyncResponse extends Receivable implements Serializable {
+public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFSeDispatchSyncResponse {
 
     private static final long serialVersionUID = 1L;
 
@@ -143,10 +145,12 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements Ser
         return compNFSeList;
     }
 
+    @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
     }
 
+    @Override
     public Collection<CommonsNFSeReturnMessageLot> getReturnMessageLotList() {
         return returnMessageLotList;
     }
@@ -160,6 +164,11 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements Ser
     @Override
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public Optional<CompNFSe> getCompNFSe() {
+        return compNFSeList.stream().findAny().map(CompNFSe.class::cast);
     }
 
 }

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
@@ -19,7 +20,7 @@ import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 @XmlRootElement(name = "Envelope", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope {
+public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope, NFSeRequest {
 
     private static final long serialVersionUID = 1L;
 

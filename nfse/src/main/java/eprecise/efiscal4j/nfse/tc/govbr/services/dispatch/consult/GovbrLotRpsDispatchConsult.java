@@ -13,11 +13,12 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceProvider;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
 
 @XmlRootElement(name = "ConsultarLoteRpsEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchConsult implements TransmissibleBodyImpl {
+public class GovbrLotRpsDispatchConsult implements TransmissibleBodyImpl, NFSeRequest {
 
     private static final long serialVersionUID = 1L;
 

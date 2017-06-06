@@ -12,7 +12,6 @@ import eprecise.efiscal4j.nfse.domain.service.emitter.NFSeServiceEmitter;
 import eprecise.efiscal4j.nfse.domain.service.intermediary.NFSeServiceIntermediary;
 import eprecise.efiscal4j.nfse.domain.service.taker.NFSeServiceTaker;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeIssHeld;
-import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeSpecificData;
 import eprecise.efiscal4j.nfse.domain.tax.NFSeTax;
 
@@ -37,8 +36,6 @@ public class NFSe implements Serializable {
 
     private final NFSeTax tax;
 
-    private final NFSeSpecialTaxationRegime specialTaxationRegime;
-
     private final NFSeSpecificData specificData;
 
     private final BigDecimal netValue;
@@ -60,8 +57,6 @@ public class NFSe implements Serializable {
         private NFSeService service;
 
         private NFSeTax tax;
-
-        private NFSeSpecialTaxationRegime specialTaxationRegime;
 
         private NFSeSpecificData specificData;
 
@@ -107,11 +102,6 @@ public class NFSe implements Serializable {
             return this;
         }
 
-        public Builder withSpecialTaxationRegime(final NFSeSpecialTaxationRegime specialTaxationRegime) {
-            this.specialTaxationRegime = specialTaxationRegime;
-            return this;
-        }
-
         public Builder withSpecificData(final NFSeSpecificData specificData) {
             this.specificData = specificData;
             return this;
@@ -139,7 +129,6 @@ public class NFSe implements Serializable {
         issHeld = null;
         service = null;
         tax = null;
-        specialTaxationRegime = null;
         specificData = null;
         netValue = null;
     }
@@ -153,7 +142,6 @@ public class NFSe implements Serializable {
         issHeld = builder.issHeld;
         service = builder.service;
         tax = builder.tax;
-        specialTaxationRegime = builder.specialTaxationRegime;
         specificData = builder.specificData;
         netValue = builder.netValue;
     }
@@ -188,10 +176,6 @@ public class NFSe implements Serializable {
 
     public NFSeTax getTax() {
         return tax;
-    }
-
-    public NFSeSpecialTaxationRegime getSpecialTaxationRegime() {
-        return specialTaxationRegime;
     }
 
     public NFSeSpecificData getSpecificData() {
