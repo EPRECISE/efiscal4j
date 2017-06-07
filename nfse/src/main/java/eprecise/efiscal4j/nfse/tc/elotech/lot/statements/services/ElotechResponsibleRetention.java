@@ -16,19 +16,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum ElotechResponsibleRetention {
 
-                                  @XmlEnumValue("1") TAKER(1, "Tomador"),
-                                  @XmlEnumValue("2") INTERMEDIARY(2, "Intermediário");
+                                         @XmlEnumValue("1")
+                                         TAKER(1, "Tomador"),
+                                         @XmlEnumValue("2")
+                                         INTERMEDIARY(2, "Intermediário");
 
-    private final int value;
+    private final Integer value;
 
     private final String description;
 
-    private ElotechResponsibleRetention(final int value, final String description) {
+    private ElotechResponsibleRetention(final Integer value, final String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -39,6 +41,15 @@ public enum ElotechResponsibleRetention {
     @Override
     public String toString() {
         return getDescription();
+    }
+
+    public static ElotechResponsibleRetention findByCode(final Integer value) {
+        for (final ElotechResponsibleRetention entity : ElotechResponsibleRetention.values()) {
+            if (entity.getValue().equals(value)) {
+                return entity;
+            }
+        }
+        return null;
     }
 
 }

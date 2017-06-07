@@ -29,16 +29,16 @@ public enum GovbrNatureOperation {
                                   @XmlEnumValue("6")
                                   SUSPENDED_BY_ADMINISTRATIVE_PROCEDURE(6, "Suspensa por procedimento administrativo");
 
-    private final int value;
+    private final Integer value;
 
     private final String description;
 
-    private GovbrNatureOperation(final int value, final String description) {
+    private GovbrNatureOperation(final Integer value, final String description) {
         this.value = value;
         this.description = description;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -53,7 +53,7 @@ public enum GovbrNatureOperation {
 
     public static GovbrNatureOperation findByCode(final Integer natureOperation) {
         for (final GovbrNatureOperation entity : GovbrNatureOperation.values()) {
-            if (entity.getValue() == natureOperation) {
+            if (entity.getValue().equals(natureOperation)) {
                 return entity;
             }
         }
