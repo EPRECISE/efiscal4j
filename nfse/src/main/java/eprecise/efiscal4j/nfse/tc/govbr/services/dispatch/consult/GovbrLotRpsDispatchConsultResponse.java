@@ -14,7 +14,6 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.compNfse.GovbrCompNFSe;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
@@ -104,8 +103,8 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
     }
 
     @Override
-    public Optional<CompNFSe> getCompNFSe() {
-        return compNFSeList.stream().findAny().map(CompNFSe.class::cast);
+    public Optional<GovbrCompNFSe> getCompNFSe() {
+        return compNFSeList.stream().findAny().map(GovbrCompNFSe.class::cast);
     }
 
 }

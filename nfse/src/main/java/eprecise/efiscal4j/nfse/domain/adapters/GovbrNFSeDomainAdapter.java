@@ -190,7 +190,11 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private CommonsNFSeContact buildNFSeContacts(final NFSeContact contact) {
-        return Optional.ofNullable(contact).map(c -> new CommonsNFSeContact.Builder().withEmail(c.getEmail()).withPhone(c.getPhone()).build()).orElse(null);
+        return Optional.ofNullable(contact)
+                .map(c -> new CommonsNFSeContact.Builder().withEmail(c.getEmail())
+                        .withPhone(Optional.ofNullable(c.getPhone()).map(str -> str.replaceAll("[^\\d.]", "")).map(str -> str.substring(0, str.length() < 11 ? str.length() : 11)).orElse(null))
+                        .build())
+                .orElse(null);
     }
 
     private CommonsNFSeAddress buildNFSeAddress(final NFSeAddress address) {

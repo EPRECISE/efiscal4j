@@ -11,8 +11,6 @@ import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDis
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsultResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
-import eprecise.efiscal4j.signer.Signer;
-import eprecise.efiscal4j.signer.oasis.OasisSigner;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
@@ -25,17 +23,17 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
     private final Transmissor transmissor;
 
-    private final Signer signer;
-
     public GovbrTransmissionChannel() {
         transmissor = null;
-        signer = null;
     }
 
     public GovbrTransmissionChannel(final Certificate certificate) {
-        transmissor = new Transmissor(certificate);
+        if (certificate == null) {
+            transmissor = new Transmissor();
+        } else {
+            transmissor = new Transmissor(certificate);
+        }
         try {
-            signer = new OasisSigner(certificate);
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

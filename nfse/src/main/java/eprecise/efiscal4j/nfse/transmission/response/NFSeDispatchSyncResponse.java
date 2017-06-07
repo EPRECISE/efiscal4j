@@ -8,6 +8,6 @@ import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 
 public interface NFSeDispatchSyncResponse extends NFSeResponse {
 
-    Optional<CompNFSe> getCompNFSe();
+    Optional<? extends CompNFSe> getCompNFSe();
 
 }

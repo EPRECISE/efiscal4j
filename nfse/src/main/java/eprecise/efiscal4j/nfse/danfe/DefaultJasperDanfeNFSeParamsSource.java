@@ -4,13 +4,13 @@ package eprecise.efiscal4j.nfse.danfe;
 import java.util.HashMap;
 import java.util.Map;
 
-import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
+import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 
 
 public class DefaultJasperDanfeNFSeParamsSource implements JasperDanfeNFSeParamsSource {
 
     @Override
-    public Map<String, Object> getParamsOf(final ElotechCompNFSe nfse) {
+    public Map<String, Object> getParamsOf(final CompNFSe nfse) {
         final Map<String, Object> params = new HashMap<>();
         return params;
     }

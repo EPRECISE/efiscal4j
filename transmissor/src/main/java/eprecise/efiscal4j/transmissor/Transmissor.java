@@ -42,6 +42,9 @@ public class Transmissor {
 
     private SSLContext sslContext;
 
+    public Transmissor() {
+    }
+
     public Transmissor(final Certificate keyCertificate, final Certificate trustCertificate) {
         init(keyCertificate, trustCertificate);
     }
