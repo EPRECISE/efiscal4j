@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
-import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 
 
 @XmlRootElement(name = "CompNfse")
@@ -17,7 +16,7 @@ public class GovbrCompNFSe implements CompNFSe {
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "Nfse") ProcessedNFSe nfse;
+    private final @XmlElement(name = "Nfse") GovbrNFSe nfse;
 
     public static class Builder {
 
@@ -50,7 +49,7 @@ public class GovbrCompNFSe implements CompNFSe {
 
     @Override
     public GovbrNFSe getProcessedNfse() {
-        return (GovbrNFSe) nfse;
+        return nfse;
     }
 
 }
