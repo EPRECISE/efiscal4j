@@ -20,26 +20,26 @@ import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 
 @XmlRootElement(name = "Envelope", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope, NFSeRequest {
+public class ElotechSOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope, NFSeRequest {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "Header", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) SOAPHeader soapHeader;
+    private @XmlElement(name = "Header", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) ElotechSOAPHeader soapHeader;
 
-    private @XmlElement(name = "Body", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) SOAPBody soapBody;
+    private @XmlElement(name = "Body", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI) ElotechSOAPBody soapBody;
 
     public static class Builder {
 
-        private SOAPHeader soapHeader;
+        private ElotechSOAPHeader soapHeader;
 
-        private SOAPBody soapBody;
+        private ElotechSOAPBody soapBody;
 
         /**
          *
          * @param soapHeader
          * @return
          */
-        public Builder withSoapHeader(final SOAPHeader soapHeader) {
+        public Builder withSoapHeader(final ElotechSOAPHeader soapHeader) {
             this.soapHeader = soapHeader;
             return this;
         }
@@ -49,40 +49,40 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
          * @param soapBody
          * @return
          */
-        public Builder withSoapBody(final SOAPBody soapBody) {
+        public Builder withSoapBody(final ElotechSOAPBody soapBody) {
             this.soapBody = soapBody;
             return this;
         }
 
-        public SOAPEnvelope build() {
-            final SOAPEnvelope entity = new SOAPEnvelope(this);
+        public ElotechSOAPEnvelope build() {
+            final ElotechSOAPEnvelope entity = new ElotechSOAPEnvelope(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
 
-        public SOAPEnvelope build(final Signer signer) throws Exception {
-            SOAPEnvelope entity = new SOAPEnvelope(this);
+        public ElotechSOAPEnvelope build(final Signer signer) throws Exception {
+            ElotechSOAPEnvelope entity = new ElotechSOAPEnvelope(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
-            entity = (SOAPEnvelope) signer.sign(entity);
+            entity = (ElotechSOAPEnvelope) signer.sign(entity);
             return entity;
         }
 
     }
 
-    public SOAPEnvelope() {
+    public ElotechSOAPEnvelope() {
 
     }
 
-    public SOAPEnvelope(final Builder builder) {
+    public ElotechSOAPEnvelope(final Builder builder) {
         soapHeader = builder.soapHeader;
         soapBody = builder.soapBody;
     }
 
-    public SOAPHeader getSoapHeader() {
+    public ElotechSOAPHeader getSoapHeader() {
         return soapHeader;
     }
 
-    public SOAPBody getSoapBody() {
+    public ElotechSOAPBody getSoapBody() {
         return soapBody;
     }
 
@@ -93,6 +93,6 @@ public class SOAPEnvelope implements Serializable, Assignable, TransmissibleEnve
 
     @Override
     public Assignable getAsEntity(final String xml) {
-        return new FiscalDocumentDeserializer<>(xml, SOAPEnvelope.class).deserialize();
+        return new FiscalDocumentDeserializer<>(xml, ElotechSOAPEnvelope.class).deserialize();
     }
 }

@@ -13,7 +13,7 @@ import eprecise.efiscal4j.signer.oasis.domain.OasisSecurity;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPHeader implements Serializable {
+public class ElotechSOAPHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,19 +21,19 @@ public class SOAPHeader implements Serializable {
 
     public static class Builder {
 
-        public SOAPHeader build() {
-            final SOAPHeader entity = new SOAPHeader(this);
+        public ElotechSOAPHeader build() {
+            final ElotechSOAPHeader entity = new ElotechSOAPHeader(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
 
     }
 
-    public SOAPHeader() {
+    public ElotechSOAPHeader() {
 
     }
 
-    public SOAPHeader(final Builder builder) {
+    public ElotechSOAPHeader(final Builder builder) {
     }
 
 }

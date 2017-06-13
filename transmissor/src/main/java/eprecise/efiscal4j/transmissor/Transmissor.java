@@ -114,6 +114,7 @@ public class Transmissor {
             httpConnection.setDoOutput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setRequestMethod("POST");
+            httpConnection.setRequestProperty("SOAPAction", "http://tempuri.org/INFSEGeracao/RecepcionarLoteRps");
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             httpConnection.connect();
 

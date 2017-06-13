@@ -16,7 +16,7 @@ import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SOAPBody implements Serializable {
+public class ElotechSOAPBody implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,18 +42,18 @@ public class SOAPBody implements Serializable {
             return this;
         }
 
-        public SOAPBody build() {
-            final SOAPBody entity = new SOAPBody(this);
+        public ElotechSOAPBody build() {
+            final ElotechSOAPBody entity = new ElotechSOAPBody(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public SOAPBody() {
+    public ElotechSOAPBody() {
         transmissibleBody = null;
     }
 
-    public SOAPBody(final Builder builder) {
+    public ElotechSOAPBody(final Builder builder) {
         transmissibleBody = builder.transmissibleBody;
     }
 

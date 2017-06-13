@@ -10,9 +10,9 @@ import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatc
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPBody;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPEnvelope;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPHeader;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPBody;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPHeader;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
@@ -45,12 +45,12 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
             throws Exception {
 
         final ElotechLotRpsDispatchSync lotRpsDispatch = (ElotechLotRpsDispatchSync) transmissible;
 
-        final SOAPEnvelope soapEnvelope = new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(lotRpsDispatch).build())
+        final ElotechSOAPEnvelope soapEnvelope = new ElotechSOAPEnvelope.Builder().withSoapHeader(new ElotechSOAPHeader.Builder().build()).withSoapBody(new ElotechSOAPBody.Builder().withTransmissibleBody(lotRpsDispatch).build())
                 .build(signer);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
@@ -61,12 +61,12 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
 
         responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
 
-        return new TypedTransmissionResult<>(SOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
 
     }
 
     @Override
-    public TypedTransmissionResult<SOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode, final boolean homologation)
             throws Exception {
         throw new UnsupportedOperationException();
     }

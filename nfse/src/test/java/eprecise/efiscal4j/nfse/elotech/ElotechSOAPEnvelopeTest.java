@@ -6,9 +6,9 @@ import org.junit.Test;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
 import eprecise.efiscal4j.nfse.domain.Testable;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPBody;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPEnvelope;
-import eprecise.efiscal4j.nfse.transmission.elotech.envelope.SOAPHeader;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPBody;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPEnvelope;
+import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPHeader;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
 
@@ -24,7 +24,7 @@ public class ElotechSOAPEnvelopeTest implements Testable {
 
     @Test
     public void domainTest() throws Exception {
-        final SOAPEnvelope buildSOAPEnvelope = buildSOAPEnvelope();
+        final ElotechSOAPEnvelope buildSOAPEnvelope = buildSOAPEnvelope();
         try {
             final String xml = new FiscalDocumentSerializer<>(buildSOAPEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
             System.out.println("xml final: " + xml + "\n");
@@ -44,8 +44,8 @@ public class ElotechSOAPEnvelopeTest implements Testable {
         return getTestDomain();
     }
 
-    public SOAPEnvelope buildSOAPEnvelope() throws Exception {
-        return new SOAPEnvelope.Builder().withSoapHeader(new SOAPHeader.Builder().build()).withSoapBody(new SOAPBody.Builder().withTransmissibleBody(testDomain.buildElotechLotRpsDispatch()).build())
+    public ElotechSOAPEnvelope buildSOAPEnvelope() throws Exception {
+        return new ElotechSOAPEnvelope.Builder().withSoapHeader(new ElotechSOAPHeader.Builder().build()).withSoapBody(new ElotechSOAPBody.Builder().withTransmissibleBody(testDomain.buildElotechLotRpsDispatch()).build())
                 .build(new OasisSigner(testDomain.getCertificate()));
 
     }

@@ -20,6 +20,7 @@ import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 @XmlRootElement(name = "EnviarLoteRpsResposta")
@@ -33,6 +34,8 @@ public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSe
     private final @XmlElement(name = "DataRecebimento") @NotNull @NFSeDate String receiptDate;
 
     private final @XmlElement(name = "Protocolo") @Size(max = 50) String protocol;
+
+    private @XmlElement(name = "Signature") SignatureType signature;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
