@@ -19,4 +19,6 @@ public interface NFSeResponse extends Serializable {
         return Collections.emptySet();
     }
 
+    String getAsXml();
+
 }

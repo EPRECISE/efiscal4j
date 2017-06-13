@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
@@ -169,6 +170,11 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
     @Override
     public Optional<CompNFSe> getCompNFSe() {
         return compNFSeList.stream().findAny().map(ElotechCompNFSe.class::cast);
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
     }
 
 }

@@ -47,7 +47,11 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
 
-        final String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, homologation));
+        final String begin = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" " + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" + " <soap:Header></soap:Header><soap:Body>";
+        final String end = "</soap:Body> </soap:Envelope>";
+
+        final String responseXml = transmissor.transmit(begin + requestXml + end, NFSeTransmissor.getUrl(cityCode, homologation));
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
 

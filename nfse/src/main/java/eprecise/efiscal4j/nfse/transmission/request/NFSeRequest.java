@@ -6,4 +6,6 @@ import eprecise.efiscal4j.commons.domain.transmission.Transmissible;
 
 public interface NFSeRequest extends Transmissible {
 
+    String getAsXml();
+
 }

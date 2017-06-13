@@ -15,6 +15,7 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
@@ -120,6 +121,7 @@ public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSe
         return receiptDate;
     }
 
+    @Override
     public String getProtocol() {
         return protocol;
     }
@@ -138,6 +140,11 @@ public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSe
     @Override
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
     }
 
 }

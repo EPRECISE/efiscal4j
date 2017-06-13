@@ -12,6 +12,7 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceProvider;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
@@ -77,6 +78,11 @@ public class GovbrLotRpsDispatchConsult implements TransmissibleBodyImpl, NFSeRe
 
     public String getProtocol() {
         return protocol;
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
     }
 
     @Override
