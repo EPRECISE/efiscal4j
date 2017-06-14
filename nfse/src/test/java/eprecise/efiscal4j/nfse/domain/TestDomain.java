@@ -112,9 +112,9 @@ public class TestDomain {
 
             final NFSe nfse = new NFSe.Builder()
                     .withSerie(new NFSeSerie.Builder()
-                            .withSerie("E")
-                            .withLotNumber("1")
-                            .withRpsNumber("1")
+                            .withSerie("T1")
+                            .withLotNumber("10")
+                            .withRpsNumber("11")
                             .build())
                     .withEmissionDate(new Date())
                     .withEmitter(new NFSeServiceEmitter.Builder()

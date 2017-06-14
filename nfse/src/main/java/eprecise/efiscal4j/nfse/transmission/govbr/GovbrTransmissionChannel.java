@@ -2,6 +2,8 @@
 package eprecise.efiscal4j.nfse.transmission.govbr;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
@@ -21,9 +23,12 @@ import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsy
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsultResponse;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultState;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultStateResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultLotRps;
+import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultStateLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrReceiptLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrXmlRequest;
 import eprecise.efiscal4j.transmissor.Transmissor;
@@ -70,10 +75,13 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
 
+        final Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("SOAPAction", "http://tempuri.org/INFSEGeracao/RecepcionarLoteRps");
+
         //@formatter:off
         final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<EnviarLoteRpsEnvio[^>]*>.*?</EnviarLoteRpsEnvio>", StringEscapeUtils.escapeXml(requestXml)),
-                NFSeTransmissor.getUrl(cityCode, homologation)))).map(str-> str.substring(str.indexOf("<EnviarLoteRpsResposta"), str.lastIndexOf("</RecepcionarLoteRpsResult>"))).get();
+                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<EnviarLoteRpsResposta"), str.lastIndexOf("</RecepcionarLoteRpsResult>"))).get();
         //@formatter:on
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
@@ -95,13 +103,43 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
 
+        final Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("SOAPAction", "http://tempuri.org/INFSEConsultas/ConsultarLoteRps");
+
         //@formatter:off
         final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<ConsultarLoteRpsEnvio[^>]*>.*?</ConsultarLoteRpsEnvio>", StringEscapeUtils.escapeXml(requestXml)),
-                NFSeTransmissor.getUrl(cityCode, homologation)))).map(str-> str.substring(str.indexOf("<ConsultarLoteRpsResposta"), str.lastIndexOf("</ConsultarLoteRpsResponse>"))).get();
+                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<ConsultarLoteRpsResposta"), str.lastIndexOf("</ConsultarLoteRpsResult>"))).get();
         //@formatter:on
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchConsult.class, GovbrLotRpsDispatchConsultResponse.class, requestXml, responseXml);
+    }
+
+    @Override
+    public TypedTransmissionResult<GovbrLotRpsDispatchConsultState, GovbrLotRpsDispatchConsultStateResponse> consultStateAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
+            final boolean homologation) throws Exception {
+        final GovbrLotRpsDispatchConsultState lotRpsDispatch = (GovbrLotRpsDispatchConsultState) transmissible;
+
+        final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        final Marshaller marshaller = JAXBContext.newInstance(GovbrConsultStateLotRps.class).createMarshaller();
+        marshaller.marshal(new GovbrConsultStateLotRps.Builder().withXmlRequest(new GovbrXmlRequest.Builder().withNfseRequest(lotRpsDispatch).build()).build(), document);
+        final SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
+        soapMessage.getSOAPBody().addDocument(document);
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        soapMessage.writeTo(outputStream);
+
+        final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
+
+        final Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("SOAPAction", "http://tempuri.org/INFSEConsultas/ConsultarSituacaoLoteRps");
+
+        //@formatter:off
+        final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
+                new String(outputStream.toByteArray()).replaceFirst("(?s)<ConsultarSituacaoLoteRpsEnvio[^>]*>.*?</ConsultarSituacaoLoteRpsEnvio>", StringEscapeUtils.escapeXml(requestXml)),
+                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<ConsultarSituacaoLoteRpsResposta"), str.lastIndexOf("</ConsultarSituacaoLoteRpsResult>"))).get();
+        //@formatter:on
+
+        return new TypedTransmissionResult<>(GovbrLotRpsDispatchConsultState.class, GovbrLotRpsDispatchConsultStateResponse.class, requestXml, responseXml);
     }
 
 }

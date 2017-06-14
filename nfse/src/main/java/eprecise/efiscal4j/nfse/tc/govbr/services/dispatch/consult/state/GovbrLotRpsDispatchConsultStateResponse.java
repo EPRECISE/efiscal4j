@@ -1,9 +1,9 @@
 
-package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult;
+package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state;
 
 import java.util.Collection;
-import java.util.Optional;
 
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,41 +15,52 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.tc.govbr.compNfse.GovbrCompNFSe;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
-@XmlRootElement(name = "ConsultarLoteRpsResposta")
+@XmlRootElement(name = "ConsultarSituacaoLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NFSeDispatchSyncResponse {
+public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implements NFSeResponse {
 
     private static final long serialVersionUID = 1L;
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/servico_consultar_lote_rps_resposta.xsd";
 
-    private final @XmlElementWrapper(name = "ListaNfse") @XmlElement(name = "CompNfse") Collection<GovbrCompNFSe> compNFSeList;
+    private final @XmlElement(name = "NumeroLote") @Size(max = 15) String lotNumber;
 
-    public @XmlElement(name = "Signature") SignatureType signature;
+    private final @XmlElement(name = "Situacao") GovbrConsultState state;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
+
+    public @XmlElement(name = "Signature") SignatureType signature;
 
     private @XmlTransient QName qName = new QName("ConsultarLoteRpsResposta");
 
     public static class Builder {
 
-        private Collection<GovbrCompNFSe> compNFSeList;
+        private String lotNumber;
+
+        private GovbrConsultState state;
 
         private Collection<CommonsNFSeReturnMessage> returnMessageList;
 
         /**
-         * @param compNFSeList
+         * @param lotNumber
          * @return
          */
-        public Builder withCompNFSeList(final Collection<GovbrCompNFSe> compNFSeList) {
-            this.compNFSeList = compNFSeList;
+        public Builder withLotNumber(final String lotNumber) {
+            this.lotNumber = lotNumber;
+            return this;
+        }
+
+        /**
+         * @param state
+         * @return
+         */
+        public Builder withState(final GovbrConsultState state) {
+            this.state = state;
             return this;
         }
 
@@ -62,20 +73,22 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
             return this;
         }
 
-        public GovbrLotRpsDispatchConsultResponse build() throws Exception {
-            final GovbrLotRpsDispatchConsultResponse entity = new GovbrLotRpsDispatchConsultResponse(this);
+        public GovbrLotRpsDispatchConsultStateResponse build() throws Exception {
+            final GovbrLotRpsDispatchConsultStateResponse entity = new GovbrLotRpsDispatchConsultStateResponse(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public GovbrLotRpsDispatchConsultResponse() {
-        compNFSeList = null;
+    public GovbrLotRpsDispatchConsultStateResponse() {
+        lotNumber = null;
+        state = null;
         returnMessageList = null;
     }
 
-    public GovbrLotRpsDispatchConsultResponse(final Builder builder) {
-        compNFSeList = builder.compNFSeList;
+    public GovbrLotRpsDispatchConsultStateResponse(final Builder builder) {
+        lotNumber = builder.lotNumber;
+        state = builder.state;
         returnMessageList = builder.returnMessageList;
     }
 
@@ -87,8 +100,12 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
         this.qName = qName;
     }
 
-    public Collection<GovbrCompNFSe> getCompNFSeList() {
-        return compNFSeList;
+    public String getLotNumber() {
+        return lotNumber;
+    }
+
+    public GovbrConsultState getState() {
+        return state;
     }
 
     @Override
@@ -105,11 +122,6 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
     @Override
     public QName getQName() {
         return qName;
-    }
-
-    @Override
-    public Optional<CompNFSe> getCompNFSe() {
-        return compNFSeList.stream().findAny().map(GovbrCompNFSe.class::cast);
     }
 
     @Override

@@ -75,7 +75,7 @@ public class CommonsNFSeAddress {
          * @return
          */
         public Builder withDistrict(final String district) {
-            complement = district;
+            this.district = district;
             return this;
         }
 

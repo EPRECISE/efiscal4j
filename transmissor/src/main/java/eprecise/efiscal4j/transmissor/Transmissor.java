@@ -11,6 +11,8 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyStore;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
@@ -94,14 +96,14 @@ public class Transmissor {
     }
 
     public String transmit(final String requestSoapEnvelope, final String serviceUrl) {
+        return this.transmit(requestSoapEnvelope, serviceUrl, new HashMap<>());
+    }
 
-        System.out.println("Service url:\n" + serviceUrl);
-
-        System.out.println("Request SOAP Envelope:\n" + requestSoapEnvelope);
+    public String transmit(final String requestSoapEnvelope, final String serviceUrl, final Map<String, String> requestProperties) {
 
         try {
             final URL url = new URL(serviceUrl);
-            HttpURLConnection httpConnection = null;
+            final HttpURLConnection httpConnection;
 
             if (url.getProtocol().equalsIgnoreCase("HTTPS")) {
                 httpConnection = (HttpsURLConnection) url.openConnection();
@@ -114,15 +116,17 @@ public class Transmissor {
             httpConnection.setDoOutput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setRequestMethod("POST");
-            httpConnection.setRequestProperty("SOAPAction", "http://tempuri.org/INFSEGeracao/RecepcionarLoteRps");
+
+            requestProperties.forEach((key, value) -> {
+                httpConnection.setRequestProperty(key, value);
+            });
+
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             httpConnection.connect();
 
             sendRequest(httpConnection, requestSoapEnvelope);
 
             final String responseXml = getResponse(httpConnection);
-
-            System.out.println("Response xml:\n" + responseXml);
 
             return responseXml;
         } catch (final Exception ex) {
