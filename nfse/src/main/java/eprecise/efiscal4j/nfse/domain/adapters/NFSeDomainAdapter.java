@@ -4,10 +4,10 @@ package eprecise.efiscal4j.nfse.domain.adapters;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
 
 public interface NFSeDomainAdapter {
@@ -87,6 +87,8 @@ public interface NFSeDomainAdapter {
 
     }
 
-    TransmissibleBodyImpl toTransmissible();
+    NFSeRequest toDispatch();
+
+    NFSeRequest toDispatchConsult(final String protocol);
 
 }

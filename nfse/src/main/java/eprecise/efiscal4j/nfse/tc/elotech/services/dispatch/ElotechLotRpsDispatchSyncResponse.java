@@ -21,14 +21,14 @@ import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
 import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFSeDispatchSyncResponse {
+public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFSeDispatchAutorizedResponse {
 
     private static final long serialVersionUID = 1L;
 

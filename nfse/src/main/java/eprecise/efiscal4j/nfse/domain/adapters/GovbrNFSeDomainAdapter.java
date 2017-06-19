@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
@@ -36,6 +35,8 @@ import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrValues;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
@@ -60,7 +61,12 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     @Override
-    public TransmissibleBodyImpl toTransmissible() {
+    public NFSeRequest toDispatchConsult(final String protocol) {
+        return new GovbrLotRpsDispatchConsult.Builder().withProtocol(protocol).withServiceProviderIdentifier(buildServiceProviderIdentifier()).build();
+    }
+
+    @Override
+    public NFSeRequest toDispatch() {
         try {
             final GovbrLotRpsDispatchAsync.Builder lotRpsDispatchBuilder = new GovbrLotRpsDispatchAsync.Builder()
                     .withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1)

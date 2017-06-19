@@ -12,13 +12,15 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
 import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
 
 @XmlRootElement(name = "EnviarLoteRpsSincronoEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ElotechLotRpsDispatchSync implements TransmissibleBodyImpl {
+public class ElotechLotRpsDispatchSync implements NFSeRequest, TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -101,6 +103,11 @@ public class ElotechLotRpsDispatchSync implements TransmissibleBodyImpl {
     @Override
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
     }
 
 }

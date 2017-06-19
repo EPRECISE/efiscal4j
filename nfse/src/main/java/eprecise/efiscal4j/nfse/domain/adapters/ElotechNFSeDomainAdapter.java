@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
 
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
@@ -43,6 +42,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService
 import eprecise.efiscal4j.nfse.tc.elotech.person.address.ElotechNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
 
@@ -60,10 +60,15 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     @Override
-    public TransmissibleBodyImpl toTransmissible() {
+    public NFSeRequest toDispatch() {
         return new ElotechLotRpsDispatchSync.Builder().withApplicant(buildApplicant()).withLotRps(
                 new ElotechLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1).withStatementProvisionService(Arrays.asList(buildStatementProvisionService())).build())
                 .build();
+    }
+
+    @Override
+    public NFSeRequest toDispatchConsult(final String protocol) {
+        throw new UnsupportedOperationException();
     }
 
     private ElotechApplicant buildApplicant() {
@@ -74,7 +79,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                         .withPassword(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getTransmissionPassword).orElse(null))
                         .withHomologation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isHomologation).orElse(false))
                         .build();
-        
+
         //@formatter:on
     }
 

@@ -16,13 +16,14 @@ import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
+import eprecise.efiscal4j.nfse.transmission.response.state.NFSeConsultState;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 @XmlRootElement(name = "ConsultarSituacaoLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implements NFSeResponse {
+public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implements NFSeDispatchStateResponse {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +31,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
 
     private final @XmlElement(name = "NumeroLote") @Size(max = 15) String lotNumber;
 
-    private final @XmlElement(name = "Situacao") GovbrConsultState state;
+    private final @XmlElement(name = "Situacao") NFSeConsultState state;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -42,7 +43,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
 
         private String lotNumber;
 
-        private GovbrConsultState state;
+        private NFSeConsultState state;
 
         private Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -59,7 +60,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
          * @param state
          * @return
          */
-        public Builder withState(final GovbrConsultState state) {
+        public Builder withState(final NFSeConsultState state) {
             this.state = state;
             return this;
         }
@@ -104,7 +105,8 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
         return lotNumber;
     }
 
-    public GovbrConsultState getState() {
+    @Override
+    public NFSeConsultState getState() {
         return state;
     }
 

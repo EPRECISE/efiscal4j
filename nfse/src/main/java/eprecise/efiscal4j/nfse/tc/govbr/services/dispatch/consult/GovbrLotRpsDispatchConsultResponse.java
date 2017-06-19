@@ -18,13 +18,13 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.compNfse.GovbrCompNFSe;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchSyncResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 @XmlRootElement(name = "ConsultarLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NFSeDispatchSyncResponse {
+public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NFSeDispatchAutorizedResponse {
 
     private static final long serialVersionUID = 1L;
 

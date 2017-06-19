@@ -17,7 +17,7 @@ import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAsyncResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchPendingResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 import eprecise.efiscal4j.signer.domain.SignatureType;
@@ -25,7 +25,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 
 @XmlRootElement(name = "EnviarLoteRpsResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSeDispatchAsyncResponse {
+public class GovbrLotRpsDispatchAsyncResponse extends Receivable implements NFSeDispatchPendingResponse {
 
     private static final long serialVersionUID = 1L;
 
