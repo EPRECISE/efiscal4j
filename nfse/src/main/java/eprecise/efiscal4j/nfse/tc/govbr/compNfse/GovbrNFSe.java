@@ -139,11 +139,11 @@ public class GovbrNFSe extends ProcessedNFSe {
 
         private final @XmlElement(name = "ValorCredito") @NFSeValue String creditValue;
 
-        private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider serviceProvider;
+        private final @XmlElement(name = "PrestadorServico") @NotNull GovbrServiceProvider serviceProvider;
 
-        private final @XmlElement(name = "Tomador") @NotNull GovbrServiceTaker serviceTaker;
+        private final @XmlElement(name = "TomadorServico") @NotNull GovbrServiceTaker serviceTaker;
 
-        private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
+        private final @XmlElement(name = "IntermediarioServico") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
 
         private final @NotNull @XmlElement(name = "OrgaoGerador") CommonsGeneratorOrgan generatorOrgan;
 

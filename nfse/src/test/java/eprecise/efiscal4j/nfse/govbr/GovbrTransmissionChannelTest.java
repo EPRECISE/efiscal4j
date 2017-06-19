@@ -23,7 +23,7 @@ import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 
 public class GovbrTransmissionChannelTest implements Testable {
 
-    private static Optional<String> protocol = Optional.of("767753");
+    private static Optional<String> protocol = Optional.of("767776");
 
     /**
      *

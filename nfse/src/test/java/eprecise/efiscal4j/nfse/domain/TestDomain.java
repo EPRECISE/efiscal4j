@@ -114,7 +114,7 @@ public class TestDomain {
                     .withSerie(new NFSeSerie.Builder()
                             .withSerie("T1")
                             .withLotNumber("10")
-                            .withRpsNumber("11")
+                            .withRpsNumber("20")
                             .build())
                     .withEmissionDate(new Date())
                     .withEmitter(new NFSeServiceEmitter.Builder()
@@ -194,7 +194,7 @@ public class TestDomain {
             return new NFSeGovbrData.Builder()
                     .withCulturalPromoter(false)
                     .withNatureOperation(GovbrNatureOperation.MUNICIPAL_TAXATION)
-                    .withSimpleNational(false)
+                    .withSimpleNational(true)
                     .build();
         }
         return null;
