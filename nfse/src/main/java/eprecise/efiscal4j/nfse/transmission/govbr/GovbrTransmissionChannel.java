@@ -84,6 +84,9 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
                 NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<EnviarLoteRpsResposta"), str.lastIndexOf("</RecepcionarLoteRpsResult>"))).get();
         //@formatter:on
 
+        System.out.println("Request: " + requestXml);
+        System.out.println("Response: " + responseXml);
+
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
 
     }
@@ -112,6 +115,9 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
                 NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<ConsultarLoteRpsResposta"), str.lastIndexOf("</ConsultarLoteRpsResult>"))).get();
         //@formatter:on
 
+        System.out.println("Request: " + requestXml);
+        System.out.println("Response: " + responseXml);
+
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchConsult.class, GovbrLotRpsDispatchConsultResponse.class, requestXml, responseXml);
     }
 
@@ -138,6 +144,9 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<ConsultarSituacaoLoteRpsEnvio[^>]*>.*?</ConsultarSituacaoLoteRpsEnvio>", StringEscapeUtils.escapeXml(requestXml)),
                 NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<ConsultarSituacaoLoteRpsResposta"), str.lastIndexOf("</ConsultarSituacaoLoteRpsResult>"))).get();
         //@formatter:on
+
+        System.out.println("Request: " + requestXml);
+        System.out.println("Response: " + responseXml);
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchConsultState.class, GovbrLotRpsDispatchConsultStateResponse.class, requestXml, responseXml);
     }
