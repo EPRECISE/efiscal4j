@@ -91,4 +91,6 @@ public interface NFSeDomainAdapter {
 
     NFSeRequest toDispatchConsult(final String protocol);
 
+    NFSeRequest toDispatchConsultState(final String protocol);
+
 }

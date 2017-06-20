@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.transmission.response.state;
+package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType
 @XmlEnum(Integer.class)
-public enum NFSeConsultState {
+public enum GovbrConsultState {
 
                                @XmlEnumValue("1")
                                NOT_RECEIVED(1, "Não Recebido"),
@@ -28,7 +28,7 @@ public enum NFSeConsultState {
 
     private final String description;
 
-    private NFSeConsultState(final Integer value, final String description) {
+    private GovbrConsultState(final Integer value, final String description) {
         this.value = value;
         this.description = description;
     }
@@ -46,8 +46,8 @@ public enum NFSeConsultState {
         return getDescription();
     }
 
-    public static NFSeConsultState findByCode(final Integer natureOperation) {
-        for (final NFSeConsultState entity : NFSeConsultState.values()) {
+    public static GovbrConsultState findByCode(final Integer natureOperation) {
+        for (final GovbrConsultState entity : GovbrConsultState.values()) {
             if (entity.getValue().equals(natureOperation)) {
                 return entity;
             }

@@ -17,7 +17,6 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
-import eprecise.efiscal4j.nfse.transmission.response.state.NFSeConsultState;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
@@ -31,7 +30,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
 
     private final @XmlElement(name = "NumeroLote") @Size(max = 15) String lotNumber;
 
-    private final @XmlElement(name = "Situacao") NFSeConsultState state;
+    private final @XmlElement(name = "Situacao") GovbrConsultState state;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -43,7 +42,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
 
         private String lotNumber;
 
-        private NFSeConsultState state;
+        private GovbrConsultState state;
 
         private Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -60,7 +59,7 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
          * @param state
          * @return
          */
-        public Builder withState(final NFSeConsultState state) {
+        public Builder withState(final GovbrConsultState state) {
             this.state = state;
             return this;
         }
@@ -105,9 +104,13 @@ public class GovbrLotRpsDispatchConsultStateResponse extends Receivable implemen
         return lotNumber;
     }
 
-    @Override
-    public NFSeConsultState getState() {
+    public GovbrConsultState getState() {
         return state;
+    }
+
+    @Override
+    public boolean isProcessed() {
+        return state.equals(GovbrConsultState.PROCESSED_SUCESSFULLY) || state.equals(GovbrConsultState.PROCESSED_WITH_ERRORS);
     }
 
     @Override

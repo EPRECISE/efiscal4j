@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfse.transmission.elotech;
 
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -14,7 +13,7 @@ import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPBody;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPEnvelope;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPHeader;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
-import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
@@ -47,8 +46,8 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
-            final boolean homologation) throws Exception {
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final NFSeRequest transmissible, final String cityCode, final boolean homologation)
+            throws Exception {
 
         final ElotechLotRpsDispatchSync lotRpsDispatch = (ElotechLotRpsDispatchSync) transmissible;
 
@@ -68,13 +67,13 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
-            final boolean homologation) throws Exception {
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final NFSeRequest transmissible, final String cityCode, final boolean homologation)
+            throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> consultStateAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
+    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeDispatchStateResponse> consultStateAuthorization(final NFSeRequest nfseRequest, final String cityCode,
             final boolean homologation) throws Exception {
         throw new UnsupportedOperationException();
     }

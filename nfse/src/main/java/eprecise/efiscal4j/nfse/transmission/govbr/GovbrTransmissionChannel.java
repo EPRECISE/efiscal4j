@@ -15,7 +15,6 @@ import javax.xml.soap.SOAPMessage;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
 
-import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
@@ -31,6 +30,7 @@ import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultStateLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrReceiptLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrXmlRequest;
+import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
@@ -60,8 +60,8 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<GovbrLotRpsDispatchAsync, GovbrLotRpsDispatchAsyncResponse> transmitAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
-            final boolean homologation) throws Exception {
+    public TypedTransmissionResult<GovbrLotRpsDispatchAsync, GovbrLotRpsDispatchAsyncResponse> transmitAuthorization(final NFSeRequest transmissible, final String cityCode, final boolean homologation)
+            throws Exception {
 
         final GovbrLotRpsDispatchAsync lotRpsDispatch = (GovbrLotRpsDispatchAsync) transmissible;
 
@@ -89,7 +89,7 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<GovbrLotRpsDispatchConsult, GovbrLotRpsDispatchConsultResponse> consultAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
+    public TypedTransmissionResult<GovbrLotRpsDispatchConsult, GovbrLotRpsDispatchConsultResponse> consultAuthorization(final NFSeRequest transmissible, final String cityCode,
             final boolean homologation) throws Exception {
         final GovbrLotRpsDispatchConsult lotRpsDispatch = (GovbrLotRpsDispatchConsult) transmissible;
 
@@ -116,7 +116,7 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<GovbrLotRpsDispatchConsultState, GovbrLotRpsDispatchConsultStateResponse> consultStateAuthorization(final TransmissibleBodyImpl transmissible, final String cityCode,
+    public TypedTransmissionResult<GovbrLotRpsDispatchConsultState, GovbrLotRpsDispatchConsultStateResponse> consultStateAuthorization(final NFSeRequest transmissible, final String cityCode,
             final boolean homologation) throws Exception {
         final GovbrLotRpsDispatchConsultState lotRpsDispatch = (GovbrLotRpsDispatchConsultState) transmissible;
 

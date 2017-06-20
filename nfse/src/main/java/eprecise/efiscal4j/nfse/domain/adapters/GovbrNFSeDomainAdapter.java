@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrValues;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultState;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
@@ -58,6 +59,10 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
         certificate = Optional.ofNullable(builder.getCertificate());
+    }
+
+    public NFSeRequest toDispatchConsultState(final String protocol) {
+        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol).withServiceProviderIdentifier(buildServiceProviderIdentifier()).build();
     }
 
     @Override

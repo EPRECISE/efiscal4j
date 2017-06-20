@@ -71,6 +71,11 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public NFSeRequest toDispatchConsultState(final String protocol) {
+        throw new UnsupportedOperationException();
+    }
+
     private ElotechApplicant buildApplicant() {
         //@formatter:off
             return new ElotechApplicant.Builder()
@@ -162,7 +167,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         final Collection<ElotechServiceItem> items = new HashSet<>();
 
             items.add(new ElotechServiceItem.Builder()
-                    .withItemServiceList(nfse.getService().getNationalServiceCode())
+                    .withItemServiceList(nfse.getService().getNationalServiceCode().replaceAll(".", ""))
                     .withCnaeCode(nfse.getService().getCnaeCode())
                     .withDescription(nfse.getService().getName())
                     .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
