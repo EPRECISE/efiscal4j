@@ -74,7 +74,7 @@ public class GovbrRps {
 
         private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier;
 
-        private final @XmlElement(name = "Tomador") @NotNull GovbrServiceTaker serviceTaker;
+        private final @XmlElement(name = "Tomador") @NotNull(message = "{eprecise.efiscal4j.validation.required.serviceTaker}") GovbrServiceTaker serviceTaker;
 
         private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
 
