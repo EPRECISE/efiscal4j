@@ -13,19 +13,20 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CommonsNFSeAddress {
 
-    private final @XmlElement(name = "Endereco") @Size(min = 1, max = 125) String address;
+    private final @XmlElement(name = "Endereco") @Size(min = 1, max = 125, message = "Endereço - rua: tamanho informado deve estar entre 1 e 125 caracteres.") String address;
 
-    private final @XmlElement(name = "Numero") @Size(min = 1, max = 10) String number;
+    private final @XmlElement(name = "Numero") @Size(min = 1, max = 10, message = "Endereço - número: tamanho informado deve estar entre 1 e 10 caracteres.") String number;
 
-    private final @XmlElement(name = "Complemento") @Size(min = 1, max = 60) String complement;
+    private final @XmlElement(name = "Complemento") @Size(min = 1, max = 60, message = "Endereço - complemento: tamanho informado deve estar entre 1 e 60 caracteres.") String complement;
 
-    private final @XmlElement(name = "Bairro") @Size(min = 1, max = 60) String district;
+    private final @XmlElement(name = "Bairro") @Size(min = 1, max = 60, message = "Endereço - bairro: tamanho informado deve estar entre 1 e 60 caracteres.") String district;
 
-    private final @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(min = 1, max = 7) String cityCode;
+    private final @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(
+            min = 1, max = 7, message = "Endereço - código do município: tamanho informado deve estar entre 1 e 7 caracteres.") String cityCode;
 
     private final @XmlElement(name = "Uf") CommonsNFSeUF uf;
 
-    private final @XmlElement(name = "Cep") @Size(min = 8, max = 8) String cep;
+    private final @XmlElement(name = "Cep") @Size(min = 8, max = 8, message = "Endereço - cep: tamanho informado deve possuir exatamente 8 caracteres.") String cep;
 
     public static class Builder {
 

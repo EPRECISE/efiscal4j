@@ -238,14 +238,18 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private ElotechNFSeAddress buildNFSeAddress(final NFSeAddress address) {
+        if (address == null) {
+            return null;
+        }
+
         //@formatter:off
             return new ElotechNFSeAddress.Builder()
             .withAddress(address.getStreet())
             .withNumber(address.getNumber())
             .withDistrict(address.getDistrict())
-            .withCityCode(address.getCity().getIbgeCode().toString())
+            .withCityCode(Optional.ofNullable(address.getCity()).map(a->a.getIbgeCode()).orElse(null))
             .withCityName(address.getCity().getName())
-            .withUf(CommonsNFSeUF.findByAcronym(address.getCity().getUf().getAcronym()))
+            .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))
             .withCep(address.getZipCode())
             .build();
         //@formatter:on

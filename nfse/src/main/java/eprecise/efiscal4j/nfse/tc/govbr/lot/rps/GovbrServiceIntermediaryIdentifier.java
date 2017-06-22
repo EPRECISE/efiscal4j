@@ -14,11 +14,13 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrServiceIntermediaryIdentifier {
 
-    private final @XmlElement(name = "RazaoSocial") @NotNull @Size(min = 1, max = 150) String socialName;
+    private final @XmlElement(name = "RazaoSocial") @NotNull(message = "Nome/Razão Social: o valor é necessário") @Size(
+            min = 1, max = 150, message = "Nome/Razão Social: tamanho informado deve estar entre 1 e 150 caracteres.") String socialName;
 
     private final @XmlElement(name = "CpfCnpj") @NotNull CommonsNFSeCnp cnp;
 
-    private final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 15) String municipalRegistration;
+    private final @XmlElement(name = "InscricaoMunicipal") @Size(
+            min = 1, max = 15, message = "Inscrição Municipal: tamanho informado deve estar entre 1 e 15 caracteres.") String municipalRegistration;
 
     public static class Builder {
 

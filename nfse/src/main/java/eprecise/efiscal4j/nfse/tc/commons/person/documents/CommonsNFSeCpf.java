@@ -16,7 +16,7 @@ public class CommonsNFSeCpf extends CommonsNFSeCnp {
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "Cpf") @NotNull @Size(max = 11) @CPF(formatted = false) String cpf;
+    private final @XmlElement(name = "Cpf") @NotNull(message = "Cpf: o valor é necessário") @Size(max = 11) @CPF(formatted = false) String cpf;
 
     public static class Builder {
 

@@ -16,7 +16,7 @@ public class CommonsNFSeCnpj extends CommonsNFSeCnp {
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "Cnpj") @NotNull @CNPJ(formatted = false) @Size(max = 14) String cnpj;
+    private final @XmlElement(name = "Cnpj") @NotNull(message = "Cnpj: o valor é necessário") @CNPJ(formatted = false) @Size(max = 14) String cnpj;
 
     public static class Builder {
 

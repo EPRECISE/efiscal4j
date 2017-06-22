@@ -70,11 +70,11 @@ public class GovbrRps {
 
         private final @XmlElement(name = "RpsSubstituido") CommonsRpsIdentifier rpsSubstituted;
 
-        private final @XmlElement(name = "Servico") @NotNull GovbrService service;
+        private final @XmlElement(name = "Servico") @NotNull(message = "Serviço: o valor é necessário") GovbrService service;
 
         private final @XmlElement(name = "Prestador") @NotNull GovbrServiceProvider.GovbrServiceProviderIdentifier serviceProviderIdentifier;
 
-        private final @XmlElement(name = "Tomador") @NotNull(message = "{eprecise.efiscal4j.validation.required.serviceTaker}") GovbrServiceTaker serviceTaker;
+        private final @XmlElement(name = "Tomador") @NotNull(message = "Tomador: o valor é necessário") GovbrServiceTaker serviceTaker;
 
         private final @XmlElement(name = "Intermediario") GovbrServiceIntermediaryIdentifier serviceIntermediaryIdentifier;
 

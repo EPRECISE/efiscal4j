@@ -12,9 +12,9 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CommonsNFSeContact {
 
-    private final @XmlElement(name = "Telefone") @Size(min = 1, max = 11) String phone;
+    private final @XmlElement(name = "Telefone") @Size(min = 1, max = 11, message = "Contato - telefone: tamanho informado deve estar entre 1 e 11 caracteres.") String phone;
 
-    private final @XmlElement(name = "Email") @Size(min = 1, max = 80) String email;
+    private final @XmlElement(name = "Email") @Size(min = 1, max = 80, message = "Contato - e-mail: tamanho informado deve estar entre 1 e 80 caracteres.") String email;
 
     public static class Builder {
 

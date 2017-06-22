@@ -129,9 +129,11 @@ public class GovbrServiceProvider {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class GovbrServiceProviderIdentifier {
 
-        private final @XmlElement(name = "Cnpj") @NotNull @CNPJ(formatted = false) @Size(max = 14) String cnpj;
+        private final @XmlElement(name = "Cnpj") @NotNull(message = "Cnpj do Prestador: o valor é necessário") @CNPJ(formatted = false) @Size(
+                max = 14, message = "Cnpj do Prestador: tamanho informado deve poussir exatamente 14 caracteres.") String cnpj;
 
-        private final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 15) String municipalRegistration;
+        private final @XmlElement(name = "InscricaoMunicipal") @Size(
+                min = 1, max = 15, message = "Inscrição Municipal do Prestador: tamanho informado deve estar entre 1 e 15 caracteres.") String municipalRegistration;
 
         public static class Builder {
 

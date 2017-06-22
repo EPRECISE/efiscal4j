@@ -17,7 +17,7 @@ public class GovbrServiceTaker {
 
     private final @XmlElement(name = "IdentificacaoTomador") GovbrServiceTakerIdentifier identifier;
 
-    private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 115) String socialName;
+    private final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 115, message = "Nome/Razão Social: tamanho informado deve estar entre 1 e 115 caracteres.") String socialName;
 
     private final @XmlElement(name = "Endereco") CommonsNFSeAddress address;
 

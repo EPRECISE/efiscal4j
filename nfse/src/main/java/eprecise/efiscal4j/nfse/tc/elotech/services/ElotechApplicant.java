@@ -18,11 +18,13 @@ public class ElotechApplicant implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final @NotNull @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
+    private final @NotNull(message = "Cnpj do Prestador: o valor é necessário") @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
 
-    private final @NotNull @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 10) String municipalRegistration;
+    private final @NotNull(message = "Inscrição Municipal do Prestador: o valor é necessário") @XmlElement(name = "InscricaoMunicipal") @Size(
+            min = 1, max = 10, message = "Inscrição Municipal do Prestador: tamanho informado deve estar entre 1 e 10 caracteres.") String municipalRegistration;
 
-    private final @NotNull @XmlElement(name = "Senha") @Size(min = 6, max = 30) String password;
+    private final @NotNull(message = "Senha do Prestador: o valor é necessário") @XmlElement(name = "Senha") @Size(
+            min = 6, max = 30, message = "Senha do Prestador: tamanho informado deve estar entre 6 e 30 caracteres.") String password;
 
     private final @NotNull @XmlElement(name = "Homologa") boolean homologation;
 

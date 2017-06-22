@@ -61,6 +61,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         certificate = Optional.ofNullable(builder.getCertificate());
     }
 
+    @Override
     public NFSeRequest toDispatchConsultState(final String protocol) {
         return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol).withServiceProviderIdentifier(buildServiceProviderIdentifier()).build();
     }
@@ -217,8 +218,8 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
             .withAddress(address.getStreet())
             .withNumber(address.getNumber())
             .withDistrict(address.getDistrict())
-            .withCityCode(address.getCity().getIbgeCode().toString())
-            .withUf(CommonsNFSeUF.findByAcronym(address.getCity().getUf().getAcronym()))
+            .withCityCode(Optional.ofNullable(address.getCity()).map(a->a.getIbgeCode()).orElse(null))
+            .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))
             .withCep(address.getZipCode())
             .build();
         //@formatter:on
