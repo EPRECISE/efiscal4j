@@ -9,6 +9,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatc
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.UnavailableServiceException;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPBody;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPEnvelope;
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPHeader;
@@ -59,6 +60,10 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
 
         String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, lotRpsDispatch.getApplicant().isHomologation()));
+
+        if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
+            throw new UnavailableServiceException();
+        }
 
         responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
 
