@@ -58,13 +58,13 @@ public class GovbrRps {
 
         private final @XmlElement(name = "DataEmissao") @NotNull @NFSeDateTimeUTC String emissionDate;
 
-        private final @XmlElement(name = "NaturezaOperacao") @NotNull GovbrNatureOperation natureOperation;
+        private final @XmlElement(name = "NaturezaOperacao") @NotNull(message = "Natureza da Operação: o valor é necessário") GovbrNatureOperation natureOperation;
 
         private final @XmlElement(name = "RegimeEspecialTributacao") GovbrSpecialTaxationRegime specialTaxationRegime;
 
-        private final @XmlElement(name = "OptanteSimplesNacional") @NotNull CommonsNFSeBoolean simpleNational;
+        private final @XmlElement(name = "OptanteSimplesNacional") @NotNull(message = "Optante Simples Nacional: o valor é necessário") CommonsNFSeBoolean simpleNational;
 
-        private final @XmlElement(name = "IncentivadorCultural") @NotNull CommonsNFSeBoolean culturalPromoter;
+        private final @XmlElement(name = "IncentivadorCultural") @NotNull(message = "Incentivador Cultural: o valor é necessário") CommonsNFSeBoolean culturalPromoter;
 
         private final @XmlElement(name = "Status") @NotNull CommonsRpsStatus status;
 
