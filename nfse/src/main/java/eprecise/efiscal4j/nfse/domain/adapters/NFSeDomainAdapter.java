@@ -69,7 +69,7 @@ public interface NFSeDomainAdapter {
         }
 
         public NFSeDomainAdapter build() {
-            final String cityCode = nfse.getService().getCityService().getIbgeCode();
+            final String cityCode = nfse.getEmitter().getAddress().getCity().getIbgeCode();
             try {
                 return NFSeAdapter.findNFSeDomainAdapterBy(cityCode).getConstructor(Builder.class).newInstance(this);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
