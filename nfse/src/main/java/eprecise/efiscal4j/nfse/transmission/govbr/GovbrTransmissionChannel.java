@@ -26,6 +26,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLot
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultStateResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.UnavailableServiceException;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultStateLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrReceiptLotRps;
@@ -78,16 +79,18 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
         final Map<String, String> requestProperty = new HashMap<>();
         requestProperty.put("SOAPAction", "http://tempuri.org/INFSEGeracao/RecepcionarLoteRps");
 
+        try {
+
         //@formatter:off
         final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<EnviarLoteRpsEnvio[^>]*>.*?</EnviarLoteRpsEnvio>", StringEscapeUtils.escapeXml(requestXml)),
                 NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<EnviarLoteRpsResposta"), str.lastIndexOf("</RecepcionarLoteRpsResult>"))).get();
         //@formatter:on
-
-        System.out.println("Request: " + requestXml);
-        System.out.println("Response: " + responseXml);
-
-        return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
+            return new TypedTransmissionResult<>(GovbrLotRpsDispatchAsync.class, GovbrLotRpsDispatchAsyncResponse.class, requestXml, responseXml);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            throw new UnavailableServiceException();
+        }
 
     }
 

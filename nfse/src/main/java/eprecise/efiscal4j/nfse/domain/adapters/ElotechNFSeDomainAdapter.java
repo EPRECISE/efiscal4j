@@ -167,7 +167,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         final Collection<ElotechServiceItem> items = new HashSet<>();
 
             items.add(new ElotechServiceItem.Builder()
-                    .withItemServiceList(nfse.getService().getNationalServiceCode().replaceAll(".", ""))
+                    .withItemServiceList(nfse.getService().getNationalServiceCode().replaceAll("\\.", ""))
                     .withCnaeCode(nfse.getService().getCnaeCode())
                     .withDescription(nfse.getService().getName())
                     .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
