@@ -193,12 +193,15 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private CommonsNFSeCnp buildCnp(final NFSeDocuments documents) {
         if (documents instanceof NFSeLegalEntityDocuments) {
-            return new CommonsNFSeCnpj.Builder().withCnpj(documents.getCnp()).build();
+            if (documents.getCnp() != null) {
+                return new CommonsNFSeCnpj.Builder().withCnpj(documents.getCnp()).build();
+            }
         } else if (documents instanceof NFSeNaturalPersonDocuments) {
-            return new CommonsNFSeCpf.Builder().withCpf(documents.getCnp()).build();
-        } else {
-            return null;
+            if (documents.getCnp() != null) {
+                return new CommonsNFSeCpf.Builder().withCpf(documents.getCnp()).build();
+            }
         }
+        return null;
     }
 
     private CommonsNFSeContact buildNFSeContacts(final NFSeContact contact) {
