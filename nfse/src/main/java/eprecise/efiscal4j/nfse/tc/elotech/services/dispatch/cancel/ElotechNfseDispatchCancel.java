@@ -1,6 +1,7 @@
 
-package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel;
+package eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,51 +12,71 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest;
+import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelRequest;
+import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
 
 @XmlRootElement(name = "CancelarNfseEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrNfseDispatchCancel implements TransmissibleBodyImpl, NFSeRequest {
+public class ElotechNfseDispatchCancel implements TransmissibleBodyImpl, NFSeRequest {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/servico_cancelar_nfse_envio.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech/nfse_v1_2.xsd";
 
-    private final @XmlElement(name = "Pedido") GovbrNfseCancelRequest cancelRequest;
+    private final @NotNull @XmlElement(name = "IdentificacaoRequerente") ElotechApplicant applicant;
+
+    private final @XmlElement(name = "Pedido") ElotechNfseCancelRequest cancelRequest;
 
     private @XmlTransient QName qName = new QName("CancelarNfseEnvio");
 
     public static class Builder {
 
-        private GovbrNfseCancelRequest cancelRequest;
+        private ElotechApplicant applicant;
+
+        private ElotechNfseCancelRequest cancelRequest;
+
+        /**
+         * @param applicant
+         * @return
+         */
+        public Builder withApplicant(final ElotechApplicant applicant) {
+            this.applicant = applicant;
+            return this;
+        }
 
         /**
          * @param cancelRequest
          * @return
          */
-        public Builder withCancelRequest(final GovbrNfseCancelRequest cancelRequest) {
+        public Builder withCancelRequest(final ElotechNfseCancelRequest cancelRequest) {
             this.cancelRequest = cancelRequest;
             return this;
         }
 
-        public GovbrNfseDispatchCancel build() {
-            final GovbrNfseDispatchCancel entity = new GovbrNfseDispatchCancel(this);
+        public ElotechNfseDispatchCancel build() {
+            final ElotechNfseDispatchCancel entity = new ElotechNfseDispatchCancel(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
     }
 
-    public GovbrNfseDispatchCancel() {
+    public ElotechNfseDispatchCancel() {
+        applicant = null;
         cancelRequest = null;
     }
 
-    public GovbrNfseDispatchCancel(final Builder builder) {
+    public ElotechNfseDispatchCancel(final Builder builder) {
+        applicant = builder.applicant;
         cancelRequest = builder.cancelRequest;
     }
 
-    public GovbrNfseCancelRequest getCancelRequest() {
+    public ElotechApplicant getApplicant() {
+        return applicant;
+    }
+
+    public ElotechNfseCancelRequest getCancelRequest() {
         return cancelRequest;
     }
 

@@ -1,17 +1,27 @@
 
-package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel;
+package eprecise.efiscal4j.nfse.tc.govbr.cancel;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.GovbrNFSeIdentifier;
+import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrNfseCancelRequest {
+public class GovbrNfseCancelRequest extends DefaultAssignable implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final @XmlElement(name = "InfPedidoCancelamento") @NotNull Info info;
 
@@ -50,7 +60,11 @@ public class GovbrNfseCancelRequest {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Info {
 
+        private @XmlAttribute(name = "id") final String id = UUID.randomUUID().toString().replaceAll("-", "");
+
         private final @XmlElement(name = "IdentificacaoNfse") @NotNull GovbrNFSeIdentifier identifier;
+
+        private final @XmlElement(name = "CodigoCancelamento") @NotNull GovbrCancellationCode cancellationCode;
 
         // TODO falta o atributo código de cancelamento
 
@@ -58,12 +72,23 @@ public class GovbrNfseCancelRequest {
 
             private GovbrNFSeIdentifier identifier;
 
+            private GovbrCancellationCode cancellationCode;
+
             /**
              * @param identifier
              * @return
              */
             public Builder withIdentifier(final GovbrNFSeIdentifier identifier) {
                 this.identifier = identifier;
+                return this;
+            }
+
+            /**
+             * @param cancellationCode
+             * @return
+             */
+            public Builder withCancellationCode(final GovbrCancellationCode cancellationCode) {
+                this.cancellationCode = cancellationCode;
                 return this;
             }
 
@@ -76,16 +101,47 @@ public class GovbrNfseCancelRequest {
 
         public Info() {
             identifier = null;
+            cancellationCode = null;
         }
 
         public Info(final Builder builder) {
             identifier = builder.identifier;
+            cancellationCode = builder.cancellationCode;
         }
 
         public GovbrNFSeIdentifier getIdentifier() {
             return identifier;
         }
 
+        public GovbrCancellationCode getCancellationCode() {
+            return cancellationCode;
+        }
+
+    }
+
+    @Override
+    public String getAsXml() {
+        return new FiscalDocumentSerializer<>(this).serialize();
+    }
+
+    @Override
+    public Assignable getAsEntity(final String xml) {
+        return new FiscalDocumentDeserializer<>(xml, GovbrNfseCancelRequest.class).deserialize();
+    }
+
+    @Override
+    public String getRootTagName() {
+        return "CancelarNfseEnvio";
+    }
+
+    @Override
+    public String getAssignableTagName() {
+        return "InfPedidoCancelamento";
+    }
+
+    @Override
+    public String getIdAttributeTagName() {
+        return "id";
     }
 
 }

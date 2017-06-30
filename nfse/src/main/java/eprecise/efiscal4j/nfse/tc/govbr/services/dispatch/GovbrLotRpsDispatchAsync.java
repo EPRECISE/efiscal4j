@@ -105,7 +105,7 @@ public class GovbrLotRpsDispatchAsync extends DefaultAssignable implements Trans
 
     @Override
     public String getIdAttributeTagName() {
-        return "Id";
+        return "id";
     }
 
 }
