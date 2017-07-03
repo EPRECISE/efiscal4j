@@ -15,6 +15,7 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.GovbrNFSeIdentifier;
 import eprecise.efiscal4j.signer.Assignable;
+import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 
 
@@ -41,6 +42,13 @@ public class GovbrNfseCancelRequest extends DefaultAssignable implements Seriali
         public GovbrNfseCancelRequest build() {
             final GovbrNfseCancelRequest entity = new GovbrNfseCancelRequest(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+
+        public GovbrNfseCancelRequest build(final Signer signer) throws Exception {
+            GovbrNfseCancelRequest entity = new GovbrNfseCancelRequest(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            entity = (GovbrNfseCancelRequest) signer.sign(entity);
             return entity;
         }
     }

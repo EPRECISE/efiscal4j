@@ -20,11 +20,14 @@ import eprecise.efiscal4j.nfse.domain.person.documents.NFSeNaturalPersonDocument
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeld;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeldElotechData;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeElotechData;
+import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
 import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
+import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechCancellationCode;
+import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceIntermediary;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider;
@@ -42,6 +45,7 @@ import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService
 import eprecise.efiscal4j.nfse.tc.elotech.person.address.ElotechNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.elotech.services.ElotechApplicant;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel.ElotechNfseDispatchCancel;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsType;
@@ -63,6 +67,16 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     public NFSeRequest toDispatch() {
         return new ElotechLotRpsDispatchSync.Builder().withApplicant(buildApplicant()).withLotRps(
                 new ElotechLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1).withStatementProvisionService(Arrays.asList(buildStatementProvisionService())).build())
+                .build();
+    }
+
+    @Override
+    public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
+        return new ElotechNfseDispatchCancel.Builder().withApplicant(buildApplicant())
+                .withCancelRequest(new ElotechNfseCancelRequest.Builder().withInfo(new ElotechNfseCancelRequest.Info.Builder()
+                        .withNumber(cancellationRequestData.getNfseNumber()).withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional
+                                .ofNullable(cancellationRequestData.getCancellationCode()).filter(ElotechCancellationCode.class::isInstance).map(ElotechCancellationCode.class::cast).orElse(null))
+                        .build()).build())
                 .build();
     }
 

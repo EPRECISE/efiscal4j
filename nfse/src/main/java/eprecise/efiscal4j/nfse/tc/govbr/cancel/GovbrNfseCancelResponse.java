@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 
@@ -119,7 +120,7 @@ public class GovbrNfseCancelResponse extends DefaultAssignable implements Serial
 
             private final @XmlElement(name = "Sucesso") @NotNull Boolean sucess;
 
-            private final @XmlElement(name = "DataHora") @NotNull String date;
+            private final @XmlElement(name = "DataHora") @NFSeDateTimeUTC @NotNull String date;
 
             public static class Builder {
 

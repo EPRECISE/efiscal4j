@@ -1,6 +1,7 @@
 
 package eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,36 +16,36 @@ import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelResponse;
+import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
 
 
-@XmlRootElement(name = "ConsultarLoteRpsResposta")
+@XmlRootElement(name = "CancelarNfseResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ElotechNfseDispatchCancelResponse extends Receivable implements NFSeDispatchCancellationAutorizedResponse {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/servico_cancelar_nfse_resposta.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech/nfse_v1_2.xsd";
 
-    public @XmlElement(name = "Cancelamento") GovbrNfseCancelResponse cancelResponse;
+    private final @XmlElement(name = "RetCancelamento") CancellationReturn cancellationReturn;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
-    private @XmlTransient QName qName = new QName("ConsultarLoteRpsResposta");
+    private @XmlTransient QName qName = new QName("CancelarNfseResposta");
 
     public static class Builder {
 
-        public GovbrNfseCancelResponse cancelResponse;
+        public CancellationReturn cancellationReturn;
 
         private Collection<CommonsNFSeReturnMessage> returnMessageList;
 
         /**
-         * @param cancelResponse
+         * @param cancellationReturn
          * @return
          */
-        public Builder withCancelResponse(final GovbrNfseCancelResponse cancelResponse) {
-            this.cancelResponse = cancelResponse;
+        public Builder withCancellationReturn(final CancellationReturn cancellationReturn) {
+            this.cancellationReturn = cancellationReturn;
             return this;
         }
 
@@ -65,12 +66,12 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
     }
 
     public ElotechNfseDispatchCancelResponse() {
-        cancelResponse = null;
+        cancellationReturn = null;
         returnMessageList = null;
     }
 
     public ElotechNfseDispatchCancelResponse(final Builder builder) {
-        cancelResponse = builder.cancelResponse;
+        cancellationReturn = builder.cancellationReturn;
         returnMessageList = builder.returnMessageList;
     }
 
@@ -82,8 +83,8 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
         this.qName = qName;
     }
 
-    public GovbrNfseCancelResponse getCancelResponse() {
-        return cancelResponse;
+    public CancellationReturn getCancellationReturn() {
+        return cancellationReturn;
     }
 
     @Override
@@ -105,6 +106,43 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
     @Override
     public String getAsXml() {
         return new FiscalDocumentSerializer<>(this).serialize();
+    }
+
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class CancellationReturn implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private final @XmlElement(name = "NfseCancelamento") ElotechNfseCancelResponse cancelResponse;
+
+        public static class Builder {
+
+            private ElotechNfseCancelResponse cancelResponse;
+
+            public Builder withCancelResponse(final ElotechNfseCancelResponse cancelResponse) {
+                this.cancelResponse = cancelResponse;
+                return this;
+            }
+
+            public CancellationReturn build() throws Exception {
+                final CancellationReturn entity = new CancellationReturn(this);
+                ValidationBuilder.from(entity).validate().throwIfViolate();
+                return entity;
+            }
+        }
+
+        public CancellationReturn() {
+            cancelResponse = null;
+        }
+
+        public CancellationReturn(final Builder builder) {
+            cancelResponse = builder.cancelResponse;
+        }
+
+        public ElotechNfseCancelResponse getCancelResponse() {
+            return cancelResponse;
+        }
+
     }
 
 }

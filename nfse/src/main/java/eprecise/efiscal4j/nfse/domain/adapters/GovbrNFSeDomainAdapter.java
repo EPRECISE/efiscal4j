@@ -19,6 +19,7 @@ import eprecise.efiscal4j.nfse.domain.person.documents.NFSeLegalEntityDocuments;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeNaturalPersonDocuments;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeld;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeGovbrData;
+import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
 import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.tc.commons.person.contacts.CommonsNFSeContact;
@@ -26,6 +27,9 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
+import eprecise.efiscal4j.nfse.tc.govbr.GovbrNFSeIdentifier;
+import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrCancellationCode;
+import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.GovbrLotRps;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrRps;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrServiceIntermediaryIdentifier;
@@ -35,6 +39,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.service.GovbrValues;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel.GovbrNfseDispatchCancel;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultState;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
@@ -59,6 +64,26 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
         nfse = builder.getNfse();
         certificate = Optional.ofNullable(builder.getCertificate());
+    }
+
+    @Override
+    public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
+
+        final eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder().withInfo(new GovbrNfseCancelRequest.Info.Builder()
+                .withIdentifier(new GovbrNFSeIdentifier.Builder().withCityCode(nfse.getEmitter().getAddress().getCity().getIbgeCode()).withCnpj(nfse.getEmitter().getDocuments().getCnp())
+                        .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
+                                .map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                        .withNumber(cancellationRequestData.getNfseNumber()).build())
+                .withCancellationCode(
+                        Optional.ofNullable(cancellationRequestData.getCancellationCode()).filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
+                .build());
+
+        try {
+            return new GovbrNfseDispatchCancel.Builder()
+                    .withCancelRequest(certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(certificate.get())) : nfseCancelRequestBuilder.build()).build();
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

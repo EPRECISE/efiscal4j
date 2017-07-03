@@ -75,7 +75,7 @@ public class GovbrNFSeIdentifier implements Serializable {
             return this;
         }
 
-        public GovbrNFSeIdentifier build() throws Exception {
+        public GovbrNFSeIdentifier build() {
             final GovbrNFSeIdentifier entity = new GovbrNFSeIdentifier(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
