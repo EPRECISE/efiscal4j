@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfse.domain.tax;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
@@ -118,6 +119,13 @@ public class NFSeTax implements Serializable {
             return entity;
         }
 
+    }
+
+    public BigDecimal getTotal() {
+        return Optional.ofNullable(getIssValue()).orElse(BigDecimal.ZERO).add(Optional.ofNullable(getPisValue()).orElse(BigDecimal.ZERO))
+                .add(Optional.ofNullable(getCofinsValue()).orElse(BigDecimal.ZERO)).add(Optional.ofNullable(getInssValue()).orElse(BigDecimal.ZERO))
+                .add(Optional.ofNullable(getIrValue()).orElse(BigDecimal.ZERO)).add(Optional.ofNullable(getCsllValue()).orElse(BigDecimal.ZERO))
+                .add(Optional.ofNullable(getCppValue()).orElse(BigDecimal.ZERO)).add(Optional.ofNullable(getOtherRetentionsValue()).orElse(BigDecimal.ZERO));
     }
 
     public NFSeTax() {

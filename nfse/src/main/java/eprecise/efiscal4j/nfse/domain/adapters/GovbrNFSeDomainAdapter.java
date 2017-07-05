@@ -169,7 +169,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withOtherRetentionsValue(formatNFSeValue(nfse.getTax().getOtherRetentionsValue()))
                 .withBcValue(formatNFSeValue(nfse.getTax().getBcValue()))
                 .withIssAliquot(formatNFSeAliquot(nfse.getTax().getIssAliquot()))
-                .withNetValue(formatNFSeValue(nfse.getNetValue()))
+                .withNetValue(formatNFSeValue(nfse.getNetValue().add(nfse.getTax().getTotal())))
                 .withDiscountUnconditionedValue(formatNFSeValue(nfse.getService().getDiscount()))
                 .build();
         //@formatter:on
