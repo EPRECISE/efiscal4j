@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
+import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 
@@ -88,6 +89,8 @@ public interface NFSeDomainAdapter {
     }
 
     NFSeRequest toDispatch();
+
+    NFSeRequest toDispatchCancel(NFSeCancellationRequestData cancellationRequestData);
 
     NFSeRequest toDispatchConsult(final String protocol);
 

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfse.tc.govbr.compNfse;
+package eprecise.efiscal4j.nfse.tc.govbr;
 
 import java.text.ParseException;
 import java.util.Date;
