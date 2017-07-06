@@ -17,16 +17,24 @@ import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 @XmlEnum(String.class)
 public enum GovbrCancellationCode implements NFSeCancellationCode {
 
-                                                               @XmlEnumValue("1")
-                                                               EMISSION_ERROR("1", "Erro de emissão"),
-                                                               @XmlEnumValue("2")
-                                                               SERVICE_NOT_PERFORMED("2", "Serviço não prestado"),
-                                                               @XmlEnumValue("3")
-                                                               SIGNATURE_ERROR("3", "Erro de assinatura"),
-                                                               @XmlEnumValue("4")
-                                                               DUPLICITY("4", "Duplicidade"),
-                                                               @XmlEnumValue("5")
-                                                               PROCESSING_ERROR("5", "Erro de processamento");
+                                                                   @XmlEnumValue("1")
+                                                                   CODE1("1", "Dados do serviço não cadastrados para o prestador"),
+                                                                   @XmlEnumValue("2")
+                                                                   CODE2("2", "Serviço informado não permite dedução na base de cálculo"),
+                                                                   @XmlEnumValue("3")
+                                                                   CODE3("3", "Outros"),
+                                                                   @XmlEnumValue("4")
+                                                                   CODE4("4", "Serviço informado não premite tributação fora do município"),
+                                                                   @XmlEnumValue("5")
+                                                                   CODE5("5", "Valor do ISS retido diferente do ISS devido"),
+                                                                   @XmlEnumValue("6")
+                                                                   CODE6("6", "Endereço informado é de fora do município"),
+                                                                   @XmlEnumValue("7")
+                                                                   CODE7("7", "Tomador não cadastrado na base de dados de CCM"),
+                                                                   @XmlEnumValue("8")
+                                                                   CODE8("8", "Inscrição municipal do tomador cancelada"),
+                                                                   @XmlEnumValue("9")
+                                                                   CODE9("9", "E-mail do tomador inválido");
 
     private final String value;
 

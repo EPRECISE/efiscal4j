@@ -171,7 +171,6 @@ public class TestDomain {
                             .withIssValue(new BigDecimal("0.3"))
                             .build())
                     .withSpecificData(buildNFSeSpecificData(adapter))
-                    .withNetValue(new BigDecimal("10.00"))
                     .build();
 
             return nfse;
