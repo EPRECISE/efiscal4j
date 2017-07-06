@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfse.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -38,8 +37,6 @@ public class NFSe implements Serializable {
 
     private final NFSeSpecificData specificData;
 
-    private final BigDecimal netValue;
-
     public static class Builder {
 
         private NFSeSerie serie;
@@ -59,8 +56,6 @@ public class NFSe implements Serializable {
         private NFSeTax tax;
 
         private NFSeSpecificData specificData;
-
-        private BigDecimal netValue;
 
         public Builder withSerie(final NFSeSerie serie) {
             this.serie = serie;
@@ -107,11 +102,6 @@ public class NFSe implements Serializable {
             return this;
         }
 
-        public Builder withNetValue(final BigDecimal netValue) {
-            this.netValue = netValue;
-            return this;
-        }
-
         public NFSe build() {
             final NFSe entity = new NFSe(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -130,7 +120,6 @@ public class NFSe implements Serializable {
         service = null;
         tax = null;
         specificData = null;
-        netValue = null;
     }
 
     public NFSe(final Builder builder) {
@@ -143,7 +132,6 @@ public class NFSe implements Serializable {
         service = builder.service;
         tax = builder.tax;
         specificData = builder.specificData;
-        netValue = builder.netValue;
     }
 
     public NFSeSerie getSerie() {
@@ -180,10 +168,6 @@ public class NFSe implements Serializable {
 
     public NFSeSpecificData getSpecificData() {
         return specificData;
-    }
-
-    public BigDecimal getNetValue() {
-        return netValue;
     }
 
 }

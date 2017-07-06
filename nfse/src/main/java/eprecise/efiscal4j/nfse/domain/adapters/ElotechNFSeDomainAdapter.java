@@ -188,7 +188,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                     .withQuantity(formatNFSeValue(nfse.getService().getAmount()))
                     .withUnitaryValue(formatNFSeValue(nfse.getService().getUnitaryValue()))
                     .withDiscountValue(formatNFSeValue(nfse.getService().getDiscount()))
-                    .withNetValue(formatNFSeValue(nfse.getService().getServiceValue()))
+                    .withNetValue(formatNFSeValue(Optional.ofNullable(nfse.getService().getAmount()).orElse(BigDecimal.ZERO).multiply(Optional.ofNullable(nfse.getService().getUnitaryValue()).orElse(BigDecimal.ZERO)).subtract(Optional.ofNullable(nfse.getService().getDiscount()).orElse(BigDecimal.ZERO))))
                     .build());
 
         return items;
