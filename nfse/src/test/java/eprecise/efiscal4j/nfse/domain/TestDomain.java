@@ -163,7 +163,6 @@ public class TestDomain {
                             .withUnitaryValue(new BigDecimal("10.00"))
                             .withAmount(BigDecimal.ONE)
                             .withDiscount(BigDecimal.ZERO)
-                            .withServiceValue(new BigDecimal("10.00"))
                             .build())
                     .withTax(new NFSeTax.Builder()
                             .withBcValue(new BigDecimal("10.00"))

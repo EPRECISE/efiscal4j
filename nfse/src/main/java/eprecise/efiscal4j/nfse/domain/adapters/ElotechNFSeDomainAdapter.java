@@ -162,7 +162,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private ElotechServiceValues buildServiceValues() {
         //@formatter:off
         return new ElotechServiceValues.Builder()
-                .withServiceValue(formatNFSeValue(nfse.getService().getServiceValue()))
+                .withServiceValue(formatNFSeValue(nfse.getService().getNetValue()))
                 .withDeductionValue(formatNFSeValue(nfse.getService().getDeduction()))
                 .withPisValue(formatNFSeValue(nfse.getTax().getPisValue()))
                 .withCofinsValue(formatNFSeValue(nfse.getTax().getCofinsValue()))
@@ -188,7 +188,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                     .withQuantity(formatNFSeValue(nfse.getService().getAmount()))
                     .withUnitaryValue(formatNFSeValue(nfse.getService().getUnitaryValue()))
                     .withDiscountValue(formatNFSeValue(nfse.getService().getDiscount()))
-                    .withNetValue(formatNFSeValue(Optional.ofNullable(nfse.getService().getAmount()).orElse(BigDecimal.ZERO).multiply(Optional.ofNullable(nfse.getService().getUnitaryValue()).orElse(BigDecimal.ZERO)).subtract(Optional.ofNullable(nfse.getService().getDiscount()).orElse(BigDecimal.ZERO))))
+                    .withNetValue(formatNFSeValue(nfse.getService().getNetValue()))
                     .build());
 
         return items;

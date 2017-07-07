@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfse.domain.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
@@ -30,8 +31,6 @@ public class NFSeService implements Serializable {
 
     private final BigDecimal deduction;
 
-    private final BigDecimal serviceValue;
-
     public static class Builder {
 
         private String name;
@@ -51,8 +50,6 @@ public class NFSeService implements Serializable {
         private BigDecimal discount = BigDecimal.ZERO;
 
         private BigDecimal deduction = BigDecimal.ZERO;
-
-        private BigDecimal serviceValue = BigDecimal.ZERO;
 
         public Builder withName(final String name) {
             this.name = name;
@@ -99,11 +96,6 @@ public class NFSeService implements Serializable {
             return this;
         }
 
-        public Builder withServiceValue(final BigDecimal serviceValue) {
-            this.serviceValue = serviceValue;
-            return this;
-        }
-
         public NFSeService build() {
             final NFSeService entity = new NFSeService(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -122,7 +114,6 @@ public class NFSeService implements Serializable {
         amount = null;
         discount = null;
         deduction = null;
-        serviceValue = null;
     }
 
     public NFSeService(final Builder builder) {
@@ -135,7 +126,6 @@ public class NFSeService implements Serializable {
         amount = builder.amount;
         discount = builder.discount;
         deduction = builder.deduction;
-        serviceValue = builder.serviceValue;
     }
 
     public String getName() {
@@ -170,12 +160,16 @@ public class NFSeService implements Serializable {
         return discount;
     }
 
-    public BigDecimal getServiceValue() {
-        return serviceValue;
-    }
-
     public BigDecimal getDeduction() {
         return deduction;
+    }
+
+    public BigDecimal getGrossValue() {
+        return Optional.ofNullable(getAmount()).orElse(BigDecimal.ZERO).multiply(Optional.ofNullable(getUnitaryValue()).orElse(BigDecimal.ZERO));
+    }
+
+    public BigDecimal getNetValue() {
+        return getGrossValue().subtract(Optional.ofNullable(getDiscount()).orElse(BigDecimal.ZERO));
     }
 
 }

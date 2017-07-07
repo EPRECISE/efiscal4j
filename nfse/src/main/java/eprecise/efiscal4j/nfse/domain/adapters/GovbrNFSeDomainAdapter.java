@@ -156,7 +156,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private GovbrValues buildServiceValues() {
         //@formatter:off
         return new GovbrValues.Builder()
-                .withServiceValue(formatNFSeValue(nfse.getService().getServiceValue()))
+                .withServiceValue(formatNFSeValue(nfse.getService().getGrossValue()))
                 .withDeductionValue(formatNFSeValue(nfse.getService().getDeduction()))
                 .withPisValue(formatNFSeValue(nfse.getTax().getPisValue()))
                 .withCofinsValue(formatNFSeValue(nfse.getTax().getCofinsValue()))
@@ -169,7 +169,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withOtherRetentionsValue(formatNFSeValue(nfse.getTax().getOtherRetentionsValue()))
                 .withBcValue(formatNFSeValue(nfse.getTax().getBcValue()))
                 .withIssAliquot(formatNFSeAliquot(nfse.getTax().getIssAliquot()))
-                .withNetValue(formatNFSeValue(Optional.ofNullable(nfse.getService().getAmount()).orElse(BigDecimal.ZERO).multiply(Optional.ofNullable(nfse.getService().getUnitaryValue()).orElse(BigDecimal.ZERO)).subtract(Optional.ofNullable(nfse.getService().getDiscount()).orElse(BigDecimal.ZERO)).add(nfse.getTax().getTotal())))
+                .withNetValue(formatNFSeValue(nfse.getService().getNetValue().add(nfse.getTax().getTotal())))
                 .withDiscountUnconditionedValue(formatNFSeValue(nfse.getService().getDiscount()))
                 .build();
         //@formatter:on
