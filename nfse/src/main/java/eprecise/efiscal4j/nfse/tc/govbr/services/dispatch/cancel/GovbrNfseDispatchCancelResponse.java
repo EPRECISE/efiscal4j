@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +15,7 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
@@ -105,6 +107,11 @@ public class GovbrNfseDispatchCancelResponse extends Receivable implements NFSeD
     @Override
     public String getAsXml() {
         return new FiscalDocumentSerializer<>(this).serialize();
+    }
+
+    @Override
+    public NFSeCancellationCode getCancellationCode() {
+        return Optional.ofNullable(cancelResponse).map(cr -> cr.getConfirmation()).map(co -> co.getRequest()).map(re -> re.getInfo()).map(i -> i.getCancellationCode()).orElse(null);
     }
 
 }

@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,6 +16,7 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
@@ -143,6 +145,12 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
             return cancelResponse;
         }
 
+    }
+
+    @Override
+    public NFSeCancellationCode getCancellationCode() {
+        return Optional.ofNullable(cancellationReturn).map(cr -> cr.getCancelResponse()).map(cr -> cr.getConfirmation()).map(c -> c.getRequest()).map(r -> r.getInfo())
+                .map(i -> i.getCancellationCode()).orElse(null);
     }
 
 }

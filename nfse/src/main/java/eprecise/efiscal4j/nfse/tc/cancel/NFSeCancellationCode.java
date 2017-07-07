@@ -5,4 +5,6 @@ public interface NFSeCancellationCode {
 
     String getCode();
 
+    String getDescription();
+
 }

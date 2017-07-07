@@ -83,6 +83,11 @@ public class GovbrNFSe extends ProcessedNFSe {
     }
 
     @Override
+    public Optional<String> getAccessKey() {
+        return Optional.empty();
+    }
+
+    @Override
     public Date getEmissionDate() {
         return Optional.ofNullable(info).map(i -> i.getEmissionDate()).map(t -> {
             try {

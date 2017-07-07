@@ -77,6 +77,11 @@ public class ElotechNFSe extends ProcessedNFSe {
     }
 
     @Override
+    public Optional<String> getAccessKey() {
+        return Optional.ofNullable(info).map(i -> i.getAccessKey());
+    }
+
+    @Override
     public Date getEmissionDate() {
         return Optional.ofNullable(info).map(i -> i.getEmissionDate()).map(t -> {
             try {
