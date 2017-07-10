@@ -18,4 +18,6 @@ public interface TransmissionChannel {
     TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeDispatchStateResponse> consultStateAuthorization(final NFSeRequest nfseRequest, final String cityCode, final boolean homologation)
             throws Exception;
 
+    TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(final NFSeRequest nfseRequest, final String cityCode, final boolean homologation) throws Exception;
+
 }

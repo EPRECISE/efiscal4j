@@ -19,17 +19,17 @@ public class ElotechNfseCancelRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "InfPedidoCancelamento") @NotNull Info info;
+    private final @XmlElement(name = "InfPedidoCancelamento") @NotNull ElotechNfseCancelRequestInfo info;
 
     public static class Builder {
 
-        private Info info;
+        private ElotechNfseCancelRequestInfo info;
 
         /**
          * @param info
          * @return
          */
-        public Builder withInfo(final Info info) {
+        public Builder withInfo(final ElotechNfseCancelRequestInfo info) {
             this.info = info;
             return this;
         }
@@ -49,12 +49,12 @@ public class ElotechNfseCancelRequest implements Serializable {
         info = builder.info;
     }
 
-    public Info getInfo() {
+    public ElotechNfseCancelRequestInfo getInfo() {
         return info;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Info {
+    public static class ElotechNfseCancelRequestInfo {
 
         private final @NotNull @XmlElement(name = "Numero") @NFSeNonNegativeInteger @Size(max = 15) String number;
 
@@ -97,20 +97,20 @@ public class ElotechNfseCancelRequest implements Serializable {
                 return this;
             }
 
-            public Info build() {
-                final Info entity = new Info(this);
+            public ElotechNfseCancelRequestInfo build() {
+                final ElotechNfseCancelRequestInfo entity = new ElotechNfseCancelRequestInfo(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Info() {
+        public ElotechNfseCancelRequestInfo() {
             number = null;
             accessKey = null;
             cancellationCode = null;
         }
 
-        public Info(final Builder builder) {
+        public ElotechNfseCancelRequestInfo(final Builder builder) {
             number = builder.number;
             accessKey = builder.accessKey;
             cancellationCode = builder.cancellationCode;

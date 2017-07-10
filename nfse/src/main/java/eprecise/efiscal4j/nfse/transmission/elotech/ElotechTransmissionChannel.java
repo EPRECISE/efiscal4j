@@ -7,6 +7,8 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSyncResponse;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel.ElotechNfseDispatchCancel;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel.ElotechNfseDispatchCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.UnavailableServiceException;
@@ -15,6 +17,7 @@ import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPEnvelope
 import eprecise.efiscal4j.nfse.transmission.elotech.envelope.ElotechSOAPHeader;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
@@ -69,6 +72,29 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
 
         return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
 
+    }
+
+    @Override
+    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(final NFSeRequest nfseRequest, final String cityCode, final boolean homologation)
+            throws Exception {
+        final ElotechNfseDispatchCancel cancellationDispatch = (ElotechNfseDispatchCancel) nfseRequest;
+
+        final ElotechSOAPEnvelope soapEnvelope = new ElotechSOAPEnvelope.Builder().withSoapHeader(new ElotechSOAPHeader.Builder().build())
+                .withSoapBody(new ElotechSOAPBody.Builder().withTransmissibleBody(cancellationDispatch).build()).build(signer);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
+
+        String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, cancellationDispatch.getApplicant().isHomologation()));
+
+        if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
+            throw new UnavailableServiceException();
+        }
+
+        responseXml = responseXml.substring(responseXml.indexOf("<CancelarNfseResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+
+        return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechNfseDispatchCancelResponse.class, requestXml, responseXml);
     }
 
     @Override

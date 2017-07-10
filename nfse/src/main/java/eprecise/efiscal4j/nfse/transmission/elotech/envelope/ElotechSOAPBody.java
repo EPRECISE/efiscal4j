@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.cancel.ElotechNfseDispatchCancel;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 
 
@@ -24,7 +25,8 @@ public class ElotechSOAPBody implements Serializable {
 
   //@formatter:off
     @XmlElementRefs({
-        @XmlElementRef(name = "EnviarLoteRpsSincronoEnvio", type=ElotechLotRpsDispatchSync.class)
+        @XmlElementRef(name = "EnviarLoteRpsSincronoEnvio", type=ElotechLotRpsDispatchSync.class),
+        @XmlElementRef(name = "CancelarNfseEnvio", type=ElotechNfseDispatchCancel.class)
     })
     private final TransmissibleBodyImpl transmissibleBody;
 

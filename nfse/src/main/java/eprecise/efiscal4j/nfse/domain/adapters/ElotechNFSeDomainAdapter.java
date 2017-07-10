@@ -73,7 +73,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     @Override
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
         return new ElotechNfseDispatchCancel.Builder().withApplicant(buildApplicant())
-                .withCancelRequest(new ElotechNfseCancelRequest.Builder().withInfo(new ElotechNfseCancelRequest.Info.Builder()
+                .withCancelRequest(new ElotechNfseCancelRequest.Builder().withInfo(new ElotechNfseCancelRequest.ElotechNfseCancelRequestInfo.Builder()
                         .withNumber(cancellationRequestData.getNfseNumber()).withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional
                                 .ofNullable(cancellationRequestData.getCancellationCode()).filter(ElotechCancellationCode.class::isInstance).map(ElotechCancellationCode.class::cast).orElse(null))
                         .build()).build())
@@ -265,7 +265,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
             .withNumber(address.getNumber())
             .withDistrict(address.getDistrict())
             .withCityCode(Optional.ofNullable(address.getCity()).map(a->a.getIbgeCode()).orElse(null))
-            .withCityName(address.getCity().getName())
+            .withCityName(Optional.ofNullable(address.getCity()).map(a->a.getName()).orElse(null))
             .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))
             .withCep(address.getZipCode())
             .build();

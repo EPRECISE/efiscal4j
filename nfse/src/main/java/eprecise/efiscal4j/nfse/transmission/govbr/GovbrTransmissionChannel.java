@@ -20,6 +20,8 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsyncResponse;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel.GovbrNfseDispatchCancel;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel.GovbrNfseDispatchCancelResponse;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsultResponse;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultState;
@@ -32,6 +34,7 @@ import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultStateLotR
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrReceiptLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrXmlRequest;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
+import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
@@ -152,6 +155,38 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
         System.out.println("Response: " + responseXml);
 
         return new TypedTransmissionResult<>(GovbrLotRpsDispatchConsultState.class, GovbrLotRpsDispatchConsultStateResponse.class, requestXml, responseXml);
+    }
+
+    @Override
+    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(final NFSeRequest nfseRequest, final String cityCode, final boolean homologation)
+            throws Exception {
+        final GovbrNfseDispatchCancel cancellationDispatch = (GovbrNfseDispatchCancel) nfseRequest;
+
+        final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        final Marshaller marshaller = JAXBContext.newInstance(GovbrReceiptLotRps.class).createMarshaller();
+        marshaller.marshal(new GovbrReceiptLotRps.Builder().withXmlRequest(new GovbrXmlRequest.Builder().withNfseRequest(cancellationDispatch).build()).build(), document);
+        final SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
+        soapMessage.getSOAPBody().addDocument(document);
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        soapMessage.writeTo(outputStream);
+
+        final String requestXml = new FiscalDocumentSerializer<>(cancellationDispatch).serialize();
+
+        final Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("SOAPAction", "http://tempuri.org/INFSEGeracao/CancelarNfse");
+
+        try {
+
+        //@formatter:off
+        final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
+                new String(outputStream.toByteArray()).replaceFirst("(?s)<CancelarNfseEnvio[^>]*>.*?</CancelarNfseEnvio>", StringEscapeUtils.escapeXml(requestXml)),
+                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<CancelarNfseResposta"), str.lastIndexOf("</CancelarNfseResponse>"))).get();
+        //@formatter:on
+            return new TypedTransmissionResult<>(GovbrNfseDispatchCancel.class, GovbrNfseDispatchCancelResponse.class, requestXml, responseXml);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            throw new UnavailableServiceException();
+        }
     }
 
 }

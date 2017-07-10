@@ -69,7 +69,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     @Override
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
 
-        final eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder().withInfo(new GovbrNfseCancelRequest.Info.Builder()
+        final eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder().withInfo(new GovbrNfseCancelRequest.GovbrNfseCancelRequestInfo.Builder()
                 .withIdentifier(new GovbrNFSeIdentifier.Builder().withCityCode(nfse.getEmitter().getAddress().getCity().getIbgeCode()).withCnpj(nfse.getEmitter().getDocuments().getCnp())
                         .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
                                 .map(NFSeLegalEntityDocuments::getIm).orElse(null))

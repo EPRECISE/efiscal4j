@@ -24,17 +24,17 @@ public class GovbrNfseCancelRequest extends DefaultAssignable implements Seriali
 
     private static final long serialVersionUID = 1L;
 
-    private final @XmlElement(name = "InfPedidoCancelamento") @NotNull Info info;
+    private final @XmlElement(name = "InfPedidoCancelamento") @NotNull GovbrNfseCancelRequestInfo info;
 
     public static class Builder {
 
-        private Info info;
+        private GovbrNfseCancelRequestInfo info;
 
         /**
          * @param info
          * @return
          */
-        public Builder withInfo(final Info info) {
+        public Builder withInfo(final GovbrNfseCancelRequestInfo info) {
             this.info = info;
             return this;
         }
@@ -61,12 +61,12 @@ public class GovbrNfseCancelRequest extends DefaultAssignable implements Seriali
         info = builder.info;
     }
 
-    public Info getInfo() {
+    public GovbrNfseCancelRequestInfo getInfo() {
         return info;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Info {
+    public static class GovbrNfseCancelRequestInfo {
 
         private @XmlAttribute(name = "id") final String id = UUID.randomUUID().toString().replaceAll("-", "");
 
@@ -100,19 +100,19 @@ public class GovbrNfseCancelRequest extends DefaultAssignable implements Seriali
                 return this;
             }
 
-            public Info build() {
-                final Info entity = new Info(this);
+            public GovbrNfseCancelRequestInfo build() {
+                final GovbrNfseCancelRequestInfo entity = new GovbrNfseCancelRequestInfo(this);
                 ValidationBuilder.from(entity).validate().throwIfViolate();
                 return entity;
             }
         }
 
-        public Info() {
+        public GovbrNfseCancelRequestInfo() {
             identifier = null;
             cancellationCode = null;
         }
 
-        public Info(final Builder builder) {
+        public GovbrNfseCancelRequestInfo(final Builder builder) {
             identifier = builder.identifier;
             cancellationCode = builder.cancellationCode;
         }
