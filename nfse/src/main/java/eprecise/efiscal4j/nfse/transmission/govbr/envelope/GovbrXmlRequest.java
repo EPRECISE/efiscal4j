@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.cancel.GovbrNfseDispatchCancel;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.GovbrLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.consult.state.GovbrLotRpsDispatchConsultState;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
@@ -22,7 +23,8 @@ public class GovbrXmlRequest {
     @XmlElementRefs({
         @XmlElementRef(name = "EnviarLoteRpsEnvio", type=GovbrLotRpsDispatchAsync.class),
         @XmlElementRef(name = "ConsultarLoteRpsEnvio", type=GovbrLotRpsDispatchConsult.class),
-        @XmlElementRef(name = "ConsultarSituacaoLoteRpsEnvio", type=GovbrLotRpsDispatchConsultState.class)
+        @XmlElementRef(name = "ConsultarSituacaoLoteRpsEnvio", type=GovbrLotRpsDispatchConsultState.class),
+        @XmlElementRef(name = "CancelarNfseEnvio", type=GovbrNfseDispatchCancel.class)
     })
     //@formatter:on
     private final NFSeRequest nfseRequest;

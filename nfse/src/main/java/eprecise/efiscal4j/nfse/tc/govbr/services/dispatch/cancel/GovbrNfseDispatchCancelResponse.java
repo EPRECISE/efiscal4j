@@ -19,6 +19,7 @@ import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 @XmlRootElement(name = "CancelarNfseResposta")
@@ -32,6 +33,8 @@ public class GovbrNfseDispatchCancelResponse extends Receivable implements NFSeD
     public @XmlElement(name = "Cancelamento") GovbrNfseCancelResponse cancelResponse;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
+
+    private @XmlElement(name = "Signature") SignatureType signature;
 
     private @XmlTransient QName qName = new QName("CancelarNfseResposta");
 

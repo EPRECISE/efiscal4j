@@ -64,13 +64,13 @@ public class GovbrNfseCancelResponse extends DefaultAssignable implements Serial
 
         private final @XmlElement(name = "Pedido") @NotNull GovbrNfseCancelRequest request;
 
-        private final @XmlElement(name = "InfConfirmacaoCancelamento") @NotNull Info info;
+        private final @XmlElement(name = "DataHoraCancelamento") @NFSeDateTimeUTC @NotNull String date;
 
         public static class Builder {
 
             private GovbrNfseCancelRequest request;
 
-            private Info info;
+            private String date;
 
             /**
              * @param request
@@ -81,12 +81,8 @@ public class GovbrNfseCancelResponse extends DefaultAssignable implements Serial
                 return this;
             }
 
-            /**
-             * @param info
-             * @return
-             */
-            public Builder withInfo(final Info info) {
-                this.info = info;
+            public Builder withDate(final String date) {
+                this.date = date;
                 return this;
             }
 
@@ -99,70 +95,16 @@ public class GovbrNfseCancelResponse extends DefaultAssignable implements Serial
 
         public Confirmation() {
             request = null;
-            info = null;
+            date = null;
         }
 
         public Confirmation(final Builder builder) {
             request = builder.request;
-            info = builder.info;
+            date = builder.date;
         }
 
         public GovbrNfseCancelRequest getRequest() {
             return request;
-        }
-
-        public Info getInfo() {
-            return info;
-        }
-
-        @XmlAccessorType(XmlAccessType.FIELD)
-        public static class Info {
-
-            private final @XmlElement(name = "Sucesso") @NotNull Boolean sucess;
-
-            private final @XmlElement(name = "DataHora") @NFSeDateTimeUTC @NotNull String date;
-
-            public static class Builder {
-
-                private Boolean sucess;
-
-                private String date;
-
-                public Builder withSucess(final Boolean sucess) {
-                    this.sucess = sucess;
-                    return this;
-                }
-
-                public Builder withDate(final String date) {
-                    this.date = date;
-                    return this;
-                }
-
-                public Info build() {
-                    final Info entity = new Info(this);
-                    ValidationBuilder.from(entity).validate().throwIfViolate();
-                    return entity;
-                }
-            }
-
-            public Info() {
-                sucess = null;
-                date = null;
-            }
-
-            public Info(final Builder builder) {
-                sucess = builder.sucess;
-                date = builder.date;
-            }
-
-            public Boolean getSucess() {
-                return sucess;
-            }
-
-            public String getDate() {
-                return date;
-            }
-
         }
 
     }

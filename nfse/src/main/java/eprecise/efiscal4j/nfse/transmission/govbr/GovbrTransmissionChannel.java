@@ -31,6 +31,7 @@ import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.UnavailableServiceException;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrConsultStateLotRps;
+import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrNfseCancel;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrReceiptLotRps;
 import eprecise.efiscal4j.nfse.transmission.govbr.envelope.GovbrXmlRequest;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
@@ -163,8 +164,8 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
         final GovbrNfseDispatchCancel cancellationDispatch = (GovbrNfseDispatchCancel) nfseRequest;
 
         final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        final Marshaller marshaller = JAXBContext.newInstance(GovbrReceiptLotRps.class).createMarshaller();
-        marshaller.marshal(new GovbrReceiptLotRps.Builder().withXmlRequest(new GovbrXmlRequest.Builder().withNfseRequest(cancellationDispatch).build()).build(), document);
+        final Marshaller marshaller = JAXBContext.newInstance(GovbrNfseCancel.class).createMarshaller();
+        marshaller.marshal(new GovbrNfseCancel.Builder().withXmlRequest(new GovbrXmlRequest.Builder().withNfseRequest(cancellationDispatch).build()).build(), document);
         final SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
         soapMessage.getSOAPBody().addDocument(document);
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -180,7 +181,7 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
         //@formatter:off
         final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<CancelarNfseEnvio[^>]*>.*?</CancelarNfseEnvio>", StringEscapeUtils.escapeXml(requestXml)),
-                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<CancelarNfseResposta"), str.lastIndexOf("</CancelarNfseResponse>"))).get();
+                NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<CancelarNfseResposta"), str.lastIndexOf("</CancelarNfseResult>"))).get();
         //@formatter:on
             return new TypedTransmissionResult<>(GovbrNfseDispatchCancel.class, GovbrNfseDispatchCancelResponse.class, requestXml, responseXml);
         } catch (final Exception e) {

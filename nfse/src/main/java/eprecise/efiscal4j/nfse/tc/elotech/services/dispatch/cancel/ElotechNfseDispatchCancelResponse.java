@@ -30,9 +30,9 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech/nfse_v1_2.xsd";
 
-    private final @XmlElement(name = "RetCancelamento") CancellationReturn cancellationReturn;
-
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
+
+    private final @XmlElement(name = "tcRetCancelamento") CancellationReturn cancellationReturn;
 
     private @XmlTransient QName qName = new QName("CancelarNfseResposta");
 
