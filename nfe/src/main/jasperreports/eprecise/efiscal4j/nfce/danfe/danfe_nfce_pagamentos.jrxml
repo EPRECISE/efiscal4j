@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-12-23T14:49:42 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-09-13T08:53:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce_pagamentos" pageWidth="194" pageHeight="297" columnWidth="194" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2bbc612f-ad68-429b-84a1-551fd49320a0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="XmlDataAdapter "/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -12,7 +12,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<style name="Arial Bold" isDefault="true" fill="Solid" fontName="Arial" fontSize="6" isBold="true"/>
+	<style name="Arial Bold" isDefault="true" fill="Solid" fontName="Arial" fontSize="8" isBold="true"/>
 	<queryString language="xPath">
 		<![CDATA[]]>
 	</queryString>
@@ -26,46 +26,38 @@
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="8" splitType="Stretch">
+		<band height="10" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="148" height="8" uuid="5b8afd1b-4294-41b1-aee4-da39a1ee5103"/>
+				<reportElement x="0" y="0" width="148" height="10" uuid="5b8afd1b-4294-41b1-aee4-da39a1ee5103">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<box topPadding="0"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<text><![CDATA[FORMA DE PAGAMENTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="148" y="0" width="46" height="8" uuid="d5e7ee30-b248-404d-af2e-2164179168a4">
+				<reportElement x="148" y="0" width="46" height="10" uuid="d5e7ee30-b248-404d-af2e-2164179168a4">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box topPadding="0"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[VALOR PAGO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="8" splitType="Stretch">
-			<textField>
-				<reportElement x="148" y="0" width="46" height="8" uuid="ecdbad5a-f7ac-498e-9259-e9115c358ccb">
+		<band height="10" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="148" y="0" width="46" height="10" uuid="ecdbad5a-f7ac-498e-9259-e9115c358ccb">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{vPag}]]></textFieldExpression>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vPag} != null ? new java.math.BigDecimal($F{vPag}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="148" height="8" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
+				<reportElement x="0" y="0" width="148" height="10" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{tPag} == 1 ? "Dinheiro" : $F{tPag} == 2 ? "Cheque" : $F{tPag} == 3 ? "Cartão de Crédito" : $F{tPag} == 4 ? "Cartão de Débito" : $F{tPag} == 5 ? "Crédito Loja" : $F{tPag} == 10 ? "Vale Alimentação" : $F{tPag} == 11 ? "Vale Refeição" : $F{tPag} == 12 ? "Vale Presente" : $F{tPag} == 13 ? "Vale Combustível" : $F{tPag} == 99 ? "Outros" : ""]]></textFieldExpression>
 			</textField>
 		</band>
