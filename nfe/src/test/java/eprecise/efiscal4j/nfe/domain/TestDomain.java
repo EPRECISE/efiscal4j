@@ -75,6 +75,8 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableInfo;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
@@ -165,58 +167,58 @@ public class TestDomain {
 
     public TestDomain() {
         try {
-            emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
-            emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
-            receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
-            receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
-            receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
-            receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
-            receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
+            this.emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
+            this.emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
+            this.receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
+            this.receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
+            this.receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
+            this.receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
+            this.receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
 
             final String emitterCscCldToken = System.getProperty(TestDomain.EMITTER_CSC_CLDTOKEN_PROPERTY);
             final String emitterCscValue = System.getProperty(TestDomain.EMITTER_CSC_VALUE_PROPERTY);
             if (StringUtils.isEmpty(emitterCscCldToken) || StringUtils.isEmpty(emitterCscValue)) {
-                emitterCsc = null;
+                this.emitterCsc = null;
             } else {
-                emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
+                this.emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
             }
 
             final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
             final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
             if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
-                signer = null;
-                transmissionChannel = null;
+                this.signer = null;
+                this.transmissionChannel = null;
             } else {
                 final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                signer = new DefaultSigner(keyCertificate);
-                transmissionChannel = new TransmissionChannel(keyCertificate);
+                this.signer = new DefaultSigner(keyCertificate);
+                this.transmissionChannel = new TransmissionChannel(keyCertificate);
             }
         } catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
     public TestDomain(final String xsdPath) {
         this();
-        setXsdPath(xsdPath);
+        this.setXsdPath(xsdPath);
     }
 
     private boolean containsCertificate() {
-        return (signer != null) && (transmissionChannel != null);
+        return (this.signer != null) && (this.transmissionChannel != null);
     }
 
     private void assertCertificate() {
-        if (!containsCertificate()) {
+        if (!this.containsCertificate()) {
             throw new IllegalStateException(TestDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
         }
     }
 
     public void setXsdPath(final String xsdPath) {
         try {
-            validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
+            this.validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
         } catch (final IOException ex) {
-            getLogger().error(ex.getMessage(), ex);
+            this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
@@ -258,9 +260,9 @@ public class TestDomain {
     }
 
     public NFe buildNFe() throws Exception {
-        assertCertificate();
-        //@formatter:off       
-        
+        this.assertCertificate();
+        //@formatter:off
+
         final List<Addition> additionList = new ArrayList<>();
         additionList.add(new Addition.Builder()
                         .withDiscountValue("3.00")
@@ -268,9 +270,9 @@ public class TestDomain {
                         .withManufacturerCode("2222")
                         .withNumber("111")
                         .withSequence("1")
-                        .build()); 
-        
-        
+                        .build());
+
+
         final List<ImportDeclaration> importDeclarationList = new ArrayList<>();
         importDeclarationList.add(new ImportDeclaration.Builder()
                                  .withNumber("001")
@@ -285,9 +287,9 @@ public class TestDomain {
                                  .withAcquirerOrOrderingPartyUf(UF.AC)
                                  .withExporterCode("1234")
                                  .withAdditions(additionList)
-                                 .build()); 
-        
-        
+                                 .build());
+
+
         final List<NFeDetail> nFeDetailList = new ArrayList<>();
         nFeDetailList.add(new NFeDetail.Builder()
                          .withItemOrder("1")
@@ -344,10 +346,10 @@ public class TestDomain {
 //                                        .withBcReductionPercent("5.00")
 //                                        .withBcValue("10.00")
 //                                        .withIcmsAliquot("1.00")
-//                                        .withIcmsValue("10.00")                                            
+//                                        .withIcmsValue("10.00")
 //                                        .withIcmsDesonerationValue("2")
-//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
-//                                        .build())    
+//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)
+//                                        .build())
                              //ICMS30
 //                          .withIcms(new ICMS.Builder()
 //                                        .fromCode(ICMS.CST_30)
@@ -357,21 +359,21 @@ public class TestDomain {
 //                                        .withBcReductionStPercent("1.00")
 //                                        .withBcValueST("10.00")
 //                                        .withIcmsStAliquot("1.00")
-//                                        .withIcmsStValue("10.00")                                            
+//                                        .withIcmsStValue("10.00")
 //                                        .withIcmsDesonerationValue("2")
-//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)                                            
-//                                        .build())         
+//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)
+//                                        .build())
                              //ICMS40, ICMS41, ICMS50
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_40)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OLIMPIADAS_RIO_2016)                                            
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OLIMPIADAS_RIO_2016)
 //                                          .build())
                              //ICMS51
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_51)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
 //                                            .withBcReductionPercent("5.00")
 //                                          .withBcValue("10.00")
@@ -379,12 +381,12 @@ public class TestDomain {
 //                                          .withIcmsOperationValue("10")
 //                                          .withDeferralPercent("5")
 //                                          .withIcmsDeferralValue("0.50")
-//                                          .withIcmsValue("10.00")                                                                                       
+//                                          .withIcmsValue("10.00")
 //                                          .build())
                              //ICMS60
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_60)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                          .build())
@@ -404,7 +406,7 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)                                                
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)
 //                                          .build())
                              //ICMS90
 //                              .withIcms(new ICMS.Builder()
@@ -422,9 +424,9 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)                                                
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)
 //                                          .build())
-                             //ICMSPart10 e ICMSPart90 
+                             //ICMSPart10 e ICMSPart90
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.PART_CST_90)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -440,21 +442,21 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withSelfOperationBCPerc("3")
-//                                          .withUfST(UF.PR)                                                
+//                                          .withUfST(UF.PR)
 //                                          .build())
                              //ICMSST
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.ST_CST_41)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                            .withBcIcmsStDestination("5.00")
-//                                            .withIcmsStDestination("3.00")                                                
+//                                            .withIcmsStDestination("3.00")
 //                                          .build())
                              //ICMSSN101
                               .withIcms(new ICMS.Builder()
                                            .fromCode(ICMS.CSOSN_101)
-                                           .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+                                           .withOrigin(ProductOrigin.NACIONAL)
                                            .withCreditSnAliquot("10.00")
                                            .withCreditSnIcmsValue("100.00")
                                            .build())
@@ -463,7 +465,7 @@ public class TestDomain {
 //                                          .fromCode(ICMS.CSOSN_400)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                          .build())
-                             //ICMSSN201 
+                             //ICMSSN201
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_201)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -474,9 +476,9 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withCreditSnAliquot("10.00")
-//                                          .withCreditSnIcmsValue("100.00")                                            
+//                                          .withCreditSnIcmsValue("100.00")
 //                                          .build())
-                             //ICMSSN202, ICMSSN203 
+                             //ICMSSN202, ICMSSN203
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_203)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -485,12 +487,12 @@ public class TestDomain {
 //                                          .withBcReductionStPercent("1.00")
 //                                          .withBcValueST("10.00")
 //                                          .withIcmsStAliquot("1.00")
-//                                          .withIcmsStValue("10.00")                                            
+//                                          .withIcmsStValue("10.00")
 //                                          .build())
                              //ICMSSN500
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_500)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                          .build())
@@ -510,10 +512,10 @@ public class TestDomain {
 //                                        .withIcmsStAliquot("1.00")
 //                                        .withIcmsStValue("10.00")
 //                                        .withCreditSnAliquot("10.00")
-//                                        .withCreditSnIcmsValue("100.00")                                                
-//                                        .build())                                
+//                                        .withCreditSnIcmsValue("100.00")
+//                                        .build())
                               //ICMSUFDest
-                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()                                                                                                                               
+                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()
                                                    .withReceiverUfBcValue("2.00")
                                                    .withReceiverUfFCPPercentual("1.00")
                                                    .withReceiverUfIcmsAliquot("5.00")
@@ -522,18 +524,18 @@ public class TestDomain {
                                                    .withReceiverUfFCPValue("0.10")
                                                    .withReceiverUfIcmsShareValue("2.00")
                                                    .withEmitterUfIcmsShareValue("2.00")
-                                                   .build())  
-                              
-                             //IPI00, IPI49, IPI50, IPI99      
-                                .withIpi(new IPI.Builder()                                
+                                                   .build())
+
+                             //IPI00, IPI49, IPI50, IPI99
+                                .withIpi(new IPI.Builder()
                                             .fromCode(IPI.CST_99)
                                             .withLegalFramework("999")
                                             .withUnityQuantity("1")
                                             .withUnityValue("3")
-                                            .withIpiValue("3")                                              
-                                            .build())                                            
-                             //IPI01, IPI02, IPI03, IPI04, IPI05, IPI51, IPI52, IPI53, IPI54, IPI55      
-//                                .withIpi(new IPI.Builder()                                
+                                            .withIpiValue("3")
+                                            .build())
+                             //IPI01, IPI02, IPI03, IPI04, IPI05, IPI51, IPI52, IPI53, IPI54, IPI55
+//                                .withIpi(new IPI.Builder()
 //                                            .fromCode(IPI.CST_01)
 //                                            .withIpiFrameworkClass("2")
 //                                            .withIpiSealCode("33")
@@ -541,32 +543,32 @@ public class TestDomain {
 //                                            .withProducerCNPJ("12345678909876")
 //                                            .withLegalFramework("999")
 //                                            .build())
-                                            
-                             //II      
+
+                             //II
                                 .withIi(new II.Builder()
                                             .withBcValue("10")
                                             .withCustomsCharge("0")
                                             .withIiValue("2")
                                             .withIofValue("0")
-                                            .build())                                            
-                                            
-                             //PIS01, PIS02      
+                                            .build())
+
+                             //PIS01, PIS02
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_01)
 //                                            .withBcValue("10.00")
 //                                            .withPisAliquot("10")
-//                                            .withPisValue("1")                                                
+//                                            .withPisValue("1")
 //                                            .build())
-                             //PIS03      
+                             //PIS03
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_03)
 //                                            .withProductQuantity("3.00")
 //                                            .withProductAliquot("10")
-//                                            .withPisValue("1")                                                
+//                                            .withPisValue("1")
 //                                            .build())
                              //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
 //                                .withPis(new PIS.Builder()
-//                                            .fromCode(PIS.CST_09)                                                
+//                                            .fromCode(PIS.CST_09)
 //                                            .build())
                              //PIS49, PIS50, PIS51, PIS52, PIS53, PIS54, PIS55, PIS56, PIS60, PIS61, PIS62, PIS63, PIS64, PIS65, PIS66, PIS67, PIS70, PIS71, PIS72, PIS73, PIS74, PIS75, PIS98, PIS99
                                 .withPis(new PIS.Builder()
@@ -578,31 +580,31 @@ public class TestDomain {
                                             .withPisValue("0.50")
                                             .build())
                              //PISST
-//                                .withPisSt(new PISST.Builder()                                                
+//                                .withPisSt(new PISST.Builder()
 //                                            .withProductQuantity("1")
 //                                            .withProductAliquot("5")
 ////                                            .withBcValue("4")
 ////                                            .withPisAliquot("5")
 //                                            .withPisValue("0.50")
 //                                            .build())
-                                           
-                             //COFINS01, COFINS02      
+
+                             //COFINS01, COFINS02
 //                                .withCofins(new COFINS.Builder()
 //                                            .fromCode(COFINS.CST_02)
 //                                            .withBcValue("10.00")
 //                                            .withCofinsAliquot("10")
-//                                            .withCofinsValue("1")                                                
+//                                            .withCofinsValue("1")
 //                                            .build())
-                             //COFINS03      
+                             //COFINS03
 //                                .withCofins(new COFINS.Builder()
 //                                            .fromCode(COFINS.CST_03)
 //                                            .withProductQuantity("3.00")
 //                                            .withProductAliquot("10")
-//                                            .withCofinsValue("1")                                                
+//                                            .withCofinsValue("1")
 //                                            .build())
                              //COFINS04, COFINS05, COFINS06, COFINS07, COFINS08, COFINS09
 //                                .withCofins(new COFINS.Builder()
-//                                            .fromCode(COFINS.CST_08)                                                
+//                                            .fromCode(COFINS.CST_08)
 //                                            .build())
                              //COFINS49, COFINS50, COFINS51, COFINS52, COFINS53, COFINS54, COFINS55, COFINS56, COFINS60, COFINS61, COFINS62, COFINS63, COFINS64, COFINS65, COFINS66, COFINS67, COFINS70, COFINS71, COFINS72, COFINS73, COFINS74, COFINS75, COFINS98, COFINS99
                                 .withCofins(new COFINS.Builder()
@@ -614,13 +616,13 @@ public class TestDomain {
                                             .withCofinsValue("0.50")
                                             .build())
                              //COFINSST
-                                .withCofinsSt(new COFINSST.Builder()                                                
+                                .withCofinsSt(new COFINSST.Builder()
 //                                            .withProductQuantity("3")
 //                                            .withProductAliquot("5")
                                             .withBcValue("4")
                                             .withCofinsAliquot("5")
                                             .withCofinsValue("3")
-                                            .build())                                                
+                                            .build())
                             .build())
 //                         .withReturnedTax(new ReturnedTax.Builder()
 //                                         .withReturnedProductPerc("70")
@@ -630,12 +632,12 @@ public class TestDomain {
 //                                         .build())
                          .withAdditionalProductInfo("Informações adicionais do produto (norma referenciada, informações complementares, etc)")
                          .build());
-                    
+
         final List<VolumeSeal> seals = new ArrayList<>();
         seals.add(new VolumeSeal.Builder()
                  .withSealNumber("Número do Lacre 33")
                  .build());
-        
+
         final List<TransportedVolume> transportedVolumes = new ArrayList<>();
         transportedVolumes.add(new TransportedVolume.Builder()
                               .withVolumeQuantity("3")
@@ -645,8 +647,8 @@ public class TestDomain {
                               .withNetWeight("55.555")
                               .withGrossWeight("60.000")
                               .withSeals(seals)
-                              .build());    
-        
+                              .build());
+
         final List<Duplicate> duplicates = new ArrayList<>();
         duplicates.add(
                   new Duplicate.Builder()
@@ -654,7 +656,7 @@ public class TestDomain {
                  .withDueDate("2014-12-07")
                  .withValue("10")
                  .build());
-        
+
         final List<CustomizedObservation> taxpayerObservations = new ArrayList<>();
         taxpayerObservations.add(
                             new CustomizedObservation.Builder()
@@ -666,7 +668,7 @@ public class TestDomain {
                .withText("Texto teste para observação customizada 2")
                .withField("campo_teste_2")
                .build());
-        
+
         final List<CustomizedObservation> fiscoObservations = new ArrayList<>();
         fiscoObservations.add(
                             new CustomizedObservation.Builder()
@@ -678,16 +680,16 @@ public class TestDomain {
                .withText("Texto teste para observação customizada 2")
                .withField("campo_teste_2")
                .build());
-        
+
         final List<ReferencedProcess> referencedProcesses = new ArrayList<>();
         referencedProcesses.add(
                            new ReferencedProcess.Builder()
                           .withProcessNumber("123")
-                          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL) 
+                          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL)
                           .build());
-                    
+
         final List<ReferencedDocuments> referencedDocuments = new ArrayList<>();
-        
+
         referencedDocuments.add(
                 new ReferencedDocuments.Builder()
                .withReferencedNF(new ReferencedNF.Builder()
@@ -710,7 +712,7 @@ public class TestDomain {
                                             .withStateRegistration("9989777111")
                                             .build())
                .build());
-        
+
         referencedDocuments.add(
                 new ReferencedDocuments.Builder()
                .withReferencedECF(new ReferencedECF.Builder()
@@ -719,15 +721,15 @@ public class TestDomain {
                                  .withModel(ReferecedECFModel.NAO_ECF)
                                  .build())
                .build());
-        
+
         return new NFe.Builder()
             .withNFeInfo(new NFeInfo.Builder()
                          .withNFeIdentification(
                                            new NFeIdentification.Builder()
-                                          .withApplicationVersion("1.00")                                          
+                                          .withApplicationVersion("1.00")
                                           .withDanfePrintFormat(DANFEPrintFormat.DANFE_RETRATO)
                                           .withDestinationOperationIdentifier(DestinationOperationIdentifier.INTERNA)
-                                          .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))                                                                                    
+                                          .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))
                                           .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                           .withFiscalDocumentModel(FiscalDocumentModel.NFE)
                                           .withFiscalDocumentNumber("3")
@@ -744,17 +746,17 @@ public class TestDomain {
                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                           .withUFIbgeCode(UF.PR)
                                           .withReferencedDocuments(referencedDocuments)
-                                          .build())            
+                                          .build())
                          .withEmitter(
                                  new Emitter.Builder()
-                                .asLegalEntity()                                                       
-                                
-                                .withCnpj(getEmitterCnpj())                                
+                                .asLegalEntity()
+
+                                .withCnpj(this.getEmitterCnpj())
                                 .withCorporateName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB LTDA - ME")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
                                 .withFancyName("E-PRECISE SOLUCOES E CONSULTORIA EM WEB")
-                                
-                                .withStateRegistration(getEmitterIe())
+
+                                .withStateRegistration(this.getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -772,7 +774,7 @@ public class TestDomain {
                                           .withUF(UF.PR)
                                           .build())
                                       .build())
-                                
+
                                 .build())
                          .withReceiver(
 //                                  new Receiver.Builder()
@@ -799,13 +801,13 @@ public class TestDomain {
 //                                           .withUF(UF.PR)
 //                                           .build())
 //                                       .build())
-//                                 .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)        
+//                                 .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
 //                                 .withEmail("teste")
                                  new Receiver.Builder()
                                 .asLegalEntity()
-                                .withCnpj(getReceiverLegalEntityCnpj())
-                                .withCorporateName(getReceiverLegalEntityCorporateName())
-                                .withStateRegistration(getReceiverLegalEntityIe())
+                                .withCnpj(this.getReceiverLegalEntityCnpj())
+                                .withCorporateName(this.getReceiverLegalEntityCorporateName())
+                                .withStateRegistration(this.getReceiverLegalEntityIe())
 //                                .withMunicipalRegistration("123456789")
                                 .withAdress(
                                        new Address.Builder()
@@ -825,10 +827,10 @@ public class TestDomain {
                                           .withUF(UF.PR)
                                           .build())
                                       .build())
-                                .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)        
-                                .withEmail("felipe@e-precise.com.br")                                 
-                                 .build())                                    
-                         .withNFeDetail(nFeDetailList) 
+                                .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
+                                .withEmail("felipe@e-precise.com.br")
+                                 .build())
+                         .withNFeDetail(nFeDetailList)
                          .withNFeTotal(
                                   new NFeTotal.Builder()
 //                                 .withFederalTaxRetention(
@@ -858,10 +860,10 @@ public class TestDomain {
                                           .withOtherIncidentalCostsTotalValue("0")
                                           .withShippingTotalValue("0")
                                           .withTaxTotalValue("0")
-                                          .build())  
+                                          .build())
                                  .build())
                          .withNFeTransport(
-                                      new NFeTransport.Builder()                                                           
+                                      new NFeTransport.Builder()
                                      .withShippingModality(ShippingModality.SEM_FRETE)
 //                                     .withConveyor(
 //                                              new Conveyor.Builder()
@@ -906,17 +908,17 @@ public class TestDomain {
                                        .withTaxpayerObservations(taxpayerObservations)
                                        .withFiscoObservations(fiscoObservations)
                                        .withReferencedProcesses(referencedProcesses)
-                                       .build()                           
-                                 )                             
+                                       .build()
+                                 )
                          .build())
-        .build(signer);           
+        .build(this.signer);
         //@formatter:on
     }
 
     public NFe buildNFCe() throws Exception {
-        assertCertificate();
-        //@formatter:off       
-        
+        this.assertCertificate();
+        //@formatter:off
+
         final List<Addition> additionList = new ArrayList<>();
         additionList.add(new Addition.Builder()
                         .withDiscountValue("3.00")
@@ -924,9 +926,9 @@ public class TestDomain {
                         .withManufacturerCode("2222")
                         .withNumber("111")
                         .withSequence("1")
-                        .build()); 
-        
-        
+                        .build());
+
+
         final List<ImportDeclaration> importDeclarationList = new ArrayList<>();
         importDeclarationList.add(new ImportDeclaration.Builder()
                                  .withNumber("001")
@@ -941,9 +943,9 @@ public class TestDomain {
                                  .withAcquirerOrOrderingPartyUf(UF.AC)
                                  .withExporterCode("1234")
                                  .withAdditions(additionList)
-                                 .build()); 
-        
-        
+                                 .build());
+
+
         final List<NFeDetail> nFeDetailList = new ArrayList<>();
         nFeDetailList.add(new NFeDetail.Builder()
                          .withItemOrder("1")
@@ -1000,10 +1002,10 @@ public class TestDomain {
 //                                        .withBcReductionPercent("5.00")
 //                                        .withBcValue("10.00")
 //                                        .withIcmsAliquot("1.00")
-//                                        .withIcmsValue("10.00")                                            
+//                                        .withIcmsValue("10.00")
 //                                        .withIcmsDesonerationValue("2")
-//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
-//                                        .build())    
+//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)
+//                                        .build())
                              //ICMS30
 //                          .withIcms(new ICMS.Builder()
 //                                        .fromCode(ICMS.CST_30)
@@ -1013,21 +1015,21 @@ public class TestDomain {
 //                                        .withBcReductionStPercent("1.00")
 //                                        .withBcValueST("10.00")
 //                                        .withIcmsStAliquot("1.00")
-//                                        .withIcmsStValue("10.00")                                            
+//                                        .withIcmsStValue("10.00")
 //                                        .withIcmsDesonerationValue("2")
-//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)                                            
-//                                        .build())         
+//                                        .withIcmsDesonerationReason(ICMSDesonerationReason.SUFRAMA)
+//                                        .build())
                              //ICMS40, ICMS41, ICMS50
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_50)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)                                            
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.OUTROS)
 //                                          .build())
                              //ICMS51
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_51)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcModality(BCModality.MARGEM_VALOR_AGREGADO)
 //                                            .withBcReductionPercent("5.00")
 //                                          .withBcValue("10.00")
@@ -1035,12 +1037,12 @@ public class TestDomain {
 //                                          .withIcmsOperationValue("10")
 //                                          .withDeferralPercent("5")
 //                                          .withIcmsDeferralValue("0.50")
-//                                          .withIcmsValue("10.00")                                                                                       
+//                                          .withIcmsValue("10.00")
 //                                          .build())
                              //ICMS60
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CST_60)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                          .build())
@@ -1060,7 +1062,7 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)                                                
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)
 //                                          .build())
                              //ICMS90
 //                              .withIcms(new ICMS.Builder()
@@ -1078,9 +1080,9 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withIcmsDesonerationValue("2")
-//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)                                                
+//                                          .withIcmsDesonerationReason(ICMSDesonerationReason.FOMENTO_AGROPECUARIO)
 //                                          .build())
-                             //ICMSPart10 e ICMSPart90 
+                             //ICMSPart10 e ICMSPart90
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.PART_CST_90)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -1096,21 +1098,21 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withSelfOperationBCPerc("3")
-//                                          .withUfST(UF.PR)                                                
+//                                          .withUfST(UF.PR)
 //                                          .build())
                              //ICMSST
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.ST_CST_41)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                            .withBcIcmsStDestination("5.00")
-//                                            .withIcmsStDestination("3.00")                                                
+//                                            .withIcmsStDestination("3.00")
 //                                          .build())
                              //ICMSSN101
                               .withIcms(new ICMS.Builder()
                                           .fromCode(ICMS.CSOSN_101)
-                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+                                          .withOrigin(ProductOrigin.NACIONAL)
                                             .withCreditSnAliquot("10.00")
                                             .withCreditSnIcmsValue("100.00")
                                           .build())
@@ -1119,7 +1121,7 @@ public class TestDomain {
 //                                          .fromCode(ICMS.CSOSN_400)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                          .build())
-                             //ICMSSN201 
+                             //ICMSSN201
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_201)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -1130,9 +1132,9 @@ public class TestDomain {
 //                                          .withIcmsStAliquot("1.00")
 //                                          .withIcmsStValue("10.00")
 //                                          .withCreditSnAliquot("10.00")
-//                                          .withCreditSnIcmsValue("100.00")                                            
+//                                          .withCreditSnIcmsValue("100.00")
 //                                          .build())
-                             //ICMSSN202, ICMSSN203 
+                             //ICMSSN202, ICMSSN203
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_203)
 //                                          .withOrigin(ProductOrigin.NACIONAL)
@@ -1141,12 +1143,12 @@ public class TestDomain {
 //                                          .withBcReductionStPercent("1.00")
 //                                          .withBcValueST("10.00")
 //                                          .withIcmsStAliquot("1.00")
-//                                          .withIcmsStValue("10.00")                                            
+//                                          .withIcmsStValue("10.00")
 //                                          .build())
                              //ICMSSN500
 //                              .withIcms(new ICMS.Builder()
 //                                          .fromCode(ICMS.CSOSN_500)
-//                                          .withOrigin(ProductOrigin.NACIONAL)                                                                                        
+//                                          .withOrigin(ProductOrigin.NACIONAL)
 //                                            .withBcRetainedValueST("2.00")
 //                                            .withIcmsRetainedValueST("1")
 //                                          .build())
@@ -1166,11 +1168,11 @@ public class TestDomain {
 //                                        .withIcmsStAliquot("1.00")
 //                                        .withIcmsStValue("10.00")
 //                                        .withCreditSnAliquot("10.00")
-//                                        .withCreditSnIcmsValue("100.00")                                                
-//                                        .build())                                                                 
-                                      
+//                                        .withCreditSnIcmsValue("100.00")
+//                                        .build())
+
                               //ICMSUFDest
-//                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()                                                                                                                               
+//                            .withIcmsUfReceiver(new ICMSUFReceiver.Builder()
 //                                               .withReceiverUfBcValue("2.00")
 //                                               .withReceiverUfFCPPercentual("1.00")
 //                                               .withReceiverUfIcmsAliquot("5.00")
@@ -1179,25 +1181,25 @@ public class TestDomain {
 //                                               .withReceiverUfFCPValue("0.10")
 //                                               .withReceiverUfIcmsShareValue("2.00")
 //                                               .withEmitterUfIcmsShareValue("2.00")
-//                                               .build())                              
-                            
-                             //PIS01, PIS02      
+//                                               .build())
+
+                             //PIS01, PIS02
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_01)
 //                                            .withBcValue("10.00")
 //                                            .withPisAliquot("10")
-//                                            .withPisValue("1")                                                
+//                                            .withPisValue("1")
 //                                            .build())
-                             //PIS03      
+                             //PIS03
 //                                .withPis(new PIS.Builder()
 //                                            .fromCode(PIS.CST_03)
 //                                            .withProductQuantity("3.00")
 //                                            .withProductAliquot("10")
-//                                            .withPisValue("1")                                                
+//                                            .withPisValue("1")
 //                                            .build())
                              //PIS04, PIS05, PIS06, PIS07, PIS08, PIS09
 //                                .withPis(new PIS.Builder()
-//                                            .fromCode(PIS.CST_09)                                                
+//                                            .fromCode(PIS.CST_09)
 //                                            .build())
                              //PIS49, PIS50, PIS51, PIS52, PIS53, PIS54, PIS55, PIS56, PIS60, PIS61, PIS62, PIS63, PIS64, PIS65, PIS66, PIS67, PIS70, PIS71, PIS72, PIS73, PIS74, PIS75, PIS98, PIS99
                                 .withPis(new PIS.Builder()
@@ -1209,31 +1211,31 @@ public class TestDomain {
                                             .withPisValue("0.50")
                                             .build())
                              //PISST
-//                                .withPisSt(new PISST.Builder()                                                
+//                                .withPisSt(new PISST.Builder()
 //                                            .withProductQuantity("1")
 //                                            .withProductAliquot("5")
 ////                                            .withBcValue("4")
 ////                                            .withPisAliquot("5")
 //                                            .withPisValue("0.50")
 //                                            .build())
-                                           
-                             //COFINS01, COFINS02      
+
+                             //COFINS01, COFINS02
 //                                .withCofins(new COFINS.Builder()
 //                                            .fromCode(COFINS.CST_02)
 //                                            .withBcValue("10.00")
 //                                            .withCofinsAliquot("10")
-//                                            .withCofinsValue("1")                                                
+//                                            .withCofinsValue("1")
 //                                            .build())
-                             //COFINS03      
+                             //COFINS03
 //                                .withCofins(new COFINS.Builder()
 //                                            .fromCode(COFINS.CST_03)
 //                                            .withProductQuantity("3.00")
 //                                            .withProductAliquot("10")
-//                                            .withCofinsValue("1")                                                
+//                                            .withCofinsValue("1")
 //                                            .build())
                              //COFINS04, COFINS05, COFINS06, COFINS07, COFINS08, COFINS09
 //                                .withCofins(new COFINS.Builder()
-//                                            .fromCode(COFINS.CST_08)                                                
+//                                            .fromCode(COFINS.CST_08)
 //                                            .build())
                              //COFINS49, COFINS50, COFINS51, COFINS52, COFINS53, COFINS54, COFINS55, COFINS56, COFINS60, COFINS61, COFINS62, COFINS63, COFINS64, COFINS65, COFINS66, COFINS67, COFINS70, COFINS71, COFINS72, COFINS73, COFINS74, COFINS75, COFINS98, COFINS99
                                 .withCofins(new COFINS.Builder()
@@ -1243,7 +1245,7 @@ public class TestDomain {
                                             .withBcValue("10")
                                             .withCofinsAliquot("5")
                                             .withCofinsValue("0.50")
-                                            .build())                                               
+                                            .build())
                             .build())
 //                         .withReturnedTax(new ReturnedTax.Builder()
 //                                         .withReturnedProductPerc("70")
@@ -1253,12 +1255,12 @@ public class TestDomain {
 //                                         .build())
                          .withAdditionalProductInfo("Informações adicionais do produto (norma referenciada, informações complementares, etc)")
                          .build());
-                    
+
         final List<VolumeSeal> seals = new ArrayList<>();
         seals.add(new VolumeSeal.Builder()
                  .withSealNumber("Número do Lacre 33")
                  .build());
-        
+
         final List<TransportedVolume> transportedVolumes = new ArrayList<>();
         transportedVolumes.add(new TransportedVolume.Builder()
                               .withVolumeQuantity("3")
@@ -1268,8 +1270,8 @@ public class TestDomain {
                               .withNetWeight("55.555")
                               .withGrossWeight("60.000")
                               .withSeals(seals)
-                              .build());        
-        
+                              .build());
+
         final List<NFePayment> nFePayments = new ArrayList<>();
         nFePayments.add(
                  new NFePayment.Builder()
@@ -1283,7 +1285,7 @@ public class TestDomain {
                        .withAuthorizationNumber("123445665")
                        .build())
                 .build());
-        
+
         final List<CustomizedObservation> taxpayerObservations = new ArrayList<>();
         taxpayerObservations.add(
                             new CustomizedObservation.Builder()
@@ -1295,7 +1297,7 @@ public class TestDomain {
                .withText("Texto teste para observação customizada 2")
                .withField("campo_teste_2")
                .build());
-        
+
         final List<CustomizedObservation> fiscoObservations = new ArrayList<>();
         fiscoObservations.add(
                             new CustomizedObservation.Builder()
@@ -1307,23 +1309,23 @@ public class TestDomain {
                .withText("Texto teste para observação customizada 2")
                .withField("campo_teste_2")
                .build());
-        
+
         final List<ReferencedProcess> referencedProcesses = new ArrayList<>();
         referencedProcesses.add(
                            new ReferencedProcess.Builder()
                           .withProcessNumber("123")
-                          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL) 
+                          .withProcessOrigin(ProcessOrigin.JUSTICA_FEDERAL)
                           .build());
-                        
-        
+
+
         return new NFe.Builder()
             .withNFeInfo(new NFeInfo.Builder()
                          .withNFeIdentification(
                                            new NFeIdentification.Builder()
-                                          .withApplicationVersion("1.00")                                          
+                                          .withApplicationVersion("1.00")
                                           .withDanfePrintFormat(DANFEPrintFormat.DANFE_RETRATO)
                                           .withDestinationOperationIdentifier(DestinationOperationIdentifier.INTERNA)
-                                          .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))                                                                                    
+                                          .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))
                                           .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                           .withFiscalDocumentModel(FiscalDocumentModel.NFCE)
                                           .withFiscalDocumentNumber("3")
@@ -1339,17 +1341,17 @@ public class TestDomain {
                                           .withTaxableEventCityIbgeCode("4104659")
                                           .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                           .withUFIbgeCode(UF.PR)
-                                          .build())            
+                                          .build())
                          .withEmitter(
                                  new Emitter.Builder()
                                 .asLegalEntity()
-                                
-                                .withCnpj(getEmitterCnpj())
+
+                                .withCnpj(this.getEmitterCnpj())
                                 .withCorporateName("EMPRESA TESTE")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
-                                .withFancyName("EMPRESA TESTE")                                
-                                
-                                .withStateRegistration(getEmitterIe())
+                                .withFancyName("EMPRESA TESTE")
+
+                                .withStateRegistration(this.getEmitterIe())
                                 .withAdress(
                                        new Address.Builder()
                                       .withStreet("Rua 10")
@@ -1367,13 +1369,13 @@ public class TestDomain {
                                           .withUF(UF.PR)
                                           .build())
                                       .build())
-                                
+
                                 .build())
                          .withReceiver(
                                   new Receiver.Builder()
                                  .asNaturalPerson()
-                                 .withCpf(getReceiverNaturalPersonCpf())
-                                 .withName("Joao")                                 
+                                 .withCpf(this.getReceiverNaturalPersonCpf())
+                                 .withName("Joao")
                                  .withMunicipalRegistration("123456789")
                                  .withAdress(
                                         new Address.Builder()
@@ -1393,10 +1395,10 @@ public class TestDomain {
                                            .withUF(UF.PR)
                                            .build())
                                        .build())
-                                 .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)        
-                                 .withEmail("teste")                               
-                                 .build())                                    
-                         .withNFeDetail(nFeDetailList) 
+                                 .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
+                                 .withEmail("teste")
+                                 .build())
+                         .withNFeDetail(nFeDetailList)
                          .withNFeTotal(
                                   new NFeTotal.Builder()
 //                                 .withFederalTaxRetention(
@@ -1423,10 +1425,10 @@ public class TestDomain {
                                           .withOtherIncidentalCostsTotalValue("0")
                                           .withShippingTotalValue("0")
                                           .withTaxTotalValue("0")
-                                          .build())  
+                                          .build())
                                  .build())
                          .withNFeTransport(
-                                      new NFeTransport.Builder()                                                           
+                                      new NFeTransport.Builder()
                                      .withShippingModality(ShippingModality.SEM_FRETE)
 //                                     .withConveyor(
 //                                              new Conveyor.Builder()
@@ -1461,18 +1463,18 @@ public class TestDomain {
                                        .withTaxpayerObservations(taxpayerObservations)
                                        .withFiscoObservations(fiscoObservations)
                                        .withReferencedProcesses(referencedProcesses)
-                                       .build()                           
-                                 )                             
+                                       .build()
+                                 )
                          .build())
-           .withCSC(getEmitterCsc())
-        .build(signer);           
+           .withCSC(this.getEmitterCsc())
+        .build(this.signer);
         //@formatter:on
     }
 
     public ProcessedNFe buildProcessedNFe() throws Exception {
         //@formatter:off
         return new ProcessedNFe.Builder()
-                    .withNfe(buildNFe())
+                    .withNfe(this.buildNFe())
                     .withProcessingStatusProtocol(new ProcessingStatusProtocol.Builder()
                                               .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
                                                                             .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
@@ -1485,7 +1487,7 @@ public class TestDomain {
                                                                             .withStatusDescription("Autorizado o uso da NF-e")
                                                                             .withId("ID143110000000289")
                                                                             .build())
-                                              .build())                                                                           
+                                              .build())
                     .build();
         //@formatter:on
     }
@@ -1493,7 +1495,7 @@ public class TestDomain {
     public NFeDispatch buildNFeDispatch() throws Exception {
         final List<NFe> nFeList = new ArrayList<>();
 
-        nFeList.add(buildNFe());
+        nFeList.add(this.buildNFe());
 
         //@formatter:off
         return new NFeDispatch.Builder()
@@ -1516,13 +1518,13 @@ public class TestDomain {
                      .withBatchReceipt(new BatchReceipt.Builder()
                                              .withReceiptNumber("431000015906453")
                                              .withAverageTime("1")
-                                             .build())                                                                  
+                                             .build())
                     .build();
         //@formatter:on
     }
 
     public ArrayList<EventProtocol> buildEventProtocolList() throws Exception {
-        return TransmissionDomain.getInstance().buildEventProtocolList(getSigner());
+        return TransmissionDomain.getInstance().buildEventProtocolList(this.getSigner());
     }
 
     public ProcessingStatusProtocol buildProcessingStatusProtocol() throws Exception {
@@ -1538,7 +1540,7 @@ public class TestDomain {
     }
 
     public NFeStatusSearchResponse buildNFeStatusSearchResponse() throws Exception {
-        return TransmissionDomain.getInstance().buildNFeStatusSearchResponse(getSigner());
+        return TransmissionDomain.getInstance().buildNFeStatusSearchResponse(this.getSigner());
     }
 
     public BatchReceiptSearch buildBatchReceiptSearch() throws Exception {
@@ -1558,86 +1560,106 @@ public class TestDomain {
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {
-        assertCertificate();
-        return EventDomain.getInstance().buildEventDispatchCancellation(getSigner());
+        this.assertCertificate();
+        return EventDomain.getInstance().buildEventDispatchCancellation(this.getSigner());
     }
 
     public EventDispatch buildEventDispatchCCe() throws Exception {
-        assertCertificate();
-        return EventDomain.getInstance().buildEventDispatchCCe(getSigner());
+        this.assertCertificate();
+        return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
+    }
+
+    public NFeNumberDisable buildNFeNumberDisable() throws Exception {
+        this.assertCertificate();
+      //@formatter:off
+        return new NFeNumberDisable.Builder()
+                .withNFeNumberDisableInfo(new NFeNumberDisableInfo.Builder()
+                        .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
+                        .withUfIbgeCode(UF.PR)
+                        .withYear("17")
+                        .withCnpj(this.emitterCnpj)
+                        .withFiscalDocumentModel(FiscalDocumentModel.NFE)
+                        .withFiscalDocumentSeries("666")
+                        .withBeginNumber("10")
+                        .withEndNumber("10")
+                        .withJustification("Teste de inutilização de numeração de NF-e")
+                        .build())
+                .build(this.getSigner());
+      //@formatter:on
+
     }
 
     public Logger getLogger() {
-        return logger;
+        return this.logger;
     }
 
     public FiscalDocumentValidator getValidator() {
-        return validator;
+        return this.validator;
     }
 
     public DefaultSigner getSigner() {
-        assertCertificate();
-        return signer;
+        this.assertCertificate();
+        return this.signer;
     }
 
     public TransmissionChannel getTransmissionChannel() {
-        assertCertificate();
-        return transmissionChannel;
+        this.assertCertificate();
+        return this.transmissionChannel;
     }
 
     public CSC getEmitterCsc() {
-        if (emitterCsc == null) {
+        if (this.emitterCsc == null) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CSC - Emitente"));
         }
-        return emitterCsc;
+        return this.emitterCsc;
     }
 
     public String getEmitterCnpj() {
-        if (StringUtils.isEmpty(emitterCnpj)) {
+        if (StringUtils.isEmpty(this.emitterCnpj)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Emitente"));
         }
-        return emitterCnpj;
+        return this.emitterCnpj;
     }
 
     public String getEmitterIe() {
-        if (StringUtils.isEmpty(emitterIe)) {
+        if (StringUtils.isEmpty(this.emitterIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Emitente"));
         }
-        return emitterIe;
+        return this.emitterIe;
     }
 
     public String getReceiverLegalEntityCorporateName() {
-        if (StringUtils.isEmpty(receiverLegalEntityCorporateName)) {
+        if (StringUtils.isEmpty(this.receiverLegalEntityCorporateName)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "Razão Social - Destinatário"));
         }
-        return receiverLegalEntityCorporateName;
+        return this.receiverLegalEntityCorporateName;
     }
 
     public String getReceiverLegalEntityCnpj() {
-        if (StringUtils.isEmpty(receiverLegalEntityCnpj)) {
+        if (StringUtils.isEmpty(this.receiverLegalEntityCnpj)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Destinatário"));
         }
-        return receiverLegalEntityCnpj;
+        return this.receiverLegalEntityCnpj;
     }
 
     public String getReceiverLegalEntityIe() {
-        if (StringUtils.isEmpty(receiverLegalEntityIe)) {
+        if (StringUtils.isEmpty(this.receiverLegalEntityIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PJ)"));
         }
-        return receiverLegalEntityIe;
+        return this.receiverLegalEntityIe;
     }
 
     public String getReceiverNaturalPersonCpf() {
-        if (StringUtils.isEmpty(receiverNaturalPersonCpf)) {
+        if (StringUtils.isEmpty(this.receiverNaturalPersonCpf)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CPF - Destinatário"));
         }
-        return receiverNaturalPersonCpf;
+        return this.receiverNaturalPersonCpf;
     }
 
     public String getReceiverNaturalPersonIe() {
-        if (StringUtils.isEmpty(receiverNaturalPersonIe)) {
+        if (StringUtils.isEmpty(this.receiverNaturalPersonIe)) {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PF)"));
         }
-        return receiverNaturalPersonIe;
+        return this.receiverNaturalPersonIe;
     }
 }
