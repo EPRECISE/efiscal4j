@@ -19,9 +19,9 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
 /**
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = "nfeDadosMsg")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -40,6 +40,7 @@ public class NFeBody implements Serializable {
         @XmlElementRef(name = ObjectFactory.CONS_SIT_NFE),
         @XmlElementRef(name = ObjectFactory.CONS_STAT_SERV),
         @XmlElementRef(name = ObjectFactory.ENV_EVENTO),
+        @XmlElementRef(name = ObjectFactory.INUT_NFE)
     })
     @XmlJavaTypeAdapter(TransmissibleBodyImplAdapter.class)
     private final TransmissibleBodyImpl transmissible;
@@ -52,21 +53,21 @@ public class NFeBody implements Serializable {
         private TransmissibleBodyImpl transmissible;
 
         /**
-         * 
+         *
          * @param xmlns
          * @return
          */
-        public Builder withXmlns(String xmlns) {
+        public Builder withXmlns(final String xmlns) {
             this.xmlns = xmlns;
             return this;
         }
 
         /**
-         * 
+         *
          * @param transmissible
          * @return
          */
-        public Builder withTransmissible(TransmissibleBodyImpl transmissible) {
+        public Builder withTransmissible(final TransmissibleBodyImpl transmissible) {
             this.transmissible = transmissible;
             return this;
         }
@@ -84,7 +85,7 @@ public class NFeBody implements Serializable {
         this.transmissible = null;
     }
 
-    public NFeBody(Builder builder) {
+    public NFeBody(final Builder builder) {
         this.xmlns = builder.xmlns;
         this.transmissible = builder.transmissible;
     }

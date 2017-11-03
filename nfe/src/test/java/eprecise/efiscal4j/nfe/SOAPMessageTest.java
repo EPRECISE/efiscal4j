@@ -3,8 +3,6 @@ package eprecise.efiscal4j.nfe;
 
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Test;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
@@ -16,6 +14,7 @@ import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.transmission.SOAPBody;
@@ -26,6 +25,35 @@ import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
 public class SOAPMessageTest implements Testable {
 
     private final TestDomain nFeDomain = new TestDomain();
+
+    /**
+     * Teste do inutilização de numeração de nfe
+     *
+     * @throws Exception
+     */
+    // @Test
+    public void validateNFeNumberDisable() throws Exception {
+        try {
+            System.out.println("Testando NFeNumberDisable...");
+
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitNFeNumberDisable(this.getTestDomain().buildNFeNumberDisable());
+
+            final NFeNumberDisableResponseMethod numberDisableResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeNumberDisableResponseMethod.class)
+                    .deserialize();
+
+            System.out.println("Retorno convertido:");
+
+            final String returnXml = new FiscalDocumentSerializer<>(numberDisableResponseMethod).serialize();
+
+            System.out.println(returnXml);
+
+            System.out.println("NFeNumberDisable - teste concluído");
+            System.out.println("");
+
+        } catch (final ConstraintViolationException e) {
+            this.handleErrors(e);
+        }
+    }
 
     /**
      * Teste do serviço de NFeStatusServico
@@ -62,7 +90,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
-    @Test
+    // @Test
     public void validateNFeStatusSearch() throws Exception {
         try {
             System.out.println("Testando NFeConsultaProtocolo...");

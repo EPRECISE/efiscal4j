@@ -27,7 +27,7 @@ public class NFeNumberDisableTest implements Testable {
     }
 
     @Override
-    public Object getBuiltEntity() throws Exception {
+    public NFeNumberDisable getBuiltEntity() throws Exception {
         return this.getTestDomain().buildNFeNumberDisable();
     }
 

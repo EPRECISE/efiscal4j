@@ -34,7 +34,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
  */
 @XmlRootElement(name = ObjectFactory.INUT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "xmlns", "nfeNumberDisableInfo", "signature", "version" })
+@XmlType(propOrder = { "xmlns", "info", "signature", "version" })
 public class NFeNumberDisable extends DefaultAssignable implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
-    private @XmlElement(name = "infInut") @NotNull @Valid final NFeNumberDisableInfo nfeNumberDisableInfo;
+    private @XmlElement(name = "infInut") @NotNull @Valid final NFeNumberDisableInfo info;
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
 
@@ -51,10 +51,10 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
 
     public static class Builder {
 
-        private NFeNumberDisableInfo nfeNumberDisableInfo;
+        private NFeNumberDisableInfo info;
 
-        public Builder withNFeNumberDisableInfo(final NFeNumberDisableInfo nfeNumberDisableInfo) {
-            this.nfeNumberDisableInfo = nfeNumberDisableInfo;
+        public Builder withInfo(final NFeNumberDisableInfo info) {
+            this.info = info;
             return this;
         }
 
@@ -67,19 +67,19 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
     }
 
     public NFeNumberDisable() {
-        this.nfeNumberDisableInfo = null;
+        this.info = null;
     }
 
     public NFeNumberDisable(final Builder builder) {
-        this.nfeNumberDisableInfo = builder.nfeNumberDisableInfo;
+        this.info = builder.info;
     }
 
     public FiscalDocumentVersion getVersion() {
         return this.version;
     }
 
-    public NFeNumberDisableInfo getNfeNumberDisableInfo() {
-        return this.nfeNumberDisableInfo;
+    public NFeNumberDisableInfo getInfo() {
+        return this.info;
     }
 
     @Override

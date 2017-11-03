@@ -15,6 +15,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
@@ -56,7 +57,11 @@ public class ObjectFactory {
 
     public static final String NFE_REC_EVENTO_RESULT = "nfeRecepcaoEventoResult";
 
+    public static final String NFE_STAT_INUT_RESULT = "nfeInutilizacaoNFResult";
+
     public static final String INUT_NFE = "inutNFe";
+
+    public static final String RET_INUT_NFE = "retInutNFe";
 
     @XmlElementDecl(name = ObjectFactory.ENVI_NFE)
     public JAXBElement<NFeDispatch> createNFeDispatch(final NFeDispatch transmissible) {
@@ -131,5 +136,10 @@ public class ObjectFactory {
     @XmlElementDecl(name = ObjectFactory.NFE_REC_EVENTO_RESULT)
     public JAXBElement<EventDispatchResponseMethod> createEventDispatchResponseMethod(final EventDispatchResponseMethod receivable) {
         return new JAXBElement<>(new QName(ObjectFactory.NFE_REC_EVENTO_RESULT), EventDispatchResponseMethod.class, receivable);
+    }
+
+    @XmlElementDecl(name = ObjectFactory.INUT_NFE)
+    public JAXBElement<NFeNumberDisable> createNFeNumberDisable(final NFeNumberDisable transmissible) {
+        return new JAXBElement<>(new QName(ObjectFactory.INUT_NFE), NFeNumberDisable.class, transmissible);
     }
 }

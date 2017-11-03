@@ -1573,15 +1573,15 @@ public class TestDomain {
         this.assertCertificate();
       //@formatter:off
         return new NFeNumberDisable.Builder()
-                .withNFeNumberDisableInfo(new NFeNumberDisableInfo.Builder()
+                .withInfo(new NFeNumberDisableInfo.Builder()
                         .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                         .withUfIbgeCode(UF.PR)
                         .withYear("17")
                         .withCnpj(this.emitterCnpj)
                         .withFiscalDocumentModel(FiscalDocumentModel.NFE)
-                        .withFiscalDocumentSeries("666")
-                        .withBeginNumber("10")
-                        .withEndNumber("10")
+                        .withFiscalDocumentSeries("333")
+                        .withBeginNumber("1")
+                        .withEndNumber("1")
                         .withJustification("Teste de inutilização de numeração de NF-e")
                         .build())
                 .build(this.getSigner());
