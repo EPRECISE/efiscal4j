@@ -4,12 +4,12 @@ package eprecise.efiscal4j.nfe;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
 
 
 public class NFeNumberDisableTest implements Testable {
 
-    private final TestDomain nFeDomain = new TestDomain(NFeNumberDisable.XSD);
+    private final TestDomain nFeDomain = new TestDomain(NFeNumberDisableDispatch.XSD);
 
     @Test
     public void validateByBeanValidation() throws Exception {
@@ -27,7 +27,7 @@ public class NFeNumberDisableTest implements Testable {
     }
 
     @Override
-    public NFeNumberDisable getBuiltEntity() throws Exception {
+    public NFeNumberDisableDispatch getBuiltEntity() throws Exception {
         return this.getTestDomain().buildNFeNumberDisable();
     }
 

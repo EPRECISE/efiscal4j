@@ -15,7 +15,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
@@ -139,7 +139,7 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(name = ObjectFactory.INUT_NFE)
-    public JAXBElement<NFeNumberDisable> createNFeNumberDisable(final NFeNumberDisable transmissible) {
-        return new JAXBElement<>(new QName(ObjectFactory.INUT_NFE), NFeNumberDisable.class, transmissible);
+    public JAXBElement<NFeNumberDisableDispatch> createNFeNumberDisable(final NFeNumberDisableDispatch transmissible) {
+        return new JAXBElement<>(new QName(ObjectFactory.INUT_NFE), NFeNumberDisableDispatch.class, transmissible);
     }
 }

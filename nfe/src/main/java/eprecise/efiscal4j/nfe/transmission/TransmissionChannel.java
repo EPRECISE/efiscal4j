@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
@@ -249,7 +249,7 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(NFeStatusSearch.class, NFeStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<NFeNumberDisable, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisable nfeNumberDisable) {
+    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatch nfeNumberDisable) {
 
         final UF uf = nfeNumberDisable.getInfo().getUfIbgeCode();
 
@@ -291,7 +291,7 @@ public class TransmissionChannel {
                 responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
 
-        return new TypedTransmissionResult<>(NFeNumberDisable.class, NFeNumberDisableResponseMethod.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(NFeNumberDisableDispatch.class, NFeNumberDisableResponseMethod.class, requestXml, responseXml);
     }
 
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {

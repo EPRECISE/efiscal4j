@@ -35,7 +35,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlRootElement(name = ObjectFactory.INUT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "xmlns", "info", "signature", "version" })
-public class NFeNumberDisable extends DefaultAssignable implements TransmissibleBodyImpl {
+public class NFeNumberDisableDispatch extends DefaultAssignable implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -58,19 +58,19 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
             return this;
         }
 
-        public NFeNumberDisable build(final Signer signer) throws Exception {
-            NFeNumberDisable entity = new NFeNumberDisable(this);
+        public NFeNumberDisableDispatch build(final Signer signer) throws Exception {
+            NFeNumberDisableDispatch entity = new NFeNumberDisableDispatch(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
-            entity = (NFeNumberDisable) signer.sign(entity);
+            entity = (NFeNumberDisableDispatch) signer.sign(entity);
             return entity;
         }
     }
 
-    public NFeNumberDisable() {
+    public NFeNumberDisableDispatch() {
         this.info = null;
     }
 
-    public NFeNumberDisable(final Builder builder) {
+    public NFeNumberDisableDispatch(final Builder builder) {
         this.info = builder.info;
     }
 
@@ -109,7 +109,7 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
 
     @Override
     public DefaultAssignable getAsEntity(final String xml) {
-        return new FiscalDocumentDeserializer<>(xml, NFeNumberDisable.class).considering(NFeNumberDisable.getValidationConsideringClasses()).deserialize();
+        return new FiscalDocumentDeserializer<>(xml, NFeNumberDisableDispatch.class).considering(NFeNumberDisableDispatch.getValidationConsideringClasses()).deserialize();
     }
 
     public static List<Class<?>> getValidationConsideringClasses() {
@@ -118,6 +118,6 @@ public class NFeNumberDisable extends DefaultAssignable implements Transmissible
 
     @Override
     public String getAsXml() {
-        return new FiscalDocumentSerializer<>(this).considering(NFeNumberDisable.getValidationConsideringClasses()).serialize();
+        return new FiscalDocumentSerializer<>(this).considering(NFeNumberDisableDispatch.getValidationConsideringClasses()).serialize();
     }
 }

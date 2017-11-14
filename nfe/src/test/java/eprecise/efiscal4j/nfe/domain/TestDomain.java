@@ -75,7 +75,7 @@ import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
-import eprecise.efiscal4j.nfe.sharing.NFeNumberDisable;
+import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableInfo;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponse;
@@ -1569,10 +1569,10 @@ public class TestDomain {
         return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
     }
 
-    public NFeNumberDisable buildNFeNumberDisable() throws Exception {
+    public NFeNumberDisableDispatch buildNFeNumberDisable() throws Exception {
         this.assertCertificate();
       //@formatter:off
-        return new NFeNumberDisable.Builder()
+        return new NFeNumberDisableDispatch.Builder()
                 .withInfo(new NFeNumberDisableInfo.Builder()
                         .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                         .withUfIbgeCode(UF.PR)
