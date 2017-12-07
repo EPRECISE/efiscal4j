@@ -126,8 +126,9 @@ public enum ServiceDomain implements Serializable {
             NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
             NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
             NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
-    AN("Ambiente Nacional",              
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00));    
+    AN("Ambiente Nacional",
+            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00),
+            NFeService.DELIVERY_DFE.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00));    
 //@formatter:on
 
     private static final long serialVersionUID = 1L;

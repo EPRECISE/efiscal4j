@@ -19,6 +19,8 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.NFeDeliveryDFeRequest;
+import eprecise.efiscal4j.nfe.sharing.NFeDeliveryDFeResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
@@ -82,9 +84,7 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFe.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
     }
@@ -126,9 +126,7 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(ServiceStatusSearch.class, ServiceStatusSearchResponseMethod.class, requestXml, responseXml);
     }
@@ -167,9 +165,7 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
@@ -200,9 +196,7 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
@@ -242,9 +236,7 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFeStatusSearch.class, NFeStatusSearchResponseMethod.class, requestXml, responseXml);
     }
@@ -287,11 +279,58 @@ public class TransmissionChannel {
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
 
-        responseXml = responseXml.substring(
-                responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFeNumberDisableDispatch.class, NFeNumberDisableResponseMethod.class, requestXml, responseXml);
+    }
+
+    /**
+     * Web Service - NFeDistribuicaoDFe
+     * 
+     * Distribui documentos e informações de interesse do ator da NF-e
+     * 
+     * Função: Serviço destinado à distribuição de informações resumidas e documentos fiscais eletrônicos de interesse de um ator, seja este uma pessoa física ou jurídica. Processo: síncrono Método:
+     * nfeDistDFeInteresse Este serviço permite que um ator da NF-e tenha acesso aos documentos fiscais eletrônicos (DF-e) e informações resumidas que não tenham sido gerados por ele e que sejam de
+     * seu interesse. Pode ser consumido por qualquer ator de NF-e, Pessoa Jurídica ou Pessoa Física, que possua um certificado digital de PJ ou PF. No caso de Pessoa Jurídica, a empresa será
+     * autenticada pelo CNPJ base e poderá realizar a consulta com qualquer CNPJ da empresa desde que o CNPJ base consultado seja o mesmo do certificado digital.
+     * 
+     * NT 2014/002
+     * 
+     * @param deliveryDFeRequest
+     *            - Requisição de informção de DF-e
+     * @return Resultado da requisição, com valor dependendo da informação solicitada
+     */
+    public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponseMethod> transmitNFeDeliveryDFe(final NFeDeliveryDFeRequest deliveryDFeRequest) {
+
+        String serviceUrl = null;
+
+        switch (deliveryDFeRequest.getTransmissionEnvironment()) {
+        case HOMOLOGACAO:
+            serviceUrl = NFeService.DELIVERY_DFE.getHomologUrl(ServiceDomain.AN);
+            break;
+        case PRODUCAO:
+            serviceUrl = NFeService.DELIVERY_DFE.getProductionUrl(ServiceDomain.AN);
+            break;
+        }
+
+        final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
+
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, deliveryDFeRequest.getVersion(), deliveryDFeRequest);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(deliveryDFeRequest).serialize();
+
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+
+        responseXml = this.postProcessResponseXML(responseXml);
+
+        return new TypedTransmissionResult<>(NFeDeliveryDFeRequest.class, NFeDeliveryDFeResponseMethod.class, requestXml, responseXml);
+    }
+
+    private String postProcessResponseXML(String responseXml) {
+        return responseXml.substring(responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
+                responseXml.lastIndexOf("</env:Body"));
     }
 
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {

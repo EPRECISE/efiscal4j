@@ -63,6 +63,10 @@ public class ObjectFactory {
 
     public static final String RET_INUT_NFE = "retInutNFe";
 
+    public static final String DIST_DFE_INT = "distDFeInt";
+
+    public static final String RET_DIST_DFE_INT = "retDistDFeInt";
+
     @XmlElementDecl(name = ObjectFactory.ENVI_NFE)
     public JAXBElement<NFeDispatch> createNFeDispatch(final NFeDispatch transmissible) {
         return new JAXBElement<>(new QName(ObjectFactory.ENVI_NFE), NFeDispatch.class, transmissible);
@@ -142,4 +146,5 @@ public class ObjectFactory {
     public JAXBElement<NFeNumberDisableDispatch> createNFeNumberDisable(final NFeNumberDisableDispatch transmissible) {
         return new JAXBElement<>(new QName(ObjectFactory.INUT_NFE), NFeNumberDisableDispatch.class, transmissible);
     }
+
 }

@@ -24,7 +24,8 @@ public enum NFeService implements FiscalDocumentService, Serializable {
     EVENT_RECEPTION("/eprecise/efiscal4j/nfe/transmission/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/eventReceptionProduction.properties"),
     PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/transmission/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/protocolSearchProduction.properties"),
     SERVICE_STATUS("/eprecise/efiscal4j/nfe/transmission/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/serviceStatusProduction.properties"),
-    DISABILITY("/eprecise/efiscal4j/nfe/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/disabilityProduction.properties");
+    DISABILITY("/eprecise/efiscal4j/nfe/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/disabilityProduction.properties"), 
+    DELIVERY_DFE("/eprecise/efiscal4j/nfe/transmission/deliveryDFeHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/deliveryDFeProduction.properties");
 
     private static final long serialVersionUID = 1L;
 
