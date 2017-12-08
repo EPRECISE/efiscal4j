@@ -1,12 +1,10 @@
 
-package eprecise.efiscal4j.nfe.sharing;
+package eprecise.efiscal4j.nfe.deliveryDFe;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
@@ -26,8 +24,6 @@ import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 public class NFeDeliveryDFeResponseMethod extends Receivable implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private @XmlElement(name = ObjectFactory.RET_DIST_DFE_INT) @NotNull NFeNumberDisableResponse response;
 
     private @XmlTransient QName qName = new QName(ObjectFactory.NFE_STAT_INUT_RESULT);
 

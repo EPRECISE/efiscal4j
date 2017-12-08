@@ -12,13 +12,17 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
 
 
-public interface Testable {
+public interface Testable<T> {
 
     TestDomain getTestDomain();
 
-    Object getBuiltEntity() throws Exception;
+    T getBuiltEntity() throws Exception;
 
     default void validateByBeanValidationDefault() throws Exception {
+        this.validateByBeanValidation(getBuiltEntity());
+    }
+
+    default void validateByBeanValidation(T entity) throws Exception {
         try {
             ValidationBuilder.from(this.getBuiltEntity()).validate().throwIfViolate();
         } catch (final ConstraintViolationException e) {
@@ -27,7 +31,11 @@ public interface Testable {
     }
 
     default void validateByXSDDefault() throws Exception {
-        final String xml = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
+        this.validateByXSD(getBuiltEntity());
+    }
+
+    default void validateByXSD(T entity) throws Exception {
+        final String xml = new FiscalDocumentSerializer<>(entity).serialize();
         System.out.println(xml + "\n");
         final ValidationResult validate = this.getTestDomain().getValidator().validate(xml);
         Assert.assertTrue(validate.getError(), validate.isValid());

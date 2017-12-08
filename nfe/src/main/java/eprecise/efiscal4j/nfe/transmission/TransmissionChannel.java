@@ -17,10 +17,10 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeDeliveryDFeRequest;
-import eprecise.efiscal4j.nfe.sharing.NFeDeliveryDFeResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
@@ -315,7 +315,8 @@ public class TransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, deliveryDFeRequest.getVersion(), deliveryDFeRequest);
+        final SOAPEnvelope soapEnvelope = new SOAPEnvelope.Builder()
+                .withSoapBody(new SOAPBody.Builder().withNfeBody(new NFeBody.Builder().withXmlns(xmlnsServiceName).withTransmissible(deliveryDFeRequest).build()).build()).build();
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 

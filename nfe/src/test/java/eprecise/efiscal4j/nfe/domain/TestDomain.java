@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -1661,5 +1663,9 @@ public class TestDomain {
             throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PF)"));
         }
         return this.receiverNaturalPersonIe;
+    }
+
+    public static String randomFixedSizeNumber(int size) {
+        return new Random().ints(0, 9).limit(size).mapToObj(String::valueOf).collect(Collectors.joining());
     }
 }
