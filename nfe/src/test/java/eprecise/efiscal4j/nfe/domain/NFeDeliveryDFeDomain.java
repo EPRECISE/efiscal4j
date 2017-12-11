@@ -1,9 +1,12 @@
 
 package eprecise.efiscal4j.nfe.domain;
 
+import java.time.ZonedDateTime;
+
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequestType;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryNSU;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryNSU;
@@ -25,5 +28,22 @@ public class NFeDeliveryDFeDomain {
 
     public NFeDeliveryDFeRequest buildDeliveryNsuRequest() {
         return this.buildRequest(new NFeDeliveryNSU.Builder().withLastNsu(TestDomain.randomFixedSizeNumber(15)).build());
+    }
+
+    public NFeDeliveryDFeResponse buildResponse() {
+        return new NFeDeliveryDFeResponse.Builder().withEnviroment(TransmissionEnvironment.PRODUCAO).withAppVersion("1").withStatusCode(1).withStatusDescription("Cod 1")
+                .withResponse(ZonedDateTime.now()).withLastNsu(1).withMaxNsu(10).build();
+    }
+
+    public NFeDeliveryDFeResponse buildQueryAccesKeyResponse() {
+        return this.buildResponse();
+    }
+
+    public NFeDeliveryDFeResponse buildQueryByNsuResponse() {
+        return this.buildResponse();
+    }
+
+    public NFeDeliveryDFeResponse buildDeliveryNsuResponse() {
+        return this.buildResponse();
     }
 }

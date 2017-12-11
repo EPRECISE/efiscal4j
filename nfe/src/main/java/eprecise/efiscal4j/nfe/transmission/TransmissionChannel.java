@@ -18,7 +18,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponseMethod;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
@@ -300,7 +300,7 @@ public class TransmissionChannel {
      *            - Requisição de informção de DF-e
      * @return Resultado da requisição, com valor dependendo da informação solicitada
      */
-    public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponseMethod> transmitNFeDeliveryDFe(final NFeDeliveryDFeRequest deliveryDFeRequest) {
+    public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeRequest deliveryDFeRequest) {
 
         String serviceUrl = null;
 
@@ -326,7 +326,7 @@ public class TransmissionChannel {
 
         responseXml = this.postProcessResponseXML(responseXml);
 
-        return new TypedTransmissionResult<>(NFeDeliveryDFeRequest.class, NFeDeliveryDFeResponseMethod.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(NFeDeliveryDFeRequest.class, NFeDeliveryDFeResponse.class, requestXml, responseXml);
     }
 
     private String postProcessResponseXML(String responseXml) {

@@ -28,25 +28,25 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[0-9]{15}")
-public @interface NFeDeliveryDFeNSU {
+@Pattern(regexp = "[0-9]{3}")
+public @interface NFeStatus {
 
-    String message() default "Viola restrição - Tipo de NSU";
+    String message() default "Viola restrição - Status";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    public class Converter implements TypeConverter<String, Long> {
+    public class Converter implements TypeConverter<String, Integer> {
 
         @Override
-        public Long parse(String source) {
-            return Long.parseLong(source);
+        public Integer parse(String source) {
+            return Integer.parseInt(source);
         }
 
         @Override
-        public String serialize(Long data) {
-            return data == null ? null : String.format("%015d", data);
+        public String serialize(Integer data) {
+            return data == null ? null : String.format("%03d", data);
         }
 
     }

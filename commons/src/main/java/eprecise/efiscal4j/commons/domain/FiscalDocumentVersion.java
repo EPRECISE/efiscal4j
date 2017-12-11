@@ -19,7 +19,8 @@ public enum FiscalDocumentVersion implements Serializable {
 
     @XmlEnumValue("3.10") VERSION_3_10("3.10"),
     @XmlEnumValue("2.00") VERSION_2_00("2.00"),
-    @XmlEnumValue("1.00") VERSION_1_00("1.00");
+    @XmlEnumValue("1.00") VERSION_1_00("1.00"),
+    @XmlEnumValue("1.01") VERSION_1_01("1.01");
 
     private static final long serialVersionUID = 1L;
 
