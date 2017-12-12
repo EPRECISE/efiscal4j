@@ -24,9 +24,9 @@ import eprecise.efiscal4j.nfe.types.NFeStatus;
 
 
 /**
- * Método retornado após consumo do WS de inutilização de numeração da NFe
+ * Schema do resultado do pedido de distribuição de DF-e de interesse
  *
- * @author Fernando C Glizt
+ * @author Clécius J. Martinkoski
  *
  */
 @XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
@@ -152,7 +152,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         this.maxNsu = null;
     }
 
-    public NFeDeliveryDFeResponse(Builder builder) {
+    private NFeDeliveryDFeResponse(Builder builder) {
         this.enviroment = builder.enviroment;
         this.appVersion = builder.appVersion;
         this.status = this.statusConverter.serialize(builder.status);

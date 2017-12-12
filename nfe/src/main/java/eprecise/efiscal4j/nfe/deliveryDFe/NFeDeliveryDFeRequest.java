@@ -15,6 +15,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -39,7 +40,7 @@ public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl {
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
-    private @XmlAttribute(name = "versao") final String version = "1.01";
+    private @XmlAttribute(name = "versao") final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_01;
 
     private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironment enviroment;
 
