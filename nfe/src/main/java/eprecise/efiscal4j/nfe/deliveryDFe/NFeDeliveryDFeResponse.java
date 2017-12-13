@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.deliveryDFe;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -61,6 +62,8 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
 
     private @XmlElement(name = "maxNSU") @NotNull @NFeDeliveryDFeNSU final String maxNsu;
 
+    private @XmlElement(name = "loteDistDFeInt") final NFeDeliveryDFeDocumentLots documentLots;
+
     private @XmlTransient QName qName = new QName(ObjectFactory.RET_DIST_DFE_INT);
 
     public static class Builder {
@@ -78,6 +81,8 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         private long lastNsu;
 
         private long maxNsu;
+
+        private NFeDeliveryDFeDocumentLots documentLots;
 
         /**
          * Identificação do Ambiente
@@ -135,6 +140,12 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
             return this;
         }
 
+        public Builder withDocument(NFeDeliveryDfeDocument document) {
+            this.documentLots = Optional.ofNullable(this.documentLots).orElse(new NFeDeliveryDFeDocumentLots());
+            this.documentLots.addDocument(document);
+            return this;
+        }
+
         public NFeDeliveryDFeResponse build() {
             final NFeDeliveryDFeResponse entity = new NFeDeliveryDFeResponse(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -150,6 +161,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         this.responseDateTime = null;
         this.lastNsu = null;
         this.maxNsu = null;
+        this.documentLots = null;
     }
 
     public NFeDeliveryDFeResponse(Builder builder) {
@@ -160,6 +172,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         this.responseDateTime = this.dateTimeConverter.serialize(builder.response);
         this.lastNsu = this.nsuConverter.serialize(builder.lastNsu);
         this.maxNsu = this.nsuConverter.serialize(builder.maxNsu);
+        this.documentLots = builder.documentLots;
     }
 
     /**
@@ -209,6 +222,13 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
      */
     public long getMaxNsu() {
         return this.nsuConverter.parse(this.maxNsu);
+    }
+
+    /**
+     * Conjunto de informações resumidas e documentos fiscais eletrônicos de interesse da pessoa ou empresa.
+     */
+    public NFeDeliveryDFeDocumentLots getDocumentLots() {
+        return this.documentLots;
     }
 
     @Override
