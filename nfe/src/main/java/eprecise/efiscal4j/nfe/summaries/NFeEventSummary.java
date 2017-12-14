@@ -4,8 +4,6 @@ package eprecise.efiscal4j.nfe.summaries;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -60,7 +58,7 @@ public class NFeEventSummary implements Serializable {
 
     private @XmlElement(name = "nSeqEvento") @NotNull @NFeDeliveryDFeEventSequence final String eventSequence;
 
-    private @XmlElement(name = "xEvento") @NotNull @NFeString @Min(5) @Max(50) final String eventDescription;
+    private @XmlElement(name = "xEvento") @NotNull @NFeString @Size(min = 5, max = 60) final String eventDescription;
 
     private @XmlElement(name = "dhRecbto") @NotNull @NFeDateTimeUTC final String authorizationDateTime;
 
