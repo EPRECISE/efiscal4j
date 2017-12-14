@@ -69,7 +69,7 @@ public class EventProtocol implements Serializable {
         this.eventResponse = null;
     }
 
-    public EventProtocol(Builder builder) {
+    protected EventProtocol(Builder builder) {
         this.event = builder.event;
         this.eventResponse = builder.eventResponse;
     }

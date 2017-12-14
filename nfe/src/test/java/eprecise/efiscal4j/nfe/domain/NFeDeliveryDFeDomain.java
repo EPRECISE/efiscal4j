@@ -1,16 +1,22 @@
 
 package eprecise.efiscal4j.nfe.domain;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequestType;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeDocument;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryNSU;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryNSU;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeProcessedNfeSummary;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeDocument;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeNFeStatus;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeSchema;
 
 
 public class NFeDeliveryDFeDomain {
@@ -32,10 +38,29 @@ public class NFeDeliveryDFeDomain {
     }
 
     public NFeDeliveryDFeResponse buildResponse() {
-        final NFeDeliveryDfeDocument doc = new NFeDeliveryDfeDocument.Builder().withContent("dmFtb3MgbMOhIG5hIGNhc2EgZGEgbWFyaWE=").withNsu(0L).withSchema("").build();
+
+        //@formatter:off
+        final NFeDeliveryDFeProcessedNfeSummary nfeSummary = new NFeDeliveryDFeProcessedNfeSummary.Builder()
+                .withAccessKey(null)
+                .withAuthorizationDateTime(LocalDateTime.of(2017, 2, 1, 1, 0).atZone(ZoneId.systemDefault()))
+                .withCnpj("")
+                .withDigestValue("")
+                .withEmissionDateTime(LocalDateTime.of(2017, 1, 1, 1, 0).atZone(ZoneId.systemDefault()))
+                .withEventProtocolNumber(1000)
+                .withFiscalDocumentType(FiscalDocumentType.SAIDA)
+                .withName("Meu nome")
+                .withNfeStatus(NFeDeliveryDfeNFeStatus.AUTHORIZED)
+                .withNfeTotalValue("")
+                .withStateRegistration("").build();
+
+        final NFeDeliveryDfeDocument doc1 = new NFeDeliveryDfeDocument.Builder()
+                .withContent(nfeSummary)
+                .withNsu(1L)
+                .withSchema(NFeDeliveryDfeSchema.RES_NFE).build();
+        //@formatter:on
 
         return new NFeDeliveryDFeResponse.Builder().withEnviroment(TransmissionEnvironment.PRODUCAO).withAppVersion("1").withStatusCode(1).withStatusDescription("Cod 1")
-                .withResponse(ZonedDateTime.now()).withLastNsu(1).withMaxNsu(10).withDocument(doc).build();
+                .withResponse(ZonedDateTime.now()).withLastNsu(1).withMaxNsu(10).withDocument(doc1).build();
     }
 
     public NFeDeliveryDFeResponse buildQueryAccesKeyResponse() {
@@ -48,9 +73,5 @@ public class NFeDeliveryDFeDomain {
 
     public NFeDeliveryDFeResponse buildDeliveryNsuResponse() {
         return this.buildResponse();
-    }
-
-    public NFeDeliveryDfeDocument buildDfeDocumentWithInvalidBase64() {
-        return new NFeDeliveryDfeDocument.Builder().withContent("dmFtb3MgbMOhIG5%%hIGNhc2EgZGEgbWFyaWE=").withNsu(0L).withSchema("").build();
     }
 }

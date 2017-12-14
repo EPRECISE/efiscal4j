@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.deliveryDFe;
+package eprecise.efiscal4j.nfe.deliveryDFe.response;
 
 import java.io.Serializable;
 
@@ -10,34 +10,37 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlValue;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeBase64DocumentContent;
+import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeDocumentContent;
 import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeNSU;
+import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeSchema;
 
 
 public class NFeDeliveryDfeDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private @XmlTransient final NFeDeliveryDFeDocumentContent.Converter contentConverter = new NFeDeliveryDFeDocumentContent.Converter();
+
     private @XmlTransient final NFeDeliveryDFeNSU.Converter nsuConverter = new NFeDeliveryDFeNSU.Converter();
 
-    private @XmlValue @NotNull @NFeDeliveryDFeBase64DocumentContent final String content;
+    private @XmlValue @NotNull @NFeDeliveryDFeDocumentContent final String content;
 
     private @XmlAttribute(name = "NSU") @NotNull @Size(max = 15) @NFeDeliveryDFeNSU final String nsu;
 
-    private @XmlAttribute(name = "schema") @NotNull final String schema;
+    private @XmlAttribute(name = "schema") @NotNull @NFeDeliveryDFeSchema final String schema;
 
     public static class Builder {
 
-        private String content;
+        private NFeDeliveryDfeDocumentContent content;
 
         private long nsu;
 
-        private String schema;
+        private NFeDeliveryDfeSchema schema;
 
         /**
          * Informação resumida ou documento fiscal eletrônico de interesse da pessoa ou empresa. O conteúdo desta tag estará compactado no padrão gZip. O tipo do campo é base64Binary.
          */
-        public Builder withContent(String content) {
+        public Builder withContent(NFeDeliveryDfeDocumentContent content) {
             this.content = content;
             return this;
         }
@@ -54,7 +57,7 @@ public class NFeDeliveryDfeDocument implements Serializable {
          * Identificação do Schema XML que será utilizado para validar o XML existente no conteúdo da tag docZip. Vai identificar o tipo do documento e sua versão. Exemplos: resNFe_v1.00.xsd,
          * procNFe_v3.10.xsd, resEvento_1.00.xsd, procEventoNFe_v1.00.xsd
          */
-        public Builder withSchema(String schema) {
+        public Builder withSchema(NFeDeliveryDfeSchema schema) {
             this.schema = schema;
             return this;
         }
@@ -73,13 +76,13 @@ public class NFeDeliveryDfeDocument implements Serializable {
     }
 
     private NFeDeliveryDfeDocument(Builder builder) {
-        this.content = builder.content;
+        this.content = this.contentConverter.serialize(builder.schema.marshallContent(builder.content));
         this.nsu = this.nsuConverter.serialize(builder.nsu);
-        this.schema = builder.schema;
+        this.schema = builder.schema.get();
     }
 
-    public String getContent() {
-        return this.content;
+    public NFeDeliveryDfeDocumentContent getContent() {
+        return NFeDeliveryDfeSchema.getFromSchema(this.schema).map(s -> s.unmarshallContent(this.contentConverter.parse(this.content))).orElse(null);
     }
 
     public long getNsu() {

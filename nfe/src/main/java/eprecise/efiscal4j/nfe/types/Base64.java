@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.types;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -14,22 +15,12 @@ import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
 
-/**
- * 
- * 
- * Conteúdo de Retorno de Documento de NFeDeliveryDFe
- * 
- * 
- * @author Luan Bukowitz Beluzzo
- * 
- */
-
-@Target({ FIELD, ANNOTATION_TYPE })
+@Target({ FIELD, ANNOTATION_TYPE, TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
 @Pattern(regexp = "^[-A-Za-z0-9+=]{1,50}|=[^=]|={3,}$")
-public @interface NFeDeliveryDFeBase64DocumentContent {
+public @interface Base64 {
 
     String message() default "Viola restrição - Conteúdo com Base64";
 
