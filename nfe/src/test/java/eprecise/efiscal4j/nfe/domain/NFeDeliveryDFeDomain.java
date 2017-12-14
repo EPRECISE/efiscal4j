@@ -1,11 +1,22 @@
 
 package eprecise.efiscal4j.nfe.domain;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import javax.validation.ConstraintViolationException;
+
+import org.apache.commons.lang.NotImplementedException;
+import org.junit.Assert;
+
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
+import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
@@ -20,14 +31,18 @@ import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeNFeStatus;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
 import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
+import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
+import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
 import eprecise.efiscal4j.nfe.summaries.NFeEventSummary;
 import eprecise.efiscal4j.nfe.summaries.ProcessedNFeSummary;
 
 
 public class NFeDeliveryDFeDomain {
 
+    private final TransmissionEnvironment TRANSMISSION_ENVIRONMENT = TransmissionEnvironment.HOMOLOGACAO;
+
     public NFeDeliveryDFeRequest buildRequest(NFeDeliveryDFeRequestType type) {
-        return new NFeDeliveryDFeRequest.Builder().withEnviroment(TransmissionEnvironment.HOMOLOGACAO).withCnpj("24804397000132").withType(type).build();
+        return new NFeDeliveryDFeRequest.Builder().withEnviroment(this.TRANSMISSION_ENVIRONMENT).withCnpj("24804397000132").withType(type).build();
     }
 
     public NFeDeliveryDFeRequest buildQueryAccesKeyRequest() {
@@ -45,7 +60,7 @@ public class NFeDeliveryDFeDomain {
     public NFeDeliveryDFeResponse buildResponse() throws Exception {
         //@formatter:off
         return new NFeDeliveryDFeResponse.Builder()
-                .withEnviroment(TransmissionEnvironment.HOMOLOGACAO)
+                .withEnviroment(this.TRANSMISSION_ENVIRONMENT)
                 .withAppVersion("1")
                 .withStatusCode(1)
                 .withStatusDescription("Cod 1")
@@ -53,7 +68,7 @@ public class NFeDeliveryDFeDomain {
                 .withLastNsu(1)
                 .withMaxNsu(10)
                 .withDocument(this.getProcessedNFeSummary())
-//                .withDocument(this.getProcessedNFeDocument())
+                .withDocument(this.getProcessedNFeDocument())
                 .withDocument(this.getNFeEventSummaryDocument())
 //                .withDocument(this.getEventProtocolDocument())
                 .build();
@@ -83,10 +98,42 @@ public class NFeDeliveryDFeDomain {
         //@formatter:on
     }
 
+    private NFe getNfe() throws IOException, URISyntaxException {
+        final URL xmlUrl = this.getClass().getResource("/eprecise/efiscal4j/nfe/in/xml/nfe/001.xml");
+
+        final NFe nfe = new FiscalDocumentDeserializer<NFe>(xmlUrl, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
+        Assert.assertNotNull(nfe);
+        try {
+            ValidationBuilder.from(nfe).validate().throwIfViolate();
+        } catch (final ConstraintViolationException e) {
+            throw e;
+        }
+
+        return nfe;
+    }
+
     private NFeDeliveryDfeDocument getProcessedNFeDocument() throws Exception {
-        final ProcessedNFe processedNfe = new TestDomain().buildProcessedNFe();
+        //@formatter:off
+        final ProcessingStatusProtocol status = new ProcessingStatusProtocol.Builder()
+                .withProcessingStatusProtocolInfo(new ProcessingStatusProtocolInfo.Builder()
+                .withTransmissionEnvironment(this.TRANSMISSION_ENVIRONMENT)
+                .withApplicationVersion("RS20110816085649")
+                .withAcessKey("43110899999090910199550110118160951007055470")
+                .withProcessingDateTime("2013-02-06T14:51:19-02:00")
+                .withProtocolNumber("143110000000289")
+                .withDigestValue("c1wZvqlmu38VP0WzYtbannOjCC0=")
+                .withStatusCode("100")
+                .withStatusDescription("Autorizado o uso da NF-e")
+                .withId("ID143110000000289")
+                .build()).build();
+        
+        final NFe nfe = this.getNfe(); 
+        
+        final ProcessedNFe processedNfe = new ProcessedNFe.Builder().withNfe(nfe).withProcessingStatusProtocol(status)
+                .build();
 
         return new NFeDeliveryDfeDocument.Builder().withContent(processedNfe).withNsu(4L).withSchema(NFeDeliveryDFeSchemas.PROC_NFE).build();
+        //@formatter:on
     }
 
     private NFeDeliveryDfeDocument getNFeEventSummaryDocument() {
@@ -111,7 +158,9 @@ public class NFeDeliveryDFeDomain {
     private NFeDeliveryDfeDocument getEventProtocolDocument() {
         final EventProtocol eventProtocol = new EventProtocol.Builder().withEvent(null).withEventResponse(null).build();
 
-        return new NFeDeliveryDfeDocument.Builder().withContent(eventProtocol).withNsu(5L).withSchema(NFeDeliveryDFeSchemas.PROC_EVENTO_NFE).build();
+        new NFeDeliveryDfeDocument.Builder().withContent(eventProtocol).withNsu(5L).withSchema(NFeDeliveryDFeSchemas.PROC_EVENTO_NFE).build();
+
+        throw new NotImplementedException();
     }
 
     public NFeDeliveryDFeResponse buildQueryAccesKeyResponse() throws Exception {
