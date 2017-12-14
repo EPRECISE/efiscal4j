@@ -19,7 +19,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "^[-A-Za-z0-9+=]{1,50}|=[^=]|={3,}$")
+@Pattern(regexp = "(([A-Za-z0-9+\\/]{4})*([A-Za-z0-9+\\/]{3}=|[A-Za-z0-9+\\/]{2}==)?){1}")
 public @interface Base64 {
 
     String message() default "Viola restrição - Conteúdo com Base64";

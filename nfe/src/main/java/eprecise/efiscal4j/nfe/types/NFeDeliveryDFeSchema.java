@@ -14,7 +14,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
-import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeSchema;
+import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeSchemas;
 
 
 @Target({ FIELD, ANNOTATION_TYPE })
@@ -30,15 +30,15 @@ public @interface NFeDeliveryDFeSchema {
 
     Class<? extends Payload>[] payload() default {};
 
-    public class Converter implements TypeConverter<String, Optional<NFeDeliveryDfeSchema>> {
+    public class Converter implements TypeConverter<String, Optional<NFeDeliveryDFeSchemas>> {
 
         @Override
-        public Optional<NFeDeliveryDfeSchema> parse(String source) {
-            return NFeDeliveryDfeSchema.getFromSchema(source);
+        public Optional<NFeDeliveryDFeSchemas> parse(String source) {
+            return NFeDeliveryDFeSchemas.getFromSchema(source);
         }
 
         @Override
-        public String serialize(Optional<NFeDeliveryDfeSchema> data) {
+        public String serialize(Optional<NFeDeliveryDFeSchemas> data) {
             return data.isPresent() ? data.get().get() : null;
         }
 

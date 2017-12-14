@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -29,7 +29,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Max(14)
+@Size(max = 14)
 @Pattern(regexp = "[0-9]{2,14}|ISENTO")
 public @interface NFeDeliveryDFeStateRegistration {
 

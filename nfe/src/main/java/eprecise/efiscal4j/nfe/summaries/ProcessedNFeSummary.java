@@ -4,14 +4,14 @@ package eprecise.efiscal4j.nfe.summaries;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
@@ -28,6 +28,7 @@ import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeStateRegistration;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
 
+@XmlRootElement(name = "nfeProc")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcessedNFeSummary implements Serializable {
 
@@ -35,9 +36,9 @@ public class ProcessedNFeSummary implements Serializable {
 
     public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/deliveryDFe/resNFe_v1.01.xsd";
 
-    private final NFeDateTimeUTC.Converter dateTimeConverter = new NFeDateTimeUTC.Converter();
+    private @XmlTransient final NFeDateTimeUTC.Converter dateTimeConverter = new NFeDateTimeUTC.Converter();
 
-    private final NFeDeliveryDFeEventProtocolNumber.Converter protocolNumberConverter = new NFeDeliveryDFeEventProtocolNumber.Converter();
+    private @XmlTransient final NFeDeliveryDFeEventProtocolNumber.Converter protocolNumberConverter = new NFeDeliveryDFeEventProtocolNumber.Converter();
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -47,7 +48,7 @@ public class ProcessedNFeSummary implements Serializable {
 
     private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String cnpj; // Campo é uma xs:choice com CPF, não mapeado
 
-    private @XmlElement(name = "xNome") @NotNull @NFeString @Min(2) @Max(60) final String name;
+    private @XmlElement(name = "xNome") @NotNull @Size(min = 2, max = 60) @NFeString final String name;
 
     private @XmlElement(name = "IE") @NotNull @NFeDeliveryDFeStateRegistration final String stateRegistration;
 
@@ -64,34 +65,6 @@ public class ProcessedNFeSummary implements Serializable {
     private @XmlElement(name = "nProt") @NotNull @NFeDeliveryDFeEventProtocolNumber final String eventProtocolNumber;
 
     private @XmlElement(name = "cSitNFe") @NotNull final NFeDeliveryDfeNFeStatus nfeStatus;
-
-    public ProcessedNFeSummary() {
-        this.accessKey = null;
-        this.cnpj = null;
-        this.name = null;
-        this.stateRegistration = null;
-        this.emissionDateTime = null;
-        this.fiscalDocumentType = null;
-        this.nfeTotalValue = null;
-        this.digestValue = null;
-        this.authorizationDateTime = null;
-        this.eventProtocolNumber = null;
-        this.nfeStatus = null;
-    }
-
-    protected ProcessedNFeSummary(Builder builder) {
-        this.accessKey = builder.accessKey;
-        this.cnpj = builder.cnpj;
-        this.name = builder.name;
-        this.stateRegistration = builder.stateRegistration;
-        this.emissionDateTime = this.dateTimeConverter.serialize(builder.emissionDateTime);
-        this.fiscalDocumentType = builder.fiscalDocumentType;
-        this.nfeTotalValue = builder.nfeTotalValue;
-        this.digestValue = builder.digestValue;
-        this.authorizationDateTime = this.dateTimeConverter.serialize(builder.authorizationDateTime);
-        this.eventProtocolNumber = this.protocolNumberConverter.serialize(builder.eventProtocolNumber);
-        this.nfeStatus = builder.nfeStatus;
-    }
 
     public static class Builder {
 
@@ -210,6 +183,34 @@ public class ProcessedNFeSummary implements Serializable {
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
+    }
+
+    public ProcessedNFeSummary() {
+        this.accessKey = null;
+        this.cnpj = null;
+        this.name = null;
+        this.stateRegistration = null;
+        this.emissionDateTime = null;
+        this.fiscalDocumentType = null;
+        this.nfeTotalValue = null;
+        this.digestValue = null;
+        this.authorizationDateTime = null;
+        this.eventProtocolNumber = null;
+        this.nfeStatus = null;
+    }
+
+    private ProcessedNFeSummary(Builder builder) {
+        this.accessKey = builder.accessKey;
+        this.cnpj = builder.cnpj;
+        this.name = builder.name;
+        this.stateRegistration = builder.stateRegistration;
+        this.emissionDateTime = this.dateTimeConverter.serialize(builder.emissionDateTime);
+        this.fiscalDocumentType = builder.fiscalDocumentType;
+        this.nfeTotalValue = builder.nfeTotalValue;
+        this.digestValue = builder.digestValue;
+        this.authorizationDateTime = this.dateTimeConverter.serialize(builder.authorizationDateTime);
+        this.eventProtocolNumber = this.protocolNumberConverter.serialize(builder.eventProtocolNumber);
+        this.nfeStatus = builder.nfeStatus;
     }
 
     public NFeQueryByAccessKey getAccessKey() {

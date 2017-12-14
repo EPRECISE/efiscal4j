@@ -31,16 +31,20 @@ public class NFeDeliveryDfeDocument implements Serializable {
 
     public static class Builder {
 
-        private NFeDeliveryDfeDocumentContent content;
+        private Object content;
 
         private long nsu;
 
-        private NFeDeliveryDfeSchema schema;
+        private NFeDeliveryDFeSchemas schema;
 
         /**
          * Informação resumida ou documento fiscal eletrônico de interesse da pessoa ou empresa. O conteúdo desta tag estará compactado no padrão gZip. O tipo do campo é base64Binary.
          */
-        public Builder withContent(NFeDeliveryDfeDocumentContent content) {
+        public Builder withContent(Object content) {
+            if (content == null || !NFeDeliveryDFeSchemas.getFromClazz(content.getClass()).isPresent()) {
+                throw new IllegalClassForNFeDeliveryDfeSchema();
+            }
+
             this.content = content;
             return this;
         }
@@ -57,7 +61,7 @@ public class NFeDeliveryDfeDocument implements Serializable {
          * Identificação do Schema XML que será utilizado para validar o XML existente no conteúdo da tag docZip. Vai identificar o tipo do documento e sua versão. Exemplos: resNFe_v1.00.xsd,
          * procNFe_v3.10.xsd, resEvento_1.00.xsd, procEventoNFe_v1.00.xsd
          */
-        public Builder withSchema(NFeDeliveryDfeSchema schema) {
+        public Builder withSchema(NFeDeliveryDFeSchemas schema) {
             this.schema = schema;
             return this;
         }
@@ -81,8 +85,8 @@ public class NFeDeliveryDfeDocument implements Serializable {
         this.schema = builder.schema.get();
     }
 
-    public NFeDeliveryDfeDocumentContent getContent() {
-        return NFeDeliveryDfeSchema.getFromSchema(this.schema).map(s -> s.unmarshallContent(this.contentConverter.parse(this.content))).orElse(null);
+    public Object getContent() {
+        return NFeDeliveryDFeSchemas.getFromSchema(this.schema).map(s -> s.unmarshallContent(this.contentConverter.parse(this.content))).orElse(null);
     }
 
     public long getNsu() {

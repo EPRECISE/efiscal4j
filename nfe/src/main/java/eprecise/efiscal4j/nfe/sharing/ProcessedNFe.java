@@ -76,7 +76,7 @@ public class ProcessedNFe implements Serializable {
         this.processingStatusProtocol = null;
     }
 
-    public ProcessedNFe(Builder builder) {
+    private ProcessedNFe(Builder builder) {
         this.nfe = builder.nfe;
         this.processingStatusProtocol = builder.processingStatusProtocol;
     }

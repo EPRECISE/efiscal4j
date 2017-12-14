@@ -12,6 +12,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
@@ -29,6 +31,8 @@ import eprecise.efiscal4j.nfe.types.NFeString;
 /**
  * Schema da estrutura XML gerada pelo Ambiente Nacional com o conjunto de informações resumidas de um evento de NF-e
  */
+
+@XmlRootElement(name = "nfeProc")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeEventSummary implements Serializable {
 
@@ -36,9 +40,9 @@ public class NFeEventSummary implements Serializable {
 
     public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/deliveryDFe/resEvento_v1.01.xsd";
 
-    private final NFeDateTimeUTC.Converter dateTimeConverter = new NFeDateTimeUTC.Converter();
+    private @XmlTransient final NFeDateTimeUTC.Converter dateTimeConverter = new NFeDateTimeUTC.Converter();
 
-    private final NFeDeliveryDFeEventProtocolNumber.Converter protocolNumberConverter = new NFeDeliveryDFeEventProtocolNumber.Converter();
+    private @XmlTransient final NFeDeliveryDFeEventProtocolNumber.Converter protocolNumberConverter = new NFeDeliveryDFeEventProtocolNumber.Converter();
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -61,30 +65,6 @@ public class NFeEventSummary implements Serializable {
     private @XmlElement(name = "dhRecbto") @NotNull @NFeDateTimeUTC final String authorizationDateTime;
 
     private @XmlElement(name = "nProt") @NotNull @NFeDeliveryDFeEventProtocolNumber final String eventProtocolNumber;
-
-    public NFeEventSummary() {
-        this.ibgeOrgan = null;
-        this.cnpj = null;
-        this.accessKey = null;
-        this.eventDateTime = null;
-        this.eventType = null;
-        this.eventSequence = null;
-        this.eventDescription = null;
-        this.authorizationDateTime = null;
-        this.eventProtocolNumber = null;
-    }
-
-    protected NFeEventSummary(Builder builder) {
-        this.ibgeOrgan = builder.ibgeOrgan;
-        this.cnpj = builder.cnpj;
-        this.accessKey = builder.accessKey;
-        this.eventDateTime = this.dateTimeConverter.serialize(builder.eventDateTime);
-        this.eventType = builder.eventType;
-        this.eventSequence = builder.eventSequence;
-        this.eventDescription = builder.eventDescription;
-        this.authorizationDateTime = this.dateTimeConverter.serialize(builder.authorizationDateTime);
-        this.eventProtocolNumber = this.protocolNumberConverter.serialize(builder.eventProtocolNumber);
-    }
 
     public static class Builder {
 
@@ -184,6 +164,30 @@ public class NFeEventSummary implements Serializable {
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
+    }
+
+    public NFeEventSummary() {
+        this.ibgeOrgan = null;
+        this.cnpj = null;
+        this.accessKey = null;
+        this.eventDateTime = null;
+        this.eventType = null;
+        this.eventSequence = null;
+        this.eventDescription = null;
+        this.authorizationDateTime = null;
+        this.eventProtocolNumber = null;
+    }
+
+    private NFeEventSummary(Builder builder) {
+        this.ibgeOrgan = builder.ibgeOrgan;
+        this.cnpj = builder.cnpj;
+        this.accessKey = builder.accessKey;
+        this.eventDateTime = this.dateTimeConverter.serialize(builder.eventDateTime);
+        this.eventType = builder.eventType;
+        this.eventSequence = builder.eventSequence;
+        this.eventDescription = builder.eventDescription;
+        this.authorizationDateTime = this.dateTimeConverter.serialize(builder.authorizationDateTime);
+        this.eventProtocolNumber = this.protocolNumberConverter.serialize(builder.eventProtocolNumber);
     }
 
     public FiscalDocumentVersion getVersion() {
