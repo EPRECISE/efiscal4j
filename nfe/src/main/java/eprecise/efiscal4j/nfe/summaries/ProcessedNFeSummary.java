@@ -28,7 +28,7 @@ import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeStateRegistration;
 import eprecise.efiscal4j.nfe.types.NFeString;
 
 
-@XmlRootElement(name = "nfeProc")
+@XmlRootElement(name = "resNFe")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcessedNFeSummary implements Serializable {
 

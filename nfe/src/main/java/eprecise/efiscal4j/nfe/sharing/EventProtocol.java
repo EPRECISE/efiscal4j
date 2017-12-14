@@ -21,7 +21,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = "nfeProc")
+@XmlRootElement(name = "procEventoNFe")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventProtocol implements Serializable {
 

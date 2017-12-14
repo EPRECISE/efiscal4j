@@ -30,7 +30,7 @@ import eprecise.efiscal4j.nfe.types.NFeString;
  * Schema da estrutura XML gerada pelo Ambiente Nacional com o conjunto de informações resumidas de um evento de NF-e
  */
 
-@XmlRootElement(name = "nfeProc")
+@XmlRootElement(name = "resEvento")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeEventSummary implements Serializable {
 
