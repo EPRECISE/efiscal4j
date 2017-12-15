@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.deliveryDFe.response;
+package eprecise.efiscal4j.nfe.deliveryDFe;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

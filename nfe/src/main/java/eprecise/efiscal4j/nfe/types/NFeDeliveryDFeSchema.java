@@ -14,7 +14,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
-import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeSchemas;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeSchemas;
 
 
 @Target({ FIELD, ANNOTATION_TYPE })

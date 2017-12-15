@@ -18,7 +18,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
-import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;

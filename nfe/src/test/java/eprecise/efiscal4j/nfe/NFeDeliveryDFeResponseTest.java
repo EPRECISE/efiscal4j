@@ -3,7 +3,7 @@ package eprecise.efiscal4j.nfe;
 
 import org.junit.Test;
 
-import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.domain.NFeDeliveryDFeDomain;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
 

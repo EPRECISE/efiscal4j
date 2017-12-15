@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.deliveryDFe.response;
+package eprecise.efiscal4j.nfe.deliveryDFe;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -18,7 +18,6 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.TransmissionEnvironment;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeDocumentLots;
 import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeNSU;

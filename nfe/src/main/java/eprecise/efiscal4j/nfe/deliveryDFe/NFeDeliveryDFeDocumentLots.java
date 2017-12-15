@@ -8,8 +8,6 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.nfe.deliveryDFe.response.NFeDeliveryDfeDocument;
-
 
 public class NFeDeliveryDFeDocumentLots implements Serializable {
 
