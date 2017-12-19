@@ -67,8 +67,6 @@ public class ObjectFactory {
 
     public static final String RET_DIST_DFE_INT = "retDistDFeInt";
 
-    public static final String CONS_NFE_DEST = "consNFeDest";
-
     @XmlElementDecl(name = ObjectFactory.ENVI_NFE)
     public JAXBElement<NFeDispatch> createNFeDispatch(final NFeDispatch transmissible) {
         return new JAXBElement<>(new QName(ObjectFactory.ENVI_NFE), NFeDispatch.class, transmissible);

@@ -39,6 +39,8 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
     public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/xsd/event/cce/envCCe_v1.00.xsd";
 
+    public static final String XSD_RECIP_MANIF = "/eprecise/efiscal4j/nfe/xsd/recipientManifestDfe/envConfRecebto_v1.00.xsd";
+
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;
@@ -89,25 +91,25 @@ public class EventDispatch implements TransmissibleBodyImpl {
     }
 
     public EventDispatch() {
-        batchId = null;
-        events = null;
+        this.batchId = null;
+        this.events = null;
     }
 
     public EventDispatch(final Builder builder) {
-        batchId = builder.batchId;
-        events = builder.events;
+        this.batchId = builder.batchId;
+        this.events = builder.events;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return version;
+        return this.version;
     }
 
     public String getBatchId() {
-        return batchId;
+        return this.batchId;
     }
 
     public ArrayList<Event> getEvents() {
-        return events;
+        return this.events;
     }
 
     @Override
@@ -117,6 +119,6 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
     @Override
     public QName getQName() {
-        return qName;
+        return this.qName;
     }
 }

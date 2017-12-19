@@ -46,8 +46,17 @@ public class EventDetailAdapter extends XmlAdapter<EventDetailAdapter.AdaptedEve
                     null,
                     eventDetCce.getCorrection(),
                     eventDetCce.getTermsOfUse());
-        }else{
-            throw new UnsupportedOperationException();        
+        }else if(eventDetail instanceof EventDetailRecipientManifestation){
+            final EventDetailRecipientManifestation eventDetCanc = (EventDetailRecipientManifestation) eventDetail;
+            return new AdaptedEventDetail(
+                    eventDetCanc.getVersion(), 
+                    eventDetCanc.getEventDescription(), 
+                    null,
+                    eventDetCanc.getJustification(),
+                    null,
+                    null);
+        }else {
+            throw new UnsupportedOperationException();
         }
         //@formatter:on        
     }
@@ -60,17 +69,20 @@ public class EventDetailAdapter extends XmlAdapter<EventDetailAdapter.AdaptedEve
 
         //@formatter:off
         if (adaptedEventDetail.getProtocolNumber()!= null) {
-            return new EventDetailCancellation.Builder()                    
-                    .withProtocolNumber(adaptedEventDetail.getProtocolNumber())
-                    .withJustification(adaptedEventDetail.getJustification())
-                    .build();            
+            return new EventDetailCancellation.Builder().withProtocolNumber(adaptedEventDetail.getProtocolNumber())
+                    .withJustification(adaptedEventDetail.getJustification()).build();            
         } else if(adaptedEventDetail.getCorrection() != null) {
-            return new EventDetailCCe.Builder()                    
-                    .withCorrection(adaptedEventDetail.getCorrection())
-                    .build();
-        }else{
-            throw new UnsupportedOperationException();        
+            return new EventDetailCCe.Builder().withCorrection(adaptedEventDetail.getCorrection()).build();
+        }else if(adaptedEventDetail.getEventDescription() != null){
+            final EventType et = EventType.findByFullDescriptionWithNoAccents(adaptedEventDetail.getEventDescription());
+            
+            if(et != null) {
+                return new EventDetailRecipientManifestation.Builder().withEventType(et).withJustification(adaptedEventDetail.justification)
+                        .build();
+            }
         }
+        
+        throw new UnsupportedOperationException();        
         //@formatter:on        
     }
 

@@ -67,19 +67,19 @@ public class Event extends DefaultAssignable implements Serializable {
     }
 
     public Event() {
-        eventInfo = null;
+        this.eventInfo = null;
     }
 
     public Event(final Builder builder) {
-        eventInfo = builder.eventInfo;
+        this.eventInfo = builder.eventInfo;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return version;
+        return this.version;
     }
 
     public EventInfo getEventInfo() {
-        return eventInfo;
+        return this.eventInfo;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Event extends DefaultAssignable implements Serializable {
     }
 
     public static List<Class<?>> getValidationConsideringClasses() {
-        return Arrays.asList(EventDetailCancellation.class, EventDetailCCe.class, SignatureType.class);
+        return Arrays.asList(EventDetailCancellation.class, EventDetailCCe.class, EventDetailRecipientManifestation.class, SignatureType.class);
     }
 
 }
