@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfe.deliveryDFe;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -46,7 +45,7 @@ public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl {
 
     private @XmlElement(name = "cUFAutor") final UF authorUf;
 
-    private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String cnpj; // Campo é uma xs:choice com CPF, não mapeado
+    private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @NFeCNPJ final String cnpj; // Campo é uma xs:choice com CPF, não mapeado
 
     @XmlElements(
             value = { @XmlElement(name = "distNSU", type = NFeDeliveryNSU.class), @XmlElement(name = "consNSU", type = NFeQueryNSU.class),
@@ -143,6 +142,14 @@ public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl {
 
     public String getCnpj() {
         return this.cnpj;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public NFeDeliveryDFeRequestType getDeliveryType() {
+        return this.deliveryType;
     }
 
     @Override

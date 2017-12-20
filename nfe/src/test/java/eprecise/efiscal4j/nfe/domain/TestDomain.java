@@ -1571,6 +1571,26 @@ public class TestDomain {
         return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
     }
 
+    public EventDispatch buildRecipientAwarenessEventDispatch() throws Exception {
+        this.assertCertificate();
+        return EventDomain.getInstance().buildRecipientAwarenessManifEventDispatch(this.getSigner());
+    }
+
+    public EventDispatch buildRecipientConfirmationEventDispatch() throws Exception {
+        this.assertCertificate();
+        return EventDomain.getInstance().buildRecipientConfirmationManifEventDispatch(this.getSigner());
+    }
+
+    public EventDispatch buildRecipientUnawarenessEventDispatch() throws Exception {
+        this.assertCertificate();
+        return EventDomain.getInstance().buildRecipientUnawarenessManifEventDispatch(this.getSigner());
+    }
+
+    public EventDispatch buildRecipientDenialEventDispatch() throws Exception {
+        this.assertCertificate();
+        return EventDomain.getInstance().buildRecipientDenialManifEventDispatch(this.getSigner());
+    }
+
     public NFeNumberDisableDispatch buildNFeNumberDisable() throws Exception {
         this.assertCertificate();
       //@formatter:off

@@ -3,6 +3,10 @@ package eprecise.efiscal4j.nfe.transmission;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -19,8 +23,10 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.sharing.Event;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableDispatch;
@@ -201,6 +207,44 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+        String serviceUrl = null;
+
+        final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
+
+        if (!documentModel.equals(FiscalDocumentModel.NFE)) {
+            throw new IllegalStateException(documentModel.toString() + " not supported");
+        }
+
+        final Set<EventType> supportedEventTypes = Stream.of(EventType.CIENCIA_OPERACAO, EventType.CONFIRMACAO_OPERACAO, EventType.DESCONHECIMENTO_OPERACAO, EventType.OPERACAO_NAO_REALIZADA)
+                .collect(Collectors.toSet());
+
+        final Optional<Event> eventWithUnsupportedType = eventDispatch.getEvents().stream().filter(e -> !supportedEventTypes.contains(e.getEventInfo().getEventType())).findFirst();
+
+        if (eventWithUnsupportedType.isPresent()) {
+            throw new IllegalStateException(eventWithUnsupportedType.get().getEventInfo().getEventType().toString() + " not supported");
+        }
+
+        switch (eventDispatch.getEvents().get(0).getEventInfo().getTransmissionEnvironment()) {
+        case HOMOLOGACAO:
+            serviceUrl = NFeService.EVENT_RECEPTION.getHomologUrl(uf);
+            break;
+        case PRODUCAO:
+            serviceUrl = NFeService.EVENT_RECEPTION.getProductionUrl(uf);
+            break;
+        }
+
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
+
+        final String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+
+        return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, this.postProcessResponseXML(responseXml));
+    }
+
     public TypedTransmissionResult<NFeStatusSearch, NFeStatusSearchResponseMethod> transmitNFeStatusSearch(final NFeStatusSearch nfeStatusSearch, final FiscalDocumentModel documentModel,
             final UF uf) {
         String serviceUrl = null;
@@ -315,14 +359,15 @@ public class TransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = new SOAPEnvelope.Builder()
-                .withSoapBody(new SOAPBody.Builder().withNfeBody(new NFeBody.Builder().withXmlns(xmlnsServiceName).withTransmissible(deliveryDFeRequest).build()).build()).build();
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, deliveryDFeRequest.getAuthorUf(), deliveryDFeRequest.getVersion(), deliveryDFeRequest);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(deliveryDFeRequest).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        final String serializedSoapEnvelope = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+
+        String responseXml = this.transmissor.transmit(serializedSoapEnvelope, serviceUrl);
 
         responseXml = this.postProcessResponseXML(responseXml);
 

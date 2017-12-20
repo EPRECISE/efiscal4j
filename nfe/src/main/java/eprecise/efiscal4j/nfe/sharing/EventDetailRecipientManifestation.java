@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe.sharing;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,7 +19,7 @@ public class EventDetailRecipientManifestation extends EventDetail implements Se
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "xJust") @NotNull @Size(min = 15, max = 255) @NFeString final String justification;
+    private @XmlElement(name = "xJust") @Size(min = 15, max = 255) @NFeString final String justification;
 
     public static class Builder {
 
@@ -58,7 +57,7 @@ public class EventDetailRecipientManifestation extends EventDetail implements Se
     }
 
     public EventDetailRecipientManifestation(Builder builder) {
-        super(builder.eventType.getDescription());
+        super(builder.eventType.getFullDescriptionWithNoAccents());
         this.justification = builder.justification;
 
         if (!EventType.OPERACAO_NAO_REALIZADA.equals(builder.eventType) && !StringUtils.isEmpty(builder.justification)) {

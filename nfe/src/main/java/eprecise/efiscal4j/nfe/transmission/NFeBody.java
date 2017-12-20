@@ -40,7 +40,8 @@ public class NFeBody implements Serializable {
         @XmlElementRef(name = ObjectFactory.CONS_SIT_NFE),
         @XmlElementRef(name = ObjectFactory.CONS_STAT_SERV),
         @XmlElementRef(name = ObjectFactory.ENV_EVENTO),
-        @XmlElementRef(name = ObjectFactory.INUT_NFE)
+        @XmlElementRef(name = ObjectFactory.INUT_NFE),
+        @XmlElementRef(name = ObjectFactory.DIST_DFE_INT)
     })
     @XmlJavaTypeAdapter(TransmissibleBodyImplAdapter.class)
     private final TransmissibleBodyImpl transmissible;

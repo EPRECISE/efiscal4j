@@ -13,6 +13,7 @@ import javax.validation.ConstraintViolationException;
 import org.apache.commons.lang.NotImplementedException;
 import org.junit.Assert;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
@@ -42,7 +43,7 @@ public class NFeDeliveryDFeDomain {
     private final TransmissionEnvironment TRANSMISSION_ENVIRONMENT = TransmissionEnvironment.HOMOLOGACAO;
 
     public NFeDeliveryDFeRequest buildRequest(NFeDeliveryDFeRequestType type) {
-        return new NFeDeliveryDFeRequest.Builder().withEnviroment(this.TRANSMISSION_ENVIRONMENT).withCnpj("24804397000132").withType(type).build();
+        return new NFeDeliveryDFeRequest.Builder().withAuthorUf(UF.PR).withEnviroment(this.TRANSMISSION_ENVIRONMENT).withCnpj("14241297000191").withType(type).build();
     }
 
     public NFeDeliveryDFeRequest buildQueryAccesKeyRequest() {

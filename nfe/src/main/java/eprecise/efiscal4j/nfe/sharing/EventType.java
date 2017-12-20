@@ -73,6 +73,10 @@ public enum EventType implements Serializable {
     }
 
     public static EventType findByFullDescriptionWithNoAccents(String eventDescription) {
-        return Stream.of(EventType.values()).filter(et -> et.getFullDescriptionWithNoAccents().equals(eventDescription)).findFirst().orElse(null);
+        if (StringUtils.isEmpty(eventDescription)) {
+            return null;
+        }
+
+        return Stream.of(EventType.values()).filter(et -> et.getFullDescriptionWithNoAccents().equals(StringUtils.stripAccents(eventDescription))).findFirst().orElse(null);
     }
 }
