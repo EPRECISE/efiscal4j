@@ -41,6 +41,10 @@ public class NFeQueryNSU implements NFeDeliveryDFeRequestType {
         }
     }
 
+    public NFeQueryNSU() {
+        this.nsu = null;
+    }
+
     public NFeQueryNSU(Builder builder) {
         this.nsu = builder.nsu;
     }
