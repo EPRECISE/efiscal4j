@@ -21,8 +21,7 @@ public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest
     @Test
     public void transmit() throws Exception {
         try {
-            final TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> result = this.nFeDomain.getTransmissionChannel()
-                    .transmitNFeDeliveryDFe(this.domain.buildQueryAccesKeyRequest());
+            final TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> result = this.nFeDomain.getTransmissionChannel().transmitNFeDeliveryDFe(this.domain.buildDeliveryNsuRequest());
 
             result.getResponse();
 
@@ -59,7 +58,7 @@ public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest
 
     @Override
     public NFeDeliveryDFeRequest getBuiltEntity() throws Exception {
-        return new NFeDeliveryDFeDomain().buildQueryAccesKeyRequest();
+        return new NFeDeliveryDFeDomain().buildDeliveryNsuRequest();
     }
 
 }

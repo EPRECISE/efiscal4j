@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.ImmutableMap;
+
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
@@ -36,6 +38,9 @@ import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.sharing.SynchronousProcessing;
+import eprecise.efiscal4j.nfe.transmission.deliveryDfe.NFeDeliveryDFeBodyWrapper;
+import eprecise.efiscal4j.nfe.transmission.deliveryDfe.NFeDeliveryDFeSoapBody;
+import eprecise.efiscal4j.nfe.transmission.deliveryDfe.NFeDeliveryDFeSoapEnvelope;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
@@ -359,7 +364,7 @@ public class TransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, deliveryDFeRequest.getAuthorUf(), deliveryDFeRequest.getVersion(), deliveryDFeRequest);
+        final NFeDeliveryDFeSoapEnvelope soapEnvelope = this.buildDeliveryDFeSOAPEnvelope(xmlnsServiceName, deliveryDFeRequest.getAuthorUf(), deliveryDFeRequest.getVersion(), deliveryDFeRequest);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
@@ -367,16 +372,44 @@ public class TransmissionChannel {
 
         final String serializedSoapEnvelope = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        String responseXml = this.transmissor.transmit(serializedSoapEnvelope, serviceUrl);
+        String responseXml = this.transmissor.transmit(serializedSoapEnvelope, serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe/nfeDistDFeInteresse"));
 
-        responseXml = this.postProcessResponseXML(responseXml);
+        responseXml = this.postProcessNFeDeliveryDFeResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFeDeliveryDFeRequest.class, NFeDeliveryDFeResponse.class, requestXml, responseXml);
+    }
+
+    private String postProcessNFeDeliveryDFeResponseXML(String responseXml) {
+        final String firstTag = "<nfeDistDFeInteresseResult>";
+
+        final int startIndex = responseXml.indexOf(firstTag) + firstTag.length();
+
+        return responseXml.substring(startIndex, responseXml.lastIndexOf("</nfeDistDFeInteresseResult"));
     }
 
     private String postProcessResponseXML(String responseXml) {
         return responseXml.substring(responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
                 responseXml.lastIndexOf("</env:Body"));
+    }
+
+    private NFeDeliveryDFeSoapEnvelope buildDeliveryDFeSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
+
+        final NFeDeliveryDFeSoapBody body = new NFeDeliveryDFeSoapBody.Builder()
+                .withNfeBodyWrapper(new NFeDeliveryDFeBodyWrapper.Builder().withNfeBody(new NFeBody.Builder().withXmlns(xmlns).withTransmissible(transmissible).build()).build()).build();
+
+        //@formatter:off
+        return new NFeDeliveryDFeSoapEnvelope.Builder()
+                  .withSoapHeader(new SOAPHeader.Builder()
+                                     .withNfeHeader(new NFeHeader.Builder()
+                                                       .withXmlns(xmlns)
+                                                       .withUf(uf)
+                                                       .withDataVersion(version)
+                                                       .build())
+                                     .build())
+                  .withSoapBody(body)
+                  .build();
+        //@formatter:on
     }
 
     private SOAPEnvelope buildSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {

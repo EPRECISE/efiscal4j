@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponse;
 import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearchResponseMethod;
@@ -145,6 +146,11 @@ public class ObjectFactory {
     @XmlElementDecl(name = ObjectFactory.INUT_NFE)
     public JAXBElement<NFeNumberDisableDispatch> createNFeNumberDisable(final NFeNumberDisableDispatch transmissible) {
         return new JAXBElement<>(new QName(ObjectFactory.INUT_NFE), NFeNumberDisableDispatch.class, transmissible);
+    }
+
+    @XmlElementDecl(name = ObjectFactory.DIST_DFE_INT)
+    public JAXBElement<NFeDeliveryDFeRequest> createNFeDeliveryDFeREquest(final NFeDeliveryDFeRequest transmissible) {
+        return new JAXBElement<>(new QName(ObjectFactory.DIST_DFE_INT), NFeDeliveryDFeRequest.class, transmissible);
     }
 
 }

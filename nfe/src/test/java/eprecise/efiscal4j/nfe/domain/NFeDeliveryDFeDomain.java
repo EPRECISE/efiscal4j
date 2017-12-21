@@ -55,7 +55,7 @@ public class NFeDeliveryDFeDomain {
     }
 
     public NFeDeliveryDFeRequest buildDeliveryNsuRequest() {
-        return this.buildRequest(new NFeDeliveryNSU.Builder().withLastNsu(TestDomain.randomFixedSizeNumber(15)).build());
+        return this.buildRequest(new NFeDeliveryNSU.Builder().withLastNsu("000000000000000").build());
     }
 
     public NFeDeliveryDFeResponse buildResponse() throws Exception {
