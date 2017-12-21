@@ -381,9 +381,7 @@ public class TransmissionChannel {
     }
 
     private String postProcessNFeDeliveryDFeResponseXML(String responseXml) {
-        final String firstTag = "<nfeDistDFeInteresseResult>";
-
-        final int startIndex = responseXml.indexOf(firstTag) + firstTag.length();
+        final int startIndex = responseXml.indexOf("<nfeDistDFeInteresseResult>") + "<nfeDistDFeInteresseResult>".length();
 
         return responseXml.substring(startIndex, responseXml.lastIndexOf("</nfeDistDFeInteresseResult"));
     }
@@ -394,11 +392,13 @@ public class TransmissionChannel {
     }
 
     private NFeDeliveryDFeSoapEnvelope buildDeliveryDFeSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
-
-        final NFeDeliveryDFeSoapBody body = new NFeDeliveryDFeSoapBody.Builder()
-                .withNfeBodyWrapper(new NFeDeliveryDFeBodyWrapper.Builder().withNfeBody(new NFeBody.Builder().withXmlns(xmlns).withTransmissible(transmissible).build()).build()).build();
-
         //@formatter:off
+        final NFeDeliveryDFeSoapBody body = new NFeDeliveryDFeSoapBody.Builder()
+                .withNfeBodyWrapper(new NFeDeliveryDFeBodyWrapper.Builder()
+                        .withNfeBody(new NFeBody.Builder().withXmlns(xmlns)
+                                .withTransmissible(transmissible).build()).build()).build();
+
+        
         return new NFeDeliveryDFeSoapEnvelope.Builder()
                   .withSoapHeader(new SOAPHeader.Builder()
                                      .withNfeHeader(new NFeHeader.Builder()

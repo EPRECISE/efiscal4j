@@ -101,7 +101,7 @@ class EventDomain {
 
     public EventDispatch buildRecipientDenialManifEventDispatch(DefaultSigner signer) throws Exception {
         return this.buildRecipientManifestationEventDispatch(signer, EventType.OPERACAO_NAO_REALIZADA,
-                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I deny...").build());
+                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I deny.................................").build());
     }
 
     private EventDispatch buildRecipientManifestationEventDispatch(DefaultSigner signer, EventType eventType, EventDetail detail) throws Exception {

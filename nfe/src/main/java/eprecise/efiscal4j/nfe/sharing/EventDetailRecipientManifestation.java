@@ -33,7 +33,7 @@ public class EventDetailRecipientManifestation extends EventDetail implements Se
         }
 
         /**
-         * Justificativa do evento
+         * Justificativa do evento (Min 15/Max 255)
          * 
          * @param justification
          * @return
