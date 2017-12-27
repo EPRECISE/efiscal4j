@@ -21,7 +21,6 @@ import eprecise.efiscal4j.nfe.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeNSU;
-import eprecise.efiscal4j.nfe.types.NFeStatus;
 
 
 /**
@@ -42,8 +41,6 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
 
     private @XmlTransient final NFeDeliveryDFeNSU.Converter nsuConverter = new NFeDeliveryDFeNSU.Converter();
 
-    private @XmlTransient final NFeStatus.Converter statusConverter = new NFeStatus.Converter();
-
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlAttribute(name = "versao") final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_01;
@@ -52,7 +49,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
 
     private @XmlElement(name = "verAplic") @NotNull final String appVersion;
 
-    private @XmlElement(name = "cStat") @NotNull final String status;
+    private @XmlElement(name = "cStat") @NotNull final NFeDeliveryDFeResponseStatus status;
 
     private @XmlElement(name = "xMotivo") @NotNull final String statusDescription;
 
@@ -72,7 +69,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
 
         private String appVersion;
 
-        private int status;
+        private NFeDeliveryDFeResponseStatus status;
 
         private String statusDescription;
 
@@ -103,7 +100,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         /**
          * Código do status de processamento da requisição
          */
-        public Builder withStatusCode(int stat) {
+        public Builder withStatusCode(NFeDeliveryDFeResponseStatus stat) {
             this.status = stat;
             return this;
         }
@@ -167,7 +164,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
     private NFeDeliveryDFeResponse(Builder builder) {
         this.enviroment = builder.enviroment;
         this.appVersion = builder.appVersion;
-        this.status = this.statusConverter.serialize(builder.status);
+        this.status = builder.status;
         this.statusDescription = builder.statusDescription;
         this.responseDateTime = this.dateTimeConverter.serialize(builder.response);
         this.lastNsu = this.nsuConverter.serialize(builder.lastNsu);
@@ -192,8 +189,8 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
     /**
      * Código do status de processamento da requisição
      */
-    public int getStatus() {
-        return this.statusConverter.parse(this.status);
+    public NFeDeliveryDFeResponseStatus getStatus() {
+        return this.status;
     }
 
     /**

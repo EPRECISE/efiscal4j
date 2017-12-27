@@ -23,6 +23,7 @@ import eprecise.efiscal4j.nfe.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequestType;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponseStatus;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeSchemas;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeDocument;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeNFeStatus;
@@ -63,7 +64,7 @@ public class NFeDeliveryDFeDomain {
         return new NFeDeliveryDFeResponse.Builder()
                 .withEnviroment(this.TRANSMISSION_ENVIRONMENT)
                 .withAppVersion("1")
-                .withStatusCode(1)
+                .withStatusCode(NFeDeliveryDFeResponseStatus.LOT_PROCESSED)
                 .withStatusDescription("Cod 1")
                 .withResponse(ZonedDateTime.now())
                 .withLastNsu(1)
