@@ -26,7 +26,6 @@ import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponseStatus;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeSchemas;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeDocument;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeNFeStatus;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryNSU;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryNSU;
@@ -35,6 +34,7 @@ import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
+import eprecise.efiscal4j.nfe.summaries.ProcessedNFeStatus;
 import eprecise.efiscal4j.nfe.summaries.NFeEventSummary;
 import eprecise.efiscal4j.nfe.summaries.ProcessedNFeSummary;
 
@@ -91,7 +91,7 @@ public class NFeDeliveryDFeDomain {
                 .withEventProtocolNumber(1000)
                 .withFiscalDocumentType(FiscalDocumentType.SAIDA)
                 .withName("Meu nome")
-                .withNfeStatus(NFeDeliveryDfeNFeStatus.AUTHORIZED)
+                .withNfeStatus(ProcessedNFeStatus.AUTHORIZED)
                 .withNfeTotalValue("10.20")
                 .withStateRegistration("ISENTO")
                 .build();

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.deliveryDFe;
+package eprecise.efiscal4j.nfe.summaries;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlEnum(String.class)
-public enum NFeDeliveryDfeNFeStatus implements Serializable {
+public enum ProcessedNFeStatus implements Serializable {
                                                              @XmlEnumValue("1")
                                                              AUTHORIZED(1, "Uso autorizado"),
                                                              @XmlEnumValue("2")
@@ -22,7 +22,7 @@ public enum NFeDeliveryDfeNFeStatus implements Serializable {
 
     private final String description;
 
-    NFeDeliveryDfeNFeStatus(int value, String description) {
+    ProcessedNFeStatus(int value, String description) {
         this.value = value;
         this.description = description;
     }

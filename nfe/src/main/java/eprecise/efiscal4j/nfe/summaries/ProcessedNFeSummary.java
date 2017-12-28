@@ -17,7 +17,6 @@ import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeNFeStatus;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.types.Base64;
 import eprecise.efiscal4j.nfe.types.NFeCNPJ;
@@ -64,7 +63,7 @@ public class ProcessedNFeSummary implements Serializable {
 
     private @XmlElement(name = "nProt") @NotNull @NFeDeliveryDFeEventProtocolNumber final String eventProtocolNumber;
 
-    private @XmlElement(name = "cSitNFe") @NotNull final NFeDeliveryDfeNFeStatus nfeStatus;
+    private @XmlElement(name = "cSitNFe") @NotNull final ProcessedNFeStatus nfeStatus;
 
     public static class Builder {
 
@@ -88,7 +87,7 @@ public class ProcessedNFeSummary implements Serializable {
 
         private long eventProtocolNumber;
 
-        private NFeDeliveryDfeNFeStatus nfeStatus;
+        private ProcessedNFeStatus nfeStatus;
 
         /**
          * Chave de acesso da NF-e
@@ -173,7 +172,7 @@ public class ProcessedNFeSummary implements Serializable {
         /**
          * Situação da NF-e: 1=Uso autorizado; 2=Uso denegado; 3=NF-e Cancelada;
          */
-        public Builder withNfeStatus(NFeDeliveryDfeNFeStatus nfeStatus) {
+        public Builder withNfeStatus(ProcessedNFeStatus nfeStatus) {
             this.nfeStatus = nfeStatus;
             return this;
         }
@@ -253,7 +252,7 @@ public class ProcessedNFeSummary implements Serializable {
         return this.protocolNumberConverter.parse(this.eventProtocolNumber);
     }
 
-    public NFeDeliveryDfeNFeStatus getNfeStatus() {
+    public ProcessedNFeStatus getNfeStatus() {
         return this.nfeStatus;
     }
 
