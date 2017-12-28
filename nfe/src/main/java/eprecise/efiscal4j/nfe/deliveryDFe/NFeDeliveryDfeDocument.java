@@ -93,8 +93,8 @@ public class NFeDeliveryDfeDocument implements Serializable {
         return this.nsuConverter.parse(this.nsu);
     }
 
-    public String getSchema() {
-        return this.schema;
+    public NFeDeliveryDFeSchemas getSchema() {
+        return NFeDeliveryDFeSchemas.getFromSchema(this.schema).orElse(null);
     }
 
 }

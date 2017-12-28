@@ -14,7 +14,7 @@ public enum NFeDeliveryDfeNFeStatus implements Serializable {
                                                              @XmlEnumValue("1")
                                                              AUTHORIZED(1, "Uso autorizado"),
                                                              @XmlEnumValue("2")
-                                                             DENIED(2, "Uso denegado"),
+                                                             DENIED(2, "Uso negado"),
                                                              @XmlEnumValue("3")
                                                              CANCELLED(3, "NF-e Cancelada");
 
