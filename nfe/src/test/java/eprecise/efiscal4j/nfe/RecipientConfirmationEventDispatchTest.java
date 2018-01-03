@@ -26,7 +26,7 @@ public class RecipientConfirmationEventDispatchTest implements Testable<EventDis
     }
 
     @Test
-    public void validateRecipientAwarenessEventDispatch() throws Exception {
+    public void validateConfirmationEventDispatch() throws Exception {
         try {
             System.out.println("Testando Evento de Manifestação do Destinatário - Confirmação");
 
@@ -50,7 +50,7 @@ public class RecipientConfirmationEventDispatchTest implements Testable<EventDis
 
     @Override
     public EventDispatch getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildRecipientConfirmationEventDispatch();
+        return this.getTestDomain().buildRecipientConfirmationEventDispatch("14241297000191", "41180104229224000120553330000001111575286021");
     }
 
 }

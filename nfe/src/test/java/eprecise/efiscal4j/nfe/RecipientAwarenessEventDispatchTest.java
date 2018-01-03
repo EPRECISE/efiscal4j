@@ -52,7 +52,7 @@ public class RecipientAwarenessEventDispatchTest implements Testable<EventDispat
 
     @Override
     public EventDispatch getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildRecipientAwarenessEventDispatch();
+        return this.getTestDomain().buildRecipientAwarenessEventDispatch("14241297000191", "41180104229224000120553330000001111575286021");
     }
 
 }

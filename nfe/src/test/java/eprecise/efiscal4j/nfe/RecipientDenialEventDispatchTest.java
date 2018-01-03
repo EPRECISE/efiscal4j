@@ -50,7 +50,7 @@ public class RecipientDenialEventDispatchTest implements Testable<EventDispatch>
 
     @Override
     public EventDispatch getBuiltEntity() throws Exception {
-        return this.getTestDomain().buildRecipientDenialEventDispatch();
+        return this.getTestDomain().buildRecipientDenialEventDispatch("14241297000191", "41180104229224000120553330000001111575286021");
     }
 
 }

@@ -53,7 +53,7 @@ public class NFeDeliveryDFeDomain {
 
     public NFeDeliveryDFeRequest buildQueryByNsuRequest() {
         // return this.buildRequest(new NFeQueryNSU.Builder().withNsu(TestDomain.randomFixedSizeNumber(15)).build());
-        return this.buildRequest(new NFeQueryNSU.Builder().withNsu("000000000000004").build());
+        return this.buildRequest(new NFeQueryNSU.Builder().withNsu("000000000000005").build());
     }
 
     public NFeDeliveryDFeRequest buildDeliveryNsuRequest() {

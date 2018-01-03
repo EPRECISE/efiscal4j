@@ -1571,24 +1571,24 @@ public class TestDomain {
         return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
     }
 
-    public EventDispatch buildRecipientAwarenessEventDispatch() throws Exception {
+    public EventDispatch buildRecipientAwarenessEventDispatch(String cnpj, String accessKey) throws Exception {
         this.assertCertificate();
-        return EventDomain.getInstance().buildRecipientAwarenessManifEventDispatch(this.getSigner());
+        return EventDomain.getInstance().buildRecipientAwarenessManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientConfirmationEventDispatch() throws Exception {
+    public EventDispatch buildRecipientConfirmationEventDispatch(String cnpj, String accessKey) throws Exception {
         this.assertCertificate();
-        return EventDomain.getInstance().buildRecipientConfirmationManifEventDispatch(this.getSigner());
+        return EventDomain.getInstance().buildRecipientConfirmationManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientUnawarenessEventDispatch() throws Exception {
+    public EventDispatch buildRecipientUnawarenessEventDispatch(String cnpj, String accessKey) throws Exception {
         this.assertCertificate();
-        return EventDomain.getInstance().buildRecipientUnawarenessManifEventDispatch(this.getSigner());
+        return EventDomain.getInstance().buildRecipientUnawarenessManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientDenialEventDispatch() throws Exception {
+    public EventDispatch buildRecipientDenialEventDispatch(String cnpj, String accessKey) throws Exception {
         this.assertCertificate();
-        return EventDomain.getInstance().buildRecipientDenialManifEventDispatch(this.getSigner());
+        return EventDomain.getInstance().buildRecipientDenialManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
     public NFeNumberDisableDispatch buildNFeNumberDisable() throws Exception {
