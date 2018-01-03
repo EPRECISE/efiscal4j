@@ -80,10 +80,8 @@ public class NFeDeliveryDFeDomain {
 
     private NFeDeliveryDfeDocument getProcessedNFeSummary() {
         //@formatter:off
-        final NFeQueryByAccessKey accessKey = new NFeQueryByAccessKey.Builder().withAccessKey("01234567890123456789012345678901234567891234").build();
-
         final ProcessedNFeSummary nfeSummary = new ProcessedNFeSummary.Builder()
-                .withAccessKey(accessKey)
+                .withAccessKey("01234567890123456789012345678901234567891234")
                 .withAuthorizationDateTime(LocalDateTime.of(2017, 2, 1, 1, 0)
                 .atZone(ZoneId.systemDefault()))
                 .withCnpj("92387160000153")
@@ -141,10 +139,8 @@ public class NFeDeliveryDFeDomain {
 
     private NFeDeliveryDfeDocument getNFeEventSummaryDocument() {
         //@formatter:off
-        final NFeQueryByAccessKey accessKey = new NFeQueryByAccessKey.Builder().withAccessKey("01234567890123456789012345678901234567895678").build();
-
         final NFeEventSummary nfeEventSummary = new NFeEventSummary.Builder()
-                .withAccessKey(accessKey)
+                .withAccessKey("01234567890123456789012345678901234567895678")
                 .withAuthorizationDateTime(LocalDateTime.of(2017, 2, 1, 1, 0).atZone(ZoneId.systemDefault()))
                 .withCnpj("92387160000153")
                 .withEventProtocolNumber(1001)

@@ -212,14 +212,10 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final EventDispatch eventDispatch) {
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
-
-        if (!documentModel.equals(FiscalDocumentModel.NFE)) {
-            throw new IllegalStateException(documentModel.toString() + " not supported");
-        }
 
         final Set<EventType> supportedEventTypes = Stream.of(EventType.CIENCIA_OPERACAO, EventType.CONFIRMACAO_OPERACAO, EventType.DESCONHECIMENTO_OPERACAO, EventType.OPERACAO_NAO_REALIZADA)
                 .collect(Collectors.toSet());

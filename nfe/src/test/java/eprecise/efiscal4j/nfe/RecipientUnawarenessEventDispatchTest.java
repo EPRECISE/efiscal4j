@@ -5,7 +5,6 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 
-import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
 import eprecise.efiscal4j.nfe.sharing.EventDispatch;
@@ -32,7 +31,7 @@ public class RecipientUnawarenessEventDispatchTest implements Testable<EventDisp
             System.out.println("Testando Evento de Manifestação do Destinatário - Desconhecimento");
 
             final TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmissionResult = this.getTestDomain().getTransmissionChannel()
-                    .transmitRecipientManifestationEvent(this.getBuiltEntity(), FiscalDocumentModel.NFE);
+                    .transmitRecipientManifestationEvent(this.getBuiltEntity());
 
             System.out.println("Retorno convertido:");
             System.out.println(transmissionResult.getResponseXml());

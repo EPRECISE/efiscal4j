@@ -38,7 +38,7 @@ class EventDomain {
                             .withEventInfo(new EventInfo.Builder()                                                 
                                                  .withIbgeOrgan(IBGEOrgan.PR)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
-                                                 .withAuthorCnpj("14241297000191")
+                                                 .withAuthorCnpj("04229224000120")
                                                  .withAcessKey("41150801219338000100550000000000021765232807")
                                                  .withEventDateTime("2015-08-29T09:56:43-03:00")
                                                  .withEventType(EventType.CANC_NFE)
@@ -101,19 +101,20 @@ class EventDomain {
 
     public EventDispatch buildRecipientDenialManifEventDispatch(DefaultSigner signer) throws Exception {
         return this.buildRecipientManifestationEventDispatch(signer, EventType.OPERACAO_NAO_REALIZADA,
-                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I deny.................................").build());
+                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I deny it.............").build());
     }
 
     private EventDispatch buildRecipientManifestationEventDispatch(DefaultSigner signer, EventType eventType, EventDetail detail) throws Exception {
         final ArrayList<Event> eventList = new ArrayList<>();
+        // 04229224000120
         //@formatter:off        
         eventList.add(new Event.Builder()
                             .withEventInfo(new EventInfo.Builder()                                                 
                                                  .withIbgeOrgan(IBGEOrgan.PR)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                                  .withAuthorCnpj("14241297000191")
-                                                 .withAcessKey("41150801219338000100550000000000021765232807")
-                                                 .withEventDateTime("2015-08-29T09:56:43-03:00")
+                                                 .withAcessKey("41180104229224000120553330000001111575286021")
+                                                 .withEventDateTime("2018-01-01T09:56:43-03:00")
                                                  .withEventType(eventType)
                                                  .withEventSeqNumber("1")
                                                  .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       

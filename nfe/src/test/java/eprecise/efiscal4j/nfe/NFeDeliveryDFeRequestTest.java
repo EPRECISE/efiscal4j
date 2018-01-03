@@ -31,7 +31,9 @@ public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest
 
             int i = 0;
             for (final NFeDeliveryDfeDocument doc : result.getResponse().getDocumentLots().getLot()) {
-                System.out.println(String.format("-- Doc %d - %s - %s", ++i, doc.getSchema(), ToStringBuilder.reflectionToString(doc.getContent())));
+                final Object o = doc.getContent();
+
+                System.out.println(String.format("-- Doc %d - %s - %s", ++i, doc.getSchema(), ToStringBuilder.reflectionToString(o)));
             }
 
         } catch (final ConstraintViolationException e) {

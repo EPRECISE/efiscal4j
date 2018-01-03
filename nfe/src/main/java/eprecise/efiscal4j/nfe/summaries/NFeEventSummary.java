@@ -17,8 +17,8 @@ import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.address.IBGEOrgan;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.sharing.EventType;
+import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.types.NFeCNPJ;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeDeliveryDFeEventProtocolNumber;
@@ -50,7 +50,7 @@ public class NFeEventSummary implements Serializable {
 
     private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String cnpj; // Campo é uma xs:choice com CPF, não mapeado
 
-    private @XmlElement(name = "consChNFe") @NotNull final NFeQueryByAccessKey accessKey;
+    private @XmlElement(name = "chNFe") @NotNull @NFeAccessKey final String accessKey;
 
     private @XmlElement(name = "dhEvento") @NotNull @NFeDateTimeUTC final String eventDateTime;
 
@@ -70,7 +70,7 @@ public class NFeEventSummary implements Serializable {
 
         private String cnpj;
 
-        private NFeQueryByAccessKey accessKey;
+        private String accessKey;
 
         private ZonedDateTime eventDateTime;
 
@@ -103,7 +103,7 @@ public class NFeEventSummary implements Serializable {
         /**
          * Chave de acesso da NF-e
          */
-        public Builder withAccessKey(NFeQueryByAccessKey accessKey) {
+        public Builder withAccessKey(String accessKey) {
             this.accessKey = accessKey;
             return this;
         }
@@ -204,7 +204,7 @@ public class NFeEventSummary implements Serializable {
         return this.cnpj;
     }
 
-    public NFeQueryByAccessKey getAccessKey() {
+    public String getAccessKey() {
         return this.accessKey;
     }
 

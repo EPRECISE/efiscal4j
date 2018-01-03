@@ -17,8 +17,8 @@ import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeQueryByAccessKey;
 import eprecise.efiscal4j.nfe.types.Base64;
+import eprecise.efiscal4j.nfe.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.types.NFeCNPJ;
 import eprecise.efiscal4j.nfe.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.types.NFeDecimal1302;
@@ -43,7 +43,7 @@ public class ProcessedNFeSummary implements Serializable {
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
-    private @XmlElement(name = "chNFe") @NotNull final NFeQueryByAccessKey accessKey;
+    private @XmlElement(name = "chNFe") @NotNull @NFeAccessKey final String accessKey;
 
     private @XmlElement(name = "CNPJ") @NotNull @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String cnpj; // Campo é uma xs:choice com CPF, não mapeado
 
@@ -67,7 +67,7 @@ public class ProcessedNFeSummary implements Serializable {
 
     public static class Builder {
 
-        private NFeQueryByAccessKey accessKey;
+        private String accessKey;
 
         private String cnpj;
 
@@ -92,7 +92,7 @@ public class ProcessedNFeSummary implements Serializable {
         /**
          * Chave de acesso da NF-e
          */
-        public Builder withAccessKey(NFeQueryByAccessKey accessKey) {
+        public Builder withAccessKey(String accessKey) {
             this.accessKey = accessKey;
             return this;
         }
@@ -220,7 +220,7 @@ public class ProcessedNFeSummary implements Serializable {
         return this.xmlns;
     }
 
-    public NFeQueryByAccessKey getAccessKey() {
+    public String getAccessKey() {
         return this.accessKey;
     }
 
