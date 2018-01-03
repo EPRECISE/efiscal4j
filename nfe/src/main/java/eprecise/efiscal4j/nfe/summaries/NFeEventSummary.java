@@ -192,6 +192,10 @@ public class NFeEventSummary implements Serializable {
         return this.version;
     }
 
+    public String getXmlns() {
+        return this.xmlns;
+    }
+
     public IBGEOrgan getIbgeOrgan() {
         return this.ibgeOrgan;
     }

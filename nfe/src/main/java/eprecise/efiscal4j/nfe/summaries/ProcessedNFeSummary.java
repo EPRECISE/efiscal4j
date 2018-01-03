@@ -39,9 +39,9 @@ public class ProcessedNFeSummary implements Serializable {
 
     private @XmlTransient final NFeDeliveryDFeEventProtocolNumber.Converter protocolNumberConverter = new NFeDeliveryDFeEventProtocolNumber.Converter();
 
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
-
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_01;
+
+    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "chNFe") @NotNull final NFeQueryByAccessKey accessKey;
 
@@ -210,6 +210,14 @@ public class ProcessedNFeSummary implements Serializable {
         this.authorizationDateTime = this.dateTimeConverter.serialize(builder.authorizationDateTime);
         this.eventProtocolNumber = this.protocolNumberConverter.serialize(builder.eventProtocolNumber);
         this.nfeStatus = builder.nfeStatus;
+    }
+
+    public FiscalDocumentVersion getVersion() {
+        return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
     }
 
     public NFeQueryByAccessKey getAccessKey() {

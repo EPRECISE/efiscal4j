@@ -34,8 +34,8 @@ import eprecise.efiscal4j.nfe.sharing.EventType;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessingStatusProtocolInfo;
-import eprecise.efiscal4j.nfe.summaries.ProcessedNFeStatus;
 import eprecise.efiscal4j.nfe.summaries.NFeEventSummary;
+import eprecise.efiscal4j.nfe.summaries.ProcessedNFeStatus;
 import eprecise.efiscal4j.nfe.summaries.ProcessedNFeSummary;
 
 
@@ -52,7 +52,8 @@ public class NFeDeliveryDFeDomain {
     }
 
     public NFeDeliveryDFeRequest buildQueryByNsuRequest() {
-        return this.buildRequest(new NFeQueryNSU.Builder().withNsu(TestDomain.randomFixedSizeNumber(15)).build());
+        // return this.buildRequest(new NFeQueryNSU.Builder().withNsu(TestDomain.randomFixedSizeNumber(15)).build());
+        return this.buildRequest(new NFeQueryNSU.Builder().withNsu("000000000000004").build());
     }
 
     public NFeDeliveryDFeRequest buildDeliveryNsuRequest() {

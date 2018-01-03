@@ -1,16 +1,13 @@
 
 package eprecise.efiscal4j.nfe.deliveryDFe;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
 import org.apache.commons.lang3.StringUtils;
 
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.sharing.EventProtocol;
 import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
 import eprecise.efiscal4j.nfe.summaries.NFeEventSummary;
@@ -18,10 +15,10 @@ import eprecise.efiscal4j.nfe.summaries.ProcessedNFeSummary;
 
 
 public enum NFeDeliveryDFeSchemas {
-                                  RES_NFE("resNFe_v1.00.xsd", ProcessedNFeSummary.class),
-                                  PROC_NFE("procNFe_v3.10.xsd", ProcessedNFe.class),
-                                  RES_EVENT("resEvento_1.00.xsd", NFeEventSummary.class),
-                                  PROC_EVENTO_NFE("procEventoNFe_v1.00.xsd", EventProtocol.class);
+                                   RES_NFE("resNFe_v1.01.xsd", ProcessedNFeSummary.class),
+                                   PROC_NFE("procNFe_v3.10.xsd", ProcessedNFe.class),
+                                   RES_EVENT("resNFe_v1.01.xsd", NFeEventSummary.class),
+                                   PROC_EVENTO_NFE("procEventoNFe_v1.00.xsd", EventProtocol.class);
 
     private final String schema;
 
@@ -41,35 +38,20 @@ public enum NFeDeliveryDFeSchemas {
     }
 
     public Object unmarshallContent(String content) {
-        if (!StringUtils.isNotEmpty(content)) {
+        if (StringUtils.isEmpty(content == null ? null : content.trim())) {
             return null;
         }
-
-        try {
-            final JAXBContext context = JAXBContext.newInstance(this.mappedClazz);
-            return context.createUnmarshaller().unmarshal(new StringReader(content));
-        } catch (final JAXBException e) {
-            throw new IllegalArgumentException();
-        }
+        return new FiscalDocumentDeserializer<>(content, this.mappedClazz).deserialize();
     }
 
     public String marshallContent(Object object) {
         if (object == null) {
             return null;
         }
-
         if (!NFeDeliveryDFeSchemas.getFromClazz(object.getClass()).isPresent()) {
             throw new IllegalClassForNFeDeliveryDfeSchema();
         }
-
-        try {
-            final StringWriter writer = new StringWriter();
-            final JAXBContext context = JAXBContext.newInstance(this.mappedClazz);
-            context.createMarshaller().marshal(object, writer);
-            return writer.getBuffer().toString();
-        } catch (final JAXBException e) {
-            throw new IllegalArgumentException();
-        }
+        return new FiscalDocumentSerializer<>(object).considering(this.mappedClazz).serialize();
     }
 
     public static Optional<NFeDeliveryDFeSchemas> getFromClazz(Class<?> clazz) {
