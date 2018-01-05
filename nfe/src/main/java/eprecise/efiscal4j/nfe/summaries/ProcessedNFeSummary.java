@@ -237,7 +237,7 @@ public class ProcessedNFeSummary implements Serializable {
     }
 
     public ZonedDateTime getEmissionDateTime() {
-        return this.dateTimeConverter.parse(this.emissionDateTime);
+        return this.emissionDateTime == null ? null : this.dateTimeConverter.parse(this.emissionDateTime);
     }
 
     public FiscalDocumentType getFiscalDocumentType() {
@@ -253,11 +253,11 @@ public class ProcessedNFeSummary implements Serializable {
     }
 
     public ZonedDateTime getAuthorizationDateTime() {
-        return this.dateTimeConverter.parse(this.authorizationDateTime);
+        return this.authorizationDateTime == null ? null : this.dateTimeConverter.parse(this.authorizationDateTime);
     }
 
     public long getEventProtocolNumber() {
-        return this.protocolNumberConverter.parse(this.eventProtocolNumber);
+        return this.eventProtocolNumber == null ? 0L : this.protocolNumberConverter.parse(this.eventProtocolNumber);
     }
 
     public ProcessedNFeStatus getNfeStatus() {

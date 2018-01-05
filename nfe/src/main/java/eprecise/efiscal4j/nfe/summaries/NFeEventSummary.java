@@ -209,7 +209,7 @@ public class NFeEventSummary implements Serializable {
     }
 
     public ZonedDateTime getEventDateTime() {
-        return this.dateTimeConverter.parse(this.eventDateTime);
+        return this.eventDateTime == null ? null : this.dateTimeConverter.parse(this.eventDateTime);
     }
 
     public EventType getEventType() {
@@ -225,11 +225,11 @@ public class NFeEventSummary implements Serializable {
     }
 
     public ZonedDateTime getAuthorizationDateTime() {
-        return this.dateTimeConverter.parse(this.authorizationDateTime);
+        return this.authorizationDateTime == null ? null : this.dateTimeConverter.parse(this.authorizationDateTime);
     }
 
     public long getEventProtocolNumber() {
-        return this.protocolNumberConverter.parse(this.eventProtocolNumber);
+        return this.eventProtocolNumber == null ? 0L : this.protocolNumberConverter.parse(this.eventProtocolNumber);
     }
 
 }

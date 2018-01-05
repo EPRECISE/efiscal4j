@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
 import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeDocument;
@@ -34,6 +35,7 @@ public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest
                 final Object o = doc.getContent();
 
                 System.out.println(String.format("-- Doc %d - %s - %s", ++i, doc.getSchema(), ToStringBuilder.reflectionToString(o)));
+                System.out.println(String.format("-- XML %d - %s - %s", ++i, doc.getSchema(), new FiscalDocumentSerializer<>(o).serialize()));
             }
 
         } catch (final ConstraintViolationException e) {

@@ -102,7 +102,7 @@ class EventDomain {
 
     public EventDispatch buildRecipientDenialManifEventDispatch(DefaultSigner signer, String cnpj, String accessKey) throws Exception {
         return this.buildRecipientManifestationEventDispatch(signer, cnpj, accessKey, EventType.OPERACAO_NAO_REALIZADA,
-                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I deny it.............").build());
+                new EventDetailRecipientManifestation.Builder().withEventType(EventType.OPERACAO_NAO_REALIZADA).withJustification("I'm testing it.............").build());
     }
 
     private EventDispatch buildRecipientManifestationEventDispatch(DefaultSigner signer, String cnpj, String accessKey, EventType eventType, EventDetail detail) throws Exception {
@@ -110,11 +110,11 @@ class EventDomain {
         //@formatter:off        
         eventList.add(new Event.Builder()
                             .withEventInfo(new EventInfo.Builder()                                                 
-                                                 .withIbgeOrgan(IBGEOrgan.PR)
+                                                 .withIbgeOrgan(IBGEOrgan.AMB_NAC_91)
                                                  .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                                  .withAuthorCnpj(cnpj)
                                                  .withAcessKey(accessKey)
-                                                 .withEventDateTime("2018-01-01T09:56:43-03:00")
+                                                 .withEventDateTime("2018-01-04T09:56:43-03:00")
                                                  .withEventType(eventType)
                                                  .withEventSeqNumber("1")
                                                  .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())                                                       
