@@ -86,7 +86,15 @@ public class NFeDeliveryDfeDocument implements Serializable {
     }
 
     public Object getContent() {
-        return NFeDeliveryDFeSchemas.getFromSchema(this.schema).map(s -> s.unmarshallContent(this.contentConverter.parse(this.content))).orElse(null);
+        final String rawContent = this.getRawContent();
+        if (rawContent == null) {
+            return null;
+        }
+        return NFeDeliveryDFeSchemas.getFromSchema(this.schema).map(s -> s.unmarshallContent(rawContent)).orElse(null);
+    }
+
+    public String getRawContent() {
+        return this.content == null ? null : this.contentConverter.parse(this.content);
     }
 
     public long getNsu() {
