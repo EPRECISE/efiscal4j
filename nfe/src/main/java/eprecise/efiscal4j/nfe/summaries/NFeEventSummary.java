@@ -212,6 +212,10 @@ public class NFeEventSummary implements Serializable {
         return this.eventDateTime == null ? null : this.dateTimeConverter.parse(this.eventDateTime);
     }
 
+    public boolean isOwnerManifestation() {
+        return EventType.CANC_NFE.equals(this.eventType) || EventType.CCE.equals(this.eventType);
+    }
+
     public EventType getEventType() {
         return this.eventType;
     }

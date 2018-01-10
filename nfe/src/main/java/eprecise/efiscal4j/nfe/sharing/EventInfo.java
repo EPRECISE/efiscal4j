@@ -270,6 +270,10 @@ public class EventInfo implements Serializable {
         return this.eventDateTime;
     }
 
+    public boolean isOwnerManifestation() {
+        return EventType.CANC_NFE.equals(this.getEventType()) || EventType.CCE.equals(this.getEventType());
+    }
+
     public EventType getEventType() {
         return this.eventType;
     }

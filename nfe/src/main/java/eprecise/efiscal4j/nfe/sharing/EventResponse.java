@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -20,6 +21,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  * @author Felipe Bueno
  * 
  */
+@XmlRootElement(name = "retEvento")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventResponse implements Serializable {
 
