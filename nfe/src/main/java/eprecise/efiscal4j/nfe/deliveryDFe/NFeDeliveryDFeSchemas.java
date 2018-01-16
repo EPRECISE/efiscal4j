@@ -41,7 +41,7 @@ public enum NFeDeliveryDFeSchemas {
         if (StringUtils.isEmpty(content == null ? null : content.trim())) {
             return null;
         }
-        return new FiscalDocumentDeserializer<>(content, this.mappedClazz).deserialize();
+        return new FiscalDocumentDeserializer<>(content, this.mappedClazz).notStoppingOnError().deserialize();
     }
 
     public String marshallContent(Object object) {
