@@ -6,7 +6,7 @@
     <parent>
         <groupId>eprecise.efiscal4j</groupId>
         <artifactId>efiscal4j</artifactId>
-        <version>1.0.91</version>
+        <version>1.0.92</version>
     </parent>
 
     <artifactId>mdfe</artifactId>
