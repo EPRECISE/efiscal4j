@@ -124,9 +124,13 @@ public class Transmissor {
             httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             httpConnection.connect();
 
+            logger.info("Request: " + requestSoapEnvelope);
+            
             sendRequest(httpConnection, requestSoapEnvelope);
 
             final String responseXml = getResponse(httpConnection);
+            
+            logger.info("Response: "+responseXml);
 
             return responseXml;
         } catch (final Exception ex) {
