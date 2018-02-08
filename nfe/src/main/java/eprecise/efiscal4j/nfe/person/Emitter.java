@@ -76,6 +76,7 @@ public class Emitter implements Serializable {
 
         public Builder withStateRegistration(final String stateRegistration) {
             this.stateRegistration = stateRegistration;
+            Optional.ofNullable(this.documents).ifPresent(d->d.setStateRegistration(stateRegistration));
             return this;
         }
 
