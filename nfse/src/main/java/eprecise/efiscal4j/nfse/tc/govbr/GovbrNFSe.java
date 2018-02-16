@@ -1,7 +1,9 @@
 
 package eprecise.efiscal4j.nfse.tc.govbr;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,9 +39,11 @@ import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 public class GovbrNFSe extends ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
+    
+    public static final DateFormat EMISSION_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private final @XmlElement(name = "InfNfse") @NotNull GovbrNFSeInfo info;
-
+    
     public static class Builder {
 
         private GovbrNFSeInfo info;
@@ -93,7 +97,11 @@ public class GovbrNFSe extends ProcessedNFSe {
             try {
                 return GovbrNFSeDomainAdapter.NFSE_DATETIME_FORMAT.parse(t);
             } catch (final ParseException e) {
-                throw new RuntimeException(e);
+                try {
+                    return EMISSION_DATETIME_FORMAT.parse(t);
+                } catch (ParseException e1) {
+                    throw new RuntimeException(e1);
+                }
             }
         }).orElse(null);
     }
