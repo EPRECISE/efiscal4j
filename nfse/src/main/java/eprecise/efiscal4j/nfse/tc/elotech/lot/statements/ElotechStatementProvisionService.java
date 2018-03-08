@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceProvider.ElotechServiceProviderIdentifier;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.rps.ElotechRps;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechService;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
@@ -64,7 +65,7 @@ public class ElotechStatementProvisionService {
 
         private final @XmlElement(name = "Servico") @NotNull ElotechService service;
 
-        private final @XmlElement(name = "DadosPrestador") @NotNull ElotechServiceProvider serviceProvider;
+        private final @XmlElement(name = "Prestador") @NotNull ElotechServiceProviderIdentifier serviceProviderIdentifier;
 
         private final @XmlElement(name = "Tomador") ElotechServiceTaker serviceTaker;
 
@@ -84,7 +85,7 @@ public class ElotechStatementProvisionService {
 
             private ElotechService service;
 
-            private ElotechServiceProvider serviceProvider;
+            private ElotechServiceProviderIdentifier serviceProviderIdentifier;
 
             private ElotechServiceTaker serviceTaker;
 
@@ -124,11 +125,11 @@ public class ElotechStatementProvisionService {
             }
 
             /**
-             * @param serviceProvider
+             * @param serviceProviderIdentifier
              * @return
              */
-            public Builder withServiceProvider(final ElotechServiceProvider serviceProvider) {
-                this.serviceProvider = serviceProvider;
+            public Builder withServiceProviderIdentifier(final ElotechServiceProviderIdentifier serviceProviderIdentifier) {
+                this.serviceProviderIdentifier = serviceProviderIdentifier;
                 return this;
             }
 
@@ -188,7 +189,7 @@ public class ElotechStatementProvisionService {
             rps = null;
             competence = null;
             service = null;
-            serviceProvider = null;
+            serviceProviderIdentifier = null;
             serviceTaker = null;
             serviceIntermediary = null;
             construction = null;
@@ -200,7 +201,7 @@ public class ElotechStatementProvisionService {
             rps = builder.rps;
             competence = builder.competence;
             service = builder.service;
-            serviceProvider = builder.serviceProvider;
+            serviceProviderIdentifier = builder.serviceProviderIdentifier;
             serviceTaker = builder.serviceTaker;
             serviceIntermediary = builder.serviceIntermediary;
             construction = builder.construction;
@@ -220,8 +221,9 @@ public class ElotechStatementProvisionService {
             return service;
         }
 
-        public ElotechServiceProvider getServiceProvider() {
-            return serviceProvider;
+        
+        public ElotechServiceProviderIdentifier getServiceProviderIdentifier() {
+            return serviceProviderIdentifier;
         }
 
         public ElotechServiceTaker getServiceTaker() {

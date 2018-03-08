@@ -25,8 +25,6 @@ public class ElotechNFSeAddress {
     private final @XmlElement(name = "CodigoMunicipio") @NFSeNonNegativeInteger @Size(
             min = 1, max = 7, message = "Endereço - código do município: tamanho informado deve estar entre 1 e 7 caracteres.") String cityCode;
 
-    private final @XmlElement(name = "CidadeNome") @Size(min = 1, max = 125, message = "Endereço - nome do município: tamanho informado deve estar entre 1 e 125 caracteres.") String cityName;
-
     private final @XmlElement(name = "Uf") CommonsNFSeUF uf;
 
     private final @XmlElement(name = "CodigoPais") @NFSeNonNegativeInteger @Size(
@@ -45,8 +43,6 @@ public class ElotechNFSeAddress {
         private String district;
 
         private String cityCode;
-
-        private String cityName;
 
         private CommonsNFSeUF uf;
 
@@ -99,14 +95,6 @@ public class ElotechNFSeAddress {
             return this;
         }
 
-        /**
-         * @param cityName
-         * @return
-         */
-        public Builder withCityName(final String cityName) {
-            this.cityName = cityName;
-            return this;
-        }
 
         /**
          * @param uf
@@ -148,7 +136,6 @@ public class ElotechNFSeAddress {
         complement = null;
         district = null;
         cityCode = null;
-        cityName = null;
         uf = null;
         countryCode = null;
         cep = null;
@@ -160,7 +147,6 @@ public class ElotechNFSeAddress {
         complement = builder.complement;
         district = builder.district;
         cityCode = builder.cityCode;
-        cityName = builder.cityName;
         uf = builder.uf;
         countryCode = builder.countryCode;
         cep = builder.cep;
@@ -184,10 +170,6 @@ public class ElotechNFSeAddress {
 
     public String getCityCode() {
         return cityCode;
-    }
-
-    public String getCityName() {
-        return cityName;
     }
 
     public CommonsNFSeUF getUf() {

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * ISS Retido: 1 - Sim 2 - Não
+ * Boolean padrao: 1 - Sim 2 - Não
  *
  * @author Fernando C Glizt
  *

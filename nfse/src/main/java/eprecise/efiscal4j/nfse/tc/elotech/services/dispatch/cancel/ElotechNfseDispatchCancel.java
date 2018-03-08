@@ -24,9 +24,9 @@ public class ElotechNfseDispatchCancel implements TransmissibleBodyImpl, NFSeReq
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech/nfse_v1_2.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/elotech/nfse_v2_03.xsd";
 
-    private final @XmlAttribute(name = "xmlns") String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd";
+    private final @XmlAttribute(name = "xmlns") String xmlns = "http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd";
 
     private final @NotNull @XmlElement(name = "IdentificacaoRequerente") ElotechApplicant applicant;
 

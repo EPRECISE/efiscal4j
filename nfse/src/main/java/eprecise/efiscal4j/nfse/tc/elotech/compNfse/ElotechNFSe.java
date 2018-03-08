@@ -107,8 +107,7 @@ public class ElotechNFSe extends ProcessedNFSe {
       //@formatter:off
         return Optional.ofNullable(info).map(i -> i.getStatementProvisionService())
                 .map(ElotechStatementProvisionService::getInfo)
-                .map(ElotechStatementProvisionService.Info::getServiceProvider)
-                .map(ElotechServiceProvider::getIdentifier)
+                .map(ElotechStatementProvisionService.Info::getServiceProviderIdentifier)
                 .map(ElotechServiceProviderIdentifier::getMunicipalRegistration)
                 .orElse(null);
       //@formatter:on

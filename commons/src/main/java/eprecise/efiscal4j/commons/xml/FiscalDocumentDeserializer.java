@@ -98,6 +98,7 @@ public class FiscalDocumentDeserializer<T> {
         toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/nfe\"");
         toRemove.add("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"");
         toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"");
+        toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd\"");
         toRemove.add("xmlns=\"http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd\"");
         String xml = this.xmlContent;
 
