@@ -129,6 +129,8 @@ public class ElotechNFSe extends ProcessedNFSe {
         private final @NotNull @XmlElement(name = "ValoresNfse") ElotechNFSeValues nfseValues;
 
         private final @XmlElement(name = "ValorCredito") @NFSeValue String creditValue;
+        
+        private final @XmlElement(name = "PrestadorServico") @NotNull ElotechServiceProvider serviceProvider;
 
         private final @NotNull @XmlElement(name = "OrgaoGerador") CommonsGeneratorOrgan generatorOrgan;
 
@@ -151,6 +153,8 @@ public class ElotechNFSe extends ProcessedNFSe {
             private ElotechNFSeValues nfseValues;
 
             private String creditValue;
+            
+            private ElotechServiceProvider serviceProvider;
 
             private CommonsGeneratorOrgan generatorOrgan;
 
@@ -220,6 +224,15 @@ public class ElotechNFSe extends ProcessedNFSe {
                 this.creditValue = creditValue;
                 return this;
             }
+            
+            /**
+             * @param serviceProvider
+             * @return
+             */
+            public Builder withServiceProvider(final ElotechServiceProvider serviceProvider) {
+                this.serviceProvider = serviceProvider;
+                return this;
+            }
 
             /**
              * @param generatorOrgan
@@ -264,6 +277,7 @@ public class ElotechNFSe extends ProcessedNFSe {
             otherInformation = null;
             nfseValues = null;
             creditValue = null;
+            serviceProvider = null;
             generatorOrgan = null;
             statementProvisionService = null;
             accessKey = null;
@@ -277,6 +291,7 @@ public class ElotechNFSe extends ProcessedNFSe {
             otherInformation = builder.otherInformation;
             nfseValues = builder.nfseValues;
             creditValue = builder.creditValue;
+            serviceProvider = builder.serviceProvider;
             generatorOrgan = builder.generatorOrgan;
             statementProvisionService = builder.statementProvisionService;
             accessKey = builder.accessKey;
@@ -308,6 +323,10 @@ public class ElotechNFSe extends ProcessedNFSe {
 
         public String getCreditValue() {
             return creditValue;
+        }
+        
+        public ElotechServiceProvider getServiceProvider() {
+            return serviceProvider;
         }
 
         public CommonsGeneratorOrgan getGeneratorOrgan() {
