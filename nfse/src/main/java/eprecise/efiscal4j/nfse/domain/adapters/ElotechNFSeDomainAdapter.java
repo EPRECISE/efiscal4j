@@ -27,6 +27,7 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechCancellationCode;
+import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNFSeIdentifier;
 import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.ElotechLotRps;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechServiceIntermediary;
@@ -84,8 +85,13 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
         return new ElotechNfseDispatchCancel.Builder().withApplicant(buildApplicant())
                 .withCancelRequest(new ElotechNfseCancelRequest.Builder().withInfo(new ElotechNfseCancelRequest.ElotechNfseCancelRequestInfo.Builder()
-                        .withNumber(cancellationRequestData.getNfseNumber()).withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional
-                                .ofNullable(cancellationRequestData.getCancellationCode()).filter(ElotechCancellationCode.class::isInstance).map(ElotechCancellationCode.class::cast).orElse(null))
+                        .withIdentifier(new ElotechNFSeIdentifier.Builder().withNumber(cancellationRequestData.getNfseNumber()).withCityCode(nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                                .withCnp(this.buildCnp(nfse.getEmitter().getDocuments()))
+                                .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
+                                        .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                                .withNumber(cancellationRequestData.getNfseNumber()).build())
+                        .withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
+                                .filter(ElotechCancellationCode.class::isInstance).map(ElotechCancellationCode.class::cast).orElse(null))
                         .build()).build())
                 .build();
     }

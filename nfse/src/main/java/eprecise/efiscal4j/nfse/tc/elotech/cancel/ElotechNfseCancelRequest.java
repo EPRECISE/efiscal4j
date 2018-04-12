@@ -4,13 +4,11 @@ package eprecise.efiscal4j.nfse.tc.elotech.cancel;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeAccessKey;
 
 
@@ -56,7 +54,7 @@ public class ElotechNfseCancelRequest implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class ElotechNfseCancelRequestInfo {
 
-        private final @NotNull @XmlElement(name = "Numero") @NFSeNonNegativeInteger @Size(max = 15) String number;
+        private final @XmlElement(name = "IdentificacaoNfse") @NotNull ElotechNFSeIdentifier identifier;
 
         private final @NotNull @XmlElement(name = "ChaveAcesso") @NFSeAccessKey String accessKey;
 
@@ -64,18 +62,18 @@ public class ElotechNfseCancelRequest implements Serializable {
 
         public static class Builder {
 
-            private String number;
+            private ElotechNFSeIdentifier identifier;
 
             private String accessKey;
 
             private ElotechCancellationCode cancellationCode;
 
             /**
-             * @param number
+             * @param identifier
              * @return
              */
-            public Builder withNumber(final String number) {
-                this.number = number;
+            public Builder withIdentifier(final ElotechNFSeIdentifier identifier) {
+                this.identifier = identifier;
                 return this;
             }
 
@@ -105,19 +103,20 @@ public class ElotechNfseCancelRequest implements Serializable {
         }
 
         public ElotechNfseCancelRequestInfo() {
-            number = null;
+            identifier = null;
             accessKey = null;
             cancellationCode = null;
         }
 
         public ElotechNfseCancelRequestInfo(final Builder builder) {
-            number = builder.number;
+            identifier = builder.identifier;
             accessKey = builder.accessKey;
             cancellationCode = builder.cancellationCode;
         }
 
-        public String getNumber() {
-            return number;
+        
+        public ElotechNFSeIdentifier getIdentifier() {
+            return identifier;
         }
 
         public String getAccessKey() {
