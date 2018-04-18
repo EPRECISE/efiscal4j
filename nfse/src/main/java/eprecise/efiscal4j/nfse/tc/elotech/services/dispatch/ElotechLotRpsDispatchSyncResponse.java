@@ -42,7 +42,7 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
-    private final @XmlElementWrapper(name = "ListaMensagemRetornoLote") @XmlElement(name = "MensagemRetornoLote") Collection<CommonsNFSeReturnMessageLot> returnMessageLotList;
+    private final @XmlElementWrapper(name = "ListaMensagemRetornoLote") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessageLot> returnMessageLotList;
 
     private @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoResposta");
 
