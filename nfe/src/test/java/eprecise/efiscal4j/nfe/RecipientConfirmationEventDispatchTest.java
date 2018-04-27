@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatchResponseMethod;
 
 
 public class RecipientConfirmationEventDispatchTest implements Testable<EventDispatch> {

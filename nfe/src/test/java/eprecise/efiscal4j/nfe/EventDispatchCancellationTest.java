@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
 
 
 public class EventDispatchCancellationTest implements Testable {

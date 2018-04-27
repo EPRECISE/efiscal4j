@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponse;
+import eprecise.efiscal4j.nfe.v310.sharing.ServiceStatusSearchResponse;
 
 
 public class ServiceStatusSearchResponseTest implements Testable {

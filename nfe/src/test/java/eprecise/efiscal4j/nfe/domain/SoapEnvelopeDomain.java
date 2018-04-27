@@ -5,14 +5,14 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
-import eprecise.efiscal4j.nfe.transmission.NFeBody;
-import eprecise.efiscal4j.nfe.transmission.NFeHeader;
-import eprecise.efiscal4j.nfe.transmission.SOAPBody;
-import eprecise.efiscal4j.nfe.transmission.SOAPBodyResponse;
-import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
-import eprecise.efiscal4j.nfe.transmission.SOAPEnvelopeResponse;
-import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
-import eprecise.efiscal4j.nfe.transmission.SOAPHeaderResponse;
+import eprecise.efiscal4j.nfe.v310.transmission.NFeBody;
+import eprecise.efiscal4j.nfe.v310.transmission.NFeHeader;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPBody;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPBodyResponse;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPEnvelope;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPEnvelopeResponse;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPHeader;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPHeaderResponse;
 
 
 class SoapEnvelopeDomain {

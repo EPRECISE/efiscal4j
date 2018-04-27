@@ -16,7 +16,7 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.ProcessedNFe;
+import eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe;
 
 
 public class ProcessedNFeTest implements Testable {

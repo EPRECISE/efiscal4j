@@ -14,11 +14,11 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.person.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.person.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.sharing.NFeDispatch;
-import eprecise.efiscal4j.nfe.transmission.NFeBody;
-import eprecise.efiscal4j.nfe.transmission.NFeService;
+import eprecise.efiscal4j.nfe.v310.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.v310.person.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.v310.transmission.NFeBody;
+import eprecise.efiscal4j.nfe.v310.transmission.NFeService;
 
 
 public class NFeBodyTest implements Testable {

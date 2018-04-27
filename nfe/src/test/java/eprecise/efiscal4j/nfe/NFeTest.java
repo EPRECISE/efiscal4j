@@ -14,6 +14,7 @@ import org.junit.Test;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
+import eprecise.efiscal4j.nfe.v310.NFe;
 
 
 public class NFeTest implements Testable {

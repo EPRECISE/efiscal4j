@@ -4,7 +4,7 @@ package eprecise.efiscal4j.nfe;
 import org.junit.Test;
 
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponse;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatchResponse;
 
 
 public class NFeDispatchResponseTest implements Testable {

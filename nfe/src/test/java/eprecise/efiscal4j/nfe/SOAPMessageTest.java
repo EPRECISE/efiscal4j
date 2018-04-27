@@ -10,16 +10,16 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
-import eprecise.efiscal4j.nfe.sharing.BatchReceiptSearch;
-import eprecise.efiscal4j.nfe.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.sharing.EventDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeNumberDisableResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.NFeStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.sharing.ServiceStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.transmission.SOAPBody;
-import eprecise.efiscal4j.nfe.transmission.SOAPEnvelope;
-import eprecise.efiscal4j.nfe.transmission.SOAPHeader;
+import eprecise.efiscal4j.nfe.v310.sharing.BatchReceiptSearch;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeNumberDisableResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.ServiceStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPBody;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPEnvelope;
+import eprecise.efiscal4j.nfe.v310.transmission.SOAPHeader;
 
 
 public class SOAPMessageTest implements Testable {

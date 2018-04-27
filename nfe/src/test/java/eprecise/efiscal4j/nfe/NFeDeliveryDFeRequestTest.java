@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeRequest;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDFeResponse;
-import eprecise.efiscal4j.nfe.deliveryDFe.NFeDeliveryDfeDocument;
 import eprecise.efiscal4j.nfe.domain.NFeDeliveryDFeDomain;
 import eprecise.efiscal4j.nfe.domain.TestDomain;
+import eprecise.efiscal4j.nfe.v310.deliveryDFe.NFeDeliveryDFeRequest;
+import eprecise.efiscal4j.nfe.v310.deliveryDFe.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.v310.deliveryDFe.NFeDeliveryDfeDocument;
 
 
 public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest> {

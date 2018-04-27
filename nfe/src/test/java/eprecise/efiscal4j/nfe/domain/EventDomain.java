@@ -4,16 +4,16 @@ package eprecise.efiscal4j.nfe.domain;
 import java.util.ArrayList;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
-import eprecise.efiscal4j.nfe.TransmissionEnvironment;
-import eprecise.efiscal4j.nfe.address.IBGEOrgan;
-import eprecise.efiscal4j.nfe.sharing.Event;
-import eprecise.efiscal4j.nfe.sharing.EventDetail;
-import eprecise.efiscal4j.nfe.sharing.EventDetailCCe;
-import eprecise.efiscal4j.nfe.sharing.EventDetailCancellation;
-import eprecise.efiscal4j.nfe.sharing.EventDetailRecipientManifestation;
-import eprecise.efiscal4j.nfe.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.sharing.EventInfo;
-import eprecise.efiscal4j.nfe.sharing.EventType;
+import eprecise.efiscal4j.nfe.v310.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.v310.address.IBGEOrgan;
+import eprecise.efiscal4j.nfe.v310.sharing.Event;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDetail;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDetailCCe;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDetailCancellation;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDetailRecipientManifestation;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.v310.sharing.EventInfo;
+import eprecise.efiscal4j.nfe.v310.sharing.EventType;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
