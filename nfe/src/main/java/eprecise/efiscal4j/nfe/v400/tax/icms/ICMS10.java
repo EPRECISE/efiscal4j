@@ -32,6 +32,12 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
 
     private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
+    private @XmlElement(name = "vBCFCP") @NFeDecimal1302 final String bcFcpValue;
+
+    private @XmlElement(name = "pFCP") @NFeDecimal0302a04Optional final String fcpAliquot;
+
+    private @XmlElement(name = "vFCP") @NFeDecimal1302 final String fcpValue;
+
     private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
 
     private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
@@ -44,6 +50,12 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
 
     private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
 
+    private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
+
+    private @XmlElement(name = "pFCPST") @NFeDecimal0302a04Optional final String fcpStAliquot;
+
+    private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
+
     public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
         private BCModality bcModality;
@@ -53,6 +65,12 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
         private String icmsAliquot;
 
         private String icmsValue;
+
+        private String bcFcpValue;
+
+        private String fcpAliquot;
+
+        private String fcpValue;
 
         private BCModalityST bcModalitySt;
 
@@ -65,6 +83,12 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
         private String icmsStAliquot;
 
         private String icmsStValue;
+
+        private String bcFcpValueST;
+
+        private String fcpStAliquot;
+
+        private String fcpStValue;
 
         /**
          * {@inheritDoc}
@@ -103,6 +127,38 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
          */
         public Builder withIcmsValue(final String icmsValue) {
             this.icmsValue = icmsValue;
+            return this;
+        }
+
+        /**
+         * Valor da Base de cálculo do FCP.
+         * 
+         * @param bcFcpValue
+         */
+        public Builder withBcFcpValue(final String bcFcpValue) {
+            this.bcFcpValue = bcFcpValue;
+            return this;
+        }
+
+        /**
+         * Percentual de ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpAliquot
+         * @return
+         */
+        public Builder withFcpAliquot(final String fcpAliquot) {
+            this.fcpAliquot = fcpAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpValue
+         * @return
+         */
+        public Builder withFcpValue(final String fcpValue) {
+            this.fcpValue = fcpValue;
             return this;
         }
 
@@ -155,6 +211,38 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
             return this;
         }
 
+        /**
+         * Valor da Base de cálculo do FCP retido por substituicao tributaria
+         * 
+         * @param bcFcpValueST
+         */
+        public Builder withBcFcpValueST(final String bcFcpValueST) {
+            this.bcFcpValueST = bcFcpValueST;
+            return this;
+        }
+
+        /**
+         * Percentual de FCP retido por substituição tributária
+         *
+         * @param fcpStAliquot
+         * @return
+         */
+        public Builder withFcpStAliquot(final String fcpStAliquot) {
+            this.fcpStAliquot = fcpStAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do FCP retido por substituição tributária
+         *
+         * @param fcpStValue
+         * @return
+         */
+        public Builder withFcpStValue(final String fcpStValue) {
+            this.fcpStValue = fcpStValue;
+            return this;
+        }
+
         @Override
         public ICMS10 build() {
             return new ICMS10(this);
@@ -167,12 +255,18 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
         this.bcValue = null;
         this.icmsAliquot = null;
         this.icmsValue = null;
+        this.bcFcpValue = null;
+        this.fcpAliquot = null;
+        this.fcpValue = null;
         this.bcModalitySt = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;
         this.bcValueST = null;
         this.icmsStAliquot = null;
         this.icmsStValue = null;
+        this.bcFcpValueST = null;
+        this.fcpStAliquot = null;
+        this.fcpStValue = null;
     }
 
     protected ICMS10(final ICMS10.Builder builder) {
@@ -181,12 +275,18 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
         this.bcValue = builder.bcValue;
         this.icmsAliquot = builder.icmsAliquot;
         this.icmsValue = builder.icmsValue;
+        this.bcFcpValue = builder.bcFcpValue;
+        this.fcpAliquot = builder.fcpAliquot;
+        this.fcpValue = builder.fcpValue;
         this.bcModalitySt = builder.bcModalitySt;
         this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
         this.bcReductionStPercent = builder.bcReductionStPercent;
         this.bcValueST = builder.bcValueST;
         this.icmsStAliquot = builder.icmsStAliquot;
         this.icmsStValue = builder.icmsStValue;
+        this.bcFcpValueST = builder.bcFcpValueST;
+        this.fcpStAliquot = builder.fcpStAliquot;
+        this.fcpStValue = builder.fcpStValue;
     }
 
     public BCModality getBcModality() {
@@ -204,6 +304,18 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
     @Override
     public String getIcmsValue() {
         return this.icmsValue;
+    }
+
+    public String getBcFcpValue() {
+        return bcFcpValue;
+    }
+
+    public String getFcpAliquot() {
+        return fcpAliquot;
+    }
+
+    public String getFcpValue() {
+        return fcpValue;
     }
 
     public BCModalityST getBcModalitySt() {
@@ -229,6 +341,18 @@ class ICMS10 extends BaseICMS implements IcmsWithValue, IcmsWithST {
     @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
+    }
+
+    public String getBcFcpValueST() {
+        return bcFcpValueST;
+    }
+
+    public String getFcpStAliquot() {
+        return fcpStAliquot;
+    }
+
+    public String getFcpStValue() {
+        return fcpStValue;
     }
 
 }

@@ -102,13 +102,6 @@ abstract class BaseIPITrib extends BaseIPI implements BaseIPITribStandard {
             return this;
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
-            return (BaseIPITrib.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
-        }
 
         /**
          * {@inheritDoc}

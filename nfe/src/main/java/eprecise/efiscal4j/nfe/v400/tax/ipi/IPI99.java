@@ -60,13 +60,6 @@ class IPI99 extends BaseIPITrib {
             return (IPI99.Builder) super.withIpiValue(ipiValue);
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
-            return (IPI99.Builder) super.withIpiFrameworkClass(ipiFrameworkClass);
-        }
 
         /**
          * {@inheritDoc}

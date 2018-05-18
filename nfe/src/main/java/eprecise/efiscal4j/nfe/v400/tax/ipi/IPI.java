@@ -96,8 +96,6 @@ public abstract class IPI extends MainTax implements Serializable {
      */
     public static Class<IPI99.Builder> CST_99 = IPI99.Builder.class;
 
-    protected @XmlTransient @Size(min = 1, max = 5) @NFeString String ipiFrameworkClass;
-
     protected @XmlTransient @NFeCNPJ String producerCNPJ;
 
     protected @XmlTransient @Size(min = 1, max = 60) @NFeString String ipiSealCode;
@@ -115,10 +113,6 @@ public abstract class IPI extends MainTax implements Serializable {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public String getIpiFrameworkClass() {
-        return this.ipiFrameworkClass;
     }
 
     public String getProducerCNPJ() {

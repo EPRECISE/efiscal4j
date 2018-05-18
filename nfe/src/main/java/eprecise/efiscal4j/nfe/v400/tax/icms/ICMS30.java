@@ -39,6 +39,12 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
     private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
 
     private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+    
+    private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
+
+    private @XmlElement(name = "pFCPST") @NFeDecimal0302a04Optional final String fcpStAliquot;
+
+    private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
 
     private @XmlElement(name = "vICMSDeson") @NFeDecimal1302 final String icmsDesonerationValue;
 
@@ -57,6 +63,12 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
         private String icmsStAliquot;
 
         private String icmsStValue;
+        
+        private String bcFcpValueST;
+
+        private String fcpStAliquot;
+
+        private String fcpStValue;
 
         private String icmsDesonerationValue;
 
@@ -117,6 +129,38 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
             this.icmsStValue = icmsStValue;
             return this;
         }
+        
+        /**
+         * Valor da Base de cálculo do FCP retido por substituicao tributaria
+         * 
+         * @param bcFcpValueST
+         */
+        public Builder withBcFcpValueST(final String bcFcpValueST) {
+            this.bcFcpValueST = bcFcpValueST;
+            return this;
+        }
+
+        /**
+         * Percentual de FCP retido por substituição tributária
+         *
+         * @param fcpStAliquot
+         * @return
+         */
+        public Builder withFcpStAliquot(final String fcpStAliquot) {
+            this.fcpStAliquot = fcpStAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do FCP retido por substituição tributária
+         *
+         * @param fcpStValue
+         * @return
+         */
+        public Builder withFcpStValue(final String fcpStValue) {
+            this.fcpStValue = fcpStValue;
+            return this;
+        }
 
         /**
          * Valor do ICMS de desoneração
@@ -153,6 +197,9 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
         this.bcValueST = null;
         this.icmsStAliquot = null;
         this.icmsStValue = null;
+        this.bcFcpValueST = null;
+        this.fcpStAliquot = null;
+        this.fcpStValue = null;
         this.icmsDesonerationValue = null;
         this.icmsDesonerationReason = null;
     }
@@ -165,6 +212,9 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
         this.bcValueST = builder.bcValueST;
         this.icmsStAliquot = builder.icmsStAliquot;
         this.icmsStValue = builder.icmsStValue;
+        this.bcFcpValueST = builder.bcFcpValueST;
+        this.fcpStAliquot = builder.fcpStAliquot;
+        this.fcpStValue = builder.fcpStValue;
         this.icmsDesonerationValue = builder.icmsDesonerationValue;
         this.icmsDesonerationReason = builder.icmsDesonerationReason;
 
@@ -193,6 +243,18 @@ class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
     @Override
     public String getIcmsStValue() {
         return this.icmsStValue;
+    }
+    
+    public String getBcFcpValueST() {
+        return bcFcpValueST;
+    }
+
+    public String getFcpStAliquot() {
+        return fcpStAliquot;
+    }
+
+    public String getFcpStValue() {
+        return fcpStValue;
     }
 
     @Override

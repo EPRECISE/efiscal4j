@@ -20,13 +20,6 @@ class IPI01 extends BaseIPINT {
 
     public static class Builder extends BaseIPINT.Builder implements IPIBuilder {
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Builder withIpiFrameworkClass(final String ipiFramework) {
-            return (IPI01.Builder) super.withIpiFrameworkClass(ipiFramework);
-        }
 
         /**
          * {@inheritDoc}

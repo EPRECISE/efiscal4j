@@ -26,9 +26,9 @@ import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Receiver;
+import eprecise.efiscal4j.nfe.v400.places.Place;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
-import eprecise.efiscal4j.nfe.v400.validation.NFePaymentValidation;
 
 
 /**
@@ -37,7 +37,6 @@ import eprecise.efiscal4j.nfe.v400.validation.NFePaymentValidation;
  * @author Felipe Bueno
  *
  */
-@NFePaymentValidation
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeInfo implements Serializable {
 
@@ -45,13 +44,17 @@ public class NFeInfo implements Serializable {
 
     private @XmlAttribute(name = "Id") @Pattern(regexp = "NFe[0-9]{44}") final String id;
 
-    private @XmlAttribute(name = "versao") final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
+    private @XmlAttribute(name = "versao") final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
     private @XmlElement(name = "ide") @NotNull @Valid final NFeIdentification nFeIdentification;
 
     private @XmlElement(name = "emit") @NotNull final Emitter emitter;
 
     private @XmlElement(name = "dest") final Receiver receiver;
+
+    private @XmlElement(name = "retirada") final Place withdrawal;
+
+    private @XmlElement(name = "entrega") final Place delivery;
 
     private @XmlElement(name = "det") @Size(max = 990) @NotNull @Valid final List<NFeDetail> nFeDetails;
 
@@ -61,7 +64,7 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "cobr") final NFeCharging nFeCharging;
 
-    private @XmlElement(name = "pag") @Size(min = 0, max = 100) final List<NFePayment> nFePayments;
+    private @XmlElement(name = "pag") @NotNull final NFePayment nFePayment;
 
     private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
 
@@ -73,6 +76,10 @@ public class NFeInfo implements Serializable {
 
         private Receiver receiver;
 
+        private Place withdrawal;
+
+        private Place delivery;
+
         private List<NFeDetail> nFeDetails;
 
         private NFeTotal nFeTotal;
@@ -81,7 +88,7 @@ public class NFeInfo implements Serializable {
 
         private NFeCharging nFeCharging;
 
-        private List<NFePayment> nFePayments;
+        private NFePayment nFePayment;
 
         private AdditionalInfo additionalInfo;
 
@@ -112,6 +119,26 @@ public class NFeInfo implements Serializable {
          */
         public Builder withReceiver(final Receiver receiver) {
             this.receiver = receiver;
+            return this;
+        }
+
+        /**
+         * @see Place
+         * @param withdrawal
+         * @return
+         */
+        public Builder withWithdrawal(final Place withdrawal) {
+            this.withdrawal = withdrawal;
+            return this;
+        }
+
+        /**
+         * @see Place
+         * @param delivery
+         * @return
+         */
+        public Builder withDelivery(final Place delivery) {
+            this.delivery = delivery;
             return this;
         }
 
@@ -161,11 +188,11 @@ public class NFeInfo implements Serializable {
          * List of NFePayment
          *
          * @see NFePayment
-         * @param nFePayments
+         * @param nFePayment
          * @return
          */
-        public Builder withNFePayments(final List<NFePayment> nFePayments) {
-            this.nFePayments = nFePayments;
+        public Builder withNFePayment(final NFePayment nFePayment) {
+            this.nFePayment = nFePayment;
             return this;
         }
 
@@ -190,11 +217,13 @@ public class NFeInfo implements Serializable {
         this.nFeIdentification = null;
         this.emitter = null;
         this.receiver = null;
+        this.withdrawal = null;
+        this.delivery = null;
         this.nFeDetails = null;
         this.nFeTotal = null;
         this.nFeTransport = null;
         this.nFeCharging = null;
-        this.nFePayments = null;
+        this.nFePayment = null;
         this.additionalInfo = null;
         this.id = null;
     }
@@ -203,11 +232,13 @@ public class NFeInfo implements Serializable {
         this.nFeIdentification = builder.nFeIdentification;
         this.emitter = builder.emitter;
         this.receiver = builder.receiver;
+        this.withdrawal = builder.withdrawal;
+        this.delivery = builder.delivery;
         this.nFeDetails = builder.nFeDetails;
         this.nFeTotal = builder.nFeTotal;
         this.nFeTransport = builder.nFeTransport;
         this.nFeCharging = builder.nFeCharging;
-        this.nFePayments = builder.nFePayments;
+        this.nFePayment = builder.nFePayment;
         this.additionalInfo = builder.additionalInfo;
         this.id = generateNfeId();
         fillCalculableFields();
@@ -222,29 +253,29 @@ public class NFeInfo implements Serializable {
             this.nFeDetails.stream().map(NFeDetail::getnFeItem).findFirst().ifPresent(nfeItem -> nfeItem.setItemDescription("NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"));
         }
 
-        final DecimalFormatSymbols separatorSymbols = new DecimalFormatSymbols();
-        separatorSymbols.setDecimalSeparator('.');
-        final DecimalFormat decimalFormat = new DecimalFormat("##0.00", separatorSymbols);
-        decimalFormat.setGroupingUsed(false);
+//        final DecimalFormatSymbols separatorSymbols = new DecimalFormatSymbols();
+//        separatorSymbols.setDecimalSeparator('.');
+//        final DecimalFormat decimalFormat = new DecimalFormat("##0.00", separatorSymbols);
+//        decimalFormat.setGroupingUsed(false);
 
-        if (getnFeTotal().getIcmsTotal() != null) {
-            Double pisTotal = 0.0;
-            Double cofinsTotal = 0.0;
-            Double ipiTotal = 0.0;
-            Double iiTotal = 0.0;
-            for (final NFeDetail nFeDetail : getnFeDetails()) {
-                pisTotal += ((nFeDetail.getTax().getPis() == null) || (nFeDetail.getTax().getPis().getPisValue() == null) ? 0.0 : Double.valueOf(nFeDetail.getTax().getPis().getPisValue()));
-                cofinsTotal += ((nFeDetail.getTax().getCofins() == null) || (nFeDetail.getTax().getCofins().getCofinsValue() == null) ? 0.0
-                        : Double.valueOf(nFeDetail.getTax().getCofins().getCofinsValue()));
-                ipiTotal += (nFeDetail.getTax().getIpi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIpi().getIpiValue()));
-                iiTotal += (nFeDetail.getTax().getIi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIi().getIiValue()));
-            }
-
-            getnFeTotal().getIcmsTotal().setPisTotalValue(decimalFormat.format(pisTotal));
-            getnFeTotal().getIcmsTotal().setCofinsTotalValue(decimalFormat.format(cofinsTotal));
-            getnFeTotal().getIcmsTotal().setIpiTotalValue(decimalFormat.format(ipiTotal));
-            getnFeTotal().getIcmsTotal().setIiTotalValue(decimalFormat.format(iiTotal));
-        }
+//        if (getnFeTotal().getIcmsTotal() != null) {
+//            Double pisTotal = 0.0;
+//            Double cofinsTotal = 0.0;
+//            Double ipiTotal = 0.0;
+//            Double iiTotal = 0.0;
+//            for (final NFeDetail nFeDetail : getnFeDetails()) {
+//                pisTotal += ((nFeDetail.getTax().getPis() == null) || (nFeDetail.getTax().getPis().getPisValue() == null) ? 0.0 : Double.valueOf(nFeDetail.getTax().getPis().getPisValue()));
+//                cofinsTotal += ((nFeDetail.getTax().getCofins() == null) || (nFeDetail.getTax().getCofins().getCofinsValue() == null) ? 0.0
+//                        : Double.valueOf(nFeDetail.getTax().getCofins().getCofinsValue()));
+//                ipiTotal += (nFeDetail.getTax().getIpi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIpi().getIpiValue()));
+//                iiTotal += (nFeDetail.getTax().getIi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIi().getIiValue()));
+//            }
+//
+//            getnFeTotal().getIcmsTotal().setPisTotalValue(decimalFormat.format(pisTotal));
+//            getnFeTotal().getIcmsTotal().setCofinsTotalValue(decimalFormat.format(cofinsTotal));
+//            getnFeTotal().getIcmsTotal().setIpiTotalValue(decimalFormat.format(ipiTotal));
+//            getnFeTotal().getIcmsTotal().setIiTotalValue(decimalFormat.format(iiTotal));
+//        }
     }
 
     /**
@@ -325,6 +356,14 @@ public class NFeInfo implements Serializable {
         return this.receiver;
     }
 
+    public Place getWithdrawal() {
+        return withdrawal;
+    }
+
+    public Place getDelivery() {
+        return delivery;
+    }
+
     public List<NFeDetail> getnFeDetails() {
         return this.nFeDetails;
     }
@@ -341,8 +380,8 @@ public class NFeInfo implements Serializable {
         return this.nFeCharging;
     }
 
-    public List<NFePayment> getnFePayments() {
-        return this.nFePayments;
+    public NFePayment getnFePayment() {
+        return nFePayment;
     }
 
     public AdditionalInfo getAdditionalInfo() {

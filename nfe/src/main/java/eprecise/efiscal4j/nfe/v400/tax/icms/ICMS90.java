@@ -40,6 +40,12 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
 
     private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
+    private @XmlElement(name = "vBCFCP") @NFeDecimal1302 final String bcFcpValue;
+
+    private @XmlElement(name = "pFCP") @NFeDecimal0302a04Optional final String fcpAliquot;
+
+    private @XmlElement(name = "vFCP") @NFeDecimal1302 final String fcpValue;
+
     private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
 
     private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
@@ -51,6 +57,12 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
     private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
 
     private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+
+    private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
+
+    private @XmlElement(name = "pFCPST") @NFeDecimal0302a04Optional final String fcpStAliquot;
+
+    private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
 
     private @XmlElement(name = "vICMSDeson") @NFeDecimal1302 final String icmsDesonerationValue;
 
@@ -68,6 +80,12 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
 
         private String icmsValue;
 
+        private String bcFcpValue;
+
+        private String fcpAliquot;
+
+        private String fcpValue;
+
         private BCModalityST bcModalitySt;
 
         private String valueMarginAddedStPercent;
@@ -79,6 +97,12 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         private String icmsStAliquot;
 
         private String icmsStValue;
+
+        private String bcFcpValueST;
+
+        private String fcpStAliquot;
+
+        private String fcpStValue;
 
         private String icmsDesonerationValue;
 
@@ -136,6 +160,38 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         }
 
         /**
+         * Valor da Base de cálculo do FCP.
+         * 
+         * @param bcFcpValue
+         */
+        public Builder withBcFcpValue(final String bcFcpValue) {
+            this.bcFcpValue = bcFcpValue;
+            return this;
+        }
+
+        /**
+         * Percentual de ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpAliquot
+         * @return
+         */
+        public Builder withFcpAliquot(final String fcpAliquot) {
+            this.fcpAliquot = fcpAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpValue
+         * @return
+         */
+        public Builder withFcpValue(final String fcpValue) {
+            this.fcpValue = fcpValue;
+            return this;
+        }
+
+        /**
          * Percentual da Margem de Valor Adicionado ICMS ST
          */
         public Builder withValueMarginAddedStPercent(final String valueMarginAddedStPercent) {
@@ -185,6 +241,38 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         }
 
         /**
+         * Valor da Base de cálculo do FCP retido por substituicao tributaria
+         * 
+         * @param bcFcpValueST
+         */
+        public Builder withBcFcpValueST(final String bcFcpValueST) {
+            this.bcFcpValueST = bcFcpValueST;
+            return this;
+        }
+
+        /**
+         * Percentual de FCP retido por substituição tributária
+         *
+         * @param fcpStAliquot
+         * @return
+         */
+        public Builder withFcpStAliquot(final String fcpStAliquot) {
+            this.fcpStAliquot = fcpStAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do FCP retido por substituição tributária
+         *
+         * @param fcpStValue
+         * @return
+         */
+        public Builder withFcpStValue(final String fcpStValue) {
+            this.fcpStValue = fcpStValue;
+            return this;
+        }
+
+        /**
          * Valor do ICMS de desoneração
          * 
          * @param icmsDesonerationValue
@@ -218,12 +306,18 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         this.bcValue = null;
         this.icmsAliquot = null;
         this.icmsValue = null;
+        this.bcFcpValue = null;
+        this.fcpAliquot = null;
+        this.fcpValue = null;
         this.bcModalitySt = null;
         this.valueMarginAddedStPercent = null;
         this.bcReductionStPercent = null;
         this.bcValueST = null;
         this.icmsStAliquot = null;
         this.icmsStValue = null;
+        this.bcFcpValueST = null;
+        this.fcpStAliquot = null;
+        this.fcpStValue = null;
         this.icmsDesonerationValue = null;
         this.icmsDesonerationReason = null;
     }
@@ -235,79 +329,96 @@ class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standard, ICMS
         this.bcValue = builder.bcValue;
         this.icmsAliquot = builder.icmsAliquot;
         this.icmsValue = builder.icmsValue;
+        this.bcFcpValue = builder.bcFcpValue;
+        this.fcpAliquot = builder.fcpAliquot;
+        this.fcpValue = builder.fcpValue;
         this.bcModalitySt = builder.bcModalitySt;
         this.valueMarginAddedStPercent = builder.valueMarginAddedStPercent;
         this.bcReductionStPercent = builder.bcReductionStPercent;
         this.bcValueST = builder.bcValueST;
         this.icmsStAliquot = builder.icmsStAliquot;
         this.icmsStValue = builder.icmsStValue;
+        this.bcFcpValueST = builder.bcFcpValueST;
+        this.fcpStAliquot = builder.fcpStAliquot;
+        this.fcpStValue = builder.fcpStValue;
         this.icmsDesonerationValue = builder.icmsDesonerationValue;
         this.icmsDesonerationReason = builder.icmsDesonerationReason;
     }
 
-    @Override
     public BCModality getBcModality() {
-        return this.bcModality;
+        return bcModality;
     }
 
-    @Override
-    public String getBcReductionPercent() {
-        return this.bcReductionPercent;
-    }
-
-    @Override
     public String getBcValue() {
-        return this.bcValue;
+        return bcValue;
     }
 
-    @Override
+    public String getBcReductionPercent() {
+        return bcReductionPercent;
+    }
+
     public String getIcmsAliquot() {
-        return this.icmsAliquot;
+        return icmsAliquot;
     }
 
-    @Override
     public String getIcmsValue() {
-        return this.icmsValue;
+        return icmsValue;
     }
 
-    @Override
+    public String getBcFcpValue() {
+        return bcFcpValue;
+    }
+
+    public String getFcpAliquot() {
+        return fcpAliquot;
+    }
+
+    public String getFcpValue() {
+        return fcpValue;
+    }
+
     public BCModalityST getBcModalitySt() {
-        return this.bcModalitySt;
+        return bcModalitySt;
     }
 
-    @Override
     public String getValueMarginAddedStPercent() {
-        return this.valueMarginAddedStPercent;
+        return valueMarginAddedStPercent;
     }
 
-    @Override
     public String getBcReductionStPercent() {
-        return this.bcReductionStPercent;
+        return bcReductionStPercent;
     }
 
-    @Override
     public String getBcValueST() {
-        return this.bcValueST;
+        return bcValueST;
     }
 
-    @Override
     public String getIcmsStAliquot() {
-        return this.icmsStAliquot;
+        return icmsStAliquot;
     }
 
-    @Override
     public String getIcmsStValue() {
-        return this.icmsStValue;
+        return icmsStValue;
     }
 
-    @Override
+    public String getBcFcpValueST() {
+        return bcFcpValueST;
+    }
+
+    public String getFcpStAliquot() {
+        return fcpStAliquot;
+    }
+
+    public String getFcpStValue() {
+        return fcpStValue;
+    }
+
     public String getIcmsDesonerationValue() {
-        return this.icmsDesonerationValue;
+        return icmsDesonerationValue;
     }
 
-    @Override
     public ICMSDesonerationReason getIcmsDesonerationReason() {
-        return this.icmsDesonerationReason;
+        return icmsDesonerationReason;
     }
 
 }

@@ -10,8 +10,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.v400.types.NFeDate;
-import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0803Variable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
 
@@ -28,69 +26,24 @@ public class Medications implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "nLote") @NotNull @Size(min = 1, max = 20) @NFeString final String batchNumber;
-
-    private @XmlElement(name = "qLote") @NotNull @NFeDecimal0803Variable final String batchQuantity;
-
-    private @XmlElement(name = "dFab") @NotNull @NFeDate final String manufacturingDate;
-
-    private @XmlElement(name = "dVal") @NotNull @NFeDate final String expirationDate;
+    private @XmlElement(name = "cProdANVISA") @NotNull @Size(max = 13) @NFeString final String anvisaProductCode;
 
     private @XmlElement(name = "vPMC") @NotNull @NFeDecimal1302 final String maxPriceConsumers;
 
     public static class Builder {
 
-        private String batchNumber;
-
-        private String batchQuantity;
-
-        private String manufacturingDate;
-
-        private String expirationDate;
+        private String anvisaProductCode;
 
         private String maxPriceConsumers;
 
         /**
-         * Número do lote do medicamento
+         * Código de Produto da ANVISA. Utilizar o número do registro do produto da Câmara de Regulação do Mercado de Medicamento – CMED.
          *
-         * @param batchNumber
+         * @param anvisaProductCode
          * @return
          */
-        public Builder withBatchNumber(final String batchNumber) {
-            this.batchNumber = batchNumber;
-            return this;
-        }
-
-        /**
-         * Quantidade de produtos no lote
-         *
-         * @param batchQuantity
-         * @return
-         */
-        public Builder withBatchQuantity(final String batchQuantity) {
-            this.batchQuantity = batchQuantity;
-            return this;
-        }
-
-        /**
-         * Data de Fabricação do medicamento (AAAA-MM-DD)
-         *
-         * @param manufacturingDate
-         * @return
-         */
-        public Builder withManufacturingDate(final String manufacturingDate) {
-            this.manufacturingDate = manufacturingDate;
-            return this;
-        }
-
-        /**
-         * Data de validade do medicamento (AAAA-MM-DD)
-         *
-         * @param expirationDate
-         * @return
-         */
-        public Builder withExpirationDate(final String expirationDate) {
-            this.expirationDate = expirationDate;
+        public Builder withAnvisaProductCode(final String anvisaProductCode) {
+            this.anvisaProductCode = anvisaProductCode;
             return this;
         }
 
@@ -113,35 +66,17 @@ public class Medications implements Serializable {
     }
 
     public Medications() {
-        this.batchNumber = null;
-        this.batchQuantity = null;
-        this.manufacturingDate = null;
-        this.expirationDate = null;
+        this.anvisaProductCode = null;
         this.maxPriceConsumers = null;
     }
 
     public Medications(final Builder builder) {
-        this.batchNumber = builder.batchNumber;
-        this.batchQuantity = builder.batchQuantity;
-        this.manufacturingDate = builder.manufacturingDate;
-        this.expirationDate = builder.expirationDate;
+        this.anvisaProductCode = builder.anvisaProductCode;
         this.maxPriceConsumers = builder.maxPriceConsumers;
     }
 
-    public String getBatchNumber() {
-        return batchNumber;
-    }
-
-    public String getBatchQuantity() {
-        return batchQuantity;
-    }
-
-    public String getManufacturingDate() {
-        return manufacturingDate;
-    }
-
-    public String getExpirationDate() {
-        return expirationDate;
+    public String getAnvisaProductCode() {
+        return anvisaProductCode;
     }
 
     public String getMaxPriceConsumers() {

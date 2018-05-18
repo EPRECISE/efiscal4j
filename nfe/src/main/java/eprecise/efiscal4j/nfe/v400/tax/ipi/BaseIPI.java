@@ -19,8 +19,6 @@ abstract class BaseIPI extends IPI {
 
     static abstract class Builder {
 
-        private String ipiFrameworkClass;
-
         private String producerCNPJ;
 
         private String ipiSealCode;
@@ -29,16 +27,6 @@ abstract class BaseIPI extends IPI {
 
         private String legalFramework;
 
-        /**
-         * Classe de Enquadramento do IPI para Cigarros e Bebidas
-         * 
-         * @param ipiFrameworkClass
-         * @return
-         */
-        public Builder withIpiFrameworkClass(final String ipiFrameworkClass) {
-            this.ipiFrameworkClass = ipiFrameworkClass;
-            return this;
-        }
 
         /**
          * CNPJ do produtor da mercadoria, quando diferente do emitente. Somente para os casos de exportação direta ou indireta.
@@ -94,7 +82,6 @@ abstract class BaseIPI extends IPI {
     protected BaseIPI(final Builder builder, final String cst) {
         super();
         this.cst = cst;
-        this.ipiFrameworkClass = builder.ipiFrameworkClass;
         this.producerCNPJ = builder.producerCNPJ;
         this.ipiSealCode = builder.ipiSealCode;
         this.ipiSealQuantity = builder.ipiSealQuantity;

@@ -6,23 +6,23 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.nfe.v310.deliveryDFe.NFeDeliveryDFeRequest;
-import eprecise.efiscal4j.nfe.v310.sharing.BatchReceiptSearch;
-import eprecise.efiscal4j.nfe.v310.sharing.BatchReceiptSearchResponse;
-import eprecise.efiscal4j.nfe.v310.sharing.BatchReceiptSearchResponseMethod;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDispatchResponse;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatch;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatchResponse;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeNumberDisableDispatch;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeStatusSearch;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeStatusSearchResponse;
-import eprecise.efiscal4j.nfe.v310.sharing.NFeStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.v310.sharing.ServiceStatusSearch;
-import eprecise.efiscal4j.nfe.v310.sharing.ServiceStatusSearchResponse;
-import eprecise.efiscal4j.nfe.v310.sharing.ServiceStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeRequest;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearch;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.EventDispatch;
+import eprecise.efiscal4j.nfe.v400.sharing.EventDispatchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeNumberDisableDispatch;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearch;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearch;
+import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearchResponseMethod;
 
 
 @XmlRegistry

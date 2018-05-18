@@ -12,8 +12,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
+import eprecise.efiscal4j.nfe.v400.guns.Gun;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
+import eprecise.efiscal4j.nfe.v400.types.NFeCNPJ;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1110Variable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
@@ -35,13 +39,19 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "cProd") @NotNull @Size(min = 1, max = 60) @NFeString final String itemCode;
 
-    private @XmlElement(name = "cEAN") @NotNull @Pattern(regexp = "[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String globalTradeItemNumber;
+    private @XmlElement(name = "cEAN") @NotNull @Pattern(regexp = "SEM GTIN|[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String globalTradeItemNumber;
 
     private @XmlElement(name = "xProd") @NotNull @Size(min = 1, max = 120) @NFeString String itemDescription;
 
     private @XmlElement(name = "NCM") @NotNull @Pattern(regexp = "[0-9]{2}|[0-9]{8}") final String ncm;
 
     private @XmlElement(name = "CEST") @Pattern(regexp = "[0-9]{7}") final String cest;
+
+    private @XmlElement(name = "indEscala") final NFeItemScaleIndication scaleIndication;
+
+    private @XmlElement(name = "CNPJFab") @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ String manufacturerCnpj;
+
+    private @XmlElement(name = "cBenef") @Size(max = 10) String beneficiaryCode;
 
     private @XmlElement(name = "CFOP") @NotNull final CFOP cfop;
 
@@ -53,7 +63,7 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "vProd") @NotNull @NFeDecimal1302 final String itemGrossValue;
 
-    private @XmlElement(name = "cEANTrib") @NotNull @Pattern(regexp = "[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String taxableUnitGlobalTradeItemNumber;
+    private @XmlElement(name = "cEANTrib") @NotNull @Pattern(regexp = "SEM GTIN|[0-9]{0}|[0-9]{8}|[0-9]{12,14}") final String taxableUnitGlobalTradeItemNumber;
 
     private @XmlElement(name = "uTrib") @NotNull @Size(min = 1, max = 6) @NFeString final String taxableUnit;
 
@@ -71,7 +81,11 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
 
-    private @XmlElement(name = "med") @Size(max = 500) @Valid final List<Medications> medications;
+    private @XmlElement(name = "med") @Valid final Medications medications;
+
+    private @XmlElement(name = "arma") @Size(max = 500) @Valid final List<Gun> guns;
+
+    private @XmlElement(name = "comb") @Valid final Fuel fuel;
 
     private @XmlElement(name = "DI") @Size(max = 100) @Valid final List<ImportDeclaration> importDeclarations;
 
@@ -86,6 +100,12 @@ public class NFeItem implements Serializable {
         private String ncm;
 
         private String cest;
+
+        private NFeItemScaleIndication scaleIndication;
+
+        private String manufacturerCnpj;
+
+        private String beneficiaryCode;
 
         private CFOP cfop;
 
@@ -115,7 +135,11 @@ public class NFeItem implements Serializable {
 
         private String othersValue;
 
-        private List<Medications> medications;
+        private Medications medications;
+
+        private List<Gun> guns;
+
+        private Fuel fuel;
 
         private List<ImportDeclaration> importDeclarations;
 
@@ -177,6 +201,38 @@ public class NFeItem implements Serializable {
          */
         public Builder withCest(String cest) {
             this.cest = cest;
+            return this;
+        }
+
+        /**
+         * @param scaleIndication
+         * @see NFeItemScaleIndication
+         * @return
+         */
+        public Builder withScaleIndication(NFeItemScaleIndication scaleIndication) {
+            this.scaleIndication = scaleIndication;
+            return this;
+        }
+
+        /**
+         * CNPJ do Fabricante da Mercadoria, obrigatório para produto em escala NÃO relevante
+         *
+         * @param manufacturerCnpj
+         * @return
+         */
+        public Builder withManufacturerCnpj(final String manufacturerCnpj) {
+            this.manufacturerCnpj = manufacturerCnpj;
+            return this;
+        }
+
+        /**
+         * Código de Benefício Fiscal na UF aplicado ao item. Permite informar por produto o mesmo código do benefício utilizados na EFD e outras declarações e obrigações acessórias que as UF exigem
+         *
+         * @param manufacturerCnpj
+         * @return
+         */
+        public Builder withBeneficiaryCode(final String beneficiaryCode) {
+            this.beneficiaryCode = beneficiaryCode;
             return this;
         }
 
@@ -338,8 +394,30 @@ public class NFeItem implements Serializable {
          * @param medications
          * @return
          */
-        public Builder withMedications(final List<Medications> medications) {
+        public Builder withMedications(final Medications medications) {
             this.medications = medications;
+            return this;
+        }
+
+        /**
+         * 
+         * @see Gun
+         * @param guns
+         * @return
+         */
+        public Builder withGuns(final List<Gun> guns) {
+            this.guns = guns;
+            return this;
+        }
+
+        /**
+         * 
+         * @see Fuel
+         * @param fuel
+         * @return
+         */
+        public Builder witFuel(final Fuel fuel) {
+            this.fuel = fuel;
             return this;
         }
 
@@ -367,6 +445,9 @@ public class NFeItem implements Serializable {
         this.itemDescription = null;
         this.ncm = null;
         this.cest = null;
+        this.scaleIndication = null;
+        this.manufacturerCnpj = null;
+        this.beneficiaryCode = null;
         this.cfop = null;
         this.comercialUnit = null;
         this.comercialQuantity = null;
@@ -382,6 +463,8 @@ public class NFeItem implements Serializable {
         this.freightValue = null;
         this.othersValue = null;
         this.medications = null;
+        this.guns = null;
+        this.fuel = null;
         this.importDeclarations = null;
     }
 
@@ -391,6 +474,9 @@ public class NFeItem implements Serializable {
         this.itemDescription = builder.itemDescription;
         this.ncm = builder.ncm;
         this.cest = builder.cest;
+        this.scaleIndication = builder.scaleIndication;
+        this.manufacturerCnpj = builder.manufacturerCnpj;
+        this.beneficiaryCode = builder.beneficiaryCode;
         this.cfop = builder.cfop;
         this.comercialUnit = builder.comercialUnit;
         this.comercialQuantity = builder.comercialQuantity;
@@ -406,6 +492,8 @@ public class NFeItem implements Serializable {
         this.freightValue = builder.freightValue;
         this.othersValue = builder.othersValue;
         this.medications = builder.medications;
+        this.guns = builder.guns;
+        this.fuel = builder.fuel;
         this.importDeclarations = builder.importDeclarations;
     }
 
@@ -431,6 +519,18 @@ public class NFeItem implements Serializable {
 
     public String getCest() {
         return this.cest;
+    }
+
+    public NFeItemScaleIndication getScaleIndication() {
+        return scaleIndication;
+    }
+
+    public String getManufacturerCnpj() {
+        return manufacturerCnpj;
+    }
+
+    public String getBeneficiaryCode() {
+        return beneficiaryCode;
     }
 
     public CFOP getCfop() {
@@ -489,8 +589,16 @@ public class NFeItem implements Serializable {
         return this.othersValue;
     }
 
-    public List<Medications> getMedications() {
-        return this.medications;
+    public Medications getMedications() {
+        return medications;
+    }
+
+    public List<Gun> getGuns() {
+        return guns;
+    }
+
+    public Fuel getFuel() {
+        return fuel;
     }
 
     public List<ImportDeclaration> getImportDeclarations() {

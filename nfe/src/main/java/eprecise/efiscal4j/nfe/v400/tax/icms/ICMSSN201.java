@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.nfe.v400.tax.icms.ICMS10.Builder;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
@@ -36,6 +37,12 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
 
     private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
 
+    private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
+
+    private @XmlElement(name = "pFCPST") @NFeDecimal0302a04Optional final String fcpStAliquot;
+
+    private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
+
     private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
 
     private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
@@ -53,6 +60,12 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
         private String icmsStAliquot;
 
         private String icmsStValue;
+
+        private String bcFcpValueST;
+
+        private String fcpStAliquot;
+
+        private String fcpStValue;
 
         private String creditSnAliquot;
 
@@ -116,6 +129,38 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
         }
 
         /**
+         * Valor da Base de cálculo do FCP retido por substituicao tributaria
+         * 
+         * @param bcFcpValueST
+         */
+        public Builder withBcFcpValueST(final String bcFcpValueST) {
+            this.bcFcpValueST = bcFcpValueST;
+            return this;
+        }
+
+        /**
+         * Percentual de FCP retido por substituição tributária
+         *
+         * @param fcpStAliquot
+         * @return
+         */
+        public Builder withFcpStAliquot(final String fcpStAliquot) {
+            this.fcpStAliquot = fcpStAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do FCP retido por substituição tributária
+         *
+         * @param fcpStValue
+         * @return
+         */
+        public Builder withFcpStValue(final String fcpStValue) {
+            this.fcpStValue = fcpStValue;
+            return this;
+        }
+
+        /**
          * Alíquota aplicável de cálculo do crédito (Simples Nacional). (v2.0)
          *
          * @param creditSnAliquot
@@ -151,6 +196,9 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
         this.bcValueST = null;
         this.icmsStAliquot = null;
         this.icmsStValue = null;
+        this.bcFcpValueST = null;
+        this.fcpStAliquot = null;
+        this.fcpStValue = null;
         this.creditSnAliquot = null;
         this.creditSnIcmsValue = null;
     }
@@ -163,41 +211,55 @@ class ICMSSN201 extends BaseICMSSN implements IcmsWithST {
         this.bcValueST = builder.bcValueST;
         this.icmsStAliquot = builder.icmsStAliquot;
         this.icmsStValue = builder.icmsStValue;
+        this.bcFcpValueST = builder.bcFcpValueST;
+        this.fcpStAliquot = builder.fcpStAliquot;
+        this.fcpStValue = builder.fcpStValue;
         this.creditSnAliquot = builder.creditSnAliquot;
         this.creditSnIcmsValue = builder.creditSnIcmsValue;
     }
 
     public BCModalityST getBcModalitySt() {
-        return this.bcModalitySt;
+        return bcModalitySt;
     }
 
     public String getValueMarginAddedStPercent() {
-        return this.valueMarginAddedStPercent;
+        return valueMarginAddedStPercent;
     }
 
     public String getBcReductionStPercent() {
-        return this.bcReductionStPercent;
+        return bcReductionStPercent;
     }
 
     public String getBcValueST() {
-        return this.bcValueST;
+        return bcValueST;
     }
 
     public String getIcmsStAliquot() {
-        return this.icmsStAliquot;
+        return icmsStAliquot;
     }
 
-    @Override
     public String getIcmsStValue() {
-        return this.icmsStValue;
+        return icmsStValue;
+    }
+
+    public String getBcFcpValueST() {
+        return bcFcpValueST;
+    }
+
+    public String getFcpStAliquot() {
+        return fcpStAliquot;
+    }
+
+    public String getFcpStValue() {
+        return fcpStValue;
     }
 
     public String getCreditSnAliquot() {
-        return this.creditSnAliquot;
+        return creditSnAliquot;
     }
 
     public String getCreditSnIcmsValue() {
-        return this.creditSnIcmsValue;
+        return creditSnIcmsValue;
     }
 
 }

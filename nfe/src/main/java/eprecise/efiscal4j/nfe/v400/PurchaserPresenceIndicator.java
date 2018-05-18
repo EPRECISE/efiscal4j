@@ -25,6 +25,7 @@ public enum PurchaserPresenceIndicator {
     @XmlEnumValue("2") NAO_PRESENCIAL_INTERNET(2, "Não Presencial - Internet"),
     @XmlEnumValue("3") NAO_PRESENCIAL_TELEATENDIMENTO(3, "Não Presencial - Teleatendimento"),
     @XmlEnumValue("4") NFCE_ENTREGA_DOMICILIO(4, "NFC-e Entrega a Domicílio"),
+    @XmlEnumValue("5") OPERACAO_PRESENCIAL_FORA_ESTABELECIMENTO(5, "Operação presencial, fora do estabelecimento"),
     @XmlEnumValue("9") NAO_PRESENCIAL_OUTROS(9, "Não Presencial - Outros");
 
     private static final long serialVersionUID = 1L;

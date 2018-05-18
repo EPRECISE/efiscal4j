@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.v400.tax.icms.validation.ICMSSTRetained;
+import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
 
@@ -25,13 +26,29 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
 
     private @XmlElement(name = "vBCSTRet") @NFeDecimal1302 final String bcRetainedValueST;
 
+    private @XmlElement(name = "pST") @NFeDecimal0302a04Optional final String endConsumerSupportedAliquot;
+
     private @XmlElement(name = "vICMSSTRet") @NFeDecimal1302 final String icmsRetainedValueST;
+
+    private @XmlElement(name = "vBCFCPSTRet") @NFeDecimal1302 final String bcFcpRetainedValueST;
+
+    private @XmlElement(name = "pFCPSTRet") @NFeDecimal0302a04Optional final String fcpRetainedAliquotST;
+
+    private @XmlElement(name = "vFCPSTRet") @NFeDecimal1302 final String fcpRetainedValueST;
 
     public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
         private String bcRetainedValueST;
 
+        private String endConsumerSupportedAliquot;
+
         private String icmsRetainedValueST;
+
+        private String bcFcpRetainedValueST;
+
+        private String fcpRetainedAliquotST;
+
+        private String fcpRetainedValueST;
 
         /**
          * {@inheritDoc}
@@ -53,6 +70,17 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
         }
 
         /**
+         * Aliquota suportada pelo consumidor final
+         *
+         * @param endConsumerSupportedAliquot
+         * @return
+         */
+        public Builder withEndConsumerSupportedAliquot(final String endConsumerSupportedAliquot) {
+            this.endConsumerSupportedAliquot = endConsumerSupportedAliquot;
+            return this;
+        }
+
+        /**
          * Valor do ICMS ST retido anteriormente
          * 
          * @param icmsRetainedValueST
@@ -60,6 +88,38 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
          */
         public Builder withIcmsRetainedValueST(final String icmsRetainedValueST) {
             this.icmsRetainedValueST = icmsRetainedValueST;
+            return this;
+        }
+
+        /**
+         * Valor da Base de cálculo do FCP retido anteriormente por ST
+         * 
+         * @param bcFcpRetainedValueST
+         */
+        public Builder withBcFcpRetainedValueST(final String bcFcpRetainedValueST) {
+            this.bcFcpRetainedValueST = bcFcpRetainedValueST;
+            return this;
+        }
+
+        /**
+         * Percentual de FCP retido anteriormente por substituição tributária
+         *
+         * @param fcpRetainedAliquotST
+         * @return
+         */
+        public Builder withFcpRetainedAliquotST(final String fcpRetainedAliquotST) {
+            this.fcpRetainedAliquotST = fcpRetainedAliquotST;
+            return this;
+        }
+
+        /**
+         * Valor do FCP retido por substituição tributária
+         *
+         * @param fcpRetainedValueST
+         * @return
+         */
+        public Builder withFcpRetainedValueST(final String fcpRetainedValueST) {
+            this.fcpRetainedValueST = fcpRetainedValueST;
             return this;
         }
 
@@ -72,13 +132,21 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
 
     public ICMS60() {
         this.bcRetainedValueST = null;
+        this.endConsumerSupportedAliquot = null;
         this.icmsRetainedValueST = null;
+        this.bcFcpRetainedValueST = null;
+        this.fcpRetainedAliquotST = null;
+        this.fcpRetainedValueST = null;
     }
 
     protected ICMS60(final ICMS60.Builder builder) {
         super(builder.origin, "60");
         this.bcRetainedValueST = builder.bcRetainedValueST;
+        this.endConsumerSupportedAliquot = builder.endConsumerSupportedAliquot;
         this.icmsRetainedValueST = builder.icmsRetainedValueST;
+        this.bcFcpRetainedValueST = builder.bcFcpRetainedValueST;
+        this.fcpRetainedAliquotST = builder.fcpRetainedAliquotST;
+        this.fcpRetainedValueST = builder.fcpRetainedValueST;
     }
 
     @Override
@@ -86,8 +154,24 @@ class ICMS60 extends BaseICMS implements ICMSSTRetained {
         return this.bcRetainedValueST;
     }
 
+    public String getEndConsumerSupportedAliquot() {
+        return endConsumerSupportedAliquot;
+    }
+
     @Override
     public String getIcmsRetainedValueST() {
         return this.icmsRetainedValueST;
+    }
+
+    public String getBcFcpRetainedValueST() {
+        return bcFcpRetainedValueST;
+    }
+
+    public String getFcpRetainedAliquotST() {
+        return fcpRetainedAliquotST;
+    }
+
+    public String getFcpRetainedValueST() {
+        return fcpRetainedValueST;
     }
 }

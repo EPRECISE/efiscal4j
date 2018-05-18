@@ -26,6 +26,13 @@ public enum CardFlag implements Serializable {
 	@XmlEnumValue("02") MASTERCARD("02", "Mastercard"),
 	@XmlEnumValue("03") AMERICAN_EXPRESS("03", "American Express"),
 	@XmlEnumValue("04") SOROCRED("04", "Sorocred"),
+	
+	@XmlEnumValue("05") DINERS("05", "Diners"),
+	@XmlEnumValue("06") ELO("06", "Elo"),
+	@XmlEnumValue("07") HIPERCARD("07", "Hipercard"),
+	@XmlEnumValue("08") AURA("08", "Aura"),
+	@XmlEnumValue("09") CABAL("09", "Cabal"),
+	
 	@XmlEnumValue("99") OUTROS("99", "Outros");
 
 	private static final long serialVersionUID = 1L;

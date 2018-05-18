@@ -23,7 +23,6 @@ public class IPIAdapter extends XmlAdapter<IPIAdapter.AdaptedIPI, IPI> {
 
     @Override
     public IPI unmarshal(AdaptedIPI v) throws Exception {
-        v.getIpi().ipiFrameworkClass = v.ipiFrameworkClass;
         v.getIpi().ipiSealCode = v.ipiSealCode;
         v.getIpi().ipiSealQuantity = v.ipiSealQuantity;
         v.getIpi().legalFramework = v.legalFramework;
@@ -38,8 +37,6 @@ public class IPIAdapter extends XmlAdapter<IPIAdapter.AdaptedIPI, IPI> {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     protected static class AdaptedIPI {
-
-        @XmlElement(name = "clEnq") @Size(min = 1, max = 5) String ipiFrameworkClass;
 
         @XmlElement(name = "CNPJProd") @NFeCNPJ String producerCNPJ;
 
@@ -76,7 +73,6 @@ public class IPIAdapter extends XmlAdapter<IPIAdapter.AdaptedIPI, IPI> {
 
         public AdaptedIPI(IPI ipi) {
             this.ipi = ipi;
-            this.ipiFrameworkClass = ipi.getIpiFrameworkClass();
             this.producerCNPJ = ipi.getProducerCNPJ();
             this.ipiSealCode = ipi.getIpiSealCode();
             this.ipiSealQuantity = ipi.getIpiSealQuantity();

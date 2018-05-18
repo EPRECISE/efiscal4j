@@ -5,8 +5,10 @@
 package eprecise.efiscal4j.nfe.v400.payment;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,48 +28,34 @@ public class NFePayment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "tPag") @NotNull final PaymentMethod paymentMethod;
+    private @XmlElement(name = "detPag") @NotNull @Size(min = 1, max = 100) final List<NFePaymentDetail> paymentDetails;
 
-    private @XmlElement(name = "vPag") @NotNull @NFeDecimal1302 final String paymentValue;
-
-    private @XmlElement(name = "card") CardSet cardSet;
+    private @XmlElement(name = "vTroco") @NFeDecimal1302 final String changeValue;
 
     public static class Builder {
 
-        private PaymentMethod paymentMethod;
+        private List<NFePaymentDetail> paymentDetails;
 
-        private String paymentValue;
-
-        private CardSet cardSet;
+        private String changeValue;
 
         /**
-         * @see PaymentMethod
-         * @param paymentMethod
+         * @see NFePaymentDetail
+         * @param paymentDetails
          * @return
          */
-        public Builder withPaymentMethod(PaymentMethod paymentMethod) {
-            this.paymentMethod = paymentMethod;
+        public Builder withNFePaymentDetails(List<NFePaymentDetail> paymentDetails) {
+            this.paymentDetails = paymentDetails;
             return this;
         }
 
         /**
-         * Valor do Pagamento
+         * Valor do troco
          * 
          * @param value
          * @return
          */
-        public Builder withPaymentValue(String paymentValue) {
-            this.paymentValue = paymentValue;
-            return this;
-        }
-
-        /**
-         * @see CardSet
-         * @param cardSet
-         * @return
-         */
-        public Builder withCardSet(CardSet cardSet) {
-            this.cardSet = cardSet;
+        public Builder withChangeValue(String changeValue) {
+            this.changeValue = changeValue;
             return this;
         }
 
@@ -80,27 +68,22 @@ public class NFePayment implements Serializable {
     }
 
     public NFePayment() {
-        this.paymentMethod = null;
-        this.paymentValue = null;
+        this.paymentDetails = null;
+        this.changeValue = null;
 
     }
 
     public NFePayment(Builder builder) {
-        this.paymentMethod = builder.paymentMethod;
-        this.paymentValue = builder.paymentValue;
-        this.cardSet = builder.cardSet;
+        this.paymentDetails = builder.paymentDetails;
+        this.changeValue = builder.changeValue;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return this.paymentMethod;
+    public List<NFePaymentDetail> getPaymentDetails() {
+        return paymentDetails;
     }
 
-    public String getPaymentValue() {
-        return this.paymentValue;
-    }
-
-    public CardSet getCardSet() {
-        return this.cardSet;
+    public String getChangeValue() {
+        return changeValue;
     }
 
 }

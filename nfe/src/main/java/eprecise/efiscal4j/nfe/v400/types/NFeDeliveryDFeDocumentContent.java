@@ -16,8 +16,8 @@ import javax.validation.Payload;
 
 import org.apache.commons.lang3.StringUtils;
 
-import eprecise.efiscal4j.nfe.v400.utils.ByteArrayCompressor;
-import eprecise.efiscal4j.nfe.v400.utils.ByteArrayDecompressor;
+import eprecise.efiscal4j.nfe.v310.utils.ByteArrayCompressor;
+import eprecise.efiscal4j.nfe.v310.utils.ByteArrayDecompressor;
 
 
 /**
@@ -34,7 +34,7 @@ import eprecise.efiscal4j.nfe.v400.utils.ByteArrayDecompressor;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@eprecise.efiscal4j.nfe.v400.types.Base64
+@eprecise.efiscal4j.nfe.v310.types.Base64
 public @interface NFeDeliveryDFeDocumentContent {
 
     String message() default "Viola restrição - Conteúdo com Base64";

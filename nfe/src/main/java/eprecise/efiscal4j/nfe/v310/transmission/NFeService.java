@@ -19,13 +19,13 @@ import eprecise.efiscal4j.nfe.v310.TransmissionEnvironment;
 
 public enum NFeService implements FiscalDocumentService, Serializable {
 
-    AUTHORIZATION("/eprecise/efiscal4j/nfe/transmission/authorizationHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/authorizationProduction.properties"),
-    AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/transmission/authorizationResultHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/authorizationResultProduction.properties"),
-    EVENT_RECEPTION("/eprecise/efiscal4j/nfe/transmission/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/eventReceptionProduction.properties"),
-    PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/transmission/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/protocolSearchProduction.properties"),
-    SERVICE_STATUS("/eprecise/efiscal4j/nfe/transmission/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/serviceStatusProduction.properties"),
-    DISABILITY("/eprecise/efiscal4j/nfe/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/disabilityProduction.properties"), 
-    DELIVERY_DFE("/eprecise/efiscal4j/nfe/transmission/deliveryDFeHomolog.properties", "/eprecise/efiscal4j/nfe/transmission/deliveryDFeProduction.properties");
+    AUTHORIZATION("/eprecise/efiscal4j/nfe/v310/transmission/authorizationHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/authorizationProduction.properties"),
+    AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/v310/transmission/authorizationResultHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/authorizationResultProduction.properties"),
+    EVENT_RECEPTION("/eprecise/efiscal4j/nfe/v310/transmission/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/eventReceptionProduction.properties"),
+    PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/v310/transmission/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/protocolSearchProduction.properties"),
+    SERVICE_STATUS("/eprecise/efiscal4j/nfe/v310/transmission/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/serviceStatusProduction.properties"),
+    DISABILITY("/eprecise/efiscal4j/nfe/v310/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/disabilityProduction.properties"), 
+    DELIVERY_DFE("/eprecise/efiscal4j/nfe/v310/transmission/deliveryDFeHomolog.properties", "/eprecise/efiscal4j/nfe/v310/transmission/deliveryDFeProduction.properties");
 
     private static final long serialVersionUID = 1L;
 

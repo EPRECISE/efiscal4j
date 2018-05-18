@@ -53,7 +53,7 @@ public enum PISCST implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final PropertiesLoader pisCstMap = new PropertiesLoader.Builder().resourceLoader(PISCST.class).from("/eprecise/efiscal4j/nfe/pisCst.properties").create();
+    private final PropertiesLoader pisCstMap = new PropertiesLoader.Builder().resourceLoader(PISCST.class).from("/eprecise/efiscal4j/nfe/v400/pisCst.properties").create();
 
     private final String value;
 

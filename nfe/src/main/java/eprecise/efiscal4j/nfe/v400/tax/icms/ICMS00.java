@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04;
+import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
 
@@ -29,6 +30,10 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
 
     private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
 
+    private @XmlElement(name = "pFCP") @NFeDecimal0302a04Optional final String fcpAliquot;
+
+    private @XmlElement(name = "vFCP") @NFeDecimal1302 final String fcpValue;
+
     public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
         private BCModality bcModality;
@@ -38,6 +43,10 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
         private String icmsAliquot;
 
         private String icmsValue;
+
+        private String fcpAliquot;
+
+        private String fcpValue;
 
         /**
          * {@inheritDoc}
@@ -90,6 +99,28 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
             return this;
         }
 
+        /**
+         * Percentual de ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpAliquot
+         * @return
+         */
+        public Builder withFcpAliquot(final String fcpAliquot) {
+            this.fcpAliquot = fcpAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpValue
+         * @return
+         */
+        public Builder withFcpValue(final String fcpValue) {
+            this.fcpValue = fcpValue;
+            return this;
+        }
+
         @Override
         public ICMS00 build() {
             return new ICMS00(this);
@@ -101,6 +132,8 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
         this.bcValue = null;
         this.icmsAliquot = null;
         this.icmsValue = null;
+        this.fcpAliquot = null;
+        this.fcpValue = null;
     }
 
     protected ICMS00(final ICMS00.Builder builder) {
@@ -109,6 +142,8 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
         this.bcValue = builder.bcValue;
         this.icmsAliquot = builder.icmsAliquot;
         this.icmsValue = builder.icmsValue;
+        this.fcpAliquot = builder.fcpAliquot;
+        this.fcpValue = builder.fcpValue;
     }
 
     public BCModality getBcModality() {
@@ -126,6 +161,14 @@ class ICMS00 extends BaseICMS implements IcmsWithValue {
     @Override
     public String getIcmsValue() {
         return this.icmsValue;
+    }
+
+    public String getFcpAliquot() {
+        return fcpAliquot;
+    }
+
+    public String getFcpValue() {
+        return fcpValue;
     }
 
 }

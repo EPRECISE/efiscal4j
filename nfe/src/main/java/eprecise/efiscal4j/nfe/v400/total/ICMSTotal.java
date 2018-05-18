@@ -23,43 +23,51 @@ public class ICMSTotal implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 String icmsCalculationBasis;
+    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String icmsCalculationBasis;
 
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 String icmsTotalValue;
+    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsTotalValue;
 
-    private @XmlElement(name = "vICMSDeson") @NotNull @NFeDecimal1302 String icmsTotalDesoneration;
+    private @XmlElement(name = "vICMSDeson") @NotNull @NFeDecimal1302 final String icmsTotalDesoneration;
 
-    private @XmlElement(name = "vFCPUFDest") @NFeDecimal1302 String receiverUfFCPTotalValue;
+    private @XmlElement(name = "vFCPUFDest") @NFeDecimal1302 final String receiverUfFCPTotalValue;
 
-    private @XmlElement(name = "vICMSUFDest") @NFeDecimal1302 String receiverUfIcmsShareTotalValue;
+    private @XmlElement(name = "vICMSUFDest") @NFeDecimal1302 final String receiverUfIcmsShareTotalValue;
 
-    private @XmlElement(name = "vICMSUFRemet") @NFeDecimal1302 String emitterUfIcmsShareTotalValue;
+    private @XmlElement(name = "vICMSUFRemet") @NFeDecimal1302 final String emitterUfIcmsShareTotalValue;
 
-    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 String icmsSTCalculationBasis;
+    private @XmlElement(name = "vFCP") @NotNull @NFeDecimal1302 final String fcpTotalValue;
 
-    private @XmlElement(name = "vST") @NotNull @NFeDecimal1302 String icmsSTTotalValue;
+    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String icmsSTCalculationBasis;
 
-    private @XmlElement(name = "vProd") @NotNull @NFeDecimal1302 String itemsTotalValue;
+    private @XmlElement(name = "vST") @NotNull @NFeDecimal1302 final String icmsSTTotalValue;
 
-    private @XmlElement(name = "vFrete") @NotNull @NFeDecimal1302 String shippingTotalValue;
+    private @XmlElement(name = "vFCPST") @NotNull @NFeDecimal1302 final String fcpStTotalValue;
 
-    private @XmlElement(name = "vSeg") @NotNull @NFeDecimal1302 String insuranceTotalValue;
+    private @XmlElement(name = "vFCPSTRet") @NotNull @NFeDecimal1302 final String fcpStRetainedTotalValue;
 
-    private @XmlElement(name = "vDesc") @NotNull @NFeDecimal1302 String discountTotalValue;
+    private @XmlElement(name = "vProd") @NotNull @NFeDecimal1302 final String itemsTotalValue;
 
-    private @XmlElement(name = "vII") @NotNull @NFeDecimal1302 String iiTotalValue;
+    private @XmlElement(name = "vFrete") @NotNull @NFeDecimal1302 final String shippingTotalValue;
 
-    private @XmlElement(name = "vIPI") @NotNull @NFeDecimal1302 String ipiTotalValue;
+    private @XmlElement(name = "vSeg") @NotNull @NFeDecimal1302 final String insuranceTotalValue;
 
-    private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 String pisTotalValue;
+    private @XmlElement(name = "vDesc") @NotNull @NFeDecimal1302 final String discountTotalValue;
 
-    private @XmlElement(name = "vCOFINS") @NotNull @NFeDecimal1302 String cofinsTotalValue;
+    private @XmlElement(name = "vII") @NotNull @NFeDecimal1302 final String iiTotalValue;
 
-    private @XmlElement(name = "vOutro") @NotNull @NFeDecimal1302 String otherIncidentalCostsTotalValue;
+    private @XmlElement(name = "vIPI") @NotNull @NFeDecimal1302 final String ipiTotalValue;
 
-    private @XmlElement(name = "vNF") @NotNull @NFeDecimal1302 String nfeTotalValue;
+    private @XmlElement(name = "vIPIDevol") @NotNull @NFeDecimal1302 final String returnedIpiTotalValue;
 
-    private @XmlElement(name = "vTotTrib") @NFeDecimal1302 String taxTotalValue;
+    private @XmlElement(name = "vPIS") @NotNull @NFeDecimal1302 final String pisTotalValue;
+
+    private @XmlElement(name = "vCOFINS") @NotNull @NFeDecimal1302 final String cofinsTotalValue;
+
+    private @XmlElement(name = "vOutro") @NotNull @NFeDecimal1302 final String otherIncidentalCostsTotalValue;
+
+    private @XmlElement(name = "vNF") @NotNull @NFeDecimal1302 final String nfeTotalValue;
+
+    private @XmlElement(name = "vTotTrib") @NFeDecimal1302 final String taxTotalValue;
 
     public static class Builder {
 
@@ -75,9 +83,15 @@ public class ICMSTotal implements Serializable {
 
         private String emitterUfIcmsShareTotalValue;
 
+        private String fcpTotalValue;
+
         private String icmsSTCalculationBasis;
 
         private String icmsSTTotalValue;
+
+        private String fcpStTotalValue;
+
+        private String fcpStRetainedTotalValue;
 
         private String itemsTotalValue;
 
@@ -86,6 +100,16 @@ public class ICMSTotal implements Serializable {
         private String insuranceTotalValue;
 
         private String discountTotalValue;
+
+        private String iiTotalValue;
+
+        private String ipiTotalValue;
+
+        private String returnedIpiTotalValue;
+
+        private String pisTotalValue;
+
+        private String cofinsTotalValue;
 
         private String otherIncidentalCostsTotalValue;
 
@@ -160,6 +184,17 @@ public class ICMSTotal implements Serializable {
         }
 
         /**
+         * Valor Total do FCP (Fundo de Combate à Pobreza)
+         * 
+         * @param fcpTotalValue
+         * @return
+         */
+        public Builder withFcpTotalValue(String fcpTotalValue) {
+            this.fcpTotalValue = fcpTotalValue;
+            return this;
+        }
+
+        /**
          * BC do ICMS ST
          * 
          * @param icmsSTCalculationBasis
@@ -178,6 +213,28 @@ public class ICMSTotal implements Serializable {
          */
         public Builder withICMSSTTotalValue(String icmsSTTotalValue) {
             this.icmsSTTotalValue = icmsSTTotalValue;
+            return this;
+        }
+
+        /**
+         * Valor Total do FCP (Fundo de Combate à Pobreza) retido por substituição tributária
+         * 
+         * @param fcpStTotalValue
+         * @return
+         */
+        public Builder withFcpStTotalValue(String fcpStTotalValue) {
+            this.fcpStTotalValue = fcpStTotalValue;
+            return this;
+        }
+
+        /**
+         * Valor Total do FCP (Fundo de Combate à Pobreza) retido anteriormente por substituição tributária
+         * 
+         * @param fcpStRetainedTotalValue
+         * @return
+         */
+        public Builder withFcpStRetainedTotalValue(String fcpStRetainedTotalValue) {
+            this.fcpStRetainedTotalValue = fcpStRetainedTotalValue;
             return this;
         }
 
@@ -231,10 +288,10 @@ public class ICMSTotal implements Serializable {
          * @param iiTotalValue
          * @return
          */
-        // public Builder withIITotalValue(String iiTotalValue) {
-        // this.iiTotalValue = iiTotalValue;
-        // return this;
-        // }
+        public Builder withIITotalValue(String iiTotalValue) {
+            this.iiTotalValue = iiTotalValue;
+            return this;
+        }
 
         /**
          * Valor Total do IPI
@@ -242,10 +299,22 @@ public class ICMSTotal implements Serializable {
          * @param ipiTotalValue
          * @return
          */
-        // public Builder withIPITotalValue(String ipiTotalValue) {
-        // this.ipiTotalValue = ipiTotalValue;
-        // return this;
-        // }
+        public Builder withIPITotalValue(String ipiTotalValue) {
+            this.ipiTotalValue = ipiTotalValue;
+            return this;
+        }
+
+        /**
+         * Valor Total do IPI devolvido. Deve ser informado quando preenchido o Grupo Tributos Devolvidos na emissão de nota finNFe=4 (devolução) nas operações com não contribuintes do IPI.
+         * Corresponde ao total da soma dos campos id: UA04
+         * 
+         * @param returnedIpiTotalValue
+         * @return
+         */
+        public Builder withReturnedIpiTotalValue(String returnedIpiTotalValue) {
+            this.returnedIpiTotalValue = returnedIpiTotalValue;
+            return this;
+        }
 
         /**
          * Valor do PIS
@@ -253,10 +322,10 @@ public class ICMSTotal implements Serializable {
          * @param pisTotalValue
          * @return
          */
-        // public Builder withPISTotalValue(String pisTotalValue) {
-        // this.pisTotalValue = pisTotalValue;
-        // return this;
-        // }
+        public Builder withPISTotalValue(String pisTotalValue) {
+            this.pisTotalValue = pisTotalValue;
+            return this;
+        }
 
         /**
          * Valor do COFINS
@@ -264,10 +333,10 @@ public class ICMSTotal implements Serializable {
          * @param cofinsTotalValue
          * @return
          */
-        // public Builder withCOFINSTotalValue(String cofinsTotalValue) {
-        // this.cofinsTotalValue = cofinsTotalValue;
-        // return this;
-        // }
+        public Builder withCOFINSTotalValue(String cofinsTotalValue) {
+            this.cofinsTotalValue = cofinsTotalValue;
+            return this;
+        }
 
         /**
          * Outras Despesas acessórias
@@ -308,6 +377,29 @@ public class ICMSTotal implements Serializable {
     }
 
     public ICMSTotal() {
+        this.icmsCalculationBasis = null;
+        this.icmsTotalValue = null;
+        this.icmsTotalDesoneration = null;
+        this.receiverUfFCPTotalValue = null;
+        this.receiverUfIcmsShareTotalValue = null;
+        this.emitterUfIcmsShareTotalValue = null;
+        this.fcpTotalValue = null;
+        this.icmsSTCalculationBasis = null;
+        this.icmsSTTotalValue = null;
+        this.fcpStTotalValue = null;
+        this.fcpStRetainedTotalValue = null;
+        this.itemsTotalValue = null;
+        this.shippingTotalValue = null;
+        this.insuranceTotalValue = null;
+        this.discountTotalValue = null;
+        this.iiTotalValue = null;
+        this.ipiTotalValue = null;
+        this.returnedIpiTotalValue = null;
+        this.pisTotalValue = null;
+        this.cofinsTotalValue = null;
+        this.otherIncidentalCostsTotalValue = null;
+        this.nfeTotalValue = null;
+        this.taxTotalValue = null;
     }
 
     public ICMSTotal(Builder builder) {
@@ -317,167 +409,115 @@ public class ICMSTotal implements Serializable {
         this.receiverUfFCPTotalValue = builder.receiverUfFCPTotalValue;
         this.receiverUfIcmsShareTotalValue = builder.receiverUfIcmsShareTotalValue;
         this.emitterUfIcmsShareTotalValue = builder.emitterUfIcmsShareTotalValue;
+        this.fcpTotalValue = builder.fcpTotalValue;
         this.icmsSTCalculationBasis = builder.icmsSTCalculationBasis;
         this.icmsSTTotalValue = builder.icmsSTTotalValue;
+        this.fcpStTotalValue = builder.fcpStTotalValue;
+        this.fcpStRetainedTotalValue = builder.fcpStRetainedTotalValue;
         this.itemsTotalValue = builder.itemsTotalValue;
         this.shippingTotalValue = builder.shippingTotalValue;
         this.insuranceTotalValue = builder.insuranceTotalValue;
         this.discountTotalValue = builder.discountTotalValue;
+        this.iiTotalValue = builder.iiTotalValue;
+        this.ipiTotalValue = builder.ipiTotalValue;
+        this.returnedIpiTotalValue = builder.returnedIpiTotalValue;
+        this.pisTotalValue = builder.pisTotalValue;
+        this.cofinsTotalValue = builder.cofinsTotalValue;
         this.otherIncidentalCostsTotalValue = builder.otherIncidentalCostsTotalValue;
         this.nfeTotalValue = builder.nfeTotalValue;
         this.taxTotalValue = builder.taxTotalValue;
     }
 
     public String getIcmsCalculationBasis() {
-        return this.icmsCalculationBasis;
-    }
-
-    public void setIcmsCalculationBasis(String icmsCalculationBasis) {
-        this.icmsCalculationBasis = icmsCalculationBasis;
+        return icmsCalculationBasis;
     }
 
     public String getIcmsTotalValue() {
-        return this.icmsTotalValue;
-    }
-
-    public void setIcmsTotalValue(String icmsTotalValue) {
-        this.icmsTotalValue = icmsTotalValue;
+        return icmsTotalValue;
     }
 
     public String getIcmsTotalDesoneration() {
-        return this.icmsTotalDesoneration;
-    }
-
-    public void setIcmsTotalDesoneration(String icmsTotalDesoneration) {
-        this.icmsTotalDesoneration = icmsTotalDesoneration;
+        return icmsTotalDesoneration;
     }
 
     public String getReceiverUfFCPTotalValue() {
-        return this.receiverUfFCPTotalValue;
-    }
-
-    public void setReceiverUfFCPTotalValue(String receiverUfFCPTotalValue) {
-        this.receiverUfFCPTotalValue = receiverUfFCPTotalValue;
+        return receiverUfFCPTotalValue;
     }
 
     public String getReceiverUfIcmsShareTotalValue() {
-        return this.receiverUfIcmsShareTotalValue;
-    }
-
-    public void setReceiverUfIcmsShareTotalValue(String receiverUfIcmsShareTotalValue) {
-        this.receiverUfIcmsShareTotalValue = receiverUfIcmsShareTotalValue;
+        return receiverUfIcmsShareTotalValue;
     }
 
     public String getEmitterUfIcmsShareTotalValue() {
-        return this.emitterUfIcmsShareTotalValue;
+        return emitterUfIcmsShareTotalValue;
     }
 
-    public void setEmitterUfIcmsShareTotalValue(String emitterUfIcmsShareTotalValue) {
-        this.emitterUfIcmsShareTotalValue = emitterUfIcmsShareTotalValue;
+    public String getFcpTotalValue() {
+        return fcpTotalValue;
     }
 
     public String getIcmsSTCalculationBasis() {
-        return this.icmsSTCalculationBasis;
-    }
-
-    public void setIcmsSTCalculationBasis(String icmsSTCalculationBasis) {
-        this.icmsSTCalculationBasis = icmsSTCalculationBasis;
+        return icmsSTCalculationBasis;
     }
 
     public String getIcmsSTTotalValue() {
-        return this.icmsSTTotalValue;
+        return icmsSTTotalValue;
     }
 
-    public void setIcmsSTTotalValue(String icmsSTTotalValue) {
-        this.icmsSTTotalValue = icmsSTTotalValue;
+    public String getFcpStTotalValue() {
+        return fcpStTotalValue;
+    }
+
+    public String getFcpStRetainedTotalValue() {
+        return fcpStRetainedTotalValue;
     }
 
     public String getItemsTotalValue() {
-        return this.itemsTotalValue;
-    }
-
-    public void setItemsTotalValue(String itemsTotalValue) {
-        this.itemsTotalValue = itemsTotalValue;
+        return itemsTotalValue;
     }
 
     public String getShippingTotalValue() {
-        return this.shippingTotalValue;
-    }
-
-    public void setShippingTotalValue(String shippingTotalValue) {
-        this.shippingTotalValue = shippingTotalValue;
+        return shippingTotalValue;
     }
 
     public String getInsuranceTotalValue() {
-        return this.insuranceTotalValue;
-    }
-
-    public void setInsuranceTotalValue(String insuranceTotalValue) {
-        this.insuranceTotalValue = insuranceTotalValue;
+        return insuranceTotalValue;
     }
 
     public String getDiscountTotalValue() {
-        return this.discountTotalValue;
-    }
-
-    public void setDiscountTotalValue(String discountTotalValue) {
-        this.discountTotalValue = discountTotalValue;
+        return discountTotalValue;
     }
 
     public String getIiTotalValue() {
-        return this.iiTotalValue;
-    }
-
-    public void setIiTotalValue(String iiTotalValue) {
-        this.iiTotalValue = iiTotalValue;
+        return iiTotalValue;
     }
 
     public String getIpiTotalValue() {
-        return this.ipiTotalValue;
+        return ipiTotalValue;
     }
 
-    public void setIpiTotalValue(String ipiTotalValue) {
-        this.ipiTotalValue = ipiTotalValue;
+    public String getReturnedIpiTotalValue() {
+        return returnedIpiTotalValue;
     }
 
     public String getPisTotalValue() {
-        return this.pisTotalValue;
-    }
-
-    public void setPisTotalValue(String pisTotalValue) {
-        this.pisTotalValue = pisTotalValue;
+        return pisTotalValue;
     }
 
     public String getCofinsTotalValue() {
-        return this.cofinsTotalValue;
-    }
-
-    public void setCofinsTotalValue(String cofinsTotalValue) {
-        this.cofinsTotalValue = cofinsTotalValue;
+        return cofinsTotalValue;
     }
 
     public String getOtherIncidentalCostsTotalValue() {
-        return this.otherIncidentalCostsTotalValue;
-    }
-
-    public void setOtherIncidentalCostsTotalValue(String otherIncidentalCostsTotalValue) {
-        this.otherIncidentalCostsTotalValue = otherIncidentalCostsTotalValue;
+        return otherIncidentalCostsTotalValue;
     }
 
     public String getNfeTotalValue() {
-        return this.nfeTotalValue;
-    }
-
-    public void setNfeTotalValue(String nfeTotalValue) {
-        this.nfeTotalValue = nfeTotalValue;
+        return nfeTotalValue;
     }
 
     public String getTaxTotalValue() {
-        return this.taxTotalValue;
-    }
-
-    public void setTaxTotalValue(String taxTotalValue) {
-        this.taxTotalValue = taxTotalValue;
+        return taxTotalValue;
     }
 
 }

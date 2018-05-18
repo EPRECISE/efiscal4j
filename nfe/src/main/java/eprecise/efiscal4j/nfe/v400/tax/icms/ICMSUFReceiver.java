@@ -27,6 +27,8 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
 
     private @XmlElement(name = "vBCUFDest") @NFeDecimal1302 @NotNull final String receiverUfBcValue;
 
+    private @XmlElement(name = "vBCFCPUFDest") @NFeDecimal1302 final String receiverUfBcFcpValue;
+
     private @XmlElement(name = "pFCPUFDest") @NFeDecimal0302a04 @NotNull final String receiverUfFCPPercentual;
 
     private @XmlElement(name = "pICMSUFDest") @NFeDecimal0302a04 @NotNull final String receiverUfIcmsAliquot;
@@ -44,6 +46,8 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
     public static class Builder {
 
         private String receiverUfBcValue;
+
+        private String receiverUfBcFcpValue;
 
         private String receiverUfFCPPercentual;
 
@@ -67,6 +71,17 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
          */
         public Builder withReceiverUfBcValue(String receiverUfBcValue) {
             this.receiverUfBcValue = receiverUfBcValue;
+            return this;
+        }
+
+        /**
+         * Valor da Base de Cálculo do FCP na UF do destinatário
+         * 
+         * @param receiverUfBcValue
+         * @return
+         */
+        public Builder withReceiverUfBcFcpValue(String receiverUfBcFcpValue) {
+            this.receiverUfBcFcpValue = receiverUfBcFcpValue;
             return this;
         }
 
@@ -157,6 +172,7 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
 
     public ICMSUFReceiver() {
         this.receiverUfBcValue = null;
+        this.receiverUfBcFcpValue = null;
         this.receiverUfFCPPercentual = null;
         this.receiverUfIcmsAliquot = null;
         this.interstateIcmsUfAliquot = null;
@@ -168,6 +184,7 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
 
     public ICMSUFReceiver(Builder builder) {
         this.receiverUfBcValue = builder.receiverUfBcValue;
+        this.receiverUfBcFcpValue = builder.receiverUfBcFcpValue;
         this.receiverUfFCPPercentual = builder.receiverUfFCPPercentual;
         this.receiverUfIcmsAliquot = builder.receiverUfIcmsAliquot;
         this.interstateIcmsUfAliquot = builder.interstateIcmsUfAliquot;
@@ -179,6 +196,10 @@ public class ICMSUFReceiver extends MainTax implements Serializable {
 
     public String getReceiverUfBcValue() {
         return this.receiverUfBcValue;
+    }
+
+    public String getReceiverUfBcFcpValue() {
+        return receiverUfBcFcpValue;
     }
 
     public String getReceiverUfFCPPercentual() {

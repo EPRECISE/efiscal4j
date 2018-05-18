@@ -35,7 +35,7 @@ public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/deliveryDFe/distDFeInt_v1.01.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/deliveryDFe/distDFeInt_v1.01.xsd";
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

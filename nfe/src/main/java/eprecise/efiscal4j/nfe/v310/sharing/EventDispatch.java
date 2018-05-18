@@ -33,13 +33,13 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/event/envEvento_v1.00.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v310/xsd/event/envEvento_v1.00.xsd";
 
-    public static final String XSD_CANC = "/eprecise/efiscal4j/nfe/xsd/event/cancellation/envEventoCancNFe_v1.00.xsd";
+    public static final String XSD_CANC = "/eprecise/efiscal4j/nfe/v310/xsd/event/cancellation/envEventoCancNFe_v1.00.xsd";
 
-    public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/xsd/event/cce/envCCe_v1.00.xsd";
+    public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/v310/xsd/event/cce/envCCe_v1.00.xsd";
 
-    public static final String XSD_RECIP_MANIF = "/eprecise/efiscal4j/nfe/xsd/recipientManifestDfe/envConfRecebto_v1.00.xsd";
+    public static final String XSD_RECIP_MANIF = "/eprecise/efiscal4j/nfe/v310/xsd/recipientManifestDfe/envConfRecebto_v1.00.xsd";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

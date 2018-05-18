@@ -21,7 +21,11 @@ public enum ShippingModality implements Serializable {
     @XmlEnumValue("0") POR_CONTA_EMITENTE(0, "Por conta do emitente"),
     @XmlEnumValue("1") POR_CONTA_DESTINATARIO_REMETENTE(1, "Por conta do destinatário/remetente"),
     @XmlEnumValue("2") POR_CONTA_TERCEIROS(2, "Por conta de terceiros"),
-    @XmlEnumValue("9") SEM_FRETE(9, "Sem frete");
+    
+    @XmlEnumValue("3") PROPRIO_POR_CONTA_REMETENTE(3, "Transporte próprio por conta do remetente"),
+    @XmlEnumValue("4") PROPRIO_POR_CONTA_DESTINATARIO(4, "Transporte próprio por conta do destinatário"),
+    
+    @XmlEnumValue("9") SEM_OCORRENCIA_TRANSPORTE(9, "Sem Ocorrência de transporte");
 
     private static final long serialVersionUID = 1L;
 

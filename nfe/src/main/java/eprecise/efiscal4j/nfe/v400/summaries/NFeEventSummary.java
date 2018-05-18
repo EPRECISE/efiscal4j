@@ -16,14 +16,14 @@ import javax.xml.bind.annotation.XmlTransient;
 import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.v400.address.IBGEOrgan;
-import eprecise.efiscal4j.nfe.v400.sharing.EventType;
-import eprecise.efiscal4j.nfe.v400.types.NFeAccessKey;
-import eprecise.efiscal4j.nfe.v400.types.NFeCNPJ;
-import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
-import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeEventProtocolNumber;
-import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeEventSequence;
-import eprecise.efiscal4j.nfe.v400.types.NFeString;
+import eprecise.efiscal4j.nfe.v310.address.IBGEOrgan;
+import eprecise.efiscal4j.nfe.v310.sharing.EventType;
+import eprecise.efiscal4j.nfe.v310.types.NFeAccessKey;
+import eprecise.efiscal4j.nfe.v310.types.NFeCNPJ;
+import eprecise.efiscal4j.nfe.v310.types.NFeDateTimeUTC;
+import eprecise.efiscal4j.nfe.v310.types.NFeDeliveryDFeEventProtocolNumber;
+import eprecise.efiscal4j.nfe.v310.types.NFeDeliveryDFeEventSequence;
+import eprecise.efiscal4j.nfe.v310.types.NFeString;
 
 
 /**

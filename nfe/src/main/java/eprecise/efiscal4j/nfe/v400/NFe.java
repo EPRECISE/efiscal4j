@@ -39,7 +39,7 @@ public class NFe extends DefaultAssignable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/nfe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/nfe_v4.00.xsd";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

@@ -53,7 +53,7 @@ public enum COFINSCST implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final PropertiesLoader cofinsCstMap = new PropertiesLoader.Builder().resourceLoader(COFINSCST.class).from("/eprecise/efiscal4j/nfe/cofinsCst.properties").create();
+    private final PropertiesLoader cofinsCstMap = new PropertiesLoader.Builder().resourceLoader(COFINSCST.class).from("/eprecise/efiscal4j/nfe/v400/cofinsCst.properties").create();
 
     private final String value;
 

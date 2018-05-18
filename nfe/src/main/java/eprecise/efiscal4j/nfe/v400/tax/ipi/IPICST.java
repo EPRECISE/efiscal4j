@@ -30,7 +30,7 @@ public enum IPICST implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final PropertiesLoader ipiCstMap = new PropertiesLoader.Builder().resourceLoader(IPICST.class).from("/eprecise/efiscal4j/nfe/ipiCst.properties").create();
+    private final PropertiesLoader ipiCstMap = new PropertiesLoader.Builder().resourceLoader(IPICST.class).from("/eprecise/efiscal4j/nfe/v400/ipiCst.properties").create();
 
     private final String value;
 

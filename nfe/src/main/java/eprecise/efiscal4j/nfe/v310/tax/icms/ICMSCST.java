@@ -40,7 +40,7 @@ public enum ICMSCST implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final PropertiesLoader icmsCstMap = new PropertiesLoader.Builder().resourceLoader(ICMSCST.class).from("/eprecise/efiscal4j/nfe/icmsCst.properties").create();
+    private final PropertiesLoader icmsCstMap = new PropertiesLoader.Builder().resourceLoader(ICMSCST.class).from("/eprecise/efiscal4j/nfe/v310/icmsCst.properties").create();
 
     private final String value;
 

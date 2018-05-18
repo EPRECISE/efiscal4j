@@ -33,7 +33,7 @@ public class ReferencedNF implements Serializable {
 
     private @XmlElement(name = "CNPJ") @NotNull @NFeCNPJ final String emitterCnpj;
 
-    private @XmlElement(name = "mod") @NotNull final String model = "01";
+    private @XmlElement(name = "mod") @NotNull final ReferencedNFModel model;
 
     private @XmlElement(name = "serie") @NotNull @NFeFiscalDocumentSeries String series = "0";
 
@@ -46,6 +46,8 @@ public class ReferencedNF implements Serializable {
         private String emissionYearMonth;
 
         private String emitterCnpj;
+
+        private ReferencedNFModel model;
 
         private String series;
 
@@ -85,6 +87,17 @@ public class ReferencedNF implements Serializable {
         }
 
         /**
+         * 
+         * @see ReferencedNFModel
+         * @param model
+         * @return
+         */
+        public Builder withReferencedNFModel(ReferencedNFModel model) {
+            this.model = model;
+            return this;
+        }
+
+        /**
          * Série do Documento Fiscal, informar zero se inexistente
          * 
          * @param series
@@ -118,6 +131,7 @@ public class ReferencedNF implements Serializable {
         this.emitterUf = null;
         this.emissionYearMonth = null;
         this.emitterCnpj = null;
+        this.model = null;
         this.series = null;
         this.number = null;
     }
@@ -126,6 +140,7 @@ public class ReferencedNF implements Serializable {
         this.emitterUf = builder.emitterUf;
         this.emissionYearMonth = builder.emissionYearMonth;
         this.emitterCnpj = builder.emitterCnpj;
+        this.model = builder.model;
         this.series = builder.series;
         this.number = builder.number;
     }
@@ -146,8 +161,8 @@ public class ReferencedNF implements Serializable {
         return this.emitterCnpj;
     }
 
-    public String getModel() {
-        return this.model;
+    public ReferencedNFModel getModel() {
+        return model;
     }
 
     public String getNumber() {

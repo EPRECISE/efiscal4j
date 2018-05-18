@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Felipe Bueno
  *
+ * Para as notas onde a finalidade é uma NFe de Ajuste ou a Devolução de uma NFe 
+ * (campo finNFe = 3 ou 4), a forma de pagamento deve ser preenchida com o valor 90=Sem Pagamento
+ *
  */
 @XmlType
 @XmlEnum(String.class)
@@ -30,6 +33,11 @@ public enum PaymentMethod implements Serializable {
     @XmlEnumValue("11") VALE_REFEICAO("11", "Vale Refeição"),
     @XmlEnumValue("12") VALE_PRESENTE("12", "Vale Presente"),
     @XmlEnumValue("13") VALE_COMBUSTIVEL("13", "Vale Combustível"),
+    
+    @XmlEnumValue("14") DUPLICATA_MERCANTIL("14", "Duplicata Mercantil"),
+    @XmlEnumValue("15") BOLETO_BANCARIO("15", "Boleto Bancário"),
+    @XmlEnumValue("90") SEM_PAGAMENTO("90", "Sem Pagamento"),
+    
     @XmlEnumValue("99") OUTROS("99", "Outros");
 
     private static final long serialVersionUID = 1L;

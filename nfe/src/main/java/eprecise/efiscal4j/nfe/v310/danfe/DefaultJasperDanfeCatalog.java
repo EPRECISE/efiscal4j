@@ -17,12 +17,12 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
 
         private static final long serialVersionUID = 1L;
         {
-            this.put(DANFEPrintFormat.SEM_DANFE, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
-            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem.jasper");
-            this.put(DANFEPrintFormat.DANFE_RETRATO, "eprecise/efiscal4j/nfe/danfe/retrato/danfe_retrato.jasper");
-            this.put(DANFEPrintFormat.DANFE_PAISAGEM, "eprecise/efiscal4j/nfe/danfe/paisagem/danfe_paisagem.jasper");
-            this.put(DANFEPrintFormat.DANFE_NFCE, "eprecise/efiscal4j/nfce/danfe/danfe_nfce.jasper");
-            this.put(DANFEPrintFormat.DANFE_NFCE_MENSAGEM_ELETRONICA, "eprecise/efiscal4j/nfce/danfe/danfe_nfce.jasper");
+            this.put(DANFEPrintFormat.SEM_DANFE, "eprecise/efiscal4j/nfe/v310/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_SIMPLIFICADO, "eprecise/efiscal4j/nfe/v310/danfe/paisagem/danfe_paisagem.jasper");
+            this.put(DANFEPrintFormat.DANFE_RETRATO, "eprecise/efiscal4j/nfe/v310/danfe/retrato/danfe_retrato.jasper");
+            this.put(DANFEPrintFormat.DANFE_PAISAGEM, "eprecise/efiscal4j/nfe/v310/danfe/paisagem/danfe_paisagem.jasper");
+            this.put(DANFEPrintFormat.DANFE_NFCE, "eprecise/efiscal4j/nfe/v310/nfce/danfe/danfe_nfce.jasper");
+            this.put(DANFEPrintFormat.DANFE_NFCE_MENSAGEM_ELETRONICA, "eprecise/efiscal4j/nfe/v310/nfce/danfe/danfe_nfce.jasper");
         }
     };
 

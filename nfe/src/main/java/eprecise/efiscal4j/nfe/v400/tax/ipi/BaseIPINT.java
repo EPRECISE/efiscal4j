@@ -22,13 +22,6 @@ abstract class BaseIPINT extends BaseIPI {
         @Override
         abstract BaseIPINT build();
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Builder withIpiFrameworkClass(final String ipiFramework) {
-            return (BaseIPINT.Builder) super.withIpiFrameworkClass(ipiFramework);
-        }
 
         /**
          * {@inheritDoc}

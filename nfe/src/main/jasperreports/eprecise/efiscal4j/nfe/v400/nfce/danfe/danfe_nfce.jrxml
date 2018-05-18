@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-09-13T09:01:28 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce" pageWidth="210" pageHeight="324" columnWidth="194" leftMargin="8" rightMargin="8" topMargin="4" bottomMargin="2" whenResourceMissingType="Error" isIgnorePagination="true" uuid="9e5dafa2-63b0-4226-bb9c-0f5235cabc5e">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Arial Bold" isDefault="true" fill="Solid" fontName="Arial" fontSize="8" isBold="true"/>
+	<parameter name="url_consulta_nfce" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="headerInfo" class="java.lang.String"/>
+	<queryString language="xPath">
+		<![CDATA[/]]>
+	</queryString>
+	<field name="chNFe" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/protNFe/infProt/chNFe]]></fieldDescription>
+	</field>
+	<field name="xNome" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/xNome]]></fieldDescription>
+	</field>
+	<field name="xFant" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/xFant]]></fieldDescription>
+	</field>
+	<field name="CNPJ" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/CNPJ]]></fieldDescription>
+	</field>
+	<field name="IE" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/IE]]></fieldDescription>
+	</field>
+	<field name="xLgr" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/xLgr]]></fieldDescription>
+	</field>
+	<field name="nro" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/nro]]></fieldDescription>
+	</field>
+	<field name="xBairro" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/xBairro]]></fieldDescription>
+	</field>
+	<field name="xMun" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/xMun]]></fieldDescription>
+	</field>
+	<field name="UF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/UF]]></fieldDescription>
+	</field>
+	<field name="infCpl" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/infAdic/infCpl]]></fieldDescription>
+	</field>
+	<field name="tpAmb" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/ide/tpAmb]]></fieldDescription>
+	</field>
+	<field name="tpEmis" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/ide/tpEmis]]></fieldDescription>
+	</field>
+	<field name="serie" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/ide/serie]]></fieldDescription>
+	</field>
+	<field name="nNF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/ide/nNF]]></fieldDescription>
+	</field>
+	<field name="dhEmi" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/ide/dhEmi]]></fieldDescription>
+	</field>
+	<field name="destCPF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/CPF]]></fieldDescription>
+	</field>
+	<field name="destCNPJ" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/CNPJ]]></fieldDescription>
+	</field>
+	<field name="enderDest" class="java.lang.Object">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest]]></fieldDescription>
+	</field>
+	<field name="destXNome" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/xNome]]></fieldDescription>
+	</field>
+	<field name="destXLgr" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xLgr]]></fieldDescription>
+	</field>
+	<field name="destNro" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/nro]]></fieldDescription>
+	</field>
+	<field name="destXBairro" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xBairro]]></fieldDescription>
+	</field>
+	<field name="destXMun" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xMun]]></fieldDescription>
+	</field>
+	<field name="destUF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/UF]]></fieldDescription>
+	</field>
+	<field name="dest" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest]]></fieldDescription>
+	</field>
+	<field name="nProt" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/protNFe/infProt/nProt]]></fieldDescription>
+	</field>
+	<field name="dhRecbto" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/protNFe/infProt/dhRecbto]]></fieldDescription>
+	</field>
+	<field name="vTotTrib" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vTotTrib]]></fieldDescription>
+	</field>
+	<field name="qtdTotal" class="java.lang.String">
+		<fieldDescription><![CDATA[sum(/nfeProc/NFe/infNFe/det/prod/qCom)]]></fieldDescription>
+	</field>
+	<field name="descTotal" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vDesc]]></fieldDescription>
+	</field>
+	<field name="vNF" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vNF]]></fieldDescription>
+	</field>
+	<field name="qrCode" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFeSupl/qrCode]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="45" y="0" width="149" height="10" uuid="8a1e26f3-2a95-44e7-a204-ec49167b81af">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{xFant}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement positionType="Float" x="0" y="4" width="45" height="34" uuid="50c8c8c1-c3ca-4fbf-8ed2-bca9b7c19cf7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<box padding="1"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="45" y="10" width="149" height="10" uuid="c41de7a2-71cb-4d68-9b05-e412adbec629">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="45" y="20" width="149" height="10" uuid="e0554636-d7ac-4322-8dcb-91d22891e349">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="43" width="194" height="1" uuid="81b4d4b5-e6f5-4ea8-8e69-230848d85287"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="46" width="194" height="24" uuid="61367979-e5ba-4b89-9530-95c0e0b05695">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DANFE NFC-e - Documento Auxiliar
+da Nota Fiscal de Consumidor Eletrônica]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="45" y="30" width="149" height="10" uuid="0fb7741b-f2c5-4334-8972-adb14d6e367b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="30" width="194" height="10" uuid="0c6cb3d2-c95d-4e6e-b440-3927a75355a0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="20" width="194" height="10" uuid="aa61197e-72c5-4653-ab67-9bb42d7e3169">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="10" width="194" height="10" uuid="033cac54-7280-427a-9f20-7e4ecf317b4a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="194" height="10" uuid="3adde7ee-d838-40c0-bf52-b835a6c53779">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{xFant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1" width="194" height="10" uuid="2dc45840-bf4a-417b-adf0-f6a00d5cfee6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/det")]]></dataSourceExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_detalhes.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="42">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="156" height="10" uuid="9ef96011-70b6-46eb-94f5-d2616584af25">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Qtd. Total de Itens]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="20" width="156" height="10" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Total R$]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="32" width="194" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag")]]></dataSourceExpression>
+				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfce/danfe/danfe_nfce_pagamentos.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true" pattern="#,###0.000" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="156" y="0" width="38" height="10" uuid="1fdc8792-da51-4c21-a926-99d9b141708c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{qtdTotal} != null ? new java.math.BigDecimal($F{qtdTotal}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="156" y="20" width="38" height="10" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{vNF} != null ? new java.math.BigDecimal($F{vNF}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="10" width="156" height="10" uuid="8f32ef05-6330-4480-a23f-ec74cad139e0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Desconto Total R$]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="156" y="10" width="38" height="10" uuid="1a8bb3de-d35b-4791-94e6-7352fe769b4a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{descTotal} != null ? new java.math.BigDecimal($F{descTotal}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="124">
+			<line>
+				<reportElement positionType="Float" x="0" y="17" width="194" height="1" uuid="ed165487-24d7-4707-a197-c4e67c2a2875"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="1" width="136" height="17" uuid="fa8a1037-7c45-472e-a87b-864b36756b69"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Informação dos Tributos Totais Incidentes 
+(Lei Federal 12.741 /2012) Fonte IBPT]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="0" width="194" height="1" uuid="2f837681-d225-490e-9b64-c9b42992913e"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="99" width="194" height="1" uuid="9a79de07-3538-4598-8777-fbf49b99c369">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="18" width="194" height="10" isRemoveLineWhenBlank="true" uuid="7cb0cc30-62d9-4d03-aa7b-1e66043cb707">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{infCpl} != null && !$F{infCpl}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{infCpl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="28" width="194" height="10" uuid="c9f59d91-8b46-4c44-a60c-59d2a4647828"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{tpAmb}.equals(2) ? "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL" : !$F{tpEmis}.equals(1) ? "EMITIDA EM CONTINGÊNCIA" : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="39" width="194" height="10" uuid="417f3505-de84-4fbf-8c24-e0fd3397f685"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Número "+$F{nNF}+ "     Série "+$F{serie}+ "     Emissão "+new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-").parse($F{dhEmi}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="51" width="194" height="10" uuid="52e4c561-5c29-44ec-bf72-af0ad5d75c39">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Consulte pela Chave de Acesso em]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="61" width="194" height="10" uuid="6aed8044-fac9-4150-8315-29df9911f9e1"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{url_consulta_nfce}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="78" width="194" height="10" uuid="9efe88ac-9eb1-43df-b7c6-ee5f9a067b12">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[CHAVE DE ACESSO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="88" width="194" height="10" uuid="5bcef188-74f1-437c-8eea-5ceff1145d5d"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{chNFe}.replaceAll("(.{4})(?!$)", "$1 ")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="103" width="194" height="10" uuid="c28027c7-5fd9-4c7e-8822-d2cf239eb3b4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[CONSUMIDOR]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="114" width="194" height="10" uuid="39e83556-cb6a-4e42-a63e-f886869c7eb3"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{dest} != null ?
+	new java.lang.StringBuilder().append($F{destCPF} != null ? "CPF: " : $F{destCNPJ} != null ? "CNPJ: " : "").append($F{destCPF} != null ? $F{destCPF} : $F{destCNPJ} != null ?$F{destCNPJ} : "").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?", NOME: ":"").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?$F{destXNome}:"").append($F{enderDest} != null ?", ENDEREÇO: ":"").append($F{enderDest} != null ? String.format("%s, %s, %s - %s-%s",$F{destXLgr},$F{destNro}, $F{destXBairro},$F{destXMun},$F{destUF}):"").toString()
+: "CONSUMIDOR NÃO IDENTIFICADO"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="136" y="1" width="58" height="16" uuid="66979463-d704-47f7-8e11-c0b011069d62"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["R$ "+$F{vTotTrib}.replaceAll("(\\d+)\\.(\\d+)", "$1,$2") + " (" + new java.math.BigDecimal($F{vTotTrib}).multiply(new java.math.BigDecimal(100)).divide(new java.math.BigDecimal($F{vNF}), 2, java.math.BigDecimal.ROUND_HALF_UP)+"%)"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="155">
+			<line>
+				<reportElement positionType="Float" x="0" y="2" width="194" height="1" uuid="c14a4f30-cc77-4833-b2a8-c75e7df448cc"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="4" width="194" height="10" uuid="ef9a598e-8965-498e-91e8-ee422341fe30"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Consulta via leitor de QR Code]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="145" width="194" height="10" uuid="6b8c6e26-ba12-4d39-b152-b8dee79ed639"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Protocolo de Autorização\n" + $F{nProt} + " - "+new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-").parse($F{dhRecbto}))]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="38" y="15" width="130" height="130" uuid="a1ede3d5-11e8-416a-8efd-db9a3de7cd98"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+     new com.google.zxing.qrcode.QRCodeWriter().encode(
+         $F{qrCode},
+         com.google.zxing.BarcodeFormat.QR_CODE, 400, 400))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

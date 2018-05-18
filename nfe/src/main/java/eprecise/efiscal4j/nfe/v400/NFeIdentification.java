@@ -33,8 +33,6 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "natOp") @NotNull @Size(min = 1, max = 60) @NFeString final String operationType;
 
-    private @XmlElement(name = "indPag") PaymentMethodIndicator paymentMethodIndicator;
-
     private @XmlElement(name = "mod") @NotNull final FiscalDocumentModel fiscalDocumentModel;
 
     private @XmlElement(name = "serie") @NotNull @NFeFiscalDocumentSeries final String fiscalDocumentSeries;
@@ -261,7 +259,6 @@ public class NFeIdentification implements Serializable {
         this.ufIbgeCode = builder.ufIbgeCode;
         this.nFeCode = builder.nFeCode;
         this.operationType = builder.operationType;
-        this.paymentMethodIndicator = builder.paymentMethodIndicator;
         this.fiscalDocumentModel = builder.fiscalDocumentModel;
         this.fiscalDocumentSeries = builder.fiscalDocumentSeries;
         this.fiscalDocumentNumber = builder.fiscalDocumentNumber;
@@ -291,10 +288,6 @@ public class NFeIdentification implements Serializable {
 
     public String getOperationType() {
         return this.operationType;
-    }
-
-    public PaymentMethodIndicator getPaymentMethodIndicator() {
-        return this.paymentMethodIndicator;
     }
 
     public FiscalDocumentModel getFiscalDocumentModel() {

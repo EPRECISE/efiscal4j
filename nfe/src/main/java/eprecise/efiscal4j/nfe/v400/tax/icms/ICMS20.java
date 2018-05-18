@@ -10,6 +10,7 @@ import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.DesonerationGroup;
 import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.ICMSDesonerationReason_3_9_12_Validation;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04;
+import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
 
@@ -37,6 +38,12 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
     private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
 
     private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+    
+    private @XmlElement(name = "vBCFCP") @NFeDecimal1302 final String bcFcpValue;
+
+    private @XmlElement(name = "pFCP") @NFeDecimal0302a04Optional final String fcpAliquot;
+
+    private @XmlElement(name = "vFCP") @NFeDecimal1302 final String fcpValue;
 
     private @XmlElement(name = "vICMSDeson") @NFeDecimal1302 final String icmsDesonerationValue;
 
@@ -55,6 +62,12 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
         private String icmsAliquot;
 
         private String icmsValue;
+        
+        private String bcFcpValue;
+
+        private String fcpAliquot;
+
+        private String fcpValue;
 
         private String icmsDesonerationValue;
 
@@ -114,6 +127,38 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
             this.icmsValue = icmsValue;
             return this;
         }
+        
+        /**
+         * Valor da Base de cálculo do FCP.
+         * 
+         * @param bcFcpValue
+         */
+        public Builder withBcFcpValue(final String bcFcpValue) {
+            this.bcFcpValue = bcFcpValue;
+            return this;
+        }
+
+        /**
+         * Percentual de ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpAliquot
+         * @return
+         */
+        public Builder withFcpAliquot(final String fcpAliquot) {
+            this.fcpAliquot = fcpAliquot;
+            return this;
+        }
+
+        /**
+         * Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
+         *
+         * @param fcpValue
+         * @return
+         */
+        public Builder withFcpValue(final String fcpValue) {
+            this.fcpValue = fcpValue;
+            return this;
+        }
 
         /**
          * Valor do ICMS de desoneração
@@ -149,6 +194,9 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
         this.bcReductionPercent = null;
         this.icmsAliquot = null;
         this.icmsValue = null;
+        this.bcFcpValue = null;
+        this.fcpAliquot = null;
+        this.fcpValue = null;
         this.icmsDesonerationValue = null;
         this.icmsDesonerationReason = null;
     }
@@ -160,6 +208,9 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
         this.bcReductionPercent = builder.bcReductionPercent;
         this.icmsAliquot = builder.icmsAliquot;
         this.icmsValue = builder.icmsValue;
+        this.bcFcpValue = builder.bcFcpValue;
+        this.fcpAliquot = builder.fcpAliquot;
+        this.fcpValue = builder.fcpValue;
         this.icmsDesonerationValue = builder.icmsDesonerationValue;
         this.icmsDesonerationReason = builder.icmsDesonerationReason;
     }
@@ -183,6 +234,18 @@ class ICMS20 extends BaseICMS implements DesonerationGroup, IcmsWithValue {
     @Override
     public String getIcmsValue() {
         return this.icmsValue;
+    }
+    
+    public String getBcFcpValue() {
+        return bcFcpValue;
+    }
+
+    public String getFcpAliquot() {
+        return fcpAliquot;
+    }
+
+    public String getFcpValue() {
+        return fcpValue;
     }
 
     @Override

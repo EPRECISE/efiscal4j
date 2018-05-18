@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -24,13 +25,14 @@ public class SOAPBodyResponse implements Serializable {
     private @XmlAttribute(name = "xmlns:env") @NotNull final String xmlnsEnv = "http://www.w3.org/2003/05/soap-envelope";
 
     //@formatter:off
-    @XmlElementRefs({        
-        @XmlElementRef(name = ObjectFactory.NFE_STAT_SERV_RESULT),
-        @XmlElementRef(name = ObjectFactory.NFE_AUT_LOTE_RESULT),
-        @XmlElementRef(name = ObjectFactory.NFE_RET_AUT_RESULT),
-        @XmlElementRef(name = ObjectFactory.NFE_REC_EVENTO_RESULT),
-    })
-    @XmlJavaTypeAdapter(ReceivableAdapter.class)
+//    @XmlElementRefs({        
+//        @XmlElementRef(name = ObjectFactory.NFE_STAT_SERV_RESULT),
+//        @XmlElementRef(name = ObjectFactory.NFE_AUT_LOTE_RESULT),
+//        @XmlElementRef(name = ObjectFactory.NFE_RET_AUT_RESULT),
+//        @XmlElementRef(name = ObjectFactory.NFE_REC_EVENTO_RESULT),
+//    })
+//    @XmlJavaTypeAdapter(ReceivableAdapter.class)
+    @XmlElement(name = "nfeResultMsg")
     private final Receivable receivable;
     //@formatter:on
 
