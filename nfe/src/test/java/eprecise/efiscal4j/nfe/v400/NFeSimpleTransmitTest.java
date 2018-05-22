@@ -40,7 +40,7 @@ import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
-public class NFeSimpleTest {
+public class NFeSimpleTransmitTest {
 
     @Test
     public void simpleXmlGenerator() throws Exception {

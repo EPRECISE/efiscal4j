@@ -1,9 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400;
 
-import eprecise.efiscal4j.nfe.v310.domain.TestDomain;
-
-
 public class NFeTestParams {
 
     private static final String EMITTER_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.emitter.cnpj";
