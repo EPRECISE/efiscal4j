@@ -9,15 +9,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.compNfse.GovbrCompNFSe;
+import eprecise.efiscal4j.nfse.transmission.Receivable;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
@@ -35,8 +33,6 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
     public @XmlElement(name = "Signature") SignatureType signature;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
-
-    private @XmlTransient QName qName = new QName("ConsultarLoteRpsResposta");
 
     public static class Builder {
 
@@ -79,14 +75,6 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
         returnMessageList = builder.returnMessageList;
     }
 
-    public QName getqName() {
-        return qName;
-    }
-
-    public void setqName(final QName qName) {
-        this.qName = qName;
-    }
-
     public Collection<GovbrCompNFSe> getCompNFSeList() {
         return compNFSeList;
     }
@@ -94,17 +82,6 @@ public class GovbrLotRpsDispatchConsultResponse extends Receivable implements NF
     @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
-    }
-
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-
-    }
-
-    @Override
-    public QName getQName() {
-        return qName;
     }
 
     @Override

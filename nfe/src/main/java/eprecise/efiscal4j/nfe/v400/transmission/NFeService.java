@@ -69,7 +69,6 @@ public enum NFeService implements FiscalDocumentService, Serializable {
             case MA:
             case PA:
             case PI:
-                return ServiceDomain.SVAN;
             case AC:
             case AL:
             case AP:

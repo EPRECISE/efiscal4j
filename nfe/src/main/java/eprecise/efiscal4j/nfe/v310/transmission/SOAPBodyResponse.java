@@ -11,8 +11,6 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
-import eprecise.efiscal4j.commons.domain.transmission.ReceivableAdapter;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 

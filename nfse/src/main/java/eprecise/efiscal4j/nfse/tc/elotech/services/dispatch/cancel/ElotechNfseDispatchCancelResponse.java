@@ -10,15 +10,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.elotech.cancel.ElotechNfseCancelResponse;
+import eprecise.efiscal4j.nfse.transmission.Receivable;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
 
 
@@ -33,8 +31,6 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
     private final @XmlElement(name = "tcRetCancelamento") CancellationReturn cancellationReturn;
-
-    private @XmlTransient QName qName = new QName("CancelarNfseResposta");
 
     public static class Builder {
 
@@ -77,14 +73,6 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
         returnMessageList = builder.returnMessageList;
     }
 
-    public QName getqName() {
-        return qName;
-    }
-
-    public void setqName(final QName qName) {
-        this.qName = qName;
-    }
-
     public CancellationReturn getCancellationReturn() {
         return cancellationReturn;
     }
@@ -92,17 +80,6 @@ public class ElotechNfseDispatchCancelResponse extends Receivable implements NFS
     @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
-    }
-
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-
-    }
-
-    @Override
-    public QName getQName() {
-        return qName;
     }
 
     @Override

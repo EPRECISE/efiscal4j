@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.v400;
+package eprecise.efiscal4j.nfe.v400.transmit;
 
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
@@ -8,14 +8,36 @@ import java.util.Date;
 import java.util.Random;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
+import eprecise.efiscal4j.nfe.v400.CFOP;
+import eprecise.efiscal4j.nfe.v400.CRT;
+import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
+import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;
+import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
+import eprecise.efiscal4j.nfe.v400.FiscalDocumentType;
+import eprecise.efiscal4j.nfe.v400.ItemValueComprisesTotal;
+import eprecise.efiscal4j.nfe.v400.NFe;
+import eprecise.efiscal4j.nfe.v400.NFeDetail;
+import eprecise.efiscal4j.nfe.v400.NFeFinality;
+import eprecise.efiscal4j.nfe.v400.NFeIdentification;
+import eprecise.efiscal4j.nfe.v400.NFeInfo;
+import eprecise.efiscal4j.nfe.v400.NFeItem;
+import eprecise.efiscal4j.nfe.v400.NFeTestParams;
+import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
+import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
+import eprecise.efiscal4j.nfe.v400.PaymentMethodIndicator;
+import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
+import eprecise.efiscal4j.nfe.v400.StateRegistrationReceiverIndicator;
+import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.v400.NFeItem.Builder;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.address.Address;
 import eprecise.efiscal4j.nfe.v400.address.City;
@@ -28,6 +50,7 @@ import eprecise.efiscal4j.nfe.v400.payment.NFePaymentDetail;
 import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Receiver;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponseMethod;
 import eprecise.efiscal4j.nfe.v400.tax.Tax;
 import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS;
 import eprecise.efiscal4j.nfe.v400.tax.icms.ICMS;
@@ -35,31 +58,41 @@ import eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.v400.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
+import eprecise.efiscal4j.nfe.v400.transmission.TransmissionChannel;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
-
-public class NFeSimpleTransmitTest {
+/**
+ * Teste de transmissão de autorização de NF-e
+ * NFeAutorizacao
+ * 
+ * @author Fernando Glizt
+ * 
+ */
+public class NFeSimpleTransmitAuthorizationTest {
 
     @Test
-    public void simpleXmlGenerator() throws Exception {
-        final String xml = new FiscalDocumentSerializer<>(buildNFe()).serialize();
-        Assert.assertNotEquals(xml, "");
-        System.out.println(xml);
+    public void transmitAuthorization() throws Exception {
+     // @formatter:off
+        Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent() 
+                || !NFeTestParams.getCertificatePin().isPresent() 
+                || !NFeTestParams.getEmitterCnpj().isPresent()
+                || !NFeTestParams.getEmitterIe().isPresent()
+                || !NFeTestParams.getReceiverCnpj().isPresent());
+     // @formatter:true
+        
+        final Certificate keyCertificate = new Certificate(() -> new FileInputStream(NFeTestParams.getCertificatePath().get()), NFeTestParams.getCertificatePin().get());
+        final TransmissionChannel transmissionChannel = new TransmissionChannel(keyCertificate);
+        final TransmissionResult transmissionResult = transmissionChannel.transmitAuthorization(this.buildNFe(keyCertificate));
+        final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeDispatchResponseMethod.class).deserialize();
+        final String returnXml = new FiscalDocumentSerializer<>(returnMethod).serialize();
+        Assert.assertNotEquals(returnXml, "");
+        System.out.println(returnXml);
     }
 
-    @Test
-    public void validateByXsd() throws Exception {
-        final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(NFe.XSD));
-        final String xml = new FiscalDocumentSerializer<>(buildNFe()).serialize();
-        final ValidationResult validate = validator.validate(xml);
-        Assert.assertTrue(validate.getError(), validate.isValid());
-    }
-
-    public NFe buildNFe() throws Exception {
+    public NFe buildNFe(final Certificate keyCertificate) throws Exception {
     // @formatter:off
-            final Certificate keyCertificate = new Certificate(() -> new FileInputStream(NFeTestParams.getCertificatePath()), NFeTestParams.getCertificatePin());
             final DefaultSigner signer = new DefaultSigner(keyCertificate);
             return new NFe.Builder()
                 .withNFeInfo(new NFeInfo.Builder()
@@ -70,8 +103,8 @@ public class NFeSimpleTransmitTest {
                                 .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))
                                 .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                 .withFiscalDocumentModel(FiscalDocumentModel.NFE)
-                                .withFiscalDocumentNumber("1")
-                                .withFiscalDocumentSeries("1")
+                                .withFiscalDocumentNumber("2")
+                                .withFiscalDocumentSeries("100")
                                 .withFiscalDocumentType(FiscalDocumentType.SAIDA)
                                 .withNFeCode(String.format("%08d", new Random().nextInt(100000000)))
                                 .withNFeFinality(NFeFinality.NORMAL)
@@ -86,11 +119,11 @@ public class NFeSimpleTransmitTest {
                                 .build())
                         .withEmitter(new Emitter.Builder()
                                 .asLegalEntity()
-                                .withCnpj(NFeTestParams.getEmitterCnpj())
+                                .withCnpj(NFeTestParams.getEmitterCnpj().get())
                                 .withCorporateName("RAZÃO SOCIAL EMPRESA")
                                 .withCrt(CRT.SIMPLES_NACIONAL)
                                 .withFancyName("NOME FANTASIA DA EMPRESA")
-                                .withStateRegistration(NFeTestParams.getEmitterIe())
+                                .withStateRegistration(NFeTestParams.getEmitterIe().get())
                                 .withAdress(new Address.Builder()
                                         .withStreet("Rua xyz")
                                         .withNumber("Sem Número")
@@ -109,7 +142,7 @@ public class NFeSimpleTransmitTest {
                                 .build())
                         .withReceiver(new Receiver.Builder()
                                 .asLegalEntity()
-                                .withCnpj(NFeTestParams.getReceiverCnpj())
+                                .withCnpj(NFeTestParams.getReceiverCnpj().get())
                                 .withCorporateName("RAZAO SOCIAL DESTINATÁRIO")
                                 .withAdress(new Address.Builder()
                                         .withStreet("Rua xyz")
@@ -140,8 +173,8 @@ public class NFeSimpleTransmitTest {
                                         .withItemDescription("Produto de teste")
                                         .withItemGrossValue("10.00")
                                         .withItemValueComprisesTotal(ItemValueComprisesTotal.COMPOE_TOTAL)
-                                        .withNCM("99999999")
-                                        .withCest("0000001")
+                                        .withNCM("63090010")
+                                        .withCest("2806000")
                                         .withTaxableQuantity("1")
                                         .withTaxableUnit("UN")
                                         .withTaxableUnitGlobalTradeItemNumber("123456789012")
@@ -168,12 +201,12 @@ public class NFeSimpleTransmitTest {
                                         .withICMSSTTotalValue("0")
                                         .withICMSTotalDesoneration("0")
                                         .withICMSTotalValue("0")
-                                        .withReceiverUfFCPTotalValue("1.00")
-                                        .withReceiverUfIcmsShareTotalValue("0.20")
-                                        .withEmitterUfIcmsShareTotalValue("0.10")
+                                        .withReceiverUfFCPTotalValue("0.00")
+                                        .withReceiverUfIcmsShareTotalValue("0.00")
+                                        .withEmitterUfIcmsShareTotalValue("0.00")
                                         .withInsuranceTotalValue("0")
                                         .withItemsTotalValue("10.00")
-                                        .withNFeTotalValue("15.00")
+                                        .withNFeTotalValue("10.00")
                                         .withOtherIncidentalCostsTotalValue("0")
                                         .withShippingTotalValue("0")
                                         .withTaxTotalValue("0")
@@ -194,19 +227,19 @@ public class NFeSimpleTransmitTest {
                                 .withInvoice(new Invoice.Builder()
                                         .withNumber("C33")
                                         .withOriginalValue("10.00")
-                                        .withDiscountValue("3.00")
+                                        .withNetValue("10.00")
                                         .withNumber("7.00")
                                         .build())
                                 .withDuplicates(Arrays.asList(new Duplicate.Builder()
                                         .withNumber("1")
-                                        .withDueDate("2014-12-07")
-                                        .withValue("10")
+                                        .withDueDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                                        .withValue("10.00")
                                         .build()))
                                 .build())
                         .withNFePayment(new NFePayment.Builder()
                                 .withNFePaymentDetails(Arrays.asList(new NFePaymentDetail.Builder()
                                         .withPaymentMethod(PaymentMethod.DINHEIRO)
-                                        .withPaymentValue("15.00")
+                                        .withPaymentValue("10.00")
                                         .build()))
                                 .build())
                         .withAdditionalInfo(new AdditionalInfo.Builder()
@@ -217,5 +250,4 @@ public class NFeSimpleTransmitTest {
                 .build(signer);
          // @formatter:on
     }
-
 }

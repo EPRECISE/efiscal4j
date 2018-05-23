@@ -9,11 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
+import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 
 
 /**
@@ -22,7 +20,7 @@ import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
  * @author Fernando C Glizt
  *
  */
-@XmlRootElement(name = ObjectFactory.NFE_STAT_INUT_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao3")
+@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeNumberDisableResponseMethod extends Receivable implements Serializable {
 
@@ -31,18 +29,6 @@ public class NFeNumberDisableResponseMethod extends Receivable implements Serial
     private @XmlAttribute(name = "xmlns") @NotNull String xmlns;
 
     private @XmlElement(name = ObjectFactory.RET_INUT_NFE) @NotNull NFeNumberDisableResponse response;
-
-    private @XmlTransient QName qName = new QName(ObjectFactory.NFE_STAT_INUT_RESULT);
-
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-    }
-
-    @Override
-    public QName getQName() {
-        return this.qName;
-    }
 
     public NFeNumberDisableResponse getServiceStatusSearchResponse() {
         return this.response;

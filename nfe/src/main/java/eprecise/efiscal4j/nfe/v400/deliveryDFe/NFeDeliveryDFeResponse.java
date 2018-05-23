@@ -12,13 +12,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
+import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeNSU;
 
@@ -29,7 +28,8 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeNSU;
  * @author Clécius J. Martinkoski
  *
  */
-@XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
+//@XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
+@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
 
@@ -60,8 +60,6 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
     private @XmlElement(name = "maxNSU") @NotNull @NFeDeliveryDFeNSU final String maxNsu;
 
     private @XmlElement(name = "loteDistDFeInt") final NFeDeliveryDFeDocumentLots documentLots;
-
-    private @XmlTransient QName qName = new QName(ObjectFactory.RET_DIST_DFE_INT);
 
     public static class Builder {
 
@@ -228,13 +226,4 @@ public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
         return this.documentLots;
     }
 
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-    }
-
-    @Override
-    public QName getQName() {
-        return this.qName;
-    }
 }

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.commons.domain.transmission;
+package eprecise.efiscal4j.nfe.v310.transmission;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;

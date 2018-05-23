@@ -11,16 +11,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
 import eprecise.efiscal4j.nfse.tc.elotech.compNfse.ElotechCompNFSe;
+import eprecise.efiscal4j.nfse.transmission.Receivable;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
@@ -43,8 +41,6 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetornoLote") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessageLot> returnMessageLotList;
-
-    private @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoResposta");
 
     public static class Builder {
 
@@ -126,13 +122,6 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
         returnMessageLotList = builder.returnMessageLotList;
     }
 
-    public QName getqName() {
-        return qName;
-    }
-
-    public void setqName(final QName qName) {
-        this.qName = qName;
-    }
 
     public String getLotNumber() {
         return lotNumber;
@@ -154,17 +143,6 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
     @Override
     public Collection<CommonsNFSeReturnMessageLot> getReturnMessageLotList() {
         return returnMessageLotList;
-    }
-
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-
-    }
-
-    @Override
-    public QName getQName() {
-        return qName;
     }
 
     @Override

@@ -9,12 +9,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
+import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 
 
 /**
@@ -23,7 +21,7 @@ import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_CONS_NFE_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3")
+@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeStatusSearchResponseMethod extends Receivable implements Serializable {
 
@@ -32,8 +30,6 @@ public class NFeStatusSearchResponseMethod extends Receivable implements Seriali
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns;
 
     private @XmlElement(name = ObjectFactory.RET_CONS_SIT_NFE) @NotNull final NFeStatusSearchResponse nfeStatusSearchResponse;
-
-    private @XmlTransient QName qName = new QName(ObjectFactory.NFE_CONS_NFE_RESULT);
 
     public static class Builder {
 
@@ -77,16 +73,6 @@ public class NFeStatusSearchResponseMethod extends Receivable implements Seriali
     public NFeStatusSearchResponseMethod(Builder builder) {
         this.xmlns = builder.xmlns;
         this.nfeStatusSearchResponse = builder.nfeStatusSearchResponse;
-    }
-
-    @Override
-    public void setQName(QName qName) {
-        this.qName = qName;
-    }
-
-    @Override
-    public QName getQName() {
-        return this.qName;
     }
 
     public NFeStatusSearchResponse getNFeStatusSearchResponse() {

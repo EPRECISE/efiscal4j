@@ -9,15 +9,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelResponse;
+import eprecise.efiscal4j.nfse.transmission.Receivable;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
@@ -35,8 +33,6 @@ public class GovbrNfseDispatchCancelResponse extends Receivable implements NFSeD
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
     private @XmlElement(name = "Signature") SignatureType signature;
-
-    private @XmlTransient QName qName = new QName("CancelarNfseResposta");
 
     public static class Builder {
 
@@ -79,14 +75,6 @@ public class GovbrNfseDispatchCancelResponse extends Receivable implements NFSeD
         returnMessageList = builder.returnMessageList;
     }
 
-    public QName getqName() {
-        return qName;
-    }
-
-    public void setqName(final QName qName) {
-        this.qName = qName;
-    }
-
     public GovbrNfseCancelResponse getCancelResponse() {
         return cancelResponse;
     }
@@ -94,17 +82,6 @@ public class GovbrNfseDispatchCancelResponse extends Receivable implements NFSeD
     @Override
     public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
         return returnMessageList;
-    }
-
-    @Override
-    public void setQName(final QName qName) {
-        this.qName = qName;
-
-    }
-
-    @Override
-    public QName getQName() {
-        return qName;
     }
 
     @Override

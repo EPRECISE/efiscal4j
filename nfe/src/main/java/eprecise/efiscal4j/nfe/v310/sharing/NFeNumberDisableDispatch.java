@@ -39,7 +39,7 @@ public class NFeNumberDisableDispatch extends DefaultAssignable implements Trans
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/inutNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v310/xsd/inutNFe_v3.10.xsd";
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

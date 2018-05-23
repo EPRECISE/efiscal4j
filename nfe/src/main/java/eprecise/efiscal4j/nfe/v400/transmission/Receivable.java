@@ -1,10 +1,9 @@
 
-package eprecise.efiscal4j.commons.domain.transmission;
+package eprecise.efiscal4j.nfe.v400.transmission;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
 
 /**
@@ -18,7 +17,4 @@ import javax.xml.namespace.QName;
 @XmlTransient
 public abstract class Receivable {
 
-    public abstract void setQName(QName qName);
-
-    public abstract QName getQName();
 }

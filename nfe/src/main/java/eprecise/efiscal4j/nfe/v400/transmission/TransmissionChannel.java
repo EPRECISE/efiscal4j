@@ -236,19 +236,19 @@ public class TransmissionChannel {
         }
 
         //@formatter:off
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento", 
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4", 
                 UF.PR, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize()
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3\"", "")
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3\"", "")
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3\"", "")
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento\" ", "");
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4\"", "")
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4\"", "")
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4\"", "")
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", "");
 
         final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, ImmutableMap.of("SOAPAction", 
-                "http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento/nfeRecepcaoEvento"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento"));
 
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, 
                 new FiscalDocumentSerializer<>(eventDispatch).serialize(),this.postProcessReceiptManifestationResponseXML(responseXml));

@@ -34,9 +34,9 @@ public class NFeDispatchResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/retEnviNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/retEnviNFe_v4.00.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 

@@ -28,7 +28,7 @@ public class NFeNumberDisableResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/retInutNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/retInutNFe_v4.00.xsd";
 
     private @XmlElement(name = "infInut") @NotNull @Valid NFeNumberDisableResponseInfo info;
 

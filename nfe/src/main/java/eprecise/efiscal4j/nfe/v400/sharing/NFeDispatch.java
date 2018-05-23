@@ -38,9 +38,9 @@ public class NFeDispatch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/enviNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/enviNFe_v4.00.xsd";
 
-    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
     private @XmlAttribute(name = "xmlns") final String xmlns;
 

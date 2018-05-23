@@ -39,13 +39,13 @@ public class NFeNumberDisableDispatch extends DefaultAssignable implements Trans
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/inutNFe_v3.10.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/inutNFe_v4.00.xsd";
 
     private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "infInut") @NotNull @Valid final NFeNumberDisableInfo info;
 
-    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
+    private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
     private @XmlTransient QName qName = new QName(ObjectFactory.INUT_NFE);
 

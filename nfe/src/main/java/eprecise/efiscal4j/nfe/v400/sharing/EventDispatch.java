@@ -1,7 +1,7 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,13 +33,13 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/event/envEvento_v1.00.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/event/envEvento_v1.00.xsd";
 
-    public static final String XSD_CANC = "/eprecise/efiscal4j/nfe/xsd/event/cancellation/envEventoCancNFe_v1.00.xsd";
+    public static final String XSD_CANC = "/eprecise/efiscal4j/nfe/v400/xsd/event/cancellation/envEventoCancNFe_v1.00.xsd";
 
-    public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/xsd/event/cce/envCCe_v1.00.xsd";
+    public static final String XSD_CCE = "/eprecise/efiscal4j/nfe/v400/xsd/event/cce/envCCe_v1.00.xsd";
 
-    public static final String XSD_RECIP_MANIF = "/eprecise/efiscal4j/nfe/xsd/recipientManifestDfe/envConfRecebto_v1.00.xsd";
+    public static final String XSD_RECIP_MANIF = "/eprecise/efiscal4j/nfe/v400/xsd/recipientManifestDfe/envConfRecebto_v1.00.xsd";
 
     private @XmlAttribute(name = "xmlns") @NotNull final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
@@ -47,7 +47,7 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
     private @XmlElement(name = "idLote") @NotNull @Pattern(regexp = "[0-9]{1,15}") final String batchId;
 
-    private @XmlElement(name = "evento") @NotNull @Size(max = 20) @Valid final ArrayList<Event> events;
+    private @XmlElement(name = "evento") @NotNull @Size(max = 20) @Valid final List<Event> events;
 
     private @XmlTransient QName qName = new QName(ObjectFactory.ENV_EVENTO);
 
@@ -55,7 +55,7 @@ public class EventDispatch implements TransmissibleBodyImpl {
 
         private String batchId;
 
-        private ArrayList<Event> events;
+        private List<Event> events;
 
         /**
          * Identificador de controle do Lote de envio do Evento. <br>
@@ -78,7 +78,7 @@ public class EventDispatch implements TransmissibleBodyImpl {
          * @param events
          * @return
          */
-        public Builder withEvents(final ArrayList<Event> events) {
+        public Builder withEvents(final List<Event> events) {
             this.events = events;
             return this;
         }
@@ -108,7 +108,7 @@ public class EventDispatch implements TransmissibleBodyImpl {
         return this.batchId;
     }
 
-    public ArrayList<Event> getEvents() {
+    public List<Event> getEvents() {
         return this.events;
     }
 

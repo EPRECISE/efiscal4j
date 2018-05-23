@@ -36,7 +36,7 @@ public class NFeEventSummary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfe/xsd/deliveryDFe/resEvento_v1.01.xsd";
+    public static final String XSD = "/eprecise/efiscal4j/nfe/v400/xsd/deliveryDFe/resEvento_v1.01.xsd";
 
     private @XmlTransient final NFeDateTimeUTC.Converter dateTimeConverter = new NFeDateTimeUTC.Converter();
 
