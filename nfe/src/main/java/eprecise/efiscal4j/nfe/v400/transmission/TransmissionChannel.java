@@ -54,7 +54,7 @@ public class TransmissionChannel {
     private final Transmissor transmissor;
 
     public TransmissionChannel(final Certificate certificate) {
-        this.transmissor = new Transmissor(certificate);
+        this.transmissor = new Transmissor(certificate, "TLSv1.2");
     }
 
     public TypedTransmissionResult<NFe, NFeDispatchResponseMethod> transmitAuthorization(final NFe nfe) throws SAXException, IOException, ParserConfigurationException {

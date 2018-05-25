@@ -33,7 +33,7 @@ public class NFeBodyTest implements Testable {
     // @Test
     // TODO revisar deserialização de soapEnvelope, NFeBody e NFeHeader
     public void xmlImportTest() throws JAXBException, IOException {
-        final NFeBody nFeBody = new FiscalDocumentDeserializer<NFeBody>(this.getClass().getResource("/eprecise/efiscal4j/nfe/in/xml/nfeBody/001.xml"), NFeBody.class)
+        final NFeBody nFeBody = new FiscalDocumentDeserializer<NFeBody>(this.getClass().getResource("/eprecise/efiscal4j/nfe/v310/in/xml/nfeBody/001.xml"), NFeBody.class)
                 .considering(LegalEntityDocuments.class, NaturalPersonDocuments.class, NFeDispatch.class).deserialize();
 
         Assert.assertNotNull(nFeBody);

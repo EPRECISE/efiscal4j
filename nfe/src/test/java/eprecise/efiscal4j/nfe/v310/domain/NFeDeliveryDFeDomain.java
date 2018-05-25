@@ -100,7 +100,7 @@ public class NFeDeliveryDFeDomain {
     }
 
     private NFe getNfe() throws IOException, URISyntaxException {
-        final URL xmlUrl = this.getClass().getResource("/eprecise/efiscal4j/nfe/in/xml/nfe/001.xml");
+        final URL xmlUrl = this.getClass().getResource("/eprecise/efiscal4j/nfe/v310/in/xml/nfe/001.xml");
 
         final NFe nfe = new FiscalDocumentDeserializer<NFe>(xmlUrl, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
         Assert.assertNotNull(nfe);

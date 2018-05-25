@@ -48,17 +48,21 @@ public class Transmissor {
     }
 
     public Transmissor(final Certificate keyCertificate, final Certificate trustCertificate) {
-        init(keyCertificate, trustCertificate);
+        init(keyCertificate, trustCertificate, "SSL");
     }
 
     public Transmissor(final Certificate keyCertificate) {
+        this(keyCertificate, "SSL");
+    }
+    
+    public Transmissor(final Certificate keyCertificate, String protocol) {
         this(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
     }
 
-    private void init(final Certificate keyCertificate, final Certificate trustCertificate) {
+    private void init(final Certificate keyCertificate, final Certificate trustCertificate, final String protocol) {
         initializeKeyStore(keyCertificate);
         initializeTrustStore(trustCertificate);
-        initializeSSLContext();
+        initializeSSLContext(protocol);
     }
 
     private void initializeKeyStore(final Certificate certificate) {
@@ -85,9 +89,9 @@ public class Transmissor {
         }
     }
 
-    private void initializeSSLContext() {
+    private void initializeSSLContext(String protocol) {
         try {
-            sslContext = SSLContext.getInstance("SSL");
+            sslContext = SSLContext.getInstance(protocol);
             sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
         } catch (final Exception ex) {
             getLogger().error("Erro ao inicializar contexto SSL", ex);

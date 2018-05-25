@@ -53,6 +53,8 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "cBenef") @Size(max = 10) String beneficiaryCode;
 
+    private @XmlElement(name = "EXTIPI") @Pattern(regexp = "[0-9]{2,3}") String exTipi;
+
     private @XmlElement(name = "CFOP") @NotNull final CFOP cfop;
 
     private @XmlElement(name = "uCom") @NotNull @Size(min = 1, max = 6) @NFeString final String comercialUnit;
@@ -89,6 +91,14 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "DI") @Size(max = 100) @Valid final List<ImportDeclaration> importDeclarations;
 
+    private @XmlElement(name = "xPed") @Size(min = 1, max = 15) @NFeString final String purchaseOrderDescription;
+
+    private @XmlElement(name = "nItemPed") @Pattern(regexp = "[0-9]{1,6}") final String purchaseOrderNumber;
+
+    private @XmlElement(name = "nFCI") @NotNull @Pattern(regexp = "[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}") final String fciNumber;
+
+    private @XmlElement(name = "rastro") @Size(max = 500) @Valid final List<Trace> traces;
+
     public static class Builder {
 
         private String itemCode;
@@ -106,6 +116,8 @@ public class NFeItem implements Serializable {
         private String manufacturerCnpj;
 
         private String beneficiaryCode;
+
+        private String exTipi;
 
         private CFOP cfop;
 
@@ -142,6 +154,14 @@ public class NFeItem implements Serializable {
         private Fuel fuel;
 
         private List<ImportDeclaration> importDeclarations;
+
+        private String purchaseOrderDescription;
+
+        private String purchaseOrderNumber;
+
+        private String fciNumber;
+
+        private List<Trace> traces;
 
         /**
          * Código do produto ou serviço. Preencher com CFOP caso se trate de itens não relacionados com mercadorias/produto e que o contribuinte não possua codificação própria Formato "CFOP9999".
@@ -228,11 +248,22 @@ public class NFeItem implements Serializable {
         /**
          * Código de Benefício Fiscal na UF aplicado ao item. Permite informar por produto o mesmo código do benefício utilizados na EFD e outras declarações e obrigações acessórias que as UF exigem
          *
-         * @param manufacturerCnpj
+         * @param beneficiaryCode
          * @return
          */
         public Builder withBeneficiaryCode(final String beneficiaryCode) {
             this.beneficiaryCode = beneficiaryCode;
+            return this;
+        }
+
+        /**
+         * Código EX TIPI (3 posições)
+         *
+         * @param exTipi
+         * @return
+         */
+        public Builder withExTipi(final String exTipi) {
+            this.exTipi = exTipi;
             return this;
         }
 
@@ -432,6 +463,50 @@ public class NFeItem implements Serializable {
             return this;
         }
 
+        /**
+         * pedido de compra - Informação de interesse do emissor para controle do B2B.
+         *
+         * @param purchaseOrderDescription
+         * @return
+         */
+        public Builder withPurchaseOrderDescription(final String purchaseOrderDescription) {
+            this.purchaseOrderDescription = purchaseOrderDescription;
+            return this;
+        }
+
+        /**
+         * Número do Item do Pedido de Compra - Identificação do número do item do pedido de Compra
+         *
+         * @param purchaseOrderNumber
+         * @return
+         */
+        public Builder withPurchaseOrderNumber(final String purchaseOrderNumber) {
+            this.purchaseOrderNumber = purchaseOrderNumber;
+            return this;
+        }
+
+        /**
+         * Número de controle da FCI - Ficha de Conteúdo de Importação
+         *
+         * @param fciNumber
+         * @return
+         */
+        public Builder withFciNumber(final String fciNumber) {
+            this.fciNumber = fciNumber;
+            return this;
+        }
+
+        /**
+         * 
+         * @see Trace
+         * @param traces
+         * @return
+         */
+        public Builder withTraces(final List<Trace> traces) {
+            this.traces = traces;
+            return this;
+        }
+
         public NFeItem build() {
             final NFeItem entity = new NFeItem(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -448,6 +523,7 @@ public class NFeItem implements Serializable {
         this.scaleIndication = null;
         this.manufacturerCnpj = null;
         this.beneficiaryCode = null;
+        this.exTipi = null;
         this.cfop = null;
         this.comercialUnit = null;
         this.comercialQuantity = null;
@@ -466,6 +542,10 @@ public class NFeItem implements Serializable {
         this.guns = null;
         this.fuel = null;
         this.importDeclarations = null;
+        this.purchaseOrderDescription = null;
+        this.purchaseOrderNumber = null;
+        this.fciNumber = null;
+        this.traces = null;
     }
 
     public NFeItem(final Builder builder) {
@@ -477,6 +557,7 @@ public class NFeItem implements Serializable {
         this.scaleIndication = builder.scaleIndication;
         this.manufacturerCnpj = builder.manufacturerCnpj;
         this.beneficiaryCode = builder.beneficiaryCode;
+        this.exTipi = builder.exTipi;
         this.cfop = builder.cfop;
         this.comercialUnit = builder.comercialUnit;
         this.comercialQuantity = builder.comercialQuantity;
@@ -495,6 +576,10 @@ public class NFeItem implements Serializable {
         this.guns = builder.guns;
         this.fuel = builder.fuel;
         this.importDeclarations = builder.importDeclarations;
+        this.purchaseOrderDescription = builder.purchaseOrderDescription;
+        this.purchaseOrderNumber = builder.purchaseOrderNumber;
+        this.fciNumber = builder.fciNumber;
+        this.traces = builder.traces;
     }
 
     public String getItemCode() {
@@ -531,6 +616,10 @@ public class NFeItem implements Serializable {
 
     public String getBeneficiaryCode() {
         return beneficiaryCode;
+    }
+
+    public String getExTipi() {
+        return exTipi;
     }
 
     public CFOP getCfop() {
@@ -603,6 +692,22 @@ public class NFeItem implements Serializable {
 
     public List<ImportDeclaration> getImportDeclarations() {
         return this.importDeclarations;
+    }
+
+    public String getPurchaseOrderDescription() {
+        return purchaseOrderDescription;
+    }
+
+    public String getPurchaseOrderNumber() {
+        return purchaseOrderNumber;
+    }
+
+    public String getFciNumber() {
+        return fciNumber;
+    }
+
+    public List<Trace> getTraces() {
+        return traces;
     }
 
 }
