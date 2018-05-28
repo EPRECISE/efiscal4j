@@ -18,6 +18,7 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 
 
@@ -29,7 +30,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
  */
 @XmlRootElement(name = ObjectFactory.ENV_EVENTO)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventDispatch implements TransmissibleBodyImpl {
+public class EventDispatch implements TransmissibleBodyImpl, NFeEventDispatchRequest {
 
     private static final long serialVersionUID = 1L;
 

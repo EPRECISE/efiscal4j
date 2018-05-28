@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfe.v400.transmission;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +21,13 @@ import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
+import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeDeliveryDFeDispatchRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeServiceStatusSearchRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeStatusSearchRequest;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeResponse;
@@ -37,7 +43,6 @@ import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeBodyWrapper;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeSoapBody;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeSoapEnvelope;
@@ -49,7 +54,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
  * @author Felipe Bueno
  *
  */
-public class TransmissionChannel {
+public class TransmissionChannel implements NFeTransmissionChannel {
 
     private final Transmissor transmissor;
 
@@ -57,7 +62,10 @@ public class TransmissionChannel {
         this.transmissor = new Transmissor(certificate, "TLSv1.2");
     }
 
-    public TypedTransmissionResult<NFe, NFeDispatchResponseMethod> transmitAuthorization(final NFe nfe) throws SAXException, IOException, ParserConfigurationException {
+    public TypedTransmissionResult<NFeDispatch, NFeDispatchResponseMethod> transmitAuthorization(final NFeAuthorizationRequest authorizationRequest)
+            throws SAXException, IOException, ParserConfigurationException {
+        final NFeDispatch nfeDispatch = (NFeDispatch) authorizationRequest;
+        final NFe nfe = nfeDispatch.getnFes().stream().findFirst().get();
         String serviceUrl = null;
         final UF uf = nfe.getNFeInfo().getEmitter().getAdress().getCity().getUf();
 
@@ -77,13 +85,6 @@ public class TransmissionChannel {
             }
             break;
         }
-        //@formatter:off
-        final NFeDispatch nfeDispatch = new NFeDispatch.Builder()
-                                           .withBatchId(nfe.getNFeInfo().getnFeIdentification().getFiscalDocumentNumber())
-                                           .withSynchronousProcessing(SynchronousProcessing.SINCRONO)
-                                           .withNFes(Arrays.asList(nfe))
-                                           .build();
-        //@formatter:on
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
@@ -97,11 +98,14 @@ public class TransmissionChannel {
 
         responseXml = this.postProcessResponseXML(responseXml);
 
-        return new TypedTransmissionResult<>(NFe.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(NFeDispatch.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<ServiceStatusSearch, ServiceStatusSearchResponseMethod> transmitServiceStatusSearch(final ServiceStatusSearch serviceStatusSearch,
+    public TypedTransmissionResult<ServiceStatusSearch, ServiceStatusSearchResponseMethod> transmitServiceStatusSearch(final NFeServiceStatusSearchRequest serviceStatusSearchRequest,
             final FiscalDocumentModel documentModel) {
+
+        final ServiceStatusSearch serviceStatusSearch = (ServiceStatusSearch) serviceStatusSearchRequest;
+
         String serviceUrl = null;
 
         final UF uf = serviceStatusSearch.getServiceUf();
@@ -142,8 +146,11 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(ServiceStatusSearch.class, ServiceStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCancellation(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCancellation(final NFeEventDispatchRequest eventDispatchRequest,
+            final FiscalDocumentModel documentModel) {
         String serviceUrl = null;
+
+        final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
 
@@ -181,7 +188,10 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCCe(final EventDispatch eventDispatch, final FiscalDocumentModel documentModel) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCCe(final NFeEventDispatchRequest eventDispatchRequest, final FiscalDocumentModel documentModel) {
+
+        final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
+
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
@@ -212,7 +222,10 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final EventDispatch eventDispatch) {
+    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final NFeEventDispatchRequest eventDispatchRequest) {
+
+        final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
+
         String serviceUrl = null;
 
         final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
@@ -255,8 +268,11 @@ public class TransmissionChannel {
         //@formatter:off
     }
 
-    public TypedTransmissionResult<NFeStatusSearch, NFeStatusSearchResponseMethod> transmitNFeStatusSearch(final NFeStatusSearch nfeStatusSearch, final FiscalDocumentModel documentModel,
+    public TypedTransmissionResult<NFeStatusSearch, NFeStatusSearchResponseMethod> transmitNFeStatusSearch(final NFeStatusSearchRequest nfeStatusSearchRequest, final FiscalDocumentModel documentModel,
             final UF uf) {
+        
+        final NFeStatusSearch nfeStatusSearch = (NFeStatusSearch) nfeStatusSearchRequest;
+        
         String serviceUrl = null;
 
         switch (nfeStatusSearch.getTransmissionEnvironment()) {
@@ -295,8 +311,10 @@ public class TransmissionChannel {
         return new TypedTransmissionResult<>(NFeStatusSearch.class, NFeStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatch nfeNumberDisable) {
+    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisableRequest) {
 
+        final NFeNumberDisableDispatch nfeNumberDisable = (NFeNumberDisableDispatch) nfeNumberDisableRequest;
+        
         final UF uf = nfeNumberDisable.getInfo().getUfIbgeCode();
 
         final FiscalDocumentModel documentModel = nfeNumberDisable.getInfo().getFiscalDocumentModel();
@@ -354,8 +372,10 @@ public class TransmissionChannel {
      *            - Requisição de informção de DF-e
      * @return Resultado da requisição, com valor dependendo da informação solicitada
      */
-    public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeRequest deliveryDFeRequest) {
+    public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeDispatchRequest deliveryDFeDispatchRequest) {
 
+        final NFeDeliveryDFeRequest deliveryDFeRequest = (NFeDeliveryDFeRequest) deliveryDFeDispatchRequest;
+        
         String serviceUrl = null;
 
         switch (deliveryDFeRequest.getTransmissionEnvironment()) {

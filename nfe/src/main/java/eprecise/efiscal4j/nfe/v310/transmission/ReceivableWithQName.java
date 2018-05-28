@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.commons.domain.transmission.Receivable;
+
 
 /**
  * Identifica estruturas que podem ser recebidas (adicionadas ao body da mensagem SOAP de retorno)
@@ -16,7 +18,7 @@ import javax.xml.namespace.QName;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlTransient
-public abstract class Receivable {
+public abstract class ReceivableWithQName extends Receivable{
 
     public abstract void setQName(QName qName);
 

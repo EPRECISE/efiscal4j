@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe.v400;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -22,6 +22,8 @@ import org.xml.sax.SAXException;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeRequest;
 import eprecise.efiscal4j.nfe.v310.NFe;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 
@@ -34,7 +36,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
  */
 @XmlRootElement(name = ObjectFactory.ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeDispatch implements TransmissibleBodyImpl {
+public class NFeDispatch implements TransmissibleBodyImpl, NFeAuthorizationRequest {
 
     private static final long serialVersionUID = 1L;
 

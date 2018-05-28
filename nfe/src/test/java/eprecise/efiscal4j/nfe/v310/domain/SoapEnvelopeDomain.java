@@ -6,7 +6,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.nfe.v310.transmission.NFeBody;
 import eprecise.efiscal4j.nfe.v310.transmission.NFeHeader;
-import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
+import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPBodyResponse;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPEnvelope;
@@ -99,7 +99,7 @@ class SoapEnvelopeDomain {
         //@formatter:on
     }
 
-    public SOAPBodyResponse buildSoapBodyResponse(Receivable receivable) {
+    public SOAPBodyResponse buildSoapBodyResponse(ReceivableWithQName receivable) {
         //@formatter:off
         return new SOAPBodyResponse.Builder()
                  .withReceivable(receivable)

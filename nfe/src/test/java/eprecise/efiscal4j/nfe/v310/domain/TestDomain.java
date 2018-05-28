@@ -100,7 +100,7 @@ import eprecise.efiscal4j.nfe.v310.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v310.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v310.transmission.NFeBody;
 import eprecise.efiscal4j.nfe.v310.transmission.NFeHeader;
-import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
+import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPBody;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPBodyResponse;
 import eprecise.efiscal4j.nfe.v310.transmission.SOAPEnvelope;
@@ -257,7 +257,7 @@ public class TestDomain {
         return SoapEnvelopeDomain.getInstance().buildSoapHeaderResponse(nFeHeader);
     }
 
-    public SOAPBodyResponse buildSoapBodyResponse(final Receivable receivable) {
+    public SOAPBodyResponse buildSoapBodyResponse(final ReceivableWithQName receivable) {
         return SoapEnvelopeDomain.getInstance().buildSoapBodyResponse(receivable);
     }
 

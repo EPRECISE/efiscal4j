@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v310.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,8 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
+import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 
 
 /**
@@ -24,7 +23,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
  */
 @XmlRootElement(name = ObjectFactory.NFE_STAT_INUT_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao3")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeNumberDisableResponseMethod extends Receivable implements Serializable {
+public class NFeNumberDisableResponseMethod extends ReceivableWithQName implements NFeNumberDisableDispatchResponse {
 
     private static final long serialVersionUID = 1L;
 

@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 
 
 /**

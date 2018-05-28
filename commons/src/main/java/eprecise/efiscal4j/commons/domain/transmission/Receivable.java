@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.v400.transmission;
+package eprecise.efiscal4j.commons.domain.transmission;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

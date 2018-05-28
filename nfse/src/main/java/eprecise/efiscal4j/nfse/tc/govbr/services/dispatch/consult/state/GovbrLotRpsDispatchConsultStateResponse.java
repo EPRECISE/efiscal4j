@@ -10,10 +10,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.transmission.Receivable;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 

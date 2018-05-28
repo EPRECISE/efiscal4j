@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrRps.Info.Builder;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeAliquot;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;

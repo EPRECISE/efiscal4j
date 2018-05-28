@@ -16,6 +16,9 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
+import eprecise.efiscal4j.nfe.transmission.request.NFeRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeServiceStatusSearchRequest;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
@@ -30,7 +33,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeString;
 @XmlRootElement(name = "consStatServ")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "version", "xmlns", "transmissionEnvironment", "serviceUf", "requestedService" })
-public class ServiceStatusSearch implements TransmissibleBodyImpl {
+public class ServiceStatusSearch implements TransmissibleBodyImpl, NFeServiceStatusSearchRequest {
 
     private static final long serialVersionUID = 1L;
 

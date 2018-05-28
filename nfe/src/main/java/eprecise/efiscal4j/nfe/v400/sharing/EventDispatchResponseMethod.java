@@ -1,17 +1,16 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.response.NFeEventDispatchResponse;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 
 
 /**
@@ -22,7 +21,7 @@ import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
  */
 @XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventDispatchResponseMethod extends Receivable implements Serializable {
+public class EventDispatchResponseMethod extends Receivable implements NFeEventDispatchResponse {
 
     private static final long serialVersionUID = 1L;
 

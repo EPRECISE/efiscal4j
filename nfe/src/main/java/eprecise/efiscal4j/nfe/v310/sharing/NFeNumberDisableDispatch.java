@@ -20,6 +20,7 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
@@ -35,7 +36,7 @@ import eprecise.efiscal4j.signer.domain.SignatureType;
 @XmlRootElement(name = ObjectFactory.INUT_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "xmlns", "info", "signature", "version" })
-public class NFeNumberDisableDispatch extends DefaultAssignable implements TransmissibleBodyImpl {
+public class NFeNumberDisableDispatch extends DefaultAssignable implements TransmissibleBodyImpl, NFeNumberDisableDispatchRequest {
 
     private static final long serialVersionUID = 1L;
 

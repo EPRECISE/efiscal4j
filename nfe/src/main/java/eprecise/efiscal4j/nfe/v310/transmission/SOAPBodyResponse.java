@@ -29,19 +29,19 @@ public class SOAPBodyResponse implements Serializable {
         @XmlElementRef(name = ObjectFactory.NFE_REC_EVENTO_RESULT),
     })
     @XmlJavaTypeAdapter(ReceivableAdapter.class)
-    private final Receivable receivable;
+    private final ReceivableWithQName receivable;
     //@formatter:on
 
     public static class Builder {
 
-        private Receivable receivable;
+        private ReceivableWithQName receivable;
 
         /**
          * 
          * @param receivable
          * @return
          */
-        public Builder withReceivable(Receivable receivable) {
+        public Builder withReceivable(ReceivableWithQName receivable) {
             this.receivable = receivable;
             return this;
         }
@@ -65,7 +65,7 @@ public class SOAPBodyResponse implements Serializable {
         return this.xmlnsEnv;
     }
 
-    public Receivable getServiceMethodReturn() {
+    public ReceivableWithQName getServiceMethodReturn() {
         return this.receivable;
     }
 }

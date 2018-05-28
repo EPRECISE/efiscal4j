@@ -125,7 +125,7 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeAutorizacao...");
 
-            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFe());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitAuthorization(this.getTestDomain().buildNFeDispatch());
 
             final NFeDispatchResponseMethod returnMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeDispatchResponseMethod.class).deserialize();
 

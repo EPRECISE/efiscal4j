@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.request.NFeDeliveryDFeDispatchRequest;
 import eprecise.efiscal4j.nfe.v310.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.v310.types.NFeCNPJ;
@@ -31,7 +32,7 @@ import eprecise.efiscal4j.nfe.v310.types.NFeCNPJ;
  */
 @XmlRootElement(name = ObjectFactory.DIST_DFE_INT)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl {
+public class NFeDeliveryDFeRequest implements TransmissibleBodyImpl, NFeDeliveryDFeDispatchRequest {
 
     private static final long serialVersionUID = 1L;
 

@@ -9,6 +9,7 @@ import java.util.List;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 
 
 /**
@@ -18,7 +19,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
  *
  */
 
-public enum ServiceDomain implements Serializable {
+public enum ServiceDomain implements NFeServiceDomain {
 
 //@formatter:off    
     AM(UF.AM.getDescription(), 
@@ -124,8 +125,7 @@ public enum ServiceDomain implements Serializable {
             NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
             NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00), 
             NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
+            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10)),
     AN("Ambiente Nacional",
             NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00),
             NFeService.DELIVERY_DFE.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00));    

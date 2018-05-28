@@ -13,8 +13,9 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.response.NFeServiceStatusSearchResponse;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
+import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 
 
 /**
@@ -25,7 +26,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
  */
 @XmlRootElement(name = ObjectFactory.NFE_STAT_SERV_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ServiceStatusSearchResponseMethod extends Receivable implements Serializable {
+public class ServiceStatusSearchResponseMethod extends ReceivableWithQName implements NFeServiceStatusSearchResponse {
 
     private static final long serialVersionUID = 1L;
 

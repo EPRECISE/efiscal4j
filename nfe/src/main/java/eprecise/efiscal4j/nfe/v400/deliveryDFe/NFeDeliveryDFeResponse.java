@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.deliveryDFe;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -14,10 +13,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.response.NFeDeliveryDFeDispatchResponse;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v400.transmission.Receivable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeNSU;
 
@@ -31,7 +31,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeNSU;
 //@XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
 @XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NFeDeliveryDFeResponse extends Receivable implements Serializable {
+public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFeDispatchResponse {
 
     private static final long serialVersionUID = 1L;
 

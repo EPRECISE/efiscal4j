@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
-import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
+import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 
 
 /**
@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.Receivable;
  */
 @XmlRootElement(name = ObjectFactory.NFE_RET_AUT_RESULT)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BatchReceiptSearchResponseMethod extends Receivable implements Serializable {
+public class BatchReceiptSearchResponseMethod extends ReceivableWithQName implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

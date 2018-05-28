@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1203;
-import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
 
 

@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.List;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 
 
 /**
@@ -18,7 +18,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
  *
  */
 
-public enum ServiceDomain implements Serializable {
+public enum ServiceDomain implements NFeServiceDomain {
 
 //@formatter:off    
     AM(UF.AM.getDescription(), 
@@ -124,11 +124,10 @@ public enum ServiceDomain implements Serializable {
             NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
             NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
             NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
+            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
     AN("Ambiente Nacional",
             NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.DELIVERY_DFE.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00));    
+            NFeService.DELIVERY_DFE.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00));    
 //@formatter:on
 
     private static final long serialVersionUID = 1L;
@@ -141,7 +140,7 @@ public enum ServiceDomain implements Serializable {
         this.description = description;
         this.services.addAll(Arrays.asList(services));
     }
-
+    
     private ServiceDomain(String description) {
         this.description = description;
     }
