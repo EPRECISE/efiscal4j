@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 
+import eprecise.efiscal4j.commons.domain.CFOP;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.Certificate;

@@ -15,13 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eprecise.efiscal4j.commons.domain.CFOP;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
-import eprecise.efiscal4j.nfe.v310.CFOP;
 import eprecise.efiscal4j.nfe.v310.CRT;
 import eprecise.efiscal4j.nfe.v310.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v310.DestinationOperationIdentifier;

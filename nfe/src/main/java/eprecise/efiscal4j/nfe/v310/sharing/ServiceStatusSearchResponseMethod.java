@@ -1,8 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v310.sharing;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

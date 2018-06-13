@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
+import eprecise.efiscal4j.commons.domain.CFOP;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
 import eprecise.efiscal4j.nfe.v400.guns.Gun;

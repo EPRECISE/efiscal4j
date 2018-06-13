@@ -23,7 +23,6 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeRequest;
 import eprecise.efiscal4j.nfe.v310.NFe;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 

@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.v310;
+package eprecise.efiscal4j.commons.domain;
 
 import java.io.Serializable;
 
@@ -563,7 +563,7 @@ public enum CFOP implements Serializable {
   //@formatter:on
     private static final long serialVersionUID = 1L;
 
-    private transient final PropertiesLoader cfopMap = new PropertiesLoader.Builder().resourceLoader(CFOP.class).from("/eprecise/efiscal4j/nfe/v310/cfop.properties").create();
+    private transient final PropertiesLoader cfopMap = new PropertiesLoader.Builder().resourceLoader(CFOP.class).from("/eprecise/efiscal4j/commons/cfop.properties").create();
 
     private final String value;
 

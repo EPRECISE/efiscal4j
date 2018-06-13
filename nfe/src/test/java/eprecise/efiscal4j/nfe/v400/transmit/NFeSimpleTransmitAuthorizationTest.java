@@ -11,13 +11,13 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 
+import eprecise.efiscal4j.commons.domain.CFOP;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.v400.CFOP;
 import eprecise.efiscal4j.nfe.v400.CRT;
 import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;

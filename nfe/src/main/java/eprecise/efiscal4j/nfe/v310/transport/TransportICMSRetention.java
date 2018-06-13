@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import eprecise.efiscal4j.commons.domain.CFOP;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.v310.CFOP;
 import eprecise.efiscal4j.nfe.v310.transport.validation.TransportCFOPValidation;
 import eprecise.efiscal4j.nfe.v310.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.v310.types.NFeDecimal1302;
