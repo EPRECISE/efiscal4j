@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class IMCS30 implements ICMS {
 
-    private @Builder.Default final ICMSCST cst = ICMSCST.CST_30;
+    private final ICMSCST cst = ICMSCST.CST_30;
 
     private final ProductOrigin origin;
 

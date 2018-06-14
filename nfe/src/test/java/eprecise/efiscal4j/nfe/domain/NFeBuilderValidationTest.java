@@ -21,7 +21,6 @@ import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddressCity;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
-import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.payment.PaymentDetail;
 import eprecise.efiscal4j.nfe.payment.PaymentMethod;

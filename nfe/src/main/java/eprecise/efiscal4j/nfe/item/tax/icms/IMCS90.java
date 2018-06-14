@@ -15,7 +15,7 @@ import lombok.Getter;
 @Getter
 public class IMCS90 implements ICMS {
 
-    private @Builder.Default final ICMSCST cst = ICMSCST.CST_90;
+    private final ICMSCST cst = ICMSCST.CST_90;
 
     private final ProductOrigin origin;
 
