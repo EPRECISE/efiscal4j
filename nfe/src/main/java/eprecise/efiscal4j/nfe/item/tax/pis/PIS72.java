@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class PIS72 implements PIS {
+public class PIS72 implements PISTrib {
 
     private final PISCST cst = PISCST.CST_72;
 

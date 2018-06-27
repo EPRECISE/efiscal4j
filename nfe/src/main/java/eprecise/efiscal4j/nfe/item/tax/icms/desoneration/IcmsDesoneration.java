@@ -15,4 +15,10 @@ public class IcmsDesoneration {
 
     private final BigDecimal value;
 
+    public static interface IcmsDesonerationHolder {
+
+        IcmsDesoneration getDesoneration();
+
+    }
+
 }

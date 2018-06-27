@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class PIS62 extends BasePISOther {
+public class PIS62 extends BasePISOther {
 
     private static final long serialVersionUID = 1L;
 

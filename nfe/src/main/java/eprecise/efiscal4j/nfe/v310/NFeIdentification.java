@@ -313,6 +313,10 @@ public class NFeIdentification implements Serializable {
         return this.emissionDateTime;
     }
 
+    public String getEntranceOrExitDateTime() {
+        return entranceOrExitDateTime;
+    }
+
     public FiscalDocumentType getFiscalDocumentType() {
         return this.fiscalDocumentType;
     }

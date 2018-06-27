@@ -37,4 +37,13 @@ public enum NFeFinality {
     public String toString() {
         return this.getDescription();
     }
+
+    public static NFeFinality findByCode(final int code) {
+        for (final NFeFinality entity : NFeFinality.values()) {
+            if (entity.getValue() == code) {
+                return entity;
+            }
+        }
+        return null;
+    }
 }

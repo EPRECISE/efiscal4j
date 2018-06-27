@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.v310.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
+public abstract class BasePISOther extends BasePIS implements BasePISOtherStandard {
 
     private static final long serialVersionUID = 1L;
 

@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class COFINS01 extends BaseCOFINSAliquot {
+public class COFINS01 extends BaseCOFINSAliquot {
 
     private static final long serialVersionUID = 1L;
 

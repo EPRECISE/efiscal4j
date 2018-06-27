@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class PisValueWithAliquotValue {
+public class PisValueWithAliquotValue implements PisValue {
 
     private final PisAliquotValueWithQuantity aliquot;
 

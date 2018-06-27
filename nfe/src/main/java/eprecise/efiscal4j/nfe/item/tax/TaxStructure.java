@@ -20,4 +20,6 @@ public class TaxStructure {
 
     private final Collection<ItemTax> taxes;
 
+    private final ApproximateTax approximateTax;
+
 }

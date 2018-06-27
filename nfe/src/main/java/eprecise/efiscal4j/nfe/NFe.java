@@ -2,7 +2,6 @@
 package eprecise.efiscal4j.nfe;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -15,6 +14,7 @@ import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.CurrentIODate;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.IODate;
+import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.references.DocumentReference;
@@ -75,9 +75,10 @@ public class NFe extends FiscalDocument {
     private final @Valid Collection<DocumentReference> documentReferences;
 
     @Builder
-    public NFe(FiscalDocumentSerie serie, Integer number, EmissionDate emission, Emitter emitter, Charging charging, Payment payment, Transport transport, String details, Receiver receiver,
-            IODate entranceOrExit, NFeFinality finality, FiscalDocumentType type, Boolean endConsumer, String operationDescription, Collection<DocumentReference> documentReferences) {
-        super(serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, charging, payment, transport, details);
+    public NFe(FiscalDocumentSerie serie, Integer number, EmissionDate emission, Emitter emitter, Collection<Item> items, Charging charging, Payment payment, Transport transport, String details,
+            Receiver receiver, IODate entranceOrExit, NFeFinality finality, FiscalDocumentType type, Boolean endConsumer, String operationDescription,
+            Collection<DocumentReference> documentReferences) {
+        super(serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items, charging, payment, transport, details);
         this.receiver = receiver;
         this.entranceOrExit = Optional.ofNullable(entranceOrExit).orElse(new CurrentIODate());
         this.finality = Optional.ofNullable(finality).orElse(NFeFinality.NORMAL);
@@ -86,5 +87,7 @@ public class NFe extends FiscalDocument {
         this.operationDescription = operationDescription;
         this.documentReferences = documentReferences;
     }
+
+    
 
 }

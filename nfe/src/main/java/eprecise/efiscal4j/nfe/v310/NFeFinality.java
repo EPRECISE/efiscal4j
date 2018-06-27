@@ -10,10 +10,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum NFeFinality {
 
-    @XmlEnumValue("1") NORMAL(1, "Normal"),
-    @XmlEnumValue("2") COMPLEMENTAR(2, "Complementar"),
-    @XmlEnumValue("3") AJUSTE(3, "Ajuste"),
-    @XmlEnumValue("4") DEVOLUCAO_RETORNO(4, "Devolução/Retorno");
+                         @XmlEnumValue("1")
+                         NORMAL(1, "Normal"),
+                         @XmlEnumValue("2")
+                         COMPLEMENTAR(2, "Complementar"),
+                         @XmlEnumValue("3")
+                         AJUSTE(3, "Ajuste"),
+                         @XmlEnumValue("4")
+                         DEVOLUCAO_RETORNO(4, "Devolução/Retorno");
 
     private static final long serialVersionUID = 1L;
 
@@ -37,5 +41,14 @@ public enum NFeFinality {
     @Override
     public String toString() {
         return this.getDescription();
+    }
+
+    public static NFeFinality findByCode(final int code) {
+        for (final NFeFinality entity : NFeFinality.values()) {
+            if (entity.getValue() == code) {
+                return entity;
+            }
+        }
+        return null;
     }
 }

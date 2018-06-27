@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class COFINS54 implements COFINS {
+public class COFINS54 implements COFINSTrib {
 
     private final COFINSCST cst = COFINSCST.CST_54;
 

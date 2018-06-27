@@ -50,5 +50,10 @@ public class VolumeSeal implements Serializable {
 	public VolumeSeal(Builder builder) {
 		this.sealNumber = builder.sealNumber;
 	}
+	
+	
+    public String getSealNumber() {
+        return sealNumber;
+    }
 
 }

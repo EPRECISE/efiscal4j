@@ -2,6 +2,8 @@
 package eprecise.efiscal4j.nfe.references;
 
 import java.time.YearMonth;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -100,6 +102,10 @@ public class ReferenceToNFP implements DocumentReference {
         @Override
         public String toString() {
             return this.getValue();
+        }
+        
+        public static Optional<ProducerReferencedNFModel> findBy(String value) {
+            return Stream.of(ProducerReferencedNFModel.values()).filter(e -> e.getValue().equals(value)).findFirst();
         }
     }
 

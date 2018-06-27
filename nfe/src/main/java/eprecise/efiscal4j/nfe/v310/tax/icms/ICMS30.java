@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.v310.types.NFeDecimal1302;
  */
 @ICMSDesonerationReason_6_7_9_Validation
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
+public class ICMS30 extends BaseICMS implements DesonerationGroup, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 

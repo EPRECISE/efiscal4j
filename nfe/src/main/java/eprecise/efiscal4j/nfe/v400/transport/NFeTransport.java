@@ -138,20 +138,48 @@ public class NFeTransport implements Serializable {
         return serialVersionUID;
     }
 
-    public ShippingModality getShippingModality() {
-        return this.shippingModality;
+    public Conveyor getConveyor() {
+        return conveyor;
     }
 
-    public Conveyor getConveyor() {
-        return this.conveyor;
+    public void setConveyor(Conveyor conveyor) {
+        this.conveyor = conveyor;
     }
 
     public TransportICMSRetention getTransportICMSRetention() {
-        return this.transportICMSRetention;
+        return transportICMSRetention;
+    }
+
+    public void setTransportICMSRetention(TransportICMSRetention transportICMSRetention) {
+        this.transportICMSRetention = transportICMSRetention;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public List<Vehicle> getTowing() {
+        return towing;
+    }
+
+    public void setTowing(List<Vehicle> towing) {
+        this.towing = towing;
     }
 
     public List<TransportedVolume> getTransportedVolume() {
-        return this.transportedVolume;
+        return transportedVolume;
+    }
+
+    public void setTransportedVolume(List<TransportedVolume> transportedVolume) {
+        this.transportedVolume = transportedVolume;
+    }
+
+    public ShippingModality getShippingModality() {
+        return shippingModality;
     }
 
 }

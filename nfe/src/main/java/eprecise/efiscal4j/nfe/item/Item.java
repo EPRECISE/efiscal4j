@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.item;
 
 import java.math.BigDecimal;
 
+import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,13 +24,15 @@ public class Item {
 
     private final ItemUnitaryValue unitaryValue;
 
-    private BigDecimal discount;
+    private final BigDecimal discount;
 
-    private BigDecimal freight;
+    private final BigDecimal freight;
 
-    private BigDecimal insurance;
+    private final BigDecimal insurance;
 
-    private BigDecimal othersValue;
+    private final BigDecimal othersValue;
+
+    private final TaxStructure taxStructure;
 
     public static class ItemBuilder {
 
@@ -74,6 +77,11 @@ public class Item {
         }
     }
 
+    public ItemGrossValue getGrossValue() {
+        return ItemGrossValue.builder().comercialGrossValue(this.unitaryValue.comercialUnitaryValue.multiply(this.quantity.comercialQuantity))
+                .taxableGrossValue(this.unitaryValue.taxableUnitaryValue.multiply(this.quantity.taxableQuantity)).build();
+    }
+
     @Builder
     @Getter
     public static class ItemEan {
@@ -111,6 +119,16 @@ public class Item {
         private final BigDecimal comercialUnitaryValue;
 
         private final BigDecimal taxableUnitaryValue;
+
+    }
+
+    @Builder
+    @Getter
+    public static class ItemGrossValue {
+
+        private final BigDecimal comercialGrossValue;
+
+        private final BigDecimal taxableGrossValue;
 
     }
 }

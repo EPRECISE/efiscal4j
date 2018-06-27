@@ -1,6 +1,9 @@
 
 package eprecise.efiscal4j.nfe.references;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,10 +23,10 @@ import lombok.Getter;
 public class ReferenceToECF implements DocumentReference {
 
     /**
-     * @see ReferecedECFModel
+     * @see ReferencedECFModel
      * @param model
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.references.referenceToEcf.model.isNotNull}") @Valid final ReferecedECFModel model;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.references.referenceToEcf.model.isNotNull}") @Valid final ReferencedECFModel model;
 
     /**
      * Número de ordem seqüencial do ECF que emitiu o Cupom Fiscal vinculado à NF-e
@@ -45,7 +48,7 @@ public class ReferenceToECF implements DocumentReference {
      * Modelo do Documento Fiscal para Cupom Fiscal vinculado à NF-e
      * 
      */
-    public enum ReferecedECFModel {
+    public enum ReferencedECFModel {
                                    NON_ECF("2B", "Cupom emitido por registradora (não ECF)"),
                                    ECF_PDV("2C", "Cupom fiscal PDV"),
                                    ECF("2D", "Cupom fiscal ECF");
@@ -54,7 +57,7 @@ public class ReferenceToECF implements DocumentReference {
 
         private final String description;
 
-        private ReferecedECFModel(String value, String description) {
+        private ReferencedECFModel(String value, String description) {
             this.value = value;
             this.description = description;
         }
@@ -65,6 +68,10 @@ public class ReferenceToECF implements DocumentReference {
 
         public String getDescription() {
             return this.description;
+        }
+        
+        public static Optional<ReferencedECFModel> findBy(String value) {
+            return Stream.of(ReferencedECFModel.values()).filter(e -> e.getValue().equals(value)).findFirst();
         }
 
         @Override

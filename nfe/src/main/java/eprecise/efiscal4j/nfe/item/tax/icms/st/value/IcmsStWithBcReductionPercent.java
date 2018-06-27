@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class IcmsStWithBcReductionPercent {
 
-    private final IcmsStWithBcValue icmsValue;
+    private final IcmsStWithBcValue value;
 
     private final BigDecimal bcReductionPercent;
 

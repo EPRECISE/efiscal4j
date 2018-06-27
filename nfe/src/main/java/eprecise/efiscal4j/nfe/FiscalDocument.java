@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -8,14 +10,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import eprecise.efiscal4j.nfe.charging.Charging;
-import eprecise.efiscal4j.nfe.emissionDate.CurrentEmissionDate;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
+import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 
@@ -41,7 +42,7 @@ public abstract class FiscalDocument {
      * @param number
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isNotNull}") @Min(value = 1, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMinSize}") @Max(
-            value = 999999999, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMaxSize}") Integer number;
+            value = 999999999, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMaxSize}") final Integer number;
 
     /**
      * @see EmissionDate
@@ -53,7 +54,14 @@ public abstract class FiscalDocument {
      * @see Emitter
      * @param emitter
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emitter.isNotNull}") final @Valid Emitter emitter;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emitter.isNotNull}") @Valid final Emitter emitter;
+
+    /**
+     * @see Item
+     * @param items
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isNotNull}") @Size(
+            min = 1, max = 990, message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isSize}") @Valid final Collection<Item> items;
 
     /**
      * @see Charging
@@ -65,13 +73,13 @@ public abstract class FiscalDocument {
      * @see Payment
      * @param payment
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.payment.isNotNull}") final @Valid Payment payment;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.payment.isNotNull}") @Valid final Payment payment;
 
     /**
      * @see Transport
      * @param transport
      */
-    private final @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid Transport transport;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
 
     /**
      * Informações complementares de interesse do Contribuinte

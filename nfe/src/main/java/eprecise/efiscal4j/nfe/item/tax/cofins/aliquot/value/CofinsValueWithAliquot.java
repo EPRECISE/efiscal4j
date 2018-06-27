@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class CofinsValueWithAliquot {
+public class CofinsValueWithAliquot implements CofinsValue{
 
     private final CofinsAliquot aliquot;
 

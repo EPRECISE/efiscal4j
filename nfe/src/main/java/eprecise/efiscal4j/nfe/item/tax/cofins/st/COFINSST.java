@@ -1,7 +1,7 @@
 
 package eprecise.efiscal4j.nfe.item.tax.cofins.st;
 
-import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquot;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquot;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,6 +10,6 @@ import lombok.Getter;
 @Getter
 public class COFINSST {
 
-    private final PisValueWithAliquot value;
+    private final CofinsValueWithAliquot value;
 
 }

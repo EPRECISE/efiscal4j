@@ -1,0 +1,1557 @@
+
+package eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument;
+
+import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
+import eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe;
+
+
+public class ProcessedFiscalDocumentAdapter {
+
+    private final ProcessedNFe processedNFe;
+
+    public ProcessedFiscalDocumentAdapter(final ProcessedNFe processedNFe) {
+        this.processedNFe = processedNFe;
+    }
+
+    public ProcessedFiscalDocument buildProcessedFiscalDocument() {
+     // @formatter:off
+//        try {
+//            return ProcessedFiscalDocument.builder()
+//                .id(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
+//                .version(FiscalDocumentSupportedVersion.VERSION_3_10)
+//                .applicationVersion(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
+//                .accessKey(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey())
+//                .processing(Optional.ofNullable(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProcessingDateTime()).map(t -> {
+//                    try {
+//                        return NFeDateTimeUTC.dateFormat.parse(t);
+//                    } catch (ParseException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }).orElse(null))
+//                .protocolNumber(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProtocolNumber())
+//                .digestValue(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue())
+//                .statusCode(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
+//                .statusDescription(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
+//                .document(this.buildFiscalDocument())
+//                .build();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+        return null;
+     // @formatter:on
+    }
+
+//    private FiscalDocument buildFiscalDocument() throws NumberFormatException, ParseException {
+//        if (processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
+//         // @formatter:off
+//            return NFe.builder()
+//                    .receiver(this.buildReceiver())
+//                    .entranceOrExit(this.buildEntranceOrExit())
+//                    .finality(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getnFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
+//                    .type(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentType()).map(nfeFiscalDocumentType -> FiscalDocumentType.findByCode(nfeFiscalDocumentType.getType())).orElse(null))
+//                    .endConsumer(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFinalCustomerOperation().isFinal())
+//                    .operationDescription(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getOperationType())
+//                    .documentReferences(this.buildDocumentReferences())
+//                    .serie(this.buildSerie())
+//                    .number(Integer.valueOf(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+//                    .emission(buildEmissionDate())
+//                    .emitter(this.buildEmitter())
+//                    .items(this.buildItems())
+//                    .charging(this.buildCharging())
+//                    .payment(this.buildPayment())
+//                    .transport(this.buildTransport())
+//                    .details(processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+//                    .build();
+//         // @formatter:on
+//        } else if (processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
+//         // @formatter:off
+//            return NFCe.builder()
+//                    .consumer(this.buildConsumer())
+//                    .serie(this.buildSerie())
+//                    .number(Integer.valueOf(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+//                    .emission(buildEmissionDate())
+//                    .emitter(this.buildEmitter())
+//                    .items(this.buildItems())
+//                    .charging(this.buildCharging())
+//                    .payment(this.buildPayment())
+//                    .transport(this.buildTransport())
+//                    .details(processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+//                    .build();
+//         // @formatter:on
+//        }
+//        return null;
+//    }
+//
+//    private Transport buildTransport() {
+//     // @formatter:off
+//        final NFeTransport nfeTransport = processedNFe.getNfe().getNFeInfo().getnFeTransport();
+//        return Transport.builder()
+//                .shippingModality(Optional.ofNullable(nfeTransport.getShippingModality()).map(nfeShippingModality -> ShippingModality.findByCode(nfeShippingModality.getValue())).orElse(null))
+//                .conveyor(this.buildConveyor())
+//                .icmsRetention(buildTransportIcmsRetention())
+//                .transportMean(this.buildTransportMean())
+//                .volumes(this.buildTransportVolumes())
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private Collection<TransportedVolume> buildTransportVolumes() {
+//     // @formatter:off
+//        final Collection<eprecise.efiscal4j.nfe.v400.transport.TransportedVolume> nfeTransportVolumes = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportedVolume();
+//        if(nfeTransportVolumes != null && !nfeTransportVolumes.isEmpty()) {
+//            return nfeTransportVolumes.stream().map(nfeVolume -> TransportedVolume.builder()
+//                    .volumeQuantity(toLong(nfeVolume.getVolumeQuantity()))
+//                    .volumeSpecies(nfeVolume.getVolumeSpecies())
+//                    .volumeTrademark(nfeVolume.getVolumeTrademark())
+//                    .volumeNumbering(nfeVolume.getVolumeNumbering())
+//                    .netWeight(toBigDecimal(nfeVolume.getNetWeight()))
+//                    .grossWeight(toBigDecimal(nfeVolume.getGrossWeight()))
+//                    .seals(nfeVolume.getSeals() != null && !nfeVolume.getSeals().isEmpty() ? nfeVolume.getSeals().stream().map(vs->VolumeSeal.builder()
+//                            .sealNumber(vs.getSealNumber())
+//                            .build()).collect(Collectors.toList()) : null)
+//                    .build()).collect(Collectors.toList());
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private TransportMean buildTransportMean() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.transport.Vehicle nfeVehicle = processedNFe.getNfe().getNFeInfo().getnFeTransport().getVehicle();
+//        final List<eprecise.efiscal4j.nfe.v400.transport.Vehicle> nfeTowing = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTowing();
+//        
+//        if(nfeVehicle != null || (nfeTowing != null && !nfeTowing.isEmpty())) {
+//            final VehicleTowingTransportMeanBuilder builder = VehicleTowingTransportMean.builder();
+//            
+//            if(nfeVehicle != null) {
+//                builder.vehicle(Vehicle.builder()
+//                        .licensePlate(nfeVehicle.getLicensePlate())
+//                        .uf(nfeVehicle.getUf())
+//                        .rntc(nfeVehicle.getRntc())
+//                        .build());
+//            }
+//            
+//            if((nfeTowing != null && !nfeTowing.isEmpty())) {
+//                builder.towing(nfeTowing.stream().map(nfeTowingVehicle -> Vehicle.builder()
+//                        .licensePlate(nfeTowingVehicle.getLicensePlate())
+//                        .uf(nfeTowingVehicle.getUf())
+//                        .rntc(nfeTowingVehicle.getRntc())
+//                        .build()).collect(Collectors.toList()));
+//            }
+//            
+//            return builder.build();
+//        }
+//     // @formatter:on
+//
+//        return null;
+//    }
+//
+//    private TransportICMSRetention buildTransportIcmsRetention() {
+//        eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention nfeTransportICMSRetention = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
+//     // @formatter:off
+//        return TransportICMSRetention.builder()
+//                .serviceValue(toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
+//                .retentionCalculationBasis(toBigDecimal(nfeTransportICMSRetention.getRetentionCalculationBasis()))
+//                .retentionAliquot(toBigDecimal(nfeTransportICMSRetention.getRetentionAliquot()))
+//                .retentionValue(toBigDecimal(nfeTransportICMSRetention.getRetentionValue()))
+//                .cfop(nfeTransportICMSRetention.getCfop())
+//                .genFactIbgeCode(nfeTransportICMSRetention.getGenFactIbgeCode())
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private Conveyor buildConveyor() {
+//     // @formatter:off
+//        eprecise.efiscal4j.nfe.v400.transport.Conveyor nfeConveyor = processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
+//
+//        return Conveyor.builder()
+//                .cnp(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
+//                        ? ConveyorCnpj.builder().cnpj(nfeConveyor.getDocuments().getCnpjCpf()).build()
+//                        : nfeConveyor.getDocuments() instanceof NaturalPersonDocuments
+//                            ? ConveyorCpf.builder().cpf(nfeConveyor.getDocuments().getCnpjCpf()).build()
+//                            : null)
+//                .ie(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
+//                        ? ((LegalEntityDocuments) nfeConveyor.getDocuments()).getStateRegistration()
+//                        : null)
+//                .fullAddress(nfeConveyor.getFullAddress())
+//                .cityName(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getDescription()).orElse(null))
+//                .uf(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getUf()).orElse(null))
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private Payment buildPayment() {
+//     // @formatter:off
+//        final Collection<eprecise.efiscal4j.nfe.v400.payment.NFePayment> nfePayments = processedNFe.getNfe().getNFeInfo().getnFePayments();
+//        if(nfePayments != null && !nfePayments.isEmpty()) {
+//            return Payment.builder()
+//                    .details(nfePayments.stream().map(nfePayment-> PaymentDetail.builder()
+//                            .method(Optional.ofNullable(nfePayment.getPaymentMethod()).map(nfePaymentMethod -> PaymentMethod.findByCode(nfePayment.getPaymentValue())).orElse(PaymentMethod.OUTROS))
+//                            .value(toBigDecimal(nfePayment.getPaymentValue()))
+//                            .cardSet(nfePayment.getCardSet() != null ? CardSet.builder()
+//                                    .integration(Optional.ofNullable(nfePayment.getCardSet().getPaymentIntegrationType()).map(nfePaymentIntegrationType -> CardSetIntegration.findByCode(nfePaymentIntegrationType.getValue())).orElse(null))
+//                                    .cnpj(nfePayment.getCardSet().getCnpj())
+//                                    .cardFlag(Optional.ofNullable(nfePayment.getCardSet().getCardFlag()).map(nfeCardFlag -> CardFlag.findByCode(nfeCardFlag.getValue())).orElse(null))
+//                                    .authorizationNumber(nfePayment.getCardSet().getAuthorizationNumber())
+//                                    .build() : null)
+//                            .build()).collect(Collectors.toList()))
+//                    .build();
+//        }
+//        
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Charging buildCharging() {
+//     // @formatter:off
+//        eprecise.efiscal4j.nfe.v400.charging.NFeCharging nfeCharging = processedNFe.getNfe().getNFeInfo().getnFeCharging();
+//        if(nfeCharging != null) {
+//            return Charging.builder()
+//                    .invoice(buildChargingInvoice())
+//                    .duplicates(buildChargingDuplicates())
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Collection<Duplicate> buildChargingDuplicates() {
+//     // @formatter:off
+//        final Collection<eprecise.efiscal4j.nfe.v400.charging.Duplicate> nfeDuplicates = processedNFe.getNfe().getNFeInfo().getnFeCharging().getDuplicates();
+//        if(nfeDuplicates != null && !nfeDuplicates.isEmpty()) {
+//            return nfeDuplicates.stream().map(nfeDuplicate-> Duplicate.builder()
+//                    .number(nfeDuplicate.getNumber())
+//                    .due(Optional.ofNullable(nfeDuplicate.getDueDate()).map(t -> {
+//                        try {
+//                            return NFeDate.dateFormat.parse(t);
+//                        } catch (ParseException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }).orElse(null))
+//                    .value(toBigDecimal(nfeDuplicate.getValue()))
+//                    .build()).collect(Collectors.toList());
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Invoice buildChargingInvoice() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.charging.Invoice nfeInvoice = processedNFe.getNfe().getNFeInfo().getnFeCharging().getInvoice();
+//        if(nfeInvoice != null) {
+//            Invoice.builder()
+//            .number(nfeInvoice.getNumber())
+//            .originalValue(toBigDecimal(nfeInvoice.getOriginalValue()))
+//            .discountValue(toBigDecimal(nfeInvoice.getDiscountValue()))
+//            .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Emitter buildEmitter() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = processedNFe.getNfe().getNFeInfo().getEmitter();
+//        return Emitter.builder()
+//                .documents(buildEmitterDocuments())
+//                .crt(Optional.ofNullable(nfeEmitter.getCrt()).map(nfeCrt -> CRT.findByCode(nfeCrt.getValue())).orElse(null))
+//                .address(buildEmitterAddress())
+//                .phone(nfeEmitter.getAdress() != null ? nfeEmitter.getAdress().getPhone() : null)
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private EmitterAddress buildEmitterAddress() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.address.Address nfeEmitterAddress = processedNFe.getNfe().getNFeInfo().getEmitter().getAdress();
+//        if(nfeEmitterAddress != null) {
+//            return EmitterAddress.builder()
+//                    .cep(nfeEmitterAddress.getCep())
+//                    .street(nfeEmitterAddress.getStreet())
+//                    .district(nfeEmitterAddress.getDistrict())
+//                    .city(nfeEmitterAddress.getCity() != null ? EmitterAddressCity.builder()
+//                            .ibgeCode(nfeEmitterAddress.getCity().getIbgeCode())
+//                            .description(nfeEmitterAddress.getCity().getDescription())
+//                            .uf(nfeEmitterAddress.getCity().getUf())
+//                            .build() : null)
+//                    .number(nfeEmitterAddress.getNumber())
+//                    .complement(nfeEmitterAddress.getComplement())
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private EmitterDocuments buildEmitterDocuments() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = processedNFe.getNfe().getNFeInfo().getEmitter();
+//        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeEmitterDocuments = processedNFe.getNfe().getNFeInfo().getEmitter().getDocuments();
+//        if(nfeEmitterDocuments instanceof eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) {
+//            final eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments nfeEmitterLegalEntityDocuments = (eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) nfeEmitterDocuments;
+//            return EmitterLegalEntityDocuments.builder()
+//                    .name(nfeEmitterDocuments.getAbstractName())
+//                    .ie(nfeEmitter.getStateRegistration())
+//                    .ieSt(nfeEmitter.getStateRegistrationST())
+//                    .municipalDocuments(nfeEmitter.getMunicipalRegistration() != null ? EmitterMunicipalDocuments.builder()
+//                            .im(nfeEmitter.getMunicipalRegistration())
+//                            .build() : null)
+//                    .cnpj(nfeEmitterLegalEntityDocuments.getCnpj())
+//                    .fancyName(nfeEmitter.getFancyName())
+//                    .build();
+//        } else if(nfeEmitterDocuments instanceof eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments) {
+//            final eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments nfeEmitterNaturalPersonDocuments = (eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments) nfeEmitterDocuments;
+//            return EmitterNaturalPersonDocuments.builder()
+//                    .name(nfeEmitterDocuments.getAbstractName())
+//                    .ie(nfeEmitter.getStateRegistration())
+//                    .ieSt(nfeEmitter.getStateRegistrationST())
+//                    .municipalDocuments(nfeEmitter.getMunicipalRegistration() != null ? EmitterMunicipalDocuments.builder()
+//                            .im(nfeEmitter.getMunicipalRegistration())
+//                            .build() : null)
+//                    .cpf(nfeEmitterNaturalPersonDocuments.getCpf())
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Receiver buildReceiver() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
+//        if(nfeReceiver != null) {
+//            return Receiver.builder()
+//                    .documents(buildReceiverDocuments())
+//                    .address(buildReceiverAddress())
+//                    .email(nfeReceiver.getEmail())
+//                    .phone(nfeReceiver.getAdress() != null ? nfeReceiver.getAdress().getPhone() : null)
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private ReceiverAddress buildReceiverAddress() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.address.Address nfeReceiverAddress = processedNFe.getNfe().getNFeInfo().getReceiver().getAdress();
+//        if(nfeReceiverAddress != null) {
+//            return ReceiverAddress.builder()
+//                    .cep(nfeReceiverAddress.getCep())
+//                    .street(nfeReceiverAddress.getStreet())
+//                    .district(nfeReceiverAddress.getDistrict())
+//                    .city(nfeReceiverAddress.getCity() != null ? ReceiverAddressCity.builder()
+//                            .ibgeCode(nfeReceiverAddress.getCity().getIbgeCode())
+//                            .description(nfeReceiverAddress.getCity().getDescription())
+//                            .uf(nfeReceiverAddress.getCity().getUf())
+//                            .build() : null)
+//                    .number(nfeReceiverAddress.getNumber())
+//                    .complement(nfeReceiverAddress.getComplement())
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private ReceiverDocuments buildReceiverDocuments() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
+//        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+//        
+//        if(nfeReceiverDocuments != null) {
+//            final ReceiverCnp cnp = buildReceiverCnp();
+//            
+//            return ReceiverDocuments.builder()
+//                    .cnp(cnp)
+//                    .name(nfeReceiverDocuments.getAbstractName())
+//                    .ie(buildReceiverIE())
+//                    .im(nfeReceiver.getMunicipalRegistration())
+//                    .build();
+//        }
+//        
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private ReceiverCnp buildReceiverCnp() {
+//        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+//
+//        if (nfeReceiverDocuments instanceof eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) {
+//            return ReceiverCnpj.builder().cnpj(nfeReceiverDocuments.getCnpjCpf()).build();
+//        } else if (nfeReceiverDocuments instanceof eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments) {
+//            return ReceiverCpf.builder().cpf(nfeReceiverDocuments.getCnpjCpf()).build();
+//        }
+//        return null;
+//    }
+//
+//    private ReceiverIE buildReceiverIE() {
+//     // @formatter:off
+//        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
+//        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+//        if (nfeReceiver.getStateRegistrationReceiverIndicator() != null) {
+//            switch(nfeReceiver.getStateRegistrationReceiverIndicator()) {
+//                case CONTRIBUINTE_ICMS: return TaxpayerReceiverIE.builder().ie(nfeReceiverDocuments.getStateRegistration()).build();
+//                case ISENTO: return FreeTaxpayerReceiverIE.builder().build();
+//                case NAO_CONTRIBUINTE: return NonTaxpayerReceiverIE.builder().build();
+//            }
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private EmissionDate buildEmissionDate() {
+//     // @formatter:off
+//        return CustomEmissionDate.builder()
+//                .custom(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime()).map(t -> {
+//                    try {
+//                        return NFeDateTimeUTC.dateFormat.parse(t);
+//                    } catch (ParseException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }).orElse(null))
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private FiscalDocumentSerie buildSerie() {
+//     // @formatter:off
+//        return FiscalDocumentSerie.builder()
+//                .number(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getFiscalDocumentSeries()).map(Integer::parseInt).orElse(null))
+//                .environment(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getTransmissionEnvironment()).map(t -> TransmissionEnvironment.findBy(t.getValue()).orElse(null)).orElse(null))
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private Consumer buildConsumer() {
+//        final Receiver receiver = this.buildReceiver();
+//        if (receiver != null) {
+//            if (ValidationBuilder.from(receiver).validate().getViolations().isEmpty()) {
+//                return receiver;
+//            } else {
+//                return Optional.ofNullable(buildReceiverCnp()).map(cnp -> SimpleConsumer.builder().cnp(cnp).build()).orElse(null);
+//            }
+//        }
+//        return null;
+//    }
+//
+//    private IODate buildEntranceOrExit() {
+//     // @formatter:off
+//        return CustomIODate.builder()
+//                .custom(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEntranceOrExitDateTime()).map(t -> {
+//                    try {
+//                        return NFeDateTimeUTC.dateFormat.parse(t);
+//                    } catch (ParseException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }).orElse(null))
+//                .build();
+//     // @formatter:on
+//    }
+//
+//    private Collection<DocumentReference> buildDocumentReferences() {
+//     // @formatter:off
+//        final Collection<eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments> nfeReferencedDocuments = processedNFe.getNfe().getNFeInfo().getnFeIdentification().getReferencedDocuments();
+//        if(nfeReferencedDocuments != null && !nfeReferencedDocuments.isEmpty()) {
+//            return nfeReferencedDocuments.stream().map(rd -> {
+//                if(!StringUtils.isEmpty(rd.getReferencedNFeAccessKey())) {
+//                    return ReferenceToNFeAccessKey.builder().accessKey(rd.getReferencedNFeAccessKey()).build();
+//                } else if(rd.getReferencedNF() != null) {
+//                    return ReferenceToNF.builder()
+//                            .series(rd.getReferencedNF().getSeries())
+//                            .number(Optional.ofNullable(rd.getReferencedNF().getNumber()).map(Long::parseLong).orElse(null))
+//                            .uf(rd.getReferencedNF().getEmitterUf())
+//                            .cnpj(rd.getReferencedNF().getEmitterCnpj())
+//                            .month(Optional.ofNullable(rd.getReferencedNF().getEmissionYearMonth()).map(ym -> YearMonth.parse(ym, DateTimeFormatter.ofPattern("yyMM"))).orElse(null))
+//                            .build();
+//                } else if(!StringUtils.isEmpty(rd.getReferencedCTeAccessKey())) {
+//                    return ReferenceToCTe.builder().accessKey(rd.getReferencedCTeAccessKey()).build();
+//                } else if(rd.getReferencedECF() != null) {
+//                    return ReferenceToECF.builder()
+//                            .model(Optional.ofNullable(rd.getReferencedECF().getModel()).map(m -> ReferencedECFModel.findBy(m.getValue()).orElse(null)).orElse(null))
+//                            .ecfNumber(rd.getReferencedECF().getEcfNumber())
+//                            .cooNumber(rd.getReferencedECF().getCooNumber())
+//                            .build();
+//                } else if(rd.getProducerReferencedNF() != null) {
+//                    return ReferenceToNFP.builder()
+//                            .series(rd.getProducerReferencedNF().getSeries())
+//                            .number(Optional.ofNullable(rd.getProducerReferencedNF().getNumber()).map(Long::parseLong).orElse(null))
+//                            .uf(rd.getProducerReferencedNF().getEmitterUf())
+//                            .cnp(Optional.ofNullable(rd.getProducerReferencedNF().getEmitterCnpj()).filter(cnpj -> !StringUtils.isEmpty(cnpj)).map(cnpj -> (NfpCnp) NfpCnpj.builder().cnpj(cnpj).build()).orElseGet(()-> 
+//                                Optional.ofNullable(rd.getProducerReferencedNF().getEmitterCpf()).filter(cpf -> !StringUtils.isEmpty(cpf)).map(cpf -> (NfpCnp) NfpCpf.builder().cpf(cpf).build()).orElseGet(()-> null)))
+//                            .month(Optional.ofNullable(rd.getProducerReferencedNF().getEmissionYearMonth()).map(ym -> YearMonth.parse(ym, DateTimeFormatter.ofPattern("yyMM"))).orElse(null))
+//                            .ie(rd.getProducerReferencedNF().getStateRegistration())
+//                            .model(Optional.ofNullable(rd.getProducerReferencedNF().getModel()).map(m -> ProducerReferencedNFModel.findBy(m.getValue()).orElse(null)).orElse(null))
+//                            .build();
+//                }
+//                return null;
+//            }).collect(Collectors.toSet());
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private Collection<Item> buildItems() {
+//        // @formatter:off
+//            final Collection<eprecise.efiscal4j.nfe.v400.NFeDetail> nfeDetails = processedNFe.getNfe().getNFeInfo().getnFeDetails();
+//            if(nfeDetails != null && !nfeDetails.isEmpty()) {
+//                return nfeDetails.stream().map(nfeDetail -> {
+//                   return Item.builder()
+//                           .code(nfeDetail.getnFeItem().getItemCode())
+//                           .name(nfeDetail.getnFeItem().getItemDescription())
+//                           .globalTradeItemNumber(ItemEan.builder()
+//                                   .globalTradeItemNumber(nfeDetail.getnFeItem().getGlobalTradeItemNumber())
+//                                   .taxableGlobalTradeItemNumber(nfeDetail.getnFeItem().getTaxableUnitGlobalTradeItemNumber())
+//                                   .build())
+//                           .unity(ItemUnity.builder()
+//                                   .comercialUnity(Optional.ofNullable(nfeDetail.getnFeItem().getComercialUnit()).map(cu -> Unity.findByAcronym(cu).orElse(null)).orElse(null))
+//                                   .taxableUnity(Optional.ofNullable(nfeDetail.getnFeItem().getTaxableUnit()).map(tu -> Unity.findByAcronym(tu).orElse(null)).orElse(null))
+//                                   .build())
+//                           .quantity(ItemQuantity.builder()
+//                                   .comercialQuantity(toBigDecimal(nfeDetail.getnFeItem().getComercialQuantity()))
+//                                   .taxableQuantity(toBigDecimal(nfeDetail.getnFeItem().getTaxableQuantity()))
+//                                   .build())
+//                           .unitaryValue(ItemUnitaryValue.builder()
+//                                   .comercialUnitaryValue(toBigDecimal(nfeDetail.getnFeItem().getComercialUnitaryValue()))
+//                                   .taxableUnitaryValue(toBigDecimal(nfeDetail.getnFeItem().getTaxationUnitaryValue()))
+//                                   .build())
+//                           .discount(toBigDecimal(nfeDetail.getnFeItem().getDiscountValue()))
+//                           .freight(toBigDecimal(nfeDetail.getnFeItem().getFreightValue()))
+//                           .insurance(toBigDecimal(nfeDetail.getnFeItem().getInsuranceValue()))
+//                           .othersValue(toBigDecimal(nfeDetail.getnFeItem().getOthersValue()))
+//                           .taxStructure(TaxStructure.builder()
+//                                   .ncm(nfeDetail.getnFeItem().getNcm())
+//                                   .cfop(nfeDetail.getnFeItem().getCfop())
+//                                   .cest(nfeDetail.getnFeItem().getCest())
+//                                   .taxes(this.buildItemTaxes(nfeDetail.getTax()))
+//                                   .build())
+//                           .build();
+//                }).collect(Collectors.toList());
+//            }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private Collection<ItemTax> buildItemTaxes(eprecise.efiscal4j.nfe.v400.tax.Tax nfeItemTax) {
+//       // @formatter:off
+//        
+//        final ICMS icms = buildIcms(nfeItemTax.getIcms());
+//        final PIS pis = buildPis(nfeItemTax.getPis());
+//        final PISST pisSt = buildPisSt(nfeItemTax.getPisSt());
+//        final COFINS cofins = buildCofins(nfeItemTax.getCofins());
+//        final COFINSST cofinsSt = buildCofinsSt(nfeItemTax.getCofinsSt());
+//        final IPI ipi = buildIpi(nfeItemTax.getIpi());
+//        final II ii = buildII(nfeItemTax.getIi());
+//        final ICMSUFReceiver icmsUfReceiver = buildIcmsUfReceiver(nfeItemTax.getIcmsUfReceiver());
+//        
+//        return Stream.of(icms, pis, pisSt, cofins, cofinsSt, ipi, ii, icmsUfReceiver)
+//                .filter(ItemTax.class::isInstance).map(ItemTax.class::cast).collect(Collectors.toSet());
+//       // @formatter:on
+//    }
+//
+//    private ICMSUFReceiver buildIcmsUfReceiver(eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver nfeIcmsUfReceiver) {
+//        // @formatter:off
+//        if(nfeIcmsUfReceiver != null) {
+//            return ICMSUFReceiver.builder()
+//                    .calculationBasis(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfBcValue()))
+//                    .aliquot(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsAliquot()))
+//                    .bcFcpValue(null)
+//                    .fcpAditionalAliquot(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPPercentual()))
+//                    .fcpValue(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPValue()))
+//                    .interstateAliquot(Optional.ofNullable(nfeIcmsUfReceiver.getInterstateIcmsUfAliquot()).map(i -> InterstateICMSUFAliquot.findByCode(i.getValue())).orElse(null))
+//                    .sharePercentual(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfSharePercentual()))
+//                    .shareValue(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsShareValue()))
+//                    .emitterShareValue(toBigDecimal(nfeIcmsUfReceiver.getEmitterUfIcmsShareValue()))
+//                    .build();
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private II buildII(eprecise.efiscal4j.nfe.v400.tax.ii.II nfeIi) {
+//        // @formatter:off
+//        if(nfeIi != null) {
+//            return II.builder()
+//                    .calculationBasis(toBigDecimal(nfeIi.getBcValue()))
+//                    .customsCharge(toBigDecimal(nfeIi.getCustomsCharge()))
+//                    .value(toBigDecimal(nfeIi.getIiValue()))
+//                    .iof(toBigDecimal(nfeIi.getIofValue()))
+//                    .build();
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private IPI buildIpi(eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
+//        // @formatter:off
+//        if(nfeIpi != null) {
+//            switch(nfeIpi.getClass().getSimpleName()) {
+//                case "IPI00": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00 nfeIpi00 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00) nfeIpi;
+//                    return IPI00.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .value(buildIpiValue(nfeIpi00))
+//                            .build();
+//                }
+//                case "IPI01": {
+//                    return IPI01.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI02": {
+//                    return IPI02.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI03": {
+//                    return IPI03.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI04": {
+//                    return IPI04.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI05": {
+//                    return IPI05.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI49": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49 nfeIpi49 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49) nfeIpi;
+//                    return IPI49.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .value(buildIpiValue(nfeIpi49))
+//                            .build();
+//                }
+//                case "IPI50": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50 nfeIpi50 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50) nfeIpi;
+//                    return IPI50.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .value(buildIpiValue(nfeIpi50))
+//                            .build();
+//                }
+//                case "IPI51": {
+//                    return IPI51.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI52": {
+//                    return IPI52.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI53": {
+//                    return IPI53.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI54": {
+//                    return IPI54.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI55": {
+//                    return IPI55.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .build();
+//                }
+//                case "IPI99": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99 nfeIpi99 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99) nfeIpi;
+//                    return IPI99.builder()
+//                            .generalData(buildIpiGeneralData(nfeIpi))
+//                            .value(buildIpiValue(nfeIpi99))
+//                            .build();
+//                }
+//            }
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private IpiValue buildIpiValue(eprecise.efiscal4j.nfe.v400.tax.ipi.BaseIPITrib nfeIpiTrib) {
+//     // @formatter:off
+//        if(nfeIpiTrib != null) {
+//            return IpiValue.builder()
+//                    .calculationBasis(toBigDecimal(nfeIpiTrib.getBcValue()))
+//                    .aliquot(toBigDecimal(nfeIpiTrib.getIpiAliquot()))
+//                    .quantity(toBigDecimal(nfeIpiTrib.getUnityQuantity()))
+//                    .unitaryValue(toBigDecimal(nfeIpiTrib.getUnityValue()))
+//                    .value(toBigDecimal(nfeIpiTrib.getIpiValue()))
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private IPIGeneralData buildIpiGeneralData(eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
+//     // @formatter:off
+//        if(nfeIpi != null) {
+//            return IPIGeneralData.builder()
+//                    .producerCnpj(nfeIpi.getProducerCNPJ())
+//                    .ipiSealCode(nfeIpi.getIpiSealCode())
+//                    .ipiSealQuantity(nfeIpi.getIpiSealQuantity())
+//                    .legalFramework(nfeIpi.getLegalFramework())
+//                    .build();
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private COFINSST buildCofinsSt(eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST nfeCofinsSt) {
+//        // @formatter:off
+//        if(nfeCofinsSt != null) {
+//            return COFINSST.builder()
+//                    .value(buildCofinsValueWithAliquot(nfeCofinsSt))
+//                    .build();
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private COFINS buildCofins(eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS nfeCofins) {
+//        // @formatter:off
+//        if(nfeCofins != null) {
+//            switch(nfeCofins.getClass().getSimpleName()){
+//                case "COFINS01": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS01 nfeCofins01 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS01) nfeCofins;
+//                    return COFINS01.builder()
+//                            .cofins(CofinsValueWithAliquotPercent.builder()
+//                                    .aliquot(CofinsAliquotPercentWithBc.builder()
+//                                            .calculationBasis(toBigDecimal(nfeCofins01.getBcValue()))
+//                                            .aliquot(toBigDecimal(nfeCofins01.getCofinsAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfeCofins01.getCofinsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "COFINS02": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS02 nfeCofins02 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS02) nfeCofins;
+//                    return COFINS02.builder()
+//                            .cofins(CofinsValueWithAliquotPercent.builder()
+//                                    .aliquot(CofinsAliquotPercentWithBc.builder()
+//                                            .calculationBasis(toBigDecimal(nfeCofins02.getBcValue()))
+//                                            .aliquot(toBigDecimal(nfeCofins02.getCofinsAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfeCofins02.getCofinsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "COFINS03": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS03 nfeCofins03 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS03) nfeCofins;
+//                    return COFINS03.builder()
+//                            .cofins(CofinsValueWithAliquotValue.builder()
+//                                    .aliquot(CofinsAliquotValueWithQuantity.builder()
+//                                            .quantity(toBigDecimal(nfeCofins03.getProductQuantity()))
+//                                            .aliquotValue(toBigDecimal(nfeCofins03.getProductAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfeCofins03.getCofinsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "COFINS04": {
+//                    return COFINS04.builder().build();
+//                }
+//                case "COFINS05": {
+//                    return COFINS05.builder().build();
+//                }
+//                case "COFINS06": {
+//                    return COFINS06.builder().build();
+//                }
+//                case "COFINS07": {
+//                    return COFINS07.builder().build();
+//                }
+//                case "COFINS08": {
+//                    return COFINS08.builder().build();
+//                }
+//                case "COFINS09": {
+//                    return COFINS09.builder().build();
+//                }
+//                case "COFINS49": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS49 nfeCofins49 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS49) nfeCofins;
+//                    return COFINS49.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins49))
+//                            .build();
+//                }
+//                case "COFINS50": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS50 nfeCofins50 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS50) nfeCofins;
+//                    return COFINS50.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins50))
+//                            .build();
+//                }
+//                case "COFINS51": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS51 nfeCofins51 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS51) nfeCofins;
+//                    return COFINS51.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins51))
+//                            .build();
+//                }
+//                case "COFINS52": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS52 nfeCofins52 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS52) nfeCofins;
+//                    return COFINS52.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins52))
+//                            .build();
+//                }
+//                case "COFINS53": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS53 nfeCofins53 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS53) nfeCofins;
+//                    return COFINS53.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins53))
+//                            .build();
+//                }
+//                case "COFINS54": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS54 nfeCofins54 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS54) nfeCofins;
+//                    return COFINS54.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins54))
+//                            .build();
+//                }
+//                case "COFINS55": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS55 nfeCofins55 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS55) nfeCofins;
+//                    return COFINS55.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins55))
+//                            .build();
+//                }
+//                case "COFINS56": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS56 nfeCofins56 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS56) nfeCofins;
+//                    return COFINS56.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins56))
+//                            .build();
+//                }
+//                case "COFINS60": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS60 nfeCofins60 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS60) nfeCofins;
+//                    return COFINS60.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins60))
+//                            .build();
+//                }
+//                case "COFINS61": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS61 nfeCofins61 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS61) nfeCofins;
+//                    return COFINS61.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins61))
+//                            .build();
+//                }
+//                case "COFINS62": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS62 nfeCofins62 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS62) nfeCofins;
+//                    return COFINS62.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins62))
+//                            .build();
+//                }
+//                case "COFINS63": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS63 nfeCofins63 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS63) nfeCofins;
+//                    return COFINS63.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins63))
+//                            .build();
+//                }
+//                case "COFINS64": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS64 nfeCofins64 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS64) nfeCofins;
+//                    return COFINS64.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins64))
+//                            .build();
+//                }
+//                case "COFINS65": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS65 nfeCofins65 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS65) nfeCofins;
+//                    return COFINS65.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins65))
+//                            .build();
+//                }
+//                case "COFINS66": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS66 nfeCofins66 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS66) nfeCofins;
+//                    return COFINS66.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins66))
+//                            .build();
+//                }
+//                case "COFINS67": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS67 nfeCofins67 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS67) nfeCofins;
+//                    return COFINS67.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins67))
+//                            .build();
+//                }
+//                case "COFINS70": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS70 nfeCofins70 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS70) nfeCofins;
+//                    return COFINS70.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins70))
+//                            .build();
+//                }
+//                case "COFINS71": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS71 nfeCofins71 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS71) nfeCofins;
+//                    return COFINS71.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins71))
+//                            .build();
+//                }
+//                case "COFINS72": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS72 nfeCofins72 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS72) nfeCofins;
+//                    return COFINS72.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins72))
+//                            .build();
+//                }
+//                case "COFINS73": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS73 nfeCofins73 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS73) nfeCofins;
+//                    return COFINS73.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins73))
+//                            .build();
+//                }
+//                case "COFINS74": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS74 nfeCofins74 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS74) nfeCofins;
+//                    return COFINS74.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins74))
+//                            .build();
+//                }
+//                case "COFINS75": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS75 nfeCofins75 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS75) nfeCofins;
+//                    return COFINS75.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins75))
+//                            .build();
+//                }
+//                case "COFINS98": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS98 nfeCofins98 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS98) nfeCofins;
+//                    return COFINS98.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins98))
+//                            .build();
+//                }
+//                case "COFINS99": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS99 nfeCofins99 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS99) nfeCofins;
+//                    return COFINS99.builder()
+//                            .cofins(buildCofinsValueWithAliquot(nfeCofins99))
+//                            .build();
+//                }
+//                
+//            }
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private CofinsValueWithAliquot buildCofinsValueWithAliquot(eprecise.efiscal4j.nfe.v400.tax.cofins.validation.BaseCOFINSOtherStandard nfeCofinsOther) {
+//     // @formatter:off
+//        if(nfeCofinsOther != null) {
+//            if(!StringUtils.isEmpty(nfeCofinsOther.getBcValue()) && !StringUtils.isEmpty(nfeCofinsOther.getCofinsAliquot())) {
+//                return CofinsValueWithAliquot.builder()
+//                        .aliquot(CofinsAliquotPercentWithBc.builder()
+//                                .calculationBasis(toBigDecimal(nfeCofinsOther.getBcValue()))
+//                                .aliquot(toBigDecimal(nfeCofinsOther.getCofinsAliquot()))
+//                                .build())
+//                        .value(toBigDecimal(nfeCofinsOther.getCofinsValue()))
+//                        .build();
+//            } else if(!StringUtils.isEmpty(nfeCofinsOther.getProductQuantity()) && !StringUtils.isEmpty(nfeCofinsOther.getProductAliquot())) {
+//                return CofinsValueWithAliquot.builder()
+//                        .aliquot(CofinsAliquotValueWithQuantity.builder()
+//                                .aliquotValue(toBigDecimal(nfeCofinsOther.getProductAliquot()))
+//                                .quantity(toBigDecimal(nfeCofinsOther.getProductQuantity()))
+//                                .build())
+//                        .value(toBigDecimal(nfeCofinsOther.getCofinsValue()))
+//                        .build();
+//            }
+//        }
+//        return null;
+//     // @formatter:on
+//    }
+//
+//    private PISST buildPisSt(eprecise.efiscal4j.nfe.v400.tax.pis.PISST nfePisSt) {
+//        // @formatter:off
+//        if(nfePisSt != null) {
+//            return PISST.builder()
+//                    .value(buildPisValueWithAliquot(nfePisSt))
+//                    .build();
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private PIS buildPis(eprecise.efiscal4j.nfe.v400.tax.pis.PIS nfePis) {
+//        // @formatter:off
+//        if(nfePis != null) {
+//            switch(nfePis.getClass().getSimpleName()){
+//                case "PIS01": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS01 nfePis01 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS01) nfePis;
+//                    return PIS01.builder()
+//                            .pis(PisValueWithAliquotPercent.builder()
+//                                    .aliquot(PisAliquotPercentWithBc.builder()
+//                                            .calculationBasis(toBigDecimal(nfePis01.getBcValue()))
+//                                            .aliquot(toBigDecimal(nfePis01.getPisAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfePis01.getPisValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "PIS02": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS02 nfePis02 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS02) nfePis;
+//                    return PIS02.builder()
+//                            .pis(PisValueWithAliquotPercent.builder()
+//                                    .aliquot(PisAliquotPercentWithBc.builder()
+//                                            .calculationBasis(toBigDecimal(nfePis02.getBcValue()))
+//                                            .aliquot(toBigDecimal(nfePis02.getPisAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfePis02.getPisValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "PIS03": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS03 nfePis03 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS03) nfePis;
+//                    return PIS03.builder()
+//                            .pis(PisValueWithAliquotValue.builder()
+//                                    .aliquot(PisAliquotValueWithQuantity.builder()
+//                                            .quantity(toBigDecimal(nfePis03.getProductQuantity()))
+//                                            .aliquotValue(toBigDecimal(nfePis03.getProductAliquot()))
+//                                            .build())
+//                                    .value(toBigDecimal(nfePis03.getPisValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "PIS04": {
+//                    return PIS04.builder().build();
+//                }
+//                case "PIS05": {
+//                    return PIS05.builder().build();
+//                }
+//                case "PIS06": {
+//                    return PIS06.builder().build();
+//                }
+//                case "PIS07": {
+//                    return PIS07.builder().build();
+//                }
+//                case "PIS08": {
+//                    return PIS08.builder().build();
+//                }
+//                case "PIS09": {
+//                    return PIS09.builder().build();
+//                }
+//                case "PIS49": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS49 nfePis49 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS49) nfePis;
+//                    return PIS49.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis49))
+//                            .build();
+//                }
+//                case "PIS50": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS50 nfePis50 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS50) nfePis;
+//                    return PIS50.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis50))
+//                            .build();
+//                }
+//                case "PIS51": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS51 nfePis51 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS51) nfePis;
+//                    return PIS51.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis51))
+//                            .build();
+//                }
+//                case "PIS52": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS52 nfePis52 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS52) nfePis;
+//                    return PIS52.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis52))
+//                            .build();
+//                }
+//                case "PIS53": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS53 nfePis53 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS53) nfePis;
+//                    return PIS53.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis53))
+//                            .build();
+//                }
+//                case "PIS54": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS54 nfePis54 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS54) nfePis;
+//                    return PIS54.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis54))
+//                            .build();
+//                }
+//                case "PIS55": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS55 nfePis55 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS55) nfePis;
+//                    return PIS55.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis55))
+//                            .build();
+//                }
+//                case "PIS56": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS56 nfePis56 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS56) nfePis;
+//                    return PIS56.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis56))
+//                            .build();
+//                }
+//                case "PIS60": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS60 nfePis60 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS60) nfePis;
+//                    return PIS60.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis60))
+//                            .build();
+//                }
+//                case "PIS61": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS61 nfePis61 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS61) nfePis;
+//                    return PIS61.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis61))
+//                            .build();
+//                }
+//                case "PIS62": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS62 nfePis62 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS62) nfePis;
+//                    return PIS62.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis62))
+//                            .build();
+//                }
+//                case "PIS63": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS63 nfePis63 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS63) nfePis;
+//                    return PIS63.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis63))
+//                            .build();
+//                }
+//                case "PIS64": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS64 nfePis64 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS64) nfePis;
+//                    return PIS64.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis64))
+//                            .build();
+//                }
+//                case "PIS65": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS65 nfePis65 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS65) nfePis;
+//                    return PIS65.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis65))
+//                            .build();
+//                }
+//                case "PIS66": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS66 nfePis66 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS66) nfePis;
+//                    return PIS66.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis66))
+//                            .build();
+//                }
+//                case "PIS67": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS67 nfePis67 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS67) nfePis;
+//                    return PIS67.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis67))
+//                            .build();
+//                }
+//                case "PIS70": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS70 nfePis70 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS70) nfePis;
+//                    return PIS70.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis70))
+//                            .build();
+//                }
+//                case "PIS71": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS71 nfePis71 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS71) nfePis;
+//                    return PIS71.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis71))
+//                            .build();
+//                }
+//                case "PIS72": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS72 nfePis72 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS72) nfePis;
+//                    return PIS72.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis72))
+//                            .build();
+//                }
+//                case "PIS73": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS73 nfePis73 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS73) nfePis;
+//                    return PIS73.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis73))
+//                            .build();
+//                }
+//                case "PIS74": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS74 nfePis74 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS74) nfePis;
+//                    return PIS74.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis74))
+//                            .build();
+//                }
+//                case "PIS75": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS75 nfePis75 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS75) nfePis;
+//                    return PIS75.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis75))
+//                            .build();
+//                }
+//                case "PIS98": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS98 nfePis98 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS98) nfePis;
+//                    return PIS98.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis98))
+//                            .build();
+//                }
+//                case "PIS99": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.pis.PIS99 nfePis99 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS99) nfePis;
+//                    return PIS99.builder()
+//                            .pis(buildPisValueWithAliquot(nfePis99))
+//                            .build();
+//                }
+//                
+//            }
+//        }
+//        // @formatter:on
+//        return null;
+//    }
+//
+//    private PisValueWithAliquot buildPisValueWithAliquot(eprecise.efiscal4j.nfe.v400.tax.pis.validation.BasePISOtherStandard nfePisOther) {
+//     // @formatter:off
+//        if(nfePisOther != null) {
+//            if(!StringUtils.isEmpty(nfePisOther.getBcValue()) && !StringUtils.isEmpty(nfePisOther.getPisAliquot())) {
+//                return PisValueWithAliquot.builder()
+//                        .aliquot(PisAliquotPercentWithBc.builder()
+//                                .calculationBasis(toBigDecimal(nfePisOther.getBcValue()))
+//                                .aliquot(toBigDecimal(nfePisOther.getPisAliquot()))
+//                                .build())
+//                        .value(toBigDecimal(nfePisOther.getPisValue()))
+//                        .build();
+//            } else if(!StringUtils.isEmpty(nfePisOther.getProductQuantity()) && !StringUtils.isEmpty(nfePisOther.getProductAliquot())) {
+//                return PisValueWithAliquot.builder()
+//                        .aliquot(PisAliquotValueWithQuantity.builder()
+//                                .aliquotValue(toBigDecimal(nfePisOther.getProductAliquot()))
+//                                .quantity(toBigDecimal(nfePisOther.getProductQuantity()))
+//                                .build())
+//                        .value(toBigDecimal(nfePisOther.getPisValue()))
+//                        .build();
+//            }
+//        }
+//        return null;
+//     // @formatter:on
+//    }
+//
+//    private ICMS buildIcms(eprecise.efiscal4j.nfe.v400.tax.icms.ICMS nfeIcms) {
+//     // @formatter:off
+//        if(nfeIcms != null) {
+//            switch(nfeIcms.getClass().getSimpleName()) {
+//                case "ICMS00": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS00 nfeIcms00 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS00 ) nfeIcms;
+//                    return ICMS00.builder()
+//                            .origin(Optional.ofNullable(nfeIcms00.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcValue.builder()
+//                                    .aliquot(toBigDecimal(nfeIcms00.getIcmsAliquot()))
+//                                    .calculationBasis(buildIcmsBc(nfeIcms00.getBcModality(), toBigDecimal(nfeIcms00.getBcValue()), BigDecimal.ZERO))
+//                                    .value(toBigDecimal(nfeIcms00.getIcmsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS10": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS10 nfeIcms10 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS10 ) nfeIcms;
+//                    return ICMS10.builder()
+//                            .origin(Optional.ofNullable(nfeIcms10.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcValue.builder()
+//                                    .aliquot(toBigDecimal(nfeIcms10.getIcmsAliquot()))
+//                                    .calculationBasis(buildIcmsBc(nfeIcms10.getBcModality(), toBigDecimal(nfeIcms10.getBcValue()), BigDecimal.ZERO))
+//                                    .value(toBigDecimal(nfeIcms10.getIcmsValue()))
+//                                    .build())
+//                            .fcp(null)
+//                            .build();
+//                }
+//                
+//                case "ICMS20": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS20 nfeIcms20 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS20 ) nfeIcms;
+//                    return ICMS20.builder()
+//                            .origin(Optional.ofNullable(nfeIcms20.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms20.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcms20.getBcModality(), toBigDecimal(nfeIcms20.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcms20.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms20.getBcReductionPercent()))
+//                                    .build())
+//                            .fcp(null)
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms20.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms20.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS30": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS30 nfeIcms30 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS30 ) nfeIcms;
+//                    return ICMS30.builder()
+//                            .origin(Optional.ofNullable(nfeIcms30.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms30.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcms30.getBcModalityST(), toBigDecimal(nfeIcms30.getBcValueST()), toBigDecimal(nfeIcms30.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcms30.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms30.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms30.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms30.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS40": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS40 nfeIcms40 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS40 ) nfeIcms;
+//                    return ICMS40.builder()
+//                            .origin(Optional.ofNullable(nfeIcms40.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms40.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms40.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS41": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS41 nfeIcms41 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS41 ) nfeIcms;
+//                    return ICMS41.builder()
+//                            .origin(Optional.ofNullable(nfeIcms41.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms41.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms41.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS50": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS50 nfeIcms50 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS50 ) nfeIcms;
+//                    return ICMS50.builder()
+//                            .origin(Optional.ofNullable(nfeIcms50.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms50.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms50.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS60": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS60 nfeIcms60 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS60 ) nfeIcms;
+//                    return ICMS60.builder()
+//                            .origin(Optional.ofNullable(nfeIcms60.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icmsStRetained(IcmsStRetainedValue.builder()
+//                                    .calculationBasis(toBigDecimal(nfeIcms60.getBcRetainedValueST()))
+//                                    .value(toBigDecimal(nfeIcms60.getIcmsRetainedValueST()))
+//                                    .build())
+//                            .fcpStRetained(null)
+//                            .endConsumerSupportedAliquot(null)
+//                            .build();
+//                }
+//                case "ICMS70": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS70 nfeIcms70 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS70 ) nfeIcms;
+//                    return ICMS70.builder()
+//                            .origin(Optional.ofNullable(nfeIcms70.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms70.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcms70.getBcModality(), toBigDecimal(nfeIcms70.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcms70.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms70.getBcReductionPercent()))
+//                                    .build())
+//                            .fcp(null)
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms70.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcms70.getBcModalitySt(), toBigDecimal(nfeIcms70.getBcValueST()), toBigDecimal(nfeIcms70.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcms70.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms70.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms70.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms70.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMS90": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS90 nfeIcms90 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMS90 ) nfeIcms;
+//                    return ICMS90.builder()
+//                            .origin(Optional.ofNullable(nfeIcms90.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms90.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcms90.getBcModality(), toBigDecimal(nfeIcms90.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcms90.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms90.getBcReductionPercent()))
+//                                    .build())
+//                            .fcp(null)
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcms90.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcms90.getBcModalitySt(), toBigDecimal(nfeIcms90.getBcValueST()), toBigDecimal(nfeIcms90.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcms90.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcms90.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .desoneration(IcmsDesoneration.builder()
+//                                    .reason(Optional.ofNullable(nfeIcms90.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
+//                                    .value(toBigDecimal(nfeIcms90.getIcmsDesonerationValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMSPart10": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart10 nfeIcmsPart10 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart10) nfeIcms;
+//                    return ICMSPart10.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsPart10.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsPart10.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcmsPart10.getBcModality(), toBigDecimal(nfeIcmsPart10.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcmsPart10.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart10.getBcReductionPercent()))
+//                                    .build())
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsPart10.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcmsPart10.getBcModalitySt(), toBigDecimal(nfeIcmsPart10.getBcValueST()), toBigDecimal(nfeIcmsPart10.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcmsPart10.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart10.getBcReductionStPercent()))
+//                                    .build())
+//                            .selfOperationBcPercent(toBigDecimal(nfeIcmsPart10.getSelfOperationBCPerc()))
+//                            .ufSt(nfeIcmsPart10.getUfST())
+//                            .build();
+//                }
+//                case "ICMSPart90": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart90 nfeIcmsPart90 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart90) nfeIcms;
+//                    return ICMSPart90.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsPart90.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsPart90.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcmsPart90.getBcModality(), toBigDecimal(nfeIcmsPart90.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcmsPart90.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart90.getBcReductionPercent()))
+//                                    .build())
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsPart90.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcmsPart90.getBcModalitySt(), toBigDecimal(nfeIcmsPart90.getBcValueST()), toBigDecimal(nfeIcmsPart90.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcmsPart90.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart90.getBcReductionStPercent()))
+//                                    .build())
+//                            .selfOperationBcPercent(toBigDecimal(nfeIcmsPart90.getSelfOperationBCPerc()))
+//                            .ufSt(nfeIcmsPart90.getUfST())
+//                            .build();
+//                }
+//                case "ICMSSN101": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN101 nfeIcmsSn101 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN101 ) nfeIcms;
+//                    return ICMSSN101.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn101.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .creditSn(CreditSnValue.builder()
+//                                    .aliquot(toBigDecimal(nfeIcmsSn101.getCreditSnAliquot()))
+//                                    .value(toBigDecimal(nfeIcmsSn101.getCreditSnIcmsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMSSN102": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN102 nfeIcmsSn102 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN102 ) nfeIcms;
+//                    return ICMSSN102.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn102.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .build();
+//                }
+//                case "ICMSSN103": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN103 nfeIcmsSn103 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN103 ) nfeIcms;
+//                    return ICMSSN103.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn103.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .build();
+//                }
+//                case "ICMSSN202": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN202 nfeIcmsSn202 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN202 ) nfeIcms;
+//                    return ICMSSN202.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn202.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsSn202.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn202.getBcModalitySt(), toBigDecimal(nfeIcmsSn202.getBcValueST()), toBigDecimal(nfeIcmsSn202.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcmsSn202.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn202.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .build();
+//                }
+//                case "ICMSSN203": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN203 nfeIcmsSn203 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN203 ) nfeIcms;
+//                    return ICMSSN203.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn203.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsSn203.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn203.getBcModalitySt(), toBigDecimal(nfeIcmsSn203.getBcValueST()), toBigDecimal(nfeIcmsSn203.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcmsSn203.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn203.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .build();
+//                }
+//                case "ICMSSN300": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN300 nfeIcmsSn300 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN300 ) nfeIcms;
+//                    return ICMSSN300.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn300.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .build();
+//                }
+//                case "ICMSSN400": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN400 nfeIcmsSn400 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN400 ) nfeIcms;
+//                    return ICMSSN400.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn400.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .build();
+//                }
+//                case "ICMSSN500": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN500 nfeIcms60 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN500 ) nfeIcms;
+//                    return ICMSSN500.builder()
+//                            .origin(Optional.ofNullable(nfeIcms60.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icmsStRetained(IcmsStRetainedValue.builder()
+//                                    .calculationBasis(toBigDecimal(nfeIcms60.getBcRetainedValueST()))
+//                                    .value(toBigDecimal(nfeIcms60.getIcmsRetainedValueST()))
+//                                    .build())
+//                            .fcpStRetained(null)
+//                            .endConsumerSupportedAliquot(null)
+//                            .build();
+//                }
+//                case "ICMSSN900": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN900 nfeIcmsSn900 = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN900 ) nfeIcms;
+//                    return ICMSSN900.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSn900.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .icms(IcmsWithBcReductionPercent.builder()
+//                                    .value(IcmsWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsSn900.getIcmsAliquot()))
+//                                        .calculationBasis(buildIcmsBc(nfeIcmsSn900.getBcModality(), toBigDecimal(nfeIcmsSn900.getBcValue()), BigDecimal.ZERO))
+//                                        .value(toBigDecimal(nfeIcmsSn900.getIcmsValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn900.getBcReductionPercent()))
+//                                    .build())
+//                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+//                                    .value(IcmsStWithBcValue.builder()
+//                                        .aliquot(toBigDecimal(nfeIcmsSn900.getIcmsStAliquot()))
+//                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn900.getBcModalitySt(), toBigDecimal(nfeIcmsSn900.getBcValueST()), toBigDecimal(nfeIcmsSn900.getValueMarginAddedStPercent())))
+//                                        .value(toBigDecimal(nfeIcmsSn900.getIcmsStValue()))
+//                                        .build())
+//                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn900.getBcReductionStPercent()))
+//                                    .build())
+//                            .fcpSt(null)
+//                            .creditSn(CreditSnValue.builder()
+//                                    .aliquot(toBigDecimal(nfeIcmsSn900.getCreditSnAliquot()))
+//                                    .value(toBigDecimal(nfeIcmsSn900.getCreditSnIcmsValue()))
+//                                    .build())
+//                            .build();
+//                }
+//                case "ICMSST": {
+//                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSST nfeIcmsSt = (eprecise.efiscal4j.nfe.v400.tax.icms.ICMSST ) nfeIcms;
+//                    return ICMSST.builder()
+//                            .origin(Optional.ofNullable(nfeIcmsSt.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+//                            .retainedSt(IcmsStRetainedValue.builder()
+//                                    .calculationBasis(toBigDecimal(nfeIcmsSt.getBcRetainedValueST()))
+//                                    .value(toBigDecimal(nfeIcmsSt.getIcmsRetainedValueST()))
+//                                    .build())
+//                            .destinationSt(IcmsStDestinationValue.builder()
+//                                    .calculationBasis(toBigDecimal(nfeIcmsSt.getBcIcmsStDestination()))
+//                                    .value(toBigDecimal(nfeIcmsSt.getIcmsStDestination()))
+//                                    .build())
+//                            .build();
+//                }
+//            }
+//        }
+//     // @formatter:on
+//        return null;
+//    }
+//
+//    private IcmsBc buildIcmsBc(BCModality bcModality, BigDecimal bcValue, BigDecimal marginAddedPercent) {
+//     // @formatter:off
+//        switch(bcModality) {
+//            case MARGEM_VALOR_AGREGADO: return IcmsBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
+//            case PAUTA: return IcmsBcDeterminedPautaValue.builder().calculationBasis(bcValue).build();
+//            case PRECO_TABELADO_MAX: return IcmsBcMaximumTabulatedPrice.builder().calculationBasis(bcValue).build();
+//            case VALOR_OPERACAO: return IcmsBcOperationValue.builder().calculationBasis(bcValue).build();
+//        }
+//        return null;
+//     // @formatter:on
+//    }
+//
+//    private IcmsStBc buildIcmsStBc(BCModalityST bcModalityST, BigDecimal bcValue, BigDecimal marginAddedPercent) {
+//        // @formatter:off
+//           switch(bcModalityST) {
+//               case PRECO_TABELADO_OU_MAX_SUGERIDO: return IcmsStBcMaximumTabulatedOrSuggestedPrice.builder().calculationBasis(bcValue).build();
+//               case LISTA_NEGATIVA: return IcmsStBcNegativeListValue.builder().calculationBasis(bcValue).build();
+//               case LISTA_POSITIVA: return IcmsStBcPositiveListValue.builder().calculationBasis(bcValue).build();
+//               case LISTA_NEUTRA: return IcmsStBcNeutralListValue.builder().calculationBasis(bcValue).build();
+//               case MARGEM_VALOR_AGREGADO: return IcmsStBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
+//               case PAUTA: return IcmsStBcDeterminedPautaValue.builder().calculationBasis(bcValue).build();
+//           }
+//           return null;
+//        // @formatter:on
+//    }
+//
+//    private BigDecimal toBigDecimal(String value) {
+//        return Optional.ofNullable(value).map(BigDecimal::new).orElse(null);
+//    }
+//
+//    private Long toLong(String value) {
+//        return Optional.ofNullable(value).map(Long::parseLong).orElse(null);
+//    }
+
+}

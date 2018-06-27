@@ -35,6 +35,10 @@ public enum FinalCustomerOperation {
     public String toString() {
         return this.getDescription();
     }
+    
+    public boolean isFinal() {
+        return this.equals(CONSUMIDOR_FINAL);
+    }
 
 
 }

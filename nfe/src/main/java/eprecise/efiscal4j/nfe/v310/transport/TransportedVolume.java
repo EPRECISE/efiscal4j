@@ -21,132 +21,189 @@ import eprecise.efiscal4j.nfe.v310.types.NFeString;
  */
 public class TransportedVolume implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "qVol") @Pattern(regexp = "[0-9]{1,15}") String volumeQuantity;
+    private @XmlElement(name = "qVol") @Pattern(regexp = "[0-9]{1,15}") String volumeQuantity;
 
-	private @XmlElement(name = "esp") @Size(min = 1, max = 60) @NFeString String volumeSpecies;
+    private @XmlElement(name = "esp") @Size(min = 1, max = 60) @NFeString String volumeSpecies;
 
-	private @XmlElement(name = "marca") @Size(min = 1, max = 60) @NFeString String volumeTrademark;
+    private @XmlElement(name = "marca") @Size(min = 1, max = 60) @NFeString String volumeTrademark;
 
-	private @XmlElement(name = "nVol") @Size(min = 1, max = 60) @NFeString String volumeNumbering;
+    private @XmlElement(name = "nVol") @Size(min = 1, max = 60) @NFeString String volumeNumbering;
 
-	private @XmlElement(name = "pesoL") @NFeDecimal1203 String netWeight;
+    private @XmlElement(name = "pesoL") @NFeDecimal1203 String netWeight;
 
-	private @XmlElement(name = "pesoB") @NFeDecimal1203 String grossWeight;
+    private @XmlElement(name = "pesoB") @NFeDecimal1203 String grossWeight;
 
-	private @XmlElement(name = "lacres") @Size(max = 5000) List<VolumeSeal> seals;
+    private @XmlElement(name = "lacres") @Size(max = 5000) List<VolumeSeal> seals;
 
-	public static class Builder {
+    public static class Builder {
 
-		private String volumeQuantity;
+        private String volumeQuantity;
 
-		private String volumeSpecies;
+        private String volumeSpecies;
 
-		private String volumeTrademark;
+        private String volumeTrademark;
 
-		private String volumeNumbering;
+        private String volumeNumbering;
 
-		private String netWeight;
+        private String netWeight;
 
-		private String grossWeight;
+        private String grossWeight;
 
-		private List<VolumeSeal> seals;
+        private List<VolumeSeal> seals;
 
-		/**
-		 * Quantidade de volumes transportados
-		 * 
-		 * @param volumeQuantity
-		 * @return
-		 */
-		public Builder withVolumeQuantity(String volumeQuantity) {
-			this.volumeQuantity = volumeQuantity;
-			return this;
-		}
+        /**
+         * Quantidade de volumes transportados
+         * 
+         * @param volumeQuantity
+         * @return
+         */
+        public Builder withVolumeQuantity(String volumeQuantity) {
+            this.volumeQuantity = volumeQuantity;
+            return this;
+        }
 
-		/**
-		 * Espécie dos volumes transportados
-		 * 
-		 * @param volumeSpecies
-		 * @return
-		 */
-		public Builder withVolumeSpecies(String volumeSpecies) {
-			this.volumeSpecies = volumeSpecies;
-			return this;
-		}
+        /**
+         * Espécie dos volumes transportados
+         * 
+         * @param volumeSpecies
+         * @return
+         */
+        public Builder withVolumeSpecies(String volumeSpecies) {
+            this.volumeSpecies = volumeSpecies;
+            return this;
+        }
 
-		/**
-		 * Marca dos volumes transportados
-		 * 
-		 * @param volumeTrademark
-		 * @return
-		 */
-		public Builder withVolumeTrademark(String volumeTrademark) {
-			this.volumeTrademark = volumeTrademark;
-			return this;
-		}
+        /**
+         * Marca dos volumes transportados
+         * 
+         * @param volumeTrademark
+         * @return
+         */
+        public Builder withVolumeTrademark(String volumeTrademark) {
+            this.volumeTrademark = volumeTrademark;
+            return this;
+        }
 
-		/**
-		 * Numeração dos volumes transportados
-		 * 
-		 * @param volumeNumbering
-		 * @return
-		 */
-		public Builder withVolumeNumbering(String volumeNumbering) {
-			this.volumeNumbering = volumeNumbering;
-			return this;
-		}
+        /**
+         * Numeração dos volumes transportados
+         * 
+         * @param volumeNumbering
+         * @return
+         */
+        public Builder withVolumeNumbering(String volumeNumbering) {
+            this.volumeNumbering = volumeNumbering;
+            return this;
+        }
 
-		/**
-		 * Peso líquido (em kg)
-		 * 
-		 * @param netWeight
-		 * @return
-		 */
-		public Builder withNetWeight(String netWeight) {
-			this.netWeight = netWeight;
-			return this;
-		}
+        /**
+         * Peso líquido (em kg)
+         * 
+         * @param netWeight
+         * @return
+         */
+        public Builder withNetWeight(String netWeight) {
+            this.netWeight = netWeight;
+            return this;
+        }
 
-		/**
-		 * Peso bruto (em kg)
-		 * 
-		 * @param grossWeight
-		 * @return
-		 */
-		public Builder withGrossWeight(String grossWeight) {
-			this.grossWeight = grossWeight;
-			return this;
-		}
+        /**
+         * Peso bruto (em kg)
+         * 
+         * @param grossWeight
+         * @return
+         */
+        public Builder withGrossWeight(String grossWeight) {
+            this.grossWeight = grossWeight;
+            return this;
+        }
 
-		/**
-		 * @see VolumeSeal
-		 * 
-		 * @param seals
-		 * @return
-		 */
-		public Builder withSeals(List<VolumeSeal> seals) {
-			this.seals = seals;
-			return this;
-		}
+        /**
+         * @see VolumeSeal
+         * 
+         * @param seals
+         * @return
+         */
+        public Builder withSeals(List<VolumeSeal> seals) {
+            this.seals = seals;
+            return this;
+        }
 
-		public TransportedVolume build() {
-			TransportedVolume entity = new TransportedVolume(this);
-			ValidationBuilder.from(entity).validate().throwIfViolate();
-			return entity;
-		}
-	}
+        public TransportedVolume build() {
+            TransportedVolume entity = new TransportedVolume(this);
+            ValidationBuilder.from(entity).validate().throwIfViolate();
+            return entity;
+        }
+    }
 
-	public TransportedVolume() {
-	}
+    public TransportedVolume() {
+    }
 
-	public TransportedVolume(Builder builder) {
-		this.volumeQuantity = builder.volumeQuantity;
-		this.volumeSpecies = builder.volumeSpecies;
-		this.volumeTrademark = builder.volumeTrademark;
-		this.volumeNumbering = builder.volumeNumbering;
-		this.netWeight = builder.netWeight;
-		this.grossWeight = builder.grossWeight;
-		this.seals = builder.seals;
-	}
+    public TransportedVolume(Builder builder) {
+        this.volumeQuantity = builder.volumeQuantity;
+        this.volumeSpecies = builder.volumeSpecies;
+        this.volumeTrademark = builder.volumeTrademark;
+        this.volumeNumbering = builder.volumeNumbering;
+        this.netWeight = builder.netWeight;
+        this.grossWeight = builder.grossWeight;
+        this.seals = builder.seals;
+    }
+
+    public String getVolumeQuantity() {
+        return volumeQuantity;
+    }
+
+    public void setVolumeQuantity(String volumeQuantity) {
+        this.volumeQuantity = volumeQuantity;
+    }
+
+    public String getVolumeSpecies() {
+        return volumeSpecies;
+    }
+
+    public void setVolumeSpecies(String volumeSpecies) {
+        this.volumeSpecies = volumeSpecies;
+    }
+
+    public String getVolumeTrademark() {
+        return volumeTrademark;
+    }
+
+    public void setVolumeTrademark(String volumeTrademark) {
+        this.volumeTrademark = volumeTrademark;
+    }
+
+    public String getVolumeNumbering() {
+        return volumeNumbering;
+    }
+
+    public void setVolumeNumbering(String volumeNumbering) {
+        this.volumeNumbering = volumeNumbering;
+    }
+
+    public String getNetWeight() {
+        return netWeight;
+    }
+
+    public void setNetWeight(String netWeight) {
+        this.netWeight = netWeight;
+    }
+
+    public String getGrossWeight() {
+        return grossWeight;
+    }
+
+    public void setGrossWeight(String grossWeight) {
+        this.grossWeight = grossWeight;
+    }
+
+    public List<VolumeSeal> getSeals() {
+        return seals;
+    }
+
+    public void setSeals(List<VolumeSeal> seals) {
+        this.seals = seals;
+    }
+
 }

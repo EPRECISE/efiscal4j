@@ -3,14 +3,15 @@ package eprecise.efiscal4j.nfe.item.tax.ipi;
 
 import eprecise.efiscal4j.nfe.item.tax.ipi.cst.IPICST;
 import eprecise.efiscal4j.nfe.item.tax.ipi.generalData.IPIGeneralData;
-import eprecise.efiscal4j.nfe.v400.tax.ipi.value.IpiValue;
+import eprecise.efiscal4j.nfe.item.tax.ipi.value.IpiValue;
+import eprecise.efiscal4j.nfe.item.tax.ipi.value.IpiValue.IpiValueHolder;
 import lombok.Builder;
 import lombok.Getter;
 
 
 @Builder
 @Getter
-public class IPI99 implements IPI {
+public class IPI99 implements IPI, IpiValueHolder {
 
     private final IPICST cst = IPICST.CST_99;
 

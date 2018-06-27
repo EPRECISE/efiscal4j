@@ -51,6 +51,15 @@ public enum CardFlag implements Serializable {
         return this.description;
     }
 
+    public static CardFlag findByCode(String code) {
+        for (final CardFlag entity : CardFlag.values()) {
+            if (entity.getValue().equals(code)) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return this.getDescription();

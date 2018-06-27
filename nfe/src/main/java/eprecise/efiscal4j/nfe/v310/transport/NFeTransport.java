@@ -154,4 +154,12 @@ public class NFeTransport implements Serializable {
         return this.transportedVolume;
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public List<Vehicle> getTowing() {
+        return towing;
+    }
+
 }

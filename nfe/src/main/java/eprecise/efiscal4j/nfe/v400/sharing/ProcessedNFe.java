@@ -13,7 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
+import eprecise.efiscal4j.nfe.processed.ProcessedNFeVersion;
 import eprecise.efiscal4j.nfe.v400.NFe;
+import eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter;
 
 
 /**
@@ -24,7 +27,7 @@ import eprecise.efiscal4j.nfe.v400.NFe;
  */
 @XmlRootElement(name = "nfeProc")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProcessedNFe implements Serializable {
+public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
 
     private static final long serialVersionUID = 1L;
 
@@ -95,5 +98,10 @@ public class ProcessedNFe implements Serializable {
 
     public ProcessingStatusProtocol getProcessingStatusProtocol() {
         return this.processingStatusProtocol;
+    }
+
+    @Override
+    public ProcessedFiscalDocument buildProcessedFiscalDocument() {
+        return new ProcessedFiscalDocumentAdapter(this).buildProcessedFiscalDocument();
     }
 }

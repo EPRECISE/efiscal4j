@@ -1,6 +1,9 @@
 
 package eprecise.efiscal4j.nfe.item;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public enum Unity {
                    AMPOLA("AMPOLA"),
                    BALDE("BALDE"),
@@ -97,6 +100,10 @@ public enum Unity {
             result.append(" ");
         }
         return result.toString().trim();
+    }
+    
+    public static Optional<Unity> findByAcronym(String acronym) {
+        return Stream.of(Unity.values()).filter(e -> e.getAcronym().equalsIgnoreCase(acronym)).findFirst();
     }
 
 }

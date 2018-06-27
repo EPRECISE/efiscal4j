@@ -30,4 +30,13 @@ public enum FiscalDocumentType {
         return this.description;
     }
 
+    public static FiscalDocumentType findByCode(final String code) {
+        for (final FiscalDocumentType entity : FiscalDocumentType.values()) {
+            if (entity.getType().equals(code)) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
 }

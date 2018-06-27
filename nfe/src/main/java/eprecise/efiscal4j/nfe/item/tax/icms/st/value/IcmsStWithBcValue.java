@@ -14,6 +14,14 @@ public class IcmsStWithBcValue {
 
     private final IcmsStBc calculationBasis;
 
-    private final IcmsStValue value;
+    private final BigDecimal aliquot;
+
+    private final BigDecimal value;
+
+    public static interface IcmsStWithBcValueHolder {
+
+        IcmsStWithBcValue getIcmsStWithBcValue();
+
+    }
 
 }
