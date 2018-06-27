@@ -5,11 +5,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Email;
-
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.documents.ReceiverDocuments;
+import eprecise.efiscal4j.nfe.types.Email;
 import lombok.Builder;
 import lombok.Getter;
 
