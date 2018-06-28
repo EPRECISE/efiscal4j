@@ -40,4 +40,9 @@ public class EmitterLegalEntityDocuments extends EmitterDocuments {
         this.fancyName = fancyName;
     }
 
+    @Override
+    public String getCnp() {
+        return this.cnpj;
+    }
+
 }

@@ -387,14 +387,19 @@ public class ProcessedFiscalDocumentAdapter {
     private TransportICMSRetention buildTransportIcmsRetention() {
         final eprecise.efiscal4j.nfe.v310.transport.TransportICMSRetention nfeTransportICMSRetention = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
      // @formatter:off
-        return TransportICMSRetention.builder()
-                .serviceValue(toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
-                .retentionCalculationBasis(toBigDecimal(nfeTransportICMSRetention.getRetentionCalculationBasis()))
-                .retentionAliquot(toBigDecimal(nfeTransportICMSRetention.getRetentionAliquot()))
-                .retentionValue(toBigDecimal(nfeTransportICMSRetention.getRetentionValue()))
-                .cfop(nfeTransportICMSRetention.getCfop())
-                .genFactIbgeCode(nfeTransportICMSRetention.getGenFactIbgeCode())
-                .build();
+        if(nfeTransportICMSRetention != null) {
+        
+            return TransportICMSRetention.builder()
+                    .serviceValue(toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
+                    .retentionCalculationBasis(toBigDecimal(nfeTransportICMSRetention.getRetentionCalculationBasis()))
+                    .retentionAliquot(toBigDecimal(nfeTransportICMSRetention.getRetentionAliquot()))
+                    .retentionValue(toBigDecimal(nfeTransportICMSRetention.getRetentionValue()))
+                    .cfop(nfeTransportICMSRetention.getCfop())
+                    .genFactIbgeCode(nfeTransportICMSRetention.getGenFactIbgeCode())
+                    .build();
+            }
+        
+        return null;
      // @formatter:on
     }
 
@@ -402,19 +407,23 @@ public class ProcessedFiscalDocumentAdapter {
      // @formatter:off
         final eprecise.efiscal4j.nfe.v310.transport.Conveyor nfeConveyor = processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
 
-        return Conveyor.builder()
-                .cnp(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
-                        ? ConveyorCnpj.builder().cnpj(nfeConveyor.getDocuments().getCnpjCpf()).build()
-                        : nfeConveyor.getDocuments() instanceof NaturalPersonDocuments
-                            ? ConveyorCpf.builder().cpf(nfeConveyor.getDocuments().getCnpjCpf()).build()
+        if(nfeConveyor != null) {
+            return Conveyor.builder()
+                    .cnp(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
+                            ? ConveyorCnpj.builder().cnpj(nfeConveyor.getDocuments().getCnpjCpf()).build()
+                            : nfeConveyor.getDocuments() instanceof NaturalPersonDocuments
+                                ? ConveyorCpf.builder().cpf(nfeConveyor.getDocuments().getCnpjCpf()).build()
+                                : null)
+                    .ie(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
+                            ? ((LegalEntityDocuments) nfeConveyor.getDocuments()).getStateRegistration()
                             : null)
-                .ie(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
-                        ? ((LegalEntityDocuments) nfeConveyor.getDocuments()).getStateRegistration()
-                        : null)
-                .fullAddress(nfeConveyor.getFullAddress())
-                .cityName(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getDescription()).orElse(null))
-                .uf(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getUf()).orElse(null))
-                .build();
+                    .fullAddress(nfeConveyor.getFullAddress())
+                    .cityName(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getDescription()).orElse(null))
+                    .uf(Optional.ofNullable(nfeConveyor.getCity()).map(c->c.getUf()).orElse(null))
+                    .build();
+            }
+        
+        return null;
      // @formatter:on
     }
 

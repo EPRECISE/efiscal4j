@@ -30,4 +30,9 @@ public class EmitterNaturalPersonDocuments extends EmitterDocuments {
         this.cpf = Optional.ofNullable(cpf).orElse("");
     }
 
+    @Override
+    public String getCnp() {
+        return this.cpf;
+    }
+
 }
