@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSSN400 extends BaseICMSSN102 {
+public class ICMSSN400 extends BaseICMSSN102 {
 
     private static final long serialVersionUID = 1L;
 

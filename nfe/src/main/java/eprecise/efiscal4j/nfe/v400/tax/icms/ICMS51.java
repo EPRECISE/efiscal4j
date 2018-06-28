@@ -22,7 +22,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS51 extends BaseICMS implements IcmsWithValue {
+public class ICMS51 extends BaseICMS implements IcmsWithValue {
 
     private static final long serialVersionUID = 1L;
 

@@ -385,7 +385,7 @@ public class ProcessedFiscalDocumentAdapter {
     }
 
     private TransportICMSRetention buildTransportIcmsRetention() {
-        eprecise.efiscal4j.nfe.v310.transport.TransportICMSRetention nfeTransportICMSRetention = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
+        final eprecise.efiscal4j.nfe.v310.transport.TransportICMSRetention nfeTransportICMSRetention = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
      // @formatter:off
         return TransportICMSRetention.builder()
                 .serviceValue(toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
@@ -400,7 +400,7 @@ public class ProcessedFiscalDocumentAdapter {
 
     private Conveyor buildConveyor() {
      // @formatter:off
-        eprecise.efiscal4j.nfe.v310.transport.Conveyor nfeConveyor = processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
+        final eprecise.efiscal4j.nfe.v310.transport.Conveyor nfeConveyor = processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
 
         return Conveyor.builder()
                 .cnp(nfeConveyor.getDocuments() instanceof LegalEntityDocuments 
@@ -442,7 +442,7 @@ public class ProcessedFiscalDocumentAdapter {
 
     private Charging buildCharging() {
      // @formatter:off
-        eprecise.efiscal4j.nfe.v310.charging.NFeCharging nfeCharging = processedNFe.getNfe().getNFeInfo().getnFeCharging();
+        final eprecise.efiscal4j.nfe.v310.charging.NFeCharging nfeCharging = processedNFe.getNfe().getNFeInfo().getnFeCharging();
         if(nfeCharging != null) {
             return Charging.builder()
                     .invoice(buildChargingInvoice())

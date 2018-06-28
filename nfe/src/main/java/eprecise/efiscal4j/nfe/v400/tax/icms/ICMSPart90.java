@@ -20,7 +20,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSPart90 extends BaseICMSPart {
+public class ICMSPart90 extends BaseICMSPart {
 
     private static final long serialVersionUID = 1L;
 
