@@ -12,12 +12,12 @@ import java.io.Serializable;
  */
 public enum ShippingModality implements Serializable {
 
-                                                      POR_CONTA_EMITENTE(0, "Por conta do emitente"),
-                                                      POR_CONTA_DESTINATARIO_REMETENTE(1, "Por conta do destinatário/remetente"),
-                                                      POR_CONTA_TERCEIROS(2, "Por conta de terceiros"),
-                                                      PROPRIO_POR_CONTA_REMETENTE(3, "Transporte próprio por conta do remetente"),
-                                                      PROPRIO_POR_CONTA_DESTINATARIO(4, "Transporte próprio por conta do destinatário"),
-                                                      SEM_OCORRENCIA_TRANSPORTE(9, "Sem Ocorrência de transporte");
+				BY_ISSUER(0, "Por conta do emitente"),
+				BY_RECEIVER_SENDER(1, "Por conta do destinatário/remetente"),
+				BY_THIRD(2, "Por conta de terceiros"),
+				OWN_BY_SENDER(3, "Transporte próprio por conta do remetente"),
+				OWN_BY_RECEIVER(4, "Transporte próprio por conta do destinatário"),
+				WITHOUT_TRANSPORT(9, "Sem Ocorrência de transporte");
 
     private static final long serialVersionUID = 1L;
 
