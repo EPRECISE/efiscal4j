@@ -6,7 +6,7 @@
     <groupId>eprecise.efiscal4j</groupId>
     <artifactId>efiscal4j</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.102</version>
+    <version>1.0.102-SNAPSHOT</version>
     <name>e-Fiscal4J</name>
 
     <properties>
@@ -191,18 +191,18 @@
     </build>
     <distributionManagement>
         <repository>
-            <id>epreciseNexus</id>
+            <id>eprecise-nexus</id>
             <url>https://nexus.e-precise.com.br/repository/opensource/</url>
         </repository>
+        <snapshotRepository>
+            <id>eprecise-nexus</id>
+            <url>https://nexus.e-precise.com.br/repository/opensource-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <organization>
         <name>e-Precise </name>
         <url>http://e-precise.com.br</url>
     </organization>
-    <issueManagement>
-        <url>http://redmine.e-precise.net.br/projects/efiscal4j</url>
-        <system>REDMINE</system>
-    </issueManagement>
     <scm>
         <url>git@bitbucket.org:eprecise/e-fiscal4j.git</url>
     </scm>
