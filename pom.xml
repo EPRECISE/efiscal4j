@@ -1,13 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>eprecise.efiscal4j</groupId>
-	<artifactId>efiscal4j</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0.101</version>
-	<name>e-Fiscal4J</name>
+    <groupId>eprecise.efiscal4j</groupId>
+    <artifactId>efiscal4j</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.102-SNAPSHOT</version>
+    <name>e-Fiscal4J</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -149,7 +149,7 @@
 				<artifactId>jasperreports-fonts</artifactId>
 				<version>6.0.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>eprecise.jasper.fonts</groupId>
 				<artifactId>jasper-fonts-arial</artifactId>
@@ -161,65 +161,62 @@
 				<artifactId>jasperreports-fonts-times-new-roman</artifactId>
 				<version>1.0.0</version>
 			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-	<organization>
-		<name>e-Precise </name>
-		<url>http://e-precise.com.br</url>
-	</organization>
-	<issueManagement>
-		<url>http://redmine.e-precise.net.br/projects/efiscal4j</url>
-		<system>REDMINE</system>
-	</issueManagement>
-	<scm>
-		<url>git@bitbucket.org:eprecise/e-fiscal4j.git</url>
-	</scm>
-	<repositories>
-		<repository>
-			<id>eprecise-all</id>
-			<name>eprecise-all</name>
-			<url>http://nexus.e-precise.com.br/repository/all/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <distributionManagement>
+        <repository>
+            <id>eprecise-nexus</id>
+            <url>https://nexus.e-precise.com.br/repository/opensource/</url>
+        </repository>
+        <snapshotRepository>
+            <id>eprecise-nexus</id>
+            <url>https://nexus.e-precise.com.br/repository/opensource-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <organization>
+        <name>e-Precise </name>
+        <url>http://e-precise.com.br</url>
+    </organization>
+    <scm>
+        <url>git@bitbucket.org:eprecise/e-fiscal4j.git</url>
+    </scm>
 
 </project>
