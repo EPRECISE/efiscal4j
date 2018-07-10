@@ -26,6 +26,8 @@ public class NFeTestParams {
     private static final String EMITTER_CSC_CLDTOKEN_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.cldtoken";
 
     private static final String EMITTER_CSC_VALUE_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.value";
+    
+    private static final String NFE_IMPORT_XML_PATH_PROPERTY = "eprecise.efiscal4j.nfe.import.xml.path";
 
     public static Optional<String> getEmitterCnpj() {
         return Optional.ofNullable(System.getProperty(EMITTER_CNPJ_PROPERTY));
@@ -49,6 +51,10 @@ public class NFeTestParams {
 
     public static Optional<String> getCertificatePin() {
         return Optional.ofNullable(System.getProperty(CERTIFICATE_PIN_PROPERTY));
+    }
+    
+    public static Optional<String> getNFeImportXmlPath() {
+        return Optional.ofNullable(System.getProperty(NFE_IMPORT_XML_PATH_PROPERTY));
     }
 
 }

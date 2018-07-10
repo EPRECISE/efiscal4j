@@ -17,7 +17,7 @@ import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.ICMSDesonerationReason;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMS40 extends BaseICMS40 {
+public class ICMS40 extends BaseICMS40 {
 
     private static final long serialVersionUID = 1L;
 

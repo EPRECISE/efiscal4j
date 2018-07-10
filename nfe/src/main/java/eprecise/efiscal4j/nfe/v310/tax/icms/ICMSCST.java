@@ -24,8 +24,8 @@ public enum ICMSCST implements Serializable {
     CST_60("60"),
     CST_70("70"),
     CST_90("90"),
-    PART_CST_10("10"),
-    PART_CST_90("90"),
+    PART_CST_10("10", true),
+    PART_CST_90("90", true),
     ST_CST_41("41"),
     CSOSN_101("101"),
     CSOSN_102("102"),
@@ -44,8 +44,16 @@ public enum ICMSCST implements Serializable {
 
     private final String value;
 
+	private final boolean part;
+
     private ICMSCST(String value) {
+        this(value, false);
+        
+    }
+    
+    private ICMSCST(String value, boolean part) {
         this.value = value;
+        this.part  = part;
     }
 
     public String getValue() {
@@ -59,8 +67,12 @@ public enum ICMSCST implements Serializable {
     public String getCstWithDescription() {
         return this.value + " - " + this.icmsCstMap.valueFrom(this.toString());
     }
+    
+    public boolean isPart() {
+		return part;
+	}
 
-    public static ICMSCST findByCode(String code) {
+    public static ICMSCST findByCode(String code, boolean isPart) {
         for (final ICMSCST cst : values()) {
             if (cst.getValue().equals(code)) {
                 return cst;

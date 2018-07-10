@@ -355,4 +355,8 @@ public class NFeIdentification implements Serializable {
         this.checksum = String.valueOf(checksum);
     }
 
+    public String getEntranceOrExitDateTime() {
+        return entranceOrExitDateTime;
+    }
+
 }

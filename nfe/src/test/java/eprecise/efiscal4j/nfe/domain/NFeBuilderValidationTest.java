@@ -143,7 +143,7 @@ public class NFeBuilderValidationTest {
                                 .build()))
                         .build())
                 .transport(Transport.builder()
-                        .shippingModality(ShippingModality.POR_CONTA_TERCEIROS)
+                        .shippingModality(ShippingModality.OWN_BY_SENDER)
                         .conveyor(Conveyor.builder()
                                 .cnp(ConveyorCnpj.builder()
                                         .cnpj("14241297000191")

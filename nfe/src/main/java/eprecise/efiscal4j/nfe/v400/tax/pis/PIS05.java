@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 // TODO Verificar esse CST, pois aparentemente não deveria estar no grupo de não tributado, e sim deveria ser o CST do grupo PISST (Nele não existe CST atualmente)
 @XmlAccessorType(XmlAccessType.FIELD)
-class PIS05 extends BasePISNT {
+public class PIS05 extends BasePISNT {
 
     private static final long serialVersionUID = 1L;
 

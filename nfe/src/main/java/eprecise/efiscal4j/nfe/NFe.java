@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.emissionDate.CurrentEmissionDate;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
@@ -87,6 +88,11 @@ public class NFe extends FiscalDocument {
         this.operationDescription = operationDescription;
         this.documentReferences = documentReferences;
     }
+
+	@Override
+	public FiscalDocumentModel getModel() {
+		return FiscalDocumentModel.NFE;
+	}
 
     
 

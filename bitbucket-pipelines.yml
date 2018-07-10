@@ -1,0 +1,21 @@
+image: eprecise/build-env:v1.0.6
+pipelines:
+  default:
+  - step:
+      caches:
+      - maven
+      script:
+      - mvn --version
+      - mvn clean
+      - mvn package -DskipTests
+      - bash pipeline-assets/deploy.sh snapshot
+  tags:
+    release-*:
+    - step:
+        name: Build Artifact and Deploy
+        caches:
+        - maven
+        script:
+        - mvn clean
+        - mvn package -DskipTests
+        - bash pipeline-assets/deploy.sh version

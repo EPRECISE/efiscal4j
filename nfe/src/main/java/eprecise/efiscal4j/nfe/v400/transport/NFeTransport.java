@@ -26,15 +26,19 @@ public class NFeTransport implements Serializable {
 
     private @XmlElement(name = "modFrete") @NotNull final ShippingModality shippingModality;
 
-    private @XmlElement(name = "transporta") Conveyor conveyor;
+    private @XmlElement(name = "transporta") final Conveyor conveyor;
 
-    private @XmlElement(name = "retTransp") TransportICMSRetention transportICMSRetention;
+    private @XmlElement(name = "retTransp") final TransportICMSRetention transportICMSRetention;
 
-    private @XmlElement(name = "veicTransp") Vehicle vehicle;
+    private @XmlElement(name = "veicTransp") final Vehicle vehicle;
 
-    private @XmlElement(name = "reboque") @Size(max = 5) List<Vehicle> towing;
+    private @XmlElement(name = "reboque") @Size(max = 5) final List<Vehicle> towing;
 
-    private @XmlElement(name = "vol") @Size(max = 5000) List<TransportedVolume> transportedVolume;
+    private @XmlElement(name = "vagao") @Size(min = 1, max = 20) final String wagon;
+
+    private @XmlElement(name = "vagao") @Size(min = 1, max = 20) final String ferry;
+
+    private @XmlElement(name = "vol") @Size(max = 5000) final List<TransportedVolume> transportedVolume;
 
     public static class Builder {
 
@@ -49,6 +53,10 @@ public class NFeTransport implements Serializable {
         private Vehicle vehicle;
 
         private List<Vehicle> towing;
+
+        private String wagon;
+
+        private String ferry;
 
         /**
          * @see ShippingModality
@@ -114,6 +122,28 @@ public class NFeTransport implements Serializable {
             return this;
         }
 
+        /**
+         * Identificação do vagão (v2.0)
+         * 
+         * @param wagon
+         * @return
+         */
+        public Builder withWagon(final String wagon) {
+            this.wagon = wagon;
+            return this;
+        }
+
+        /**
+         * Identificação da balsa (v2.0)
+         * 
+         * @param wagon
+         * @return
+         */
+        public Builder withFerry(final String ferry) {
+            this.ferry = ferry;
+            return this;
+        }
+
         public NFeTransport build() {
             final NFeTransport entity = new NFeTransport(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
@@ -123,6 +153,13 @@ public class NFeTransport implements Serializable {
 
     public NFeTransport() {
         this.shippingModality = null;
+        this.conveyor = null;
+        this.transportICMSRetention = null;
+        this.transportedVolume = null;
+        this.vehicle = null;
+        this.towing = null;
+        this.wagon = null;
+        this.ferry = null;
     }
 
     public NFeTransport(final Builder builder) {
@@ -132,54 +169,44 @@ public class NFeTransport implements Serializable {
         this.transportedVolume = builder.transportedVolume;
         this.vehicle = builder.vehicle;
         this.towing = builder.towing;
+        this.wagon = builder.wagon;
+        this.ferry = builder.ferry;
     }
 
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
 
-    public Conveyor getConveyor() {
-        return conveyor;
+    public ShippingModality getShippingModality() {
+        return shippingModality;
     }
 
-    public void setConveyor(Conveyor conveyor) {
-        this.conveyor = conveyor;
+    public Conveyor getConveyor() {
+        return conveyor;
     }
 
     public TransportICMSRetention getTransportICMSRetention() {
         return transportICMSRetention;
     }
 
-    public void setTransportICMSRetention(TransportICMSRetention transportICMSRetention) {
-        this.transportICMSRetention = transportICMSRetention;
-    }
-
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
     }
 
     public List<Vehicle> getTowing() {
         return towing;
     }
 
-    public void setTowing(List<Vehicle> towing) {
-        this.towing = towing;
+    public String getWagon() {
+        return wagon;
+    }
+
+    public String getFerry() {
+        return ferry;
     }
 
     public List<TransportedVolume> getTransportedVolume() {
         return transportedVolume;
-    }
-
-    public void setTransportedVolume(List<TransportedVolume> transportedVolume) {
-        this.transportedVolume = transportedVolume;
-    }
-
-    public ShippingModality getShippingModality() {
-        return shippingModality;
     }
 
 }

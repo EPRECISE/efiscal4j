@@ -20,7 +20,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
+public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 

@@ -13,10 +13,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
-import eprecise.efiscal4j.nfe.processed.ProcessedNFeVersion;
+import eprecise.efiscal4j.nfe.FiscalDocument;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponse;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter;
+import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 
 
 /**
@@ -78,6 +80,11 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         this.nfe = null;
         this.processingStatusProtocol = null;
     }
+    
+    public ProcessedNFe(final NFeDispatch dispatchRequest, final NFeDispatchResponse dispatchResponse) {
+    	this.nfe = dispatchRequest.getnFes().stream().findFirst().orElse(null);
+    	this.processingStatusProtocol = dispatchResponse.getProcessingStatusProtocol();
+    }
 
     private ProcessedNFe(Builder builder) {
         this.nfe = builder.nfe;
@@ -101,7 +108,12 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
     }
 
     @Override
-    public ProcessedFiscalDocument buildProcessedFiscalDocument() {
+    public FiscalDocument.Processed buildProcessedFiscalDocument() {
         return new ProcessedFiscalDocumentAdapter(this).buildProcessedFiscalDocument();
     }
+
+	@Override
+	public String getXsdPath() {
+		return this.XSD;
+	}
 }

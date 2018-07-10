@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe;
 
 import java.util.Collection;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
@@ -30,5 +31,10 @@ public class NFCe extends FiscalDocument {
         super(serie, number, emission, emitter, items, charging, payment, transport, details);
         this.consumer = consumer;
     }
+
+	@Override
+	public FiscalDocumentModel getModel() {
+		return FiscalDocumentModel.NFCE;
+	}
 
 }

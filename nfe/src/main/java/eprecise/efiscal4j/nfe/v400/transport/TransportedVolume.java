@@ -23,19 +23,19 @@ public class TransportedVolume implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "qVol") @Pattern(regexp = "[0-9]{1,15}") String volumeQuantity;
+    private @XmlElement(name = "qVol") @Pattern(regexp = "[0-9]{1,15}") final String volumeQuantity;
 
-    private @XmlElement(name = "esp") @Size(min = 1, max = 60) @NFeString String volumeSpecies;
+    private @XmlElement(name = "esp") @Size(min = 1, max = 60) @NFeString final String volumeSpecies;
 
-    private @XmlElement(name = "marca") @Size(min = 1, max = 60) @NFeString String volumeTrademark;
+    private @XmlElement(name = "marca") @Size(min = 1, max = 60) @NFeString final String volumeTrademark;
 
-    private @XmlElement(name = "nVol") @Size(min = 1, max = 60) @NFeString String volumeNumbering;
+    private @XmlElement(name = "nVol") @Size(min = 1, max = 60) @NFeString final String volumeNumbering;
 
-    private @XmlElement(name = "pesoL") @NFeDecimal1203 String netWeight;
+    private @XmlElement(name = "pesoL") @NFeDecimal1203 final String netWeight;
 
-    private @XmlElement(name = "pesoB") @NFeDecimal1203 String grossWeight;
+    private @XmlElement(name = "pesoB") @NFeDecimal1203 final String grossWeight;
 
-    private @XmlElement(name = "lacres") @Size(max = 5000) List<VolumeSeal> seals;
+    private @XmlElement(name = "lacres") @Size(max = 5000) final List<VolumeSeal> seals;
 
     public static class Builder {
 
@@ -138,6 +138,13 @@ public class TransportedVolume implements Serializable {
     }
 
     public TransportedVolume() {
+        this.volumeQuantity = null;
+        this.volumeSpecies = null;
+        this.volumeTrademark = null;
+        this.volumeNumbering = null;
+        this.netWeight = null;
+        this.grossWeight = null;
+        this.seals = null;
     }
 
     public TransportedVolume(Builder builder) {
@@ -154,56 +161,28 @@ public class TransportedVolume implements Serializable {
         return volumeQuantity;
     }
 
-    public void setVolumeQuantity(String volumeQuantity) {
-        this.volumeQuantity = volumeQuantity;
-    }
-
     public String getVolumeSpecies() {
         return volumeSpecies;
-    }
-
-    public void setVolumeSpecies(String volumeSpecies) {
-        this.volumeSpecies = volumeSpecies;
     }
 
     public String getVolumeTrademark() {
         return volumeTrademark;
     }
 
-    public void setVolumeTrademark(String volumeTrademark) {
-        this.volumeTrademark = volumeTrademark;
-    }
-
     public String getVolumeNumbering() {
         return volumeNumbering;
-    }
-
-    public void setVolumeNumbering(String volumeNumbering) {
-        this.volumeNumbering = volumeNumbering;
     }
 
     public String getNetWeight() {
         return netWeight;
     }
 
-    public void setNetWeight(String netWeight) {
-        this.netWeight = netWeight;
-    }
-
     public String getGrossWeight() {
         return grossWeight;
     }
 
-    public void setGrossWeight(String grossWeight) {
-        this.grossWeight = grossWeight;
-    }
-
     public List<VolumeSeal> getSeals() {
         return seals;
-    }
-
-    public void setSeals(List<VolumeSeal> seals) {
-        this.seals = seals;
     }
 
 }

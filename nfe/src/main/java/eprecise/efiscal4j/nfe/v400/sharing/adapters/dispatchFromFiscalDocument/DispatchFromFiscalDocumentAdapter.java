@@ -38,9 +38,10 @@ import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
 import eprecise.efiscal4j.nfe.v400.payment.PaymentIntegrationType;
 import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.version.NFeDispatchAdapterVersion;
 
 
-public class DispatchFromFiscalDocumentAdapter {
+public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVersion{
 
     private static final String APP_VERSION = "2.0.0";
 

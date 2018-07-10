@@ -19,6 +19,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public abstract class EmitterDocuments {
+    
+    public abstract String getCnp();
 
     /**
      * Nome ou Razão Social

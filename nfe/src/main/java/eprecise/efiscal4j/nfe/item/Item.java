@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.item;
 
 import java.math.BigDecimal;
 
+import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,8 @@ public class Item {
     private final BigDecimal othersValue;
 
     private final TaxStructure taxStructure;
+    
+    private final ImportDeclaration importDeclaration;
 
     public static class ItemBuilder {
 

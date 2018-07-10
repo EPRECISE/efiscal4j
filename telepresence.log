@@ -1,0 +1,439 @@
+   0.0 TEL | Telepresence 0.90 launched at Wed Jul  4 11:48:18 2018
+   0.0 TEL |   /usr/bin/telepresence --namespace=production --run-shell
+   1.9 TEL | Context: gke_e-ceos_southamerica-east1-a_cluster-1, namespace: production, kubectl_command: kubectl
+   1.9 TEL | [1] Launching: kubectl version --short
+   1.9 TEL | [2] Launching: oc version
+   1.9 TEL | [2] [Errno 2] No such file or directory: 'oc': 'oc'
+   1.9 TEL | [3] Launching: uname -a
+   1.9   3 | Linux fernando-pc 4.13.0-46-generic #51-Ubuntu SMP Tue Jun 12 12:36:29 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+   1.9 TEL | Python 3.6.3 (default, Oct  3 2017, 21:45:48)
+   1.9 TEL | [3] exit 0
+   1.9 TEL | [GCC 7.2.0]
+   1.9 TEL | [4] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pods telepresence-connectivity-check --ignore-not-found
+   2.1   1 | Client Version: v1.10.0
+   2.1   1 | Server Version: v1.10.4-gke.2
+   2.1 TEL | [1] exit 0
+   4.2 TEL | [4] captured in 2.33 secs.
+   4.2 TEL | [5] Capturing: ssh -V
+   4.2 TEL | [6] Capturing: which torsocks
+   4.2 TEL | [7] Capturing: which sshfs
+   4.2 TEL | [8] Capturing: which conntrack
+   4.3 TEL | BEGIN SPAN main.py:51(main)
+   5.2 TEL | Scout info: {'latest_version': '0.90', 'application': 'telepresence', 'notices': []}
+   5.2 TEL | BEGIN SPAN proxy.py:150(start_proxy)
+   5.2 TEL | BEGIN SPAN deployment.py:35(create_new_deployment)
+   5.2 TEL | [9] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production delete --ignore-not-found svc,deploy --selector=telepresence=6bdd2be8-c6fa-4164-90b9-106e0da4599f
+   6.1 TEL | [10] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production run --restart=Always --limits=cpu=100m,memory=256Mi --requests=cpu=25m,memory=64Mi telepresence-1530715698-4626641-1255 --image=datawire/telepresence-k8s:0.90 --labels=telepresence=6bdd2be8-c6fa-4164-90b9-106e0da4599f
+   6.7 TEL | END SPAN deployment.py:35(create_new_deployment)    1.5s
+   6.7 TEL | BEGIN SPAN remote.py:164(get_remote_info)
+   6.7 TEL | BEGIN SPAN remote.py:82(get_deployment_json)
+   6.7 TEL | [11] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get deployment -o json --export --selector=telepresence=6bdd2be8-c6fa-4164-90b9-106e0da4599f
+   7.0 TEL | END SPAN remote.py:82(get_deployment_json)    0.2s
+   7.0 TEL | Searching for Telepresence pod:
+   7.0 TEL |   with name telepresence-1530715698-4626641-1255-*
+   7.0 TEL |   with labels {'telepresence': '6bdd2be8-c6fa-4164-90b9-106e0da4599f'}
+   7.0 TEL |   with namespace production
+   7.0 TEL | [12] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pod -o json --export --selector=telepresence=6bdd2be8-c6fa-4164-90b9-106e0da4599f
+   7.5 TEL | Checking telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw
+   7.5 TEL | Looks like we've found our pod!
+   7.5 TEL | BEGIN SPAN remote.py:122(wait_for_pod)
+   7.5 TEL | [13] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pod telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw -o json
+   8.3 TEL | [14] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pod telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw -o json
+   8.8 TEL | [15] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pod telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw -o json
+   9.2 TEL | [16] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production get pod telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw -o json
+   9.5 TEL | END SPAN remote.py:122(wait_for_pod)    2.0s
+   9.5 TEL | END SPAN remote.py:164(get_remote_info)    2.8s
+   9.5 TEL | END SPAN proxy.py:150(start_proxy)    4.3s
+   9.5 TEL | BEGIN SPAN proxy.py:42(connect)
+   9.5 TEL | [17] Launching: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production logs -f telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw --container telepresence-1530715698-4626641-1255
+   9.5 TEL | [18] Launching: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production port-forward telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw 44543:8022
+   9.5 TEL | [19] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost /bin/true
+   9.5 TEL | [19] exit 255 in 0.01 secs.
+   9.8 TEL | [20] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost /bin/true
+   9.8 TEL | [20] exit 255 in 0.01 secs.
+  10.1 TEL | [21] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost /bin/true
+  10.1 TEL | [21] exit 255 in 0.02 secs.
+  10.3 TEL | [22] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost /bin/true
+  10.3 TEL | [22] exit 255 in 0.02 secs.
+  10.4  18 | Forwarding from 127.0.0.1:44543 -> 8022
+  10.4  18 | Forwarding from [::1]:44543 -> 8022
+  10.6 TEL | [23] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost /bin/true
+  10.6  18 | Handling connection for 44543
+  11.2 TEL | [24] Launching: ssh -N -oServerAliveInterval=1 -oServerAliveCountMax=10 -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 44543 telepresence@localhost -L127.0.0.1:33447:127.0.0.1:9050 -R9055:127.0.0.1:36609
+  11.2 TEL | END SPAN proxy.py:42(connect)    1.7s
+  11.2 TEL | BEGIN SPAN remote_env.py:46(get_env_variables)
+  11.2 TEL | [25] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production exec telepresence-1530715698-4626641-1255-bc77bb6f8-mkfcw --container telepresence-1530715698-4626641-1255 -- python3 -c 'import json, os; print(json.dumps(dict(os.environ)))'
+  11.2  18 | Handling connection for 44543
+  13.7 TEL | [25] captured in 2.42 secs.
+  13.7 TEL | END SPAN remote_env.py:46(get_env_variables)    2.4s
+  13.7 TEL | BEGIN SPAN mount.py:36(mount_remote_volumes)
+  13.7 TEL | [26] Capturing: sshfs -p 44543 -F /dev/null -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null telepresence@localhost:/ /tmp/tmpb_z6j71k
+  13.7  18 | Handling connection for 44543
+  14.6 TEL | END SPAN mount.py:36(mount_remote_volumes)    1.0s
+  17.9  17 | Listening...
+  17.9  17 | 2018-07-04T14:48:34+0000 [-] Loading ./forwarder.py...
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] /etc/resolv.conf changed, reparsing
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] Resolver added ('10.27.240.10', 53) to server list
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] SOCKSv5Factory starting on 9050
+  17.9  17 | 2018-07-04T14:48:36+0000 [socks.SOCKSv5Factory#info] Starting factory <socks.SOCKSv5Factory object at 0x7f1673da7e48>
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] DNSDatagramProtocol starting on 9053
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] Starting protocol <twisted.names.dns.DNSDatagramProtocol object at 0x7f1673db1160>
+  17.9  17 | 2018-07-04T14:48:36+0000 [-] Loaded.
+  18.0  17 | 2018-07-04T14:48:36+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 18.4.0 (/usr/bin/python3.6 3.6.1) starting up.
+  18.0  17 | 2018-07-04T14:48:36+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+  48.2 TEL | (proxy checking local liveness)
+  48.2  17 | 2018-07-04T14:49:06+0000 [Poll#info] Checkpoint
+  78.1 TEL | (proxy checking local liveness)
+  78.1  17 | 2018-07-04T14:49:36+0000 [Poll#info] Checkpoint
+ 108.1 TEL | (proxy checking local liveness)
+ 108.1  17 | 2018-07-04T14:50:06+0000 [Poll#info] Checkpoint
+ 138.1 TEL | (proxy checking local liveness)
+ 138.1  17 | 2018-07-04T14:50:36+0000 [Poll#info] Checkpoint
+ 168.1 TEL | (proxy checking local liveness)
+ 168.2  17 | 2018-07-04T14:51:06+0000 [Poll#info] Checkpoint
+ 198.2 TEL | (proxy checking local liveness)
+ 198.2  17 | 2018-07-04T14:51:36+0000 [Poll#info] Checkpoint
+ 228.1 TEL | (proxy checking local liveness)
+ 228.1  17 | 2018-07-04T14:52:06+0000 [Poll#info] Checkpoint
+ 258.1 TEL | (proxy checking local liveness)
+ 258.2  17 | 2018-07-04T14:52:36+0000 [Poll#info] Checkpoint
+ 288.1 TEL | (proxy checking local liveness)
+ 288.1  17 | 2018-07-04T14:53:06+0000 [Poll#info] Checkpoint
+ 318.1 TEL | (proxy checking local liveness)
+ 318.1  17 | 2018-07-04T14:53:36+0000 [Poll#info] Checkpoint
+ 348.1 TEL | (proxy checking local liveness)
+ 348.1  17 | 2018-07-04T14:54:06+0000 [Poll#info] Checkpoint
+ 378.1 TEL | (proxy checking local liveness)
+ 378.1  17 | 2018-07-04T14:54:36+0000 [Poll#info] Checkpoint
+ 408.1 TEL | (proxy checking local liveness)
+ 408.1  17 | 2018-07-04T14:55:06+0000 [Poll#info] Checkpoint
+ 438.1 TEL | (proxy checking local liveness)
+ 438.1  17 | 2018-07-04T14:55:36+0000 [Poll#info] Checkpoint
+ 468.1 TEL | (proxy checking local liveness)
+ 468.1  17 | 2018-07-04T14:56:06+0000 [Poll#info] Checkpoint
+ 498.1 TEL | (proxy checking local liveness)
+ 498.1  17 | 2018-07-04T14:56:36+0000 [Poll#info] Checkpoint
+ 528.1 TEL | (proxy checking local liveness)
+ 528.1  17 | 2018-07-04T14:57:06+0000 [Poll#info] Checkpoint
+ 558.1 TEL | (proxy checking local liveness)
+ 558.1  17 | 2018-07-04T14:57:36+0000 [Poll#info] Checkpoint
+ 588.1 TEL | (proxy checking local liveness)
+ 588.1  17 | 2018-07-04T14:58:06+0000 [Poll#info] Checkpoint
+ 588.7 TEL | BEGIN SPAN vpn.py:258(connect_sshuttle)
+ 588.7 TEL | BEGIN SPAN vpn.py:84(get_proxy_cidrs)
+ 588.7 TEL | END SPAN vpn.py:84(get_proxy_cidrs)    0.0s
+ 588.7 TEL | [27] Launching: sshuttle-telepresence -v --dns --method nat -e 'ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -F /dev/null' --to-ns 127.0.0.1:9053 -r telepresence@localhost:44543 10.24.26.0/24 10.24.56.0/24 10.27.240.0/20 10.24.4.0/24 10.24.28.0/24
+ 588.7 TEL | BEGIN SPAN vpn.py:300(connect_sshuttle,sshuttle-wait)
+ 588.7 TEL | [28] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence0'"'"')'
+ 589.3  27 | Starting sshuttle proxy.
+ 589.9  27 | firewall manager: Starting firewall with Python version 3.6.3
+ 589.9  27 | firewall manager: ready method name nat.
+ 589.9  27 | IPv6 enabled: False
+ 589.9  27 | UDP enabled: False
+ 589.9  27 | DNS enabled: True
+ 589.9  27 | TCP redirector listening on ('127.0.0.1', 12300).
+ 589.9  27 | DNS listening on ('127.0.0.1', 12300).
+ 589.9  27 | Starting client with Python version 3.6.3
+ 589.9  27 | c : connecting to server...
+ 589.9  18 | Handling connection for 44543
+ 590.1  27 | Warning: Permanently added '[localhost]:44543' (ECDSA) to the list of known hosts.
+ 590.8  28 | Traceback (most recent call last):
+ 590.8  28 |   File "<string>", line 1, in <module>
+ 590.8  28 | socket.gaierror: [Errno -2] Name or service not known
+ 590.9 TEL | [28] exit 1 in 2.11 secs.
+ 591.0 TEL | [29] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence1'"'"')'
+ 591.3  27 | Starting server with Python version 3.6.1
+ 591.3  27 |  s: latency control setting = True
+ 591.4  27 |  s: available routes:
+ 591.4  27 |  s:   2/10.24.4.0/24
+ 591.4  27 | c : Connected.
+ 591.4  27 | firewall manager: setting up.
+ 591.4  27 | >> iptables -t nat -N sshuttle-12300
+ 591.5  27 | >> iptables -t nat -F sshuttle-12300
+ 591.5  27 | >> iptables -t nat -I OUTPUT 1 -j sshuttle-12300
+ 591.5  27 | >> iptables -t nat -I PREROUTING 1 -j sshuttle-12300
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j RETURN --dest 127.0.0.1/32 -p tcp
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.24.26.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.24.56.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.24.4.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.24.28.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.27.240.0/20 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 127.0.0.53/32 -p udp --dport 53 --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 224.0.0.252/32 -p udp --dport 5355 --to-ports 12300 -m ttl ! --ttl 42
+ 591.5  27 | conntrack v1.4.4 (conntrack-tools): 2 flow entries have been deleted.
+ 591.5  27 | ---> udp      17 30 src=192.168.15.15 dst=224.0.0.252 sport=5355 dport=5355 [UNREPLIED] src=224.0.0.252 dst=192.168.15.15 sport=5355 dport=5355 mark=0 use=1
+ 591.5  27 | ---> unknown  2 596 src=192.168.15.15 dst=224.0.0.252 [UNREPLIED] src=224.0.0.252 dst=192.168.15.15 mark=0 use=1
+ 591.8  27 | c : DNS request from ('192.168.15.15', 5355) to None: 36 bytes
+ 591.8  17 | 2018-07-04T14:58:10+0000 [stdout#info] Set DNS suffix we filter out to: [()]
+ 591.8  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence1' is ['127.0.0.1']
+ 591.8 TEL | [30] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence2'"'"')'
+ 591.9  27 | c : DNS request from ('127.0.0.1', 46895) to None: 36 bytes
+ 591.9  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence2' is ['127.0.0.1']
+ 591.9 TEL | [31] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence3'"'"')'
+ 592.0  27 | c : DNS request from ('127.0.0.1', 51641) to None: 36 bytes
+ 592.0  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence3' is ['127.0.0.1']
+ 592.0 TEL | [32] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence4'"'"')'
+ 592.1  27 | c : DNS request from ('127.0.0.1', 56251) to None: 36 bytes
+ 592.1  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence4' is ['127.0.0.1']
+ 592.1 TEL | [33] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence5'"'"')'
+ 592.2  27 | c : DNS request from ('127.0.0.1', 53638) to None: 36 bytes
+ 592.2  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence5' is ['127.0.0.1']
+ 592.2 TEL | [34] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence6'"'"')'
+ 592.3  27 | c : DNS request from ('127.0.0.1', 44047) to None: 36 bytes
+ 592.3  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence6' is ['127.0.0.1']
+ 592.3 TEL | [35] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence7'"'"')'
+ 592.4  27 | c : DNS request from ('127.0.0.1', 33827) to None: 36 bytes
+ 592.4  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence7' is ['127.0.0.1']
+ 592.4 TEL | [36] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence8'"'"')'
+ 592.5  27 | c : DNS request from ('127.0.0.1', 48335) to None: 36 bytes
+ 592.5  17 | 2018-07-04T14:58:10+0000 [stdout#info] Result for b'hellotelepresence8' is ['127.0.0.1']
+ 592.5 TEL | [37] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence9'"'"')'
+ 592.6  27 | c : DNS request from ('127.0.0.1', 33860) to None: 36 bytes
+ 592.6  17 | 2018-07-04T14:58:11+0000 [stdout#info] Result for b'hellotelepresence9' is ['127.0.0.1']
+ 593.6 TEL | [38] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence10'"'"')'
+ 593.7  27 | c : DNS request from ('127.0.0.1', 45361) to None: 37 bytes
+ 593.7  17 | 2018-07-04T14:58:12+0000 [stdout#info] Result for b'hellotelepresence10' is ['127.0.0.1']
+ 593.7 TEL | END SPAN vpn.py:300(connect_sshuttle,sshuttle-wait)    5.0s
+ 593.7 TEL | END SPAN vpn.py:258(connect_sshuttle)    5.0s
+ 593.7 TEL | Everything launched. Waiting to exit...
+ 593.7 TEL | BEGIN SPAN cleanup.py:98(wait_for_exit)
+ 597.6  27 | c : DNS request from ('127.0.0.1', 40761) to None: 25 bytes
+ 597.6  27 | c : DNS request from ('127.0.0.1', 40761) to None: 25 bytes
+ 597.6  17 | 2018-07-04T14:58:16+0000 [stdout#info] A query: b'mongo-1'
+ 597.6  17 | 2018-07-04T14:58:16+0000 [stdout#info] AAAA query, sending back A instead: b'mongo-1'
+ 597.6  17 | 2018-07-04T14:58:16+0000 [stdout#info] A query: b'mongo-1'
+ 597.6  17 | 2018-07-04T14:58:16+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 597.6  17 | 2018-07-04T14:58:16+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 597.6  27 | c : Accept TCP: 192.168.15.15:38296 -> 10.27.254.204:27017.
+ 599.7  27 | c : DNS request from ('127.0.0.1', 36951) to None: 39 bytes
+ 599.7  27 | c : DNS request from ('127.0.0.1', 36951) to None: 39 bytes
+ 599.8  17 | 2018-07-04T14:58:18+0000 [stdout#info] A query: b'update.googleapis.com'
+ 599.8  17 | 2018-07-04T14:58:18+0000 [stdout#info] AAAA query, sending back A instead: b'update.googleapis.com'
+ 599.8  17 | 2018-07-04T14:58:18+0000 [stdout#info] A query: b'update.googleapis.com'
+ 600.0  17 | 2018-07-04T14:58:18+0000 [stdout#info] Result for b'update.googleapis.com' is ['172.217.29.131']
+ 600.1  17 | 2018-07-04T14:58:18+0000 [stdout#info] Result for b'update.googleapis.com' is ['216.58.202.195']
+ 600.4  27 | c : DNS request from ('127.0.0.1', 41544) to None: 37 bytes
+ 600.4  27 | c : DNS request from ('127.0.0.1', 41544) to None: 37 bytes
+ 600.5  17 | 2018-07-04T14:58:18+0000 [stdout#info] A query: b'redirector.gvt1.com'
+ 600.5  17 | 2018-07-04T14:58:18+0000 [stdout#info] AAAA query, sending back A instead: b'redirector.gvt1.com'
+ 600.5  17 | 2018-07-04T14:58:18+0000 [stdout#info] A query: b'redirector.gvt1.com'
+ 600.9  17 | 2018-07-04T14:58:19+0000 [stdout#info] Result for b'redirector.gvt1.com' is ['216.58.202.142']
+ 601.0  17 | 2018-07-04T14:58:19+0000 [stdout#info] Result for b'redirector.gvt1.com' is ['216.58.202.142']
+ 601.1  27 | c : DNS request from ('127.0.0.1', 52462) to None: 25 bytes
+ 601.1  27 | c : DNS request from ('127.0.0.1', 52462) to None: 25 bytes
+ 601.2  17 | 2018-07-04T14:58:19+0000 [stdout#info] A query: b'mongo-1'
+ 601.2  17 | 2018-07-04T14:58:19+0000 [stdout#info] AAAA query, sending back A instead: b'mongo-1'
+ 601.2  17 | 2018-07-04T14:58:19+0000 [stdout#info] A query: b'mongo-1'
+ 601.2  17 | 2018-07-04T14:58:19+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 601.2  17 | 2018-07-04T14:58:19+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 601.2  27 | c : Accept TCP: 192.168.15.15:38332 -> 10.27.254.204:27017.
+ 601.2  27 | c : DNS request from ('127.0.0.1', 49568) to None: 43 bytes
+ 601.2  27 | c : DNS request from ('127.0.0.1', 49568) to None: 43 bytes
+ 601.3  17 | 2018-07-04T14:58:19+0000 [stdout#info] A query: b'r3---sn-b8u-2b1e.gvt1.com'
+ 601.3  17 | 2018-07-04T14:58:19+0000 [stdout#info] AAAA query, sending back A instead: b'r3---sn-b8u-2b1e.gvt1.com'
+ 601.3  17 | 2018-07-04T14:58:19+0000 [stdout#info] A query: b'r3---sn-b8u-2b1e.gvt1.com'
+ 601.6  17 | 2018-07-04T14:58:20+0000 [stdout#info] Result for b'r3---sn-b8u-2b1e.gvt1.com' is ['177.135.84.142']
+ 601.7  17 | 2018-07-04T14:58:20+0000 [stdout#info] Result for b'r3---sn-b8u-2b1e.gvt1.com' is ['177.135.84.142']
+ 603.3  27 | c : DNS request from ('127.0.0.1', 51319) to None: 43 bytes
+ 603.3  27 | c : DNS request from ('127.0.0.1', 51319) to None: 43 bytes
+ 603.3  17 | 2018-07-04T14:58:21+0000 [stdout#info] A query: b'r1---sn-b8u-2b1e.gvt1.com'
+ 603.4  17 | 2018-07-04T14:58:21+0000 [stdout#info] AAAA query, sending back A instead: b'r1---sn-b8u-2b1e.gvt1.com'
+ 603.4  17 | 2018-07-04T14:58:21+0000 [stdout#info] A query: b'r1---sn-b8u-2b1e.gvt1.com'
+ 603.8  17 | 2018-07-04T14:58:22+0000 [stdout#info] Result for b'r1---sn-b8u-2b1e.gvt1.com' is ['177.135.84.140']
+ 603.8  17 | 2018-07-04T14:58:22+0000 [stdout#info] Result for b'r1---sn-b8u-2b1e.gvt1.com' is ['177.135.84.140']
+ 606.1  27 | c : DNS request from ('127.0.0.1', 58371) to None: 25 bytes
+ 606.1  27 | c : DNS request from ('127.0.0.1', 58371) to None: 25 bytes
+ 606.1  17 | 2018-07-04T14:58:24+0000 [stdout#info] A query: b'mongo-1'
+ 606.2  17 | 2018-07-04T14:58:24+0000 [stdout#info] AAAA query, sending back A instead: b'mongo-1'
+ 606.2  17 | 2018-07-04T14:58:24+0000 [stdout#info] A query: b'mongo-1'
+ 606.2  17 | 2018-07-04T14:58:24+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 606.2  17 | 2018-07-04T14:58:24+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 606.2  27 | c : Accept TCP: 192.168.15.15:38378 -> 10.27.254.204:27017.
+ 618.0 TEL | (proxy checking local liveness)
+ 618.0  17 | 2018-07-04T14:58:36+0000 [Poll#info] Checkpoint
+ 648.1 TEL | (proxy checking local liveness)
+ 648.1  17 | 2018-07-04T14:59:06+0000 [Poll#info] Checkpoint
+ 660.1  27 | c : DNS request from ('127.0.0.1', 57220) to None: 34 bytes
+ 660.1  27 | c : DNS request from ('127.0.0.1', 57220) to None: 34 bytes
+ 660.1  17 | 2018-07-04T14:59:18+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 660.2  17 | 2018-07-04T14:59:18+0000 [stdout#info] AAAA query, sending back A instead: b'daisy.ubuntu.com'
+ 660.2  17 | 2018-07-04T14:59:18+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 660.5  17 | 2018-07-04T14:59:18+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.164', '162.213.33.133']
+ 660.5  17 | 2018-07-04T14:59:18+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.133', '162.213.33.164']
+ 661.1  27 | c : DNS request from ('127.0.0.1', 39062) to None: 34 bytes
+ 661.1  27 | c : DNS request from ('127.0.0.1', 39062) to None: 34 bytes
+ 661.1  17 | 2018-07-04T14:59:19+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 661.1  17 | 2018-07-04T14:59:19+0000 [stdout#info] AAAA query, sending back A instead: b'daisy.ubuntu.com'
+ 661.2  17 | 2018-07-04T14:59:19+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 661.2  17 | 2018-07-04T14:59:19+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.164', '162.213.33.133']
+ 661.2  27 | c : DNS request from ('127.0.0.1', 35391) to None: 25 bytes
+ 661.2  27 | c : DNS request from ('127.0.0.1', 35391) to None: 25 bytes
+ 661.2  17 | 2018-07-04T14:59:19+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.164', '162.213.33.133']
+ 661.3  17 | 2018-07-04T14:59:19+0000 [stdout#info] A query: b'mongo-1'
+ 661.3  17 | 2018-07-04T14:59:19+0000 [stdout#info] AAAA query, sending back A instead: b'mongo-1'
+ 661.3  17 | 2018-07-04T14:59:19+0000 [stdout#info] A query: b'mongo-1'
+ 661.3  17 | 2018-07-04T14:59:19+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 661.3  17 | 2018-07-04T14:59:19+0000 [stdout#info] Result for b'mongo-1' is ['10.27.254.204']
+ 661.3  27 | c : Accept TCP: 192.168.15.15:38824 -> 10.27.254.204:27017.
+ 662.9  27 | c : DNS request from ('127.0.0.1', 52401) to None: 34 bytes
+ 662.9  27 | c : DNS request from ('127.0.0.1', 52401) to None: 34 bytes
+ 662.9  17 | 2018-07-04T14:59:21+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 662.9  17 | 2018-07-04T14:59:21+0000 [stdout#info] AAAA query, sending back A instead: b'daisy.ubuntu.com'
+ 662.9  17 | 2018-07-04T14:59:21+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 662.9  17 | 2018-07-04T14:59:21+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.133', '162.213.33.164']
+ 662.9  17 | 2018-07-04T14:59:21+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.133', '162.213.33.164']
+ 662.9  27 | c : DNS request from ('127.0.0.1', 41819) to None: 34 bytes
+ 662.9  27 | c : DNS request from ('127.0.0.1', 41819) to None: 34 bytes
+ 663.0  17 | 2018-07-04T14:59:21+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 663.0  17 | 2018-07-04T14:59:21+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.164', '162.213.33.133']
+ 663.0  17 | 2018-07-04T14:59:21+0000 [stdout#info] AAAA query, sending back A instead: b'daisy.ubuntu.com'
+ 663.0  17 | 2018-07-04T14:59:21+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 663.0  17 | 2018-07-04T14:59:21+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.133', '162.213.33.164']
+ 663.9  27 | c : DNS request from ('127.0.0.1', 39491) to None: 34 bytes
+ 663.9  27 | c : DNS request from ('127.0.0.1', 39491) to None: 34 bytes
+ 664.0  17 | 2018-07-04T14:59:22+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 664.0  17 | 2018-07-04T14:59:22+0000 [stdout#info] AAAA query, sending back A instead: b'daisy.ubuntu.com'
+ 664.1  17 | 2018-07-04T14:59:22+0000 [stdout#info] A query: b'daisy.ubuntu.com'
+ 664.1  17 | 2018-07-04T14:59:22+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.133', '162.213.33.164']
+ 664.1  17 | 2018-07-04T14:59:22+0000 [stdout#info] Result for b'daisy.ubuntu.com' is ['162.213.33.164', '162.213.33.133']
+ 672.0  27 | c : DNS request from ('127.0.0.1', 54480) to None: 33 bytes
+ 672.0  27 | c : DNS request from ('127.0.0.1', 54480) to None: 33 bytes
+ 672.0  17 | 2018-07-04T14:59:30+0000 [stdout#info] A query: b'play.google.com'
+ 672.0  17 | 2018-07-04T14:59:30+0000 [stdout#info] AAAA query, sending back A instead: b'play.google.com'
+ 672.1  27 | c : DNS request from ('127.0.0.1', 55119) to None: 37 bytes
+ 672.1  27 | c : DNS request from ('127.0.0.1', 55119) to None: 37 bytes
+ 672.1  17 | 2018-07-04T14:59:30+0000 [stdout#info] A query: b'play.google.com'
+ 672.1  17 | 2018-07-04T14:59:30+0000 [stdout#info] A query: b'clients6.google.com'
+ 672.1  17 | 2018-07-04T14:59:30+0000 [stdout#info] AAAA query, sending back A instead: b'clients6.google.com'
+ 672.1  17 | 2018-07-04T14:59:30+0000 [stdout#info] A query: b'clients6.google.com'
+ 672.5  17 | 2018-07-04T14:59:30+0000 [stdout#info] Result for b'clients6.google.com' is ['172.217.29.142']
+ 672.5  17 | 2018-07-04T14:59:30+0000 [stdout#info] Result for b'clients6.google.com' is ['172.217.29.142']
+ 672.6  17 | 2018-07-04T14:59:31+0000 [stdout#info] Result for b'play.google.com' is ['216.58.202.142']
+ 672.6  17 | 2018-07-04T14:59:31+0000 [stdout#info] Result for b'play.google.com' is ['172.217.29.142']
+ 676.1  27 | c : DNS request from ('127.0.0.1', 57738) to None: 27 bytes
+ 676.1  27 | c : DNS request from ('127.0.0.1', 57738) to None: 27 bytes
+ 676.1  17 | 2018-07-04T14:59:34+0000 [stdout#info] A query: b'slack.com'
+ 676.2  17 | 2018-07-04T14:59:34+0000 [stdout#info] AAAA query, sending back A instead: b'slack.com'
+ 676.2  17 | 2018-07-04T14:59:34+0000 [stdout#info] A query: b'slack.com'
+ 676.5  17 | 2018-07-04T14:59:34+0000 [stdout#info] Result for b'slack.com' is ['54.192.58.28']
+ 676.5  17 | 2018-07-04T14:59:34+0000 [stdout#info] Result for b'slack.com' is ['54.192.58.28']
+ 678.1 TEL | (proxy checking local liveness)
+ 678.1  17 | 2018-07-04T14:59:36+0000 [Poll#info] Checkpoint
+ 691.1  27 | c : DNS request from ('127.0.0.1', 60946) to None: 33 bytes
+ 691.1  27 | c : DNS request from ('127.0.0.1', 60946) to None: 33 bytes
+ 691.1  17 | 2018-07-04T14:59:49+0000 [stdout#info] A query: b'ssl.gstatic.com'
+ 691.2  17 | 2018-07-04T14:59:49+0000 [stdout#info] AAAA query, sending back A instead: b'ssl.gstatic.com'
+ 691.2  17 | 2018-07-04T14:59:49+0000 [stdout#info] A query: b'ssl.gstatic.com'
+ 691.6  17 | 2018-07-04T14:59:50+0000 [stdout#info] Result for b'ssl.gstatic.com' is ['172.217.30.99']
+ 691.6  17 | 2018-07-04T14:59:50+0000 [stdout#info] Result for b'ssl.gstatic.com' is ['172.217.30.99']
+ 708.1 TEL | (proxy checking local liveness)
+ 708.1  17 | 2018-07-04T15:00:06+0000 [Poll#info] Checkpoint
+ 738.1 TEL | (proxy checking local liveness)
+ 738.1  17 | 2018-07-04T15:00:36+0000 [Poll#info] Checkpoint
+ 768.1 TEL | (proxy checking local liveness)
+ 768.1  17 | 2018-07-04T15:01:06+0000 [Poll#info] Checkpoint
+ 788.1  27 | c : DNS request from ('127.0.0.1', 58439) to None: 47 bytes
+ 788.1  27 | c : DNS request from ('127.0.0.1', 58439) to None: 47 bytes
+ 788.1  17 | 2018-07-04T15:01:26+0000 [stdout#info] A query: b'connectivity-check.ubuntu.com'
+ 788.1  17 | 2018-07-04T15:01:26+0000 [stdout#info] AAAA query, sending back A instead: b'connectivity-check.ubuntu.com'
+ 788.1  17 | 2018-07-04T15:01:26+0000 [stdout#info] A query: b'connectivity-check.ubuntu.com'
+ 788.4  17 | 2018-07-04T15:01:26+0000 [stdout#info] Result for b'connectivity-check.ubuntu.com' is ['104.197.3.80', '104.198.143.177']
+ 788.5  17 | 2018-07-04T15:01:26+0000 [stdout#info] Result for b'connectivity-check.ubuntu.com' is ['104.197.3.80', '104.198.143.177']
+ 798.3 TEL | (proxy checking local liveness)
+ 798.3  17 | 2018-07-04T15:01:36+0000 [Poll#info] Checkpoint
+ 812.1  27 | c : DNS request from ('127.0.0.1', 57223) to None: 33 bytes
+ 812.1  27 | c : DNS request from ('127.0.0.1', 57223) to None: 33 bytes
+ 812.1  17 | 2018-07-04T15:01:50+0000 [stdout#info] A query: b'ssl.gstatic.com'
+ 812.2  17 | 2018-07-04T15:01:50+0000 [stdout#info] AAAA query, sending back A instead: b'ssl.gstatic.com'
+ 812.2  17 | 2018-07-04T15:01:50+0000 [stdout#info] A query: b'ssl.gstatic.com'
+ 812.5  17 | 2018-07-04T15:01:50+0000 [stdout#info] Result for b'ssl.gstatic.com' is ['172.217.29.131']
+ 812.5  17 | 2018-07-04T15:01:50+0000 [stdout#info] Result for b'ssl.gstatic.com' is ['172.217.30.99']
+ 826.1  27 | c : DNS request from ('127.0.0.1', 49744) to None: 42 bytes
+ 826.1  27 | c : DNS request from ('127.0.0.1', 49744) to None: 42 bytes
+ 826.2  17 | 2018-07-04T15:02:04+0000 [stdout#info] A query: b'www.google-analytics.com'
+ 826.2  17 | 2018-07-04T15:02:04+0000 [stdout#info] AAAA query, sending back A instead: b'www.google-analytics.com'
+ 826.2  17 | 2018-07-04T15:02:04+0000 [stdout#info] A query: b'www.google-analytics.com'
+ 826.5  17 | 2018-07-04T15:02:04+0000 [stdout#info] Result for b'www.google-analytics.com' is ['172.217.30.110']
+ 826.6  17 | 2018-07-04T15:02:05+0000 [stdout#info] Result for b'www.google-analytics.com' is ['172.217.29.142']
+ 828.0 TEL | (proxy checking local liveness)
+ 828.1  17 | 2018-07-04T15:02:06+0000 [Poll#info] Checkpoint
+ 831.1  27 | c : DNS request from ('127.0.0.1', 33903) to None: 34 bytes
+ 831.1  27 | c : DNS request from ('127.0.0.1', 33903) to None: 34 bytes
+ 831.2  17 | 2018-07-04T15:02:09+0000 [stdout#info] A query: b'inbox.google.com'
+ 831.2  17 | 2018-07-04T15:02:09+0000 [stdout#info] AAAA query, sending back A instead: b'inbox.google.com'
+ 831.2  17 | 2018-07-04T15:02:09+0000 [stdout#info] A query: b'inbox.google.com'
+ 831.6  17 | 2018-07-04T15:02:10+0000 [stdout#info] Result for b'inbox.google.com' is ['172.217.30.101']
+ 831.6  17 | 2018-07-04T15:02:10+0000 [stdout#info] Result for b'inbox.google.com' is ['172.217.30.101']
+ 835.0  27 | c : DNS request from ('127.0.0.1', 41763) to None: 33 bytes
+ 835.0  27 | c : DNS request from ('127.0.0.1', 41763) to None: 33 bytes
+ 835.0  17 | 2018-07-04T15:02:13+0000 [stdout#info] A query: b'docs.google.com'
+ 835.0  17 | 2018-07-04T15:02:13+0000 [stdout#info] AAAA query, sending back A instead: b'docs.google.com'
+ 835.0  17 | 2018-07-04T15:02:13+0000 [stdout#info] A query: b'docs.google.com'
+ 835.4  17 | 2018-07-04T15:02:13+0000 [stdout#info] Result for b'docs.google.com' is ['216.58.202.14']
+ 835.4  17 | 2018-07-04T15:02:13+0000 [stdout#info] Result for b'docs.google.com' is ['172.217.29.206']
+ 856.1  27 | c : DNS request from ('127.0.0.1', 48939) to None: 33 bytes
+ 856.1  27 | c : DNS request from ('127.0.0.1', 48939) to None: 33 bytes
+ 856.1  17 | 2018-07-04T15:02:34+0000 [stdout#info] A query: b'play.google.com'
+ 856.2  17 | 2018-07-04T15:02:34+0000 [stdout#info] AAAA query, sending back A instead: b'play.google.com'
+ 856.2  17 | 2018-07-04T15:02:34+0000 [stdout#info] A query: b'play.google.com'
+ 856.5  17 | 2018-07-04T15:02:34+0000 [stdout#info] Result for b'play.google.com' is ['172.217.29.142']
+ 856.5  17 | 2018-07-04T15:02:34+0000 [stdout#info] Result for b'play.google.com' is ['172.217.29.142']
+ 858.1 TEL | (proxy checking local liveness)
+ 858.1  17 | 2018-07-04T15:02:36+0000 [Poll#info] Checkpoint
+ 858.6  27 | c : DNS request from ('127.0.0.1', 35446) to None: 36 bytes
+ 858.6  27 | c : DNS request from ('127.0.0.1', 35446) to None: 36 bytes
+ 858.6  17 | 2018-07-04T15:02:37+0000 [stdout#info] A query: b'eprecise.slack.com'
+ 858.6  17 | 2018-07-04T15:02:37+0000 [stdout#info] AAAA query, sending back A instead: b'eprecise.slack.com'
+ 858.7  17 | 2018-07-04T15:02:37+0000 [stdout#info] A query: b'eprecise.slack.com'
+ 859.0  17 | 2018-07-04T15:02:37+0000 [stdout#info] Result for b'eprecise.slack.com' is ['54.192.58.28']
+ 859.0  17 | 2018-07-04T15:02:37+0000 [stdout#info] Result for b'eprecise.slack.com' is ['54.192.58.28']
+ 881.8  27 | c : DNS request from ('127.0.0.1', 58906) to None: 42 bytes
+ 881.8  27 | c : DNS request from ('127.0.0.1', 58906) to None: 42 bytes
+ 881.8  27 | c : DNS request from ('127.0.0.1', 33783) to None: 33 bytes
+ 881.8  27 | c : DNS request from ('127.0.0.1', 33783) to None: 33 bytes
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'notifications.google.com'
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] AAAA query, sending back A instead: b'notifications.google.com'
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'notifications.google.com'
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'csi.gstatic.com'
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] AAAA query, sending back A instead: b'csi.gstatic.com'
+ 881.9  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'csi.gstatic.com'
+ 881.9  27 | c : DNS request from ('127.0.0.1', 39666) to None: 34 bytes
+ 881.9  27 | c : DNS request from ('127.0.0.1', 39666) to None: 34 bytes
+ 882.0  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'drive.google.com'
+ 882.0  17 | 2018-07-04T15:03:00+0000 [stdout#info] AAAA query, sending back A instead: b'drive.google.com'
+ 882.0  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'drive.google.com'
+ 882.1  27 | c : DNS request from ('127.0.0.1', 52383) to None: 27 bytes
+ 882.1  27 | c : DNS request from ('127.0.0.1', 52383) to None: 27 bytes
+ 882.1  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'slack.com'
+ 882.2  17 | 2018-07-04T15:03:00+0000 [stdout#info] AAAA query, sending back A instead: b'slack.com'
+ 882.2  17 | 2018-07-04T15:03:00+0000 [stdout#info] A query: b'slack.com'
+ 882.3  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'drive.google.com' is ['172.217.29.206']
+ 882.3  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'csi.gstatic.com' is ['64.233.184.94', '64.233.184.120', '74.125.126.94', '74.125.126.120', '108.177.12.94', '108.177.12.120', '74.125.23.94', '74.125.23.120', '74.125.200.94', '74.125.200.120', '74.125.28.94', '74.125.28.120', '64.233.171.94', '64.233.171.120', '64.233.161.94', '64.233.161.120']
+ 882.4  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'notifications.google.com' is ['172.217.30.110']
+ 882.4  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'notifications.google.com' is ['172.217.30.110']
+ 882.4  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'csi.gstatic.com' is ['216.58.201.227']
+ 882.5  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'drive.google.com' is ['172.217.28.78']
+ 882.5  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'slack.com' is ['54.192.58.28']
+ 882.5  17 | 2018-07-04T15:03:00+0000 [stdout#info] Result for b'slack.com' is ['54.192.58.28']
+ 888.1 TEL | (proxy checking local liveness)
+ 888.1  17 | 2018-07-04T15:03:06+0000 [Poll#info] Checkpoint
+ 893.0  27 | c : DNS request from ('127.0.0.1', 34028) to None: 37 bytes
+ 893.0  27 | c : DNS request from ('127.0.0.1', 34028) to None: 37 bytes
+ 893.0  17 | 2018-07-04T15:03:11+0000 [stdout#info] A query: b'clients4.google.com'
+ 893.0  17 | 2018-07-04T15:03:11+0000 [stdout#info] AAAA query, sending back A instead: b'clients4.google.com'
+ 893.0  17 | 2018-07-04T15:03:11+0000 [stdout#info] A query: b'clients4.google.com'
+ 893.3  17 | 2018-07-04T15:03:11+0000 [stdout#info] Result for b'clients4.google.com' is ['172.217.30.110']
+ 893.3  17 | 2018-07-04T15:03:11+0000 [stdout#info] Result for b'clients4.google.com' is ['216.58.202.14']
+ 898.9  27 | >> iptables -t nat -D OUTPUT -j sshuttle-12300
+ 898.9 TEL | [18] exit -1
+ 898.9 TEL | [17] exit -1
+ 898.9 TEL | [24] exit 129
+ 898.9  27 | >> iptables -t nat -D PREROUTING -j sshuttle-12300
+ 898.9 TEL | Shutting down local process...
+ 898.9 TEL | [39] Running: fusermount -z -u /tmp/tmpb_z6j71k
+ 899.0  27 | >> iptables -t nat -F sshuttle-12300
+ 899.0  27 | >> iptables -t nat -X sshuttle-12300
+ 899.1 TEL | [40] Capturing: kubectl --context gke_e-ceos_southamerica-east1-a_cluster-1 --namespace production delete --ignore-not-found svc,deploy --selector=telepresence=6bdd2be8-c6fa-4164-90b9-106e0da4599f
+ 899.1 TEL | [27] exit -15
+ 906.3 TEL | [40] captured in 7.23 secs.
+ 906.3 TEL | END SPAN main.py:51(main)  902.0s

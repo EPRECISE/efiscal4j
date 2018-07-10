@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class IPI49 extends BaseIPITrib {
+public class IPI49 extends BaseIPITrib {
 
     private static final long serialVersionUID = 1L;
 
