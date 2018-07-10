@@ -31,7 +31,6 @@ import eprecise.efiscal4j.nfe.v400.types.NFeString;
 @XmlRootElement(name = ObjectFactory.RET_ENV_EVENTO)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventDispatchResponse implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_1_00;

@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.v400.sharing;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.event.cancel.FiscalDocumentCancel.Processed;
+import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
+import eprecise.efiscal4j.nfe.transmission.response.NFeEventDispatchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentCancelAdapter;
+import eprecise.efiscal4j.nfe.version.ProcessedEventVersion;
 
 
 /**
@@ -23,7 +29,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  */
 @XmlRootElement(name = "procEventoNFe")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventProtocol implements Serializable {
+public class EventProtocol implements Serializable, ProcessedEventVersion {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +81,11 @@ public class EventProtocol implements Serializable {
         this.event = builder.event;
         this.eventResponse = builder.eventResponse;
     }
+    
+    public EventProtocol(final NFeEventDispatchRequest request, final NFeEventDispatchResponse response) {
+    	this.event = Optional.ofNullable(request).filter(EventDispatch.class::isInstance).map(EventDispatch.class::cast).filter(e -> !e.getEvents().isEmpty()).map(e -> e.getEvents().iterator().next()).orElse(null);
+    	this.eventResponse = Optional.ofNullable(response).filter(EventDispatchResponseMethod.class::isInstance).map(EventDispatchResponseMethod.class::cast).map(e -> e.getEventDispatchResponse()).filter(e -> !e.getEventResponses().isEmpty()).map(e -> e.getEventResponses().iterator().next()).orElse(null);
+    }
 
     public FiscalDocumentVersion getVersion() {
         return this.version;
@@ -87,5 +98,10 @@ public class EventProtocol implements Serializable {
     public EventResponse getEventResponse() {
         return this.eventResponse;
     }
+
+	@Override
+	public Processed buildProcessedFiscalDocumentCancel() {
+		return new ProcessedFiscalDocumentCancelAdapter(this).buildProcessedFiscalDocumentCancel();
+	}
 
 }

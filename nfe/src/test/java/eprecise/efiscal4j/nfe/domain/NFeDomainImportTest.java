@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.google.common.io.Resources;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
+import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.v400.NFeTestParams;
 
 
@@ -30,7 +30,7 @@ public class NFeDomainImportTest {
         Files.newDirectoryStream(Paths.get(NFeTestParams.getNFeImportXmlPath().get()), path -> path.toString().endsWith(".xml")).forEach(path -> {
             try {
                 System.out.println("teste de importação do xml: " + path);
-                final ProcessedFiscalDocument processedFiscalDocument = ProcessedFiscalDocument.builder().buildFromXml(Resources.toString(path.toUri().toURL(), Charsets.UTF_8));
+                final FiscalDocument.Processed processedFiscalDocument = FiscalDocument.Processed.builder().buildFromXml(Resources.toString(path.toUri().toURL(), Charsets.UTF_8));
                 Assert.assertNotNull(processedFiscalDocument);
 
                 try {

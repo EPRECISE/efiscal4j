@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocument;
-import eprecise.efiscal4j.nfe.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
 import eprecise.efiscal4j.nfe.NFe;
@@ -38,6 +37,7 @@ import eprecise.efiscal4j.nfe.emitter.documents.EmitterMunicipalDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.CustomIODate;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.IODate;
+import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.item.Item.ItemEan;
 import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
@@ -203,7 +203,6 @@ import eprecise.efiscal4j.nfe.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardFlag;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardSet;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardSetIntegration;
-import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddressCity;
@@ -241,6 +240,7 @@ import eprecise.efiscal4j.nfe.transport.mean.FerryTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.TransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean.VehicleTowingTransportMeanBuilder;
+import eprecise.efiscal4j.nfe.v400.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
@@ -250,20 +250,26 @@ import eprecise.efiscal4j.nfe.v400.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.v400.types.NFeDate;
 import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
+import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
+import eprecise.efiscal4j.nfe.version.ProcessedFiscalDocumentAdapterVersion;
 
 
-public class ProcessedFiscalDocumentAdapter {
+public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAdapterVersion{
 
     private final ProcessedNFe processedNFe;
 
     public ProcessedFiscalDocumentAdapter(final ProcessedNFe processedNFe) {
         this.processedNFe = processedNFe;
     }
+    
+    public ProcessedFiscalDocumentAdapter(final eprecise.efiscal4j.nfe.v400.NFe nfe, ProcessingStatusProtocol processingStatusProtocol) {
+        this.processedNFe = new ProcessedNFe.Builder().withNfe(nfe).withProcessingStatusProtocol(processingStatusProtocol).build();
+    }
 
-    public ProcessedFiscalDocument buildProcessedFiscalDocument() {
+    public FiscalDocument.Processed buildProcessedFiscalDocument() {
      // @formatter:off
         try {
-            return ProcessedFiscalDocument.builder()
+            return FiscalDocument.Processed.builder()
                 .id(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
                 .version(FiscalDocumentSupportedVersion.VERSION_3_10)
                 .applicationVersion(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
@@ -277,8 +283,10 @@ public class ProcessedFiscalDocumentAdapter {
                 }).orElse(null))
                 .protocolNumber(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProtocolNumber())
                 .digestValue(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue())
-                .statusCode(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
-                .statusDescription(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
+                .status(EventStatus.builder()
+                		.statusCode(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
+                        .statusDescription(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
+                		.build())
                 .document(this.buildFiscalDocument())
                 .build();
         } catch (Exception e) {
