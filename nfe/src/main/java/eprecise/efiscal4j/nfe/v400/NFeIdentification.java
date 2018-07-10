@@ -77,8 +77,6 @@ public class NFeIdentification implements Serializable {
 
         private String operationType;
 
-        private PaymentMethodIndicator paymentMethodIndicator;
-
         private FiscalDocumentModel fiscalDocumentModel;
 
         private String fiscalDocumentSeries;
@@ -125,11 +123,6 @@ public class NFeIdentification implements Serializable {
 
         public Builder withOperationType(String operationType) {
             this.operationType = operationType;
-            return this;
-        }
-
-        public Builder withPaymentMethod(PaymentMethodIndicator paymentMethodIndicator) {
-            this.paymentMethodIndicator = paymentMethodIndicator;
             return this;
         }
 

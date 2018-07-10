@@ -28,7 +28,7 @@ import eprecise.efiscal4j.nfe.payment.cardSet.CardFlag;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardSet;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardSetIntegration;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
-import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
+import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddressCity;
 import eprecise.efiscal4j.nfe.receiver.documents.ReceiverDocuments;
 import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCnpj;
@@ -104,7 +104,7 @@ public class NFeBuilderValidationTest {
                                         .ie("12345678")
                                         .build())
                                 .build())
-                        .address(ReceiverAddress.builder()
+                        .address(BrazillianReceiverAddress.builder()
                                 .cep("84010000")
                                 .district("Centro")
                                 .number("1000")

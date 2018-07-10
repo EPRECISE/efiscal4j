@@ -199,7 +199,7 @@ import eprecise.efiscal4j.nfe.payment.cardSet.CardSet;
 import eprecise.efiscal4j.nfe.payment.cardSet.CardSetIntegration;
 import eprecise.efiscal4j.nfe.processed.ProcessedFiscalDocument;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
-import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
+import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddressCity;
 import eprecise.efiscal4j.nfe.receiver.documents.ReceiverDocuments;
 import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCnp;
@@ -567,11 +567,11 @@ public class ProcessedFiscalDocumentAdapter {
         return null;
     }
 
-    private ReceiverAddress buildReceiverAddress() {
+    private BrazillianReceiverAddress buildReceiverAddress() {
      // @formatter:off
         final eprecise.efiscal4j.nfe.v310.address.Address nfeReceiverAddress = processedNFe.getNfe().getNFeInfo().getReceiver().getAdress();
         if(nfeReceiverAddress != null) {
-            return ReceiverAddress.builder()
+            return BrazillianReceiverAddress.builder()
                     .cep(nfeReceiverAddress.getCep())
                     .street(nfeReceiverAddress.getStreet())
                     .district(nfeReceiverAddress.getDistrict())
