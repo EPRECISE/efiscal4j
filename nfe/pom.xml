@@ -8,7 +8,7 @@
     <parent>
         <artifactId>efiscal4j</artifactId>
         <groupId>eprecise.efiscal4j</groupId>
-        <version>1.0.102-SNAPSHOT</version>
+        <version>1.0.103</version>
     </parent>
 
     <artifactId>nfe</artifactId>

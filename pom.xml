@@ -6,7 +6,7 @@
     <groupId>eprecise.efiscal4j</groupId>
     <artifactId>efiscal4j</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.102-SNAPSHOT</version>
+    <version>1.0.103</version>
     <name>e-Fiscal4J</name>
 
     <properties>
