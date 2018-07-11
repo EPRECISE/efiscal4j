@@ -280,6 +280,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                         .statusDescription(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
                 		.build())
                 .document(this.buildFiscalDocument())
+                .processedVersion(this.processedNFe)
                 .build();
         } catch (Exception e) {
             throw new RuntimeException(e);

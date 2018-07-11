@@ -1,9 +1,8 @@
-package eprecise.efiscal4j.nfe.event.cancel;
+package eprecise.efiscal4j.nfe;
 
 import java.util.Date;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
-import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
@@ -15,26 +14,26 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class FiscalDocumentCancel {
+public class FiscalDocumentCCe {
 
-	private final String justification;
+	private final String correction;
 
 	private final FiscalDocument.Processed processedFiscalDocument;
 	
 	/**
-	 * Transmite o cancelamento do documento fiscal
+	 * Transmite a carta de correção do documento fiscal
 	 * 
 	 * @param versão do documento fiscal
 	 * @return documento fiscal processado
 	 */
-	public FiscalDocumentCancel.Processed transmit() {
+	public FiscalDocumentCCe.Processed transmit() {
 		try {
 			final FiscalDocumentSupportedVersion version = this.processedFiscalDocument.getVersion();
-			final NFeEventDispatchRequest request = version.getEventDispatchCancelClass().getConstructor(this.getClass()).newInstance(this).buildEventDispatchCancel();
+			final NFeEventDispatchRequest request = version.getEventDispatchCCeClass().getConstructor(this.getClass()).newInstance(this).buildEventDispatchCCe();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.processedFiscalDocument.getDocument().getEmitter().getCertificate());
-			final NFeEventDispatchResponse response = transmissionChannel.transmitEventReceptionCancellation(request, this.processedFiscalDocument.getDocument().getModel()).getResponse();
+			final NFeEventDispatchResponse response = transmissionChannel.transmitEventReceptionCCe(request, this.processedFiscalDocument.getDocument().getModel()).getResponse();
 			final ProcessedEventVersion processedEvent = version.getProcessedEventClass().getConstructor(request.getClass(), response.getClass()).newInstance(request, response);
-			return processedEvent.buildProcessedFiscalDocumentCancel();
+			return processedEvent.buildProcessedFiscalDocumentCCe();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

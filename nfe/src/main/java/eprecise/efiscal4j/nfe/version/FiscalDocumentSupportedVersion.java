@@ -22,14 +22,16 @@ public enum FiscalDocumentSupportedVersion {
 			eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe.class,
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
 			eprecise.efiscal4j.nfe.v400.sharing.EventProtocol.class,
-			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class), 
+			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
+			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class), 
 	VERSION_3_10("3.10",
 			eprecise.efiscal4j.nfe.v310.transmission.TransmissionChannel.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
 			eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
 			eprecise.efiscal4j.nfe.v310.sharing.EventProtocol.class,
-			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class);
+			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
+			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class);
 	
 	private final String value;
 	
@@ -44,6 +46,8 @@ public enum FiscalDocumentSupportedVersion {
 	private final Class<? extends ProcessedEventVersion> processedEventClass;
 	
 	private final Class<? extends EventDispatchCancelVersion> eventDispatchCancelClass;
+	
+	private final Class<? extends EventDispatchCCeVersion> eventDispatchCCeClass;
 
 	public String getFormattedValue() {
 		return this.value.replace('.', '_');

@@ -2,7 +2,9 @@
 package eprecise.efiscal4j.nfe;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,11 +15,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.xml.sax.SAXException;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
+import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
@@ -111,17 +116,18 @@ public abstract class FiscalDocument {
 	 * @param versão do documento fiscal
 	 * @return documento fiscal processado
 	 */
-	public FiscalDocument.Processed transmit(FiscalDocumentSupportedVersion version) {
+	public TransmissionResult transmit(FiscalDocumentSupportedVersion version) {
+		// @formatter:off
 		try {
 			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(this.getClass()).newInstance(this).buildNFeDispatch();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.emitter.getCertificate());
-			final NFeAuthorizationResponse response = transmissionChannel.transmitAuthorization(request).getResponse();
-			final ProcessedNFeVersion processedNFe = version.getProcessedNFeClass().getConstructor(request.getClass(), response.getClass()).newInstance(request, response);
-			return processedNFe.buildProcessedFiscalDocument();
+			final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result = transmissionChannel.transmitAuthorization(request);
+			return TransmissionResult.builder().version(version).result(result).build();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | SAXException | IOException | ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		}
+		// @formatter:on
 	}
 	
 
@@ -146,19 +152,19 @@ public abstract class FiscalDocument {
 		private final EventStatus status;
 
 		private final FiscalDocument document;
-
+		
+		private final ProcessedNFeVersion processedVersion;
+		
 		public static class ProcessedBuilder {
-
 			public Processed buildFromXml(final String xml) {
+				// @formatter:off
 
 				for (FiscalDocumentSupportedVersion v : FiscalDocumentSupportedVersion.values()) {
 					try {
 						final String xsdPath = (String) v.getProcessedNFeClass().getDeclaredField("XSD").get(null);
-						final FiscalDocumentValidator validator = new FiscalDocumentValidator(
-								this.getClass().getResource(xsdPath));
+						final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
 						if (validator.validate(xml).isValid()) {
-							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml,
-									v.getProcessedNFeClass()).deserialize();
+							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).deserialize();
 							return processedNFeVersion.buildProcessedFiscalDocument();
 						}
 					} catch (Exception e) {
@@ -167,14 +173,44 @@ public abstract class FiscalDocument {
 				}
 
 				return null;
+				// @formatter:on
 			}
 
+			public Processed buildFromXml(InputStream xml) {
+				try {
+					return this.buildFromXml(IOUtils.toString(xml, StandardCharsets.UTF_8));
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 		
-		public Object cancel(final String justification) {
-			
-			return null;
+		public String getXml() {
+			return new FiscalDocumentSerializer<>(this.processedVersion).serialize();
 		}
 
+	}
+	
+	@Builder
+	@Getter
+	public static class TransmissionResult {
+		
+		private final FiscalDocumentSupportedVersion version;
+		
+		private final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result;
+		
+		public ProcessedNFeVersion getProcessedNFeVersion() {
+			try {
+				return version.getProcessedNFeClass().getConstructor(result.getRequest().getClass(), result.getResponse().getClass()).newInstance(result.getRequest(), result.getResponse());
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		public FiscalDocument.Processed getProcessed(){
+			return this.getProcessedNFeVersion().buildProcessedFiscalDocument();
+		}
+		
 	}
 }

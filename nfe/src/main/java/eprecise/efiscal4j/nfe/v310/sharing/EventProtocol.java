@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.event.cancel.FiscalDocumentCancel;
+import eprecise.efiscal4j.nfe.FiscalDocumentCCe;
+import eprecise.efiscal4j.nfe.FiscalDocumentCancel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeEventDispatchResponse;
 import eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentCancelAdapter;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDispatchResponseMethod;
+import eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentCCeAdapter;
 import eprecise.efiscal4j.nfe.version.ProcessedEventVersion;
 
 
@@ -104,6 +104,11 @@ public class EventProtocol implements Serializable, ProcessedEventVersion {
 	@Override
 	public FiscalDocumentCancel.Processed buildProcessedFiscalDocumentCancel() {
 		return new ProcessedFiscalDocumentCancelAdapter(this).buildProcessedFiscalDocumentCancel();
+	}
+	
+	@Override
+	public FiscalDocumentCCe.Processed buildProcessedFiscalDocumentCCe() {
+		return new ProcessedFiscalDocumentCCeAdapter(this).buildProcessedFiscalDocumentCCe();
 	}
 
 }
