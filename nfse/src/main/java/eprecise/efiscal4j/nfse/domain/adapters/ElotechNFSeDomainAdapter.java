@@ -243,6 +243,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         return new ElotechServiceTaker.Builder()
         .withIdentifier(new ElotechServiceTaker.ElotechServiceTakerIdentifier.Builder()
                 .withCnp(buildCnp(nfse.getTaker().getDocuments()))
+                .withMunicipalRegistration(Optional.ofNullable(nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build())
         .withSocialName(nfse.getTaker().getName())
         .withAddress(Optional.ofNullable(nfse.getTaker().getAddress())
