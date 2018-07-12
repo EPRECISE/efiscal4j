@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import eprecise.efiscal4j.nfe.consumer.Consumer;
+import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.documents.ReceiverDocuments;
 import eprecise.efiscal4j.nfe.types.Email;
@@ -30,7 +31,7 @@ public class Receiver implements Consumer {
     private @NotNull(message = "{eprecise.efiscal4j.nfe.receiver.documents.isNotNull}") @Valid final ReceiverDocuments documents;
 
     /**
-     * @see ReceiverAddress
+     * @see BrazillianReceiverAddress
      * @param address
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.receiver.address.isNotNull}") @Valid final ReceiverAddress address;
