@@ -81,9 +81,9 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         this.processingStatusProtocol = null;
     }
     
-    public ProcessedNFe(final NFeDispatch dispatchRequest, final NFeDispatchResponse dispatchResponse) {
+    public ProcessedNFe(final NFeDispatch dispatchRequest, final NFeDispatchResponseMethod dispatchResponse) {
     	this.nfe = dispatchRequest.getnFes().stream().findFirst().orElse(null);
-    	this.processingStatusProtocol = dispatchResponse.getProcessingStatusProtocol();
+    	this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
     }
 
     private ProcessedNFe(Builder builder) {

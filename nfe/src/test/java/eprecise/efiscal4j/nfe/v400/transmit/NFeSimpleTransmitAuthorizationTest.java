@@ -115,7 +115,6 @@ public class NFeSimpleTransmitAuthorizationTest {
                                         .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
                                         .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
                                         .withOperationType("Venda de mercadoria adquirida ou recebida de terceiros")
-                                        .withPaymentMethod(PaymentMethodIndicator.PAGAMENTO_A_VISTA)
                                         .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
                                         .withTaxableEventCityIbgeCode("4104659")
                                         .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)

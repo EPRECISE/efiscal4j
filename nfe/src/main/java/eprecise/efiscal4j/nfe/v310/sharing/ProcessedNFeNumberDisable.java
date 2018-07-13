@@ -13,6 +13,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.FiscalDocumentNumberDisable;
+import eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentNumberDisableAdapter;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeNumberDisableDispatch;
+import eprecise.efiscal4j.nfe.v310.sharing.NFeNumberDisableResponseMethod;
+import eprecise.efiscal4j.nfe.version.ProcessedNFeNumberDisableVersion;
 
 
 /**
@@ -23,7 +28,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
  */
 @XmlRootElement(name = "ProcInutNFe")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProcessedNFeNumberDisable implements Serializable {
+public class ProcessedNFeNumberDisable implements Serializable, ProcessedNFeNumberDisableVersion {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,6 +84,11 @@ public class ProcessedNFeNumberDisable implements Serializable {
         this.nfeNumberDisable = builder.nfeNumberDisable;
         this.nfeNumberDisableResponse = builder.nfeNumberDisableResponse;
     }
+    
+    public ProcessedNFeNumberDisable(final NFeNumberDisableDispatch dispatchRequest, final NFeNumberDisableResponseMethod dispatchResponse) {
+    	this.nfeNumberDisable = dispatchRequest;
+    	this.nfeNumberDisableResponse = dispatchResponse.getResponse();
+    }
 
     public FiscalDocumentVersion getVersion() {
         return this.version;
@@ -95,4 +105,9 @@ public class ProcessedNFeNumberDisable implements Serializable {
     public NFeNumberDisableResponse getNfeNumberDisableResponse() {
         return this.nfeNumberDisableResponse;
     }
+
+	@Override
+	public FiscalDocumentNumberDisable.Processed buildProcessedFiscalDocumentDisable() {
+		return new ProcessedFiscalDocumentNumberDisableAdapter(this).buildProcessedFiscalDocumentNumberDisable();
+	}
 }

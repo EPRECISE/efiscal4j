@@ -32,4 +32,8 @@ public class NFeNumberDisableResponseMethod extends Receivable implements NFeNum
     public NFeNumberDisableResponse getServiceStatusSearchResponse() {
         return this.response;
     }
+    
+    public NFeNumberDisableResponse getResponse() {
+		return response;
+	}
 }

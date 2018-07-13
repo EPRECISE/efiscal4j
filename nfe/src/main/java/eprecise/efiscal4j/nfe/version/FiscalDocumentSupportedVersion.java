@@ -23,7 +23,9 @@ public enum FiscalDocumentSupportedVersion {
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
 			eprecise.efiscal4j.nfe.v400.sharing.EventProtocol.class,
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
-			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class), 
+			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class,
+			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchNumberDisableAdapter.class,
+			eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFeNumberDisable.class), 
 	VERSION_3_10("3.10",
 			eprecise.efiscal4j.nfe.v310.transmission.TransmissionChannel.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
@@ -31,7 +33,9 @@ public enum FiscalDocumentSupportedVersion {
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
 			eprecise.efiscal4j.nfe.v310.sharing.EventProtocol.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
-			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class);
+			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class,
+			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchNumberDisableAdapter.class,
+			eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFeNumberDisable.class);
 	
 	private final String value;
 	
@@ -48,6 +52,12 @@ public enum FiscalDocumentSupportedVersion {
 	private final Class<? extends EventDispatchCancelVersion> eventDispatchCancelClass;
 	
 	private final Class<? extends EventDispatchCCeVersion> eventDispatchCCeClass;
+	
+	private final Class<? extends EventDispatchNumberDisableVersion> eventDispatchNumberDisableClass;
+	
+	private final Class<? extends ProcessedNFeNumberDisableVersion> processedNumberDisableClass;
+	
+	
 
 	public String getFormattedValue() {
 		return this.value.replace('.', '_');

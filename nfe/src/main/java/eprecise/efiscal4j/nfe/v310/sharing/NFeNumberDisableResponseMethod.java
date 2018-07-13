@@ -46,4 +46,8 @@ public class NFeNumberDisableResponseMethod extends ReceivableWithQName implemen
     public NFeNumberDisableResponse getServiceStatusSearchResponse() {
         return this.response;
     }
+    
+    public NFeNumberDisableResponse getResponse() {
+		return response;
+	}
 }

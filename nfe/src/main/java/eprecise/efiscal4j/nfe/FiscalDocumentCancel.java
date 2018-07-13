@@ -1,7 +1,9 @@
 package eprecise.efiscal4j.nfe;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
+import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
@@ -23,17 +25,15 @@ public class FiscalDocumentCancel {
 	/**
 	 * Transmite o cancelamento do documento fiscal
 	 * 
-	 * @param versão do documento fiscal
-	 * @return documento fiscal processado
+	 * @return resultado da transmissão
 	 */
-	public FiscalDocumentCancel.Processed transmit() {
+	public FiscalDocumentCancel.TransmissionResult transmit() {
 		try {
 			final FiscalDocumentSupportedVersion version = this.processedFiscalDocument.getVersion();
 			final NFeEventDispatchRequest request = version.getEventDispatchCancelClass().getConstructor(this.getClass()).newInstance(this).buildEventDispatchCancel();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.processedFiscalDocument.getDocument().getEmitter().getCertificate());
-			final NFeEventDispatchResponse response = transmissionChannel.transmitEventReceptionCancellation(request, this.processedFiscalDocument.getDocument().getModel()).getResponse();
-			final ProcessedEventVersion processedEvent = version.getProcessedEventClass().getConstructor(request.getClass(), response.getClass()).newInstance(request, response);
-			return processedEvent.buildProcessedFiscalDocumentCancel();
+			final TypedTransmissionResult<? extends NFeEventDispatchRequest,? extends NFeEventDispatchResponse> result = transmissionChannel.transmitEventReceptionCancellation(request, this.processedFiscalDocument.getDocument().getModel());
+			return FiscalDocumentCancel.TransmissionResult.builder().version(version).result(result).build();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -47,12 +47,36 @@ public class FiscalDocumentCancel {
 		
 		private final Date date;
 
-		private final String protocol;
+		private final String protocolNumber;
 
 		private final String details;
 		
 		private final EventStatus status;
+		
+		private final FiscalDocumentCancel document;
 
+	}
+	
+	@Builder
+	@Getter
+	public static class TransmissionResult {
+		
+		private final FiscalDocumentSupportedVersion version;
+		
+		private final TypedTransmissionResult<? extends NFeEventDispatchRequest, ? extends NFeEventDispatchResponse> result;
+		
+		public ProcessedEventVersion getProcessedEventVersion() {
+			try {
+				return version.getProcessedEventClass().getConstructor(result.getRequest().getClass(), result.getResponse().getClass()).newInstance(result.getRequest(), result.getResponse());
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		public FiscalDocumentCancel.Processed getProcessed(){
+			return this.getProcessedEventVersion().buildProcessedFiscalDocumentCancel();
+		}
 	}
 
 }

@@ -116,13 +116,13 @@ public abstract class FiscalDocument {
 	 * @param versão do documento fiscal
 	 * @return documento fiscal processado
 	 */
-	public TransmissionResult transmit(FiscalDocumentSupportedVersion version) {
+	public FiscalDocument.TransmissionResult transmit(FiscalDocumentSupportedVersion version) {
 		// @formatter:off
 		try {
 			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(this.getClass()).newInstance(this).buildNFeDispatch();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.emitter.getCertificate());
 			final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result = transmissionChannel.transmitAuthorization(request);
-			return TransmissionResult.builder().version(version).result(result).build();
+			return FiscalDocument.TransmissionResult.builder().version(version).result(result).build();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | SAXException | IOException | ParserConfigurationException e) {
 			throw new RuntimeException(e);
