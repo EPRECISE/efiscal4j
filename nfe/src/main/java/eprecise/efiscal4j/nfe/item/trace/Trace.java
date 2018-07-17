@@ -19,7 +19,7 @@ import lombok.Getter;
 public class Trace {
 
     /**
-     * Número do lote do medicamento
+     * Número do lote do produto
      *
      * @param batchNumber
      */
@@ -33,14 +33,14 @@ public class Trace {
     private final BigDecimal batchQuantity;
 
     /**
-     * Data de Fabricação do medicamento
+     * Data de Fabricação do produto
      *
      * @param manufacturing
      */
     private final Date manufacturing;
 
     /**
-     * Data de validade do medicamento
+     * Data de validade do produto
      *
      * @param expiration
      */
