@@ -1,12 +1,17 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -17,12 +22,15 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
+import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.emitter.CRT;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddressCity;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
+import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ForeignReceiverAddress;
@@ -38,26 +46,55 @@ import eprecise.efiscal4j.nfe.references.ReferenceToNFP.NfpCpf;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFP.ProducerReferencedNFModel;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFe;
 import eprecise.efiscal4j.nfe.serie.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
+import eprecise.efiscal4j.nfe.transport.Transport;
+import eprecise.efiscal4j.nfe.transport.conveyor.Conveyor;
+import eprecise.efiscal4j.nfe.transport.conveyor.cnp.ConveyorCnpj;
+import eprecise.efiscal4j.nfe.transport.conveyor.cnp.ConveyorCpf;
+import eprecise.efiscal4j.nfe.transport.mean.FerryTransportMean;
+import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
+import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
 import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;
 import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
 import eprecise.efiscal4j.nfe.v400.NFe;
+import eprecise.efiscal4j.nfe.v400.NFeDetail;
 import eprecise.efiscal4j.nfe.v400.NFeIdentification;
 import eprecise.efiscal4j.nfe.v400.NFeInfo;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
 import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
+import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
+import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
 import eprecise.efiscal4j.nfe.v400.address.City;
+import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
+import eprecise.efiscal4j.nfe.v400.charging.Invoice;
+import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
+import eprecise.efiscal4j.nfe.v400.payment.CardFlag;
+import eprecise.efiscal4j.nfe.v400.payment.CardSet;
+import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
+import eprecise.efiscal4j.nfe.v400.payment.NFePaymentDetail;
+import eprecise.efiscal4j.nfe.v400.payment.PaymentIntegrationType;
+import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Emitter.Builder;
+import eprecise.efiscal4j.nfe.v400.places.Place;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF.ReferecedECFModel;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
+import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
+import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
+import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
+import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
+import eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention;
+import eprecise.efiscal4j.nfe.v400.transport.TransportedVolume;
+import eprecise.efiscal4j.nfe.v400.transport.Vehicle;
+import eprecise.efiscal4j.nfe.v400.transport.VolumeSeal;
 import eprecise.efiscal4j.nfe.version.NFeDispatchAdapterVersion;
 
 
@@ -67,7 +104,17 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private static final DateFormat NFE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
+    private static final DateFormat NFE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
     private static final DateTimeFormatter NFE_YEAR_MONTH_FORMAT = DateTimeFormatter.ofPattern("yyMM");
+
+    private static final DecimalFormat NFE_TWO_DECIMALS_FORMAT = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
+
+    private static final DecimalFormat NFE_THREE_DECIMALS_FORMAT = new DecimalFormat("##0.000", new DecimalFormatSymbols(Locale.ENGLISH));
+
+    private static final DecimalFormat NFE_FOUR_DECIMALS_FORMAT = new DecimalFormat("##0.0000", new DecimalFormatSymbols(Locale.ENGLISH));
+
+    private static final DecimalFormat NFE_TEN_DECIMALS_FORMAT = new DecimalFormat("##0.0000000000", new DecimalFormatSymbols(Locale.ENGLISH));
 
     private static final String NFE_CODE_FORMAT = "%08d";
 
@@ -75,9 +122,13 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private static final String DEFAULT_OPERATION_TYPE = "VENDA DE MERCADORIAS";
 
+    private static final String COMPLEMENTARY_INFO_DETAIL_VALUE = "Valor aproximado dos tributos: %s";
+
+    private static final String COMPLEMENTARY_INFO_DETAIL_MESSAGE = "LEI DA TRANSPARENCIA";
+
     private final FiscalDocument fiscalDocument;
 
-    public DispatchFromFiscalDocumentAdapter(FiscalDocument fiscalDocument) {
+    public DispatchFromFiscalDocumentAdapter(final FiscalDocument fiscalDocument) {
         this.fiscalDocument = fiscalDocument;
     }
 
@@ -86,9 +137,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      // @formatter:off
         try {
             return new NFeDispatch.Builder()
-                    .withBatchId(null)
+                    .withBatchId(this.fiscalDocument.getNumber().toString())
                     .withNFes(this.buildNFes())
-                    .withSynchronousProcessing(null)
+                    .withSynchronousProcessing(SynchronousProcessing.SINCRONO)
                     .build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
@@ -103,7 +154,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         } else if(this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFCe) {
             return Arrays.asList(this.buildNFCe());
         }
-        return null;//TODO avaliar retorno padrão
+        return null;
      // @formatter:on
     }
 
@@ -119,50 +170,222 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private NFe buildNFCe() throws Exception {
      // @formatter:off
-        return null;
+    	final NFCe nfce = (NFCe) this.fiscalDocument;
+    	return new NFe.Builder()
+                .withCSC(Optional.ofNullable(nfce.getCsc()).map(csc -> new CSC(csc.getIdentifier(), csc.getCscValue())).orElse(null))
+                .withNFeInfo(this.buildNFeInfo())
+                .withNFeSuplementaryInfo(null)
+                .build(null);
      // @formatter:on
     }
 
-    private CSC buildCSC() { // TODO CSC
-        return new CSC(this.fiscalDocument.getSerie().getEnvironment().getDescription(), String.valueOf(this.fiscalDocument.getSerie().getEnvironment().getValue()));
+    private NFeInfo buildNFeInfo() throws ParseException {
+     //@formatter:off
+    	return new NFeInfo.Builder()
+    			.withNFeIdentification(this.buildNFeIdentification())
+    			.withEmitter(this.buildEmitter())
+    			.withReceiver(this.buildReceiver())
+    			.withWithdrawal(this.buildWithDrawal())
+    			.withDelivery(this.buildDelivery())
+    			.withNFeDetail(this.buildNFeDetails())
+    			.withNFeTotal(this.buildNFeTotal())
+    			.withNFeTransport(this.buildNFeTransport())
+    			.withNFeCharging(this.buildNFeCharging())
+    			.withNFePayment(this.buildNFePayment())
+    			.withAdditionalInfo(this.buildAdditionalInfo())
+    			.build();   	
+        //@formatter:on
     }
 
-    private NFeInfo buildNFeInfo() {
+    private AdditionalInfo buildAdditionalInfo() {
      //@formatter:off
-//        new NFeInfo.Builder()
-//                  .withNFeIdentification(this.buildNFeIdentification())
-//                  .withEmitter(this.buildEmitter())
-//                  .withReceiver(this.buildReceiver())
-//                  .withNFeDetail(this.nfe.getItens().stream().map(new DetailParser()::parse).collect(Collectors.toList()))
-//                  .withNFeTotal(this.getParsedTotal(this.nfe.getTotal()))
-//                  .withNFeTransport(this.getParsedTransport(this.nfe.getTransport()))
-//                  .withNFePayments(this.nfe.getPayments()
-//                                           .stream()
-//                                           .map(p->{
-//                                               final NFePayment.Builder paymentBuilder = new NFePayment.Builder()
-//                                                                                       .withPaymentMethod(p.getMethod())
-//                                                                                       .withPaymentValue(Optional.ofNullable(p.getValue()).map(bigdecimal::get).map(this::formatNFeDecimal1302).orElse(null));
-//                                               if(PaymentMethod.CARTAO_CREDITO.equals(p.getMethod()) || PaymentMethod.CARTAO_DEBITO.equals(p.getMethod())){
-//                                                   paymentBuilder.withCardSet(new CardSet.Builder().withPaymentIntegrationType(PaymentIntegrationType.NAO_INTEGRADO).build());
-//                                               }
-//                                               return paymentBuilder.build();
-//                                           })
-//                                           .collect(Collectors.toList()))
-//                  .build();
-//        if(!this.nfe.getSerie().getModel().equals(FiscalDocumentSeriesModel.NFCE)){
-//            builder.withNFeCharging(this.getNFeCharging(this.nfe.getCharging()));
-//        }
-//
-//        final AdditionalInfo.Builder additionalInfoBuilder = new AdditionalInfo.Builder();
-//        if(this.nfe.getTotal().getIcmsTotal().getTaxTotalValue() != null){
-//            additionalInfoBuilder.withTaxpayerObservations(Arrays.asList(new CustomizedObservation.Builder().withField("LEI DA TRANSPARENCIA").withText("Valor aproximado dos tributos: "+Optional.ofNullable(this.nfe.getTotal().getIcmsTotal().getTaxTotalValue().getTotal()).map(Object::toString).orElse("")).build()));
-//        }
-//        Optional.ofNullable(this.nfe.getDetails()).filter(d->!d.isEmpty()).ifPresent(d->additionalInfoBuilder.withComplementaryInfo(this.formatNFeString(d,5000)));
-//        builder.withAdditionalInfo(additionalInfoBuilder.build());
+    	final AdditionalInfo.Builder additionalInfoBuilder = new AdditionalInfo.Builder();
+        Optional.ofNullable(this.fiscalDocument.getTotal().getApproximateTaxTotalValue()).map(ApproximateTax::getTotal).filter(t -> t.compareTo(BigDecimal.ZERO) > 0).ifPresent(total -> {
+        	 additionalInfoBuilder.withTaxpayerObservations(Arrays.asList(new CustomizedObservation.Builder().withField(COMPLEMENTARY_INFO_DETAIL_MESSAGE).withText(String.format(COMPLEMENTARY_INFO_DETAIL_VALUE, total.toString())).build()));
+        });
+        Optional.ofNullable(this.fiscalDocument.getDetails()).filter(d->!d.isEmpty()).ifPresent(d->additionalInfoBuilder.withComplementaryInfo(this.formatNFeString(d,5000)));
+		return additionalInfoBuilder.build();
+	 //@formatter:on
+    }
 
+    private NFePayment buildNFePayment() {
+     //@formatter:off
+		final Payment payment = this.fiscalDocument.getPayment();
+		
+		if(payment != null) {
+			return new NFePayment.Builder()
+					.withNFePaymentDetails(this.buildPaymentDetails())
+					.withChangeValue(this.formatNFeDecimal1302(payment.getChangeValue()))
+					.build();
+			}
+		return null;
+	 //@formatter:on
+    }
 
-        return null;//builder.build();
+    private List<NFePaymentDetail> buildPaymentDetails() {
+     //@formatter:off
+		final Payment payment = this.fiscalDocument.getPayment();
+		if((payment.getDetails() != null) && !payment.getDetails().isEmpty()) {
+			return payment.getDetails().stream().map(pd -> {
+				return new NFePaymentDetail.Builder()
+						.withPaymentMethod(Optional.ofNullable(pd.getMethod()).map(pm -> PaymentMethod.findByCode(pm.getValue())).orElse(null))
+						.withPaymentValue(this.formatNFeDecimal1302(pd.getValue()))
+						.withCardSet(Optional.ofNullable(pd.getCardSet()).map(cs -> {
+							return new CardSet.Builder()
+									.withPaymentIntegrationType(Optional.ofNullable(cs.getIntegration()).map(csi -> PaymentIntegrationType.findByCode(csi.getValue())).orElse(null))
+									.withCnpj(cs.getCnpj())
+									.withAuthorizationNumber(cs.getAuthorizationNumber())
+									.withCardFlag(Optional.ofNullable(cs.getCardFlag()).map(cf -> CardFlag.findByCode(cf.getValue())).orElse(null))
+									.build();
+						}).orElse(null))
+						.build();
+			}).collect(Collectors.toList());
+		}
+	 //@formatter:on
+        return null;
+    }
+
+    private NFeCharging buildNFeCharging() {
+        //@formatter:off
+		final Charging charging = this.fiscalDocument.getCharging();
+		
+		if(charging != null) {
+			
+			return new NFeCharging.Builder()
+					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
+						return new Invoice.Builder()
+								.withNumber(inv.getNumber())
+								.withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
+								.withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
+								.withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
+								.build();
+					}).orElse(null))
+					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
+						return new Duplicate.Builder()
+								.withNumber(dup.getNumber())
+								.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
+								.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
+								.build();
+					}).collect(Collectors.toList())).orElse(null))
+					.build();
+		}
+		 //@formatter:on
+        return null;
+    }
+
+    private NFeTransport buildNFeTransport() {
+        //@formatter:off
+		final Transport transport = this.fiscalDocument.getTransport();
+		if(transport != null) {
+				final NFeTransport.Builder builder = new NFeTransport.Builder()
+					.withShippingModality(Optional.ofNullable(transport.getShippingModality()).map(sm -> ShippingModality.findByCode(sm.getValue())).orElse(null))
+					.withConveyor(this.buildConveyor())
+					.withtransportICMSRetention(Optional.ofNullable(transport.getIcmsRetention()).map(ir -> {
+						return new TransportICMSRetention.Builder()
+								.withServiceValue(this.formatNFeDecimal1302(ir.getServiceValue()))
+								.withRetentionCalculationBasis(this.formatNFeDecimal1302(ir.getRetentionCalculationBasis()))
+								.withRetentionAliquot(this.formatNFeDecimal0302a04(ir.getRetentionAliquot()))
+								.withRetentionValue(this.formatNFeDecimal1302(ir.getRetentionValue()))
+								.withCfop(ir.getCfop())
+								.withGenFactIbgeCode(ir.getGenFactIbgeCode())
+								.build();
+					}).orElse(null))
+					.withTransportedVolume(Optional.ofNullable(transport.getVolumes()).map(tvList -> tvList.stream().map(tv -> {
+						return new TransportedVolume.Builder()
+								.withVolumeQuantity(tv.getVolumeQuantity().toString())
+								.withVolumeSpecies(tv.getVolumeSpecies())
+								.withVolumeTrademark(tv.getVolumeTrademark())
+								.withVolumeNumbering(tv.getVolumeNumbering())
+								.withNetWeight(this.formatNFeDecimal1203(tv.getNetWeight()))
+								.withGrossWeight(this.formatNFeDecimal1203(tv.getGrossWeight()))
+								.withSeals(Optional.ofNullable(tv.getSeals()).map(sealsList -> sealsList.stream().map(s -> {
+									return new VolumeSeal.Builder()
+											.withSealNumber(s.getSealNumber())
+											.build();
+								}).collect(Collectors.toList())).orElse(null))
+								.build();
+					}).collect(Collectors.toList())).orElse(null));
+				if(transport.getTransportMean() instanceof VehicleTowingTransportMean) {
+					final VehicleTowingTransportMean vehicleTowingTransportMean = (VehicleTowingTransportMean) transport.getTransportMean();
+					builder.withVehicle(this.buildVehicle(vehicleTowingTransportMean.getVehicle()));
+					builder.withTowing(Optional.ofNullable(vehicleTowingTransportMean.getTowing()).map(towingList -> towingList.stream().map(this::buildVehicle).collect(Collectors.toList())).orElse(null));
+				} else if(transport.getTransportMean() instanceof FerryTransportMean) {
+					final FerryTransportMean ferryTransportMean = (FerryTransportMean) transport.getTransportMean();
+					builder.withFerry(ferryTransportMean.getIdentifier());
+				} else if(transport.getTransportMean() instanceof WagonTransportMean) {
+					final WagonTransportMean wagonTransportMean = (WagonTransportMean) transport.getTransportMean();
+					builder.withWagon(wagonTransportMean.getIdentifier());
+				}
+				return builder.build();
+		}
+		 //@formatter:on
+        return null;
+    }
+
+    private Vehicle buildVehicle(final eprecise.efiscal4j.nfe.transport.Vehicle vehicle) {
+        //@formatter:off
+		if(vehicle != null) {
+			return new Vehicle.Builder()
+					.withLicensePlate(vehicle.getLicensePlate())
+					.withUF(vehicle.getUf())
+					.withRntc(vehicle.getRntc())
+					.build();
+		}
+		//@formatter:on
+        return null;
+    }
+
+    private eprecise.efiscal4j.nfe.v400.transport.Conveyor buildConveyor() {
+        //@formatter:off
+		final Conveyor conveyor = Optional.ofNullable(this.fiscalDocument.getTransport()).map(Transport::getConveyor).orElse(null);
+		
+		if(conveyor != null) {
+			if(conveyor.getCnp() instanceof ConveyorCnpj) {
+				return new eprecise.efiscal4j.nfe.v400.transport.Conveyor.Builder().asLegalEntity()
+					.withCnpj(conveyor.getCnp().getCnp())
+					.withCorporateName(conveyor.getName())
+					.withStateRegistration(conveyor.getIe())
+					.withFullAddress(conveyor.getFullAddress())
+					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+			} else if(conveyor.getCnp() instanceof ConveyorCpf) {
+				return new eprecise.efiscal4j.nfe.v400.transport.Conveyor.Builder().asNaturalPerson()
+					.withCpf(conveyor.getCnp().getCnp())
+					.withName(conveyor.getName())
+					.withStateRegistration(conveyor.getIe())
+					.withFullAddress(conveyor.getFullAddress())
+					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+			}
+		}
+		
+		//@formatter:on
+        return null;
+    }
+
+    private NFeTotal buildNFeTotal() {
+        //@formatter:off
+        final FiscalDocumentTotal fiscalDocumentTotal = this.fiscalDocument.getTotal();
+        if(fiscalDocumentTotal != null) {
+            return new NFeTotal.Builder()
+                    
+                    .build();
+        }
         //@formatter:on
+        return null;
+    }
+
+    private List<NFeDetail> buildNFeDetails() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Place buildDelivery() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Place buildWithDrawal() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     private NFeIdentification buildNFeIdentification() {
@@ -208,7 +431,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      //@formatter:on
     }
 
-    private DestinationOperationIdentifier buildDestinationOperationIdentifier(Receiver receiver) {
+    private DestinationOperationIdentifier buildDestinationOperationIdentifier(final Receiver receiver) {
         if ((receiver == null) || ((receiver != null) && !receiver.getAddress().isValid())) {
             return DestinationOperationIdentifier.INTERNA;
         } else if (Optional.ofNullable(receiver.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast)
@@ -244,7 +467,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     public eprecise.efiscal4j.nfe.v400.FiscalDocumentType buildFiscalDocumentType() {
-        if (this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe && FiscalDocumentType.IN.equals(((eprecise.efiscal4j.nfe.NFe) this.fiscalDocument).getType())) {
+        if ((this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) && FiscalDocumentType.IN.equals(((eprecise.efiscal4j.nfe.NFe) this.fiscalDocument).getType())) {
             return eprecise.efiscal4j.nfe.v400.FiscalDocumentType.ENTRADA;
         }
         return eprecise.efiscal4j.nfe.v400.FiscalDocumentType.SAIDA;
@@ -339,14 +562,14 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }
     }
 
-    public eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel buildProducerReferencedNFModel(ProducerReferencedNFModel model) {
+    public eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel buildProducerReferencedNFModel(final ProducerReferencedNFModel model) {
         if (ProducerReferencedNFModel.PRODUCER_NF.equals(model)) {
             return eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel.PRODUCER_NF;
         }
         return eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel.SPARE_NF;
     }
 
-    public ReferecedECFModel buildReferecedECFModel(ReferencedECFModel model) {// TODO nome da classe errado
+    public ReferecedECFModel buildReferecedECFModel(final ReferencedECFModel model) {// TODO nome da classe errado
         if (ReferencedECFModel.NON_ECF.equals(model)) {
             return ReferecedECFModel.NAO_ECF;
         } else if (ReferencedECFModel.ECF_PDV.equals(model)) {
@@ -361,7 +584,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         return emitter.getDocuments() instanceof EmitterLegalEntityDocuments ? this.buildEmitterLegalEntity(builder, emitter) : this.buildEmitterNaturalPerson(builder, emitter);
     }
 
-    private Emitter buildEmitterLegalEntity(Builder builder, eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
+    private Emitter buildEmitterLegalEntity(final Builder builder, final eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
      // @formatter:off
         final EmitterLegalEntityDocuments docs = (EmitterLegalEntityDocuments) emitter.getDocuments();
         return builder
@@ -378,7 +601,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      //@formatter:on
     }
 
-    private Emitter buildEmitterNaturalPerson(Builder builder, eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
+    private Emitter buildEmitterNaturalPerson(final Builder builder, final eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
      // @formatter:off
         final EmitterNaturalPersonDocuments docs = (EmitterNaturalPersonDocuments) emitter.getDocuments();
         return builder
@@ -398,11 +621,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }).orElse(null);
     }
 
-    private String nullIfEmpty(final String v) {
-        return StringUtils.isEmpty(v) ? null : v;
-    }
-
-    public eprecise.efiscal4j.nfe.v400.CRT buildCrt(CRT crt) {
+    public eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {
         if (CRT.SIMPLE_NATIONAL.equals(crt)) {
             return eprecise.efiscal4j.nfe.v400.CRT.SIMPLES_NACIONAL;
         } else if (CRT.SIMPLE_NATIONAL_WITH_SUBLIME_EXCESS.equals(crt)) {
@@ -526,4 +745,117 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         // TODO Implementar
         return null;
     }
+
+    private String nullIfEmpty(final String v) {
+        return StringUtils.isEmpty(v) ? null : v;
+    }
+
+    private String formatNFeDecimal1302(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_TWO_DECIMALS_FORMAT.format(value);
+        }
+
+    }
+
+    private String formatNFeDecimal0302a04(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+
+    }
+
+    private String formatNFeDecimal1302Optional(final BigDecimal value) {
+        if ((value == null) || ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0))) {
+            return null;
+        } else {
+            return NFE_TWO_DECIMALS_FORMAT.format(value);
+        }
+
+    }
+
+    private String formatNFeDecimal0302a04Optional(final BigDecimal value) {
+        if ((value == null) || ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0))) {
+            return null;
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+
+    }
+
+    private String formatNFeDecimal1203(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_THREE_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1204Variable(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1204(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal0302a04Max100(final BigDecimal value) {
+        if ((value == null) || ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0))) {
+            return null;
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1104Variable(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1110Variable(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_TEN_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal0803Variable(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_THREE_DECIMALS_FORMAT.format(value);
+        }
+    }
+
 }

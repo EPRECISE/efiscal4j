@@ -20,7 +20,7 @@ public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private @XmlElement(name = "cMun") @NotNull @NFeCityIBGECode final String ibgeCode;
+	private @XmlElement(name = "cMun") @NFeCityIBGECode final String ibgeCode;
 
 	private @XmlElement(name = "xMun") @NotNull @Size(min = 2, max = 60) @NFeString final String description;
 

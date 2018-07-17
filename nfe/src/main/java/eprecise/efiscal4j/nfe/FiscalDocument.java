@@ -31,6 +31,7 @@ import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
+import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
@@ -109,6 +110,10 @@ public abstract class FiscalDocument {
 
 	
 	public abstract FiscalDocumentModel getModel();
+	
+	public FiscalDocumentTotal getTotal() {
+		return new FiscalDocumentTotal(() -> this.items);
+	}
 	
 	/**
 	 * Transmite o documento fiscal

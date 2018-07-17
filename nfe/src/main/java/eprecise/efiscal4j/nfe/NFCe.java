@@ -6,6 +6,7 @@ import java.util.Collection;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
+import eprecise.efiscal4j.nfe.csc.CSC;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.item.Item;
@@ -24,12 +25,21 @@ public class NFCe extends FiscalDocument {
      * @param consumer
      */
     private final Consumer consumer;
+    
+    /**
+     * @see CSC
+     * @param csc
+     */
+    private final CSC csc;
+    
+    
 
     @Builder
     public NFCe(FiscalDocumentSerie serie, Integer number, EmissionDate emission, Emitter emitter, Collection<Item> items, Charging charging, Payment payment, Transport transport, String details,
-            Consumer consumer) {
+            Consumer consumer, final CSC csc) {
         super(serie, number, emission, emitter, items, charging, payment, transport, details);
         this.consumer = consumer;
+        this.csc = csc;
     }
 
 	@Override
