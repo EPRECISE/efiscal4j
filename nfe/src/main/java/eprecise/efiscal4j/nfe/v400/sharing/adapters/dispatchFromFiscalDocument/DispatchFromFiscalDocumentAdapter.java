@@ -24,9 +24,9 @@ import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
+import eprecise.efiscal4j.nfe.consumer.SimpleConsumer;
 import eprecise.efiscal4j.nfe.emitter.CRT;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
-import eprecise.efiscal4j.nfe.emitter.address.EmitterAddressCity;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
@@ -34,7 +34,13 @@ import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ForeignReceiverAddress;
-import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddress;
+import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCnpj;
+import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCpf;
+import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverForeignId;
+import eprecise.efiscal4j.nfe.receiver.documents.ie.FreeTaxpayerReceiverIE;
+import eprecise.efiscal4j.nfe.receiver.documents.ie.NonTaxpayerReceiverIE;
+import eprecise.efiscal4j.nfe.receiver.documents.ie.ReceiverIE;
+import eprecise.efiscal4j.nfe.receiver.documents.ie.TaxpayerReceiverIE;
 import eprecise.efiscal4j.nfe.references.DocumentReference;
 import eprecise.efiscal4j.nfe.references.ReferenceToCTe;
 import eprecise.efiscal4j.nfe.references.ReferenceToECF;
@@ -64,6 +70,7 @@ import eprecise.efiscal4j.nfe.v400.NFeInfo;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
 import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
+import eprecise.efiscal4j.nfe.v400.StateRegistrationReceiverIndicator;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
@@ -80,7 +87,6 @@ import eprecise.efiscal4j.nfe.v400.payment.PaymentIntegrationType;
 import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Emitter.Builder;
-import eprecise.efiscal4j.nfe.v400.places.Place;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF;
@@ -88,6 +94,7 @@ import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF.ReferecedECFModel;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
+import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
@@ -185,8 +192,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withNFeIdentification(this.buildNFeIdentification())
     			.withEmitter(this.buildEmitter())
     			.withReceiver(this.buildReceiver())
-    			.withWithdrawal(this.buildWithDrawal())
-    			.withDelivery(this.buildDelivery())
+//    			.withWithdrawal(this.buildWithDrawal())
+//    			.withDelivery(this.buildDelivery())
     			.withNFeDetail(this.buildNFeDetails())
     			.withNFeTotal(this.buildNFeTotal())
     			.withNFeTransport(this.buildNFeTransport())
@@ -195,6 +202,107 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withAdditionalInfo(this.buildAdditionalInfo())
     			.build();   	
         //@formatter:on
+    }
+
+    private eprecise.efiscal4j.nfe.v400.person.Receiver buildReceiver() {
+      //@formatter:off
+        final Consumer consumer = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe -> nfe.getReceiver()).map(Consumer.class::cast).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).orElse(null));
+        
+        final eprecise.efiscal4j.nfe.v400.person.Receiver.Builder builder = new eprecise.efiscal4j.nfe.v400.person.Receiver.Builder();
+        if(consumer instanceof Receiver) {
+            final Receiver receiver = (Receiver) consumer;
+            if(receiver.getDocuments().getCnp() instanceof ReceiverCnpj) {
+                return builder.asLegalEntity()
+                        .withCorporateName(receiver.getDocuments().getName())
+                        .withCnpj(receiver.getDocuments().getCnp().getCnp())
+                        .withMunicipalRegistration(receiver.getDocuments().getIm())
+                        .withStateRegistration(this.buildStateRegistration(receiver))
+                        .withStateRegistrationReceiverIndicator(this.buildStateRegistrationReceiverIndicator(receiver))
+                        .withAdress(this.buildReceiverAddress(receiver))
+                        .withEmail(receiver.getEmail())
+                        .build();
+            } else if(receiver.getDocuments().getCnp() instanceof ReceiverCpf) {
+                return builder.asNaturalPerson()
+                        .withName(receiver.getDocuments().getName())
+                        .withCpf(receiver.getDocuments().getCnp().getCnp())
+                        .withMunicipalRegistration(receiver.getDocuments().getIm())
+                        .withStateRegistration(this.buildStateRegistration(receiver))
+                        .withStateRegistrationReceiverIndicator(this.buildStateRegistrationReceiverIndicator(receiver))
+                        .withAdress(this.buildReceiverAddress(receiver))
+                        .withEmail(receiver.getEmail())
+                        .build();
+            } else if(receiver.getDocuments().getCnp() instanceof ReceiverForeignId) {
+                return builder.asForeignPerson()
+                        .withCorporateName(receiver.getDocuments().getName())
+                        .withForeignId(receiver.getDocuments().getCnp().getCnp())
+                        .withMunicipalRegistration(receiver.getDocuments().getIm())
+                        .withStateRegistration(this.buildStateRegistration(receiver))
+                        .withStateRegistrationReceiverIndicator(this.buildStateRegistrationReceiverIndicator(receiver))
+                        .withAdress(this.buildReceiverAddress(receiver))
+                        .withEmail(receiver.getEmail())
+                        .build();
+            }
+        } else if(consumer instanceof SimpleConsumer) {
+            final SimpleConsumer simpleConsumer = (SimpleConsumer) consumer;
+            if(simpleConsumer.getCnp() instanceof ReceiverCnpj) {
+                builder.asLegalEntity()
+                    .withCnpj(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
+                    .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
+                    .build();
+            } else if(simpleConsumer.getCnp() instanceof ReceiverCpf) {
+                builder.asNaturalPerson()
+                    .withCpf(simpleConsumer.getCnp().getCnp()).withName(simpleConsumer.getName())
+                    .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
+                    .build();
+                
+            } else if(simpleConsumer.getCnp() instanceof ReceiverForeignId) {
+                builder.asForeignPerson()
+                    .withForeignId(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
+                    .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
+                    .build();
+            }
+        }
+      //@formatter:on
+        return null;
+    }
+
+    private String buildStateRegistration(final Receiver receiver) {
+        return this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe
+                ? Optional.ofNullable(receiver.getDocuments().getIe()).filter(TaxpayerReceiverIE.class::isInstance).map(ReceiverIE::getIe).orElse(null)
+                : null;
+    }
+
+    private StateRegistrationReceiverIndicator buildStateRegistrationReceiverIndicator(final Receiver receiver) {
+        if (receiver.getDocuments().getIe() instanceof TaxpayerReceiverIE) {
+            return StateRegistrationReceiverIndicator.CONTRIBUINTE_ICMS;
+        } else if (receiver.getDocuments().getIe() instanceof FreeTaxpayerReceiverIE) {
+            return StateRegistrationReceiverIndicator.ISENTO;
+        } else if (receiver.getDocuments().getIe() instanceof NonTaxpayerReceiverIE) {
+            return StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE;
+        }
+        return null;
+    }
+
+    private Address buildReceiverAddress(final Receiver receiver) {
+      //@formatter:off
+        final BrazillianReceiverAddress address = Optional.ofNullable(receiver.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).orElse(null);
+        if(address != null) {
+            return new Address.Builder()
+                    .withStreet(address.getStreet())
+                    .withNumber(address.getNumber())
+                    .withComplement(address.getComplement())
+                    .withDistrict(address.getDistrict())
+                    .withCep(address.getCep())
+                    .withCity(Optional.ofNullable(address.getCity()).map(c -> new City.Builder()
+                            .withIbgeCode(c.getIbgeCode())
+                            .withDescription(c.getDescription())
+                            .withUF(c.getUf())
+                            .build()).orElse(null))
+                    .withPhone(receiver.getPhone())
+                    .build();
+        }
+      //@formatter:off
+        return null;
     }
 
     private AdditionalInfo buildAdditionalInfo() {
@@ -366,25 +474,26 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         final FiscalDocumentTotal fiscalDocumentTotal = this.fiscalDocument.getTotal();
         if(fiscalDocumentTotal != null) {
             return new NFeTotal.Builder()
-                    
+                    .withICMSTotal(new ICMSTotal.Builder()
+                            .withDiscountTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getDiscountTotalValue()))
+                            .withICMSCalculationBasis(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsBcValue()))
+                            .withICMSSTCalculationBasis(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStBcValue()))
+                            .withICMSSTTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStValue()))
+                            .withICMSTotalDesoneration(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsDesonerationValue()))
+                            .withICMSTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsValue()))
+                            .withInsuranceTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getInsuranceTotalValue()))
+                            .withItemsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTaxableGrossTotalValue()))
+                            .withNFeTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getFiscalDocumentTotalValue()))
+                            .withOtherIncidentalCostsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getOthersTotalValue()))
+                            .withShippingTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getShippingTotalValue()))
+                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? this.formatNFeDecimal1302(fiscalDocumentTotal.getApproximateTaxTotalValue().getTotal()) : null)
+                            .withReceiverUfFCPTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalICMSUFReceiverFcpValue()))
+                            .withReceiverUfIcmsShareTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsUfReceiverShareValue()))
+                            .withEmitterUfIcmsShareTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsUfReceiverEmitterShareValue()))
+                            .build())
                     .build();
         }
         //@formatter:on
-        return null;
-    }
-
-    private List<NFeDetail> buildNFeDetails() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private Place buildDelivery() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private Place buildWithDrawal() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -395,9 +504,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         builder
             .withApplicationVersion(DispatchFromFiscalDocumentAdapter.APP_VERSION)
             .withDanfePrintFormat(this.buildDANFEPrintFormat())
-            .withDestinationOperationIdentifier(this.buildDestinationOperationIdentifier(this.getReceiver().isPresent() ? this.getReceiver().get() : null))
+            .withDestinationOperationIdentifier(this.buildDestinationOperationIdentifier())
             .withEmissionDateTime(DispatchFromFiscalDocumentAdapter.NFE_DATETIME_FORMAT.format(this.fiscalDocument.getEmission().getDate()))
-            .withFinalCustomerOperation(this.isEndConsumer() ? FinalCustomerOperation.CONSUMIDOR_FINAL : FinalCustomerOperation.NAO)
+            .withFinalCustomerOperation(this.fiscalDocument.isEndConsumer() ? FinalCustomerOperation.CONSUMIDOR_FINAL : FinalCustomerOperation.NAO)
             .withFiscalDocumentModel(this.fiscalDocument.getModel())
             .withFiscalDocumentSeries(this.fiscalDocument.getSerie().getNumber().toString())
             .withFiscalDocumentNumber(this.fiscalDocument.getNumber().toString())
@@ -410,7 +519,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
             .withTaxableEventCityIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> ba.getCity().getIbgeCode().toString()).orElse(DispatchFromFiscalDocumentAdapter.IBGE_CODE_DEFAULT)) //TODO Revisar
             .withTransmissionEnvironment(this.buildTransmissionEnvironment())
-            .withUFIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX)) //TODO Revisar
+            .withUFIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX))
             .withReferencedDocuments(this.buildReferencedDocuments());
         
         Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).ifPresent(nf->{
@@ -431,7 +540,10 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      //@formatter:on
     }
 
-    private DestinationOperationIdentifier buildDestinationOperationIdentifier(final Receiver receiver) {
+    private DestinationOperationIdentifier buildDestinationOperationIdentifier() {
+      //@formatter:off
+        final Receiver receiver = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe -> nfe.getReceiver()).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).filter(Receiver.class::isInstance).map(Receiver.class::cast).orElse(null));
+        
         if ((receiver == null) || ((receiver != null) && !receiver.getAddress().isValid())) {
             return DestinationOperationIdentifier.INTERNA;
         } else if (Optional.ofNullable(receiver.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast)
@@ -443,27 +555,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         } else {
             return DestinationOperationIdentifier.INTERESTADUAL;
         }
-    }
-
-    private Optional<Receiver> getReceiver() {
-        if (this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) {
-            return Optional.of(((eprecise.efiscal4j.nfe.NFe) this.fiscalDocument).getReceiver());
-        } else if (this.fiscalDocument instanceof NFCe) {
-            final Consumer consumer = ((NFCe) this.fiscalDocument).getConsumer();
-            if (consumer instanceof Receiver) {
-                return Optional.of((Receiver) consumer);
-            }
-        }
-        return Optional.empty();
-    }
-
-    public boolean isEndConsumer() {
-        if (this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) {
-            return ((eprecise.efiscal4j.nfe.NFe) this.fiscalDocument).getEndConsumer();
-        } else if (this.fiscalDocument instanceof NFCe) {
-            return true;
-        }
-        return false;
+      //@formatter:on
     }
 
     public eprecise.efiscal4j.nfe.v400.FiscalDocumentType buildFiscalDocumentType() {
@@ -558,7 +650,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                                             ).build();
             //@formatter:on
         } else {
-            throw new IllegalArgumentException(ref + " não é um tipo válido"); // TODO revisar
+            throw new IllegalArgumentException(ref + " não é um tipo válido");
         }
     }
 
@@ -569,7 +661,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         return eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF.ProducerReferencedNFModel.SPARE_NF;
     }
 
-    public ReferecedECFModel buildReferecedECFModel(final ReferencedECFModel model) {// TODO nome da classe errado
+    public ReferecedECFModel buildReferecedECFModel(final ReferencedECFModel model) {
         if (ReferencedECFModel.NON_ECF.equals(model)) {
             return ReferecedECFModel.NAO_ECF;
         } else if (ReferencedECFModel.ECF_PDV.equals(model)) {
@@ -601,6 +693,27 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      //@formatter:on
     }
 
+    private Address buildEmitterAddress(final EmitterAddress address, final Optional<String> phone) {
+     // @formatter:off
+        if(address != null) {
+            return new Address.Builder()
+                    .withStreet(this.formatNFeString(address.getStreet(), 60))
+                    .withNumber(this.formatNFeString(address.getNumber(), 60))
+                    .withComplement(this.formatNFeString(address.getComplement(), 60))
+                    .withDistrict(this.formatNFeString(address.getDistrict(), 60))
+                    .withCep(this.formatNFeString(address.getCep(), 8))
+                    .withCity(Optional.ofNullable(address.getCity()).map(c -> new City.Builder()
+                            .withIbgeCode(c.getIbgeCode())
+                            .withDescription(c.getDescription())
+                            .withUF(c.getUf())
+                            .build()).orElse(null))
+                    .withPhone(phone.orElse(null))
+                    .build();
+        }
+        return null;
+     // @formatter:on
+    }
+
     private Emitter buildEmitterNaturalPerson(final Builder builder, final eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
      // @formatter:off
         final EmitterNaturalPersonDocuments docs = (EmitterNaturalPersonDocuments) emitter.getDocuments();
@@ -630,119 +743,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         return eprecise.efiscal4j.nfe.v400.CRT.REGIME_NORMAL;
     }
 
-    private eprecise.efiscal4j.nfe.v400.address.Address buildEmitterAddress(final EmitterAddress address, final Optional<String> phone) {
-     // @formatter:off
-        if(!Optional.ofNullable(address.getCep()).filter(zc -> !zc.isEmpty()).isPresent()){
-            return null;
-        }
-        final eprecise.efiscal4j.nfe.v400.address.Address.Builder builder = new eprecise.efiscal4j.nfe.v400.address.Address.Builder();
-//        builder.withCity(address.getCity());
-//        if(address instanceof BrazilianAddress){
-//            final BrazilianAddress ba = (BrazilianAddress) address;
-//            eFiscalAddress.withCep(ba.getZipCode().getZipCode());
-//            eFiscalAddress.withDistrict(this.formatNFeString(ba.getZipCode().getDistrict(), 60));
-//            eFiscalAddress.withStreet(this.formatNFeString(ba.getZipCode().getStreet(), 60));
-//            eFiscalAddress.withNumber(this.formatNFeString(ba.getNumber(), 60));
-//            eFiscalAddress.withComplement(this.formatNFeString(ba.getDetails(), 60));
-//        } else if(address instanceof SimpleForeignAddress){
-//            eFiscalAddress.withDistrict("EXTERIOR");
-//            eFiscalAddress.withStreet("EXTERIOR");
-//            eFiscalAddress.withNumber("00000");
-//        }
-
-        phone.ifPresent(f -> builder.withPhone(phone.get()));
-
-        return builder.build();
-     // @formatter:on   
-    }
-
-    private City buildCity(final EmitterAddressCity city) {
-        // @formatter:off
-//           return new City.Builder()
-//                   .withCountry(city.getUf())
-//                   .withDescription(null)
-//                   .withIbgeCode(null)
-//                   .withUF(null)
-//                   .build();
-        return null;
-        // @formatter:on   
-    }
-
-    private eprecise.efiscal4j.nfe.v400.person.Receiver buildReceiver() {
-        final eprecise.efiscal4j.nfe.v400.person.Receiver.Builder builder = new eprecise.efiscal4j.nfe.v400.person.Receiver.Builder();
-        //
-        // if (this.fiscalDocument.getReceiver() == null) {
-        // if (this.nfe instanceof NFCe) {
-        // if (Optional.ofNullable(this.nfe.getCnp()).filter(cnp -> cnp.isNotNull() && cnp.isValid()).map(cnp -> cnp.getCnp()).isPresent()) {
-        // if (this.nfe.getCnp() instanceof SimpleCnpj) {
-        // return builder.asLegalEntity().withCnpj(this.nfe.getCnp().getCnp()).withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE).build();
-        // } else if (this.nfe.getCnp() instanceof SimpleCpf) {
-        // return builder.asNaturalPerson().withCpf(this.nfe.getCnp().getCnp()).withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE).build();
-        // }
-        // }
-        // }
-        // return null;
-        // }
-        //
-//        // @formatter:off
-//        if (this.nfe.getReceiver().isLegalEntity()) {
-//            final LegalEntityDocuments leDocuments = this.nfe.getReceiver().getDocuments(LegalEntityDocuments.class);
-//            builder = builder.asLegalEntity()
-//                             .withCnpj(Optional.ofNullable(this.nfe.getCnp()).filter(SimpleCnp::isNotNull).filter(SimpleCnp::isValid).map(SimpleCnp::getCnp).orElse(leDocuments.getCnp()))
-//                             .withCorporateName(this.formatNFeString(leDocuments.getCorporateName(), 60))
-//                             .withStateRegistration(!this.nfe.isIcmsTaxpayerFree() && (this.nfe instanceof eprecise.sgv.server.fiscal.nfes.NFe)? this.nullIfEmpty(this.nfe.getIe()):null)
-//                             .withMunicipalRegistration(this.nullIfEmpty(leDocuments.getIm()));
-//
-//            return builder.withAdress(this.getParsedAddress(this.nfe.getReceiver().getAddress(), this.getParsedPhone(this.nfe.getReceiver().getContacts())))
-//                          .withStateRegistrationReceiverIndicator(this.nfe.isIcmsTaxpayer() && (this.nfe instanceof eprecise.sgv.server.fiscal.nfes.NFe) ?
-//                                  this.nfe.isIcmsTaxpayerFree() ?
-//                                        StateRegistrationReceiverIndicator.ISENTO
-//                                        : StateRegistrationReceiverIndicator.CONTRIBUINTE_ICMS
-//                                        : StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
-//                          .build();
-//
-//        } else if(this.nfe.getReceiver().isNaturalPerson()) {
-//            final NaturalPersonDocuments npDocuments = this.nfe.getReceiver().getDocuments(NaturalPersonDocuments.class);
-//            return builder.asNaturalPerson()
-//                          .withCpf(Optional.ofNullable(this.nfe.getCnp()).filter(SimpleCnp::isNotNull).filter(SimpleCnp::isValid).map(SimpleCnp::getCnp).orElse(npDocuments.getCnp()))
-//                          .withStateRegistration(!this.nfe.isIcmsTaxpayerFree() && (this.nfe instanceof eprecise.sgv.server.fiscal.nfes.NFe)? this.nullIfEmpty(this.nfe.getIe()):null)
-//                          .withName(this.formatNFeString(this.nfe.getReceiver().getName(), 60))
-//                          .withAdress(this.getParsedAddress(this.nfe.getReceiver().getAddress(), this.getParsedPhone(this.nfe.getReceiver().getContacts())))
-//                          .withStateRegistrationReceiverIndicator(this.nfe.isIcmsTaxpayer() && (this.nfe instanceof eprecise.sgv.server.fiscal.nfes.NFe) ?
-//                                  this.nfe.isIcmsTaxpayerFree() ?
-//                                        StateRegistrationReceiverIndicator.ISENTO
-//                                        : StateRegistrationReceiverIndicator.CONTRIBUINTE_ICMS
-//                                        : StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
-//                          .build();
-//        } else if(this.nfe.getReceiver().isForeignPerson()){
-//            final ForeignPersonDocuments fpDocuments = this.nfe.getReceiver().getDocuments(ForeignPersonDocuments.class);
-//            return builder.asForeignPerson()
-//                          .withForeignId(fpDocuments.getForeignId())
-//                          .withCorporateName(this.formatNFeString(this.nfe.getReceiver().getName(), 60))
-//                          .withAdress(this.getParsedAddress(this.nfe.getReceiver().getAddress(), this.getParsedPhone(this.nfe.getReceiver().getContacts())))
-//                          .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
-//                          .build();
-//        }
-        return null;
-        //@formatter:on
-    }
-
-    private Optional<eprecise.efiscal4j.nfe.v400.person.Receiver> getReceiverFinalDomain() {
-     // @formatter:off
-      //@formatter:on
-
-        if (this.getReceiver().isPresent()) {
-            final Receiver receiver = this.getReceiver().get();
-            return Optional.of(new eprecise.efiscal4j.nfe.v400.person.Receiver.Builder().withAdress(this.buildAddress(receiver.getAddress())).withEmail(receiver.getEmail())
-                    // .withStateRegistrationReceiverIndicator(receiver.getDocuments().)
-                    .build());
-        }
-
-        return Optional.empty();
-    }
-
-    private Address buildAddress(final ReceiverAddress address) {
-        // TODO Implementar
+    private List<NFeDetail> buildNFeDetails() {
+        // TODO Auto-generated method stub
         return null;
     }
 

@@ -25,26 +25,29 @@ public class NFCe extends FiscalDocument {
      * @param consumer
      */
     private final Consumer consumer;
-    
+
     /**
      * @see CSC
      * @param csc
      */
     private final CSC csc;
-    
-    
 
     @Builder
-    public NFCe(FiscalDocumentSerie serie, Integer number, EmissionDate emission, Emitter emitter, Collection<Item> items, Charging charging, Payment payment, Transport transport, String details,
-            Consumer consumer, final CSC csc) {
+    public NFCe(final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final Collection<Item> items, final Charging charging, final Payment payment,
+            final Transport transport, final String details, final Consumer consumer, final CSC csc) {
         super(serie, number, emission, emitter, items, charging, payment, transport, details);
         this.consumer = consumer;
         this.csc = csc;
     }
 
-	@Override
-	public FiscalDocumentModel getModel() {
-		return FiscalDocumentModel.NFCE;
-	}
+    @Override
+    public FiscalDocumentModel getModel() {
+        return FiscalDocumentModel.NFCE;
+    }
+
+    @Override
+    public boolean isEndConsumer() {
+        return true;
+    }
 
 }

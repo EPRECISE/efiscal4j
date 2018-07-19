@@ -32,7 +32,6 @@ public class NFeDomainImportTest {
                 System.out.println("teste de importação do xml: " + path);
                 final FiscalDocument.Processed processedFiscalDocument = FiscalDocument.Processed.builder().buildFromXml(Resources.toString(path.toUri().toURL(), Charsets.UTF_8));
                 Assert.assertNotNull(processedFiscalDocument);
-
                 try {
                     ValidationBuilder.from(processedFiscalDocument).validate().throwIfViolate();
                 } catch (final ConstraintViolationException e) {
@@ -42,7 +41,7 @@ public class NFeDomainImportTest {
                     }
                     Assert.assertTrue(message.toString(), false);
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
         });

@@ -58,7 +58,7 @@ public class NFe extends FiscalDocument {
      * @param endConsumer
      *
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.nfe.endConsumer.isNotNull}") final Boolean endConsumer;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.nfe.endConsumer.isNotNull}") final boolean endConsumer;
 
     /**
      * Descrição da Natureza da Operação
@@ -67,7 +67,7 @@ public class NFe extends FiscalDocument {
      *
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.nfe.operationDescription.isNotNull}") @Size(
-            min = 1, max = 60, message = "{eprecise.efiscal4j.nfe.nfe.operationDescription.isSize}") String operationDescription;
+            min = 1, max = 60, message = "{eprecise.efiscal4j.nfe.nfe.operationDescription.isSize}") final String operationDescription;
 
     /**
      * @see DocumentReference
@@ -76,9 +76,9 @@ public class NFe extends FiscalDocument {
     private final @Valid Collection<DocumentReference> documentReferences;
 
     @Builder
-    public NFe(FiscalDocumentSerie serie, Integer number, EmissionDate emission, Emitter emitter, Collection<Item> items, Charging charging, Payment payment, Transport transport, String details,
-            Receiver receiver, IODate entranceOrExit, NFeFinality finality, FiscalDocumentType type, Boolean endConsumer, String operationDescription,
-            Collection<DocumentReference> documentReferences) {
+    public NFe(final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final Collection<Item> items, final Charging charging, final Payment payment,
+            final Transport transport, final String details, final Receiver receiver, final IODate entranceOrExit, final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer,
+            final String operationDescription, final Collection<DocumentReference> documentReferences) {
         super(serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items, charging, payment, transport, details);
         this.receiver = receiver;
         this.entranceOrExit = Optional.ofNullable(entranceOrExit).orElse(new CurrentIODate());
@@ -89,11 +89,9 @@ public class NFe extends FiscalDocument {
         this.documentReferences = documentReferences;
     }
 
-	@Override
-	public FiscalDocumentModel getModel() {
-		return FiscalDocumentModel.NFE;
-	}
-
-    
+    @Override
+    public FiscalDocumentModel getModel() {
+        return FiscalDocumentModel.NFE;
+    }
 
 }

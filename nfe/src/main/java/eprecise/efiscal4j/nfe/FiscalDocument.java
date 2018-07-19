@@ -42,6 +42,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+
 /**
  * Base da Nota Fiscal Eletrônica, utilizada tanto para NF-e quanto para NFC-e
  *
@@ -52,77 +53,81 @@ import lombok.Getter;
 @Getter
 public abstract class FiscalDocument {
 
-	/**
-	 * @see FiscalDocumentSerie
-	 * @param serie
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.serie.isNotNull}") @Valid final FiscalDocumentSerie serie;
+    /**
+     * @see FiscalDocumentSerie
+     * @param serie
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.serie.isNotNull}") @Valid final FiscalDocumentSerie serie;
 
-	/**
-	 * Número do Documento Fiscal
-	 * 
-	 * @param number
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isNotNull}") @Min(value = 1, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMinSize}") @Max(value = 999999999, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMaxSize}") final Integer number;
+    /**
+     * Número do Documento Fiscal
+     * 
+     * @param number
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isNotNull}") @Min(value = 1, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMinSize}") @Max(
+            value = 999999999, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMaxSize}") final Integer number;
 
-	/**
-	 * @see EmissionDate
-	 * @param emission
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emission.isNotNull}") @Valid final EmissionDate emission;
+    /**
+     * @see EmissionDate
+     * @param emission
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emission.isNotNull}") @Valid final EmissionDate emission;
 
-	/**
-	 * @see Emitter
-	 * @param emitter
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emitter.isNotNull}") @Valid final Emitter emitter;
+    /**
+     * @see Emitter
+     * @param emitter
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.emitter.isNotNull}") @Valid final Emitter emitter;
 
-	/**
-	 * @see Item
-	 * @param items
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isNotNull}") @Size(min = 1, max = 990, message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isSize}") @Valid final Collection<Item> items;
+    /**
+     * @see Item
+     * @param items
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isNotNull}") @Size(
+            min = 1, max = 990, message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isSize}") @Valid final Collection<Item> items;
 
-	/**
-	 * @see Charging
-	 * @param charging
-	 */
-	private final @Valid Charging charging;
+    /**
+     * @see Charging
+     * @param charging
+     */
+    private final @Valid Charging charging;
 
-	/**
-	 * @see Payment
-	 * @param payment
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.payment.isNotNull}") @Valid final Payment payment;
+    /**
+     * @see Payment
+     * @param payment
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.payment.isNotNull}") @Valid final Payment payment;
 
-	/**
-	 * @see Transport
-	 * @param transport
-	 */
-	private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
+    /**
+     * @see Transport
+     * @param transport
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
 
-	/**
-	 * Informações complementares de interesse do Contribuinte
-	 * 
-	 * @param details
-	 */
-	private @Size(min = 1, max = 5000, message = "{eprecise.efiscal4j.nfe.fiscalDocument.details.isSize}") final String details;
+    /**
+     * Informações complementares de interesse do Contribuinte
+     * 
+     * @param details
+     */
+    private @Size(min = 1, max = 5000, message = "{eprecise.efiscal4j.nfe.fiscalDocument.details.isSize}") final String details;
 
-	
-	public abstract FiscalDocumentModel getModel();
-	
-	public FiscalDocumentTotal getTotal() {
-		return new FiscalDocumentTotal(() -> this.items);
-	}
-	
-	/**
-	 * Transmite o documento fiscal
-	 * 
-	 * @param versão do documento fiscal
-	 * @return documento fiscal processado
-	 */
-	public FiscalDocument.TransmissionResult transmit(FiscalDocumentSupportedVersion version) {
-		// @formatter:off
+    public abstract FiscalDocumentModel getModel();
+
+    public abstract boolean isEndConsumer();
+
+    public FiscalDocumentTotal getTotal() {
+        return new FiscalDocumentTotal(() -> this.items);
+    }
+
+    /**
+     * Transmite o documento fiscal
+     * 
+     * @param versão
+     *            do documento fiscal
+     * @return documento fiscal processado
+     */
+    public FiscalDocument.TransmissionResult transmit(final FiscalDocumentSupportedVersion version) {
+        // @formatter:off
 		try {
 			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(this.getClass()).newInstance(this).buildNFeDispatch();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.emitter.getCertificate());
@@ -133,38 +138,38 @@ public abstract class FiscalDocument {
 			throw new RuntimeException(e);
 		}
 		// @formatter:on
-	}
-	
+    }
 
-	@Builder
-	@Getter
-	public static class Processed {
+    @Builder
+    @Getter
+    public static class Processed {
 
-		private final String id;
+        private final String id;
 
-		private final FiscalDocumentSupportedVersion version;
+        private final FiscalDocumentSupportedVersion version;
 
-		private final String applicationVersion;
+        private final String applicationVersion;
 
-		private final String accessKey;
+        private final String accessKey;
 
-		private final Date processing;
+        private final Date processing;
 
-		private final String protocolNumber;
+        private final String protocolNumber;
 
-		private final String digestValue;
+        private final String digestValue;
 
-		private final EventStatus status;
+        private final EventStatus status;
 
-		private final FiscalDocument document;
-		
-		private final ProcessedNFeVersion processedVersion;
-		
-		public static class ProcessedBuilder {
-			public Processed buildFromXml(final String xml) {
-				// @formatter:off
+        private final FiscalDocument document;
 
-				for (FiscalDocumentSupportedVersion v : FiscalDocumentSupportedVersion.values()) {
+        private final ProcessedNFeVersion processedVersion;
+
+        public static class ProcessedBuilder {
+
+            public Processed buildFromXml(final String xml) {
+                // @formatter:off
+
+				for (final FiscalDocumentSupportedVersion v : FiscalDocumentSupportedVersion.values()) {
 					try {
 						final String xsdPath = (String) v.getProcessedNFeClass().getDeclaredField("XSD").get(null);
 						final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
@@ -172,50 +177,50 @@ public abstract class FiscalDocument {
 							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).deserialize();
 							return processedNFeVersion.buildProcessedFiscalDocument();
 						}
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						throw new RuntimeException(e);
 					}
 				}
 
 				return null;
 				// @formatter:on
-			}
+            }
 
-			public Processed buildFromXml(InputStream xml) {
-				try {
-					return this.buildFromXml(IOUtils.toString(xml, StandardCharsets.UTF_8));
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-		
-		public String getXml() {
-			return new FiscalDocumentSerializer<>(this.processedVersion).serialize();
-		}
+            public Processed buildFromXml(final InputStream xml) {
+                try {
+                    return this.buildFromXml(IOUtils.toString(xml, StandardCharsets.UTF_8));
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
 
-	}
-	
-	@Builder
-	@Getter
-	public static class TransmissionResult {
-		
-		private final FiscalDocumentSupportedVersion version;
-		
-		private final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result;
-		
-		public ProcessedNFeVersion getProcessedNFeVersion() {
-			try {
-				return version.getProcessedNFeClass().getConstructor(result.getRequest().getClass(), result.getResponse().getClass()).newInstance(result.getRequest(), result.getResponse());
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		
-		public FiscalDocument.Processed getProcessed(){
-			return this.getProcessedNFeVersion().buildProcessedFiscalDocument();
-		}
-		
-	}
+        public String getXml() {
+            return new FiscalDocumentSerializer<>(this.processedVersion).serialize();
+        }
+
+    }
+
+    @Builder
+    @Getter
+    public static class TransmissionResult {
+
+        private final FiscalDocumentSupportedVersion version;
+
+        private final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result;
+
+        public ProcessedNFeVersion getProcessedNFeVersion() {
+            try {
+                return this.version.getProcessedNFeClass().getConstructor(this.result.getRequest().getClass(), this.result.getResponse().getClass()).newInstance(this.result.getRequest(),
+                        this.result.getResponse());
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public FiscalDocument.Processed getProcessed() {
+            return this.getProcessedNFeVersion().buildProcessedFiscalDocument();
+        }
+
+    }
 }
