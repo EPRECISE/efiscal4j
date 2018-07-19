@@ -241,11 +241,11 @@ import eprecise.efiscal4j.nfe.transport.mean.FerryTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.TransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean.VehicleTowingTransportMeanBuilder;
-import eprecise.efiscal4j.nfe.v400.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe;
+import eprecise.efiscal4j.nfe.v400.sharing.ProcessingStatusProtocol;
 import eprecise.efiscal4j.nfe.v400.tax.icms.BCModality;
 import eprecise.efiscal4j.nfe.v400.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
@@ -255,83 +255,84 @@ import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedFiscalDocumentAdapterVersion;
 
 
-public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAdapterVersion{
+public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAdapterVersion {
 
     private final ProcessedNFe processedNFe;
 
     public ProcessedFiscalDocumentAdapter(final ProcessedNFe processedNFe) {
         this.processedNFe = processedNFe;
     }
-    
-    public ProcessedFiscalDocumentAdapter(final eprecise.efiscal4j.nfe.v400.NFe nfe, ProcessingStatusProtocol processingStatusProtocol) {
+
+    public ProcessedFiscalDocumentAdapter(final eprecise.efiscal4j.nfe.v400.NFe nfe, final ProcessingStatusProtocol processingStatusProtocol) {
         this.processedNFe = new ProcessedNFe.Builder().withNfe(nfe).withProcessingStatusProtocol(processingStatusProtocol).build();
     }
 
+    @Override
     public FiscalDocument.Processed buildProcessedFiscalDocument() {
      // @formatter:off
         try {
             return FiscalDocument.Processed.builder()
-                .id(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
+                .id(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
                 .version(FiscalDocumentSupportedVersion.VERSION_3_10)
-                .applicationVersion(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
-                .accessKey(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey())
-                .processing(Optional.ofNullable(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProcessingDateTime()).map(t -> {
+                .applicationVersion(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
+                .accessKey(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey())
+                .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProcessingDateTime()).map(t -> {
                     try {
                         return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (ParseException e) {
+                    } catch (final ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }).orElse(null))
-                .protocolNumber(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProtocolNumber())
-                .digestValue(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue())
+                .protocolNumber(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProtocolNumber())
+                .digestValue(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue())
                 .status(EventStatus.builder()
-                		.statusCode(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
-                        .statusDescription(processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
+                		.statusCode(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
+                        .statusDescription(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
                 		.build())
                 .document(this.buildFiscalDocument())
-                .processedVersion(processedNFe)
+                .processedVersion(this.processedNFe)
                 .build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
      // @formatter:on
     }
 
     private FiscalDocument buildFiscalDocument() throws NumberFormatException, ParseException {
-        if (processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
+        if (this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
          // @formatter:off
             return NFe.builder()
                     .receiver(this.buildReceiver())
                     .entranceOrExit(this.buildEntranceOrExit())
-                    .finality(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getnFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
-                    .type(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentType()).map(nfeFiscalDocumentType -> FiscalDocumentType.findByCode(nfeFiscalDocumentType.getType())).orElse(null))
-                    .endConsumer(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFinalCustomerOperation().isFinal())
-                    .operationDescription(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getOperationType())
+                    .finality(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getnFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
+                    .type(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentType()).map(nfeFiscalDocumentType -> FiscalDocumentType.findByCode(nfeFiscalDocumentType.getType())).orElse(null))
+                    .endConsumer(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFinalCustomerOperation().isFinal())
+                    .operationDescription(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getOperationType())
                     .documentReferences(this.buildDocumentReferences())
                     .serie(this.buildSerie())
-                    .number(Integer.valueOf(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
-                    .emission(buildEmissionDate())
+                    .number(Integer.valueOf(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+                    .emission(this.buildEmissionDate())
                     .emitter(this.buildEmitter())
                     .items(this.buildItems())
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
                     .build();
          // @formatter:on
-        } else if (processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
+        } else if (this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
          // @formatter:off
             return NFCe.builder()
                     .consumer(this.buildConsumer())
                     .serie(this.buildSerie())
-                    .number(Integer.valueOf(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
-                    .emission(buildEmissionDate())
+                    .number(Integer.valueOf(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+                    .emission(this.buildEmissionDate())
                     .emitter(this.buildEmitter())
                     .items(this.buildItems())
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
                     .build();
          // @formatter:on
         }
@@ -340,11 +341,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Transport buildTransport() {
      // @formatter:off
-        final NFeTransport nfeTransport = processedNFe.getNfe().getNFeInfo().getnFeTransport();
+        final NFeTransport nfeTransport = this.processedNFe.getNfe().getNFeInfo().getnFeTransport();
         return Transport.builder()
                 .shippingModality(Optional.ofNullable(nfeTransport.getShippingModality()).map(nfeShippingModality -> ShippingModality.findByCode(nfeShippingModality.getValue())).orElse(null))
                 .conveyor(this.buildConveyor())
-                .icmsRetention(buildTransportIcmsRetention())
+                .icmsRetention(this.buildTransportIcmsRetention())
                 .transportMean(this.buildTransportMean())
                 .volumes(this.buildTransportVolumes())
                 .build();
@@ -353,16 +354,16 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Collection<TransportedVolume> buildTransportVolumes() {
      // @formatter:off
-        final Collection<eprecise.efiscal4j.nfe.v400.transport.TransportedVolume> nfeTransportVolumes = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportedVolume();
-        if(nfeTransportVolumes != null && !nfeTransportVolumes.isEmpty()) {
+        final Collection<eprecise.efiscal4j.nfe.v400.transport.TransportedVolume> nfeTransportVolumes = this.processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportedVolume();
+        if((nfeTransportVolumes != null) && !nfeTransportVolumes.isEmpty()) {
             return nfeTransportVolumes.stream().map(nfeVolume -> TransportedVolume.builder()
-                    .volumeQuantity(toLong(nfeVolume.getVolumeQuantity()))
+                    .volumeQuantity(this.toLong(nfeVolume.getVolumeQuantity()))
                     .volumeSpecies(nfeVolume.getVolumeSpecies())
                     .volumeTrademark(nfeVolume.getVolumeTrademark())
                     .volumeNumbering(nfeVolume.getVolumeNumbering())
-                    .netWeight(toBigDecimal(nfeVolume.getNetWeight()))
-                    .grossWeight(toBigDecimal(nfeVolume.getGrossWeight()))
-                    .seals(nfeVolume.getSeals() != null && !nfeVolume.getSeals().isEmpty() ? nfeVolume.getSeals().stream().map(vs->VolumeSeal.builder()
+                    .netWeight(this.toBigDecimal(nfeVolume.getNetWeight()))
+                    .grossWeight(this.toBigDecimal(nfeVolume.getGrossWeight()))
+                    .seals((nfeVolume.getSeals() != null) && !nfeVolume.getSeals().isEmpty() ? nfeVolume.getSeals().stream().map(vs->VolumeSeal.builder()
                             .sealNumber(vs.getSealNumber())
                             .build()).collect(Collectors.toList()) : null)
                     .build()).collect(Collectors.toList());
@@ -373,11 +374,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private TransportMean buildTransportMean() {
      // @formatter:off
-        final NFeTransport nfeTransport = processedNFe.getNfe().getNFeInfo().getnFeTransport();
-        final eprecise.efiscal4j.nfe.v400.transport.Vehicle nfeVehicle = processedNFe.getNfe().getNFeInfo().getnFeTransport().getVehicle();
-        final List<eprecise.efiscal4j.nfe.v400.transport.Vehicle> nfeTowing = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTowing();
+        final NFeTransport nfeTransport = this.processedNFe.getNfe().getNFeInfo().getnFeTransport();
+        final eprecise.efiscal4j.nfe.v400.transport.Vehicle nfeVehicle = this.processedNFe.getNfe().getNFeInfo().getnFeTransport().getVehicle();
+        final List<eprecise.efiscal4j.nfe.v400.transport.Vehicle> nfeTowing = this.processedNFe.getNfe().getNFeInfo().getnFeTransport().getTowing();
         
-        if(nfeVehicle != null || (nfeTowing != null && !nfeTowing.isEmpty())) {
+        if((nfeVehicle != null) || ((nfeTowing != null) && !nfeTowing.isEmpty())) {
             final VehicleTowingTransportMeanBuilder builder = VehicleTowingTransportMean.builder();
             
             if(nfeVehicle != null) {
@@ -388,7 +389,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                         .build());
             }
             
-            if((nfeTowing != null && !nfeTowing.isEmpty())) {
+            if(((nfeTowing != null) && !nfeTowing.isEmpty())) {
                 builder.towing(nfeTowing.stream().map(nfeTowingVehicle -> Vehicle.builder()
                         .licensePlate(nfeTowingVehicle.getLicensePlate())
                         .uf(nfeTowingVehicle.getUf())
@@ -408,14 +409,14 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     }
 
     private TransportICMSRetention buildTransportIcmsRetention() {
-        final eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention nfeTransportICMSRetention = processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
+        final eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention nfeTransportICMSRetention = this.processedNFe.getNfe().getNFeInfo().getnFeTransport().getTransportICMSRetention();
      // @formatter:off
         if(nfeTransportICMSRetention != null) {
             return TransportICMSRetention.builder()
-                    .serviceValue(toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
-                    .retentionCalculationBasis(toBigDecimal(nfeTransportICMSRetention.getRetentionCalculationBasis()))
-                    .retentionAliquot(toBigDecimal(nfeTransportICMSRetention.getRetentionAliquot()))
-                    .retentionValue(toBigDecimal(nfeTransportICMSRetention.getRetentionValue()))
+                    .serviceValue(this.toBigDecimal(nfeTransportICMSRetention.getServiceValue()))
+                    .retentionCalculationBasis(this.toBigDecimal(nfeTransportICMSRetention.getRetentionCalculationBasis()))
+                    .retentionAliquot(this.toBigDecimal(nfeTransportICMSRetention.getRetentionAliquot()))
+                    .retentionValue(this.toBigDecimal(nfeTransportICMSRetention.getRetentionValue()))
                     .cfop(nfeTransportICMSRetention.getCfop())
                     .genFactIbgeCode(nfeTransportICMSRetention.getGenFactIbgeCode())
                     .build();
@@ -427,7 +428,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Conveyor buildConveyor() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.transport.Conveyor nfeConveyor = processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
+        final eprecise.efiscal4j.nfe.v400.transport.Conveyor nfeConveyor = this.processedNFe.getNfe().getNFeInfo().getnFeTransport().getConveyor();
 
         if(nfeConveyor != null) {
             return Conveyor.builder()
@@ -451,14 +452,14 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Payment buildPayment() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.payment.NFePayment nfePayment = processedNFe.getNfe().getNFeInfo().getnFePayment();
+        final eprecise.efiscal4j.nfe.v400.payment.NFePayment nfePayment = this.processedNFe.getNfe().getNFeInfo().getnFePayment();
         if(nfePayment != null) {
             final PaymentBuilder builder = Payment.builder();
-            if(nfePayment.getPaymentDetails() != null && !nfePayment.getPaymentDetails().isEmpty()) {
+            if((nfePayment.getPaymentDetails() != null) && !nfePayment.getPaymentDetails().isEmpty()) {
                 return builder
                         .details(nfePayment.getPaymentDetails().stream().map(p-> PaymentDetail.builder()
                                 .method(Optional.ofNullable(p.getPaymentMethod()).map(nfePaymentMethod -> PaymentMethod.findByCode(p.getPaymentValue())).orElse(PaymentMethod.OUTROS))
-                                .value(toBigDecimal(p.getPaymentValue()))
+                                .value(this.toBigDecimal(p.getPaymentValue()))
                                 .cardSet(p.getCardSet() != null ? CardSet.builder()
                                         .integration(Optional.ofNullable(p.getCardSet().getPaymentIntegrationType()).map(nfePaymentIntegrationType -> CardSetIntegration.findByCode(nfePaymentIntegrationType.getValue())).orElse(null))
                                         .cnpj(p.getCardSet().getCnpj())
@@ -469,7 +470,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                         .build();
             }
             if(!StringUtils.isEmpty(nfePayment.getChangeValue())) {
-                builder.changeValue(toBigDecimal(nfePayment.getChangeValue()));
+                builder.changeValue(this.toBigDecimal(nfePayment.getChangeValue()));
             }
             return builder.build();
         }
@@ -480,11 +481,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Charging buildCharging() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.charging.NFeCharging nfeCharging = processedNFe.getNfe().getNFeInfo().getnFeCharging();
+        final eprecise.efiscal4j.nfe.v400.charging.NFeCharging nfeCharging = this.processedNFe.getNfe().getNFeInfo().getnFeCharging();
         if(nfeCharging != null) {
             return Charging.builder()
-                    .invoice(buildChargingInvoice())
-                    .duplicates(buildChargingDuplicates())
+                    .invoice(this.buildChargingInvoice())
+                    .duplicates(this.buildChargingDuplicates())
                     .build();
         }
      // @formatter:on
@@ -493,18 +494,18 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Collection<Duplicate> buildChargingDuplicates() {
      // @formatter:off
-        final Collection<eprecise.efiscal4j.nfe.v400.charging.Duplicate> nfeDuplicates = processedNFe.getNfe().getNFeInfo().getnFeCharging().getDuplicates();
-        if(nfeDuplicates != null && !nfeDuplicates.isEmpty()) {
+        final Collection<eprecise.efiscal4j.nfe.v400.charging.Duplicate> nfeDuplicates = this.processedNFe.getNfe().getNFeInfo().getnFeCharging().getDuplicates();
+        if((nfeDuplicates != null) && !nfeDuplicates.isEmpty()) {
             return nfeDuplicates.stream().map(nfeDuplicate-> Duplicate.builder()
                     .number(nfeDuplicate.getNumber())
                     .due(Optional.ofNullable(nfeDuplicate.getDueDate()).map(t -> {
                         try {
                             return NFeDate.dateFormat.parse(t);
-                        } catch (ParseException e) {
+                        } catch (final ParseException e) {
                             throw new RuntimeException(e);
                         }
                     }).orElse(null))
-                    .value(toBigDecimal(nfeDuplicate.getValue()))
+                    .value(this.toBigDecimal(nfeDuplicate.getValue()))
                     .build()).collect(Collectors.toList());
         }
      // @formatter:on
@@ -513,12 +514,12 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Invoice buildChargingInvoice() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.charging.Invoice nfeInvoice = processedNFe.getNfe().getNFeInfo().getnFeCharging().getInvoice();
+        final eprecise.efiscal4j.nfe.v400.charging.Invoice nfeInvoice = this.processedNFe.getNfe().getNFeInfo().getnFeCharging().getInvoice();
         if(nfeInvoice != null) {
             Invoice.builder()
             .number(nfeInvoice.getNumber())
-            .originalValue(toBigDecimal(nfeInvoice.getOriginalValue()))
-            .discountValue(toBigDecimal(nfeInvoice.getDiscountValue()))
+            .originalValue(this.toBigDecimal(nfeInvoice.getOriginalValue()))
+            .discountValue(this.toBigDecimal(nfeInvoice.getDiscountValue()))
             .build();
         }
      // @formatter:on
@@ -527,11 +528,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Emitter buildEmitter() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = processedNFe.getNfe().getNFeInfo().getEmitter();
+        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = this.processedNFe.getNfe().getNFeInfo().getEmitter();
         return Emitter.builder()
-                .documents(buildEmitterDocuments())
+                .documents(this.buildEmitterDocuments())
                 .crt(Optional.ofNullable(nfeEmitter.getCrt()).map(nfeCrt -> CRT.findByCode(nfeCrt.getValue())).orElse(null))
-                .address(buildEmitterAddress())
+                .address(this.buildEmitterAddress())
                 .phone(nfeEmitter.getAdress() != null ? nfeEmitter.getAdress().getPhone() : null)
                 .build();
      // @formatter:on
@@ -539,7 +540,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private EmitterAddress buildEmitterAddress() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.address.Address nfeEmitterAddress = processedNFe.getNfe().getNFeInfo().getEmitter().getAdress();
+        final eprecise.efiscal4j.nfe.v400.address.Address nfeEmitterAddress = this.processedNFe.getNfe().getNFeInfo().getEmitter().getAdress();
         if(nfeEmitterAddress != null) {
             return EmitterAddress.builder()
                     .cep(nfeEmitterAddress.getCep())
@@ -560,8 +561,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private EmitterDocuments buildEmitterDocuments() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = processedNFe.getNfe().getNFeInfo().getEmitter();
-        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeEmitterDocuments = processedNFe.getNfe().getNFeInfo().getEmitter().getDocuments();
+        final eprecise.efiscal4j.nfe.v400.person.Emitter nfeEmitter = this.processedNFe.getNfe().getNFeInfo().getEmitter();
+        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeEmitterDocuments = this.processedNFe.getNfe().getNFeInfo().getEmitter().getDocuments();
         if(nfeEmitterDocuments instanceof eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) {
             final eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments nfeEmitterLegalEntityDocuments = (eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) nfeEmitterDocuments;
             return EmitterLegalEntityDocuments.builder()
@@ -592,11 +593,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Receiver buildReceiver() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
+        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = this.processedNFe.getNfe().getNFeInfo().getReceiver();
         if(nfeReceiver != null) {
             return Receiver.builder()
-                    .documents(buildReceiverDocuments())
-                    .address(buildReceiverAddress())
+                    .documents(this.buildReceiverDocuments())
+                    .address(this.buildReceiverAddress())
                     .email(nfeReceiver.getEmail())
                     .phone(nfeReceiver.getAdress() != null ? nfeReceiver.getAdress().getPhone() : null)
                     .build();
@@ -607,7 +608,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private ReceiverAddress buildReceiverAddress() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.address.Address nfeReceiverAddress = processedNFe.getNfe().getNFeInfo().getReceiver().getAdress();
+        final eprecise.efiscal4j.nfe.v400.address.Address nfeReceiverAddress = this.processedNFe.getNfe().getNFeInfo().getReceiver().getAdress();
         if(nfeReceiverAddress != null) {
             return BrazillianReceiverAddress.builder()
                     .cep(nfeReceiverAddress.getCep())
@@ -628,16 +629,16 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private ReceiverDocuments buildReceiverDocuments() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
-        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = this.processedNFe.getNfe().getNFeInfo().getReceiver();
+        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = this.processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
         
         if(nfeReceiverDocuments != null) {
-            final ReceiverCnp cnp = buildReceiverCnp();
+            final ReceiverCnp cnp = this.buildReceiverCnp();
             
             return ReceiverDocuments.builder()
                     .cnp(cnp)
                     .name(nfeReceiverDocuments.getAbstractName())
-                    .ie(buildReceiverIE())
+                    .ie(this.buildReceiverIE())
                     .im(nfeReceiver.getMunicipalRegistration())
                     .build();
         }
@@ -647,7 +648,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     }
 
     private ReceiverCnp buildReceiverCnp() {
-        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = this.processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
 
         if (nfeReceiverDocuments instanceof eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments) {
             return ReceiverCnpj.builder().cnpj(nfeReceiverDocuments.getCnpjCpf()).build();
@@ -659,8 +660,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private ReceiverIE buildReceiverIE() {
      // @formatter:off
-        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = processedNFe.getNfe().getNFeInfo().getReceiver();
-        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
+        final eprecise.efiscal4j.nfe.v400.person.Receiver nfeReceiver = this.processedNFe.getNfe().getNFeInfo().getReceiver();
+        final eprecise.efiscal4j.nfe.v400.person.AbstractDocuments nfeReceiverDocuments = this.processedNFe.getNfe().getNFeInfo().getReceiver().getDocuments();
         if (nfeReceiver.getStateRegistrationReceiverIndicator() != null) {
             switch(nfeReceiver.getStateRegistrationReceiverIndicator()) {
                 case CONTRIBUINTE_ICMS: return TaxpayerReceiverIE.builder().ie(nfeReceiverDocuments.getStateRegistration()).build();
@@ -675,10 +676,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     private EmissionDate buildEmissionDate() {
      // @formatter:off
         return CustomEmissionDate.builder()
-                .custom(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime()).map(t -> {
+                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime()).map(t -> {
                     try {
                         return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (ParseException e) {
+                    } catch (final ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }).orElse(null))
@@ -689,8 +690,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     private FiscalDocumentSerie buildSerie() {
      // @formatter:off
         return FiscalDocumentSerie.builder()
-                .number(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getFiscalDocumentSeries()).map(Integer::parseInt).orElse(null))
-                .environment(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getTransmissionEnvironment()).map(t -> TransmissionEnvironment.findBy(t.getValue()).orElse(null)).orElse(null))
+                .number(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getFiscalDocumentSeries()).map(Integer::parseInt).orElse(null))
+                .environment(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification()).map(id -> id.getTransmissionEnvironment()).map(t -> TransmissionEnvironment.findBy(t.getValue()).orElse(null)).orElse(null))
                 .build();
      // @formatter:on
     }
@@ -701,7 +702,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
             if (ValidationBuilder.from(receiver).validate().getViolations().isEmpty()) {
                 return receiver;
             } else {
-                return Optional.ofNullable(buildReceiverCnp()).map(cnp -> SimpleConsumer.builder().cnp(cnp).build()).orElse(null);
+                return Optional.ofNullable(this.buildReceiverCnp()).map(cnp -> SimpleConsumer.builder().cnp(cnp).build()).orElse(null);
             }
         }
         return null;
@@ -710,10 +711,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     private IODate buildEntranceOrExit() {
      // @formatter:off
         return CustomIODate.builder()
-                .custom(Optional.ofNullable(processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEntranceOrExitDateTime()).map(t -> {
+                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEntranceOrExitDateTime()).map(t -> {
                     try {
                         return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (ParseException e) {
+                    } catch (final ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }).orElse(null))
@@ -723,8 +724,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Collection<DocumentReference> buildDocumentReferences() {
      // @formatter:off
-        final Collection<eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments> nfeReferencedDocuments = processedNFe.getNfe().getNFeInfo().getnFeIdentification().getReferencedDocuments();
-        if(nfeReferencedDocuments != null && !nfeReferencedDocuments.isEmpty()) {
+        final Collection<eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments> nfeReferencedDocuments = this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getReferencedDocuments();
+        if((nfeReferencedDocuments != null) && !nfeReferencedDocuments.isEmpty()) {
             return nfeReferencedDocuments.stream().map(rd -> {
                 if(!StringUtils.isEmpty(rd.getReferencedNFeAccessKey())) {
                     return ReferenceToNFeAccessKey.builder().accessKey(rd.getReferencedNFeAccessKey()).build();
@@ -765,8 +766,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private Collection<Item> buildItems() {
         // @formatter:off
-            final Collection<eprecise.efiscal4j.nfe.v400.NFeDetail> nfeDetails = processedNFe.getNfe().getNFeInfo().getnFeDetails();
-            if(nfeDetails != null && !nfeDetails.isEmpty()) {
+            final Collection<eprecise.efiscal4j.nfe.v400.NFeDetail> nfeDetails = this.processedNFe.getNfe().getNFeInfo().getnFeDetails();
+            if((nfeDetails != null) && !nfeDetails.isEmpty()) {
                 return nfeDetails.stream().map(nfeDetail -> {
                    return Item.builder()
                            .code(nfeDetail.getnFeItem().getItemCode())
@@ -780,23 +781,24 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                    .taxableUnity(Optional.ofNullable(nfeDetail.getnFeItem().getTaxableUnit()).map(tu -> Unity.findByAcronym(tu).orElse(null)).orElse(null))
                                    .build())
                            .quantity(ItemQuantity.builder()
-                                   .comercialQuantity(toBigDecimal(nfeDetail.getnFeItem().getComercialQuantity()))
-                                   .taxableQuantity(toBigDecimal(nfeDetail.getnFeItem().getTaxableQuantity()))
+                                   .comercialQuantity(this.toBigDecimal(nfeDetail.getnFeItem().getComercialQuantity()))
+                                   .taxableQuantity(this.toBigDecimal(nfeDetail.getnFeItem().getTaxableQuantity()))
                                    .build())
                            .unitaryValue(ItemUnitaryValue.builder()
-                                   .comercialUnitaryValue(toBigDecimal(nfeDetail.getnFeItem().getComercialUnitaryValue()))
-                                   .taxableUnitaryValue(toBigDecimal(nfeDetail.getnFeItem().getTaxationUnitaryValue()))
+                                   .comercialUnitaryValue(this.toBigDecimal(nfeDetail.getnFeItem().getComercialUnitaryValue()))
+                                   .taxableUnitaryValue(this.toBigDecimal(nfeDetail.getnFeItem().getTaxationUnitaryValue()))
                                    .build())
-                           .discount(toBigDecimal(nfeDetail.getnFeItem().getDiscountValue()))
-                           .freight(toBigDecimal(nfeDetail.getnFeItem().getFreightValue()))
-                           .insurance(toBigDecimal(nfeDetail.getnFeItem().getInsuranceValue()))
-                           .othersValue(toBigDecimal(nfeDetail.getnFeItem().getOthersValue()))
+                           .discount(this.toBigDecimal(nfeDetail.getnFeItem().getDiscountValue()))
+                           .freight(this.toBigDecimal(nfeDetail.getnFeItem().getFreightValue()))
+                           .insurance(this.toBigDecimal(nfeDetail.getnFeItem().getInsuranceValue()))
+                           .othersValue(this.toBigDecimal(nfeDetail.getnFeItem().getOthersValue()))
                            .taxStructure(TaxStructure.builder()
                                    .ncm(nfeDetail.getnFeItem().getNcm())
                                    .cfop(nfeDetail.getnFeItem().getCfop())
                                    .cest(nfeDetail.getnFeItem().getCest())
                                    .taxes(this.buildItemTaxes(nfeDetail.getTax()))
                                    .build())
+                           .additionalInfo(nfeDetail.getAdditionalProductInfo())
                            .build();
                 }).collect(Collectors.toList());
             }
@@ -804,136 +806,136 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private Collection<ItemTax> buildItemTaxes(eprecise.efiscal4j.nfe.v400.tax.Tax nfeItemTax) {
+    private Collection<ItemTax> buildItemTaxes(final eprecise.efiscal4j.nfe.v400.tax.Tax nfeItemTax) {
        // @formatter:off
         
-        final ICMS icms = buildIcms(nfeItemTax.getIcms());
-        final PIS pis = buildPis(nfeItemTax.getPis());
-        final PISST pisSt = buildPisSt(nfeItemTax.getPisSt());
-        final COFINS cofins = buildCofins(nfeItemTax.getCofins());
-        final COFINSST cofinsSt = buildCofinsSt(nfeItemTax.getCofinsSt());
-        final IPI ipi = buildIpi(nfeItemTax.getIpi());
-        final II ii = buildII(nfeItemTax.getIi());
-        final ICMSUFReceiver icmsUfReceiver = buildIcmsUfReceiver(nfeItemTax.getIcmsUfReceiver());
+        final ICMS icms = this.buildIcms(nfeItemTax.getIcms());
+        final PIS pis = this.buildPis(nfeItemTax.getPis());
+        final PISST pisSt = this.buildPisSt(nfeItemTax.getPisSt());
+        final COFINS cofins = this.buildCofins(nfeItemTax.getCofins());
+        final COFINSST cofinsSt = this.buildCofinsSt(nfeItemTax.getCofinsSt());
+        final IPI ipi = this.buildIpi(nfeItemTax.getIpi());
+        final II ii = this.buildII(nfeItemTax.getIi());
+        final ICMSUFReceiver icmsUfReceiver = this.buildIcmsUfReceiver(nfeItemTax.getIcmsUfReceiver());
         
         return Stream.of(icms, pis, pisSt, cofins, cofinsSt, ipi, ii, icmsUfReceiver)
                 .filter(ItemTax.class::isInstance).map(ItemTax.class::cast).collect(Collectors.toSet());
        // @formatter:on
     }
 
-    private ICMSUFReceiver buildIcmsUfReceiver(eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver nfeIcmsUfReceiver) {
+    private ICMSUFReceiver buildIcmsUfReceiver(final eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver nfeIcmsUfReceiver) {
         // @formatter:off
         if(nfeIcmsUfReceiver != null) {
             return ICMSUFReceiver.builder()
-                    .calculationBasis(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfBcValue()))
-                    .aliquot(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsAliquot()))
-                    .bcFcpValue(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfBcFcpValue()))
-                    .fcpAditionalAliquot(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPPercentual()))
-                    .fcpValue(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPValue()))
+                    .calculationBasis(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfBcValue()))
+                    .aliquot(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsAliquot()))
+                    .bcFcpValue(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfBcFcpValue()))
+                    .fcpAditionalAliquot(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPPercentual()))
+                    .fcpValue(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfFCPValue()))
                     .interstateAliquot(Optional.ofNullable(nfeIcmsUfReceiver.getInterstateIcmsUfAliquot()).map(i -> InterstateICMSUFAliquot.findByCode(i.getValue())).orElse(null))
-                    .sharePercentual(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfSharePercentual()))
-                    .shareValue(toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsShareValue()))
-                    .emitterShareValue(toBigDecimal(nfeIcmsUfReceiver.getEmitterUfIcmsShareValue()))
+                    .sharePercentual(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfSharePercentual()))
+                    .shareValue(this.toBigDecimal(nfeIcmsUfReceiver.getReceiverUfIcmsShareValue()))
+                    .emitterShareValue(this.toBigDecimal(nfeIcmsUfReceiver.getEmitterUfIcmsShareValue()))
                     .build();
         }
         // @formatter:on
         return null;
     }
 
-    private II buildII(eprecise.efiscal4j.nfe.v400.tax.ii.II nfeIi) {
+    private II buildII(final eprecise.efiscal4j.nfe.v400.tax.ii.II nfeIi) {
         // @formatter:off
         if(nfeIi != null) {
             return II.builder()
-                    .calculationBasis(toBigDecimal(nfeIi.getBcValue()))
-                    .customsCharge(toBigDecimal(nfeIi.getCustomsCharge()))
-                    .value(toBigDecimal(nfeIi.getIiValue()))
-                    .iof(toBigDecimal(nfeIi.getIofValue()))
+                    .calculationBasis(this.toBigDecimal(nfeIi.getBcValue()))
+                    .customsCharge(this.toBigDecimal(nfeIi.getCustomsCharge()))
+                    .value(this.toBigDecimal(nfeIi.getIiValue()))
+                    .iof(this.toBigDecimal(nfeIi.getIofValue()))
                     .build();
         }
         // @formatter:on
         return null;
     }
 
-    private IPI buildIpi(eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
+    private IPI buildIpi(final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
         // @formatter:off
         if(nfeIpi != null) {
             switch(nfeIpi.getClass().getSimpleName()) {
                 case "IPI00": {
                     final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00 nfeIpi00 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00) nfeIpi;
                     return IPI00.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
-                            .value(buildIpiValue(nfeIpi00))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
+                            .value(this.buildIpiValue(nfeIpi00))
                             .build();
                 }
                 case "IPI01": {
                     return IPI01.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI02": {
                     return IPI02.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI03": {
                     return IPI03.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI04": {
                     return IPI04.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI05": {
                     return IPI05.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI49": {
                     final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49 nfeIpi49 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49) nfeIpi;
                     return IPI49.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
-                            .value(buildIpiValue(nfeIpi49))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
+                            .value(this.buildIpiValue(nfeIpi49))
                             .build();
                 }
                 case "IPI50": {
                     final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50 nfeIpi50 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50) nfeIpi;
                     return IPI50.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
-                            .value(buildIpiValue(nfeIpi50))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
+                            .value(this.buildIpiValue(nfeIpi50))
                             .build();
                 }
                 case "IPI51": {
                     return IPI51.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI52": {
                     return IPI52.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI53": {
                     return IPI53.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI54": {
                     return IPI54.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI55": {
                     return IPI55.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
                             .build();
                 }
                 case "IPI99": {
                     final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99 nfeIpi99 = (eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99) nfeIpi;
                     return IPI99.builder()
-                            .generalData(buildIpiGeneralData(nfeIpi))
-                            .value(buildIpiValue(nfeIpi99))
+                            .generalData(this.buildIpiGeneralData(nfeIpi))
+                            .value(this.buildIpiValue(nfeIpi99))
                             .build();
                 }
             }
@@ -942,22 +944,22 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private IpiValue buildIpiValue(eprecise.efiscal4j.nfe.v400.tax.ipi.BaseIPITrib nfeIpiTrib) {
+    private IpiValue buildIpiValue(final eprecise.efiscal4j.nfe.v400.tax.ipi.BaseIPITrib nfeIpiTrib) {
      // @formatter:off
         if(nfeIpiTrib != null) {
             return IpiValue.builder()
-                    .calculationBasis(toBigDecimal(nfeIpiTrib.getBcValue()))
-                    .aliquot(toBigDecimal(nfeIpiTrib.getIpiAliquot()))
-                    .quantity(toBigDecimal(nfeIpiTrib.getUnityQuantity()))
-                    .unitaryValue(toBigDecimal(nfeIpiTrib.getUnityValue()))
-                    .value(toBigDecimal(nfeIpiTrib.getIpiValue()))
+                    .calculationBasis(this.toBigDecimal(nfeIpiTrib.getBcValue()))
+                    .aliquot(this.toBigDecimal(nfeIpiTrib.getIpiAliquot()))
+                    .quantity(this.toBigDecimal(nfeIpiTrib.getUnityQuantity()))
+                    .unitaryValue(this.toBigDecimal(nfeIpiTrib.getUnityValue()))
+                    .value(this.toBigDecimal(nfeIpiTrib.getIpiValue()))
                     .build();
         }
      // @formatter:on
         return null;
     }
 
-    private IPIGeneralData buildIpiGeneralData(eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
+    private IPIGeneralData buildIpiGeneralData(final eprecise.efiscal4j.nfe.v400.tax.ipi.IPI nfeIpi) {
      // @formatter:off
         if(nfeIpi != null) {
             return IPIGeneralData.builder()
@@ -971,18 +973,18 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private COFINSST buildCofinsSt(eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST nfeCofinsSt) {
+    private COFINSST buildCofinsSt(final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST nfeCofinsSt) {
         // @formatter:off
         if(nfeCofinsSt != null) {
             return COFINSST.builder()
-                    .value(buildCofinsValueWithAliquot(nfeCofinsSt))
+                    .value(this.buildCofinsValueWithAliquot(nfeCofinsSt))
                     .build();
         }
         // @formatter:on
         return null;
     }
 
-    private COFINS buildCofins(eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS nfeCofins) {
+    private COFINS buildCofins(final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS nfeCofins) {
         // @formatter:off
         if(nfeCofins != null) {
             switch(nfeCofins.getClass().getSimpleName()){
@@ -991,10 +993,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return COFINS01.builder()
                             .cofins(CofinsValueWithAliquotPercent.builder()
                                     .aliquot(CofinsAliquotPercentWithBc.builder()
-                                            .calculationBasis(toBigDecimal(nfeCofins01.getBcValue()))
-                                            .aliquot(toBigDecimal(nfeCofins01.getCofinsAliquot()))
+                                            .calculationBasis(this.toBigDecimal(nfeCofins01.getBcValue()))
+                                            .aliquot(this.toBigDecimal(nfeCofins01.getCofinsAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfeCofins01.getCofinsValue()))
+                                    .value(this.toBigDecimal(nfeCofins01.getCofinsValue()))
                                     .build())
                             .build();
                 }
@@ -1003,10 +1005,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return COFINS02.builder()
                             .cofins(CofinsValueWithAliquotPercent.builder()
                                     .aliquot(CofinsAliquotPercentWithBc.builder()
-                                            .calculationBasis(toBigDecimal(nfeCofins02.getBcValue()))
-                                            .aliquot(toBigDecimal(nfeCofins02.getCofinsAliquot()))
+                                            .calculationBasis(this.toBigDecimal(nfeCofins02.getBcValue()))
+                                            .aliquot(this.toBigDecimal(nfeCofins02.getCofinsAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfeCofins02.getCofinsValue()))
+                                    .value(this.toBigDecimal(nfeCofins02.getCofinsValue()))
                                     .build())
                             .build();
                 }
@@ -1015,10 +1017,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return COFINS03.builder()
                             .cofins(CofinsValueWithAliquotValue.builder()
                                     .aliquot(CofinsAliquotValueWithQuantity.builder()
-                                            .quantity(toBigDecimal(nfeCofins03.getProductQuantity()))
-                                            .aliquotValue(toBigDecimal(nfeCofins03.getProductAliquot()))
+                                            .quantity(this.toBigDecimal(nfeCofins03.getProductQuantity()))
+                                            .aliquotValue(this.toBigDecimal(nfeCofins03.getProductAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfeCofins03.getCofinsValue()))
+                                    .value(this.toBigDecimal(nfeCofins03.getCofinsValue()))
                                     .build())
                             .build();
                 }
@@ -1043,145 +1045,145 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                 case "COFINS49": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS49 nfeCofins49 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS49) nfeCofins;
                     return COFINS49.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins49))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins49))
                             .build();
                 }
                 case "COFINS50": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS50 nfeCofins50 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS50) nfeCofins;
                     return COFINS50.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins50))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins50))
                             .build();
                 }
                 case "COFINS51": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS51 nfeCofins51 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS51) nfeCofins;
                     return COFINS51.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins51))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins51))
                             .build();
                 }
                 case "COFINS52": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS52 nfeCofins52 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS52) nfeCofins;
                     return COFINS52.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins52))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins52))
                             .build();
                 }
                 case "COFINS53": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS53 nfeCofins53 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS53) nfeCofins;
                     return COFINS53.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins53))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins53))
                             .build();
                 }
                 case "COFINS54": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS54 nfeCofins54 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS54) nfeCofins;
                     return COFINS54.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins54))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins54))
                             .build();
                 }
                 case "COFINS55": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS55 nfeCofins55 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS55) nfeCofins;
                     return COFINS55.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins55))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins55))
                             .build();
                 }
                 case "COFINS56": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS56 nfeCofins56 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS56) nfeCofins;
                     return COFINS56.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins56))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins56))
                             .build();
                 }
                 case "COFINS60": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS60 nfeCofins60 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS60) nfeCofins;
                     return COFINS60.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins60))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins60))
                             .build();
                 }
                 case "COFINS61": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS61 nfeCofins61 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS61) nfeCofins;
                     return COFINS61.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins61))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins61))
                             .build();
                 }
                 case "COFINS62": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS62 nfeCofins62 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS62) nfeCofins;
                     return COFINS62.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins62))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins62))
                             .build();
                 }
                 case "COFINS63": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS63 nfeCofins63 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS63) nfeCofins;
                     return COFINS63.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins63))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins63))
                             .build();
                 }
                 case "COFINS64": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS64 nfeCofins64 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS64) nfeCofins;
                     return COFINS64.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins64))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins64))
                             .build();
                 }
                 case "COFINS65": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS65 nfeCofins65 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS65) nfeCofins;
                     return COFINS65.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins65))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins65))
                             .build();
                 }
                 case "COFINS66": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS66 nfeCofins66 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS66) nfeCofins;
                     return COFINS66.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins66))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins66))
                             .build();
                 }
                 case "COFINS67": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS67 nfeCofins67 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS67) nfeCofins;
                     return COFINS67.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins67))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins67))
                             .build();
                 }
                 case "COFINS70": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS70 nfeCofins70 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS70) nfeCofins;
                     return COFINS70.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins70))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins70))
                             .build();
                 }
                 case "COFINS71": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS71 nfeCofins71 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS71) nfeCofins;
                     return COFINS71.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins71))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins71))
                             .build();
                 }
                 case "COFINS72": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS72 nfeCofins72 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS72) nfeCofins;
                     return COFINS72.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins72))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins72))
                             .build();
                 }
                 case "COFINS73": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS73 nfeCofins73 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS73) nfeCofins;
                     return COFINS73.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins73))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins73))
                             .build();
                 }
                 case "COFINS74": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS74 nfeCofins74 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS74) nfeCofins;
                     return COFINS74.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins74))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins74))
                             .build();
                 }
                 case "COFINS75": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS75 nfeCofins75 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS75) nfeCofins;
                     return COFINS75.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins75))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins75))
                             .build();
                 }
                 case "COFINS98": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS98 nfeCofins98 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS98) nfeCofins;
                     return COFINS98.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins98))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins98))
                             .build();
                 }
                 case "COFINS99": {
                     final eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS99 nfeCofins99 = (eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS99) nfeCofins;
                     return COFINS99.builder()
-                            .cofins(buildCofinsValueWithAliquot(nfeCofins99))
+                            .cofins(this.buildCofinsValueWithAliquot(nfeCofins99))
                             .build();
                 }
                 
@@ -1191,24 +1193,24 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private CofinsValueWithAliquot buildCofinsValueWithAliquot(eprecise.efiscal4j.nfe.v400.tax.cofins.validation.BaseCOFINSOtherStandard nfeCofinsOther) {
+    private CofinsValueWithAliquot buildCofinsValueWithAliquot(final eprecise.efiscal4j.nfe.v400.tax.cofins.validation.BaseCOFINSOtherStandard nfeCofinsOther) {
      // @formatter:off
         if(nfeCofinsOther != null) {
             if(!StringUtils.isEmpty(nfeCofinsOther.getBcValue()) && !StringUtils.isEmpty(nfeCofinsOther.getCofinsAliquot())) {
                 return CofinsValueWithAliquot.builder()
                         .aliquot(CofinsAliquotPercentWithBc.builder()
-                                .calculationBasis(toBigDecimal(nfeCofinsOther.getBcValue()))
-                                .aliquot(toBigDecimal(nfeCofinsOther.getCofinsAliquot()))
+                                .calculationBasis(this.toBigDecimal(nfeCofinsOther.getBcValue()))
+                                .aliquot(this.toBigDecimal(nfeCofinsOther.getCofinsAliquot()))
                                 .build())
-                        .value(toBigDecimal(nfeCofinsOther.getCofinsValue()))
+                        .value(this.toBigDecimal(nfeCofinsOther.getCofinsValue()))
                         .build();
             } else if(!StringUtils.isEmpty(nfeCofinsOther.getProductQuantity()) && !StringUtils.isEmpty(nfeCofinsOther.getProductAliquot())) {
                 return CofinsValueWithAliquot.builder()
                         .aliquot(CofinsAliquotValueWithQuantity.builder()
-                                .aliquotValue(toBigDecimal(nfeCofinsOther.getProductAliquot()))
-                                .quantity(toBigDecimal(nfeCofinsOther.getProductQuantity()))
+                                .aliquotValue(this.toBigDecimal(nfeCofinsOther.getProductAliquot()))
+                                .quantity(this.toBigDecimal(nfeCofinsOther.getProductQuantity()))
                                 .build())
-                        .value(toBigDecimal(nfeCofinsOther.getCofinsValue()))
+                        .value(this.toBigDecimal(nfeCofinsOther.getCofinsValue()))
                         .build();
             }
         }
@@ -1216,18 +1218,18 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private PISST buildPisSt(eprecise.efiscal4j.nfe.v400.tax.pis.PISST nfePisSt) {
+    private PISST buildPisSt(final eprecise.efiscal4j.nfe.v400.tax.pis.PISST nfePisSt) {
         // @formatter:off
         if(nfePisSt != null) {
             return PISST.builder()
-                    .value(buildPisValueWithAliquot(nfePisSt))
+                    .value(this.buildPisValueWithAliquot(nfePisSt))
                     .build();
         }
         // @formatter:on
         return null;
     }
 
-    private PIS buildPis(eprecise.efiscal4j.nfe.v400.tax.pis.PIS nfePis) {
+    private PIS buildPis(final eprecise.efiscal4j.nfe.v400.tax.pis.PIS nfePis) {
         // @formatter:off
         if(nfePis != null) {
             switch(nfePis.getClass().getSimpleName()){
@@ -1236,10 +1238,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return PIS01.builder()
                             .pis(PisValueWithAliquotPercent.builder()
                                     .aliquot(PisAliquotPercentWithBc.builder()
-                                            .calculationBasis(toBigDecimal(nfePis01.getBcValue()))
-                                            .aliquot(toBigDecimal(nfePis01.getPisAliquot()))
+                                            .calculationBasis(this.toBigDecimal(nfePis01.getBcValue()))
+                                            .aliquot(this.toBigDecimal(nfePis01.getPisAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfePis01.getPisValue()))
+                                    .value(this.toBigDecimal(nfePis01.getPisValue()))
                                     .build())
                             .build();
                 }
@@ -1248,10 +1250,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return PIS02.builder()
                             .pis(PisValueWithAliquotPercent.builder()
                                     .aliquot(PisAliquotPercentWithBc.builder()
-                                            .calculationBasis(toBigDecimal(nfePis02.getBcValue()))
-                                            .aliquot(toBigDecimal(nfePis02.getPisAliquot()))
+                                            .calculationBasis(this.toBigDecimal(nfePis02.getBcValue()))
+                                            .aliquot(this.toBigDecimal(nfePis02.getPisAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfePis02.getPisValue()))
+                                    .value(this.toBigDecimal(nfePis02.getPisValue()))
                                     .build())
                             .build();
                 }
@@ -1260,10 +1262,10 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return PIS03.builder()
                             .pis(PisValueWithAliquotValue.builder()
                                     .aliquot(PisAliquotValueWithQuantity.builder()
-                                            .quantity(toBigDecimal(nfePis03.getProductQuantity()))
-                                            .aliquotValue(toBigDecimal(nfePis03.getProductAliquot()))
+                                            .quantity(this.toBigDecimal(nfePis03.getProductQuantity()))
+                                            .aliquotValue(this.toBigDecimal(nfePis03.getProductAliquot()))
                                             .build())
-                                    .value(toBigDecimal(nfePis03.getPisValue()))
+                                    .value(this.toBigDecimal(nfePis03.getPisValue()))
                                     .build())
                             .build();
                 }
@@ -1288,145 +1290,145 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                 case "PIS49": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS49 nfePis49 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS49) nfePis;
                     return PIS49.builder()
-                            .pis(buildPisValueWithAliquot(nfePis49))
+                            .pis(this.buildPisValueWithAliquot(nfePis49))
                             .build();
                 }
                 case "PIS50": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS50 nfePis50 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS50) nfePis;
                     return PIS50.builder()
-                            .pis(buildPisValueWithAliquot(nfePis50))
+                            .pis(this.buildPisValueWithAliquot(nfePis50))
                             .build();
                 }
                 case "PIS51": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS51 nfePis51 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS51) nfePis;
                     return PIS51.builder()
-                            .pis(buildPisValueWithAliquot(nfePis51))
+                            .pis(this.buildPisValueWithAliquot(nfePis51))
                             .build();
                 }
                 case "PIS52": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS52 nfePis52 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS52) nfePis;
                     return PIS52.builder()
-                            .pis(buildPisValueWithAliquot(nfePis52))
+                            .pis(this.buildPisValueWithAliquot(nfePis52))
                             .build();
                 }
                 case "PIS53": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS53 nfePis53 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS53) nfePis;
                     return PIS53.builder()
-                            .pis(buildPisValueWithAliquot(nfePis53))
+                            .pis(this.buildPisValueWithAliquot(nfePis53))
                             .build();
                 }
                 case "PIS54": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS54 nfePis54 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS54) nfePis;
                     return PIS54.builder()
-                            .pis(buildPisValueWithAliquot(nfePis54))
+                            .pis(this.buildPisValueWithAliquot(nfePis54))
                             .build();
                 }
                 case "PIS55": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS55 nfePis55 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS55) nfePis;
                     return PIS55.builder()
-                            .pis(buildPisValueWithAliquot(nfePis55))
+                            .pis(this.buildPisValueWithAliquot(nfePis55))
                             .build();
                 }
                 case "PIS56": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS56 nfePis56 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS56) nfePis;
                     return PIS56.builder()
-                            .pis(buildPisValueWithAliquot(nfePis56))
+                            .pis(this.buildPisValueWithAliquot(nfePis56))
                             .build();
                 }
                 case "PIS60": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS60 nfePis60 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS60) nfePis;
                     return PIS60.builder()
-                            .pis(buildPisValueWithAliquot(nfePis60))
+                            .pis(this.buildPisValueWithAliquot(nfePis60))
                             .build();
                 }
                 case "PIS61": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS61 nfePis61 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS61) nfePis;
                     return PIS61.builder()
-                            .pis(buildPisValueWithAliquot(nfePis61))
+                            .pis(this.buildPisValueWithAliquot(nfePis61))
                             .build();
                 }
                 case "PIS62": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS62 nfePis62 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS62) nfePis;
                     return PIS62.builder()
-                            .pis(buildPisValueWithAliquot(nfePis62))
+                            .pis(this.buildPisValueWithAliquot(nfePis62))
                             .build();
                 }
                 case "PIS63": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS63 nfePis63 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS63) nfePis;
                     return PIS63.builder()
-                            .pis(buildPisValueWithAliquot(nfePis63))
+                            .pis(this.buildPisValueWithAliquot(nfePis63))
                             .build();
                 }
                 case "PIS64": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS64 nfePis64 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS64) nfePis;
                     return PIS64.builder()
-                            .pis(buildPisValueWithAliquot(nfePis64))
+                            .pis(this.buildPisValueWithAliquot(nfePis64))
                             .build();
                 }
                 case "PIS65": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS65 nfePis65 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS65) nfePis;
                     return PIS65.builder()
-                            .pis(buildPisValueWithAliquot(nfePis65))
+                            .pis(this.buildPisValueWithAliquot(nfePis65))
                             .build();
                 }
                 case "PIS66": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS66 nfePis66 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS66) nfePis;
                     return PIS66.builder()
-                            .pis(buildPisValueWithAliquot(nfePis66))
+                            .pis(this.buildPisValueWithAliquot(nfePis66))
                             .build();
                 }
                 case "PIS67": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS67 nfePis67 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS67) nfePis;
                     return PIS67.builder()
-                            .pis(buildPisValueWithAliquot(nfePis67))
+                            .pis(this.buildPisValueWithAliquot(nfePis67))
                             .build();
                 }
                 case "PIS70": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS70 nfePis70 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS70) nfePis;
                     return PIS70.builder()
-                            .pis(buildPisValueWithAliquot(nfePis70))
+                            .pis(this.buildPisValueWithAliquot(nfePis70))
                             .build();
                 }
                 case "PIS71": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS71 nfePis71 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS71) nfePis;
                     return PIS71.builder()
-                            .pis(buildPisValueWithAliquot(nfePis71))
+                            .pis(this.buildPisValueWithAliquot(nfePis71))
                             .build();
                 }
                 case "PIS72": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS72 nfePis72 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS72) nfePis;
                     return PIS72.builder()
-                            .pis(buildPisValueWithAliquot(nfePis72))
+                            .pis(this.buildPisValueWithAliquot(nfePis72))
                             .build();
                 }
                 case "PIS73": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS73 nfePis73 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS73) nfePis;
                     return PIS73.builder()
-                            .pis(buildPisValueWithAliquot(nfePis73))
+                            .pis(this.buildPisValueWithAliquot(nfePis73))
                             .build();
                 }
                 case "PIS74": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS74 nfePis74 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS74) nfePis;
                     return PIS74.builder()
-                            .pis(buildPisValueWithAliquot(nfePis74))
+                            .pis(this.buildPisValueWithAliquot(nfePis74))
                             .build();
                 }
                 case "PIS75": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS75 nfePis75 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS75) nfePis;
                     return PIS75.builder()
-                            .pis(buildPisValueWithAliquot(nfePis75))
+                            .pis(this.buildPisValueWithAliquot(nfePis75))
                             .build();
                 }
                 case "PIS98": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS98 nfePis98 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS98) nfePis;
                     return PIS98.builder()
-                            .pis(buildPisValueWithAliquot(nfePis98))
+                            .pis(this.buildPisValueWithAliquot(nfePis98))
                             .build();
                 }
                 case "PIS99": {
                     final eprecise.efiscal4j.nfe.v400.tax.pis.PIS99 nfePis99 = (eprecise.efiscal4j.nfe.v400.tax.pis.PIS99) nfePis;
                     return PIS99.builder()
-                            .pis(buildPisValueWithAliquot(nfePis99))
+                            .pis(this.buildPisValueWithAliquot(nfePis99))
                             .build();
                 }
                 
@@ -1436,24 +1438,24 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private PisValueWithAliquot buildPisValueWithAliquot(eprecise.efiscal4j.nfe.v400.tax.pis.validation.BasePISOtherStandard nfePisOther) {
+    private PisValueWithAliquot buildPisValueWithAliquot(final eprecise.efiscal4j.nfe.v400.tax.pis.validation.BasePISOtherStandard nfePisOther) {
      // @formatter:off
         if(nfePisOther != null) {
             if(!StringUtils.isEmpty(nfePisOther.getBcValue()) && !StringUtils.isEmpty(nfePisOther.getPisAliquot())) {
                 return PisValueWithAliquot.builder()
                         .aliquot(PisAliquotPercentWithBc.builder()
-                                .calculationBasis(toBigDecimal(nfePisOther.getBcValue()))
-                                .aliquot(toBigDecimal(nfePisOther.getPisAliquot()))
+                                .calculationBasis(this.toBigDecimal(nfePisOther.getBcValue()))
+                                .aliquot(this.toBigDecimal(nfePisOther.getPisAliquot()))
                                 .build())
-                        .value(toBigDecimal(nfePisOther.getPisValue()))
+                        .value(this.toBigDecimal(nfePisOther.getPisValue()))
                         .build();
             } else if(!StringUtils.isEmpty(nfePisOther.getProductQuantity()) && !StringUtils.isEmpty(nfePisOther.getProductAliquot())) {
                 return PisValueWithAliquot.builder()
                         .aliquot(PisAliquotValueWithQuantity.builder()
-                                .aliquotValue(toBigDecimal(nfePisOther.getProductAliquot()))
-                                .quantity(toBigDecimal(nfePisOther.getProductQuantity()))
+                                .aliquotValue(this.toBigDecimal(nfePisOther.getProductAliquot()))
+                                .quantity(this.toBigDecimal(nfePisOther.getProductQuantity()))
                                 .build())
-                        .value(toBigDecimal(nfePisOther.getPisValue()))
+                        .value(this.toBigDecimal(nfePisOther.getPisValue()))
                         .build();
             }
         }
@@ -1461,7 +1463,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private ICMS buildIcms(eprecise.efiscal4j.nfe.v400.tax.icms.ICMS nfeIcms) {
+    private ICMS buildIcms(final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS nfeIcms) {
      // @formatter:off
         if(nfeIcms != null) {
             switch(nfeIcms.getClass().getSimpleName()) {
@@ -1470,9 +1472,9 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMS00.builder()
                             .origin(Optional.ofNullable(nfeIcms00.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcValue.builder()
-                                    .aliquot(toBigDecimal(nfeIcms00.getIcmsAliquot()))
-                                    .calculationBasis(buildIcmsBc(nfeIcms00.getBcModality(), toBigDecimal(nfeIcms00.getBcValue()), BigDecimal.ZERO))
-                                    .value(toBigDecimal(nfeIcms00.getIcmsValue()))
+                                    .aliquot(this.toBigDecimal(nfeIcms00.getIcmsAliquot()))
+                                    .calculationBasis(this.buildIcmsBc(nfeIcms00.getBcModality(), this.toBigDecimal(nfeIcms00.getBcValue()), BigDecimal.ZERO))
+                                    .value(this.toBigDecimal(nfeIcms00.getIcmsValue()))
                                     .build())
                             .build();
                 }
@@ -1481,11 +1483,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMS10.builder()
                             .origin(Optional.ofNullable(nfeIcms10.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcValue.builder()
-                                    .aliquot(toBigDecimal(nfeIcms10.getIcmsAliquot()))
-                                    .calculationBasis(buildIcmsBc(nfeIcms10.getBcModality(), toBigDecimal(nfeIcms10.getBcValue()), BigDecimal.ZERO))
-                                    .value(toBigDecimal(nfeIcms10.getIcmsValue()))
+                                    .aliquot(this.toBigDecimal(nfeIcms10.getIcmsAliquot()))
+                                    .calculationBasis(this.buildIcmsBc(nfeIcms10.getBcModality(), this.toBigDecimal(nfeIcms10.getBcValue()), BigDecimal.ZERO))
+                                    .value(this.toBigDecimal(nfeIcms10.getIcmsValue()))
                                     .build())
-                            .fcp(buildFcpWithBcValue(toBigDecimal(nfeIcms10.getBcFcpValue()), toBigDecimal(nfeIcms10.getFcpAliquot()), toBigDecimal(nfeIcms10.getFcpValue())))
+                            .fcp(this.buildFcpWithBcValue(this.toBigDecimal(nfeIcms10.getBcFcpValue()), this.toBigDecimal(nfeIcms10.getFcpAliquot()), this.toBigDecimal(nfeIcms10.getFcpValue())))
                             .build();
                 }
                 
@@ -1495,16 +1497,16 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms20.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms20.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcms20.getBcModality(), toBigDecimal(nfeIcms20.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcms20.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms20.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcms20.getBcModality(), this.toBigDecimal(nfeIcms20.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcms20.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms20.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms20.getBcReductionPercent()))
                                     .build())
-                            .fcp(buildFcpWithBcValue(toBigDecimal(nfeIcms20.getBcFcpValue()), toBigDecimal(nfeIcms20.getFcpAliquot()), toBigDecimal(nfeIcms20.getFcpValue())))
+                            .fcp(this.buildFcpWithBcValue(this.toBigDecimal(nfeIcms20.getBcFcpValue()), this.toBigDecimal(nfeIcms20.getFcpAliquot()), this.toBigDecimal(nfeIcms20.getFcpValue())))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms20.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms20.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms20.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1514,16 +1516,16 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms30.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms30.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcms30.getBcModalityST(), toBigDecimal(nfeIcms30.getBcValueST()), toBigDecimal(nfeIcms30.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcms30.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms30.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcms30.getBcModalityST(), this.toBigDecimal(nfeIcms30.getBcValueST()), this.toBigDecimal(nfeIcms30.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcms30.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms30.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms30.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcms30.getBcFcpValueST()), toBigDecimal(nfeIcms30.getFcpStAliquot()), toBigDecimal(nfeIcms30.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcms30.getBcFcpValueST()), this.toBigDecimal(nfeIcms30.getFcpStAliquot()), this.toBigDecimal(nfeIcms30.getFcpStValue())))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms30.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms30.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms30.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1533,7 +1535,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms40.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms40.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms40.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms40.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1543,7 +1545,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms41.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms41.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms41.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms41.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1553,7 +1555,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms50.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms50.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms50.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms50.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1562,15 +1564,15 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMS60.builder()
                             .origin(Optional.ofNullable(nfeIcms60.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icmsStRetained(IcmsStRetainedValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcms60.getBcRetainedValueST()))
-                                    .value(toBigDecimal(nfeIcms60.getIcmsRetainedValueST()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcms60.getBcRetainedValueST()))
+                                    .value(this.toBigDecimal(nfeIcms60.getIcmsRetainedValueST()))
                                     .build())
                             .fcpStRetained(FcpStRetainedValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcms60.getBcFcpRetainedValueST()))
-                                    .aliquot(toBigDecimal(nfeIcms60.getFcpRetainedAliquotST()))
-                                    .value(toBigDecimal(nfeIcms60.getFcpRetainedValueST()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcms60.getBcFcpRetainedValueST()))
+                                    .aliquot(this.toBigDecimal(nfeIcms60.getFcpRetainedAliquotST()))
+                                    .value(this.toBigDecimal(nfeIcms60.getFcpRetainedValueST()))
                                     .build())
-                            .endConsumerSupportedAliquot(toBigDecimal(nfeIcms60.getEndConsumerSupportedAliquot()))
+                            .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcms60.getEndConsumerSupportedAliquot()))
                             .build();
                 }
                 case "ICMS70": {
@@ -1579,25 +1581,25 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms70.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms70.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcms70.getBcModality(), toBigDecimal(nfeIcms70.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcms70.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms70.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcms70.getBcModality(), this.toBigDecimal(nfeIcms70.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcms70.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms70.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms70.getBcReductionPercent()))
                                     .build())
-                            .fcp(buildFcpWithBcValue(toBigDecimal(nfeIcms70.getBcFcpValue()), toBigDecimal(nfeIcms70.getFcpAliquot()), toBigDecimal(nfeIcms70.getFcpValue())))
+                            .fcp(this.buildFcpWithBcValue(this.toBigDecimal(nfeIcms70.getBcFcpValue()), this.toBigDecimal(nfeIcms70.getFcpAliquot()), this.toBigDecimal(nfeIcms70.getFcpValue())))
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms70.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcms70.getBcModalitySt(), toBigDecimal(nfeIcms70.getBcValueST()), toBigDecimal(nfeIcms70.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcms70.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms70.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcms70.getBcModalitySt(), this.toBigDecimal(nfeIcms70.getBcValueST()), this.toBigDecimal(nfeIcms70.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcms70.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms70.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms70.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcms70.getBcFcpValueST()), toBigDecimal(nfeIcms70.getFcpStAliquot()), toBigDecimal(nfeIcms70.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcms70.getBcFcpValueST()), this.toBigDecimal(nfeIcms70.getFcpStAliquot()), this.toBigDecimal(nfeIcms70.getFcpStValue())))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms70.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms70.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms70.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1607,25 +1609,25 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcms90.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms90.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcms90.getBcModality(), toBigDecimal(nfeIcms90.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcms90.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms90.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcms90.getBcModality(), this.toBigDecimal(nfeIcms90.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcms90.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms90.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms90.getBcReductionPercent()))
                                     .build())
-                            .fcp(buildFcpWithBcValue(toBigDecimal(nfeIcms90.getBcFcpValue()), toBigDecimal(nfeIcms90.getFcpAliquot()), toBigDecimal(nfeIcms90.getFcpValue())))
+                            .fcp(this.buildFcpWithBcValue(this.toBigDecimal(nfeIcms90.getBcFcpValue()), this.toBigDecimal(nfeIcms90.getFcpAliquot()), this.toBigDecimal(nfeIcms90.getFcpValue())))
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcms90.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcms90.getBcModalitySt(), toBigDecimal(nfeIcms90.getBcValueST()), toBigDecimal(nfeIcms90.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcms90.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcms90.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcms90.getBcModalitySt(), this.toBigDecimal(nfeIcms90.getBcValueST()), this.toBigDecimal(nfeIcms90.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcms90.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcms90.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms90.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcms90.getBcFcpValueST()), toBigDecimal(nfeIcms90.getFcpStAliquot()), toBigDecimal(nfeIcms90.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcms90.getBcFcpValueST()), this.toBigDecimal(nfeIcms90.getFcpStAliquot()), this.toBigDecimal(nfeIcms90.getFcpStValue())))
                             .desoneration(IcmsDesoneration.builder()
                                     .reason(Optional.ofNullable(nfeIcms90.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
-                                    .value(toBigDecimal(nfeIcms90.getIcmsDesonerationValue()))
+                                    .value(this.toBigDecimal(nfeIcms90.getIcmsDesonerationValue()))
                                     .build())
                             .build();
                 }
@@ -1635,21 +1637,21 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcmsPart10.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsPart10.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcmsPart10.getBcModality(), toBigDecimal(nfeIcmsPart10.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcmsPart10.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsPart10.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcmsPart10.getBcModality(), this.toBigDecimal(nfeIcmsPart10.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcmsPart10.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart10.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsPart10.getBcReductionPercent()))
                                     .build())
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsPart10.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcmsPart10.getBcModalitySt(), toBigDecimal(nfeIcmsPart10.getBcValueST()), toBigDecimal(nfeIcmsPart10.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcmsPart10.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsPart10.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsPart10.getBcModalitySt(), this.toBigDecimal(nfeIcmsPart10.getBcValueST()), this.toBigDecimal(nfeIcmsPart10.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsPart10.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart10.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsPart10.getBcReductionStPercent()))
                                     .build())
-                            .selfOperationBcPercent(toBigDecimal(nfeIcmsPart10.getSelfOperationBCPerc()))
+                            .selfOperationBcPercent(this.toBigDecimal(nfeIcmsPart10.getSelfOperationBCPerc()))
                             .ufSt(nfeIcmsPart10.getUfST())
                             .build();
                 }
@@ -1659,21 +1661,21 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcmsPart90.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsPart90.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcmsPart90.getBcModality(), toBigDecimal(nfeIcmsPart90.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcmsPart90.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsPart90.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcmsPart90.getBcModality(), this.toBigDecimal(nfeIcmsPart90.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcmsPart90.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart90.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsPart90.getBcReductionPercent()))
                                     .build())
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsPart90.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcmsPart90.getBcModalitySt(), toBigDecimal(nfeIcmsPart90.getBcValueST()), toBigDecimal(nfeIcmsPart90.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcmsPart90.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsPart90.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsPart90.getBcModalitySt(), this.toBigDecimal(nfeIcmsPart90.getBcValueST()), this.toBigDecimal(nfeIcmsPart90.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsPart90.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsPart90.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsPart90.getBcReductionStPercent()))
                                     .build())
-                            .selfOperationBcPercent(toBigDecimal(nfeIcmsPart90.getSelfOperationBCPerc()))
+                            .selfOperationBcPercent(this.toBigDecimal(nfeIcmsPart90.getSelfOperationBCPerc()))
                             .ufSt(nfeIcmsPart90.getUfST())
                             .build();
                 }
@@ -1682,8 +1684,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMSSN101.builder()
                             .origin(Optional.ofNullable(nfeIcmsSn101.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .creditSn(CreditSnValue.builder()
-                                    .aliquot(toBigDecimal(nfeIcmsSn101.getCreditSnAliquot()))
-                                    .value(toBigDecimal(nfeIcmsSn101.getCreditSnIcmsValue()))
+                                    .aliquot(this.toBigDecimal(nfeIcmsSn101.getCreditSnAliquot()))
+                                    .value(this.toBigDecimal(nfeIcmsSn101.getCreditSnIcmsValue()))
                                     .build())
                             .build();
                 }
@@ -1705,13 +1707,13 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcmsSn202.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsSn202.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn202.getBcModalitySt(), toBigDecimal(nfeIcmsSn202.getBcValueST()), toBigDecimal(nfeIcmsSn202.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcmsSn202.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsSn202.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsSn202.getBcModalitySt(), this.toBigDecimal(nfeIcmsSn202.getBcValueST()), this.toBigDecimal(nfeIcmsSn202.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsSn202.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn202.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsSn202.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcmsSn202.getBcFcpValueST()), toBigDecimal(nfeIcmsSn202.getFcpStAliquot()), toBigDecimal(nfeIcmsSn202.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcmsSn202.getBcFcpValueST()), this.toBigDecimal(nfeIcmsSn202.getFcpStAliquot()), this.toBigDecimal(nfeIcmsSn202.getFcpStValue())))
                             .build();
                 }
                 case "ICMSSN203": {
@@ -1720,13 +1722,13 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcmsSn203.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsSn203.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn203.getBcModalitySt(), toBigDecimal(nfeIcmsSn203.getBcValueST()), toBigDecimal(nfeIcmsSn203.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcmsSn203.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsSn203.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsSn203.getBcModalitySt(), this.toBigDecimal(nfeIcmsSn203.getBcValueST()), this.toBigDecimal(nfeIcmsSn203.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsSn203.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn203.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsSn203.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcmsSn203.getBcFcpValueST()), toBigDecimal(nfeIcmsSn203.getFcpStAliquot()), toBigDecimal(nfeIcmsSn203.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcmsSn203.getBcFcpValueST()), this.toBigDecimal(nfeIcmsSn203.getFcpStAliquot()), this.toBigDecimal(nfeIcmsSn203.getFcpStValue())))
                             .build();
                 }
                 case "ICMSSN300": {
@@ -1746,15 +1748,15 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMSSN500.builder()
                             .origin(Optional.ofNullable(nfeIcms500.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icmsStRetained(IcmsStRetainedValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcms500.getBcRetainedValueST()))
-                                    .value(toBigDecimal(nfeIcms500.getIcmsRetainedValueST()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcms500.getBcRetainedValueST()))
+                                    .value(this.toBigDecimal(nfeIcms500.getIcmsRetainedValueST()))
                                     .build())
                             .fcpStRetained(FcpStRetainedValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcms500.getBcFcpRetainedValueST()))
-                                    .aliquot(toBigDecimal(nfeIcms500.getFcpRetainedAliquotST()))
-                                    .value(toBigDecimal(nfeIcms500.getFcpRetainedValueST()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcms500.getBcFcpRetainedValueST()))
+                                    .aliquot(this.toBigDecimal(nfeIcms500.getFcpRetainedAliquotST()))
+                                    .value(this.toBigDecimal(nfeIcms500.getFcpRetainedValueST()))
                                     .build())
-                            .endConsumerSupportedAliquot(toBigDecimal(nfeIcms500.getEndConsumerSupportedAliquot()))
+                            .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcms500.getEndConsumerSupportedAliquot()))
                             .build();
                 }
                 case "ICMSSN900": {
@@ -1763,24 +1765,24 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                             .origin(Optional.ofNullable(nfeIcmsSn900.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .icms(IcmsWithBcReductionPercent.builder()
                                     .value(IcmsWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsSn900.getIcmsAliquot()))
-                                        .calculationBasis(buildIcmsBc(nfeIcmsSn900.getBcModality(), toBigDecimal(nfeIcmsSn900.getBcValue()), BigDecimal.ZERO))
-                                        .value(toBigDecimal(nfeIcmsSn900.getIcmsValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsSn900.getIcmsAliquot()))
+                                        .calculationBasis(this.buildIcmsBc(nfeIcmsSn900.getBcModality(), this.toBigDecimal(nfeIcmsSn900.getBcValue()), BigDecimal.ZERO))
+                                        .value(this.toBigDecimal(nfeIcmsSn900.getIcmsValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn900.getBcReductionPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsSn900.getBcReductionPercent()))
                                     .build())
                             .icmsSt(IcmsStWithBcReductionPercent.builder()
                                     .value(IcmsStWithBcValue.builder()
-                                        .aliquot(toBigDecimal(nfeIcmsSn900.getIcmsStAliquot()))
-                                        .calculationBasis(buildIcmsStBc(nfeIcmsSn900.getBcModalitySt(), toBigDecimal(nfeIcmsSn900.getBcValueST()), toBigDecimal(nfeIcmsSn900.getValueMarginAddedStPercent())))
-                                        .value(toBigDecimal(nfeIcmsSn900.getIcmsStValue()))
+                                        .aliquot(this.toBigDecimal(nfeIcmsSn900.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsSn900.getBcModalitySt(), this.toBigDecimal(nfeIcmsSn900.getBcValueST()), this.toBigDecimal(nfeIcmsSn900.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsSn900.getIcmsStValue()))
                                         .build())
-                                    .bcReductionPercent(toBigDecimal(nfeIcmsSn900.getBcReductionStPercent()))
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsSn900.getBcReductionStPercent()))
                                     .build())
-                            .fcpSt(buildFcpStWithBcValue(toBigDecimal(nfeIcmsSn900.getBcFcpValueST()), toBigDecimal(nfeIcmsSn900.getFcpStAliquot()), toBigDecimal(nfeIcmsSn900.getFcpStValue())))
+                            .fcpSt(this.buildFcpStWithBcValue(this.toBigDecimal(nfeIcmsSn900.getBcFcpValueST()), this.toBigDecimal(nfeIcmsSn900.getFcpStAliquot()), this.toBigDecimal(nfeIcmsSn900.getFcpStValue())))
                             .creditSn(CreditSnValue.builder()
-                                    .aliquot(toBigDecimal(nfeIcmsSn900.getCreditSnAliquot()))
-                                    .value(toBigDecimal(nfeIcmsSn900.getCreditSnIcmsValue()))
+                                    .aliquot(this.toBigDecimal(nfeIcmsSn900.getCreditSnAliquot()))
+                                    .value(this.toBigDecimal(nfeIcmsSn900.getCreditSnIcmsValue()))
                                     .build())
                             .build();
                 }
@@ -1789,12 +1791,12 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     return ICMSST.builder()
                             .origin(Optional.ofNullable(nfeIcmsSt.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
                             .retainedSt(IcmsStRetainedValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcmsSt.getBcRetainedValueST()))
-                                    .value(toBigDecimal(nfeIcmsSt.getIcmsRetainedValueST()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcmsSt.getBcRetainedValueST()))
+                                    .value(this.toBigDecimal(nfeIcmsSt.getIcmsRetainedValueST()))
                                     .build())
                             .destinationSt(IcmsStDestinationValue.builder()
-                                    .calculationBasis(toBigDecimal(nfeIcmsSt.getBcIcmsStDestination()))
-                                    .value(toBigDecimal(nfeIcmsSt.getIcmsStDestination()))
+                                    .calculationBasis(this.toBigDecimal(nfeIcmsSt.getBcIcmsStDestination()))
+                                    .value(this.toBigDecimal(nfeIcmsSt.getIcmsStDestination()))
                                     .build())
                             .build();
                 }
@@ -1804,7 +1806,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private FcpStWithBcValue buildFcpStWithBcValue(BigDecimal bc, BigDecimal aliquot, BigDecimal value) {
+    private FcpStWithBcValue buildFcpStWithBcValue(final BigDecimal bc, final BigDecimal aliquot, final BigDecimal value) {
      // @formatter:off
         return FcpStWithBcValue.builder()
                 .calculationBasis(bc)
@@ -1816,7 +1818,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private FcpWithBcValue buildFcpWithBcValue(BigDecimal bc, BigDecimal aliquot, BigDecimal value) {
+    private FcpWithBcValue buildFcpWithBcValue(final BigDecimal bc, final BigDecimal aliquot, final BigDecimal value) {
      // @formatter:off
         return FcpWithBcValue.builder()
                 .calculationBasis(bc)
@@ -1828,7 +1830,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private IcmsBc buildIcmsBc(BCModality bcModality, BigDecimal bcValue, BigDecimal marginAddedPercent) {
+    private IcmsBc buildIcmsBc(final BCModality bcModality, final BigDecimal bcValue, final BigDecimal marginAddedPercent) {
      // @formatter:off
         switch(bcModality) {
             case MARGEM_VALOR_AGREGADO: return IcmsBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
@@ -1840,7 +1842,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private IcmsStBc buildIcmsStBc(BCModalityST bcModalityST, BigDecimal bcValue, BigDecimal marginAddedPercent) {
+    private IcmsStBc buildIcmsStBc(final BCModalityST bcModalityST, final BigDecimal bcValue, final BigDecimal marginAddedPercent) {
         // @formatter:off
            switch(bcModalityST) {
                case PRECO_TABELADO_OU_MAX_SUGERIDO: return IcmsStBcMaximumTabulatedOrSuggestedPrice.builder().calculationBasis(bcValue).build();
@@ -1854,11 +1856,11 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         // @formatter:on
     }
 
-    private BigDecimal toBigDecimal(String value) {
+    private BigDecimal toBigDecimal(final String value) {
         return Optional.ofNullable(value).map(BigDecimal::new).orElse(null);
     }
 
-    private Long toLong(String value) {
+    private Long toLong(final String value) {
         return Optional.ofNullable(value).map(Long::parseLong).orElse(null);
     }
 

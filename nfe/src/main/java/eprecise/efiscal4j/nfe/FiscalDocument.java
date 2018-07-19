@@ -53,6 +53,8 @@ import lombok.Getter;
 @Getter
 public abstract class FiscalDocument {
 
+    private final String code;
+
     /**
      * @see FiscalDocumentSerie
      * @param serie

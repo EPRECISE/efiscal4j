@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +28,7 @@ import eprecise.efiscal4j.nfe.emitter.CRT;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
@@ -122,8 +122,6 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private static final DecimalFormat NFE_FOUR_DECIMALS_FORMAT = new DecimalFormat("##0.0000", new DecimalFormatSymbols(Locale.ENGLISH));
 
     private static final DecimalFormat NFE_TEN_DECIMALS_FORMAT = new DecimalFormat("##0.0000000000", new DecimalFormatSymbols(Locale.ENGLISH));
-
-    private static final String NFE_CODE_FORMAT = "%08d";
 
     private static final String IBGE_CODE_DEFAULT = "9999999";
 
@@ -511,7 +509,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withFiscalDocumentSeries(this.fiscalDocument.getSerie().getNumber().toString())
             .withFiscalDocumentNumber(this.fiscalDocument.getNumber().toString())
             .withFiscalDocumentType(this.buildFiscalDocumentType())
-            .withNFeCode(String.format(DispatchFromFiscalDocumentAdapter.NFE_CODE_FORMAT, new Random().nextInt(100000000)))
+            .withNFeCode(this.fiscalDocument.getCode())
             .withNFeFinality(this.buildNFeFinality())
             .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
             .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
@@ -734,7 +732,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }).orElse(null);
     }
 
-    public eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {
+    private eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {
         if (CRT.SIMPLE_NATIONAL.equals(crt)) {
             return eprecise.efiscal4j.nfe.v400.CRT.SIMPLES_NACIONAL;
         } else if (CRT.SIMPLE_NATIONAL_WITH_SUBLIME_EXCESS.equals(crt)) {
@@ -744,8 +742,13 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private List<NFeDetail> buildNFeDetails() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.fiscalDocument.getItems().stream().map(this::buildNFeDetail).collect(Collectors.toList());
+    }
+
+    private NFeDetail buildNFeDetail(final Item item) {
+        return new NFeDetail.Builder()
+
+                .build();
     }
 
     private String nullIfEmpty(final String v) {

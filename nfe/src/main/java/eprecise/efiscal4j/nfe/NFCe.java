@@ -2,6 +2,8 @@
 package eprecise.efiscal4j.nfe;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Random;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.charging.Charging;
@@ -33,9 +35,9 @@ public class NFCe extends FiscalDocument {
     private final CSC csc;
 
     @Builder
-    public NFCe(final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final Collection<Item> items, final Charging charging, final Payment payment,
-            final Transport transport, final String details, final Consumer consumer, final CSC csc) {
-        super(serie, number, emission, emitter, items, charging, payment, transport, details);
+    public NFCe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final Collection<Item> items, final Charging charging,
+            final Payment payment, final Transport transport, final String details, final Consumer consumer, final CSC csc) {
+        super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, emission, emitter, items, charging, payment, transport, details);
         this.consumer = consumer;
         this.csc = csc;
     }

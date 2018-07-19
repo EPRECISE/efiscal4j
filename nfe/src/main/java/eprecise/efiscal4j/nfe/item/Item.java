@@ -44,6 +44,8 @@ public class Item {
 
     private final Collection<Trace> traces;
 
+    private final String additionalInfo;
+
     public static class ItemBuilder {
 
         public ItemBuilder globalTradeItemNumber(final ItemEan globalTradeItemNumber) {
