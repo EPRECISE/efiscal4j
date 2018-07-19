@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -86,7 +87,7 @@ public abstract class FiscalDocument {
      * @param items
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isNotNull}") @Size(
-            min = 1, max = 990, message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isSize}") @Valid final Collection<Item> items;
+            min = 1, max = 990, message = "{eprecise.efiscal4j.nfe.fiscalDocument.items.isSize}") @Valid final List<Item> items;
 
     /**
      * @see Charging
@@ -119,6 +120,10 @@ public abstract class FiscalDocument {
 
     public FiscalDocumentTotal getTotal() {
         return new FiscalDocumentTotal(() -> this.items);
+    }
+
+    public Integer getItemOrder(final Item item) {
+        return Optional.ofNullable(this.items).map(itemList -> itemList.indexOf(item)).map(index -> index++).orElse(null);
     }
 
     /**

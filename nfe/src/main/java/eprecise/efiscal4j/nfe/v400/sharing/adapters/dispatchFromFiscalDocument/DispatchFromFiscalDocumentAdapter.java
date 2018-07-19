@@ -746,9 +746,11 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private NFeDetail buildNFeDetail(final Item item) {
+     // @formatter:off
         return new NFeDetail.Builder()
-
+                .withItemOrder(Optional.ofNullable(this.fiscalDocument.getItemOrder(item)).map(Object::toString).orElse(null))
                 .build();
+     // @formatter:on
     }
 
     private String nullIfEmpty(final String v) {
