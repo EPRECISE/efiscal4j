@@ -50,11 +50,11 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "indEscala") final NFeItemScaleIndication scaleIndication;
 
-    private @XmlElement(name = "CNPJFab") @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ String manufacturerCnpj;
+    private @XmlElement(name = "CNPJFab") @CNPJ(formatted = false) @Size(max = 14) @NFeCNPJ final String manufacturerCnpj;
 
-    private @XmlElement(name = "cBenef") @Size(max = 10) String beneficiaryCode;
+    private @XmlElement(name = "cBenef") @Size(max = 10) final String beneficiaryCode;
 
-    private @XmlElement(name = "EXTIPI") @Pattern(regexp = "[0-9]{2,3}") String exTipi;
+    private @XmlElement(name = "EXTIPI") @Pattern(regexp = "[0-9]{2,3}") final String exTipi;
 
     private @XmlElement(name = "CFOP") @NotNull final CFOP cfop;
 
@@ -220,7 +220,7 @@ public class NFeItem implements Serializable {
          * @param cest
          * @return
          */
-        public Builder withCest(String cest) {
+        public Builder withCest(final String cest) {
             this.cest = cest;
             return this;
         }
@@ -230,7 +230,7 @@ public class NFeItem implements Serializable {
          * @see NFeItemScaleIndication
          * @return
          */
-        public Builder withScaleIndication(NFeItemScaleIndication scaleIndication) {
+        public Builder withScaleIndication(final NFeItemScaleIndication scaleIndication) {
             this.scaleIndication = scaleIndication;
             return this;
         }
@@ -448,7 +448,7 @@ public class NFeItem implements Serializable {
          * @param fuel
          * @return
          */
-        public Builder witFuel(final Fuel fuel) {
+        public Builder withFuel(final Fuel fuel) {
             this.fuel = fuel;
             return this;
         }
@@ -608,19 +608,19 @@ public class NFeItem implements Serializable {
     }
 
     public NFeItemScaleIndication getScaleIndication() {
-        return scaleIndication;
+        return this.scaleIndication;
     }
 
     public String getManufacturerCnpj() {
-        return manufacturerCnpj;
+        return this.manufacturerCnpj;
     }
 
     public String getBeneficiaryCode() {
-        return beneficiaryCode;
+        return this.beneficiaryCode;
     }
 
     public String getExTipi() {
-        return exTipi;
+        return this.exTipi;
     }
 
     public CFOP getCfop() {
@@ -680,15 +680,15 @@ public class NFeItem implements Serializable {
     }
 
     public Medications getMedications() {
-        return medications;
+        return this.medications;
     }
 
     public List<Gun> getGuns() {
-        return guns;
+        return this.guns;
     }
 
     public Fuel getFuel() {
-        return fuel;
+        return this.fuel;
     }
 
     public List<ImportDeclaration> getImportDeclarations() {
@@ -696,19 +696,19 @@ public class NFeItem implements Serializable {
     }
 
     public String getPurchaseOrderDescription() {
-        return purchaseOrderDescription;
+        return this.purchaseOrderDescription;
     }
 
     public String getPurchaseOrderNumber() {
-        return purchaseOrderNumber;
+        return this.purchaseOrderNumber;
     }
 
     public String getFciNumber() {
-        return fciNumber;
+        return this.fciNumber;
     }
 
     public List<Trace> getTraces() {
-        return traces;
+        return this.traces;
     }
 
 }

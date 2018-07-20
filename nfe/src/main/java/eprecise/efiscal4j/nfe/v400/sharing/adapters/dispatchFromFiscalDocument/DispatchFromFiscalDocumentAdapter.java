@@ -29,7 +29,15 @@ import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.item.Item;
+import eprecise.efiscal4j.nfe.item.Item.ItemEan;
+import eprecise.efiscal4j.nfe.item.Item.ItemGrossValue;
+import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
+import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
+import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
+import eprecise.efiscal4j.nfe.item.Unity;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
+import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
+import eprecise.efiscal4j.nfe.item.tax.scale.NoRelevantScale;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
@@ -63,14 +71,19 @@ import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
 import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;
 import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
+import eprecise.efiscal4j.nfe.v400.ItemValueComprisesTotal;
+import eprecise.efiscal4j.nfe.v400.Medications;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.NFeDetail;
 import eprecise.efiscal4j.nfe.v400.NFeIdentification;
 import eprecise.efiscal4j.nfe.v400.NFeInfo;
+import eprecise.efiscal4j.nfe.v400.NFeItem;
+import eprecise.efiscal4j.nfe.v400.NFeItemScaleIndication;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
 import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
 import eprecise.efiscal4j.nfe.v400.StateRegistrationReceiverIndicator;
+import eprecise.efiscal4j.nfe.v400.Trace;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
@@ -78,6 +91,7 @@ import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 import eprecise.efiscal4j.nfe.v400.payment.CardFlag;
 import eprecise.efiscal4j.nfe.v400.payment.CardSet;
@@ -94,6 +108,7 @@ import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF.ReferecedECFModel;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
+import eprecise.efiscal4j.nfe.v400.tax.Tax;
 import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
@@ -102,6 +117,7 @@ import eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention;
 import eprecise.efiscal4j.nfe.v400.transport.TransportedVolume;
 import eprecise.efiscal4j.nfe.v400.transport.Vehicle;
 import eprecise.efiscal4j.nfe.v400.transport.VolumeSeal;
+import eprecise.efiscal4j.nfe.v400.types.NFeDate;
 import eprecise.efiscal4j.nfe.version.NFeDispatchAdapterVersion;
 
 
@@ -749,8 +765,81 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      // @formatter:off
         return new NFeDetail.Builder()
                 .withItemOrder(Optional.ofNullable(this.fiscalDocument.getItemOrder(item)).map(Object::toString).orElse(null))
+                .withNFeItem(this.buildNFeItem(item))
+                .withTax(this.buildTax(item))
+                .withReturnedTax(null) //TODO
                 .build();
      // @formatter:on
+    }
+
+    private NFeItem buildNFeItem(final Item item) {
+     // @formatter:off
+        return new NFeItem.Builder()
+                .withItemCode(this.formatNFeString(item.getCode(), 60))
+                .withGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getGlobalTradeItemNumber).orElse(null))
+                .withItemDescription(this.formatNFeString(item.getName(), 120))
+                .withNCM(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getNcm).orElse(null))
+                .withCest(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getCest).orElse(null))
+                .withScaleIndication(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getScaleIndication).map(si -> Optional.ofNullable(si).filter(NoRelevantScale.class::isInstance).map(wr -> NFeItemScaleIndication.NAO).orElse(NFeItemScaleIndication.SIM)).orElse(null))
+                .withManufacturerCnpj(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getScaleIndication).filter(NoRelevantScale.class::isInstance).map(NoRelevantScale.class::cast).map(NoRelevantScale::getManufacturerCnpj).orElse(null))
+                .withBeneficiaryCode(null) //TODO
+                .withExTipi(null) //TODO
+                .withCFOP(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getCfop).orElse(null))
+                .withComercialUnit(Optional.ofNullable(item.getUnity()).map(ItemUnity::getComercialUnity).map(Unity::getAcronym).orElse(null))
+                .withComercialQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getComercialQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))
+                .withComercialUnitaryValue(Optional.ofNullable(item.getUnitaryValue()).map(ItemUnitaryValue::getComercialUnitaryValue).map(this::formatNFeDecimal1110Variable).orElse(null))
+                .withItemGrossValue(Optional.ofNullable(item.getGrossValue()).map(ItemGrossValue::getComercialGrossValue).map(this::formatNFeDecimal1110Variable).orElse(null))
+                .withTaxableUnitGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getTaxableGlobalTradeItemNumber).orElse(null))
+                .withTaxableUnit(Optional.ofNullable(item.getUnity()).map(ItemUnity::getTaxableUnity).map(Unity::getAcronym).orElse(null))
+                .withTaxableQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getTaxableQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))
+                .withTaxationUnitaryValue(Optional.ofNullable(item.getUnitaryValue()).map(ItemUnitaryValue::getTaxableUnitaryValue).map(this::formatNFeDecimal1110Variable).orElse(null))
+                .withFreightValue(this.formatNFeDecimal1302Optional(item.getFreight()))
+                .withInsuranceValue(this.formatNFeDecimal1302Optional(item.getInsurance()))
+                .withDiscountValue(this.formatNFeDecimal1302Optional(item.getDiscount()))
+                .withOthersValue(this.formatNFeDecimal1302Optional(item.getOthersValue()))
+                .withItemValueComprisesTotal(ItemValueComprisesTotal.COMPOE_TOTAL)
+                .withMedications(this.buildMedications(item))
+                .withGuns(null) //TODO
+                .withFuel(null) //TODO
+                .withImportDeclarations(this.buildImportDeclarations(item))
+                .withPurchaseOrderDescription(null) //TODO
+                .withPurchaseOrderNumber(null) // TODO
+                .withFciNumber(null) //TODO
+                .withTraces(this.buildTraces(item))
+                .build();
+     // @formatter:on
+    }
+
+    private List<Trace> buildTraces(final Item item) {
+     // @formatter:off
+        if((item.getTraces() != null) && !item.getTraces().isEmpty()) {
+            return item.getTraces().stream().map(t -> {
+                return new Trace.Builder()
+                        .withBatchNumber(this.formatNFeString(t.getBatchNumber(), 20))
+                        .withBatchQuantity(this.formatNFeDecimal0803Variable(t.getBatchQuantity()))
+                        .withManufacturingDate(Optional.ofNullable(t.getManufacturing()).map(NFeDate.dateFormat::format).orElse(null))
+                        .withExpirationDate(Optional.ofNullable(t.getExpiration()).map(NFeDate.dateFormat::format).orElse(null))
+                        .withAggregationCode(t.getAggregationCode())
+                        .build();
+            }).collect(Collectors.toList());
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private List<ImportDeclaration> buildImportDeclarations(final Item item) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Medications buildMedications(final Item item) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Tax buildTax(final Item item) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     private String nullIfEmpty(final String v) {

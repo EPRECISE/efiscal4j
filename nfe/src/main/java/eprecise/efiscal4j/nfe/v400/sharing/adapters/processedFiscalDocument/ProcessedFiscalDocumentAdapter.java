@@ -764,7 +764,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private Collection<Item> buildItems() {
+    private List<Item> buildItems() {
         // @formatter:off
             final Collection<eprecise.efiscal4j.nfe.v400.NFeDetail> nfeDetails = this.processedNFe.getNfe().getNFeInfo().getnFeDetails();
             if((nfeDetails != null) && !nfeDetails.isEmpty()) {
@@ -1486,6 +1486,14 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .aliquot(this.toBigDecimal(nfeIcms10.getIcmsAliquot()))
                                     .calculationBasis(this.buildIcmsBc(nfeIcms10.getBcModality(), this.toBigDecimal(nfeIcms10.getBcValue()), BigDecimal.ZERO))
                                     .value(this.toBigDecimal(nfeIcms10.getIcmsValue()))
+                                    .build())
+                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+                                    .value(IcmsStWithBcValue.builder()
+                                        .aliquot(this.toBigDecimal(nfeIcms10.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcms10.getBcModalitySt(), this.toBigDecimal(nfeIcms10.getBcValueST()), this.toBigDecimal(nfeIcms10.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcms10.getIcmsStValue()))
+                                        .build())
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcms10.getBcReductionStPercent()))
                                     .build())
                             .fcp(this.buildFcpWithBcValue(this.toBigDecimal(nfeIcms10.getBcFcpValue()), this.toBigDecimal(nfeIcms10.getFcpAliquot()), this.toBigDecimal(nfeIcms10.getFcpValue())))
                             .build();
