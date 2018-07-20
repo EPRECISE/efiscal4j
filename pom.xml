@@ -201,6 +201,14 @@
             </plugins>
         </pluginManagement>
     </build>
+    <repositories>
+        <repository>
+            <id>eprecise-all</id>
+            <name>eprecise-all</name>
+            <url>http://nexus.e-precise.com.br/repository/all/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
     <distributionManagement>
         <repository>
             <id>eprecise-nexus</id>
