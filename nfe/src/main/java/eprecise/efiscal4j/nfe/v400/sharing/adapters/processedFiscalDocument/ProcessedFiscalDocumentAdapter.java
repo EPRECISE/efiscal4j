@@ -273,7 +273,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         try {
             return FiscalDocument.Processed.builder()
                 .id(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
-                .version(FiscalDocumentSupportedVersion.VERSION_3_10)
+                .version(FiscalDocumentSupportedVersion.VERSION_4_00)
                 .applicationVersion(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
                 .accessKey(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey())
                 .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProcessingDateTime()).map(t -> {
@@ -458,7 +458,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
             if((nfePayment.getPaymentDetails() != null) && !nfePayment.getPaymentDetails().isEmpty()) {
                 return builder
                         .details(nfePayment.getPaymentDetails().stream().map(p-> PaymentDetail.builder()
-                                .method(Optional.ofNullable(p.getPaymentMethod()).map(nfePaymentMethod -> PaymentMethod.findByCode(p.getPaymentValue())).orElse(PaymentMethod.OUTROS))
+                                .method(Optional.ofNullable(p.getPaymentMethod()).map(nfePaymentMethod -> PaymentMethod.findByCode(nfePaymentMethod.getValue())).orElse(PaymentMethod.OUTROS))
                                 .value(this.toBigDecimal(p.getPaymentValue()))
                                 .cardSet(p.getCardSet() != null ? CardSet.builder()
                                         .integration(Optional.ofNullable(p.getCardSet().getPaymentIntegrationType()).map(nfePaymentIntegrationType -> CardSetIntegration.findByCode(nfePaymentIntegrationType.getValue())).orElse(null))
@@ -764,7 +764,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
         return null;
     }
 
-    private Collection<Item> buildItems() {
+    private List<Item> buildItems() {
         // @formatter:off
             final Collection<eprecise.efiscal4j.nfe.v400.NFeDetail> nfeDetails = this.processedNFe.getNfe().getNFeInfo().getnFeDetails();
             if((nfeDetails != null) && !nfeDetails.isEmpty()) {
