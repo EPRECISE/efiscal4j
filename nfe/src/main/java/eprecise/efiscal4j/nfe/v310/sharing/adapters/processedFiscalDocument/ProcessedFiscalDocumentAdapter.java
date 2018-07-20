@@ -551,6 +551,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     .ieSt(nfeEmitter.getStateRegistrationST())
                     .municipalDocuments(nfeEmitter.getMunicipalRegistration() != null ? EmitterMunicipalDocuments.builder()
                             .im(nfeEmitter.getMunicipalRegistration())
+                            .cnae(nfeEmitter.getCnae())
                             .build() : null)
                     .cnpj(nfeEmitterLegalEntityDocuments.getCnpj())
                     .fancyName(nfeEmitter.getFancyName())
@@ -563,6 +564,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     .ieSt(nfeEmitter.getStateRegistrationST())
                     .municipalDocuments(nfeEmitter.getMunicipalRegistration() != null ? EmitterMunicipalDocuments.builder()
                             .im(nfeEmitter.getMunicipalRegistration())
+                            .cnae(nfeEmitter.getCnae())
                             .build() : null)
                     .cpf(nfeEmitterNaturalPersonDocuments.getCpf())
                     .build();

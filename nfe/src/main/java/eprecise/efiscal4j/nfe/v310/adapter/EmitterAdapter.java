@@ -32,6 +32,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
                            .withStateRegistration(adaptedEmitter.getAdaptedStateRegistration())
                            .withStateRegistrationST(adaptedEmitter.getAdaptedStateRegistration())
                            .withMunicipalRegistration(adaptedEmitter.getAdaptedMunicipalRegistration())
+                           .withCnae(adaptedEmitter.getCnae())
                            .withCrt(adaptedEmitter.getCrt())
                            .withAdress(adaptedEmitter.getAdaptedAdress())
                            .build();
@@ -44,6 +45,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
                            .withStateRegistration(adaptedEmitter.getAdaptedStateRegistration())
                            .withStateRegistrationST(adaptedEmitter.getAdaptedStateRegistrationST())
                            .withMunicipalRegistration(adaptedEmitter.getAdaptedMunicipalRegistration())
+                           .withCnae(adaptedEmitter.getCnae())
                            .withCrt(adaptedEmitter.getCrt())
                            .withAdress(adaptedEmitter.getAdaptedAdress())
                            .build();
@@ -63,6 +65,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
                                            ,emitter.getStateRegistrationST()
                                            ,emitter.getMunicipalRegistration()
                                            ,emitter.getAdress()
+                                           ,emitter.getCnae()
                                            ,emitter.getCrt());
 
         if (emitter.getDocuments() instanceof NaturalPersonDocuments) {
@@ -78,7 +81,7 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(propOrder = { "cnpj", "cpf", "name", "fancyName", "adress", "stateRegistration", "stateRegistrationST", "municipalRegistration", "crt" })
+    @XmlType(propOrder = { "cnpj", "cpf", "name", "fancyName", "adress", "stateRegistration", "stateRegistrationST", "municipalRegistration", "cnae", "crt" })
     protected static class AdaptedEmitter implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -99,6 +102,8 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
 
         private @XmlElement(name = "IM") final String municipalRegistration;
 
+        private @XmlElement(name = "CNAE") final String cnae;
+
         private @XmlElement(name = "CRT") final CRT crt;
 
         public AdaptedEmitter() {
@@ -107,15 +112,18 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
             this.municipalRegistration = null;
             this.stateRegistrationST = null;
             this.adress = null;
+            this.cnae = null;
             this.crt = null;
         }
 
-        public AdaptedEmitter(final String fancyName, final String stateRegistration, final String stateRegistrationST, final String municipalRegistration, final Address adress, final CRT crt) {
+        public AdaptedEmitter(final String fancyName, final String stateRegistration, final String stateRegistrationST, final String municipalRegistration, final Address adress, final String cnae,
+                final CRT crt) {
             this.fancyName = fancyName;
             this.stateRegistration = stateRegistration;
             this.stateRegistrationST = stateRegistrationST;
             this.municipalRegistration = municipalRegistration;
             this.adress = adress;
+            this.cnae = cnae;
             this.crt = crt;
         }
 
@@ -149,6 +157,10 @@ public class EmitterAdapter extends XmlAdapter<EmitterAdapter.AdaptedEmitter, Em
 
         public Address getAdaptedAdress() {
             return this.adress;
+        }
+
+        public String getCnae() {
+            return this.cnae;
         }
 
         public CRT getCrt() {

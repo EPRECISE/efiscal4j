@@ -181,7 +181,7 @@ public abstract class FiscalDocument {
 						final String xsdPath = (String) v.getProcessedNFeClass().getDeclaredField("XSD").get(null);
 						final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
 						if (validator.validate(xml).isValid()) {
-							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).deserialize();
+							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).notStoppingOnError().deserialize();
 							return processedNFeVersion.buildProcessedFiscalDocument();
 						}
 					} catch (final Exception e) {

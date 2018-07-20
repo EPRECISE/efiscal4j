@@ -46,6 +46,8 @@ public class Emitter implements Serializable {
 
     private @XmlElement(name = "IM") @Size(min = 1, max = 15) @NFeString final String municipalRegistration;
 
+    private @XmlElement(name = "CNAE") @Pattern(regexp = "[0-9]{7}") final String cnae;
+
     private @XmlElement(name = "CRT") @NotNull final CRT crt;
 
     public static class Builder {
@@ -62,6 +64,8 @@ public class Emitter implements Serializable {
 
         private String municipalRegistration;
 
+        private String cnae;
+
         private CRT crt;
 
         public Builder withFancyName(final String fancyName) {
@@ -76,7 +80,7 @@ public class Emitter implements Serializable {
 
         public Builder withStateRegistration(final String stateRegistration) {
             this.stateRegistration = stateRegistration;
-            Optional.ofNullable(this.documents).ifPresent(d->d.setStateRegistration(stateRegistration));
+            Optional.ofNullable(this.documents).ifPresent(d -> d.setStateRegistration(stateRegistration));
             return this;
         }
 
@@ -87,6 +91,11 @@ public class Emitter implements Serializable {
 
         public Builder withMunicipalRegistration(final String municipalRegistration) {
             this.municipalRegistration = municipalRegistration;
+            return this;
+        }
+
+        public Builder withCnae(final String cnae) {
+            this.cnae = cnae;
             return this;
         }
 
@@ -121,12 +130,12 @@ public class Emitter implements Serializable {
         }
 
         public LegalEntityBuilder withCorporateName(final String corporateName) {
-            getDocuments().setCorporateName(corporateName);
+            this.getDocuments().setCorporateName(corporateName);
             return this;
         }
 
         public LegalEntityBuilder withCnpj(final String cnpj) {
-            getDocuments().setCnpj(cnpj);
+            this.getDocuments().setCnpj(cnpj);
             return this;
         }
 
@@ -170,12 +179,12 @@ public class Emitter implements Serializable {
         }
 
         public NaturalPersonBuilder withCpf(final String cpf) {
-            getDocuments().setCpf(cpf);
+            this.getDocuments().setCpf(cpf);
             return this;
         }
 
         public NaturalPersonBuilder withName(final String name) {
-            getDocuments().setName(name);
+            this.getDocuments().setName(name);
             return this;
         }
 
@@ -220,6 +229,7 @@ public class Emitter implements Serializable {
         this.stateRegistrationST = null;
         this.municipalRegistration = null;
         this.crt = null;
+        this.cnae = null;
     }
 
     public Emitter(final Builder builder) {
@@ -230,6 +240,7 @@ public class Emitter implements Serializable {
         this.stateRegistrationST = builder.stateRegistrationST;
         this.municipalRegistration = builder.municipalRegistration;
         this.crt = builder.crt;
+        this.cnae = builder.cnae;
     }
 
     public AbstractDocuments getDocuments() {
@@ -258,6 +269,10 @@ public class Emitter implements Serializable {
 
     public CRT getCrt() {
         return this.crt;
+    }
+
+    public String getCnae() {
+        return this.cnae;
     }
 
 }
