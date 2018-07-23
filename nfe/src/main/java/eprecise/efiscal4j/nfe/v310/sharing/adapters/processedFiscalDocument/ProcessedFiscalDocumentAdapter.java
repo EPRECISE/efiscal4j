@@ -44,6 +44,7 @@ import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
 import eprecise.efiscal4j.nfe.item.Unity;
+import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.ItemTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.item.tax.cofins.COFINS;
@@ -191,6 +192,7 @@ import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquotValu
 import eprecise.efiscal4j.nfe.item.tax.pis.st.PISST;
 import eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver;
 import eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.InterstateICMSUFAliquot;
+import eprecise.efiscal4j.nfe.item.trace.Trace;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.payment.PaymentDetail;
 import eprecise.efiscal4j.nfe.payment.PaymentMethod;
@@ -233,6 +235,7 @@ import eprecise.efiscal4j.nfe.transport.conveyor.cnp.ConveyorCpf;
 import eprecise.efiscal4j.nfe.transport.mean.TransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean.VehicleTowingTransportMeanBuilder;
+import eprecise.efiscal4j.nfe.v310.NFeDetail;
 import eprecise.efiscal4j.nfe.v310.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v310.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe;
@@ -781,10 +784,53 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                    .taxes(this.buildItemTaxes(nfeDetail.getTax()))
                                    .build())
                            .additionalInfo(nfeDetail.getAdditionalProductInfo())
+                           .importDeclaration(null) //TODO
+                           .medications(this.buildMedications(nfeDetail))
+                           .traces(this.buildTraces(nfeDetail))
                            .build();
                 }).collect(Collectors.toList());
             }
         // @formatter:on
+        return null;
+    }
+
+    private Collection<Trace> buildTraces(final NFeDetail nfeDetail) {
+     // @formatter:off
+        final Collection<eprecise.efiscal4j.nfe.v310.Medications> traceMedications = nfeDetail.getnFeItem().getMedications();
+        if((traceMedications != null) && !traceMedications.isEmpty()) {
+            return traceMedications.stream().map(tm -> {
+                return Trace.builder()
+                        .batchNumber(tm.getBatchNumber())
+                        .batchQuantity(this.toBigDecimal(tm.getBatchQuantity()))
+                        .manufacturing(Optional.ofNullable(tm.getManufacturingDate()).map(t -> {
+                                try {
+                                    return NFeDate.dateFormat.parse(t);
+                                } catch (final ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }).orElse(null))
+                        .expiration(Optional.ofNullable(tm.getExpirationDate()).map(t -> {
+                                try {
+                                    return NFeDate.dateFormat.parse(t);
+                                } catch (final ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }).orElse(null))
+                        .aggregationCode(null)
+                        .build();
+            }).collect(Collectors.toList());
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private Medications buildMedications(final NFeDetail nfeDetail) {
+     // @formatter:off
+        final Collection<eprecise.efiscal4j.nfe.v310.Medications> traceMedications = nfeDetail.getnFeItem().getMedications();
+        if((traceMedications != null) && !traceMedications.isEmpty()) {
+            return Medications.builder().maxPriceConsumers(traceMedications.stream().findFirst().map(tm -> this.toBigDecimal(tm.getMaxPriceConsumers())).orElse(null)).build();
+        }
+     // @formatter:on
         return null;
     }
 

@@ -44,6 +44,7 @@ import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
 import eprecise.efiscal4j.nfe.item.Unity;
+import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.ItemTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.item.tax.cofins.COFINS;
@@ -196,6 +197,7 @@ import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquotValu
 import eprecise.efiscal4j.nfe.item.tax.pis.st.PISST;
 import eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver;
 import eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.InterstateICMSUFAliquot;
+import eprecise.efiscal4j.nfe.item.trace.Trace;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.payment.Payment.PaymentBuilder;
 import eprecise.efiscal4j.nfe.payment.PaymentDetail;
@@ -242,6 +244,7 @@ import eprecise.efiscal4j.nfe.transport.mean.TransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean.VehicleTowingTransportMeanBuilder;
 import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
+import eprecise.efiscal4j.nfe.v400.NFeDetail;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe;
@@ -801,10 +804,56 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                    .taxes(this.buildItemTaxes(nfeDetail.getTax()))
                                    .build())
                            .additionalInfo(nfeDetail.getAdditionalProductInfo())
+                           .importDeclaration(null)
+                           .medications(this.buildMedications(nfeDetail))
+                           .traces(this.buildTraces(nfeDetail))
                            .build();
                 }).collect(Collectors.toList());
             }
         // @formatter:on
+        return null;
+    }
+
+    private Collection<Trace> buildTraces(final NFeDetail nfeDetail) {
+     // @formatter:off
+        final Collection<eprecise.efiscal4j.nfe.v400.Trace> traces = nfeDetail.getnFeItem().getTraces();
+        if((traces != null) && !traces.isEmpty()) {
+            return traces.stream().map(tr -> {
+                return Trace.builder()
+                        .batchNumber(tr.getBatchNumber())
+                        .batchQuantity(this.toBigDecimal(tr.getBatchQuantity()))
+                        .manufacturing(Optional.ofNullable(tr.getManufacturingDate()).map(t -> {
+                            try {
+                                return NFeDate.dateFormat.parse(t);
+                            } catch (final ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).orElse(null))
+                        .expiration(Optional.ofNullable(tr.getExpirationDate()).map(t -> {
+                            try {
+                                return NFeDate.dateFormat.parse(t);
+                            } catch (final ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).orElse(null))
+                        .aggregationCode(tr.getAggregationCode())
+                        .build();
+            }).collect(Collectors.toList());
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private Medications buildMedications(final NFeDetail nfeDetail) {
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.v400.Medications medications = nfeDetail.getnFeItem().getMedications();
+        if(medications != null) {
+            return Medications.builder()
+                    .anvisaProductCode(medications.getAnvisaProductCode())
+                    .maxPriceConsumers(this.toBigDecimal(medications.getMaxPriceConsumers()))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
