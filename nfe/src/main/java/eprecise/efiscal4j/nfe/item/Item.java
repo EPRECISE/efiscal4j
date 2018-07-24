@@ -38,7 +38,7 @@ public class Item {
 
     private final TaxStructure taxStructure;
 
-    private final ImportDeclaration importDeclaration;
+    private final Collection<ImportDeclaration> importDeclarations;
 
     private final Medications medications;
 

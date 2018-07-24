@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 public class ICMSSN203 implements ICMS, IcmsStWithBcValueHolder {
 
-    private final ICMSCST cst = ICMSCST.CSOSN_202;
+    private final ICMSCST cst = ICMSCST.CSOSN_203;
 
     private final ProductOrigin origin;
 

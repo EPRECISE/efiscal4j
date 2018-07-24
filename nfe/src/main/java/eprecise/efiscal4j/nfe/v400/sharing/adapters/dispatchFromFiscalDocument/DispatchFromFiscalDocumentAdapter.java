@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +38,7 @@ import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
 import eprecise.efiscal4j.nfe.item.Unity;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
+import eprecise.efiscal4j.nfe.item.tax.icms.ICMS00;
 import eprecise.efiscal4j.nfe.item.tax.scale.NoRelevantScale;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
@@ -91,7 +93,10 @@ import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.v400.item.di.Addition;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
+import eprecise.efiscal4j.nfe.v400.item.di.IntermediaryImportType;
+import eprecise.efiscal4j.nfe.v400.item.di.InternationalTransportPathway;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 import eprecise.efiscal4j.nfe.v400.payment.CardFlag;
 import eprecise.efiscal4j.nfe.v400.payment.CardSet;
@@ -109,6 +114,14 @@ import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.v400.tax.Tax;
+import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS;
+import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST;
+import eprecise.efiscal4j.nfe.v400.tax.icms.ICMS;
+import eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver;
+import eprecise.efiscal4j.nfe.v400.tax.ii.II;
+import eprecise.efiscal4j.nfe.v400.tax.ipi.IPI;
+import eprecise.efiscal4j.nfe.v400.tax.pis.PIS;
+import eprecise.efiscal4j.nfe.v400.tax.pis.PISST;
 import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
@@ -828,18 +841,123 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private List<ImportDeclaration> buildImportDeclarations(final Item item) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final Collection<eprecise.efiscal4j.nfe.item.di.ImportDeclaration> importDeclarations = item.getImportDeclarations();
+        if((importDeclarations != null) && !importDeclarations.isEmpty()) {
+            return importDeclarations.stream().map(id -> {
+                return new ImportDeclaration.Builder()
+                        .withNumber(id.getNumber())
+                        .withDate(Optional.ofNullable(id.getDate()).map(NFeDate.dateFormat::format).orElse(null))
+                        .withClearanceSpot(id.getClearanceSpot())
+                        .withClearanceDate(Optional.ofNullable(id.getClearanceDate()).map(NFeDate.dateFormat::format).orElse(null))
+                        .withInternationalTransportPathway(Optional.ofNullable(id.getInternationalTransportPathway()).map(itpw -> InternationalTransportPathway.findByCode(itpw.getValue())).orElse(null))
+                        .withAdditValShipMerchMarineRenovation(this.formatNFeDecimal1302(id.getAdditValShipMerchMarineRenovation()))
+                        .withIntermediaryImportType(Optional.ofNullable(id.getIntermediaryImportType()).map(iit -> IntermediaryImportType.findByCode(iit.getValue())).orElse(null))
+                        .withAcquirerOrOrderingPartyCnpj(id.getAcquirerOrOrderingPartyCnpj())
+                        .withAcquirerOrOrderingPartyUf(Optional.ofNullable(id.getAcquirerOrOrderingPartyUf()).orElse(null))
+                        .withExporterCode(id.getExporterCode())
+                        .withAdditions(Optional.ofNullable(id.getAdditions()).map(additions -> additions.stream().map(addition -> {
+                            return new Addition.Builder()
+                                    .withNumber(Optional.ofNullable(addition.getNumber()).map(Object::toString).orElse(null))
+                                    .withSequence(Optional.ofNullable(addition.getSequence()).map(Object::toString).orElse(null))
+                                    .withManufacturerCode(this.formatNFeString(addition.getManufacturerCode(), 60))
+                                    .withDiscountValue(this.formatNFeDecimal1302Optional(addition.getDiscountValue()))
+                                    .withDrawbackNumber(addition.getDrawbackNumber())
+                                    .build();
+                        }).collect(Collectors.toList())).orElse(null))
+                        .build();
+            }).collect(Collectors.toList());
+        }
         return null;
+     // @formatter:on
     }
 
     private Medications buildMedications(final Item item) {
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.medications.Medications medications = item.getMedications();
+        if(medications != null) {
+            return new Medications.Builder()
+                    .withAnvisaProductCode(medications.getAnvisaProductCode())
+                    .withMaxPriceConsumers(this.formatNFeDecimal1302(medications.getMaxPriceConsumers()))
+                    .build();
+        }
+        return null;
+     // @formatter:on
+    }
+
+    private Tax buildTax(final Item item) {
+     // @formatter:off
+        final TaxStructure taxStructure = item.getTaxStructure();
+        if(taxStructure != null) {
+            return new Tax.Builder()
+                    .withTaxTotalValue(Optional.ofNullable(taxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getTotal).map(this::formatNFeDecimal1302).orElse(null))
+                    .withIcms(this.buildIcms(taxStructure))
+                    .withIpi(this.buildIpi(taxStructure))
+                    .withIi(this.buildIi(taxStructure))
+                    .withPis(this.buildPis(taxStructure))
+                    .withPisSt(this.buildPisSt(taxStructure))
+                    .withCofins(this.buildCofins(taxStructure))
+                    .withCofinsSt(this.buildCofinsSt(taxStructure))
+                    .withIcmsUfReceiver(this.buildIcmsUfReceiver(taxStructure))
+                    .build();
+            }
+        return null;
+     // @formatter:on
+    }
+
+    private ICMSUFReceiver buildIcmsUfReceiver(final TaxStructure taxStructure) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private Tax buildTax(final Item item) {
+    private COFINSST buildCofinsSt(final TaxStructure taxStructure) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    private PISST buildPisSt(final TaxStructure taxStructure) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private COFINS buildCofins(final TaxStructure taxStructure) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private PIS buildPis(final TaxStructure taxStructure) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private II buildIi(final TaxStructure taxStructure) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private IPI buildIpi(final TaxStructure taxStructure) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private ICMS buildIcms(final TaxStructure taxStructure) {
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.icms.ICMS icms = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.icms.ICMS.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS.class::cast).findFirst().orElse(null);
+        if(icms != null) {
+            switch(icms.getCst()) {
+            
+            case CST_00 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS00 icms00 = (ICMS00) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS00.Builder()
+                        
+                        .build();
+            }
+            default:
+                break;
+            }
+        }
+        return null;
+     // @formatter:on
     }
 
     private String nullIfEmpty(final String v) {

@@ -95,6 +95,7 @@ import eprecise.efiscal4j.nfe.item.tax.icms.ICMS30;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS40;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS41;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS50;
+import eprecise.efiscal4j.nfe.item.tax.icms.ICMS51;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS60;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS70;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMS90;
@@ -111,6 +112,7 @@ import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN500;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN900;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSST;
 import eprecise.efiscal4j.nfe.item.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesonerationReason;
 import eprecise.efiscal4j.nfe.item.tax.icms.sn.credit.CreditSnValue;
@@ -784,7 +786,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                    .taxes(this.buildItemTaxes(nfeDetail.getTax()))
                                    .build())
                            .additionalInfo(nfeDetail.getAdditionalProductInfo())
-                           .importDeclaration(null) //TODO
+                           .importDeclarations(null) //TODO
                            .medications(this.buildMedications(nfeDetail))
                            .traces(this.buildTraces(nfeDetail))
                            .build();
@@ -1593,6 +1595,26 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .reason(Optional.ofNullable(nfeIcms50.getIcmsDesonerationReason()).map(r -> IcmsDesonerationReason.findByCode(r.getValue())).orElse(null))
                                     .value(this.toBigDecimal(nfeIcms50.getIcmsDesonerationValue()))
                                     .build())
+                            .build();
+                }
+                case "ICMS51": {
+                    final eprecise.efiscal4j.nfe.v310.tax.icms.ICMS51 nfeIcms51 = (eprecise.efiscal4j.nfe.v310.tax.icms.ICMS51 ) nfeIcms;
+                    return ICMS51.builder()
+                            .origin(Optional.ofNullable(nfeIcms51.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+                            .icms(IcmsWithBcReductionPercent.builder()
+                                    .value(IcmsWithBcValue.builder()
+                                            .aliquot(this.toBigDecimal(nfeIcms51.getIcmsAliquot()))
+                                            .calculationBasis(this.buildIcmsBc(nfeIcms51.getBcModality(), this.toBigDecimal(nfeIcms51.getBcValue()), BigDecimal.ZERO))
+                                            .value(this.toBigDecimal(nfeIcms51.getIcmsValue()))
+                                            .build())
+                                        .bcReductionPercent(this.toBigDecimal(nfeIcms51.getBcReductionPercent()))
+                                        .build())
+                            .deferral(IcmsDeferral.builder()
+                                    .percent(this.toBigDecimal(nfeIcms51.getDeferralPercent()))
+                                    .value(this.toBigDecimal(nfeIcms51.getIcmsDeferralValue()))
+                                    .build())
+                            .operationValue(this.toBigDecimal(nfeIcms51.getIcmsOperationValue()))
+                            .fcp(null)
                             .build();
                 }
                 case "ICMS60": {
