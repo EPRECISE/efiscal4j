@@ -133,7 +133,7 @@ public class NFeDeliveryDFeDomain {
         final ProcessedNFe processedNfe = new ProcessedNFe.Builder().withNfe(nfe).withProcessingStatusProtocol(status)
                 .build();
 
-        return new NFeDeliveryDfeDocument.Builder().withContent(processedNfe).withNsu(4L).withSchema(NFeDeliveryDFeSchemas.PROC_NFE).build();
+        return new NFeDeliveryDfeDocument.Builder().withContent(processedNfe).withNsu(4L).withSchema(NFeDeliveryDFeSchemas.PROC_NFE_3_10).build();
         //@formatter:on
     }
 
