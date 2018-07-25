@@ -16,7 +16,7 @@ import eprecise.efiscal4j.nfe.v400.summaries.ProcessedNFeSummary;
 
 public enum NFeDeliveryDFeSchemas {
                                    RES_NFE("resNFe_v1.01.xsd", ProcessedNFeSummary.class),
-                                   PROC_NFE("procNFe_v3.10.xsd", ProcessedNFe.class),
+                                   PROC_NFE("procNFe_v4.00.xsd", ProcessedNFe.class),
                                    RES_EVENT("resNFe_v1.01.xsd", NFeEventSummary.class),
                                    PROC_EVENTO_NFE("procEventoNFe_v1.00.xsd", EventProtocol.class);
 
