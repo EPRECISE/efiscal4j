@@ -14,12 +14,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class IPI01 extends BaseIPINT {
+public class IPI01 extends BaseIPINT {
 
     private static final long serialVersionUID = 1L;
 
     public static class Builder extends BaseIPINT.Builder implements IPIBuilder {
-
 
         /**
          * {@inheritDoc}

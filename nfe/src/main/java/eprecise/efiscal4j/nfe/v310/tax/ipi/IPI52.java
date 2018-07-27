@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class IPI52 extends BaseIPINT {
+public class IPI52 extends BaseIPINT {
 
     private static final long serialVersionUID = 1L;
 

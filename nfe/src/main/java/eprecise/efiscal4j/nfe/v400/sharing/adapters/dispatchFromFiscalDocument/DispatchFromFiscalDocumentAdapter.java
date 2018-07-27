@@ -69,6 +69,8 @@ import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcDeterminedPautaValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMarginAddedValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMaximumTabulatedPrice;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcOperationValue;
+import eprecise.efiscal4j.nfe.item.tax.ipi.generalData.IPIGeneralData;
+import eprecise.efiscal4j.nfe.item.tax.ipi.value.IpiValue;
 import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.PisAliquotPercentWithBc;
 import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.PisAliquotValueWithQuantity;
 import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquot;
@@ -1556,22 +1558,206 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private PISST buildPisSt(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.pis.st.PISST pisSt = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.pis.st.PISST.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.pis.st.PISST.class::cast).findFirst().orElse(null);
+        if(pisSt != null) {
+            return new PISST.Builder()
+                    .withBcValue(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302Optional).orElse(null))
+                    .withPisAliquot(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withProductQuantity(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204).orElse(null))
+                    .withProductAliquot(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104).orElse(null))
+                    .withPisValue(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private COFINSST buildCofinsSt(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST cofinsSt = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST.class::cast).findFirst().orElse(null);
+        if(cofinsSt != null) {
+            return new COFINSST.Builder()
+                    .withBcValue(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302Optional).orElse(null))
+                    .withCofinsAliquot(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withProductQuantity(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204).orElse(null))
+                    .withProductAliquot(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104).orElse(null))
+                    .withCofinsValue(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private II buildIi(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.ii.II ii = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ii.II.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ii.II.class::cast).findFirst().orElse(null);
+        if(ii != null) {
+            return new II.Builder()
+                    .withBcValue(Optional.ofNullable(ii.getCalculationBasis()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withCustomsCharge(Optional.ofNullable(ii.getCustomsCharge()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withIiValue(Optional.ofNullable(ii.getValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withIofValue(Optional.ofNullable(ii.getIof()).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private IPI buildIpi(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.ipi.IPI ipi = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ipi.IPI.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ipi.IPI.class::cast).findFirst().orElse(null);
+        if(ipi != null) {
+            switch(ipi.getCst()) {
+            case CST_00: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI00 ipi00 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI00) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_01: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI01 ipi01 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI01) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI01.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_02: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI02 ipi02 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI02) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI02.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_03: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI03 ipi03 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI03) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI03.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_04: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI04 ipi04 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI04) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI04.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_05: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI05 ipi05 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI05) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI05.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_49: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI49 ipi49 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI49) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_50: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI50 ipi50 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI50) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_51: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI51 ipi51 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI51) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI51.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_52: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI52 ipi52 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI52) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI52.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_53: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI53 ipi53 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI53) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI53.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_54: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI54 ipi54 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI54) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI54.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_55: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI55 ipi55 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI55) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI55.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_99: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI99 ipi99 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI99) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            }
+        }
+     // @formatter:on
         return null;
     }
 
@@ -2031,6 +2217,16 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private String formatNFeDecimal0302a04Max100(final BigDecimal value) {
         if ((value == null) || ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0))) {
             return null;
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1104(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
         } else {
             return NFE_FOUR_DECIMALS_FORMAT.format(value);
         }
