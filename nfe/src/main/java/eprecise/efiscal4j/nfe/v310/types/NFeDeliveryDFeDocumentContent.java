@@ -45,9 +45,11 @@ public @interface NFeDeliveryDFeDocumentContent {
 
     public class Converter implements TypeConverter<String, String> {
 
-        @Override
+        private static final String ENCODING = "UTF-8";
+
+		@Override
         public String parse(String source) {
-            if (!StringUtils.isNotEmpty(source)) {
+            if (StringUtils.isBlank(source)) {
                 return null;
             }
 
@@ -60,12 +62,12 @@ public @interface NFeDeliveryDFeDocumentContent {
 
         @Override
         public String serialize(String data) {
-            if (!StringUtils.isNotEmpty(data)) {
+            if (StringUtils.isBlank(data)) {
                 return null;
             }
 
             try {
-                return new String(Base64.getEncoder().encode(new ByteArrayCompressor().compress(data.getBytes("UTF-8"))), "UTF-8");
+                return new String(Base64.getEncoder().encode(new ByteArrayCompressor().compress(data.getBytes(ENCODING))), ENCODING);
             } catch (final IOException e) {
                 throw new IllegalArgumentException();
             }

@@ -9,14 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.v310.sharing.EventProtocol;
-import eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe;
 import eprecise.efiscal4j.nfe.v310.summaries.NFeEventSummary;
 import eprecise.efiscal4j.nfe.v310.summaries.ProcessedNFeSummary;
 
 
 public enum NFeDeliveryDFeSchemas {
                                    RES_NFE("resNFe_v1.01.xsd", ProcessedNFeSummary.class),
-                                   PROC_NFE("procNFe_v3.10.xsd", ProcessedNFe.class),
+                                   PROC_NFE_3_10("procNFe_v3.10.xsd", eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe.class),
+                                   PROC_NFE_4_00("procNFe_v4.00.xsd", eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe.class),
                                    RES_EVENT("resNFe_v1.01.xsd", NFeEventSummary.class),
                                    PROC_EVENTO_NFE("procEventoNFe_v1.00.xsd", EventProtocol.class);
 

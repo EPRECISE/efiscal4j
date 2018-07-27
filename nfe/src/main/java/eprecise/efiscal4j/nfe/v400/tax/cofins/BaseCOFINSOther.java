@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
  * @author Felipe Bueno
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStandard {
+public abstract class BaseCOFINSOther extends BaseCOFINS implements BaseCOFINSOtherStandard {
 
     private static final long serialVersionUID = 1L;
 

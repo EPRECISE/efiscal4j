@@ -15,11 +15,12 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
+import eprecise.efiscal4j.nfe.version.DanfePrintFormatVersion;
 
 
 @XmlType
 @XmlEnum(String.class)
-public enum DANFEPrintFormat {
+public enum DANFEPrintFormat implements DanfePrintFormatVersion{
     @XmlEnumValue("0") SEM_DANFE("0", "Sem DANFe", NFE),
     @XmlEnumValue("1") DANFE_RETRATO("1", "DANFe Retrato", NFE),
     @XmlEnumValue("2") DANFE_PAISAGEM("2", "DANFe Paisagem", NFE),

@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.v310.sharing;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,10 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.v310.NFe;
+import eprecise.efiscal4j.nfe.v310.NFeIdentification;
+import eprecise.efiscal4j.nfe.v310.NFeInfo;
 import eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter;
+import eprecise.efiscal4j.nfe.version.DanfePrintFormatVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 
 
@@ -52,7 +56,7 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
          * @param nfe
          * @return
          */
-        public Builder withNfe(NFe nfe) {
+        public Builder withNfe(final NFe nfe) {
             this.nfe = nfe;
             return this;
         }
@@ -62,7 +66,7 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
          * @param processingStatusProtocol
          * @return
          */
-        public Builder withProcessingStatusProtocol(ProcessingStatusProtocol processingStatusProtocol) {
+        public Builder withProcessingStatusProtocol(final ProcessingStatusProtocol processingStatusProtocol) {
             this.processingStatusProtocol = processingStatusProtocol;
             return this;
         }
@@ -78,13 +82,13 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         this.nfe = null;
         this.processingStatusProtocol = null;
     }
-    
+
     public ProcessedNFe(final NFeDispatch dispatchRequest, final NFeDispatchResponseMethod dispatchResponse) {
-    	this.nfe = dispatchRequest.getnFes().stream().findFirst().orElse(null);
-    	this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
+        this.nfe = dispatchRequest.getnFes().stream().findFirst().orElse(null);
+        this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
     }
 
-    private ProcessedNFe(Builder builder) {
+    private ProcessedNFe(final Builder builder) {
         this.nfe = builder.nfe;
         this.processingStatusProtocol = builder.processingStatusProtocol;
     }
@@ -110,9 +114,14 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         return new ProcessedFiscalDocumentAdapter(this).buildProcessedFiscalDocument();
     }
 
-	@Override
-	public String getXsdPath() {
-		return this.XSD;
-	}
+    @Override
+    public String getXsdPath() {
+        return ProcessedNFe.XSD;
+    }
+
+    @Override
+    public DanfePrintFormatVersion getDanfePrintFormat() {
+        return Optional.ofNullable(this.nfe).map(NFe::getNFeInfo).map(NFeInfo::getnFeIdentification).map(NFeIdentification::getDanfePrintFormat).orElse(null);
+    }
 
 }

@@ -8,7 +8,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import eprecise.efiscal4j.nfe.danfe.JasperDanfeCatalog;
 import eprecise.efiscal4j.nfe.v310.DANFEPrintFormat;
+import eprecise.efiscal4j.nfe.version.DanfePrintFormatVersion;
 
 
 public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
@@ -27,12 +29,12 @@ public class DefaultJasperDanfeCatalog implements JasperDanfeCatalog {
     };
 
     @Override
-    public InputStream get(final DANFEPrintFormat printFormat) {
+    public InputStream get(final DanfePrintFormatVersion printFormat) {
         if (!this.danfeMap.containsKey(printFormat)) {
             throw new IllegalArgumentException("Não existe formato padrão para " + printFormat);
         }
         try {
-            final String file = this.danfeMap.get(printFormat);
+            final String file = this.danfeMap.get(printFormat == DANFEPrintFormat.DANFE_RETRATO ? DANFEPrintFormat.DANFE_PAISAGEM : printFormat);
             final URL resource = this.getClass().getClassLoader().getResource(file);
             if (resource != null) {
                 return resource.openStream();

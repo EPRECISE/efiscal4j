@@ -22,34 +22,48 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum CardFlag implements Serializable {
 
-	@XmlEnumValue("01") VISA("01", "Visa"),
-	@XmlEnumValue("02") MASTERCARD("02", "Mastercard"),
-	@XmlEnumValue("03") AMERICAN_EXPRESS("03", "American Express"),
-	@XmlEnumValue("04") SOROCRED("04", "Sorocred"),
-	@XmlEnumValue("99") OUTROS("99", "Outros");
+                                              @XmlEnumValue("01")
+                                              VISA("01", "Visa"),
+                                              @XmlEnumValue("02")
+                                              MASTERCARD("02", "Mastercard"),
+                                              @XmlEnumValue("03")
+                                              AMERICAN_EXPRESS("03", "American Express"),
+                                              @XmlEnumValue("04")
+                                              SOROCRED("04", "Sorocred"),
+                                              @XmlEnumValue("99")
+                                              OUTROS("99", "Outros");
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String value;
+    private final String value;
 
-	private final String description;
+    private final String description;
 
-	private CardFlag(String value, String description) {
-		this.value = value;
-		this.description = description;
-	}
+    private CardFlag(final String value, final String description) {
+        this.value = value;
+        this.description = description;
+    }
 
-	public String getValue() {
-		return this.value;
-	}
+    public String getValue() {
+        return this.value;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	@Override
-	public String toString() {
-		return this.getDescription();
-	}
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
+
+    public static CardFlag findByCode(final String code) {
+        for (final CardFlag entity : CardFlag.values()) {
+            if (entity.getValue().equals(code)) {
+                return entity;
+            }
+        }
+        return null;
+    }
 
 }

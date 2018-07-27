@@ -32,14 +32,14 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
     private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
 
     private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
-    
+
     private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
 
     private @XmlElement(name = "pFCPST") @NFeDecimal0302a04Optional final String fcpStAliquot;
 
     private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
 
-    static abstract class Builder extends BaseICMSSN.Builder {
+    public static abstract class Builder extends BaseICMSSN.Builder {
 
         private BCModalityST bcModalitySt;
 
@@ -52,7 +52,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
         private String icmsStAliquot;
 
         private String icmsStValue;
-        
+
         private String bcFcpValueST;
 
         private String fcpStAliquot;
@@ -107,7 +107,7 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
             this.icmsStValue = icmsStValue;
             return this;
         }
-        
+
         /**
          * Valor da Base de cálculo do FCP retido por substituicao tributaria
          * 
@@ -141,7 +141,8 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
         }
 
         @Override
-        abstract BaseICMSSN202 build();
+
+        public abstract BaseICMSSN202 build();
     }
 
     public BaseICMSSN202() {
@@ -193,17 +194,17 @@ abstract class BaseICMSSN202 extends BaseICMSSN implements IcmsWithST {
     public String getIcmsStValue() {
         return this.icmsStValue;
     }
-    
+
     public String getBcFcpValueST() {
-        return bcFcpValueST;
+        return this.bcFcpValueST;
     }
 
     public String getFcpStAliquot() {
-        return fcpStAliquot;
+        return this.fcpStAliquot;
     }
 
     public String getFcpStValue() {
-        return fcpStValue;
+        return this.fcpStValue;
     }
 
 }

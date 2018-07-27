@@ -38,7 +38,44 @@ import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
 import eprecise.efiscal4j.nfe.item.Unity;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS00;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.CofinsAliquotPercentWithBc;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.CofinsAliquotValueWithQuantity;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquot;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquotPercent;
+import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquotValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
+import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
+import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.sn.credit.CreditSnValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.retained.FcpStRetainedValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcReductionPercent;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBc;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcDeterminedPautaValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcMarginAddedValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcMaximumTabulatedOrSuggestedPrice;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcNegativeListValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcNeutralListValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcPositiveListValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.destination.IcmsStDestinationValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.retained.IcmsStRetainedValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcReductionPercent;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBc;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcDeterminedPautaValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMarginAddedValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMaximumTabulatedPrice;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcOperationValue;
+import eprecise.efiscal4j.nfe.item.tax.ipi.generalData.IPIGeneralData;
+import eprecise.efiscal4j.nfe.item.tax.ipi.value.IpiValue;
+import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.PisAliquotPercentWithBc;
+import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.PisAliquotValueWithQuantity;
+import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquot;
+import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquotPercent;
+import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.value.PisValueWithAliquotValue;
 import eprecise.efiscal4j.nfe.item.tax.scale.NoRelevantScale;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
@@ -116,8 +153,13 @@ import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.v400.tax.Tax;
 import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS;
 import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST;
+import eprecise.efiscal4j.nfe.v400.tax.icms.BCModality;
+import eprecise.efiscal4j.nfe.v400.tax.icms.BCModalityST;
 import eprecise.efiscal4j.nfe.v400.tax.icms.ICMS;
 import eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver;
+import eprecise.efiscal4j.nfe.v400.tax.icms.InterstateICMSUFAliquot;
+import eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.v400.tax.ii.II;
 import eprecise.efiscal4j.nfe.v400.tax.ipi.IPI;
 import eprecise.efiscal4j.nfe.v400.tax.pis.PIS;
@@ -906,37 +948,816 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private ICMSUFReceiver buildIcmsUfReceiver(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private COFINSST buildCofinsSt(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private PISST buildPisSt(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private COFINS buildCofins(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver icmsUfReceiver = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver.class::cast).findFirst().orElse(null);
+        if(icmsUfReceiver != null) {
+            return new ICMSUFReceiver.Builder()
+                    .withReceiverUfBcValue(Optional.ofNullable(icmsUfReceiver.getCalculationBasis()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withReceiverUfBcFcpValue(Optional.ofNullable(icmsUfReceiver.getBcFcpValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withReceiverUfFCPPercentual(Optional.ofNullable(icmsUfReceiver.getFcpAditionalAliquot()).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withReceiverUfIcmsAliquot(Optional.ofNullable(icmsUfReceiver.getAliquot()).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withInterstateIcmsUfAliquot(Optional.ofNullable(icmsUfReceiver.getInterstateAliquot()).map(ia -> InterstateICMSUFAliquot.findByCode(ia.getValue())).orElse(null))
+                    .withReceiverUfSharePercentual(Optional.ofNullable(icmsUfReceiver.getSharePercentual()).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withReceiverUfFCPValue(Optional.ofNullable(icmsUfReceiver.getFcpValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withReceiverUfIcmsShareValue(Optional.ofNullable(icmsUfReceiver.getShareValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withEmitterUfIcmsShareValue(Optional.ofNullable(icmsUfReceiver.getEmitterShareValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private PIS buildPis(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.pis.PIS pis = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.pis.PIS.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.pis.PIS.class::cast).findFirst().orElse(null);
+        if(pis != null) {
+            switch(pis.getCst()) {
+            case CST_01: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS01 pis01 = (eprecise.efiscal4j.nfe.item.tax.pis.PIS01) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS01.Builder()
+                        .withBcValue(Optional.ofNullable(pis01.getPis()).map(PisValueWithAliquotPercent::getAliquot).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pis01.getPis()).map(PisValueWithAliquotPercent::getAliquot).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withPisValue(Optional.ofNullable(pis01.getPis()).map(PisValueWithAliquotPercent::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_02: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS02 pis02 = (eprecise.efiscal4j.nfe.item.tax.pis.PIS02) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS02.Builder()
+                        .withBcValue(Optional.ofNullable(pis02.getPis()).map(PisValueWithAliquotPercent::getAliquot).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pis02.getPis()).map(PisValueWithAliquotPercent::getAliquot).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withPisValue(Optional.ofNullable(pis02.getPis()).map(PisValueWithAliquotPercent::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_03: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS03 pis03 = (eprecise.efiscal4j.nfe.item.tax.pis.PIS03) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS03.Builder()
+                        .withProductQuantity(Optional.ofNullable(pis03.getPis()).map(PisValueWithAliquotValue::getAliquot).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pis03.getPis()).map(PisValueWithAliquotValue::getAliquot).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pis03.getPis()).map(PisValueWithAliquotValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_04: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS04.Builder().build();
+            }
+            case CST_05: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS05.Builder().build();
+            }
+            case CST_06: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS06.Builder().build();
+            }
+            case CST_07: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS07.Builder().build();
+            }
+            case CST_08: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS08.Builder().build();
+            }
+            case CST_09: {
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS09.Builder().build();
+            }
+            case CST_49: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS49 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS49) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS49.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_50: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS50 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS50) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS50.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_51: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS51 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS51) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS51.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_52: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS52 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS52) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS52.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_53: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS53 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS53) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS53.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_54: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS54 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS54) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS54.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_55: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS55 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS55) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS55.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_56: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS56 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS56) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS56.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_60: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS60 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS60) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS60.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_61: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS61 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS61) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS61.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_62: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS62 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS62) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS62.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_63: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS63 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS63) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS63.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_64: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS64 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS64) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS64.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_65: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS65 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS65) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS65.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_66: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS66 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS66) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS66.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_67: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS67 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS67) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS67.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_70: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS70 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS70) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS70.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_71: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS71 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS71) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS71.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_72: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS72 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS72) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS72.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_73: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS73 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS73) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS73.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_74: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS74 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS74) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS74.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_75: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS75 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS75) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS75.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_98: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS98 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS98) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS98.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_99: {
+                final eprecise.efiscal4j.nfe.item.tax.pis.PIS99 pisOther = (eprecise.efiscal4j.nfe.item.tax.pis.PIS99) pis;
+                return new eprecise.efiscal4j.nfe.v400.tax.pis.PIS99.Builder()
+                        .withBcValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withPisAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withPisValue(Optional.ofNullable(pisOther.getPis()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            default:
+                break;
+            }
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private COFINS buildCofins(final TaxStructure taxStructure) {
+        // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS cofins = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.cofins.COFINS.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.cofins.COFINS.class::cast).findFirst().orElse(null);
+        if(cofins != null) {
+            switch(cofins.getCst()) {
+            case CST_01: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS01 cofins01 = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS01) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS01.Builder()
+                        .withBcValue(Optional.ofNullable(cofins01.getCofins()).map(CofinsValueWithAliquotPercent::getAliquot).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofins01.getCofins()).map(CofinsValueWithAliquotPercent::getAliquot).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofins01.getCofins()).map(CofinsValueWithAliquotPercent::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_02: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS02 cofins02 = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS02) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS02.Builder()
+                        .withBcValue(Optional.ofNullable(cofins02.getCofins()).map(CofinsValueWithAliquotPercent::getAliquot).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofins02.getCofins()).map(CofinsValueWithAliquotPercent::getAliquot).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofins02.getCofins()).map(CofinsValueWithAliquotPercent::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_03: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS03 cofins03 = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS03) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS03.Builder()
+                        .withProductQuantity(Optional.ofNullable(cofins03.getCofins()).map(CofinsValueWithAliquotValue::getAliquot).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofins03.getCofins()).map(CofinsValueWithAliquotValue::getAliquot).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofins03.getCofins()).map(CofinsValueWithAliquotValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_04: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS04.Builder().build();
+            }
+            case CST_05: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS05.Builder().build();
+            }
+            case CST_06: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS06.Builder().build();
+            }
+            case CST_07: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS07.Builder().build();
+            }
+            case CST_08: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS08.Builder().build();
+            }
+            case CST_09: {
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS09.Builder().build();
+            }
+            case CST_49: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS49 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS49) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS49.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_50: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS50 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS50) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS50.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_51: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS51 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS51) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS51.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_52: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS52 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS52) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS52.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_53: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS53 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS53) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS53.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_54: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS54 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS54) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS54.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_55: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS55 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS55) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS55.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_56: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS56 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS56) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS56.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_60: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS60 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS60) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS60.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_61: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS61 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS61) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS61.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_62: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS62 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS62) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS62.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_63: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS63 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS63) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS63.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_64: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS64 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS64) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS64.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_65: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS65 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS65) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS65.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_66: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS66 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS66) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS66.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_67: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS67 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS67) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS67.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_70: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS70 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS70) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS70.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_71: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS71 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS71) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS71.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_72: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS72 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS72) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS72.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_73: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS73 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS73) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS73.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_74: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS74 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS74) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS74.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_75: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS75 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS75) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS75.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_98: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS98 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS98) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS98.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_99: {
+                final eprecise.efiscal4j.nfe.item.tax.cofins.COFINS99 cofinsOther = (eprecise.efiscal4j.nfe.item.tax.cofins.COFINS99) cofins;
+                return new eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS99.Builder()
+                        .withBcValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCofinsAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withProductQuantity(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withProductAliquot(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104Variable).orElse(null))
+                        .withCofinsValue(Optional.ofNullable(cofinsOther.getCofins()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            default:
+                break;
+            }
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private PISST buildPisSt(final TaxStructure taxStructure) {
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.pis.st.PISST pisSt = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.pis.st.PISST.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.pis.st.PISST.class::cast).findFirst().orElse(null);
+        if(pisSt != null) {
+            return new PISST.Builder()
+                    .withBcValue(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302Optional).orElse(null))
+                    .withPisAliquot(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotPercentWithBc.class::isInstance).map(PisAliquotPercentWithBc.class::cast).map(PisAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withProductQuantity(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204).orElse(null))
+                    .withProductAliquot(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getAliquot).filter(PisAliquotValueWithQuantity.class::isInstance).map(PisAliquotValueWithQuantity.class::cast).map(PisAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104).orElse(null))
+                    .withPisValue(Optional.ofNullable(pisSt.getValue()).map(PisValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
+        return null;
+    }
+
+    private COFINSST buildCofinsSt(final TaxStructure taxStructure) {
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST cofinsSt = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST.class::cast).findFirst().orElse(null);
+        if(cofinsSt != null) {
+            return new COFINSST.Builder()
+                    .withBcValue(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getCalculationBasis).map(this::formatNFeDecimal1302Optional).orElse(null))
+                    .withCofinsAliquot(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotPercentWithBc.class::isInstance).map(CofinsAliquotPercentWithBc.class::cast).map(CofinsAliquotPercentWithBc::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                    .withProductQuantity(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getQuantity).map(this::formatNFeDecimal1204).orElse(null))
+                    .withProductAliquot(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getAliquot).filter(CofinsAliquotValueWithQuantity.class::isInstance).map(CofinsAliquotValueWithQuantity.class::cast).map(CofinsAliquotValueWithQuantity::getAliquotValue).map(this::formatNFeDecimal1104).orElse(null))
+                    .withCofinsValue(Optional.ofNullable(cofinsSt.getValue()).map(CofinsValueWithAliquot::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private II buildIi(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.ii.II ii = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ii.II.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ii.II.class::cast).findFirst().orElse(null);
+        if(ii != null) {
+            return new II.Builder()
+                    .withBcValue(Optional.ofNullable(ii.getCalculationBasis()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withCustomsCharge(Optional.ofNullable(ii.getCustomsCharge()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withIiValue(Optional.ofNullable(ii.getValue()).map(this::formatNFeDecimal1302).orElse(null))
+                    .withIofValue(Optional.ofNullable(ii.getIof()).map(this::formatNFeDecimal1302).orElse(null))
+                    .build();
+        }
+     // @formatter:on
         return null;
     }
 
     private IPI buildIpi(final TaxStructure taxStructure) {
-        // TODO Auto-generated method stub
+     // @formatter:off
+        final eprecise.efiscal4j.nfe.item.tax.ipi.IPI ipi = taxStructure.getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ipi.IPI.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ipi.IPI.class::cast).findFirst().orElse(null);
+        if(ipi != null) {
+            switch(ipi.getCst()) {
+            case CST_00: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI00 ipi00 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI00) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI00.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_01: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI01 ipi01 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI01) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI01.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_02: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI02 ipi02 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI02) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI02.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_03: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI03 ipi03 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI03) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI03.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_04: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI04 ipi04 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI04) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI04.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_05: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI05 ipi05 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI05) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI05.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_49: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI49 ipi49 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI49) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI49.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_50: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI50 ipi50 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI50) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI50.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_51: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI51 ipi51 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI51) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI51.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_52: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI52 ipi52 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI52) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI52.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_53: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI53 ipi53 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI53) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI53.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_54: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI54 ipi54 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI54) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI54.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_55: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI55 ipi55 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI55) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI55.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .build();
+            }
+            case CST_99: {
+                final eprecise.efiscal4j.nfe.item.tax.ipi.IPI99 ipi99 = (eprecise.efiscal4j.nfe.item.tax.ipi.IPI99) ipi;
+                return new eprecise.efiscal4j.nfe.v400.tax.ipi.IPI99.Builder()
+                        .withProducerCNPJ(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
+                        .withIpiSealCode(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
+                        .withIpiSealQuantity(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withBcValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIpiAliquot(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withUnityQuantity(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
+                        .withUnityValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getUnitaryValue).map(this::formatNFeDecimal1204).orElse(null))
+                        .withIpiValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            }
+        }
+     // @formatter:on
         return null;
     }
 
@@ -947,9 +1768,334 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             switch(icms.getCst()) {
             
             case CST_00 : {
-                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS00 icms00 = (ICMS00) icms;
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS00 icms00 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS00) icms;
                 return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS00.Builder()
-                        
+                        .withOrigin(Optional.ofNullable(icms00.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms00.getIcms()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms00.getIcms()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms00.getIcms()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms00.getIcms()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms00.getFcp()).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms00.getFcp()).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_10 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS10 icms10 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS10) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS10.Builder()
+                        .withOrigin(Optional.ofNullable(icms10.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms10.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms10.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms10.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms10.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValue(Optional.ofNullable(icms10.getFcp()).map(FcpWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms10.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms10.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icms10.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icms10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icms10.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icms10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icms10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icms10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icms10.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icms10.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icms10.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_20 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS20 icms20 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS20) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS20.Builder()
+                        .withOrigin(Optional.ofNullable(icms20.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms20.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icms20.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms20.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms20.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms20.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValue(Optional.ofNullable(icms20.getFcp()).map(FcpWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms20.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms20.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms20.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms20.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_30 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS30 icms30 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS30) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS30.Builder()
+                        .withOrigin(Optional.ofNullable(icms30.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icms30.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icms30.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icms30.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icms30.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icms30.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icms30.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icms30.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icms30.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icms30.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms30.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms30.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_40 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS40 icms40 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS40) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS40.Builder()
+                        .withOrigin(Optional.ofNullable(icms40.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms40.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms40.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_41 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS41 icms41 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS41) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS41.Builder()
+                        .withOrigin(Optional.ofNullable(icms41.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms41.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms41.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_50 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS50 icms50 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS50) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS50.Builder()
+                        .withOrigin(Optional.ofNullable(icms50.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms50.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms50.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_51 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS51 icms51 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS51) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS51.Builder()
+                        .withOrigin(Optional.ofNullable(icms51.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms51.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icms51.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms51.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms51.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsOperationValue(Optional.ofNullable(icms51.getOperationValue()).map(this::formatNFeDecimal1302).orElse(null))
+                        .withDeferralPercent(Optional.ofNullable(icms51.getDeferral()).map(IcmsDeferral::getPercent).map(this::formatNFeDecimal0302a04Max100).orElse(null))
+                        .withIcmsDeferralValue(Optional.ofNullable(icms51.getDeferral()).map(IcmsDeferral::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms51.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValue(Optional.ofNullable(icms51.getFcp()).map(FcpWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms51.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms51.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_60 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS60 icms60 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS60) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS60.Builder()
+                        .withOrigin(Optional.ofNullable(icms60.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcRetainedValueST(Optional.ofNullable(icms60.getIcmsStRetained()).map(IcmsStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withEndConsumerSupportedAliquot(Optional.ofNullable(icms60.getEndConsumerSupportedAliquot()).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withIcmsRetainedValueST(Optional.ofNullable(icms60.getIcmsStRetained()).map(IcmsStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpRetainedValueST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpRetainedAliquotST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpRetainedValueST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_70 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS70 icms70 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS70) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS70.Builder()
+                        .withOrigin(Optional.ofNullable(icms70.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms70.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icms70.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms70.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms70.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms70.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValue(Optional.ofNullable(icms70.getFcp()).map(FcpWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms70.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms70.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icms70.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icms70.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icms70.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icms70.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icms70.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icms70.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icms70.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icms70.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icms70.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms70.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms70.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case CST_90 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS90 icms90 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS90) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS90.Builder()
+                        .withOrigin(Optional.ofNullable(icms90.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icms90.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icms90.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icms90.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icms90.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icms90.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValue(Optional.ofNullable(icms90.getFcp()).map(FcpWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpAliquot(Optional.ofNullable(icms90.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpValue(Optional.ofNullable(icms90.getFcp()).map(FcpWithBcValue::getValue).map(FcpValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icms90.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icms90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icms90.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icms90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icms90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icms90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icms90.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icms90.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icms90.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationValue(Optional.ofNullable(icms90.getDesoneration()).map(IcmsDesoneration::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsDesonerationReason(Optional.ofNullable(icms90.getDesoneration()).map(IcmsDesoneration::getReason).map(r -> ICMSDesonerationReason.findByCode(r.getValue())).orElse(null))
+                        .build();
+            }
+            case PART_CST_10 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart10 icmsPart10 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart10) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart10.Builder()
+                        .withOrigin(Optional.ofNullable(icmsPart10.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icmsPart10.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icmsPart10.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icmsPart10.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icmsPart10.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icmsPart10.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmsPart10.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmsPart10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmsPart10.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmsPart10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmsPart10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmsPart10.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withSelfOperationBCPerc(Optional.ofNullable(icmsPart10.getSelfOperationBcPercent()).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withUfST(icmsPart10.getUfSt())
+                        .build();
+            }
+            case PART_CST_90 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart90 icmsPart90 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart90) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSPart90.Builder()
+                        .withOrigin(Optional.ofNullable(icmsPart90.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icmsPart90.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icmsPart90.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icmsPart90.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icmsPart90.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icmsPart90.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmsPart90.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmsPart90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmsPart90.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmsPart90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmsPart90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmsPart90.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withSelfOperationBCPerc(Optional.ofNullable(icmsPart90.getSelfOperationBcPercent()).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withUfST(icmsPart90.getUfSt())
+                        .build();
+            }
+            case ST_CST_41 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSST icmsSt = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSST) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSST.Builder()
+                        .withOrigin(Optional.ofNullable(icmsSt.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcRetainedValueST(Optional.ofNullable(icmsSt.getRetainedSt()).map(IcmsStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsRetainedValueST(Optional.ofNullable(icmsSt.getRetainedSt()).map(IcmsStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcIcmsStDestination(Optional.ofNullable(icmsSt.getDestinationSt()).map(IcmsStDestinationValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStDestination(Optional.ofNullable(icmsSt.getDestinationSt()).map(IcmsStDestinationValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_101 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN101 icmssn101 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN101) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN101.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn101.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withCreditSnAliquot(Optional.ofNullable(icmssn101.getCreditSn()).map(CreditSnValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withCreditSnIcmsValue(Optional.ofNullable(icmssn101.getCreditSn()).map(CreditSnValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_102 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN102 icmssn102 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN102) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN102.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn102.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .build();
+            }
+            case CSOSN_103 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN103 icmssn103 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN103) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN103.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn103.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .build();
+            }
+            case CSOSN_300 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN300 icmssn300 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN300) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN300.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn300.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .build();
+            }
+            case CSOSN_400 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN400 icmssn400 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN400) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN400.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn400.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .build();
+            }
+            case CSOSN_201 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN201 icmssn201 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN201) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN201.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn201.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmssn201.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmssn201.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmssn201.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmssn201.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmssn201.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmssn201.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icmssn201.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icmssn201.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icmssn201.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCreditSnAliquot(Optional.ofNullable(icmssn201.getCreditSn()).map(CreditSnValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withCreditSnIcmsValue(Optional.ofNullable(icmssn201.getCreditSn()).map(CreditSnValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_202 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN202 icmssn202 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN202) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN202.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn202.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmssn202.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmssn202.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmssn202.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmssn202.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmssn202.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmssn202.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icmssn202.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icmssn202.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icmssn202.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_203 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN203 icmssn203 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN203) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN203.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn203.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmssn203.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmssn203.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmssn203.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmssn203.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmssn203.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmssn203.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icmssn203.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icmssn203.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icmssn203.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_500 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN500 icmssn500 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN500) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN500.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn500.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcRetainedValueST(Optional.ofNullable(icmssn500.getIcmsStRetained()).map(IcmsStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withEndConsumerSupportedAliquot(Optional.ofNullable(icmssn500.getEndConsumerSupportedAliquot()).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withIcmsRetainedValueST(Optional.ofNullable(icmssn500.getIcmsStRetained()).map(IcmsStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpRetainedValueST(Optional.ofNullable(icmssn500.getFcpStRetained()).map(FcpStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpRetainedAliquotST(Optional.ofNullable(icmssn500.getFcpStRetained()).map(FcpStRetainedValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpRetainedValueST(Optional.ofNullable(icmssn500.getFcpStRetained()).map(FcpStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CSOSN_900 : {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN900 icmssn900 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN900) icms;
+                return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMSSN900.Builder()
+                        .withOrigin(Optional.ofNullable(icmssn900.getOrigin()).map(o -> ProductOrigin.findByCode(o.getValue())).orElse(null))
+                        .withBcModality(Optional.ofNullable(icmssn900.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(this::buildIcmsBcModality).orElse(null))
+                        .withBcReductionPercent(Optional.ofNullable(icmssn900.getIcms()).map(IcmsWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValue(Optional.ofNullable(icmssn900.getIcmsWithBcValue()).map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsAliquot(Optional.ofNullable(icmssn900.getIcmsWithBcValue()).map(IcmsWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsValue(Optional.ofNullable(icmssn900.getIcmsWithBcValue()).map(IcmsWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcModalityST(Optional.ofNullable(icmssn900.getIcmsSt()).map(IcmsStWithBcReductionPercent::getValue).map(IcmsStWithBcValue::getCalculationBasis).map(this::buildIcmsStBcModality).orElse(null))
+                        .withValueMarginAddedStPercent(Optional.ofNullable(icmssn900.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).filter(IcmsStBcMarginAddedValue.class::isInstance).map(IcmsStBcMarginAddedValue.class::cast).map(IcmsStBcMarginAddedValue::getMarginAddedPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcReductionStPercent(Optional.ofNullable(icmssn900.getIcmsSt()).map(IcmsStWithBcReductionPercent::getBcReductionPercent).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withBcValueST(Optional.ofNullable(icmssn900.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getCalculationBasis).map(IcmsStBc::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withIcmsStAliquot(Optional.ofNullable(icmssn900.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withIcmsStValue(Optional.ofNullable(icmssn900.getIcmsStWithBcValue()).map(IcmsStWithBcValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withBcFcpValueST(Optional.ofNullable(icmssn900.getFcpSt()).map(FcpStWithBcValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
+                        .withFcpStAliquot(Optional.ofNullable(icmssn900.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
+                        .withFcpStValue(Optional.ofNullable(icmssn900.getFcpSt()).map(FcpStWithBcValue::getValue).map(FcpStValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .withCreditSnAliquot(Optional.ofNullable(icmssn900.getCreditSn()).map(CreditSnValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
+                        .withCreditSnIcmsValue(Optional.ofNullable(icmssn900.getCreditSn()).map(CreditSnValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
                         .build();
             }
             default:
@@ -958,6 +2104,40 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }
         return null;
      // @formatter:on
+    }
+
+    private BCModality buildIcmsBcModality(final IcmsBc calculationBasis) {
+     // @formatter:off
+        if(calculationBasis instanceof IcmsBcOperationValue) {
+            return BCModality.VALOR_OPERACAO;
+        } else if(calculationBasis instanceof IcmsBcDeterminedPautaValue) {
+            return BCModality.PAUTA;
+        } else if(calculationBasis instanceof IcmsBcMarginAddedValue) {
+            return BCModality.MARGEM_VALOR_AGREGADO;
+        } else if(calculationBasis instanceof IcmsBcMaximumTabulatedPrice) {
+            return BCModality.PRECO_TABELADO_MAX;
+        }
+        return null;
+     // @formatter:on
+    }
+
+    private BCModalityST buildIcmsStBcModality(final IcmsStBc calculationBasis) {
+     // @formatter:off
+        if(calculationBasis instanceof IcmsStBcMaximumTabulatedOrSuggestedPrice) {
+            return BCModalityST.PRECO_TABELADO_OU_MAX_SUGERIDO;
+        } else if(calculationBasis instanceof IcmsStBcNegativeListValue) {
+            return BCModalityST.LISTA_NEGATIVA;
+        } if(calculationBasis instanceof IcmsStBcPositiveListValue) {
+            return BCModalityST.LISTA_POSITIVA;
+        } if(calculationBasis instanceof IcmsStBcNeutralListValue) {
+            return BCModalityST.LISTA_NEUTRA;
+        } if(calculationBasis instanceof IcmsStBcMarginAddedValue) {
+            return BCModalityST.MARGEM_VALOR_AGREGADO;
+        } if(calculationBasis instanceof IcmsStBcDeterminedPautaValue) {
+            return BCModalityST.PAUTA;
+        } 
+     // @formatter:on
+        return null;
     }
 
     private String nullIfEmpty(final String v) {
@@ -1037,6 +2217,16 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private String formatNFeDecimal0302a04Max100(final BigDecimal value) {
         if ((value == null) || ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0))) {
             return null;
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
+        }
+    }
+
+    private String formatNFeDecimal1104(final BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
         } else {
             return NFE_FOUR_DECIMALS_FORMAT.format(value);
         }
