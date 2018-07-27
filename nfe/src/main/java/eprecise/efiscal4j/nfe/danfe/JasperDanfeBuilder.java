@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.v310.danfe;
+package eprecise.efiscal4j.nfe.danfe;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -13,9 +13,9 @@ import java.util.Map;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.v310.person.LegalEntityDocuments;
-import eprecise.efiscal4j.nfe.v310.person.NaturalPersonDocuments;
-import eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe;
+import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
+import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -35,33 +35,33 @@ public class JasperDanfeBuilder {
                                  ENTITY {
 
                                      @Override
-                                     public JRDataSource generate(final ProcessedNFe nfe) throws JRException {
+                                     public JRDataSource generate(final ProcessedNFeVersion nfe) throws JRException {
                                          return new JRBeanCollectionDataSource(Arrays.asList(nfe));
                                      }
                                  },
                                  XML {
 
                                      @Override
-                                     public JRDataSource generate(final ProcessedNFe nfe) throws JRException {
+                                     public JRDataSource generate(final ProcessedNFeVersion nfe) throws JRException {
                                          return new JRXmlDataSource(new ByteArrayInputStream(
                                                  new FiscalDocumentSerializer<>(nfe).considering(LegalEntityDocuments.class, NaturalPersonDocuments.class).serialize().getBytes()));
                                      }
                                  };
 
-        public abstract JRDataSource generate(ProcessedNFe nfe) throws JRException;
+        public abstract JRDataSource generate(ProcessedNFeVersion nfe) throws JRException;
     }
 
-    private JasperDanfeCatalog catalog = new DefaultJasperDanfeCatalog();
+    private JasperDanfeCatalog catalog;
 
-    private JasperDanfeParamsSource paramsSource = new DefaultJasperDanfeParamsSource();
+    private JasperDanfeParamsSource paramsSource;
 
     private final Map<String, Object> params = new HashMap<>();
 
-    private final ProcessedNFe nfe;
+    private final ProcessedNFeVersion nfe;
 
     private DataSourceType type = DataSourceType.XML;
 
-    public JasperDanfeBuilder(final ProcessedNFe nfe) {
+    public JasperDanfeBuilder(final ProcessedNFeVersion nfe) {
         this.nfe = nfe;
     }
 
@@ -92,7 +92,7 @@ public class JasperDanfeBuilder {
 
     public JasperPrint build() throws IOException, JRException {
         this.params.putAll(this.paramsSource.getParamsOf(this.nfe));
-        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getNfe().getNFeInfo().getnFeIdentification().getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
+        return JasperFillManager.fillReport(this.catalog.get(this.nfe.getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 
     public void toPdf(final OutputStreamSupplier out) throws IOException, JRException {
