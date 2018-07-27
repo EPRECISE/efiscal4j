@@ -27,8 +27,6 @@ public class EventDispatchCCeAdapter implements EventDispatchCCeVersion {
 
     private static final DateFormat NFE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
-    private static final String NFE_EVENT_SEQ_NUMBER = "1";
-
     private final FiscalDocumentCCe fiscalDocumentCCe;
 
     public EventDispatchCCeAdapter(FiscalDocumentCCe fiscalDocumentCCe) {
@@ -61,8 +59,8 @@ public class EventDispatchCCeAdapter implements EventDispatchCCeVersion {
                    .withAuthorCpf(fiscalDocument.map(d -> d.getEmitter().getDocuments()).filter(EmitterNaturalPersonDocuments.class::isInstance).map(npd -> npd.getCnp()).orElse(null))
                    .withAcessKey(this.fiscalDocumentCCe.getProcessedFiscalDocument().getAccessKey())
                    .withEventDateTime(EventDispatchCCeAdapter.NFE_DATETIME_FORMAT.format(new Date()))
-                   .withEventType(EventType.CANC_NFE)
-                   .withEventSeqNumber(EventDispatchCCeAdapter.NFE_EVENT_SEQ_NUMBER)
+                   .withEventType(EventType.CCE)
+                   .withEventSeqNumber(String.valueOf(this.fiscalDocumentCCe.getEventSeqNumber()))
                    .withEventVersion(FiscalDocumentVersion.VERSION_1_00.getValue())
                    .withEventDetail(new EventDetailCCe.Builder()
                            .withCorrection(this.fiscalDocumentCCe.getCorrection())
