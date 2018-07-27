@@ -104,6 +104,7 @@ import eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart90;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN101;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN102;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN103;
+import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN201;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN202;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN203;
 import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN300;
@@ -1753,6 +1754,25 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     final eprecise.efiscal4j.nfe.v310.tax.icms.ICMSSN103 nfeIcmsSn103 = (eprecise.efiscal4j.nfe.v310.tax.icms.ICMSSN103 ) nfeIcms;
                     return ICMSSN103.builder()
                             .origin(Optional.ofNullable(nfeIcmsSn103.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+                            .build();
+                }
+                case "ICMSSN201": {
+                    final eprecise.efiscal4j.nfe.v310.tax.icms.ICMSSN201 nfeIcmsSn201 = (eprecise.efiscal4j.nfe.v310.tax.icms.ICMSSN201 ) nfeIcms;
+                    return ICMSSN201.builder()
+                            .origin(Optional.ofNullable(nfeIcmsSn201.getOrigin()).map(po -> ProductOrigin.findByCode(po.getValue())).orElse(null))
+                            .icmsSt(IcmsStWithBcReductionPercent.builder()
+                                    .value(IcmsStWithBcValue.builder()
+                                        .aliquot(this.toBigDecimal(nfeIcmsSn201.getIcmsStAliquot()))
+                                        .calculationBasis(this.buildIcmsStBc(nfeIcmsSn201.getBcModalitySt(), this.toBigDecimal(nfeIcmsSn201.getBcValueST()), this.toBigDecimal(nfeIcmsSn201.getValueMarginAddedStPercent())))
+                                        .value(this.toBigDecimal(nfeIcmsSn201.getIcmsStValue()))
+                                        .build())
+                                    .bcReductionPercent(this.toBigDecimal(nfeIcmsSn201.getBcReductionStPercent()))
+                                    .build())
+                            .fcpSt(null)
+                            .creditSn(CreditSnValue.builder()
+                                    .aliquot(this.toBigDecimal(nfeIcmsSn201.getCreditSnAliquot()))
+                                    .value(this.toBigDecimal(nfeIcmsSn201.getCreditSnIcmsValue()))
+                                    .build())
                             .build();
                 }
                 case "ICMSSN202": {
