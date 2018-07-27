@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentCCe;
 import eprecise.efiscal4j.nfe.FiscalDocumentCancel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
@@ -52,7 +53,7 @@ public class EventProtocol implements Serializable, ProcessedEventVersion {
          * @param event
          * @return
          */
-        public Builder withEvent(Event event) {
+        public Builder withEvent(final Event event) {
             this.event = event;
             return this;
         }
@@ -62,7 +63,7 @@ public class EventProtocol implements Serializable, ProcessedEventVersion {
          * @param eventResponse
          * @return
          */
-        public Builder withEventResponse(EventResponse eventResponse) {
+        public Builder withEventResponse(final EventResponse eventResponse) {
             this.eventResponse = eventResponse;
             return this;
         }
@@ -79,14 +80,16 @@ public class EventProtocol implements Serializable, ProcessedEventVersion {
         this.eventResponse = null;
     }
 
-    private EventProtocol(Builder builder) {
+    private EventProtocol(final Builder builder) {
         this.event = builder.event;
         this.eventResponse = builder.eventResponse;
     }
-    
+
     public EventProtocol(final NFeEventDispatchRequest request, final NFeEventDispatchResponse response) {
-    	this.event = Optional.ofNullable(request).filter(EventDispatch.class::isInstance).map(EventDispatch.class::cast).filter(e -> !e.getEvents().isEmpty()).map(e -> e.getEvents().iterator().next()).orElse(null);
-    	this.eventResponse = Optional.ofNullable(response).filter(EventDispatchResponseMethod.class::isInstance).map(EventDispatchResponseMethod.class::cast).map(e -> e.getEventDispatchResponse()).filter(e -> !e.getEventResponses().isEmpty()).map(e -> e.getEventResponses().iterator().next()).orElse(null);
+        this.event = Optional.ofNullable(request).filter(EventDispatch.class::isInstance).map(EventDispatch.class::cast).filter(e -> !e.getEvents().isEmpty()).map(e -> e.getEvents().iterator().next())
+                .orElse(null);
+        this.eventResponse = Optional.ofNullable(response).filter(EventDispatchResponseMethod.class::isInstance).map(EventDispatchResponseMethod.class::cast).map(e -> e.getEventDispatchResponse())
+                .filter(e -> !e.getEventResponses().isEmpty()).map(e -> e.getEventResponses().iterator().next()).orElse(null);
     }
 
     public FiscalDocumentVersion getVersion() {
@@ -101,14 +104,14 @@ public class EventProtocol implements Serializable, ProcessedEventVersion {
         return this.eventResponse;
     }
 
-	@Override
-	public FiscalDocumentCancel.Processed buildProcessedFiscalDocumentCancel() {
-		return new ProcessedFiscalDocumentCancelAdapter(this).buildProcessedFiscalDocumentCancel();
-	}
+    @Override
+    public FiscalDocumentCancel.Processed buildProcessedFiscalDocumentCancel(final FiscalDocument.Processed processedFiscalDocument) {
+        return new ProcessedFiscalDocumentCancelAdapter(this, processedFiscalDocument).buildProcessedFiscalDocumentCancel();
+    }
 
-	@Override
-	public FiscalDocumentCCe.Processed buildProcessedFiscalDocumentCCe() {
-		return new ProcessedFiscalDocumentCCeAdapter(this).buildProcessedFiscalDocumentCCe();
-	}
+    @Override
+    public FiscalDocumentCCe.Processed buildProcessedFiscalDocumentCCe(final FiscalDocument.Processed processedFiscalDocument) {
+        return new ProcessedFiscalDocumentCCeAdapter(this, processedFiscalDocument).buildProcessedFiscalDocumentCCe();
+    }
 
 }
