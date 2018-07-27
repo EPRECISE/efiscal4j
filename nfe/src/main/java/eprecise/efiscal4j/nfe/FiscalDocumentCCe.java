@@ -24,6 +24,8 @@ public class FiscalDocumentCCe {
 
     private final FiscalDocument.Processed processedFiscalDocument;
 
+    private final int eventSeqNumber;
+
     /**
      * Transmite a carta de correção do documento fiscal
      * 

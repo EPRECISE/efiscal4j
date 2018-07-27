@@ -50,9 +50,13 @@ public class ProcessedFiscalDocumentCCeAdapter {
     }
 
     private FiscalDocumentCCe buildFiscalDocumentCCe() {
-        return FiscalDocumentCCe.builder().correction(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventDetail())
-                .filter(EventDetailCancellation.class::isInstance).map(EventDetailCancellation.class::cast).map(EventDetailCancellation::getJustification).orElse(null))
-                .processedFiscalDocument(this.processedFiscalDocument).build();
+     // @formatter:off
+        return FiscalDocumentCCe.builder()
+                .eventSeqNumber(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventSeqNumber()).map(Integer::parseInt).orElse(null))
+                .correction(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventDetail()).filter(EventDetailCancellation.class::isInstance).map(EventDetailCancellation.class::cast).map(EventDetailCancellation::getJustification).orElse(null))
+                .processedFiscalDocument(this.processedFiscalDocument)
+                .build();
+     // @formatter:on
     }
 
 }
