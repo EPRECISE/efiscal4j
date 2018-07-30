@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.version;
 
+import eprecise.efiscal4j.nfe.danfe.JasperDanfeCatalog;
+import eprecise.efiscal4j.nfe.danfe.JasperDanfeParamsSource;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +27,9 @@ public enum FiscalDocumentSupportedVersion {
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class,
 			eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchNumberDisableAdapter.class,
-			eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFeNumberDisable.class), 
+			eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFeNumberDisable.class,
+			eprecise.efiscal4j.nfe.v400.danfe.DefaultJasperDanfeCatalog.class,
+			eprecise.efiscal4j.nfe.v400.danfe.DefaultJasperDanfeParamsSource.class), 
 	VERSION_3_10("3.10",
 			eprecise.efiscal4j.nfe.v310.transmission.TransmissionChannel.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
@@ -35,7 +39,9 @@ public enum FiscalDocumentSupportedVersion {
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCCeAdapter.class,
 			eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchNumberDisableAdapter.class,
-			eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFeNumberDisable.class);
+			eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFeNumberDisable.class,
+			eprecise.efiscal4j.nfe.v310.danfe.DefaultJasperDanfeCatalog.class,
+            eprecise.efiscal4j.nfe.v310.danfe.DefaultJasperDanfeParamsSource.class);
 	
 	private final String value;
 	
@@ -56,6 +62,10 @@ public enum FiscalDocumentSupportedVersion {
 	private final Class<? extends EventDispatchNumberDisableVersion> eventDispatchNumberDisableClass;
 	
 	private final Class<? extends ProcessedNFeNumberDisableVersion> processedNumberDisableClass;
+	
+	private final Class<? extends JasperDanfeCatalog> jasperDanfeCatalogClass;
+	
+	private final Class<? extends JasperDanfeParamsSource> jasperDanfeParamSourceClass;
 	
 	
 

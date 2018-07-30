@@ -15,6 +15,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
+import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -63,6 +64,13 @@ public class JasperDanfeBuilder {
 
     public JasperDanfeBuilder(final ProcessedNFeVersion nfe) {
         this.nfe = nfe;
+        final FiscalDocumentSupportedVersion version = this.nfe.buildProcessedFiscalDocument().getVersion();
+        try {
+            this.catalog = version.getJasperDanfeCatalogClass().newInstance();
+            this.paramsSource = version.getJasperDanfeParamSourceClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public JasperDanfeBuilder usingEntity() {
