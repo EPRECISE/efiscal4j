@@ -75,16 +75,17 @@ public enum ICMSCST implements Serializable {
         return this.part;
     }
 
-    public static ICMSCST findByCode(final String code, final boolean isPart) {
+    public boolean isSt() {
+        return this.st;
+    }
+
+    public static ICMSCST findByCode(final String code, final boolean isPart, final boolean isSt) {
         for (final ICMSCST cst : values()) {
-            if (cst.getValue().equals(code)) {
+            if (cst.getValue().equals(code) && (isPart == cst.isPart()) && (isSt == cst.isSt())) {
                 return cst;
             }
         }
         return null;
     }
 
-    public boolean isSt() {
-        return this.st;
-    }
 }

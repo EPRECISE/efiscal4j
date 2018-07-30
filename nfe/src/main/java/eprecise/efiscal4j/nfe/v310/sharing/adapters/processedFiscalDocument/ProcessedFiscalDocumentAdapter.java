@@ -38,12 +38,14 @@ import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.CustomIODate;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.IODate;
 import eprecise.efiscal4j.nfe.event.EventStatus;
+import eprecise.efiscal4j.nfe.item.DefaultUnity;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.item.Item.ItemEan;
 import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
 import eprecise.efiscal4j.nfe.item.Unity;
+import eprecise.efiscal4j.nfe.item.UnknowUnity;
 import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.ItemTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
@@ -765,8 +767,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                    .taxableGlobalTradeItemNumber(nfeDetail.getnFeItem().getTaxableUnitGlobalTradeItemNumber())
                                    .build())
                            .unity(ItemUnity.builder()
-                                   .comercialUnity(Optional.ofNullable(nfeDetail.getnFeItem().getComercialUnit()).map(cu -> Unity.findByAcronym(cu).orElse(null)).orElse(null))
-                                   .taxableUnity(Optional.ofNullable(nfeDetail.getnFeItem().getTaxableUnit()).map(tu -> Unity.findByAcronym(tu).orElse(null)).orElse(null))
+                                   .comercialUnity(Optional.ofNullable(nfeDetail.getnFeItem().getComercialUnit()).map(cu -> DefaultUnity.findByAcronym(cu).map(Unity.class::cast).orElse(UnknowUnity.builder().acronym(cu).build())).orElse(null))
+                                   .taxableUnity(Optional.ofNullable(nfeDetail.getnFeItem().getTaxableUnit()).map(tu -> DefaultUnity.findByAcronym(tu).map(Unity.class::cast).orElse(UnknowUnity.builder().acronym(tu).build())).orElse(null))
                                    .build())
                            .quantity(ItemQuantity.builder()
                                    .comercialQuantity(this.toBigDecimal(nfeDetail.getnFeItem().getComercialQuantity()))
