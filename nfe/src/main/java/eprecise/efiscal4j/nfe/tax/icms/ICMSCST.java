@@ -1,5 +1,5 @@
 
-package eprecise.efiscal4j.nfe.item.tax.icms.cst;
+package eprecise.efiscal4j.nfe.tax.icms;
 
 import java.io.Serializable;
 
