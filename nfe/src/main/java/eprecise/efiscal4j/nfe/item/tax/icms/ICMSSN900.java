@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import eprecise.efiscal4j.nfe.item.tax.icms.cst.ICMSCST;
 import eprecise.efiscal4j.nfe.item.tax.icms.sn.credit.CreditSnValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue.IcmsWithFcpStValueHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcReductionPercent;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcValue;
@@ -18,7 +20,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMSSN900 implements ICMS, IcmsWithBcValueHolder, IcmsStWithBcValueHolder {
+public class ICMSSN900 implements ICMS, IcmsWithBcValueHolder, IcmsStWithBcValueHolder, IcmsWithFcpStValueHolder {
 
     private final ICMSCST cst = ICMSCST.CSOSN_900;
 
@@ -40,6 +42,11 @@ public class ICMSSN900 implements ICMS, IcmsWithBcValueHolder, IcmsStWithBcValue
     @Override
     public IcmsStWithBcValue getIcmsStWithBcValue() {
         return Optional.ofNullable(this.icmsSt).map(IcmsStWithBcReductionPercent::getValue).orElse(null);
+    }
+
+    @Override
+    public FcpStValue getFcpStValue() {
+        return Optional.ofNullable(this.fcpSt).map(FcpStWithBcValue::getValue).orElse(null);
     }
 
 }

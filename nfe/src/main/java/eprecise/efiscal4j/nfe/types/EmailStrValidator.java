@@ -16,11 +16,14 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class EmailStrValidator implements ConstraintValidator<Email, String> {
 
     @Override
-    public void initialize(Email email) {
+    public void initialize(final Email email) {
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
+    public boolean isValid(final String email, final ConstraintValidatorContext context) {
+        if (email == null) {
+            return true;
+        }
         return EmailValidator.getInstance().isValid(email);
     }
 }

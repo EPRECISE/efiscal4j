@@ -17,4 +17,10 @@ public class FcpStRetainedValue {
 
     private final BigDecimal value;
 
+    public static interface IcmsWithFcpStRetainedValueHolder {
+
+        FcpStRetainedValue getFcpStRetainedValue();
+
+    }
+
 }

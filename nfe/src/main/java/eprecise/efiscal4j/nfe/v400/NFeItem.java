@@ -96,7 +96,7 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "nItemPed") @Pattern(regexp = "[0-9]{1,6}") final String purchaseOrderNumber;
 
-    private @XmlElement(name = "nFCI") @NotNull @Pattern(regexp = "[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}") final String fciNumber;
+    private @XmlElement(name = "nFCI") @Pattern(regexp = "[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}") final String fciNumber;
 
     private @XmlElement(name = "rastro") @Size(max = 500) @Valid final List<Trace> traces;
 

@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -164,6 +163,7 @@ import eprecise.efiscal4j.nfe.v310.transport.Vehicle;
 import eprecise.efiscal4j.nfe.v310.transport.VolumeSeal;
 import eprecise.efiscal4j.nfe.v310.types.NFeDate;
 import eprecise.efiscal4j.nfe.version.NFeDispatchAdapterVersion;
+import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVersion {
@@ -229,8 +229,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         return new NFe.Builder()
                 .withCSC(null)
                 .withNFeInfo(this.buildNFeInfo())
-                .withNFeSuplementaryInfo(null)
-                .build(null);
+//                .withNFeSuplementaryInfo(null)
+                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
      // @formatter:on
     }
 
@@ -240,8 +240,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         return new NFe.Builder()
                 .withCSC(Optional.ofNullable(nfce.getCsc()).map(csc -> new CSC(csc.getIdentifier(), csc.getCscValue())).orElse(null))
                 .withNFeInfo(this.buildNFeInfo())
-                .withNFeSuplementaryInfo(null)
-                .build(null);
+//                .withNFeSuplementaryInfo(null)
+                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
      // @formatter:on
     }
 
@@ -517,21 +517,26 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         if(fiscalDocumentTotal != null) {
             return new NFeTotal.Builder()
                     .withICMSTotal(new ICMSTotal.Builder()
-                            .withDiscountTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getDiscountTotalValue()))
                             .withICMSCalculationBasis(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsBcValue()))
-                            .withICMSSTCalculationBasis(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStBcValue()))
-                            .withICMSSTTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStValue()))
-                            .withICMSTotalDesoneration(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsDesonerationValue()))
                             .withICMSTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsValue()))
-                            .withInsuranceTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getInsuranceTotalValue()))
-                            .withItemsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTaxableGrossTotalValue()))
-                            .withNFeTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getFiscalDocumentTotalValue()))
-                            .withOtherIncidentalCostsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getOthersTotalValue()))
-                            .withShippingTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getShippingTotalValue()))
-                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? this.formatNFeDecimal1302(fiscalDocumentTotal.getApproximateTaxTotalValue().getTotal()) : null)
+                            .withICMSTotalDesoneration(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsDesonerationValue()))
                             .withReceiverUfFCPTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalICMSUFReceiverFcpValue()))
                             .withReceiverUfIcmsShareTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsUfReceiverShareValue()))
                             .withEmitterUfIcmsShareTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsUfReceiverEmitterShareValue()))
+                            .withICMSSTCalculationBasis(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStBcValue()))
+                            .withICMSSTTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIcmsStValue()))
+                            .withItemsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTaxableGrossTotalValue()))
+                            .withShippingTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getShippingTotalValue()))
+                            .withInsuranceTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getInsuranceTotalValue()))
+                            .withDiscountTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getDiscountTotalValue()))
+//                            .withIITotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIIValue()))
+//                            .withIPITotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalIPIValue()))
+//                            .withReturnedIpiTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalReturnedIpiValue()))
+//                            .withPISTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalPisValue()))
+//                            .withCOFINSTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalCofinsValue()))
+                            .withOtherIncidentalCostsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getOthersTotalValue()))
+                            .withNFeTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getFiscalDocumentTotalValue()))
+                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? Optional.ofNullable(fiscalDocumentTotal.getApproximateTaxTotalValue()).map(attv -> attv.getTotal()).map(this::formatNFeDecimal1302).orElse(null) : null)
                             .build())
                     .build();
         }
@@ -639,10 +644,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private List<ReferencedDocuments> buildReferencedDocuments() {
-        if (this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) {
-            return ((eprecise.efiscal4j.nfe.NFe) this.fiscalDocument).getDocumentReferences().stream().map(this::toReferencedDocument).collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast)
+                .map(eprecise.efiscal4j.nfe.NFe::getDocumentReferences).map(dr -> dr.stream().map(this::toReferencedDocument).collect(Collectors.toList())).orElse(null);
     }
 
     private ReferencedDocuments toReferencedDocument(final DocumentReference ref) {
@@ -721,17 +724,20 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private Emitter buildEmitterLegalEntity(final Builder builder, final eprecise.efiscal4j.nfe.emitter.Emitter emitter) {
      // @formatter:off
         final EmitterLegalEntityDocuments docs = (EmitterLegalEntityDocuments) emitter.getDocuments();
-        return builder
-                .asLegalEntity()
-                .withCnpj(docs.getCnp())
-                .withCorporateName(this.formatNFeString(docs.getName(), 60))
-                .withCrt(this.buildCrt(emitter.getCrt()))
-                .withStateRegistration(this.nullIfEmpty(docs.getIe()))
-                .withStateRegistrationST(Optional.ofNullable(docs.getIeSt()).filter(s->!s.isEmpty()).orElse(null))
-                .withMunicipalRegistration(this.nullIfEmpty(docs.getMunicipalDocuments().getIm()))
-                .withAdress(this.buildEmitterAddress(emitter.getAddress(), Optional.ofNullable(emitter.getPhone())))
-                .withFancyName(this.formatNFeString(docs.getFancyName(), 60))
-                .build();
+        if(docs != null) {
+            return builder
+                    .asLegalEntity()
+                    .withCnpj(docs.getCnp())
+                    .withCorporateName(this.formatNFeString(docs.getName(), 60))
+                    .withCrt(this.buildCrt(emitter.getCrt()))
+                    .withStateRegistration(this.nullIfEmpty(docs.getIe()))
+                    .withStateRegistrationST(Optional.ofNullable(docs.getIeSt()).map(this::nullIfEmpty).orElse(null))
+                    .withMunicipalRegistration(Optional.ofNullable(docs.getMunicipalDocuments()).map(md -> md.getIm()).map(this::nullIfEmpty).orElse(null))
+                    .withAdress(this.buildEmitterAddress(emitter.getAddress(), Optional.ofNullable(emitter.getPhone())))
+                    .withFancyName(this.formatNFeString(docs.getFancyName(), 60))
+                    .build();
+            }
+        return null;
      //@formatter:on
     }
 
@@ -792,7 +798,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private NFeDetail buildNFeDetail(final Item item) {
      // @formatter:off
         return new NFeDetail.Builder()
-                .withItemOrder(Optional.ofNullable(this.fiscalDocument.getItemOrder(item)).map(Object::toString).orElse(null))
+                .withItemOrder(Optional.ofNullable(this.fiscalDocument.getItemOrder(item)).map(String::valueOf).orElse(null))
                 .withNFeItem(this.buildNFeItem(item))
                 .withTax(this.buildTax(item))
                 .withReturnedTax(null) //TODO
@@ -812,7 +818,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withComercialUnit(Optional.ofNullable(item.getUnity()).map(ItemUnity::getComercialUnity).map(Unity::getAcronym).orElse(null))
                 .withComercialQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getComercialQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))
                 .withComercialUnitaryValue(Optional.ofNullable(item.getUnitaryValue()).map(ItemUnitaryValue::getComercialUnitaryValue).map(this::formatNFeDecimal1110Variable).orElse(null))
-                .withItemGrossValue(Optional.ofNullable(item.getGrossValue()).map(ItemGrossValue::getComercialGrossValue).map(this::formatNFeDecimal1110Variable).orElse(null))
+                .withItemGrossValue(Optional.ofNullable(item.getGrossValue()).map(ItemGrossValue::getComercialGrossValue).map(this::formatNFeDecimal1302).orElse(null))
                 .withTaxableUnitGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getTaxableGlobalTradeItemNumber).orElse(null))
                 .withTaxableUnit(Optional.ofNullable(item.getUnity()).map(ItemUnity::getTaxableUnity).map(Unity::getAcronym).orElse(null))
                 .withTaxableQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getTaxableQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))

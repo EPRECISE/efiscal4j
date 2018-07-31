@@ -15,4 +15,10 @@ public class FcpValue {
 
     private final BigDecimal value;
 
+    public static interface IcmsWithFcpValueHolder {
+
+        FcpValue getFcpValue();
+
+    }
+
 }

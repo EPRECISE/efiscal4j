@@ -9,11 +9,13 @@ import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.item.trace.Trace;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 
 @Builder
 @Getter
+@EqualsAndHashCode
 public class Item {
 
     private final String code;

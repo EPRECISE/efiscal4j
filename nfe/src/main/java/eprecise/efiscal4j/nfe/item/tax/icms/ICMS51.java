@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import eprecise.efiscal4j.nfe.item.tax.icms.cst.ICMSCST;
 import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
+import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue.IcmsWithFcpValueHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpWithBcValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcReductionPercent;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcValue;
@@ -16,7 +18,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMS51 implements ICMS, IcmsWithBcValueHolder {
+public class ICMS51 implements ICMS, IcmsWithBcValueHolder, IcmsWithFcpValueHolder {
 
     private final ICMSCST cst = ICMSCST.CST_50;
 
@@ -33,6 +35,11 @@ public class ICMS51 implements ICMS, IcmsWithBcValueHolder {
     @Override
     public IcmsWithBcValue getIcmsWithBcValue() {
         return Optional.ofNullable(this.icms).map(IcmsWithBcReductionPercent::getValue).orElse(null);
+    }
+
+    @Override
+    public FcpValue getFcpValue() {
+        return Optional.ofNullable(this.fcp).map(FcpWithBcValue::getValue).orElse(null);
     }
 
 }

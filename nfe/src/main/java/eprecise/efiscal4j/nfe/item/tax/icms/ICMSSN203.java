@@ -4,6 +4,8 @@ package eprecise.efiscal4j.nfe.item.tax.icms;
 import java.util.Optional;
 
 import eprecise.efiscal4j.nfe.item.tax.icms.cst.ICMSCST;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue.IcmsWithFcpStValueHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcReductionPercent;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcValue;
@@ -14,7 +16,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMSSN203 implements ICMS, IcmsStWithBcValueHolder {
+public class ICMSSN203 implements ICMS, IcmsStWithBcValueHolder, IcmsWithFcpStValueHolder {
 
     private final ICMSCST cst = ICMSCST.CSOSN_203;
 
@@ -29,4 +31,8 @@ public class ICMSSN203 implements ICMS, IcmsStWithBcValueHolder {
         return Optional.ofNullable(this.icmsSt).map(IcmsStWithBcReductionPercent::getValue).orElse(null);
     }
 
+    @Override
+    public FcpStValue getFcpStValue() {
+        return Optional.ofNullable(this.fcpSt).map(FcpStWithBcValue::getValue).orElse(null);
+    }
 }

@@ -1,6 +1,7 @@
 
 package eprecise.efiscal4j.nfe.version;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 
 
@@ -11,5 +12,7 @@ public interface ProcessedNFeVersion {
     String getXsdPath();
 
     DanfePrintFormatVersion getDanfePrintFormat();
+
+    FiscalDocumentVersion getVersion();
 
 }

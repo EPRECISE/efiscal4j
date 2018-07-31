@@ -15,4 +15,9 @@ public class FcpStValue {
 
     private final BigDecimal value;
 
+    public static interface IcmsWithFcpStValueHolder {
+
+        FcpStValue getFcpStValue();
+
+    }
 }

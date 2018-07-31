@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.item.tax.icms;
 
 import eprecise.efiscal4j.nfe.item.tax.icms.cst.ICMSCST;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue.IcmsWithFcpValueHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcValue.IcmsWithBcValueHolder;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMS00 implements ICMS, IcmsWithBcValueHolder {
+public class ICMS00 implements ICMS, IcmsWithBcValueHolder, IcmsWithFcpValueHolder {
 
     private final ICMSCST cst = ICMSCST.CST_00;
 
@@ -24,6 +25,11 @@ public class ICMS00 implements ICMS, IcmsWithBcValueHolder {
     @Override
     public IcmsWithBcValue getIcmsWithBcValue() {
         return this.icms;
+    }
+
+    @Override
+    public FcpValue getFcpValue() {
+        return this.fcp;
     }
 
 }

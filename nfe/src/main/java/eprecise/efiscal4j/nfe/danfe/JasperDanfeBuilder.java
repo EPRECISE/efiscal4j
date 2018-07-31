@@ -64,7 +64,7 @@ public class JasperDanfeBuilder {
 
     public JasperDanfeBuilder(final ProcessedNFeVersion nfe) {
         this.nfe = nfe;
-        final FiscalDocumentSupportedVersion version = this.nfe.buildProcessedFiscalDocument().getVersion();
+        final FiscalDocumentSupportedVersion version = FiscalDocumentSupportedVersion.findByCode(this.nfe.getVersion().getValue());
         try {
             this.catalog = version.getJasperDanfeCatalogClass().newInstance();
             this.paramsSource = version.getJasperDanfeParamSourceClass().newInstance();

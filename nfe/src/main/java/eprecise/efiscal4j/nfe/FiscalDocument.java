@@ -123,7 +123,7 @@ public abstract class FiscalDocument {
     }
 
     public Integer getItemOrder(final Item item) {
-        return Optional.ofNullable(this.items).map(itemList -> itemList.indexOf(item)).map(index -> index++).orElse(null);
+        return Optional.ofNullable(this.items).map(itemList -> itemList.indexOf(item)).map(index -> index + 1).orElse(null);
     }
 
     /**
@@ -136,7 +136,7 @@ public abstract class FiscalDocument {
     public FiscalDocument.TransmissionResult transmit(final FiscalDocumentSupportedVersion version) {
         // @formatter:off
 		try {
-			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(this.getClass()).newInstance(this).buildNFeDispatch();
+			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(FiscalDocument.class).newInstance(this).buildNFeDispatch();
 			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.emitter.getCertificate());
 			final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result = transmissionChannel.transmitAuthorization(request);
 			return FiscalDocument.TransmissionResult.builder().version(version).result(result).build();

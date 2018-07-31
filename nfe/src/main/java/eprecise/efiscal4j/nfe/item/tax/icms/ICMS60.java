@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import eprecise.efiscal4j.nfe.item.tax.icms.cst.ICMSCST;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.retained.FcpStRetainedValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.retained.FcpStRetainedValue.IcmsWithFcpStRetainedValueHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.retained.IcmsStRetainedValue;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMS60 implements ICMS {
+public class ICMS60 implements ICMS, IcmsWithFcpStRetainedValueHolder {
 
     private final ICMSCST cst = ICMSCST.CST_60;
 
@@ -23,5 +24,10 @@ public class ICMS60 implements ICMS {
     private final FcpStRetainedValue fcpStRetained;
 
     private final BigDecimal endConsumerSupportedAliquot;
+
+    @Override
+    public FcpStRetainedValue getFcpStRetainedValue() {
+        return this.fcpStRetained;
+    }
 
 }
