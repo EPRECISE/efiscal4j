@@ -28,8 +28,8 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDeliveryDFeNSU;
  * @author Clécius J. Martinkoski
  *
  */
-//@XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
-@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG)
+@XmlRootElement(name = ObjectFactory.RET_DIST_DFE_INT)
+// @XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFeDispatchResponse {
 
@@ -82,7 +82,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Identificação do Ambiente
          */
-        public Builder withEnviroment(TransmissionEnvironment env) {
+        public Builder withEnviroment(final TransmissionEnvironment env) {
             this.enviroment = env;
             return this;
         }
@@ -90,7 +90,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Versão do Web Service NFeDistribuicaoDFe
          */
-        public Builder withAppVersion(String appVersion) {
+        public Builder withAppVersion(final String appVersion) {
             this.appVersion = appVersion;
             return this;
         }
@@ -98,7 +98,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Código do status de processamento da requisição
          */
-        public Builder withStatusCode(NFeDeliveryDFeResponseStatus stat) {
+        public Builder withStatusCode(final NFeDeliveryDFeResponseStatus stat) {
             this.status = stat;
             return this;
         }
@@ -106,7 +106,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Descrição literal do status do processamento da requisição
          */
-        public Builder withStatusDescription(String statDesc) {
+        public Builder withStatusDescription(final String statDesc) {
             this.statusDescription = statDesc;
             return this;
         }
@@ -114,7 +114,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Data e Hora de processamento da requisição
          */
-        public Builder withResponse(ZonedDateTime response) {
+        public Builder withResponse(final ZonedDateTime response) {
             this.response = response;
             return this;
         }
@@ -122,7 +122,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Último NSU pesquisado no Ambiente Nacional. Se for o caso, o solicitante pode continuar a consulta a partir deste NSU para obter novos resultados.
          */
-        public Builder withLastNsu(long nsu) {
+        public Builder withLastNsu(final long nsu) {
             this.lastNsu = nsu;
             return this;
         }
@@ -130,12 +130,12 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         /**
          * Maior NSU existente no Ambiente Nacional para o CNPJ/CPF informado
          */
-        public Builder withMaxNsu(long nsu) {
+        public Builder withMaxNsu(final long nsu) {
             this.maxNsu = nsu;
             return this;
         }
 
-        public Builder withDocument(NFeDeliveryDfeDocument document) {
+        public Builder withDocument(final NFeDeliveryDfeDocument document) {
             this.documentLots = Optional.ofNullable(this.documentLots).orElse(new NFeDeliveryDFeDocumentLots());
             this.documentLots.addDocument(document);
             return this;
@@ -159,7 +159,7 @@ public class NFeDeliveryDFeResponse extends Receivable implements NFeDeliveryDFe
         this.documentLots = null;
     }
 
-    private NFeDeliveryDFeResponse(Builder builder) {
+    private NFeDeliveryDFeResponse(final Builder builder) {
         this.enviroment = builder.enviroment;
         this.appVersion = builder.appVersion;
         this.status = builder.status;
