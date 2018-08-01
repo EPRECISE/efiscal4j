@@ -20,7 +20,7 @@ import lombok.Getter;
 @Getter
 public class ICMS51 implements ICMS, IcmsWithBcValueHolder, IcmsWithFcpValueHolder {
 
-    private final ICMSCST cst = ICMSCST.CST_50;
+    private final ICMSCST cst = ICMSCST.CST_51;
 
     private final ProductOrigin origin;
 
