@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import javax.validation.constraints.NotNull;
+
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
@@ -32,7 +34,7 @@ public class NFCe extends FiscalDocument {
      * @see CSC
      * @param csc
      */
-    private final CSC csc;
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.nfce.csc.isNotNull}") final CSC csc;
 
     @Builder
     public NFCe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,

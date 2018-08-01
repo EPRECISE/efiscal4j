@@ -9,8 +9,8 @@ import eprecise.efiscal4j.nfe.v310.transmission.NFeService;
 
 public enum JasperDanfeNfceUrlPath {
 
-    QUERY("/eprecise/efiscal4j/nfe/danfe/nfceUrlQueryHomolog.properties", "/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlQueryProduction.properties"),
-    SERVICE("/eprecise/efiscal4j/nfe/danfe/nfceUrlServiceHomolog.properties", "/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlServiceProduction.properties");
+    QUERY("/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlQueryHomolog.properties", "/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlQueryProduction.properties"),
+    SERVICE("/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlServiceHomolog.properties", "/eprecise/efiscal4j/nfe/v310/danfe/nfceUrlServiceProduction.properties");
 
     private final PropertiesLoader nfceUrlHomologMap;
 

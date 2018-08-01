@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
+import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 
@@ -32,8 +33,16 @@ public class NFeNumberDisableResponseMethod extends Receivable implements NFeNum
     public NFeNumberDisableResponse getServiceStatusSearchResponse() {
         return this.response;
     }
-    
+
     public NFeNumberDisableResponse getResponse() {
-		return response;
-	}
+        return this.response;
+    }
+
+    @Override
+    public EventStatus getStatus() {
+        if ((this.response != null) && (this.response.getInfo() != null)) {
+            return EventStatus.builder().statusCode(this.response.getInfo().getStatusCode()).statusDescription(this.response.getInfo().getReason()).build();
+        }
+        return null;
+    }
 }

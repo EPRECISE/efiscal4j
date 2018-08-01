@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
@@ -112,6 +113,7 @@ import eprecise.efiscal4j.nfe.v310.NFeInfo;
 import eprecise.efiscal4j.nfe.v310.NFeItem;
 import eprecise.efiscal4j.nfe.v310.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v310.NFeTransmissionProcess;
+import eprecise.efiscal4j.nfe.v310.PaymentMethodIndicator;
 import eprecise.efiscal4j.nfe.v310.PurchaserPresenceIndicator;
 import eprecise.efiscal4j.nfe.v310.StateRegistrationReceiverIndicator;
 import eprecise.efiscal4j.nfe.v310.additionalinfo.AdditionalInfo;
@@ -194,8 +196,11 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private final FiscalDocument fiscalDocument;
 
-    public DispatchFromFiscalDocumentAdapter(final FiscalDocument fiscalDocument) {
+    private final Certificate certificate;
+
+    public DispatchFromFiscalDocumentAdapter(final FiscalDocument fiscalDocument, final Certificate certificate) {
         this.fiscalDocument = fiscalDocument;
+        this.certificate = certificate;
     }
 
     @Override
@@ -230,7 +235,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withCSC(null)
                 .withNFeInfo(this.buildNFeInfo())
 //                .withNFeSuplementaryInfo(null)
-                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
+                .build(new DefaultSigner(this.certificate));
      // @formatter:on
     }
 
@@ -241,7 +246,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withCSC(Optional.ofNullable(nfce.getCsc()).map(csc -> new CSC(csc.getIdentifier(), csc.getCscValue())).orElse(null))
                 .withNFeInfo(this.buildNFeInfo())
 //                .withNFeSuplementaryInfo(null)
-                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
+                .build(new DefaultSigner(this.certificate));
      // @formatter:on
     }
 
@@ -381,6 +386,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         if((payment.getDetails() != null) && !payment.getDetails().isEmpty()) {
             return payment.getDetails().stream().map(pd -> {
                 return new NFePayment.Builder()
+                        .withPaymentMethod(Optional.ofNullable(pd.getMethod()).map(pm -> eprecise.efiscal4j.nfe.v310.payment.PaymentMethod.findByCode(pm.getValue())).orElse(null))
                         .withPaymentValue(this.formatNFeDecimal1302(pd.getValue()))
                         .withCardSet(Optional.ofNullable(pd.getCardSet()).map(cs -> {
                             return new CardSet.Builder()
@@ -399,27 +405,31 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private NFeCharging buildNFeCharging() {
         //@formatter:off
-        final Charging charging = this.fiscalDocument.getCharging();
         
-        if(charging != null) {
+        if(this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) {
+        
+            final Charging charging = this.fiscalDocument.getCharging();
             
-            return new NFeCharging.Builder()
-                    .withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
-                        return new Invoice.Builder()
-                                .withNumber(inv.getNumber())
-                                .withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
-                                .withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
-                                .withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
-                                .build();
-                    }).orElse(null))
-                    .withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
-                        return new Duplicate.Builder()
-                                .withNumber(dup.getNumber())
-                                .withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
-                                .withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
-                                .build();
-                    }).collect(Collectors.toList())).orElse(null))
-                    .build();
+            if(charging != null) {
+                
+                return new NFeCharging.Builder()
+                        .withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
+                            return new Invoice.Builder()
+                                    .withNumber(inv.getNumber())
+                                    .withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
+                                    .withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
+                                    .withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
+                                    .build();
+                        }).orElse(null))
+                        .withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
+                            return new Duplicate.Builder()
+                                    .withNumber(dup.getNumber())
+                                    .withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
+                                    .withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
+                                    .build();
+                        }).collect(Collectors.toList())).orElse(null))
+                        .build();
+            }
         }
          //@formatter:on
         return null;
@@ -567,6 +577,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withTaxableEventCityIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> ba.getCity().getIbgeCode().toString()).orElse(DispatchFromFiscalDocumentAdapter.IBGE_CODE_DEFAULT)) //TODO Revisar
             .withTransmissionEnvironment(this.buildTransmissionEnvironment())
             .withUFIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX))
+            .withPaymentMethod(PaymentMethodIndicator.PAGAMENTO_A_VISTA)
             .withReferencedDocuments(this.buildReferencedDocuments());
         
         Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).ifPresent(nf->{

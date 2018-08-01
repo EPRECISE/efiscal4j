@@ -20,31 +20,31 @@ public class FiscalDocumentTotal {
     private final Supplier<Collection<Item>> items;
 
     public BigDecimal getComercialGrossTotalValue() {
-        return items.get().stream().map(Item::getGrossValue).map(ItemGrossValue::getComercialGrossValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getGrossValue).map(ItemGrossValue::getComercialGrossValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getTaxableGrossTotalValue() {
-        return items.get().stream().map(Item::getGrossValue).map(ItemGrossValue::getTaxableGrossValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getGrossValue).map(ItemGrossValue::getTaxableGrossValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getShippingTotalValue() {
-        return items.get().stream().map(Item::getFreight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getFreight).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getInsuranceTotalValue() {
-        return items.get().stream().map(Item::getInsurance).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getInsurance).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getDiscountTotalValue() {
-        return items.get().stream().map(Item::getDiscount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getDiscount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getOthersTotalValue() {
-        return items.get().stream().map(Item::getOthersValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.items.get().stream().map(Item::getOthersValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public TotalTaxes getTotalTaxes() {
-        return new TotalTaxes(() -> items.get().stream().map(Item::getTaxStructure).flatMap(ts -> ts.getTaxes().stream()).collect(Collectors.toSet()));
+        return new TotalTaxes(() -> this.items.get().stream().map(Item::getTaxStructure).flatMap(ts -> ts.getTaxes().stream()).collect(Collectors.toSet()));
     }
 
     public BigDecimal getFiscalDocumentTotalValue() {
@@ -54,11 +54,14 @@ public class FiscalDocumentTotal {
     }
 
     public ApproximateTax getApproximateTaxTotalValue() {
-        final BigDecimal nationalTax = items.get().stream().map(Item::getTaxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getNationalTax).reduce(BigDecimal.ZERO,
-                BigDecimal::add);
-        final BigDecimal stateTax = items.get().stream().map(Item::getTaxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getStateTax).reduce(BigDecimal.ZERO, BigDecimal::add);
-        final BigDecimal importTax = items.get().stream().map(Item::getTaxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getImportTax).reduce(BigDecimal.ZERO, BigDecimal::add);
-        final BigDecimal cityTax = items.get().stream().map(Item::getTaxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getCityTax).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal nationalTax = this.items.get().stream().map(Item::getTaxStructure).filter(ts -> ts.getApproximateTax() != null).map(TaxStructure::getApproximateTax)
+                .map(ApproximateTax::getNationalTax).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal stateTax = this.items.get().stream().map(Item::getTaxStructure).filter(ts -> ts.getApproximateTax() != null).map(TaxStructure::getApproximateTax)
+                .map(ApproximateTax::getStateTax).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal importTax = this.items.get().stream().map(Item::getTaxStructure).filter(ts -> ts.getApproximateTax() != null).map(TaxStructure::getApproximateTax)
+                .map(ApproximateTax::getImportTax).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal cityTax = this.items.get().stream().map(Item::getTaxStructure).filter(ts -> ts.getApproximateTax() != null).map(TaxStructure::getApproximateTax)
+                .map(ApproximateTax::getCityTax).reduce(BigDecimal.ZERO, BigDecimal::add);
         return ApproximateTax.builder().nationalTax(nationalTax).stateTax(stateTax).importTax(importTax).cityTax(cityTax).build();
     }
 

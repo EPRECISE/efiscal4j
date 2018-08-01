@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
@@ -204,8 +205,11 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private final FiscalDocument fiscalDocument;
 
-    public DispatchFromFiscalDocumentAdapter(final FiscalDocument fiscalDocument) {
+    private final Certificate certificate;
+
+    public DispatchFromFiscalDocumentAdapter(final FiscalDocument fiscalDocument, final Certificate certificate) {
         this.fiscalDocument = fiscalDocument;
+        this.certificate = certificate;
     }
 
     @Override
@@ -240,7 +244,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withCSC(null)
                 .withNFeInfo(this.buildNFeInfo())
 //                .withNFeSuplementaryInfo(null)
-                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
+                .build(new DefaultSigner(this.certificate));
      // @formatter:on
     }
 
@@ -251,7 +255,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withCSC(Optional.ofNullable(nfce.getCsc()).map(csc -> new CSC(csc.getIdentifier(), csc.getCscValue())).orElse(null))
                 .withNFeInfo(this.buildNFeInfo())
 //                .withNFeSuplementaryInfo(null)
-                .build(new DefaultSigner(this.fiscalDocument.getEmitter().getCertificate()));
+                .build(new DefaultSigner(this.certificate));
      // @formatter:on
     }
 
@@ -424,28 +428,32 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private NFeCharging buildNFeCharging() {
         //@formatter:off
-		final Charging charging = this.fiscalDocument.getCharging();
-		
-		if(charging != null) {
-			
-			return new NFeCharging.Builder()
-					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
-						return new Invoice.Builder()
-								.withNumber(inv.getNumber())
-								.withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
-								.withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
-								.withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
-								.build();
-					}).orElse(null))
-					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
-						return new Duplicate.Builder()
-								.withNumber(dup.getNumber())
-								.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
-								.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
-								.build();
-					}).collect(Collectors.toList())).orElse(null))
-					.build();
-		}
+        
+        if(this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) {
+            
+    		final Charging charging = this.fiscalDocument.getCharging();
+    		
+    		if(charging != null) {
+    			
+    			return new NFeCharging.Builder()
+    					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
+    						return new Invoice.Builder()
+    								.withNumber(inv.getNumber())
+    								.withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
+    								.withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
+    								.withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
+    								.build();
+    					}).orElse(null))
+    					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
+    						return new Duplicate.Builder()
+    								.withNumber(dup.getNumber())
+    								.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
+    								.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
+    								.build();
+    					}).collect(Collectors.toList())).orElse(null))
+    					.build();
+    		}
+        }
 		 //@formatter:on
         return null;
     }
@@ -840,7 +848,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      // @formatter:off
         return new NFeItem.Builder()
                 .withItemCode(this.formatNFeString(item.getCode(), 60))
-                .withGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getGlobalTradeItemNumber).orElse(null))
+                .withGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getGlobalTradeItemNumber).map(this::nullIfEmpty).orElse("SEM GTIN"))
                 .withItemDescription(this.formatNFeString(item.getName(), 120))
                 .withNCM(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getNcm).orElse(null))
                 .withCest(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getCest).orElse(null))
@@ -853,7 +861,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withComercialQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getComercialQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))
                 .withComercialUnitaryValue(Optional.ofNullable(item.getUnitaryValue()).map(ItemUnitaryValue::getComercialUnitaryValue).map(this::formatNFeDecimal1110Variable).orElse(null))
                 .withItemGrossValue(Optional.ofNullable(item.getGrossValue()).map(ItemGrossValue::getComercialGrossValue).map(this::formatNFeDecimal1302).orElse(null))
-                .withTaxableUnitGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getTaxableGlobalTradeItemNumber).orElse(null))
+                .withTaxableUnitGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getTaxableGlobalTradeItemNumber).map(this::nullIfEmpty).orElse("SEM GTIN"))
                 .withTaxableUnit(Optional.ofNullable(item.getUnity()).map(ItemUnity::getTaxableUnity).map(Unity::getAcronym).orElse(null))
                 .withTaxableQuantity(Optional.ofNullable(item.getQuantity()).map(ItemQuantity::getTaxableQuantity).map(this::formatNFeDecimal1104Variable).orElse(null))
                 .withTaxationUnitaryValue(Optional.ofNullable(item.getUnitaryValue()).map(ItemUnitaryValue::getTaxableUnitaryValue).map(this::formatNFeDecimal1110Variable).orElse(null))

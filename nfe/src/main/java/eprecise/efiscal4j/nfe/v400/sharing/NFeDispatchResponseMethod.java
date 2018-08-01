@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 
@@ -24,7 +27,7 @@ import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 public class NFeDispatchResponseMethod extends Receivable implements NFeAuthorizationResponse {
 
     private static final long serialVersionUID = 1L;
-    
+
     private @XmlElement(name = ObjectFactory.RET_ENVI_NFE) @NotNull final NFeDispatchResponse nFeDispatchResponse;
 
     public static class Builder {
@@ -36,7 +39,7 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
          * @param nFeDispatchResponse
          * @return
          */
-        public Builder withNfeDispatchResponse(NFeDispatchResponse nFeDispatchResponse) {
+        public Builder withNfeDispatchResponse(final NFeDispatchResponse nFeDispatchResponse) {
             this.nFeDispatchResponse = nFeDispatchResponse;
             return this;
         }
@@ -53,12 +56,21 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
         this.nFeDispatchResponse = null;
     }
 
-    public NFeDispatchResponseMethod(Builder builder) {
+    public NFeDispatchResponseMethod(final Builder builder) {
         this.nFeDispatchResponse = builder.nFeDispatchResponse;
     }
 
     public NFeDispatchResponse getnFeDispatchResponse() {
         return this.nFeDispatchResponse;
+    }
+
+    @Override
+    public EventStatus getStatus() {
+        return Optional.ofNullable(this.nFeDispatchResponse).map(response -> {
+            return Optional.ofNullable(response).map(r -> r.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(info -> {
+                return EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build();
+            }).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build());
+        }).orElse(null);
     }
 
 }

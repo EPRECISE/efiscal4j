@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentCancel;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
@@ -31,8 +32,11 @@ public class EventDispatchCancelAdapter implements EventDispatchCancelVersion {
 
     private final FiscalDocumentCancel fiscalDocumentCancel;
 
-    public EventDispatchCancelAdapter(FiscalDocumentCancel fiscalDocumentCancel) {
+    private final Certificate certificate;
+
+    public EventDispatchCancelAdapter(final FiscalDocumentCancel fiscalDocumentCancel, final Certificate certificate) {
         this.fiscalDocumentCancel = fiscalDocumentCancel;
+        this.certificate = certificate;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class EventDispatchCancelAdapter implements EventDispatchCancelVersion {
                     .withBatchId(Optional.ofNullable(this.fiscalDocumentCancel.getProcessedFiscalDocument().getDocument()).map(d -> d.getNumber().toString()).orElse(null))
                     .withEvents(Arrays.asList(new Event.Builder()
                             .withEventInfo(this.buildEventInfo())
-                            .build(new DefaultSigner(Optional.ofNullable(this.fiscalDocumentCancel.getProcessedFiscalDocument().getDocument()).map(d -> d.getEmitter().getCertificate()).orElse(null)))))
+                            .build(new DefaultSigner(this.certificate))))
                     .build();
         } catch (final Exception e) {
             throw new RuntimeException(e);

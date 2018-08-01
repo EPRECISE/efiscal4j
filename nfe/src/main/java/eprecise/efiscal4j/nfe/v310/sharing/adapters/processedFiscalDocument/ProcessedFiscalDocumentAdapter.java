@@ -271,23 +271,23 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:off
         try {
             return FiscalDocument.Processed.builder()
-                .id(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getId())
+                .id(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getId()).orElse(null))
                 .version(FiscalDocumentSupportedVersion.VERSION_3_10)
-                .applicationVersion(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getApplicationVersion())
-                .accessKey(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getAcessKey())
-                .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProcessingDateTime()).map(t -> {
+                .applicationVersion(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getApplicationVersion()).orElse(null))
+                .accessKey(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getAcessKey()).orElse(null))
+                .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getProcessingDateTime()).map(t -> {
                     try {
                         return NFeDateTimeUTC.dateFormat.parse(t);
                     } catch (final ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }).orElse(null))
-                .protocolNumber(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getProtocolNumber())
-                .digestValue(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getDigestValue())
+                .protocolNumber(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getProtocolNumber()).orElse(null))
+                .digestValue(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getDigestValue()).orElse(null))
                 .status(EventStatus.builder()
-                		.statusCode(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusCode())
-                        .statusDescription(this.processedNFe.getProcessingStatusProtocol().getProcessingStatusProtocolInfo().getStatusDescription())
-                		.build())
+                        .statusCode(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getStatusCode()).orElse(null))
+                        .statusDescription(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getStatusDescription()).orElse(null))
+                        .build())
                 .document(this.buildFiscalDocument())
                 .processedVersion(this.processedNFe)
                 .build();

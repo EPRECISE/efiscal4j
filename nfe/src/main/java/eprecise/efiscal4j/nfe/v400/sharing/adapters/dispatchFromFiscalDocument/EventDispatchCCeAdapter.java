@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentCCe;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
@@ -29,8 +30,11 @@ public class EventDispatchCCeAdapter implements EventDispatchCCeVersion {
 
     private final FiscalDocumentCCe fiscalDocumentCCe;
 
-    public EventDispatchCCeAdapter(FiscalDocumentCCe fiscalDocumentCCe) {
+    private final Certificate certificate;
+
+    public EventDispatchCCeAdapter(final FiscalDocumentCCe fiscalDocumentCCe, final Certificate certificate) {
         this.fiscalDocumentCCe = fiscalDocumentCCe;
+        this.certificate = certificate;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class EventDispatchCCeAdapter implements EventDispatchCCeVersion {
     		        .withBatchId(Optional.ofNullable(this.fiscalDocumentCCe.getProcessedFiscalDocument().getDocument()).map(d -> d.getNumber().toString()).orElse(null))
     		        .withEvents(Arrays.asList(new Event.Builder()
                             .withEventInfo(this.buildEventInfo())
-                            .build(new DefaultSigner(Optional.ofNullable(this.fiscalDocumentCCe.getProcessedFiscalDocument().getDocument()).map(d -> d.getEmitter().getCertificate()).orElse(null)))))
+                            .build(new DefaultSigner(this.certificate))))
     		        .build();
         } catch (final Exception e) {
             throw new RuntimeException(e);

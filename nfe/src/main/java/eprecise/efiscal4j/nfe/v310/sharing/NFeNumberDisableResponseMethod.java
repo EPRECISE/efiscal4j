@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
 
+import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
@@ -46,8 +47,16 @@ public class NFeNumberDisableResponseMethod extends ReceivableWithQName implemen
     public NFeNumberDisableResponse getServiceStatusSearchResponse() {
         return this.response;
     }
-    
+
     public NFeNumberDisableResponse getResponse() {
-		return response;
-	}
+        return this.response;
+    }
+
+    @Override
+    public EventStatus getStatus() {
+        if ((this.response != null) && (this.response.getInfo() != null)) {
+            return EventStatus.builder().statusCode(this.response.getInfo().getStatusCode()).statusDescription(this.response.getInfo().getReason()).build();
+        }
+        return null;
+    }
 }

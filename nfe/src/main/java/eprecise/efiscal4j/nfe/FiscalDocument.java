@@ -133,11 +133,11 @@ public abstract class FiscalDocument {
      *            do documento fiscal
      * @return documento fiscal processado
      */
-    public FiscalDocument.TransmissionResult transmit(final FiscalDocumentSupportedVersion version) {
+    public FiscalDocument.TransmissionResult transmit(final FiscalDocumentSupportedVersion version, final Certificate certificate) {
         // @formatter:off
 		try {
-			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(FiscalDocument.class).newInstance(this).buildNFeDispatch();
-			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(this.emitter.getCertificate());
+			final NFeAuthorizationRequest request = version.getNfeDispatchAdapterClass().getConstructor(FiscalDocument.class, Certificate.class).newInstance(this, certificate).buildNFeDispatch();
+			final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(certificate);
 			final TypedTransmissionResult<? extends NFeAuthorizationRequest, ? extends NFeAuthorizationResponse> result = transmissionChannel.transmitAuthorization(request);
 			return FiscalDocument.TransmissionResult.builder().version(version).result(result).build();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -227,6 +227,10 @@ public abstract class FiscalDocument {
 
         public FiscalDocument.Processed getProcessed() {
             return this.getProcessedNFeVersion().buildProcessedFiscalDocument();
+        }
+
+        public EventStatus getStatus() {
+            return Optional.ofNullable(this.result).map(r -> r.getResponse()).map(rp -> rp.getStatus()).orElse(null);
         }
 
     }

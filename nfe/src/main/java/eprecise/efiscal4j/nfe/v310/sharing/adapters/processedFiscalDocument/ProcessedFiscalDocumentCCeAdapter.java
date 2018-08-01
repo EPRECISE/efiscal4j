@@ -8,7 +8,7 @@ import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocument.Processed;
 import eprecise.efiscal4j.nfe.FiscalDocumentCCe;
 import eprecise.efiscal4j.nfe.event.EventStatus;
-import eprecise.efiscal4j.nfe.v310.sharing.EventDetailCancellation;
+import eprecise.efiscal4j.nfe.v310.sharing.EventDetailCCe;
 import eprecise.efiscal4j.nfe.v310.sharing.EventProtocol;
 import eprecise.efiscal4j.nfe.v310.sharing.EventResponse;
 import eprecise.efiscal4j.nfe.v310.sharing.EventResponseInfo;
@@ -53,7 +53,7 @@ public class ProcessedFiscalDocumentCCeAdapter {
      // @formatter:off
         return FiscalDocumentCCe.builder()
                 .eventSeqNumber(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventSeqNumber()).map(Integer::parseInt).orElse(null))
-                .correction(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventDetail()).filter(EventDetailCancellation.class::isInstance).map(EventDetailCancellation.class::cast).map(EventDetailCancellation::getJustification).orElse(null))
+                .correction(Optional.ofNullable(this.eventProtocol.getEvent()).map(e -> e.getEventInfo()).map(ei -> ei.getEventDetail()).filter(EventDetailCCe.class::isInstance).map(EventDetailCCe.class::cast).map(EventDetailCCe::getCorrection).orElse(null))
                 .processedFiscalDocument(this.processedFiscalDocument)
                 .build();
      // @formatter:on
