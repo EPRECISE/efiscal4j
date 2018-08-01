@@ -446,7 +446,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     					}).orElse(null))
     					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
     						return new Duplicate.Builder()
-    								.withNumber(dup.getNumber())
+    								.withNumber(Optional.ofNullable(dup.getNumber()).map(this::nullIfEmpty).map(n -> StringUtils.leftPad(n, 3, "0")).orElse(null))
     								.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
     								.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
     								.build();
