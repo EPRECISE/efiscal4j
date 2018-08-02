@@ -309,18 +309,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         } else if(consumer instanceof SimpleConsumer) {
             final SimpleConsumer simpleConsumer = (SimpleConsumer) consumer;
             if(simpleConsumer.getCnp() instanceof ReceiverCnpj) {
-                builder.asLegalEntity()
+                return builder.asLegalEntity()
                     .withCnpj(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
             } else if(simpleConsumer.getCnp() instanceof ReceiverCpf) {
-                builder.asNaturalPerson()
+                return builder.asNaturalPerson()
                     .withCpf(simpleConsumer.getCnp().getCnp()).withName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
                 
             } else if(simpleConsumer.getCnp() instanceof ReceiverForeignId) {
-                builder.asForeignPerson()
+                return builder.asForeignPerson()
                     .withForeignId(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
