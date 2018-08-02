@@ -531,14 +531,20 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 					.withCorporateName(conveyor.getName())
 					.withStateRegistration(conveyor.getIe())
 					.withFullAddress(conveyor.getFullAddress())
-					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
+					        .withDescription(cityName)
+					        .withUF(conveyor.getUf())
+					        .build()).orElse(null)).build();
 			} else if(conveyor.getCnp() instanceof ConveyorCpf) {
 				return new eprecise.efiscal4j.nfe.v400.transport.Conveyor.Builder().asNaturalPerson()
 					.withCpf(conveyor.getCnp().getCnp())
 					.withName(conveyor.getName())
 					.withStateRegistration(conveyor.getIe())
 					.withFullAddress(conveyor.getFullAddress())
-					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
+					        .withDescription(cityName)
+					        .withUF(conveyor.getUf())
+					        .build()).orElse(null)).build();
 			}
 		}
 		
