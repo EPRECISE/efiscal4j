@@ -41,6 +41,7 @@ import eprecise.efiscal4j.nfe.v400.sharing.NFeNumberDisableDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeNumberDisableResponseMethod;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.RecipientManifestationResponseMethod;
 import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearch;
 import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearchResponseMethod;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeBodyWrapper;
@@ -222,13 +223,11 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
-    public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitRecipientManifestationEvent(final NFeEventDispatchRequest eventDispatchRequest) {
+    public TypedTransmissionResult<EventDispatch, RecipientManifestationResponseMethod> transmitRecipientManifestationEvent(final NFeEventDispatchRequest eventDispatchRequest) {
 
         final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
 
         String serviceUrl = null;
-
-        final UF uf = UF.findByAcronym(eventDispatch.getEvents().get(0).getEventInfo().getIbgeOrgan().getAcronym());
 
         final Set<EventType> supportedEventTypes = Stream.of(EventType.CIENCIA_OPERACAO, EventType.CONFIRMACAO_OPERACAO, EventType.DESCONHECIMENTO_OPERACAO, EventType.OPERACAO_NAO_REALIZADA)
                 .collect(Collectors.toSet());
@@ -255,15 +254,15 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).serialize()
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4\"", "")
+        		.replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4\"", "")
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4\"", "")
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4\"", "")
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", "");
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", ""); 
 
         final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, ImmutableMap.of("SOAPAction", 
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento"));
-
-        return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, 
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+        
+        return new TypedTransmissionResult<>(EventDispatch.class, RecipientManifestationResponseMethod.class, 
                 new FiscalDocumentSerializer<>(eventDispatch).serialize(),this.postProcessReceiptManifestationResponseXML(responseXml));
         //@formatter:off
     }
