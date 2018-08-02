@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.total.tax;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -40,78 +41,79 @@ public class TotalTaxes {
 
     public BigDecimal getTotalIcmsBcValue() {
         return this.getTaxes().stream().filter(IcmsWithBcValueHolder.class::isInstance).map(IcmsWithBcValueHolder.class::cast).map(IcmsWithBcValueHolder::getIcmsWithBcValue).filter(Objects::nonNull)
-                .map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(IcmsWithBcValue::getCalculationBasis).map(IcmsBc::getCalculationBasis).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsValue() {
         return this.getTaxes().stream().filter(IcmsWithBcValueHolder.class::isInstance).map(IcmsWithBcValueHolder.class::cast).map(IcmsWithBcValueHolder::getIcmsWithBcValue).filter(Objects::nonNull)
-                .map(IcmsWithBcValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(IcmsWithBcValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalICMSUFReceiverFcpValue() {
-        return this.getTaxes().stream().filter(ICMSUFReceiver.class::isInstance).map(ICMSUFReceiver.class::cast).map(ICMSUFReceiver::getFcpValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO,
-                BigDecimal::add);
+        return this.getTaxes().stream().filter(ICMSUFReceiver.class::isInstance).map(ICMSUFReceiver.class::cast).map(ICMSUFReceiver::getFcpValue).filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsUfReceiverShareValue() {
-        return this.getTaxes().stream().filter(ICMSUFReceiver.class::isInstance).map(ICMSUFReceiver.class::cast).map(ICMSUFReceiver::getShareValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO,
-                BigDecimal::add);
+        return this.getTaxes().stream().filter(ICMSUFReceiver.class::isInstance).map(ICMSUFReceiver.class::cast).map(ICMSUFReceiver::getShareValue).filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsUfReceiverEmitterShareValue() {
         return this.getTaxes().stream().filter(ICMSUFReceiver.class::isInstance).map(ICMSUFReceiver.class::cast).map(ICMSUFReceiver::getEmitterShareValue).filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsDesonerationValue() {
         return this.getTaxes().stream().filter(IcmsDesonerationHolder.class::isInstance).map(IcmsDesonerationHolder.class::cast).map(IcmsDesonerationHolder::getDesoneration).filter(Objects::nonNull)
-                .map(IcmsDesoneration::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(IcmsDesoneration::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsStBcValue() {
         return this.getTaxes().stream().filter(IcmsStWithBcValueHolder.class::isInstance).map(IcmsStWithBcValueHolder.class::cast).map(IcmsStWithBcValueHolder::getIcmsStWithBcValue)
                 .filter(Objects::nonNull).map(IcmsStWithBcValue::getCalculationBasis).filter(Objects::nonNull).map(IcmsStBc::getCalculationBasis).filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIcmsStValue() {
         return this.getTaxes().stream().filter(IcmsStWithBcValueHolder.class::isInstance).map(IcmsStWithBcValueHolder.class::cast).map(IcmsStWithBcValueHolder::getIcmsStWithBcValue)
-                .filter(Objects::nonNull).map(IcmsStWithBcValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .filter(Objects::nonNull).map(IcmsStWithBcValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIIValue() {
-        return this.getTaxes().stream().filter(II.class::isInstance).map(II.class::cast).map(II::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.getTaxes().stream().filter(II.class::isInstance).map(II.class::cast).map(II::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2,
+                RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalIPIValue() {
         return this.getTaxes().stream().filter(IpiValueHolder.class::isInstance).map(IpiValueHolder.class::cast).map(IpiValueHolder::getValue).filter(Objects::nonNull).map(IpiValue::getValue)
-                .filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalPisValue() {
         return this.getTaxes().stream().filter(PISTrib.class::isInstance).map(PISTrib.class::cast).map(PISTrib::getPis).filter(Objects::nonNull).map(PisValue::getValue).filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalCofinsValue() {
         return this.getTaxes().stream().filter(COFINSTrib.class::isInstance).map(COFINSTrib.class::cast).map(COFINSTrib::getCofins).filter(Objects::nonNull).map(CofinsValue::getValue)
-                .filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalFcpValue() {
         return this.getTaxes().stream().filter(IcmsWithFcpValueHolder.class::isInstance).map(IcmsWithFcpValueHolder.class::cast).map(IcmsWithFcpValueHolder::getFcpValue).filter(Objects::nonNull)
-                .map(FcpValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(FcpValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalFcpStValue() {
         return this.getTaxes().stream().filter(IcmsWithFcpStValueHolder.class::isInstance).map(IcmsWithFcpStValueHolder.class::cast).map(IcmsWithFcpStValueHolder::getFcpStValue)
-                .filter(Objects::nonNull).map(FcpStValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+                .filter(Objects::nonNull).map(FcpStValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalFcpStRetainedValue() {
         return this.getTaxes().stream().filter(IcmsWithFcpStRetainedValueHolder.class::isInstance).map(IcmsWithFcpStRetainedValueHolder.class::cast)
                 .map(IcmsWithFcpStRetainedValueHolder::getFcpStRetainedValue).filter(Objects::nonNull).map(FcpStRetainedValue::getValue).filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalReturnedIpiValue() {

@@ -309,18 +309,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         } else if(consumer instanceof SimpleConsumer) {
             final SimpleConsumer simpleConsumer = (SimpleConsumer) consumer;
             if(simpleConsumer.getCnp() instanceof ReceiverCnpj) {
-                builder.asLegalEntity()
+                return builder.asLegalEntity()
                     .withCnpj(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
             } else if(simpleConsumer.getCnp() instanceof ReceiverCpf) {
-                builder.asNaturalPerson()
+                return builder.asNaturalPerson()
                     .withCpf(simpleConsumer.getCnp().getCnp()).withName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
                 
             } else if(simpleConsumer.getCnp() instanceof ReceiverForeignId) {
-                builder.asForeignPerson()
+                return builder.asForeignPerson()
                     .withForeignId(simpleConsumer.getCnp().getCnp()).withCorporateName(simpleConsumer.getName())
                     .withStateRegistrationReceiverIndicator(StateRegistrationReceiverIndicator.NAO_CONTRIBUINTE)
                     .build();
@@ -506,14 +506,21 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withCorporateName(conveyor.getName())
                     .withStateRegistration(conveyor.getIe())
                     .withFullAddress(conveyor.getFullAddress())
-                    .withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+                    .withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
+                            .withDescription(cityName)
+                            .withUF(conveyor.getUf())
+                            .build()).orElse(null))
+                    .build();
             } else if(conveyor.getCnp() instanceof ConveyorCpf) {
                 return new eprecise.efiscal4j.nfe.v310.transport.Conveyor.Builder().asNaturalPerson()
                     .withCpf(conveyor.getCnp().getCnp())
                     .withName(conveyor.getName())
                     .withStateRegistration(conveyor.getIe())
                     .withFullAddress(conveyor.getFullAddress())
-                    .withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder().withDescription(cityName).build()).orElse(null)).build();
+                    .withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
+                            .withDescription(cityName)
+                            .withUF(conveyor.getUf())
+                            .build()).orElse(null)).build();
             }
         }
         
@@ -1583,7 +1590,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi00.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .withBcValue(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
                         .withIpiAliquot(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
                         .withUnityQuantity(Optional.ofNullable(ipi00.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
@@ -1597,7 +1604,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi01.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_02: {
@@ -1606,7 +1613,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi02.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_03: {
@@ -1615,7 +1622,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi03.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_04: {
@@ -1624,7 +1631,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi04.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_05: {
@@ -1633,7 +1640,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi05.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_49: {
@@ -1642,7 +1649,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi49.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .withBcValue(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
                         .withIpiAliquot(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
                         .withUnityQuantity(Optional.ofNullable(ipi49.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
@@ -1656,7 +1663,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi50.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .withBcValue(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
                         .withIpiAliquot(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
                         .withUnityQuantity(Optional.ofNullable(ipi50.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
@@ -1670,7 +1677,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi51.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_52: {
@@ -1679,7 +1686,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi52.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_53: {
@@ -1688,7 +1695,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_54: {
@@ -1697,7 +1704,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi54.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_55: {
@@ -1706,7 +1713,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi55.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_99: {
@@ -1715,7 +1722,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi99.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .withBcValue(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
                         .withIpiAliquot(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getAliquot).map(this::formatNFeDecimal0302a04).orElse(null))
                         .withUnityQuantity(Optional.ofNullable(ipi99.getValue()).map(IpiValue::getQuantity).map(this::formatNFeDecimal1204Variable).orElse(null))
