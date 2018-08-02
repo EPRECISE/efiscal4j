@@ -1737,7 +1737,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withProducerCNPJ(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getProducerCnpj).orElse(null))
                         .withIpiSealCode(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealCode).map(sc -> this.formatNFeString(sc, 60)).orElse(null))
                         .withIpiSealQuantity(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getIpiSealQuantity).map(sq -> this.formatNFeString(sq, 12)).orElse(null))
-                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(lef -> this.formatNFeString(lef, 3)).orElse(null))
+                        .withLegalFramework(Optional.ofNullable(ipi53.getGeneralData()).map(IPIGeneralData::getLegalFramework).map(this::nullIfEmpty).orElse(null))
                         .build();
             }
             case CST_54: {
