@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.Optional;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.event.EventStatus;
@@ -32,7 +33,8 @@ public class FiscalDocumentCancel {
      */
     public FiscalDocumentCancel.TransmissionResult transmit(final Certificate certificate) {
         try {
-            final FiscalDocumentSupportedVersion version = this.processedFiscalDocument.getVersion();
+            final FiscalDocumentSupportedVersion version = this.processedFiscalDocument.getDocument().getModel().equals(FiscalDocumentModel.NFE) ? FiscalDocumentSupportedVersion.VERSION_4_00
+                    : this.processedFiscalDocument.getVersion();
             final NFeEventDispatchRequest request = version.getEventDispatchCancelClass().getConstructor(FiscalDocumentCancel.class, Certificate.class).newInstance(this, certificate)
                     .buildEventDispatchCancel();
             final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(certificate);
