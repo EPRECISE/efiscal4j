@@ -546,7 +546,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 //                            .withCOFINSTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalCofinsValue()))
                             .withOtherIncidentalCostsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getOthersTotalValue()))
                             .withNFeTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getFiscalDocumentTotalValue()))
-                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? Optional.ofNullable(fiscalDocumentTotal.getApproximateTaxTotalValue()).map(attv -> attv.getTotal()).map(this::formatNFeDecimal1302).orElse(null) : null)
+                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? Optional.ofNullable(fiscalDocumentTotal.getApproximateTaxTotalValue()).map(attv -> attv.getTotal()).map(this::formatNFeDecimal1302Optional).orElse(null) : null)
                             .build())
                     .build();
         }
@@ -901,7 +901,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         final TaxStructure taxStructure = item.getTaxStructure();
         if(taxStructure != null) {
             return new Tax.Builder()
-                    .withTaxTotalValue(Optional.ofNullable(taxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getTotal).map(this::formatNFeDecimal1302).orElse(null))
+                    .withTaxTotalValue(Optional.ofNullable(taxStructure).map(TaxStructure::getApproximateTax).map(ApproximateTax::getTotal).map(this::formatNFeDecimal1302Optional).orElse(null))
                     .withIcms(this.buildIcms(taxStructure))
                     .withIpi(this.buildIpi(taxStructure))
                     .withIi(this.buildIi(taxStructure))
