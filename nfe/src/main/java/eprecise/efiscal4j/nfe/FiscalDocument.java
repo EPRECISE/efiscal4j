@@ -25,6 +25,7 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
@@ -175,21 +176,23 @@ public abstract class FiscalDocument {
 
             public Processed buildFromXml(final String xml) {
                 // @formatter:off
-
+                final StringBuilder errors = new StringBuilder();
 				for (final FiscalDocumentSupportedVersion v : FiscalDocumentSupportedVersion.values()) {
 					try {
 						final String xsdPath = (String) v.getProcessedNFeClass().getDeclaredField("XSD").get(null);
 						final FiscalDocumentValidator validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
-						if (validator.validate(xml).isValid()) {
+						final ValidationResult validate = validator.validate(xml);
+                        if (validate.isValid()) {
 							final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).notStoppingOnError().deserialize();
 							return processedNFeVersion.buildProcessedFiscalDocument();
 						}
+                        errors.append("\n").append(validate.getError());
 					} catch (final Exception e) {
 						throw new RuntimeException(e);
 					}
 				}
 
-				return null;
+				throw new IllegalStateException(errors.toString());
 				// @formatter:on
             }
 
