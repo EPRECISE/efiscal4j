@@ -1,6 +1,8 @@
 
 package eprecise.efiscal4j.nfe.version;
 
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.nfe.danfe.JasperDanfeCatalog;
 import eprecise.efiscal4j.nfe.danfe.JasperDanfeParamsSource;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
@@ -76,6 +78,17 @@ public enum FiscalDocumentSupportedVersion {
         for (final FiscalDocumentSupportedVersion entity : values()) {
             if (entity.getValue().equals(code)) {
                 return entity;
+            }
+        }
+        return null;
+    }
+
+    public static FiscalDocumentSupportedVersion findByXml(final String xml) {
+        if ((xml != null) && !xml.isEmpty()) {
+            for (final FiscalDocumentSupportedVersion entity : values()) {
+                if (StringUtils.contains(xml, new StringBuilder("versao=\"").append(entity.getValue()).append("\"").toString())) {
+                    return entity;
+                }
             }
         }
         return null;
