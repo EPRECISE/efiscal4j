@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302Optional;
+import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
 
 
@@ -23,11 +23,11 @@ public class Invoice implements Serializable {
 
     private @XmlElement(name = "nFat") @Size(min = 1, max = 60) @NFeString String number;
 
-    private @XmlElement(name = "vOrig") @NFeDecimal1302Optional String originalValue;
+    private @XmlElement(name = "vOrig") @NFeDecimal1302 String originalValue;
 
-    private @XmlElement(name = "vDesc") @NFeDecimal1302Optional String discountValue;
+    private @XmlElement(name = "vDesc") @NFeDecimal1302 String discountValue;
 
-    private @XmlElement(name = "vLiq") @NFeDecimal1302Optional String netValue;
+    private @XmlElement(name = "vLiq") @NFeDecimal1302 String netValue;
 
     public static class Builder {
 

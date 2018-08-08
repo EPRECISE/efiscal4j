@@ -439,9 +439,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
     						return new Invoice.Builder()
     								.withNumber(inv.getNumber())
-    								.withOriginalValue(this.formatNFeDecimal1302Optional(inv.getOriginalValue()))
-    								.withDiscountValue(this.formatNFeDecimal1302Optional(inv.getDiscountValue()))
-    								.withNetValue(this.formatNFeDecimal1302Optional(inv.getNetValue()))
+    								.withOriginalValue(this.formatNFeDecimal1302(inv.getOriginalValue()))
+    								.withDiscountValue(this.formatNFeDecimal1302(inv.getDiscountValue()))
+    								.withNetValue(this.formatNFeDecimal1302(inv.getNetValue()))
     								.build();
     					}).orElse(null))
     					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {

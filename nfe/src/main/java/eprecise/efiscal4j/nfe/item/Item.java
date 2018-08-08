@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.item;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 
 import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
@@ -92,8 +93,18 @@ public class Item {
     }
 
     public ItemGrossValue getGrossValue() {
-        return ItemGrossValue.builder().comercialGrossValue(this.unitaryValue.comercialUnitaryValue.multiply(this.quantity.comercialQuantity))
-                .taxableGrossValue(this.unitaryValue.taxableUnitaryValue.multiply(this.quantity.taxableQuantity)).build();
+        if(this.unitaryValue != null && this.quantity != null) {
+            BigDecimal comercialGrossValue = null;
+            BigDecimal taxableGrossValue = null;
+            if(this.unitaryValue.comercialUnitaryValue != null && this.quantity.comercialQuantity != null) {
+                comercialGrossValue = this.unitaryValue.comercialUnitaryValue.multiply(this.quantity.comercialQuantity).setScale(2, RoundingMode.HALF_UP);
+            }
+            if(this.unitaryValue.taxableUnitaryValue != null && this.quantity.taxableQuantity != null) {
+                taxableGrossValue = this.unitaryValue.taxableUnitaryValue.multiply(this.quantity.taxableQuantity).setScale(2, RoundingMode.HALF_UP);
+            }
+            return ItemGrossValue.builder().comercialGrossValue(comercialGrossValue).taxableGrossValue(taxableGrossValue).build();
+        }
+        return null;
     }
 
     @Builder
@@ -125,6 +136,16 @@ public class Item {
         private final BigDecimal taxableQuantity;
 
     }
+    
+    @Builder
+    @Getter
+    public static class ItemGrossValue {
+
+        private final BigDecimal comercialGrossValue;
+
+        private final BigDecimal taxableGrossValue;
+
+    }
 
     @Builder
     @Getter
@@ -136,13 +157,4 @@ public class Item {
 
     }
 
-    @Builder
-    @Getter
-    public static class ItemGrossValue {
-
-        private final BigDecimal comercialGrossValue;
-
-        private final BigDecimal taxableGrossValue;
-
-    }
 }
