@@ -286,7 +286,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             final Receiver receiver = (Receiver) consumer;
             if(receiver.getDocuments().getCnp() instanceof ReceiverCnpj) {
                 return builder.asLegalEntity()
-                        .withCorporateName(receiver.getDocuments().getName())
+                        .withCorporateName(this.formatNFeString(receiver.getDocuments().getName(), 60))
                         .withCnpj(receiver.getDocuments().getCnp().getCnp())
                         .withMunicipalRegistration(receiver.getDocuments().getIm())
                         .withStateRegistration(this.buildStateRegistration(receiver))
@@ -296,7 +296,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .build();
             } else if(receiver.getDocuments().getCnp() instanceof ReceiverCpf) {
                 return builder.asNaturalPerson()
-                        .withName(receiver.getDocuments().getName())
+                        .withName(this.formatNFeString(receiver.getDocuments().getName(),60))
                         .withCpf(receiver.getDocuments().getCnp().getCnp())
                         .withMunicipalRegistration(receiver.getDocuments().getIm())
                         .withStateRegistration(this.buildStateRegistration(receiver))
@@ -306,7 +306,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .build();
             } else if(receiver.getDocuments().getCnp() instanceof ReceiverForeignId) {
                 return builder.asForeignPerson()
-                        .withCorporateName(receiver.getDocuments().getName())
+                        .withCorporateName(this.formatNFeString(receiver.getDocuments().getName(),60))
                         .withForeignId(receiver.getDocuments().getCnp().getCnp())
                         .withMunicipalRegistration(receiver.getDocuments().getIm())
                         .withStateRegistration(this.buildStateRegistration(receiver))
@@ -361,14 +361,14 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         final BrazillianReceiverAddress address = Optional.ofNullable(receiver.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).orElse(null);
         if(address != null) {
             return new Address.Builder()
-                    .withStreet(address.getStreet())
-                    .withNumber(address.getNumber())
-                    .withComplement(address.getComplement())
-                    .withDistrict(address.getDistrict())
+                    .withStreet(this.formatNFeString(address.getStreet(),60))
+                    .withNumber(this.formatNFeString(address.getNumber(),60))
+                    .withComplement(this.formatNFeString(address.getComplement(),60))
+                    .withDistrict(this.formatNFeString(address.getDistrict(),60))
                     .withCep(address.getCep())
                     .withCity(Optional.ofNullable(address.getCity()).map(c -> new City.Builder()
                             .withIbgeCode(c.getIbgeCode())
-                            .withDescription(c.getDescription())
+                            .withDescription(this.formatNFeString(c.getDescription(), 60))
                             .withUF(c.getUf())
                             .build()).orElse(null))
                     .withPhone(receiver.getPhone())
@@ -528,21 +528,21 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 			if(conveyor.getCnp() instanceof ConveyorCnpj) {
 				return new eprecise.efiscal4j.nfe.v400.transport.Conveyor.Builder().asLegalEntity()
 					.withCnpj(conveyor.getCnp().getCnp())
-					.withCorporateName(conveyor.getName())
+					.withCorporateName(this.formatNFeString(conveyor.getName(),60))
 					.withStateRegistration(conveyor.getIe())
-					.withFullAddress(conveyor.getFullAddress())
+					.withFullAddress(this.formatNFeString(conveyor.getFullAddress() , 60))
 					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
-					        .withDescription(cityName)
+					        .withDescription(this.formatNFeString(cityName, 60))
 					        .withUF(conveyor.getUf())
 					        .build()).orElse(null)).build();
 			} else if(conveyor.getCnp() instanceof ConveyorCpf) {
 				return new eprecise.efiscal4j.nfe.v400.transport.Conveyor.Builder().asNaturalPerson()
 					.withCpf(conveyor.getCnp().getCnp())
-					.withName(conveyor.getName())
+					.withName(this.formatNFeString(conveyor.getName(), 60))
 					.withStateRegistration(conveyor.getIe())
-					.withFullAddress(conveyor.getFullAddress())
+					.withFullAddress(this.formatNFeString(conveyor.getFullAddress(), 60))
 					.withCity(Optional.ofNullable(conveyor.getCityName()).map(cityName -> new City.Builder()
-					        .withDescription(cityName)
+					        .withDescription(this.formatNFeString(cityName,60))
 					        .withUF(conveyor.getUf())
 					        .build()).orElse(null)).build();
 			}
@@ -606,7 +606,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withNFeFinality(this.buildNFeFinality())
             .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
             .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
-            .withOperationType(this.buildOperationTypeDescriptor())
+            .withOperationType(this.formatNFeString(this.buildOperationTypeDescriptor(),60))
             .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
             .withTaxableEventCityIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> ba.getCity().getIbgeCode().toString()).orElse(DispatchFromFiscalDocumentAdapter.IBGE_CODE_DEFAULT)) //TODO Revisar
             .withTransmissionEnvironment(this.buildTransmissionEnvironment())
@@ -796,7 +796,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withCep(this.formatNFeString(address.getCep(), 8))
                     .withCity(Optional.ofNullable(address.getCity()).map(c -> new City.Builder()
                             .withIbgeCode(c.getIbgeCode())
-                            .withDescription(c.getDescription())
+                            .withDescription(this.formatNFeString(c.getDescription(), 60))
                             .withUF(c.getUf())
                             .build()).orElse(null))
                     .withPhone(phone.orElse(null))
@@ -821,9 +821,21 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private String formatNFeString(final String input, final int size) {
-        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(StringUtils.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
+        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
             return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
         }).orElse(null);
+    }
+
+    private static String abbreviate(final String input, final int size) {
+        if ((input != null) && !input.isEmpty()) {
+            if (size >= 4) {
+                return StringUtils.abbreviate(input, size);
+            } else if (input.length() > size) {
+                return input.substring(0, size);
+            }
+        }
+        return input;
+
     }
 
     private eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {

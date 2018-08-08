@@ -156,7 +156,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         final ElotechService.Builder builder = new ElotechService.Builder()
                 .withServiceValues(this.buildServiceValues())
                 .withIssWithheld(this.nfse.getIssHeld() instanceof NFSeWithIssHeld ? ElotechIssWithheld.YES : ElotechIssWithheld.NO)
-                .withDiscrimination(Optional.ofNullable(this.nfse.getService()).map(s->s.getDiscrimination()).map(StringUtils::stripAccents).orElse(null))
+                .withDiscrimination(this.formatNfseString(this.nfse.getService().getDiscrimination(),2000))
                 .withCityCode(this.nfse.getService().getCityService().getIbgeCode())
                 .withIssRequirement(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getIssRequirement).orElse(null))
                 .withCityIncidenceCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
@@ -215,7 +215,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
             items.add(new ElotechServiceItem.Builder()
                     .withItemServiceList(this.nfse.getService().getNationalServiceCode().replaceAll("\\.", ""))
                     .withCnaeCode(this.nfse.getService().getCnaeCode())
-                    .withDescription(Optional.ofNullable(this.nfse.getService()).map(s->s.getName()).map(StringUtils::stripAccents).orElse(null))
+                    .withDescription(this.formatNfseString(this.nfse.getService().getName(), 20))
                     .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
                     .withQuantity(this.formatNFSeValue(this.nfse.getService().getAmount()))
                     .withUnitaryValue(this.formatNFSeValue(this.nfse.getService().getUnitaryValue()))
@@ -247,7 +247,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withCnp(this.buildCnp(this.nfse.getTaker().getDocuments()))
                 .withMunicipalRegistration(Optional.ofNullable(this.nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build())
-        .withSocialName(this.nfse.getTaker().getName())
+        .withSocialName(this.formatNfseString(this.nfse.getTaker().getName(), 150))
         .withAddress(Optional.ofNullable(this.nfse.getTaker().getAddress())
                 .map(this::buildNFSeAddress).orElse(new ElotechNFSeAddress()))
         .build();
@@ -264,7 +264,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         .withIdentifier(new ElotechServiceIntermediary.ElotechServiceIntermediaryIdentifier.Builder()
                 .withCnp(this.buildCnp(this.nfse.getIntermediary().getDocuments()))
                 .build())
-        .withSocialName(this.nfse.getIntermediary().getName())
+        .withSocialName(this.formatNfseString(this.nfse.getIntermediary().getName(), 150))
         .build();
         //@formatter:on
     }
@@ -289,15 +289,37 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
 
         //@formatter:off
             return new ElotechNFSeAddress.Builder()
-            .withAddress(address.getStreet())
-            .withNumber(address.getNumber())
-            .withDistrict(address.getDistrict())
+            .withAddress(this.formatNfseString(address.getStreet(), 125))
+            .withNumber(this.formatNfseString(address.getNumber(), 10))
+            .withDistrict(this.formatNfseString(address.getDistrict(), 60))
             .withCityCode(Optional.ofNullable(address.getCity()).map(a->a.getIbgeCode()).orElse(null))
             .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))
             .withCep(address.getZipCode())
             .build();
         //@formatter:on
 
+    }
+
+    private String formatNfseString(final String input, final int size) {
+        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
+            return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
+        }).orElse(null);
+    }
+
+    private String abbreviate(final String input, final int size) {
+        if ((input != null) && !input.isEmpty()) {
+            if (size >= 4) {
+                return StringUtils.abbreviate(input, size);
+            } else if (input.length() > size) {
+                return input.substring(0, size);
+            }
+        }
+        return input;
+
+    }
+
+    private String nullIfEmpty(final String v) {
+        return StringUtils.isEmpty(v) ? null : v;
     }
 
     private String formatNFSeValue(final BigDecimal value) {

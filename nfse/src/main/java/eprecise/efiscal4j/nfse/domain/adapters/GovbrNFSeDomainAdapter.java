@@ -258,6 +258,28 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     }
 
+    private String formatNfseString(final String input, final int size) {
+        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
+            return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
+        }).orElse(null);
+    }
+
+    private String abbreviate(final String input, final int size) {
+        if ((input != null) && !input.isEmpty()) {
+            if (size >= 4) {
+                return StringUtils.abbreviate(input, size);
+            } else if (input.length() > size) {
+                return input.substring(0, size);
+            }
+        }
+        return input;
+
+    }
+
+    private String nullIfEmpty(final String v) {
+        return StringUtils.isEmpty(v) ? null : v;
+    }
+
     private String formatNFSeValue(final BigDecimal value) {
         if (value == null) {
             return null;
