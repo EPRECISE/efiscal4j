@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
@@ -63,19 +65,19 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private final NFSe nfse;
 
     public ElotechNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
-        nfse = builder.getNfse();
+        this.nfse = builder.getNfse();
     }
 
     @Override
     public NFSeRequest toDispatch() {
         //@formatter:off
         return new ElotechLotRpsDispatchSync.Builder()
-                .withApplicant(buildApplicant())
+                .withApplicant(this.buildApplicant())
                 .withLotRps(new ElotechLotRps.Builder()
-                        .withLotNumber(nfse.getSerie().getLotNumber())
-                        .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(nfse.getEmitter().getDocuments().getCnp()).build())
-                        .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                        .withRpsQuantity(1).withStatementProvisionService(Arrays.asList(buildStatementProvisionService()))
+                        .withLotNumber(this.nfse.getSerie().getLotNumber())
+                        .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(this.nfse.getEmitter().getDocuments().getCnp()).build())
+                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                        .withRpsQuantity(1).withStatementProvisionService(Arrays.asList(this.buildStatementProvisionService()))
                         .build())
                 .build();
         //@formatter:on
@@ -83,11 +85,11 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
-        return new ElotechNfseDispatchCancel.Builder().withApplicant(buildApplicant())
+        return new ElotechNfseDispatchCancel.Builder().withApplicant(this.buildApplicant())
                 .withCancelRequest(new ElotechNfseCancelRequest.Builder().withInfo(new ElotechNfseCancelRequest.ElotechNfseCancelRequestInfo.Builder()
-                        .withIdentifier(new ElotechNFSeIdentifier.Builder().withNumber(cancellationRequestData.getNfseNumber()).withCityCode(nfse.getEmitter().getAddress().getCity().getIbgeCode())
-                                .withCnp(this.buildCnp(nfse.getEmitter().getDocuments()))
-                                .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
+                        .withIdentifier(new ElotechNFSeIdentifier.Builder().withNumber(cancellationRequestData.getNfseNumber())
+                                .withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode()).withCnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
+                                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
                                         .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                                 .withNumber(cancellationRequestData.getNfseNumber()).build())
                         .withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
@@ -109,10 +111,10 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private ElotechApplicant buildApplicant() {
         //@formatter:off
             return new ElotechApplicant.Builder()
-                        .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(nfse.getEmitter().getDocuments().getCnp()).build())
-                        .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                        .withPassword(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getTransmissionPassword).orElse(null))
-                        .withHomologation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isHomologation).orElse(false))
+                        .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(this.nfse.getEmitter().getDocuments().getCnp()).build())
+                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                        .withPassword(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getTransmissionPassword).orElse(null))
+                        .withHomologation(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isHomologation).orElse(false))
                         .build();
 
         //@formatter:on
@@ -122,14 +124,14 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:off
         return new ElotechStatementProvisionService.Builder()
                 .withInfo(new ElotechStatementProvisionService.Info.Builder()
-                        .withCompetence(NFSE_DATE_FORMAT.format(nfse.getEmission()))
-                        .withRps(buildRps())
-                        .withService(buildService())
-                        .withServiceIntermediary(buildServiceIntermediary())
-                        .withServiceProviderIdentifier(buildServiceProviderIdentifier())
-                        .withServiceTaker(buildServiceTaker())
-                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getEmitter().getSpecialTaxationRegime()).filter(ElotechSpecialTaxationRegime.class::isInstance).map(ElotechSpecialTaxationRegime.class::cast).orElse(null))
-                        .withTaxIncentive(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isTaxIncentive).map(ti-> ti ? ElotechTaxIncentive.YES : ElotechTaxIncentive.NO).orElse(null))
+                        .withCompetence(NFSE_DATE_FORMAT.format(this.nfse.getEmission()))
+                        .withRps(this.buildRps())
+                        .withService(this.buildService())
+                        .withServiceIntermediary(this.buildServiceIntermediary())
+                        .withServiceProviderIdentifier(this.buildServiceProviderIdentifier())
+                        .withServiceTaker(this.buildServiceTaker())
+                        .withSpecialTaxationRegime(Optional.ofNullable(this.nfse.getEmitter().getSpecialTaxationRegime()).filter(ElotechSpecialTaxationRegime.class::isInstance).map(ElotechSpecialTaxationRegime.class::cast).orElse(null))
+                        .withTaxIncentive(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isTaxIncentive).map(ti-> ti ? ElotechTaxIncentive.YES : ElotechTaxIncentive.NO).orElse(null))
                         .build())
                 .build();
         //@formatter:on
@@ -140,11 +142,11 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         return new ElotechRps.Builder()
         .withIdentifier(new CommonsRpsIdentifier.Builder()
                 .withType(CommonsRpsType.PROVISIONAL_SERVICE_RECEIPT)
-                .withSerie(nfse.getSerie().getSerie())
-                .withNumber(nfse.getSerie().getRpsNumber())
+                .withSerie(this.nfse.getSerie().getSerie())
+                .withNumber(this.nfse.getSerie().getRpsNumber())
                 .build())
         .withStatus(CommonsRpsStatus.NORMAL)
-        .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(nfse.getEmission()))
+        .withEmissionDate(new SimpleDateFormat("yyyy-MM-dd").format(this.nfse.getEmission()))
         .build();
         //@formatter:on
     }
@@ -152,21 +154,21 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private ElotechService buildService() {
         //@formatter:off
         final ElotechService.Builder builder = new ElotechService.Builder()
-                .withServiceValues(buildServiceValues())
-                .withIssWithheld(nfse.getIssHeld() instanceof NFSeWithIssHeld ? ElotechIssWithheld.YES : ElotechIssWithheld.NO)
-                .withDiscrimination(nfse.getService().getDiscrimination())
-                .withCityCode(nfse.getService().getCityService().getIbgeCode())
-                .withIssRequirement(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getIssRequirement).orElse(null))
-                .withCityIncidenceCode(nfse.getEmitter().getAddress().getCity().getIbgeCode())
-                .withServiceItems(buildServiceItems());
+                .withServiceValues(this.buildServiceValues())
+                .withIssWithheld(this.nfse.getIssHeld() instanceof NFSeWithIssHeld ? ElotechIssWithheld.YES : ElotechIssWithheld.NO)
+                .withDiscrimination(Optional.ofNullable(this.nfse.getService()).map(s->s.getDiscrimination()).map(StringUtils::stripAccents).orElse(null))
+                .withCityCode(this.nfse.getService().getCityService().getIbgeCode())
+                .withIssRequirement(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getIssRequirement).orElse(null))
+                .withCityIncidenceCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                .withServiceItems(this.buildServiceItems());
         //@formatter:on
 
-        Optional.ofNullable(nfse.getIssHeld()).filter(NFSeWithIssHeld.class::isInstance).map(NFSeWithIssHeld.class::cast).map(NFSeWithIssHeld::getSpecificData)
+        Optional.ofNullable(this.nfse.getIssHeld()).filter(NFSeWithIssHeld.class::isInstance).map(NFSeWithIssHeld.class::cast).map(NFSeWithIssHeld::getSpecificData)
                 .filter(NFSeWithIssHeldElotechData.class::isInstance).map(NFSeWithIssHeldElotechData.class::cast).map(NFSeWithIssHeldElotechData::getResponsibleRetention).ifPresent(rr -> {
                     builder.withResponsibleRetention(rr);
                 });
 
-        Optional.ofNullable(nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast)
+        Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast)
                 .filter(ed -> ed.getIssRequirement().equals(ElotechIssRequirement.SUSPENDED_BY_JUDICIAL_DECISION)).map(NFSeElotechData::getJudicialProcessNumber).ifPresent(judicialProcessNumber -> {
                     builder.withProcessNumber(judicialProcessNumber);
                 });
@@ -178,30 +180,30 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private ElotechServiceValues buildServiceValues() {
         //@formatter:off
         return new ElotechServiceValues.Builder()
-                .withServiceValue(formatNFSeValue(nfse.getService().getNetValue()))
-                .withDeductionValue(formatNFSeValue(nfse.getService().getDeduction()))
-                .withPisAliquot(formatNFSeAliquot(nfse.getTax().getPisAliquot()))
-                .withPisWithheld(nfse.getTax().isPisWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withPisValue(formatNFSeValue(nfse.getTax().getPisValue()))
-                .withCofinsAliquot(formatNFSeAliquot(nfse.getTax().getCofinsAliquot()))
-                .withCofinsWithheld(nfse.getTax().isCofinsWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withCofinsValue(formatNFSeValue(nfse.getTax().getCofinsValue()))
-                .withInssAliquot(formatNFSeAliquot(nfse.getTax().getInssAliquot()))
-                .withInssWithheld(nfse.getTax().isInssWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withInssValue(formatNFSeValue(nfse.getTax().getInssValue()))
-                .withIrAliquot(formatNFSeAliquot(nfse.getTax().getIrAliquot()))
-                .withIrWithheld(nfse.getTax().isIrWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withIrValue(formatNFSeValue(nfse.getTax().getIrValue()))
-                .withCsllAliquot(formatNFSeAliquot(nfse.getTax().getCsllAliquot()))
-                .withCsllWithheld(nfse.getTax().isCsllWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withCsllValue(formatNFSeValue(nfse.getTax().getCsllValue()))
-                .withCppAliquot(formatNFSeAliquot(nfse.getTax().getCppAliquot()))
-                .withCppWithheld(nfse.getTax().isCppWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withCppValue(formatNFSeValue(nfse.getTax().getCppValue()))
-                .withOtherRetentionsValue(formatNFSeValue(nfse.getTax().getOtherRetentionsValue()))
-                .withIssAliquot(formatNFSeAliquot(nfse.getTax().getIssAliquot()))
+                .withServiceValue(this.formatNFSeValue(this.nfse.getService().getNetValue()))
+                .withDeductionValue(this.formatNFSeValue(this.nfse.getService().getDeduction()))
+                .withPisAliquot(this.formatNFSeAliquot(this.nfse.getTax().getPisAliquot()))
+                .withPisWithheld(this.nfse.getTax().isPisWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withPisValue(this.formatNFSeValue(this.nfse.getTax().getPisValue()))
+                .withCofinsAliquot(this.formatNFSeAliquot(this.nfse.getTax().getCofinsAliquot()))
+                .withCofinsWithheld(this.nfse.getTax().isCofinsWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withCofinsValue(this.formatNFSeValue(this.nfse.getTax().getCofinsValue()))
+                .withInssAliquot(this.formatNFSeAliquot(this.nfse.getTax().getInssAliquot()))
+                .withInssWithheld(this.nfse.getTax().isInssWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withInssValue(this.formatNFSeValue(this.nfse.getTax().getInssValue()))
+                .withIrAliquot(this.formatNFSeAliquot(this.nfse.getTax().getIrAliquot()))
+                .withIrWithheld(this.nfse.getTax().isIrWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withIrValue(this.formatNFSeValue(this.nfse.getTax().getIrValue()))
+                .withCsllAliquot(this.formatNFSeAliquot(this.nfse.getTax().getCsllAliquot()))
+                .withCsllWithheld(this.nfse.getTax().isCsllWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withCsllValue(this.formatNFSeValue(this.nfse.getTax().getCsllValue()))
+                .withCppAliquot(this.formatNFSeAliquot(this.nfse.getTax().getCppAliquot()))
+                .withCppWithheld(this.nfse.getTax().isCppWithheld() ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withCppValue(this.formatNFSeValue(this.nfse.getTax().getCppValue()))
+                .withOtherRetentionsValue(this.formatNFSeValue(this.nfse.getTax().getOtherRetentionsValue()))
+                .withIssAliquot(this.formatNFSeAliquot(this.nfse.getTax().getIssAliquot()))
 //                .withIssValue(formatNFSeValue(nfse.getTax().getIssValue()))
-                .withDiscountUnconditionedValue(formatNFSeValue(nfse.getService().getDiscount()))
+                .withDiscountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
                 .build();
         //@formatter:on
     }
@@ -211,14 +213,14 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         final Collection<ElotechServiceItem> items = new HashSet<>();
 
             items.add(new ElotechServiceItem.Builder()
-                    .withItemServiceList(nfse.getService().getNationalServiceCode().replaceAll("\\.", ""))
-                    .withCnaeCode(nfse.getService().getCnaeCode())
-                    .withDescription(nfse.getService().getName())
+                    .withItemServiceList(this.nfse.getService().getNationalServiceCode().replaceAll("\\.", ""))
+                    .withCnaeCode(this.nfse.getService().getCnaeCode())
+                    .withDescription(Optional.ofNullable(this.nfse.getService()).map(s->s.getName()).map(StringUtils::stripAccents).orElse(null))
                     .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
-                    .withQuantity(formatNFSeValue(nfse.getService().getAmount()))
-                    .withUnitaryValue(formatNFSeValue(nfse.getService().getUnitaryValue()))
-                    .withDiscountValue(formatNFSeValue(nfse.getService().getDiscount()))
-                    .withNetValue(formatNFSeValue(nfse.getService().getNetValue()))
+                    .withQuantity(this.formatNFSeValue(this.nfse.getService().getAmount()))
+                    .withUnitaryValue(this.formatNFSeValue(this.nfse.getService().getUnitaryValue()))
+                    .withDiscountValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
+                    .withNetValue(this.formatNFSeValue(this.nfse.getService().getNetValue()))
                     .build());
 
         return items;
@@ -228,41 +230,41 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
     private ElotechServiceProviderIdentifier buildServiceProviderIdentifier() {
         //@formatter:off
         return new ElotechServiceProvider.ElotechServiceProviderIdentifier.Builder()
-                .withCnp(buildCnp(nfse.getEmitter().getDocuments()))
-                .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withCnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build();
         //@formatter:on
     }
 
     private ElotechServiceTaker buildServiceTaker() {
-        if (nfse.getTaker() == null) {
+        if (this.nfse.getTaker() == null) {
             return null;
         }
 
         //@formatter:off
         return new ElotechServiceTaker.Builder()
         .withIdentifier(new ElotechServiceTaker.ElotechServiceTakerIdentifier.Builder()
-                .withCnp(buildCnp(nfse.getTaker().getDocuments()))
-                .withMunicipalRegistration(Optional.ofNullable(nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withCnp(this.buildCnp(this.nfse.getTaker().getDocuments()))
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build())
-        .withSocialName(nfse.getTaker().getName())
-        .withAddress(Optional.ofNullable(nfse.getTaker().getAddress())
+        .withSocialName(this.nfse.getTaker().getName())
+        .withAddress(Optional.ofNullable(this.nfse.getTaker().getAddress())
                 .map(this::buildNFSeAddress).orElse(new ElotechNFSeAddress()))
         .build();
         //@formatter:on
     }
 
     private ElotechServiceIntermediary buildServiceIntermediary() {
-        if (nfse.getIntermediary() == null) {
+        if (this.nfse.getIntermediary() == null) {
             return null;
         }
 
         //@formatter:off
         return new ElotechServiceIntermediary.Builder()
         .withIdentifier(new ElotechServiceIntermediary.ElotechServiceIntermediaryIdentifier.Builder()
-                .withCnp(buildCnp(nfse.getIntermediary().getDocuments()))
+                .withCnp(this.buildCnp(this.nfse.getIntermediary().getDocuments()))
                 .build())
-        .withSocialName(nfse.getIntermediary().getName())
+        .withSocialName(this.nfse.getIntermediary().getName())
         .build();
         //@formatter:on
     }

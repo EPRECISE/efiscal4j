@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
@@ -62,25 +64,27 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private final Optional<Certificate> certificate;
 
     public GovbrNFSeDomainAdapter(final NFSeDomainAdapter.Builder builder) {
-        nfse = builder.getNfse();
-        certificate = Optional.ofNullable(builder.getCertificate());
+        this.nfse = builder.getNfse();
+        this.certificate = Optional.ofNullable(builder.getCertificate());
     }
 
     @Override
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
 
-        final eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder().withInfo(new GovbrNfseCancelRequest.GovbrNfseCancelRequestInfo.Builder()
-                .withIdentifier(new GovbrNFSeIdentifier.Builder().withCityCode(nfse.getEmitter().getAddress().getCity().getIbgeCode()).withCnpj(nfse.getEmitter().getDocuments().getCnp())
-                        .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
-                                .map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                        .withNumber(cancellationRequestData.getNfseNumber()).build())
-                .withCancellationCode(
-                        Optional.ofNullable(cancellationRequestData.getCancellationCode()).filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
-                .build());
+        final eprecise.efiscal4j.nfse.tc.govbr.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder()
+                .withInfo(new GovbrNfseCancelRequest.GovbrNfseCancelRequestInfo.Builder()
+                        .withIdentifier(new GovbrNFSeIdentifier.Builder().withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                                .withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
+                                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
+                                        .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                                .withNumber(cancellationRequestData.getNfseNumber()).build())
+                        .withCancellationCode(
+                                Optional.ofNullable(cancellationRequestData.getCancellationCode()).filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
+                        .build());
 
         try {
             return new GovbrNfseDispatchCancel.Builder()
-                    .withCancelRequest(certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(certificate.get())) : nfseCancelRequestBuilder.build()).build();
+                    .withCancelRequest(this.certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(this.certificate.get())) : nfseCancelRequestBuilder.build()).build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
@@ -88,24 +92,24 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public NFSeRequest toDispatchConsultState(final String protocol) {
-        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol).withServiceProviderIdentifier(buildServiceProviderIdentifier()).build();
+        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol).withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
     }
 
     @Override
     public NFSeRequest toDispatchConsult(final String protocol) {
-        return new GovbrLotRpsDispatchConsult.Builder().withProtocol(protocol).withServiceProviderIdentifier(buildServiceProviderIdentifier()).build();
+        return new GovbrLotRpsDispatchConsult.Builder().withProtocol(protocol).withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
     }
 
     @Override
     public NFSeRequest toDispatch() {
         try {
             final GovbrLotRpsDispatchAsync.Builder lotRpsDispatchBuilder = new GovbrLotRpsDispatchAsync.Builder()
-                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(nfse.getSerie().getLotNumber()).withRpsQuantity(1)
-                            .withCnpj(nfse.getEmitter().getDocuments().getCnp()).withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments())
-                                    .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
-                            .withRpsList(Arrays.asList(buildRps())).build());
-            if (certificate.isPresent()) {
-                return lotRpsDispatchBuilder.build(new DefaultSigner(certificate.get()));
+                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(this.nfse.getSerie().getLotNumber()).withRpsQuantity(1).withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
+                            .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
+                                    .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                            .withRpsList(Arrays.asList(this.buildRps())).build());
+            if (this.certificate.isPresent()) {
+                return lotRpsDispatchBuilder.build(new DefaultSigner(this.certificate.get()));
             } else {
                 return lotRpsDispatchBuilder.build();
             }
@@ -120,19 +124,19 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withInfo(new GovbrRps.Info.Builder()
                         .withIdentifier(new CommonsRpsIdentifier.Builder()
                                 .withType(CommonsRpsType.PROVISIONAL_SERVICE_RECEIPT)
-                                .withSerie(nfse.getSerie().getSerie())
-                                .withNumber(nfse.getSerie().getRpsNumber())
+                                .withSerie(this.nfse.getSerie().getSerie())
+                                .withNumber(this.nfse.getSerie().getRpsNumber())
                                 .build())
-                        .withEmissionDate(NFSE_DATETIME_FORMAT.format(nfse.getEmission()))
-                        .withNatureOperation(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))
-                        .withSpecialTaxationRegime(Optional.ofNullable(nfse.getEmitter().getSpecialTaxationRegime()).filter(GovbrSpecialTaxationRegime.class::isInstance).map(GovbrSpecialTaxationRegime.class::cast).orElse(null))
-                        .withSimpleNational(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getSimpleNational).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
-                        .withCulturalPromoter(Optional.ofNullable(nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getCulturalPromoter).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
+                        .withEmissionDate(NFSE_DATETIME_FORMAT.format(this.nfse.getEmission()))
+                        .withNatureOperation(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getNatureOperation).orElse(null))
+                        .withSpecialTaxationRegime(Optional.ofNullable(this.nfse.getEmitter().getSpecialTaxationRegime()).filter(GovbrSpecialTaxationRegime.class::isInstance).map(GovbrSpecialTaxationRegime.class::cast).orElse(null))
+                        .withSimpleNational(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getSimpleNational).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
+                        .withCulturalPromoter(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeGovbrData.class::isInstance).map(NFSeGovbrData.class::cast).map(NFSeGovbrData::getCulturalPromoter).map(sn->sn ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO).orElse(null))
                         .withStatus(CommonsRpsStatus.NORMAL)
-                        .withService(buildService())
-                        .withServiceProviderIdentifier(buildServiceProviderIdentifier())
-                        .withServiceTaker(buildServiceTaker())
-                        .withServiceIntermediaryIdentifier(buildServiceIntermediaryIdentifier())
+                        .withService(this.buildService())
+                        .withServiceProviderIdentifier(this.buildServiceProviderIdentifier())
+                        .withServiceTaker(this.buildServiceTaker())
+                        .withServiceIntermediaryIdentifier(this.buildServiceIntermediaryIdentifier())
                         .build()).build();
 
 
@@ -142,12 +146,12 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private GovbrService buildService() {
         //@formatter:off
         final GovbrService.Builder builder = new GovbrService.Builder()
-                .withServiceValues(buildServiceValues())
-                .withItemServiceList(nfse.getService().getNationalServiceCode())
-                .withCnaeCode(nfse.getService().getCnaeCode())
-                .withMunicipalTaxCode(nfse.getService().getCnaeCode()) //TODO REVER
-                .withDiscrimination(nfse.getService().getDiscrimination())
-                .withCityCode(nfse.getService().getCityService().getIbgeCode());
+                .withServiceValues(this.buildServiceValues())
+                .withItemServiceList(this.nfse.getService().getNationalServiceCode())
+                .withCnaeCode(this.nfse.getService().getCnaeCode())
+                .withMunicipalTaxCode(this.nfse.getService().getCnaeCode()) //TODO REVER
+                .withDiscrimination(Optional.ofNullable(this.nfse.getService()).map(s->s.getDiscrimination()).map(StringUtils::stripAccents).orElse(null))
+                .withCityCode(this.nfse.getService().getCityService().getIbgeCode());
 
         return builder.build();
 
@@ -156,21 +160,21 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private GovbrValues buildServiceValues() {
         //@formatter:off
         return new GovbrValues.Builder()
-                .withServiceValue(formatNFSeValue(nfse.getService().getGrossValue()))
-                .withDeductionValue(formatNFSeValue(nfse.getService().getDeduction()))
-                .withPisValue(formatNFSeValue(nfse.getTax().getPisValue()))
-                .withCofinsValue(formatNFSeValue(nfse.getTax().getCofinsValue()))
-                .withInssValue(formatNFSeValue(nfse.getTax().getInssValue()))
-                .withIrValue(formatNFSeValue(nfse.getTax().getIrValue()))
-                .withCsllValue(formatNFSeValue(nfse.getTax().getCsllValue()))
-                .withIssWithheld(nfse.getIssHeld() instanceof NFSeWithIssHeld ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
-                .withIssValue(formatNFSeValue(nfse.getTax().getIssValue()))
-                .withIssWithhelValue(formatNFSeValue(nfse.getTax().getIssRetentionValue()))
-                .withOtherRetentionsValue(formatNFSeValue(nfse.getTax().getOtherRetentionsValue()))
-                .withBcValue(formatNFSeValue(nfse.getTax().getBcValue()))
-                .withIssAliquot(formatNFSeAliquot(nfse.getTax().getIssAliquot()))
-                .withNetValue(formatNFSeValue(nfse.getService().getNetValue().add(nfse.getTax().getTotal())))
-                .withDiscountUnconditionedValue(formatNFSeValue(nfse.getService().getDiscount()))
+                .withServiceValue(this.formatNFSeValue(this.nfse.getService().getGrossValue()))
+                .withDeductionValue(this.formatNFSeValue(this.nfse.getService().getDeduction()))
+                .withPisValue(this.formatNFSeValue(this.nfse.getTax().getPisValue()))
+                .withCofinsValue(this.formatNFSeValue(this.nfse.getTax().getCofinsValue()))
+                .withInssValue(this.formatNFSeValue(this.nfse.getTax().getInssValue()))
+                .withIrValue(this.formatNFSeValue(this.nfse.getTax().getIrValue()))
+                .withCsllValue(this.formatNFSeValue(this.nfse.getTax().getCsllValue()))
+                .withIssWithheld(this.nfse.getIssHeld() instanceof NFSeWithIssHeld ? CommonsNFSeBoolean.YES : CommonsNFSeBoolean.NO)
+                .withIssValue(this.formatNFSeValue(this.nfse.getTax().getIssValue()))
+                .withIssWithhelValue(this.formatNFSeValue(this.nfse.getTax().getIssRetentionValue()))
+                .withOtherRetentionsValue(this.formatNFSeValue(this.nfse.getTax().getOtherRetentionsValue()))
+                .withBcValue(this.formatNFSeValue(this.nfse.getTax().getBcValue()))
+                .withIssAliquot(this.formatNFSeAliquot(this.nfse.getTax().getIssAliquot()))
+                .withNetValue(this.formatNFSeValue(this.nfse.getService().getNetValue().add(this.nfse.getTax().getTotal())))
+                .withDiscountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
                 .build();
         //@formatter:on
     }
@@ -178,40 +182,40 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private GovbrServiceProviderIdentifier buildServiceProviderIdentifier() {
         //@formatter:off
         return new GovbrServiceProviderIdentifier.Builder()
-                .withCnpj(nfse.getEmitter().getDocuments().getCnp())
-                .withMunicipalRegistration(Optional.ofNullable(nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build();
         //@formatter:on
     }
 
     private GovbrServiceTaker buildServiceTaker() {
-        if (nfse.getTaker() == null) {
+        if (this.nfse.getTaker() == null) {
             return null;
         }
 
         //@formatter:off
         return new GovbrServiceTaker.Builder()
         .withIdentifier(new GovbrServiceTaker.GovbrServiceTakerIdentifier.Builder()
-                .withCnp(buildCnp(nfse.getTaker().getDocuments()))
-                .withMunicipalRegistration(Optional.ofNullable(nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withCnp(this.buildCnp(this.nfse.getTaker().getDocuments()))
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
                 .build())
-        .withSocialName(nfse.getTaker().getName())
-        .withAddress(Optional.ofNullable(nfse.getTaker().getAddress())
+        .withSocialName(this.nfse.getTaker().getName())
+        .withAddress(Optional.ofNullable(this.nfse.getTaker().getAddress())
                 .map(this::buildNFSeAddress).orElse(new CommonsNFSeAddress()))
-        .withContact(buildNFSeContacts(nfse.getTaker().getContact()))
+        .withContact(this.buildNFSeContacts(this.nfse.getTaker().getContact()))
         .build();
         //@formatter:on
     }
 
     private GovbrServiceIntermediaryIdentifier buildServiceIntermediaryIdentifier() {
-        if (nfse.getIntermediary() == null) {
+        if (this.nfse.getIntermediary() == null) {
             return null;
         }
 
         //@formatter:off
         return new GovbrServiceIntermediaryIdentifier.Builder()
-                .withSocialName(nfse.getIntermediary().getName())
-                .withCnp(buildCnp(nfse.getIntermediary().getDocuments()))
+                .withSocialName(this.nfse.getIntermediary().getName())
+                .withCnp(this.buildCnp(this.nfse.getIntermediary().getDocuments()))
                 .build();
         //@formatter:on
     }
