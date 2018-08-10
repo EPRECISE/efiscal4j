@@ -23,12 +23,12 @@ public enum NFCeServiceDomain implements Serializable {
 
     //@formatter:off
     PR(UF.PR.getDescription(),
-            NFCeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10),
-            NFCeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_3_10));
+            NFCeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
+            NFCeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
+            NFCeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
+            NFCeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
+            NFCeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
+            NFCeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00));
     //@formatter:on
 
     private static final long serialVersionUID = 1L;
@@ -37,12 +37,12 @@ public enum NFCeServiceDomain implements Serializable {
 
     private final List<FiscalDocumentService> services = new ArrayList<>();
 
-    private NFCeServiceDomain(String description, FiscalDocumentService... services) {
+    private NFCeServiceDomain(final String description, final FiscalDocumentService... services) {
         this.description = description;
         this.services.addAll(Arrays.asList(services));
     }
 
-    private NFCeServiceDomain(String description) {
+    private NFCeServiceDomain(final String description) {
         this.description = description;
     }
 
@@ -58,7 +58,7 @@ public enum NFCeServiceDomain implements Serializable {
         return this.toString();
     }
 
-    public static NFCeServiceDomain findByAcronym(String acronym) {
+    public static NFCeServiceDomain findByAcronym(final String acronym) {
         for (final NFCeServiceDomain serviceDomain : NFCeServiceDomain.values()) {
             if (serviceDomain.getAcronym().equals(acronym)) {
                 return serviceDomain;

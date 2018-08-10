@@ -3,7 +3,6 @@ package eprecise.efiscal4j.nfe.v400.qrCode;
 
 import java.math.BigInteger;
 import java.util.Base64;
-import java.util.Optional;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
@@ -33,31 +32,19 @@ public class NFCeQRCodeBuilder {
 
         //@formatter:off
         final StringBuilder params = new StringBuilder()
-        .append("chNFe=")
-        .append(getAcessKey()).append("&nVersao=")
-        .append(getNFCeVersion())
-        .append("&tpAmb=")
-        .append(getEnvironment());
-        getReceiverCnp().ifPresent(r->{
-            params.append("&cDest=")
-            .append(r);
-        });
-        params.append("&dhEmi=")
-        .append(getEmissionDateTimeHex())
-        .append("&vNF=")
-        .append(getNFValue())
-        .append("&vICMS=")
-        .append(getICMSValue())
-        .append("&digVal=")
-        .append(getDigestValueHexOrSha1())
-        .append("&cIdToken=")
-        .append(getCIdToken());
+        .append(this.getAcessKey())
+        .append("|")
+        .append(this.getNFCeVersion())
+        .append("|")
+        .append(this.getEnvironment())
+        .append("|")
+        .append(this.getCIdToken());
 
-        final String qrCodeSha1 = Hashing.sha1().hashString(new StringBuilder(params.toString()).append(getCsc()).toString(), Charsets.UTF_8).toString();
+        final String qrCodeSha1 = Hashing.sha1().hashString(new StringBuilder(params.toString()).append(this.getCsc()).toString(), Charsets.UTF_8).toString();
 
-        return url.append("?")
+        return url.append("?p=")
                 .append(params.toString())
-                .append("&cHashQRCode=")
+                .append("|")
                 .append(qrCodeSha1).toString();
 
 
@@ -75,7 +62,7 @@ public class NFCeQRCodeBuilder {
      * nVersao
      */
     private String getNFCeVersion() {
-        return "100";
+        return "2";
     }
 
     /*
@@ -83,34 +70,6 @@ public class NFCeQRCodeBuilder {
      */
     private String getEnvironment() {
         return new Integer(this.nfe.getNFeInfo().getnFeIdentification().getTransmissionEnvironment().getValue()).toString();
-    }
-
-    /*
-     * cDest
-     */
-    private Optional<String> getReceiverCnp() {
-        return Optional.ofNullable(this.nfe.getNFeInfo().getReceiver()).map(r -> r.getDocuments().getCnpjCpf());
-    }
-
-    /*
-     * dhEmi
-     */
-    private String getEmissionDateTimeHex() {
-        return String.format("%040x", new BigInteger(1, this.nfe.getNFeInfo().getnFeIdentification().getEmissionDateTime().getBytes()));
-    }
-
-    /*
-     * vNF
-     */
-    private String getNFValue() {
-        return this.nfe.getNFeInfo().getnFeTotal().getIcmsTotal().getNfeTotalValue();
-    }
-
-    /*
-     * vICMS
-     */
-    private String getICMSValue() {
-        return this.nfe.getNFeInfo().getnFeTotal().getIcmsTotal().getIcmsTotalValue();
     }
 
     /*

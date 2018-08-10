@@ -17,6 +17,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.v400.danfe.JasperDanfeNfceUrlPath;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
 import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
@@ -93,35 +94,37 @@ public class NFe extends DefaultAssignable implements Serializable {
             ValidationBuilder.from(entity).validate().throwIfViolate();
             entity = (NFe) signer.sign(entity);
             if (entity.getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
-                if (csc == null) {
+                if (this.csc == null) {
                     throw new IllegalStateException("CSC não informado para NFCE");
                 }
-                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, csc).build()).build());
+                entity.setnFeSuplementaryInfo(new NFeSuplementaryInfo.Builder().withQrCode(new NFCeQRCodeBuilder(entity, this.csc).build()).withUrlQueryByKey(
+                        JasperDanfeNfceUrlPath.QUERY.getUrl(entity.getNFeInfo().getEmitter().getAdress().getCity().getUf(), entity.getNFeInfo().getnFeIdentification().getTransmissionEnvironment()))
+                        .build());
             }
             return entity;
         }
     }
 
     public NFe() {
-        nFeInfo = null;
-        nFeSuplementaryInfo = null;
+        this.nFeInfo = null;
+        this.nFeSuplementaryInfo = null;
     }
 
     public NFe(final Builder builder) {
-        nFeInfo = builder.nFeInfo;
-        nFeSuplementaryInfo = builder.nFeSuplementaryInfo;
+        this.nFeInfo = builder.nFeInfo;
+        this.nFeSuplementaryInfo = builder.nFeSuplementaryInfo;
     }
 
     public String getXmlns() {
-        return xmlns;
+        return this.xmlns;
     }
 
     public NFeInfo getNFeInfo() {
-        return nFeInfo;
+        return this.nFeInfo;
     }
 
     public NFeSuplementaryInfo getnFeSuplementaryInfo() {
-        return nFeSuplementaryInfo;
+        return this.nFeSuplementaryInfo;
     }
 
     private void setnFeSuplementaryInfo(final NFeSuplementaryInfo nFeSuplementaryInfo) {
