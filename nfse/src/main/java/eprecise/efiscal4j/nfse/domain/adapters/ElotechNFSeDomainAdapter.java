@@ -76,7 +76,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withLotRps(new ElotechLotRps.Builder()
                         .withLotNumber(this.nfse.getSerie().getLotNumber())
                         .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(this.nfse.getEmitter().getDocuments().getCnp()).build())
-                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                         .withRpsQuantity(1).withStatementProvisionService(Arrays.asList(this.buildStatementProvisionService()))
                         .build())
                 .build();
@@ -90,7 +90,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                         .withIdentifier(new ElotechNFSeIdentifier.Builder().withNumber(cancellationRequestData.getNfseNumber())
                                 .withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode()).withCnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
                                 .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
-                                        .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                                        .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                                 .withNumber(cancellationRequestData.getNfseNumber()).build())
                         .withAccessKey(cancellationRequestData.getAccessKey()).withCancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
                                 .filter(ElotechCancellationCode.class::isInstance).map(ElotechCancellationCode.class::cast).orElse(null))
@@ -112,7 +112,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:off
             return new ElotechApplicant.Builder()
                         .withCnp(new CommonsNFSeCnpj.Builder().withCnpj(this.nfse.getEmitter().getDocuments().getCnp()).build())
-                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                        .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                         .withPassword(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::getTransmissionPassword).orElse(null))
                         .withHomologation(Optional.ofNullable(this.nfse.getSpecificData()).filter(NFSeElotechData.class::isInstance).map(NFSeElotechData.class::cast).map(NFSeElotechData::isHomologation).orElse(false))
                         .build();
@@ -231,7 +231,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:off
         return new ElotechServiceProvider.ElotechServiceProviderIdentifier.Builder()
                 .withCnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
-                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                 .build();
         //@formatter:on
     }
@@ -245,7 +245,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
         return new ElotechServiceTaker.Builder()
         .withIdentifier(new ElotechServiceTaker.ElotechServiceTakerIdentifier.Builder()
                 .withCnp(this.buildCnp(this.nfse.getTaker().getDocuments()))
-                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getTaker().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                 .build())
         .withSocialName(this.formatNfseString(this.nfse.getTaker().getName(), 150))
         .withAddress(Optional.ofNullable(this.nfse.getTaker().getAddress())
