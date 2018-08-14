@@ -1,15 +1,12 @@
 
 package eprecise.efiscal4j.nfe.v400.qrCode;
 
-import java.math.BigInteger;
-import java.util.Base64;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
-import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.v400.NFe;
-import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.danfe.JasperDanfeNfceUrlPath;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 
@@ -73,26 +70,10 @@ public class NFCeQRCodeBuilder {
     }
 
     /*
-     * digVal
-     */
-    private String getDigestValueHexOrSha1() {
-
-        final String digestValueTOBase64 = Base64.getEncoder().encodeToString(this.nfe.getSignature().getSignedInfo().getReference().getDigestValue());
-        if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.NORMAL)) {
-            return String.format("%x", new BigInteger(1, digestValueTOBase64.getBytes()));
-        }
-        if (this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.CONTINGENCIA_OFF_LINE_NFCE)) {
-            return Hashing.sha1().hashString(new FiscalDocumentSerializer<>(this.nfe).serialize(), Charsets.UTF_8).toString();
-        } else {
-            throw new UnsupportedOperationException(this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().toString());
-        }
-    }
-
-    /*
      * cIdToken
      */
     private String getCIdToken() {
-        return this.csc.getCldToken();
+        return StringUtils.stripStart(this.csc.getCldToken(), "0");
     }
 
     /*
