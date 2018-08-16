@@ -84,7 +84,7 @@ public class ValidationBuilder<T> {
             }
 
             if (!violations.isEmpty()) {
-                violations.forEach(v -> ValidationBuilder.this.logger.error(v.getMessage()));
+                violations.forEach(v -> ValidationBuilder.this.logger.error(String.format("%s value '%s' %s", v.getPropertyPath(), v.getInvalidValue(), v.getMessage())));
                 throw new ConstraintViolationException(violations);
             }
 
