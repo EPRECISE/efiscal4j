@@ -13,114 +13,109 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.groups.Default;
 
-import com.google.common.base.Predicate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Collections2;
 
 
 public class ValidationBuilder<T> {
 
-	private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
-	private final Collection<T> objects;
+    private final Logger logger = LoggerFactory.getLogger(ValidationBuilder.class);
 
-	private final Collection<Class<?>> groups = new LinkedHashSet<>();
+    private final Collection<T> objects;
 
-	public ValidationBuilder(Collection<T> objects) {
-		this.objects = objects;
-		this.groups.add(Default.class);
-	}
+    private final Collection<Class<?>> groups = new LinkedHashSet<>();
 
-	public static <T> ValidationBuilder<T> from(Collection<T> objects) {
-		return new ValidationBuilder<>(objects);
-	}
+    public ValidationBuilder(final Collection<T> objects) {
+        this.objects = objects;
+        this.groups.add(Default.class);
+    }
 
-	@SafeVarargs
-	public static <T> ValidationBuilder<T> fromAll(T... objects) {
-		return new ValidationBuilder<>(Arrays.asList(objects));
-	}
+    public static <T> ValidationBuilder<T> from(final Collection<T> objects) {
+        return new ValidationBuilder<>(objects);
+    }
 
-	public static <T> ValidationBuilder<T> from(T object) {
-		return new ValidationBuilder<>(Arrays.asList(object));
-	}
+    @SafeVarargs
+    public static <T> ValidationBuilder<T> fromAll(final T... objects) {
+        return new ValidationBuilder<>(Arrays.asList(objects));
+    }
 
-	public ValidationBuilder<T> withGroups(Class<?>... groups) {
-		this.groups.addAll(Arrays.asList(groups));
-		return this;
-	}
+    public static <T> ValidationBuilder<T> from(final T object) {
+        return new ValidationBuilder<>(Arrays.asList(object));
+    }
 
-	public ValidationBuilder<T> withoutDefaultGroup() {
-		this.groups.remove(Default.class);
-		return this;
-	}
+    public ValidationBuilder<T> withGroups(final Class<?>... groups) {
+        this.groups.addAll(Arrays.asList(groups));
+        return this;
+    }
 
-	public ValidationResult<T> validate() {
-		return new ValidationResultConcrete();
-	}
+    public ValidationBuilder<T> withoutDefaultGroup() {
+        this.groups.remove(Default.class);
+        return this;
+    }
 
-	public interface ValidationResult<T> {
+    public ValidationResult<T> validate() {
+        return new ValidationResultConcrete();
+    }
 
-		public void throwIfViolate();
+    public interface ValidationResult<T> {
 
-		public Collection<ConstraintViolation<T>> getViolations();
+        public void throwIfViolate();
 
-		public Collection<T> getValids();
+        public Collection<ConstraintViolation<T>> getViolations();
 
-		public Collection<T> getInvalids();
-	}
+        public Collection<T> getValids();
 
-	class ValidationResultConcrete implements ValidationResult<T> {
+        public Collection<T> getInvalids();
+    }
 
-		@Override
-		public void throwIfViolate() {
-			final Validator validator = factory.getValidator();
-			Set<ConstraintViolation<?>> violations = new LinkedHashSet<>();
+    class ValidationResultConcrete implements ValidationResult<T> {
 
-			for (T object : objects) {
-				violations.addAll(validator.validate(object, getGroupsArray()));
-			}
+        @Override
+        public void throwIfViolate() {
+            final Validator validator = factory.getValidator();
+            final Set<ConstraintViolation<?>> violations = new LinkedHashSet<>();
 
-			if (!violations.isEmpty()) throw new ConstraintViolationException(violations);
+            for (final T object : ValidationBuilder.this.objects) {
+                violations.addAll(validator.validate(object, ValidationBuilder.this.getGroupsArray()));
+            }
 
-		}
+            if (!violations.isEmpty()) {
+                violations.forEach(v -> ValidationBuilder.this.logger.error(v.getMessage()));
+                throw new ConstraintViolationException(violations);
+            }
 
-		@Override
-		public Collection<ConstraintViolation<T>> getViolations() {
-			final Validator validator = factory.getValidator();
-			Collection<ConstraintViolation<T>> violations = new LinkedHashSet<>();
-			for (T object : objects) {
-				violations.addAll(validator.validate(object, getGroupsArray()));
-			}
-			return violations;
-		}
+        }
 
-		@Override
-		public Collection<T> getValids() {
-			final Validator validator = factory.getValidator();
-			return new LinkedHashSet<T>(Collections2.filter(objects, new Predicate<T>() {
+        @Override
+        public Collection<ConstraintViolation<T>> getViolations() {
+            final Validator validator = factory.getValidator();
+            final Collection<ConstraintViolation<T>> violations = new LinkedHashSet<>();
+            for (final T object : ValidationBuilder.this.objects) {
+                violations.addAll(validator.validate(object, ValidationBuilder.this.getGroupsArray()));
+            }
+            return violations;
+        }
 
-				@Override
-				public boolean apply(T obj) {
-					return validator.validate(obj, getGroupsArray()).size() == 0;
-				}
-			}));
-		}
+        @Override
+        public Collection<T> getValids() {
+            final Validator validator = factory.getValidator();
+            return new LinkedHashSet<>(Collections2.filter(ValidationBuilder.this.objects, obj -> validator.validate(obj, ValidationBuilder.this.getGroupsArray()).size() == 0));
+        }
 
-		@Override
-		public Collection<T> getInvalids() {
-			final Validator validator = factory.getValidator();
-			return new LinkedHashSet<T>(Collections2.filter(objects, new Predicate<T>() {
+        @Override
+        public Collection<T> getInvalids() {
+            final Validator validator = factory.getValidator();
+            return new LinkedHashSet<>(Collections2.filter(ValidationBuilder.this.objects, obj -> validator.validate(obj, ValidationBuilder.this.getGroupsArray()).size() > 0));
+        }
 
-				@Override
-				public boolean apply(T obj) {
-					return validator.validate(obj, getGroupsArray()).size() > 0;
-				}
-			}));
-		}
+    }
 
-	}
-
-	public Class<?>[] getGroupsArray() {
-		return groups.toArray(new Class<?>[groups.size()]);
-	}
+    public Class<?>[] getGroupsArray() {
+        return this.groups.toArray(new Class<?>[this.groups.size()]);
+    }
 
 }
