@@ -15,7 +15,7 @@ import eprecise.efiscal4j.nfe.v400.person.NaturalPersonDocuments;
 public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor, Conveyor> {
 
     @Override
-    public Conveyor unmarshal(AdaptedConveyor adaptedConveyor) throws Exception {
+    public Conveyor unmarshal(final AdaptedConveyor adaptedConveyor) throws Exception {
         Conveyor conveyor = null;
         try {
 
@@ -57,7 +57,7 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
     }
 
     @Override
-    public AdaptedConveyor marshal(Conveyor conveyor) throws Exception {
+    public AdaptedConveyor marshal(final Conveyor conveyor) throws Exception {
         //@formatter:off
 		AdaptedConveyor adaptedConveyor = null;       	
 		
@@ -107,11 +107,11 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
             this.uf = null;
         }
 
-        public AdaptedConveyor(String stateRegistration, String fullAddress, String cityDescription, UF uf) {
+        public AdaptedConveyor(final String stateRegistration, final String fullAddress, final String cityDescription, final UF uf) {
             this.stateRegistration = stateRegistration;
             this.fullAddress = fullAddress;
             this.cityDescription = cityDescription;
-            this.uf = uf.getAcronym();
+            this.uf = uf != null ? uf.getAcronym() : null;
         }
 
         public String getAdaptedName() {
@@ -142,32 +142,32 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
             return this.uf;
         }
 
-        public void setAdaptedName(String name) {
+        public void setAdaptedName(final String name) {
             this.name = name;
         }
 
-        public void setAdaptedCnpj(String cnpj) {
+        public void setAdaptedCnpj(final String cnpj) {
             this.cnpj = cnpj;
         }
 
-        public void setAdaptedCpf(String cpf) {
+        public void setAdaptedCpf(final String cpf) {
             this.cpf = cpf;
         }
 
-        public void setAdaptedStateRegistration(String stateRegistration) {
+        public void setAdaptedStateRegistration(final String stateRegistration) {
             this.stateRegistration = stateRegistration;
         }
 
-        public void setAdaptedFullAddress(String fullAddress) {
+        public void setAdaptedFullAddress(final String fullAddress) {
             this.fullAddress = fullAddress;
         }
 
-        public void setAdaptedCityDescription(String cityDescription) {
+        public void setAdaptedCityDescription(final String cityDescription) {
             this.cityDescription = cityDescription;
         }
 
-        public void setAdaptedUF(UF uf) {
-            this.uf = uf.getAcronym();
+        public void setAdaptedUF(final UF uf) {
+            this.uf = uf != null ? uf.getAcronym() : null;
         }
     }
 }
