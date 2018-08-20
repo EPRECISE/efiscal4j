@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument;
 
-import java.text.ParseException;
 import java.util.Optional;
 
 import eprecise.efiscal4j.nfe.FiscalDocument;
@@ -29,13 +28,7 @@ public class ProcessedFiscalDocumentCancelAdapter {
         // @formatter:off
            return FiscalDocumentCancel.Processed.builder()
                    .id(Optional.ofNullable(this.eventProtocol.getEventResponse()).map(EventResponse::getEventResponseInfo).map(EventResponseInfo::getId).orElse(null))
-                   .date(Optional.ofNullable(this.eventProtocol.getEventResponse()).map(EventResponse::getEventResponseInfo).map(EventResponseInfo::getEventRegisterDateTime).map(t -> {
-                       try {
-                           return NFeDateTimeUTC.dateFormat.parse(t);
-                       } catch (final ParseException e) {
-                           throw new RuntimeException(e);
-                       }
-                   }).orElse(null))
+                   .date(Optional.ofNullable(this.eventProtocol.getEventResponse()).map(EventResponse::getEventResponseInfo).map(EventResponseInfo::getEventRegisterDateTime).map(t -> java.util.Date.from(new NFeDateTimeUTC.Converter().parse(t).toInstant())).orElse(null))
                    .protocolNumber(Optional.ofNullable(this.eventProtocol.getEventResponse()).map(EventResponse::getEventResponseInfo).map(EventResponseInfo::getProtocolNumber).orElse(null))
                    .details(Optional.ofNullable(this.eventProtocol.getEventResponse()).map(EventResponse::getEventResponseInfo).map(EventResponseInfo::getEventDescription).orElse(null))
                    .status(EventStatus.builder()

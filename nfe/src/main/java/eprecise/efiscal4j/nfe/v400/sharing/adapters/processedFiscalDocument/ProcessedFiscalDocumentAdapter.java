@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -284,13 +285,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                 .version(FiscalDocumentSupportedVersion.VERSION_4_00)
                 .applicationVersion(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getApplicationVersion()).orElse(null))
                 .accessKey(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getAcessKey()).orElse(null))
-                .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getProcessingDateTime()).map(t -> {
-                    try {
-                        return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (final ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).orElse(null))
+                .processing(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getProcessingDateTime()).map(t -> java.util.Date.from(new NFeDateTimeUTC.Converter().parse(t).toInstant())).orElse(null))
                 .protocolNumber(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getProtocolNumber()).orElse(null))
                 .digestValue(Optional.ofNullable(this.processedNFe.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(pspi -> pspi.getDigestValue()).orElse(null))
                 .status(EventStatus.builder()
@@ -686,14 +681,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     private EmissionDate buildEmissionDate() {
      // @formatter:off
         return CustomEmissionDate.builder()
-                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime()).map(t -> {
-                    try {
-                        return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (final ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).orElse(null))
-                .build();
+                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEmissionDateTime()).map(t -> Date.from(new NFeDateTimeUTC.Converter().parse(t).toInstant())).orElse(null)).build();
      // @formatter:on
     }
 
@@ -721,13 +709,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
     private IODate buildEntranceOrExit() {
      // @formatter:off
         return CustomIODate.builder()
-                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEntranceOrExitDateTime()).map(t -> {
-                    try {
-                        return NFeDateTimeUTC.dateFormat.parse(t);
-                    } catch (final ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).orElse(null))
+                .custom(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getEntranceOrExitDateTime()).map(t -> Date.from(new NFeDateTimeUTC.Converter().parse(t).toInstant())).orElse(null))
                 .build();
      // @formatter:on
     }

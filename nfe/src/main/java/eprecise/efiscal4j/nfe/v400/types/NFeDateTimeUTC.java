@@ -8,14 +8,17 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 
 /**
@@ -43,16 +46,22 @@ public @interface NFeDateTimeUTC {
     public class Converter implements TypeConverter<String, ZonedDateTime> {
 
         @Override
-        public ZonedDateTime parse(String source) {
-            return ZonedDateTime.parse(source);
+        public ZonedDateTime parse(final String source) {
+            try {
+                return ZonedDateTime.parse(source);
+            } catch (final DateTimeParseException e) {
+                try {
+                    return ZonedDateTime.ofInstant(DateUtils.parseDate(source, "yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd'T'HH:mm:ss").toInstant(), ZoneId.systemDefault());
+                } catch (final ParseException e1) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         @Override
-        public String serialize(ZonedDateTime data) {
+        public String serialize(final ZonedDateTime data) {
             return data == null ? null : data.withNano(0).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         }
 
     }
-    
-    public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 }
