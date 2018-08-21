@@ -320,7 +320,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo()).map(i -> i.getAdditionalInfo()).map(ai -> ai.getComplementaryInfo()).orElse(null))
                     .build();
          // @formatter:on
         } else if (this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
@@ -335,7 +335,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo()).map(i -> i.getAdditionalInfo()).map(ai -> ai.getComplementaryInfo()).orElse(null))
                     .build();
          // @formatter:on
         }
