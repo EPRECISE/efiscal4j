@@ -1917,11 +1917,13 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private IcmsBc buildIcmsBc(final BCModality bcModality, final BigDecimal bcValue, final BigDecimal marginAddedPercent) {
      // @formatter:off
-        switch(bcModality) {
-            case MARGEM_VALOR_AGREGADO: return IcmsBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
-            case PAUTA: return IcmsBcDeterminedPautaValue.builder().calculationBasis(bcValue).build();
-            case PRECO_TABELADO_MAX: return IcmsBcMaximumTabulatedPrice.builder().calculationBasis(bcValue).build();
-            case VALOR_OPERACAO: return IcmsBcOperationValue.builder().calculationBasis(bcValue).build();
+        if(bcModality != null) {
+            switch(bcModality) {
+                case MARGEM_VALOR_AGREGADO: return IcmsBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
+                case PAUTA: return IcmsBcDeterminedPautaValue.builder().calculationBasis(bcValue).build();
+                case PRECO_TABELADO_MAX: return IcmsBcMaximumTabulatedPrice.builder().calculationBasis(bcValue).build();
+                case VALOR_OPERACAO: return IcmsBcOperationValue.builder().calculationBasis(bcValue).build();
+            }
         }
         return null;
      // @formatter:on
@@ -1929,6 +1931,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
 
     private IcmsStBc buildIcmsStBc(final BCModalityST bcModalityST, final BigDecimal bcValue, final BigDecimal marginAddedPercent) {
         // @formatter:off
+        if(bcModalityST != null) {
            switch(bcModalityST) {
                case PRECO_TABELADO_OU_MAX_SUGERIDO: return IcmsStBcMaximumTabulatedOrSuggestedPrice.builder().calculationBasis(bcValue).build();
                case LISTA_NEGATIVA: return IcmsStBcNegativeListValue.builder().calculationBasis(bcValue).build();
@@ -1937,7 +1940,8 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                case MARGEM_VALOR_AGREGADO: return IcmsStBcMarginAddedValue.builder().calculationBasis(bcValue).marginAddedPercent(marginAddedPercent).build();
                case PAUTA: return IcmsStBcDeterminedPautaValue.builder().calculationBasis(bcValue).build();
            }
-           return null;
+        }
+        return null;
         // @formatter:on
     }
 
