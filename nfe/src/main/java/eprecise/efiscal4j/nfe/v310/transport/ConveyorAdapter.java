@@ -111,7 +111,7 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
             this.stateRegistration = stateRegistration;
             this.fullAddress = fullAddress;
             this.cityDescription = cityDescription;
-            this.uf = uf.getAcronym();
+            this.uf = uf != null ? uf.getAcronym() : null;
         }
 
         public String getAdaptedName() {
@@ -167,7 +167,7 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
         }
 
         public void setAdaptedUF(UF uf) {
-            this.uf = uf.getAcronym();
+            this.uf = uf != null ? uf.getAcronym() : null;
         }
     }
 }
