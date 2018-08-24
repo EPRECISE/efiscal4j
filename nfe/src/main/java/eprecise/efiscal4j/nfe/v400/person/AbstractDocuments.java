@@ -26,7 +26,7 @@ public abstract class AbstractDocuments implements Serializable {
 
     private @XmlElement(name = "xNome") @Size(min = 2, max = 60) @NFeString String abstractName;
 
-    private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "[0-9]{2,14}") String stateRegistration;
+    private @XmlElement(name = "IE") @Size(max = 14) @Pattern(regexp = "ISENTO|[0-9]{2,14}") String stateRegistration;
 
     public String getAbstractName() {
         return this.abstractName;
