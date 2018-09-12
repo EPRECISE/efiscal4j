@@ -9,14 +9,14 @@ import java.util.Optional;
 import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
-import eprecise.efiscal4j.nfse.transmission.govbr.GovbrTransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.govbr.v100.GovbrTransmissionChannel;
 
 
 public enum NFSeTransmissor {
 
                              ELOTECH(ElotechTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",
                                      "/eprecise/efiscal4j/nfse/transmission/homologation/elotechTransmissionHomologUrl.properties", "4119905"),
-                             GOVBR(GovbrTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
+                             GOVBR_V100(GovbrTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
                                      "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties", "4118501");
 
     private final Class<? extends TransmissionChannel> transmissionChannelClass;

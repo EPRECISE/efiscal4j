@@ -26,15 +26,15 @@ import eprecise.efiscal4j.nfse.domain.service.taker.NFSeServiceTaker;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithoutIssHeld;
 import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeElotechData;
-import eprecise.efiscal4j.nfse.domain.specificData.NFSeGovbrData;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeSpecificData;
+import eprecise.efiscal4j.nfse.domain.specificData.govbr.v100.NFSeGovbrData;
 import eprecise.efiscal4j.nfse.domain.tax.NFSeTax;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssRequirement;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
-import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrNatureOperation;
-import eprecise.efiscal4j.nfse.tc.govbr.lot.rps.GovbrSpecialTaxationRegime;
-import eprecise.efiscal4j.nfse.tc.govbr.services.dispatch.GovbrLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrNatureOperation;
+import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrSpecialTaxationRegime;
+import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 
@@ -188,7 +188,7 @@ public class TestDomain {
                     .withIssRequirement(ElotechIssRequirement.REQUIRED)
                     .withTaxIncentive(false)
                     .build();
-        } else if(adapter.equals(NFSeAdapter.GOVBR)){
+        } else if(adapter.equals(NFSeAdapter.GOVBR_v100)){
             return new NFSeGovbrData.Builder()
                     .withCulturalPromoter(false)
                     .withNatureOperation(GovbrNatureOperation.MUNICIPAL_TAXATION)
@@ -202,7 +202,7 @@ public class TestDomain {
     private NFSeSpecialTaxationRegime buildNFSeSpecialTaxationRegime(final NFSeAdapter adapter) {
         if (adapter.equals(NFSeAdapter.ELOTECH)) {
             return ElotechSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
-        } else if (adapter.equals(NFSeAdapter.GOVBR)) {
+        } else if (adapter.equals(NFSeAdapter.GOVBR_v100)) {
             return GovbrSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
         }
         return null;

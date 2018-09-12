@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
+import eprecise.efiscal4j.nfse.domain.adapters.govbr.v100.GovbrNFSeDomainAdapter;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
@@ -15,7 +16,7 @@ public interface NFSeDomainAdapter {
 
     public static enum NFSeAdapter {
                                     ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes()),
-                                    GOVBR(GovbrNFSeDomainAdapter.class, NFSeTransmissor.GOVBR.getSupportedCityCodes());
+                                    GOVBR_v100(GovbrNFSeDomainAdapter.class, NFSeTransmissor.GOVBR_V100.getSupportedCityCodes());
 
         private final Collection<String> supportedCityCodes;
 
