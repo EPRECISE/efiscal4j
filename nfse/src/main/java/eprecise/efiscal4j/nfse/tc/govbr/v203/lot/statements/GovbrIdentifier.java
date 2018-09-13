@@ -21,6 +21,6 @@ public class GovbrIdentifier implements Serializable {
 
     private @Getter final @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
 
-    private @Getter final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 10) String municipalRegistration;
+    private @Getter final @XmlElement(name = "InscricaoMunicipal") @Size(min = 1, max = 15) String municipalRegistration;
 
 }
