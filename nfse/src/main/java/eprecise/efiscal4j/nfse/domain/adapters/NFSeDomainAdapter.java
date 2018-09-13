@@ -16,7 +16,9 @@ public interface NFSeDomainAdapter {
 
     public static enum NFSeAdapter {
                                     ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes()),
-                                    GOVBR_v100(GovbrNFSeDomainAdapter.class, NFSeTransmissor.GOVBR_V100.getSupportedCityCodes());
+                                    GOVBR_v100(GovbrNFSeDomainAdapter.class, NFSeTransmissor.GOVBR_V100.getSupportedCityCodes()),
+                                    GOVBR_v203(eprecise.efiscal4j.nfse.domain.adapters.govbr.v203.GovbrNFSeDomainAdapter.class,
+                                            NFSeTransmissor.GOVBR_V203.getSupportedCityCodes());
 
         private final Collection<String> supportedCityCodes;
 
@@ -74,7 +76,8 @@ public interface NFSeDomainAdapter {
             final String cityCode = nfse.getEmitter().getAddress().getCity().getIbgeCode();
             try {
                 return NFSeAdapter.findNFSeDomainAdapterBy(cityCode).getConstructor(Builder.class).newInstance(this);
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
             }
         }

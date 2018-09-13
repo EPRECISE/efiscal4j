@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeResponsibleRetention;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 
 
@@ -21,7 +22,7 @@ public class ElotechService {
 
     private final @XmlElement(name = "IssRetido") @NotNull ElotechIssWithheld issWithheld;
 
-    private final @XmlElement(name = "ResponsavelRetencao") ElotechResponsibleRetention responsibleRetention;
+    private final @XmlElement(name = "ResponsavelRetencao") CommonsNFSeResponsibleRetention responsibleRetention;
 
     private final @XmlElement(name = "Discriminacao") @NotNull @Size(min = 1, max = 2000) String discrimination;
 
@@ -31,11 +32,13 @@ public class ElotechService {
 
     private final @XmlElement(name = "ExigibilidadeISS") @NotNull ElotechIssRequirement issRequirement;
 
-    private final @XmlElement(name = "MunicipioIncidencia") @NotNull @NFSeNonNegativeInteger @Size(min = 1, max = 7) String cityIncidenceCode;
+    private final @XmlElement(name = "MunicipioIncidencia") @NotNull @NFSeNonNegativeInteger @Size(
+            min = 1, max = 7) String cityIncidenceCode;
 
     private final @XmlElement(name = "NumeroProcesso") @Size(min = 1, max = 30) String processNumber;
 
-    private final @XmlElementWrapper(name = "ListaItensServico") @XmlElement(name = "ItemServico") @NotNull Collection<ElotechServiceItem> serviceItems;
+    private final @XmlElementWrapper(name = "ListaItensServico") @XmlElement(
+            name = "ItemServico") @NotNull Collection<ElotechServiceItem> serviceItems;
 
     public static class Builder {
 
@@ -43,7 +46,7 @@ public class ElotechService {
 
         private ElotechIssWithheld issWithheld;
 
-        private ElotechResponsibleRetention responsibleRetention;
+        private CommonsNFSeResponsibleRetention responsibleRetention;
 
         private String discrimination;
 
@@ -81,7 +84,7 @@ public class ElotechService {
          * @param responsibleRetention
          * @return
          */
-        public Builder withResponsibleRetention(final ElotechResponsibleRetention responsibleRetention) {
+        public Builder withResponsibleRetention(final CommonsNFSeResponsibleRetention responsibleRetention) {
             this.responsibleRetention = responsibleRetention;
             return this;
         }
@@ -190,7 +193,7 @@ public class ElotechService {
         return issWithheld;
     }
 
-    public ElotechResponsibleRetention getResponsibleRetention() {
+    public CommonsNFSeResponsibleRetention getResponsibleRetention() {
         return responsibleRetention;
     }
 

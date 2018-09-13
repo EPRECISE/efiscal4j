@@ -50,7 +50,8 @@ public class GovbrLotRpsDispatchAsyncTest implements Testable {
     }
 
     private void xmlImportTest(final URL xmlUrl) throws JAXBException, IOException {
-        final GovbrLotRpsDispatchAsync lotRpsDispatch = new FiscalDocumentDeserializer<>(xmlUrl, GovbrLotRpsDispatchAsync.class).deserialize();
+        final GovbrLotRpsDispatchAsync lotRpsDispatch = new FiscalDocumentDeserializer<>(xmlUrl, GovbrLotRpsDispatchAsync.class)
+                .deserialize();
         Assert.assertNotNull(lotRpsDispatch);
         try {
             ValidationBuilder.from(lotRpsDispatch).validate().throwIfViolate();
@@ -66,7 +67,7 @@ public class GovbrLotRpsDispatchAsyncTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildGovbrLotRpsDispatch();
+        return getTestDomain().buildGovbrV100LotRpsDispatch();
     }
 
 }

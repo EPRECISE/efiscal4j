@@ -35,6 +35,9 @@ import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatc
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrNatureOperation;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsync;
+//import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrNatureOperation;
+//import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrSpecialTaxationRegime;
+//import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 
@@ -216,7 +219,7 @@ public class TestDomain {
                 .map(ElotechLotRpsDispatchSync.class::cast).orElseThrow(IllegalStateException::new);
     }
 
-    public GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch() throws Exception {
+    public GovbrLotRpsDispatchAsync buildGovbrV100LotRpsDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
         final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(buildNFSe(city)).build();
         return Optional.ofNullable(domainAdapter.toDispatch()).filter(GovbrLotRpsDispatchAsync.class::isInstance)

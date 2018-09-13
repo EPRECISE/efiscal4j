@@ -2,20 +2,20 @@
 package eprecise.efiscal4j.nfse.domain.service.withheld;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechResponsibleRetention;
+import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeResponsibleRetention;
 
 
 public class NFSeWithIssHeldElotechData implements NFSeWithIssHeldSpecificData {
 
     private static final long serialVersionUID = 1L;
 
-    private final ElotechResponsibleRetention responsibleRetention;
+    private final CommonsNFSeResponsibleRetention responsibleRetention;
 
     public static class Builder {
 
-        private ElotechResponsibleRetention responsibleRetention;
+        private CommonsNFSeResponsibleRetention responsibleRetention;
 
-        public Builder withResponsibleRetention(final ElotechResponsibleRetention responsibleRetention) {
+        public Builder withResponsibleRetention(final CommonsNFSeResponsibleRetention responsibleRetention) {
             this.responsibleRetention = responsibleRetention;
             return this;
         }
@@ -35,7 +35,7 @@ public class NFSeWithIssHeldElotechData implements NFSeWithIssHeldSpecificData {
         responsibleRetention = builder.responsibleRetention;
     }
 
-    public ElotechResponsibleRetention getResponsibleRetention() {
+    public CommonsNFSeResponsibleRetention getResponsibleRetention() {
         return responsibleRetention;
     }
 

@@ -14,10 +14,18 @@ import eprecise.efiscal4j.nfse.transmission.govbr.v100.GovbrTransmissionChannel;
 
 public enum NFSeTransmissor {
 
-                             ELOTECH(ElotechTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",
-                                     "/eprecise/efiscal4j/nfse/transmission/homologation/elotechTransmissionHomologUrl.properties", "4119905"),
-                             GOVBR_V100(GovbrTransmissionChannel.class, "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
-                                     "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties", "4118501");
+                             ELOTECH(ElotechTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/elotechTransmissionHomologUrl.properties",
+                                     "4119905"),
+                             GOVBR_V100(GovbrTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties",
+                                     "4118501"),
+                             GOVBR_V203(GovbrTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties",
+                                     "4118501");
 
     private final Class<? extends TransmissionChannel> transmissionChannelClass;
 
@@ -27,12 +35,14 @@ public enum NFSeTransmissor {
 
     private final PropertiesLoader nfseTransmissionHomologMap;
 
-    private NFSeTransmissor(final Class<? extends TransmissionChannel> transmissionChannelClass, final String nfseTransmissionProdProperty, final String nfseTransmissionHomologProperty,
-            final String... supportedCityCodes) {
+    private NFSeTransmissor(final Class<? extends TransmissionChannel> transmissionChannelClass, final String nfseTransmissionProdProperty,
+            final String nfseTransmissionHomologProperty, final String... supportedCityCodes) {
         this.transmissionChannelClass = transmissionChannelClass;
         this.supportedCityCodes = Arrays.asList(supportedCityCodes);
-        nfseTransmissionProdMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(nfseTransmissionProdProperty).create();
-        nfseTransmissionHomologMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(nfseTransmissionHomologProperty).create();
+        nfseTransmissionProdMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class).from(nfseTransmissionProdProperty)
+                .create();
+        nfseTransmissionHomologMap = new PropertiesLoader.Builder().resourceLoader(NFSeTransmissor.class)
+                .from(nfseTransmissionHomologProperty).create();
     }
 
     public String getTransmissionUrl(final String cityCode, final boolean homolog) {
@@ -56,7 +66,8 @@ public enum NFSeTransmissor {
     public TransmissionChannel getTransmissionChannel(final Certificate certificate) {
         try {
             return transmissionChannelClass.getConstructor(Certificate.class).newInstance(certificate);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
             throw new RuntimeException(e);
         }
     }

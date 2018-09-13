@@ -34,7 +34,7 @@ public class GovbrTransmissionChannelTest implements Testable {
         try {
             System.out.println("Testando RecepcionarLoteRps...");
 
-            final GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch = getTestDomain().buildGovbrLotRpsDispatch();
+            final GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch = getTestDomain().buildGovbrV100LotRpsDispatch();
 
             final String requestXml = new FiscalDocumentSerializer<>(buildGovbrLotRpsDispatch).serialize();
 
@@ -69,7 +69,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Testando ConsultarSituacaoLoteRps...");
 
             final GovbrLotRpsDispatchConsultState buildGovbrDispatchConsultState = new GovbrLotRpsDispatchConsultState.Builder()
-                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrLotRpsDispatch().getLotRps()
+                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
                             .getRpsList().stream().findAny().get().getInfo().getServiceProviderIdentifier())
                     .build();
 
@@ -106,7 +106,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Testando ConsultarLoteRpsEnvio...");
 
             final GovbrLotRpsDispatchConsult buildGovbrLotRpsDispatchConsult = new GovbrLotRpsDispatchConsult.Builder()
-                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrLotRpsDispatch().getLotRps()
+                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
                             .getRpsList().stream().findAny().get().getInfo().getServiceProviderIdentifier())
                     .build();
 
@@ -143,7 +143,7 @@ public class GovbrTransmissionChannelTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildGovbrLotRpsDispatch();
+        return getTestDomain().buildGovbrV100LotRpsDispatch();
     }
 
 }
