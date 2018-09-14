@@ -50,8 +50,8 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(final NFSeRequest transmissible, final String cityCode, final boolean homologation)
-            throws Exception {
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> transmitAuthorization(
+            final NFSeRequest transmissible, final String cityCode, final boolean homologation) throws Exception {
 
         final ElotechLotRpsDispatchSync lotRpsDispatch = (ElotechLotRpsDispatchSync) transmissible;
 
@@ -60,23 +60,27 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
+        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper())
+                .serialize();
 
-        String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, lotRpsDispatch.getApplicant().isHomologation()));
+        String responseXml = transmissor.transmit(requestXml,
+                NFSeTransmissor.getUrl(cityCode, lotRpsDispatch.getApplicant().isHomologation()));
 
         if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
             throw new UnavailableServiceException();
         }
 
-        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"),
+                responseXml.lastIndexOf("</SOAP-ENV:Body>"));
 
         return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
 
     }
 
     @Override
-    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(final NFSeRequest nfseRequest, final String cityCode, final boolean homologation)
-            throws Exception {
+    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(final NFSeRequest nfseRequest,
+            final String cityCode, final boolean homologation) throws Exception {
+
         final ElotechNfseDispatchCancel cancellationDispatch = (ElotechNfseDispatchCancel) nfseRequest;
 
         final ElotechSOAPEnvelope soapEnvelope = new ElotechSOAPEnvelope.Builder().withSoapHeader(new ElotechSOAPHeader.Builder().build())
@@ -84,9 +88,11 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
-        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper()).serialize();
+        final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper())
+                .serialize();
 
-        String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, cancellationDispatch.getApplicant().isHomologation()));
+        String responseXml = transmissor.transmit(requestXml,
+                NFSeTransmissor.getUrl(cityCode, cancellationDispatch.getApplicant().isHomologation()));
 
         if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
             throw new UnavailableServiceException();
@@ -98,14 +104,14 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(final NFSeRequest transmissible, final String cityCode, final boolean homologation)
-            throws Exception {
+    public TypedTransmissionResult<ElotechSOAPEnvelope, ElotechLotRpsDispatchSyncResponse> consultAuthorization(
+            final NFSeRequest transmissible, final String cityCode, final boolean homologation) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeDispatchStateResponse> consultStateAuthorization(final NFSeRequest nfseRequest, final String cityCode,
-            final boolean homologation) throws Exception {
+    public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeDispatchStateResponse> consultStateAuthorization(
+            final NFSeRequest nfseRequest, final String cityCode, final boolean homologation) throws Exception {
         throw new UnsupportedOperationException();
     }
 

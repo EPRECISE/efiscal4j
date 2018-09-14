@@ -23,7 +23,7 @@ public class GovbrServiceTaker implements Serializable {
 
     private @Getter final @NotNull @XmlElement(name = "IdentificacaoTomador") GovbrIdentifier identifier;
 
-    private @Getter final @NotNull @XmlElement(name = "NifTomador") @Size(min = 0, max = 40) String nifTaker;
+    private @Getter final @XmlElement(name = "NifTomador") @Size(min = 0, max = 40) String nifTaker;
 
     private @Getter final @XmlElement(name = "RazaoSocial") @Size(min = 1, max = 150) String socialName;
 

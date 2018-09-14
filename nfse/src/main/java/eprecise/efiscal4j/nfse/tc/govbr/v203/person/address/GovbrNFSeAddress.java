@@ -12,9 +12,13 @@ import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSeAddress implements Serializable {
 

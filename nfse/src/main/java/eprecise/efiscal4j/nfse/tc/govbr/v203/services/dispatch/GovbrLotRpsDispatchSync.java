@@ -14,12 +14,16 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.GovbrLotRps;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlRootElement(name = "EnviarLoteRpsSincronoEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrLotRpsDispatchSync implements NFSeRequest, TransmissibleBodyImpl {
@@ -28,7 +32,7 @@ public class GovbrLotRpsDispatchSync implements NFSeRequest, TransmissibleBodyIm
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/v203/nfse_v2_03.xsd";
 
-    private @Getter final @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
+    private @Getter @Builder.Default final @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
 
     private @Getter final @NotNull @XmlElement(name = "LoteRps") GovbrLotRps rpsLot;
 

@@ -8,12 +8,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrStatementProvisionService;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
+import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,6 +25,8 @@ import lombok.Getter;
 public class GovbrLotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @Getter final @XmlAttribute(name = "versao") String version = GovbrVersion.VERSION_2_03.getVersion();
 
     private @Getter final @NotNull @XmlElement(name = "NumeroLote") @NFSeNonNegativeInteger @Size(min = 1, max = 15) String lotNumber;
 

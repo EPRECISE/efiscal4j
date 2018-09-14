@@ -20,9 +20,8 @@ public enum NFSeTransmissor {
                                      "4119905"),
                              GOVBR_V100(GovbrTransmissionChannel.class,
                                      "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
-                                     "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties",
-                                     "4118501"),
-                             GOVBR_V203(GovbrTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties", "123"),
+                             GOVBR_V203(eprecise.efiscal4j.nfse.transmission.govbr.v203.GovbrTransmissionChannel.class,
                                      "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
                                      "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties",
                                      "4118501");

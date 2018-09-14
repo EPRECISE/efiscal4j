@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @Builder
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GovbrNFSeRetCancel {
+public class GovbrNFSeCancellationReturn {
 
     private @Getter final @NotNull @XmlAttribute(name = "NfseCancelamento") GovbrNFSeCancel cancel;
 
