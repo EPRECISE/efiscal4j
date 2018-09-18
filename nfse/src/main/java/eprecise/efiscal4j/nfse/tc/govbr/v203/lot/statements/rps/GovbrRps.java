@@ -13,9 +13,13 @@ import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrRps implements Serializable {
 

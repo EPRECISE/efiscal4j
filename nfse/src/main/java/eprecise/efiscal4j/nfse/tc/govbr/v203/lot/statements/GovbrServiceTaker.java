@@ -13,9 +13,13 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.person.address.GovbrNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.person.contact.GovbrNFSeContact;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrServiceTaker implements Serializable {
 

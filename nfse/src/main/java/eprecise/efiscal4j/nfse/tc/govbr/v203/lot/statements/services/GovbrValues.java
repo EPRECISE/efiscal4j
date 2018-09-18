@@ -10,9 +10,13 @@ import eprecise.efiscal4j.nfse.ts.govbr.types.NFSeAliquot;
 import eprecise.efiscal4j.nfse.ts.govbr.types.NFSeValue;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrValues {
 

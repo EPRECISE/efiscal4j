@@ -18,15 +18,19 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrLotRps implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @Getter final @XmlAttribute(name = "versao") String version = GovbrVersion.VERSION_2_03.getVersion();
+    private @Getter @Builder.Default final @XmlAttribute(name = "versao") GovbrVersion version = GovbrVersion.VERSION_2_03;
 
     private @Getter final @NotNull @XmlElement(name = "NumeroLote") @NFSeNonNegativeInteger @Size(min = 1, max = 15) String lotNumber;
 

@@ -30,6 +30,9 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
+import eprecise.efiscal4j.nfse.tc.govbr.v203.GovbrNFSeIdentifier;
+import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrCancellationCode;
+import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancelRequest;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.GovbrLotRps;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrServiceIntermediary;
@@ -43,6 +46,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.services.GovbrValues
 import eprecise.efiscal4j.nfse.tc.govbr.v203.person.address.GovbrNFSeAddress;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.person.contact.GovbrNFSeContact;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.services.dispatch.GovbrLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.govbr.v203.services.dispatch.cancel.GovbrNFSeDispatchCancel;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.commons.rps.CommonsRpsStatus;
@@ -78,14 +82,30 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public NFSeRequest toDispatchCancel(NFSeCancellationRequestData cancellationRequestData) {
-        // TODO Auto-generated method stub
-        return null;
+        //@formatter:off
+        return GovbrNFSeDispatchCancel.builder()
+                .request(GovbrNFSeCancelRequest.builder()
+                        .info(GovbrNFSeCancelRequest.GovbrNFSeCancelRequestInfo.builder()
+                                .nfseIdentifier(GovbrNFSeIdentifier.builder()
+                                        .lotNumber(cancellationRequestData.getNfseNumber())
+                                        .cnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
+                                        .municipalRegistration(this.buildMunicipalRegistration(this.nfse.getEmitter().getDocuments()))
+                                        .ibgeCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                                        .build())
+                                .cancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
+                                        .filter(GovbrCancellationCode.class::isInstance)
+                                        .map(GovbrCancellationCode.class::cast)
+                                        .orElse(null))
+                                .build())
+                        .build())
+                .build();
+        //@formatter:on
     }
 
     private GovbrStatementProvisionService buildStatementProvisionService() {
         //@formatter:off
         return GovbrStatementProvisionService.builder()
-                .info(GovbrStatementProvisionService.Info.builder()
+                .info(GovbrStatementProvisionService.GovbrStatementProvisionServiceInfo.builder()
                         .competence(NFSE_DATE_FORMAT.format(this.nfse.getEmission()))
                         .rps(this.buildRps())
                         .service(this.buildService())

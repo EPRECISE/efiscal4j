@@ -17,9 +17,13 @@ import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @XmlRootElement(name = "Envelope", namespace = OasisNamespacesPrefixMapper.SOAPENV_URI)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrSOAPEnvelope implements Serializable, Assignable, TransmissibleEnvelope, NFSeRequest {

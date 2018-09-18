@@ -43,7 +43,7 @@ public class GovbrNFSeDispatchCancelResponse extends Receivable implements NFSeD
     private @Getter final @NotNull @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(
             name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessage;
 
-    private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoEnvio");
+    private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("CancelarNfseResposta");
 
     @Override
     public String getAsXml() {
@@ -54,7 +54,7 @@ public class GovbrNFSeDispatchCancelResponse extends Receivable implements NFSeD
     public NFSeCancellationCode getCancellationCode() {
         return Optional.ofNullable(cancellationReturn).map(GovbrNFSeCancellationReturn::getCancel).map(GovbrNFSeCancel::getConfirmation)
                 .map(GovbrNFSeCancelConfirmation::getRequest).map(GovbrNFSeCancelRequest::getInfo)
-                .map(GovbrNFSeCancelRequest.Info::getCancellationCode).orElse(null);
+                .map(GovbrNFSeCancelRequest.GovbrNFSeCancelRequestInfo::getCancellationCode).orElse(null);
     }
 
 }

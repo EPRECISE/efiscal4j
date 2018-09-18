@@ -8,9 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 
 import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
@@ -24,6 +27,7 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Builder
@@ -34,6 +38,8 @@ public class GovbrLotRpsDispatchSyncResponse extends Receivable implements NFSeD
     private static final long serialVersionUID = 1L;
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/v203/nfse_v2_03.xsd";
+
+    private @Getter @Builder.Default final @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
 
     private @Getter final @XmlElement(name = "NumeroLote") @NFSeNonNegativeInteger @Size(min = 1, max = 15) String lotNumber;
 
@@ -48,6 +54,8 @@ public class GovbrLotRpsDispatchSyncResponse extends Receivable implements NFSeD
 
     private @Getter final @NotNull @XmlElementWrapper(name = "ListaMensagemRetornoLote") @XmlElement(
             name = "MensagemRetorno") Collection<CommonsNFSeReturnMessageLot> returnLotMessage;
+
+    private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoResposta");
 
     @Override
     public String getAsXml() {

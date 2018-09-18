@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.adapters.NFSeDomainAdapter;
-import eprecise.efiscal4j.nfse.domain.adapters.NFSeDomainAdapter.Builder;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
 import eprecise.efiscal4j.nfse.domain.person.contact.NFSeContact;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
@@ -37,9 +36,9 @@ import eprecise.efiscal4j.nfse.tc.govbr.v100.cancel.GovbrNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.GovbrLotRps;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrRps;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrServiceIntermediaryIdentifier;
+import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrServiceProvider.GovbrServiceProviderIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrServiceTaker;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrSpecialTaxationRegime;
-import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrServiceProvider.GovbrServiceProviderIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.service.GovbrService;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.service.GovbrValues;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsync;
@@ -75,18 +74,22 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
         final eprecise.efiscal4j.nfse.tc.govbr.v100.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder()
                 .withInfo(new GovbrNfseCancelRequest.GovbrNfseCancelRequestInfo.Builder()
-                        .withIdentifier(new GovbrNFSeIdentifier.Builder().withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                        .withIdentifier(new GovbrNFSeIdentifier.Builder()
+                                .withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
                                 .withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
-                                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
-                                        .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments())
+                                        .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
+                                        .map(NFSeLegalEntityDocuments::getIm).orElse(null))
                                 .withNumber(cancellationRequestData.getNfseNumber()).build())
-                        .withCancellationCode(
-                                Optional.ofNullable(cancellationRequestData.getCancellationCode()).filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
+                        .withCancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
+                                .filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
                         .build());
 
         try {
-            return new GovbrNfseDispatchCancel.Builder()
-                    .withCancelRequest(this.certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(this.certificate.get())) : nfseCancelRequestBuilder.build()).build();
+            return new GovbrNfseDispatchCancel.Builder().withCancelRequest(
+                    this.certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(this.certificate.get()))
+                            : nfseCancelRequestBuilder.build())
+                    .build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
@@ -94,21 +97,25 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public NFSeRequest toDispatchConsultState(final String protocol) {
-        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol).withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
+        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol)
+                .withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
     }
 
     @Override
     public NFSeRequest toDispatchConsult(final String protocol) {
-        return new GovbrLotRpsDispatchConsult.Builder().withProtocol(protocol).withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
+        return new GovbrLotRpsDispatchConsult.Builder().withProtocol(protocol)
+                .withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
     }
 
     @Override
     public NFSeRequest toDispatch() {
         try {
             final GovbrLotRpsDispatchAsync.Builder lotRpsDispatchBuilder = new GovbrLotRpsDispatchAsync.Builder()
-                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(this.nfse.getSerie().getLotNumber()).withRpsQuantity(1).withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
-                            .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments()).filter(NFSeLegalEntityDocuments.class::isInstance)
-                                    .map(NFSeLegalEntityDocuments.class::cast).map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                    .withLotRps(new GovbrLotRps.Builder().withLotNumber(this.nfse.getSerie().getLotNumber()).withRpsQuantity(1)
+                            .withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
+                            .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments())
+                                    .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
+                                    .map(NFSeLegalEntityDocuments::getIm).orElse(null))
                             .withRpsList(Arrays.asList(this.buildRps())).build());
             if (this.certificate.isPresent()) {
                 return lotRpsDispatchBuilder.build(new DefaultSigner(this.certificate.get()));
@@ -236,10 +243,12 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private CommonsNFSeContact buildNFSeContacts(final NFSeContact contact) {
-        return Optional.ofNullable(contact)
-                .map(c -> new CommonsNFSeContact.Builder().withEmail(c.getEmail())
-                        .withPhone(Optional.ofNullable(c.getPhone()).map(str -> str.replaceAll("[^\\d.]", "")).map(str -> str.substring(0, str.length() < 11 ? str.length() : 11)).orElse(null))
-                        .build())
+        return Optional
+                .ofNullable(contact).map(
+                        c -> new CommonsNFSeContact.Builder().withEmail(c.getEmail())
+                                .withPhone(Optional.ofNullable(c.getPhone()).map(str -> str.replaceAll("[^\\d.]", ""))
+                                        .map(str -> str.substring(0, str.length() < 11 ? str.length() : 11)).orElse(null))
+                                .build())
                 .orElse(null);
     }
 
@@ -261,9 +270,10 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private String formatNfseString(final String input, final int size) {
-        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
-            return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
-        }).orElse(null);
+        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size))))
+                .map(string -> {
+                    return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
+                }).orElse(null);
     }
 
     private String abbreviate(final String input, final int size) {

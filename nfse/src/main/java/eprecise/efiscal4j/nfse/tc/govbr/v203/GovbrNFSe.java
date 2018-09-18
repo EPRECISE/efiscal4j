@@ -39,7 +39,7 @@ public class GovbrNFSe extends ProcessedNFSe {
 
     public static final DateFormat EMISSION_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-    private @Getter final @XmlAttribute(name = "versao") String version = GovbrVersion.VERSION_2_03.getVersion();
+    private @Getter @Builder.Default final @XmlAttribute(name = "versao") GovbrVersion version = GovbrVersion.VERSION_2_03;
 
     private @Getter final @XmlElement(name = "InfNfse") @NotNull GovbrNFSeInfo info;
 
@@ -72,8 +72,8 @@ public class GovbrNFSe extends ProcessedNFSe {
     @Override
     public String getProviderIm() {
         return Optional.ofNullable(info).map(GovbrNFSeInfo::getStatementProvisionService).map(GovbrStatementProvisionService::getInfo)
-                .map(GovbrStatementProvisionService.Info::getServiceProviderIdentifier).map(GovbrIdentifier::getMunicipalRegistration)
-                .orElse(null);
+                .map(GovbrStatementProvisionService.GovbrStatementProvisionServiceInfo::getServiceProviderIdentifier)
+                .map(GovbrIdentifier::getMunicipalRegistration).orElse(null);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class GovbrNFSe extends ProcessedNFSe {
     @Override
     public RpsIdentifier getRpsIdentifier() {
         return Optional.ofNullable(info).map(GovbrNFSeInfo::getStatementProvisionService).map(GovbrStatementProvisionService::getInfo)
-                .map(GovbrStatementProvisionService.Info::getRps).map(GovbrRps::getIdentifier).orElse(null);
+                .map(GovbrStatementProvisionService.GovbrStatementProvisionServiceInfo::getRps).map(GovbrRps::getIdentifier).orElse(null);
     }
 
     @Override

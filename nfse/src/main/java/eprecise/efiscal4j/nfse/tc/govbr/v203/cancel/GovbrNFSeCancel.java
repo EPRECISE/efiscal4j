@@ -20,7 +20,7 @@ public class GovbrNFSeCancel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @Getter final @XmlAttribute(name = "versao") String version = GovbrVersion.VERSION_2_03.getVersion();
+    private @Getter @Builder.Default final @XmlAttribute(name = "versao") GovbrVersion version = GovbrVersion.VERSION_2_03;
 
     private @Getter final @NotNull @XmlElement(name = "Confirmacao") GovbrNFSeCancelConfirmation confirmation;
 

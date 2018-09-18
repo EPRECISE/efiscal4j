@@ -7,17 +7,22 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
-import eprecise.efiscal4j.signer.oasis.domain.OasisSecurity;
+import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
-@XmlAccessorType(XmlAccessType.FIELD)
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrSOAPHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "Security", namespace = OasisNamespacesPrefixMapper.WSSE_URI) OasisSecurity security;
+    private final @XmlElement(name = "Versão") GovbrVersion version;
+
+    private final @XmlElement(name = "versaoDados") GovbrVersion dataVersion;
 
 }

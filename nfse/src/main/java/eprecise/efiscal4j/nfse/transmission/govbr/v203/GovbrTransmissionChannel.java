@@ -1,6 +1,9 @@
 
 package eprecise.efiscal4j.nfse.transmission.govbr.v203;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -18,6 +21,7 @@ import eprecise.efiscal4j.nfse.transmission.govbr.v203.envelope.GovbrSOAPHeader;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
+import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
 import eprecise.efiscal4j.signer.Signer;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
 import eprecise.efiscal4j.signer.oasis.OasisSigner;
@@ -35,11 +39,7 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
     public GovbrTransmissionChannel(final Certificate certificate) {
         if (certificate == null) {
             this.transmissor = new Transmissor();
-            try {
-                this.signer = new OasisSigner(null);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            this.signer = null;
         } else {
             this.transmissor = new Transmissor(certificate);
             try {
@@ -56,15 +56,23 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
         final GovbrLotRpsDispatchSync lotRpsDispatch = (GovbrLotRpsDispatchSync) nfseRequest;
 
-        final GovbrSOAPEnvelope soapEnvelope = GovbrSOAPEnvelope.builder().soapHeader(GovbrSOAPHeader.builder().build())
-                .soapBody(GovbrSOAPBody.builder().transmissibleBody(lotRpsDispatch).build()).build().sign(signer);
+        GovbrSOAPEnvelope soapEnvelope = GovbrSOAPEnvelope.builder()
+                .soapHeader(GovbrSOAPHeader.builder().version(GovbrVersion.VERSION_2_03).dataVersion(GovbrVersion.VERSION_2_03).build())
+                .soapBody(GovbrSOAPBody.builder().transmissibleBody(lotRpsDispatch).build()).build();
+
+        if (this.signer != null) {
+            soapEnvelope = soapEnvelope.sign(this.signer);
+        }
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(soapEnvelope).withNamespacePrefixMapper(new OasisNamespacesPrefixMapper())
                 .serialize();
 
-        String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, homologation));
+        final Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("SOAPAction", "http://nfse.abrasf.org.br/RecepcionarLoteRpsSincrono");
+
+        String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, homologation), requestProperty);
 
         if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
             throw new UnavailableServiceException();
@@ -82,8 +90,12 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
 
         final GovbrNFSeDispatchCancel cancelDispatch = (GovbrNFSeDispatchCancel) nfseRequest;
 
-        final GovbrSOAPEnvelope soapEnvelope = GovbrSOAPEnvelope.builder().soapHeader(GovbrSOAPHeader.builder().build())
-                .soapBody(GovbrSOAPBody.builder().transmissibleBody(cancelDispatch).build()).build().sign(signer);
+        GovbrSOAPEnvelope soapEnvelope = GovbrSOAPEnvelope.builder().soapHeader(GovbrSOAPHeader.builder().build())
+                .soapBody(GovbrSOAPBody.builder().transmissibleBody(cancelDispatch).build()).build();
+
+        if (this.signer != null) {
+            soapEnvelope = soapEnvelope.sign(this.signer);
+        }
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
