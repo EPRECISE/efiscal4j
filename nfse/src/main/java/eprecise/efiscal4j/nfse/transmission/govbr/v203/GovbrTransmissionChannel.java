@@ -70,7 +70,7 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
                 .serialize();
 
         final Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("SOAPAction", "http://nfse.abrasf.org.br/RecepcionarLoteRpsSincrono");
+        requestProperty.put("SOAPAction", "http://tempuri.org/INFSEGeracao/EnviarLoteRpsSincrono");
 
         String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, homologation), requestProperty);
 
@@ -78,9 +78,10 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
             throw new UnavailableServiceException();
         }
 
-        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"),
-                responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResult>"),
+                responseXml.lastIndexOf("</EnviarLoteRpsSincronoResult>"));
 
+        System.out.println(responseXml);
         return new TypedTransmissionResult<>(GovbrSOAPEnvelope.class, GovbrLotRpsDispatchSyncResponse.class, requestXml, responseXml);
     }
 

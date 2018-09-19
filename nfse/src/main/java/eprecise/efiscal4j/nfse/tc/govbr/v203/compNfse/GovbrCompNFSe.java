@@ -10,11 +10,15 @@ import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.GovbrNFSe;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancel;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeReplacement;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrCompNFSe implements CompNFSe {
 

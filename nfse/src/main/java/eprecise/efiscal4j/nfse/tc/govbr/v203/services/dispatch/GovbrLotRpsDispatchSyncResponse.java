@@ -25,12 +25,16 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.compNfse.GovbrNFSeList;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlRootElement(name = "EnviarLoteRpsSincronoResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrLotRpsDispatchSyncResponse extends Receivable implements NFSeDispatchAutorizedResponse {

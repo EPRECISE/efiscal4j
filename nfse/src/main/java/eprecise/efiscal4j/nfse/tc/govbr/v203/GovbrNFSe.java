@@ -26,11 +26,15 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
 import eprecise.efiscal4j.nfse.ts.govbr.types.NFSeValue;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlRootElement(name = "tcNfse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSe extends ProcessedNFSe {
@@ -44,6 +48,8 @@ public class GovbrNFSe extends ProcessedNFSe {
     private @Getter final @XmlElement(name = "InfNfse") @NotNull GovbrNFSeInfo info;
 
     @Builder
+    @NoArgsConstructor(force = true)
+    @AllArgsConstructor
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class GovbrNFSeInfo {
 
