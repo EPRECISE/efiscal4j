@@ -4,6 +4,9 @@ package eprecise.efiscal4j.nfse.transmission.govbr.v203;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
@@ -73,12 +76,14 @@ public class GovbrTransmissionChannel implements TransmissionChannel {
         requestProperty.put("SOAPAction", "http://tempuri.org/INFSEGeracao/EnviarLoteRpsSincrono");
 
         String responseXml = transmissor.transmit(requestXml, NFSeTransmissor.getUrl(cityCode, homologation), requestProperty);
+        
 
         if (responseXml == null || responseXml != null && responseXml.isEmpty()) {
             throw new UnavailableServiceException();
         }
 
-        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResult>"),
+        responseXml = StringUtils.replace(StringEscapeUtils.unescapeXml(responseXml), "<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"),
                 responseXml.lastIndexOf("</EnviarLoteRpsSincronoResult>"));
 
         System.out.println(responseXml);

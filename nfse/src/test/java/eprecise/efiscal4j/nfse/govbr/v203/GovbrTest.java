@@ -33,7 +33,7 @@ public class GovbrTest implements Testable {
 
     private final TransmissionChannel transmissionChannel = this.getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V203);
 
-    @Test
+//    @Test
     public void serializeTest() throws Exception {
         System.out.println("Teste de Serialização");
         final String serializedEntity = new FiscalDocumentSerializer<>(this.getBuiltEntity()).serialize();
@@ -41,7 +41,7 @@ public class GovbrTest implements Testable {
         System.out.println(String.format("Teste de Serialização finalizado! Entidade Serializada -> %s", serializedEntity));
     }
 
-    @Test
+//    @Test
     public void deserializeBatchTest() throws Exception, IOException {
         System.out.println("Teste de Deserialização em lote");
 
@@ -72,7 +72,7 @@ public class GovbrTest implements Testable {
         }
     }
 
-    @Test
+//    @Test
     public void transmitLotRpsSyncDispatch() throws Exception {
         try {
             System.out.println("Testando EnviarLoteRpsSincrono");
