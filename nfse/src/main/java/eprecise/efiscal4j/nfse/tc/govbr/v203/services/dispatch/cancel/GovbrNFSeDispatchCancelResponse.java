@@ -22,12 +22,14 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancel;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancelConfirmation;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancelRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Builder
+@AllArgsConstructor
 @XmlRootElement(name = "CancelarNfseResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSeDispatchCancelResponse extends Receivable implements NFSeDispatchCancellationAutorizedResponse {

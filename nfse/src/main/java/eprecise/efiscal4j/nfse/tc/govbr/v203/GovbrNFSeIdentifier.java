@@ -11,11 +11,15 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSeIdentifier implements Serializable {
 

@@ -10,11 +10,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSeCancel implements Serializable {
 

@@ -9,11 +9,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrNFSeCancelConfirmation implements Serializable {
 

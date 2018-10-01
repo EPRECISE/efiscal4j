@@ -13,11 +13,14 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.services.dispatch.GovbrLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.services.dispatch.cancel.GovbrNFSeDispatchCancel;
 import eprecise.efiscal4j.signer.oasis.OasisNamespacesPrefixMapper;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 
 @Builder
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GovbrSOAPBody implements Serializable {
 

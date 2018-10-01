@@ -68,7 +68,20 @@ public class GovbrLotRpsDispatchSyncResponse extends Receivable implements NFSeD
 
     @Override
     public Optional<CompNFSe> getCompNFSe() {
-        return this.nfseList.getCompNFSeList().stream().findAny().map(GovbrCompNFSe.class::cast);
+        if(this.nfseList != null && nfseList.getCompNFSeList() != null) {
+            return this.nfseList.getCompNFSeList().stream().findAny().map(GovbrCompNFSe.class::cast);
+        }
+        return Optional.empty();
+    }
+    
+    @Override
+    public Collection<CommonsNFSeReturnMessage> getReturnMessageList() {
+        return returnMessage;
+    }
+    
+    @Override
+    public Collection<CommonsNFSeReturnMessageLot> getReturnMessageLotList() {
+        return returnLotMessage;
     }
 
 }
