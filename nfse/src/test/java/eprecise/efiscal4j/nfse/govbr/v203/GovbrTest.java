@@ -129,6 +129,15 @@ public class GovbrTest implements Testable {
         }
 
     }
+    
+//    @Test
+    public void validateByXsd() {
+        try {
+            validateByXSDDefault();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public TestDomain getTestDomain() {
