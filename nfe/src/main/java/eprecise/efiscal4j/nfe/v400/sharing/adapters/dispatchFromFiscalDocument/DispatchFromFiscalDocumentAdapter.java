@@ -148,6 +148,7 @@ import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF.ReferecedECFModel;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
+import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNFModel;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.v400.tax.Tax;
@@ -706,6 +707,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                                                             .withNumber(String.valueOf(toNF.getNumber()))
                                                             .withEmitterUf(UF.findByAcronym(toNF.getUf().getAcronym()))
                                                             .withEmitterCnpj(toNF.getCnpj())
+                                                            .withReferencedNFModel(ReferencedNFModel.MODELO_01_1A)
                                                             .withEmissionDate(toNF.getMonth().format(DispatchFromFiscalDocumentAdapter.NFE_YEAR_MONTH_FORMAT))
                                                             .build()
                                            ).build();
