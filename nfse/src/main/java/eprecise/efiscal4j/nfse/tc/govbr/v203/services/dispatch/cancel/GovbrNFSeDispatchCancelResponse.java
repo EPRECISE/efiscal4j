@@ -22,13 +22,16 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancel;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancelConfirmation;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.cancel.GovbrNFSeCancelRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Builder
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @XmlRootElement(name = "CancelarNfseResposta")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,12 +41,14 @@ public class GovbrNFSeDispatchCancelResponse extends Receivable implements NFSeD
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/v203/nfse_v2_03.xsd";
 
-    private @Getter final @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
+    private @Getter @Builder.Default final @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
 
-    private @Getter final @NotNull @XmlAttribute(name = "RetCancelamento") GovbrNFSeCancellationReturn cancellationReturn;
+    private @Getter final @XmlElement(name = "RetCancelamento") GovbrNFSeCancellationReturn cancellationReturn;
 
-    private @Getter final @NotNull @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(
+    private @Getter final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(
             name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessage;
+    
+    private @Getter @XmlElement(name = "Signature") SignatureType signature;
 
     private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("CancelarNfseResposta");
 

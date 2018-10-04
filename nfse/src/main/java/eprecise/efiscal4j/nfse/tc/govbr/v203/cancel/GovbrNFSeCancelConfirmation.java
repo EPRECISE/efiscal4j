@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +27,7 @@ public class GovbrNFSeCancelConfirmation implements Serializable {
     private @Getter final @NotNull @XmlElement(name = "Pedido") GovbrNFSeCancelRequest request;
 
     private @Getter final @NotNull @XmlElement(name = "DataHora") @NFSeDateTimeUTC String requestDate;
+    
+    private @Getter @XmlElement(name = "Signature") SignatureType signature;
 
 }

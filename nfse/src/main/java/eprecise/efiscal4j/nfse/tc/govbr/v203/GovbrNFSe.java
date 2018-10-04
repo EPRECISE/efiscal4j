@@ -26,6 +26,7 @@ import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.govbr.types.GovbrVersion;
 import eprecise.efiscal4j.nfse.ts.govbr.types.NFSeValue;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -73,6 +74,8 @@ public class GovbrNFSe extends ProcessedNFSe {
 
         private @Getter final @NotNull @XmlElement(
                 name = "DeclaracaoPrestacaoServico") GovbrStatementProvisionService statementProvisionService;
+        
+        private @Getter @XmlElement(name = "Signature") SignatureType signature;
     }
 
     @Override

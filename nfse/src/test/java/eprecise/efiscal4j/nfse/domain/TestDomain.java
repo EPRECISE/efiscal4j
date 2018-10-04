@@ -119,7 +119,7 @@ public class TestDomain {
                     .withSerie(new NFSeSerie.Builder()
                             .withSerie("Z")
                             .withLotNumber(lotNumber)
-                            .withRpsNumber("21")
+                            .withRpsNumber("104")
                             .build())
                     .withEmissionDate(new Date())
                     .withEmitter(new NFSeServiceEmitter.Builder()
@@ -182,8 +182,8 @@ public class TestDomain {
                             .withCsllAliquot(BigDecimal.ZERO)
                             .withCsllValue(BigDecimal.ZERO)
                             .withOtherRetentionsValue(BigDecimal.ZERO)
-                            .withIssAliquot(new BigDecimal("3.00"))
-                            .withIssValue(new BigDecimal("0.3"))
+                            .withIssAliquot(new BigDecimal("2.00"))
+                            .withIssValue(new BigDecimal("0.2"))
                             .build())
                     .withSpecificData(buildNFSeSpecificData(adapter))
                     .build();
@@ -212,7 +212,7 @@ public class TestDomain {
                     .build();
         } else if(adapter.equals(NFSeAdapter.GOVBR_v203)) {
             return eprecise.efiscal4j.nfse.domain.specificData.govbr.v203.NFSeGovbrData.builder()
-            .nationalSimple(true)
+            .nationalSimple(false)
             .taxIncentive(false)
             .issRequirement(GovbrIssRequirement.REQUIRED)
             .build();
@@ -227,7 +227,7 @@ public class TestDomain {
         } else if (adapter.equals(NFSeAdapter.GOVBR_v100)) {
             return GovbrSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
         } else if (adapter.equals(NFSeAdapter.GOVBR_v203)) {
-            return eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrSpecialTaxationRegime.MUNICIPAL_MICRO_ENTERPRISE;
+            return null;
         }
         return null;
     }
@@ -248,7 +248,7 @@ public class TestDomain {
 
     public GovbrLotRpsDispatchSync buildGovbrV203LotRpsDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
-        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(this.buildNFSe(city, "10")).build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(this.buildNFSe(city, "1005")).build();
 
         return Optional.ofNullable(domainAdapter.toDispatch()).filter(GovbrLotRpsDispatchSync.class::isInstance)
                 .map(GovbrLotRpsDispatchSync.class::cast).orElseThrow(IllegalStateException::new);
@@ -256,12 +256,13 @@ public class TestDomain {
 
     public GovbrNFSeDispatchCancel buildGovbrV203CancelDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
-        final String lotNumber = "10";
+        final String nfseNumber = "201800000002393";
+        final String lotNumber = "1005";
 
         final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(this.buildNFSe(city, lotNumber)).build();
         return Optional
-                .ofNullable(domainAdapter.toDispatchCancel(new NFSeCancellationRequestData.Builder().withNfseNumber(lotNumber)
-                        .withCancellationCode(GovbrCancellationCode.EMISSION_ERROR).build()))
+                .ofNullable(domainAdapter.toDispatchCancel(new NFSeCancellationRequestData.Builder().withNfseNumber(nfseNumber)
+                        .withCancellationCode(GovbrCancellationCode.SERVICE_NOT_PERFORMED).build()))
                 .filter(GovbrNFSeDispatchCancel.class::isInstance).map(GovbrNFSeDispatchCancel.class::cast)
                 .orElseThrow(IllegalArgumentException::new);
     }

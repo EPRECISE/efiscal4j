@@ -25,6 +25,7 @@ import eprecise.efiscal4j.nfse.tc.govbr.v203.compNfse.GovbrNFSeList;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,7 +59,7 @@ public class GovbrLotRpsDispatchSyncResponse extends Receivable implements NFSeD
 
     private @Getter final @NotNull @XmlElementWrapper(name = "ListaMensagemRetornoLote") @XmlElement(
             name = "MensagemRetorno") Collection<CommonsNFSeReturnMessageLot> returnLotMessage;
-
+    
     private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoResposta");
 
     @Override

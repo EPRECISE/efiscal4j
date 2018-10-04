@@ -25,7 +25,7 @@ public class GovbrNFSeIdentifier implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @Getter final @NotNull @XmlElement(name = "NumeroLote") @NFSeNonNegativeInteger @Size(min = 1, max = 15) String lotNumber;
+    private @Getter final @NotNull @XmlElement(name = "Numero") @NFSeNonNegativeInteger @Size(min = 1, max = 15) String lotNumber;
 
     private @Getter final @NotNull @XmlElement(name = "CpfCnpj") CommonsNFSeCnp cnp;
 

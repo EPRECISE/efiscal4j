@@ -27,7 +27,7 @@ public class GovbrSOAPBody implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private @XmlAttribute(name = "Id", namespace = OasisNamespacesPrefixMapper.WSU_URI) String id;
-
+    
     //@formatter:off
       @XmlElementRefs({
           @XmlElementRef(name = "EnviarLoteRpsSincronoEnvio", type = GovbrLotRpsDispatchSync.class),

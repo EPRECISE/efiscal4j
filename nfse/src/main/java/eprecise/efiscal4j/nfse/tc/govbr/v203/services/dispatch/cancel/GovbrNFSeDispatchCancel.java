@@ -4,7 +4,6 @@ package eprecise.efiscal4j.nfse.tc.govbr.v203.services.dispatch.cancel;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,8 +30,6 @@ public class GovbrNFSeDispatchCancel implements TransmissibleBodyImpl, NFSeReque
     private static final long serialVersionUID = 1L;
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/v203/nfse_v2_03.xsd";
-
-    private @Getter @Builder.Default @XmlAttribute(name = "xmlns") String xmlns = "http://www.abrasf.org.br/nfse.xsd";
 
     private @Getter final @NotNull @XmlElement(name = "Pedido") GovbrNFSeCancelRequest request;
 
