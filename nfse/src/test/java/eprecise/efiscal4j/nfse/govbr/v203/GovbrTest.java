@@ -102,7 +102,7 @@ public class GovbrTest implements Testable {
 
     }
 
-    @Test
+//    @Test
     public void transmitNFSeDispatchCancel() throws Exception {
         try {
             System.out.println("Testando CancelarNfseEnvio");

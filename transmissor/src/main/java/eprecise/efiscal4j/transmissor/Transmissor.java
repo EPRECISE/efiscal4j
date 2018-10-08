@@ -43,12 +43,14 @@ public class Transmissor {
     private TrustManagerFactory trustManagerFactory;
 
     private SSLContext sslContext;
+    
+    private String protocol = "SSL";
 
     public Transmissor() {
     }
 
     public Transmissor(final Certificate keyCertificate, final Certificate trustCertificate) {
-        init(keyCertificate, trustCertificate, "SSL");
+        init(keyCertificate, trustCertificate);
     }
 
     public Transmissor(final Certificate keyCertificate) {
@@ -56,13 +58,14 @@ public class Transmissor {
     }
     
     public Transmissor(final Certificate keyCertificate, String protocol) {
-        this(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
+        this.protocol = protocol;
+        init(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
     }
 
-    private void init(final Certificate keyCertificate, final Certificate trustCertificate, final String protocol) {
+    private void init(final Certificate keyCertificate, final Certificate trustCertificate) {
         initializeKeyStore(keyCertificate);
         initializeTrustStore(trustCertificate);
-        initializeSSLContext(protocol);
+        initializeSSLContext(this.protocol);
     }
 
     private void initializeKeyStore(final Certificate certificate) {
@@ -125,7 +128,12 @@ public class Transmissor {
                 httpConnection.setRequestProperty(key, value);
             });
 
-            httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+            logger.info("Protocol: " + this.protocol);
+            if(protocol.equals("SSL")) {
+                httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+            } else {
+                httpConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
+            }
             httpConnection.connect();
 
             logger.info("Request: " + requestSoapEnvelope);
