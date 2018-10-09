@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.ImmutableMap;
@@ -418,8 +419,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
     }
 
     private String postProcessResponseXML(String responseXml) {
-        return responseXml.substring(responseXml.indexOf("env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>") + "env:Body xmlns:env='http://www.w3.org/2003/05/soap-envelope'>".length(),
-                responseXml.lastIndexOf("</env:Body"));
+        return StringUtils.remove(StringUtils.remove(responseXml, StringUtils.substringBefore(responseXml, "<nfeResultMsg")), StringUtils.substringAfter(responseXml, "</nfeResultMsg>"));
     }
 
     private NFeDeliveryDFeSoapEnvelope buildDeliveryDFeSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {

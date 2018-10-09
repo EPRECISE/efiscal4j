@@ -41,6 +41,7 @@ import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
+
 /**
  * Teste de geração e validação de xml de NF-e com base no XSD
  * 
@@ -48,7 +49,7 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
  * 
  */
 public class NFeSimpleXmlValidationTest {
-    
+
     @Test
     public void simpleXmlGenerator() throws Exception {
         Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent() || !NFeTestParams.getCertificatePin().isPresent());
@@ -225,6 +226,5 @@ public class NFeSimpleXmlValidationTest {
             .build(signer);
      // @formatter:on
     }
-
 
 }
