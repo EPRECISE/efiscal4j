@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -143,6 +144,10 @@ import eprecise.efiscal4j.nfe.v400.payment.PaymentIntegrationType;
 import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Emitter.Builder;
+import eprecise.efiscal4j.nfe.v400.places.Place;
+import eprecise.efiscal4j.nfe.v400.places.PlaceCnp;
+import eprecise.efiscal4j.nfe.v400.places.PlaceCnpj;
+import eprecise.efiscal4j.nfe.v400.places.PlaceCpf;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF;
@@ -266,16 +271,52 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withNFeIdentification(this.buildNFeIdentification())
     			.withEmitter(this.buildEmitter())
     			.withReceiver(this.buildReceiver())
-//    			.withWithdrawal(this.buildWithDrawal())
-//    			.withDelivery(this.buildDelivery())
+    			.withWithdrawal(this.buildWithdrawal())
+    			.withDelivery(this.buildDelivery())
     			.withNFeDetail(this.buildNFeDetails())
     			.withNFeTotal(this.buildNFeTotal())
     			.withNFeTransport(this.buildNFeTransport())
     			.withNFeCharging(this.buildNFeCharging())
     			.withNFePayment(this.buildNFePayment())
     			.withAdditionalInfo(this.buildAdditionalInfo())
-    			.build();   	
+    			.build();  	
         //@formatter:on
+    }
+
+    private Place buildDelivery() {
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getTransport).map(eprecise.efiscal4j.nfe.transport.Transport::getDelivery).map(this::buildPlace).orElse(null);
+    }
+
+    private Place buildWithdrawal() {
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getTransport).map(eprecise.efiscal4j.nfe.transport.Transport::getWithdrawal).map(this::buildPlace).orElse(null);
+    }
+
+    private Place buildPlace(eprecise.efiscal4j.nfe.transport.places.Place place) {
+        if(place != null) {
+            return new Place.Builder()
+                    .withCnp(buildPlaceCnp(place.getCnp()))
+                    .withStreet(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getStreet(),60)).orElse(null))
+                    .withNumber(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getNumber(),60)).orElse(null))
+                    .withComplement(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getComplement(),60)).orElse(null))
+                    .withDistrict(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getDistrict(),60)).orElse(null))
+                    .withCity(Optional.ofNullable(place.getAddress()).map(address -> address.getCity()).map(c -> new City.Builder()
+                            .withIbgeCode(c.getIbgeCode())
+                            .withDescription(this.formatNFeString(c.getDescription(), 60))
+                            .withUF(c.getUf())
+                            .build()).orElse(null))
+                    .build();
+        }
+        return null;
+    }
+
+
+    private PlaceCnp buildPlaceCnp(eprecise.efiscal4j.nfe.transport.places.cnp.PlaceCnp cnp) {
+        if(cnp instanceof eprecise.efiscal4j.nfe.transport.places.cnp.PlaceCnpj) {
+            return new PlaceCnpj.Builder().withCnpj(cnp.getCnp()).build();
+        } else if(cnp instanceof eprecise.efiscal4j.nfe.transport.places.cnp.PlaceCpf) {
+            return new PlaceCpf.Builder().withCpf(cnp.getCnp()).build();
+        }
+        return null;
     }
 
     private eprecise.efiscal4j.nfe.v400.person.Receiver buildReceiver() {
@@ -823,8 +864,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private String formatNFeString(final String input, final int size) {
-        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
-            return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
+        return Optional.ofNullable(this.nullIfEmpty(input)).filter(Objects::nonNull).map(string -> {
+            return StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  "), size)));
         }).orElse(null);
     }
 

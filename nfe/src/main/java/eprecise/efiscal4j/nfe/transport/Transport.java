@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import eprecise.efiscal4j.nfe.transport.conveyor.Conveyor;
 import eprecise.efiscal4j.nfe.transport.mean.TransportMean;
+import eprecise.efiscal4j.nfe.transport.places.Place;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -53,5 +54,19 @@ public class Transport {
      * @param transportedVolume
      */
     private @Size(max = 5000, message = "{eprecise.efiscal4j.nfe.transport.volumes.isSize}") @Valid Collection<TransportedVolume> volumes;
+    
+    /**
+     * @see Place
+     * @param withDrawal
+     */
+    private final Place withdrawal;
+    
+    /**
+     * @see Place
+     * @param delivery
+     */
+    private final Place delivery;
+    
+    
 
 }

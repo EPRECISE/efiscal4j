@@ -50,6 +50,11 @@ public class Place implements Serializable {
         private String district;
 
         private City city;
+        
+        public Builder withCnp(PlaceCnp cnp) {
+            this.cnp = cnp;
+            return this;
+        }
 
         public Builder withStreet(String street) {
             this.street = street;
