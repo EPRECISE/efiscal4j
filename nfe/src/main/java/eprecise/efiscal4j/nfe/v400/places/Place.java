@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.address.City;
@@ -19,7 +20,7 @@ import eprecise.efiscal4j.nfe.v400.address.City;
  * @author Fernando C Glizt
  *
  */
-
+@XmlJavaTypeAdapter(PlaceAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Place implements Serializable {
 
