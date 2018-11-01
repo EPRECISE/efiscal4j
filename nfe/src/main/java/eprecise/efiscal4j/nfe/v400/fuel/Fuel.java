@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.v400.fuel;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -46,9 +47,9 @@ public class Fuel implements Serializable {
 
     private @XmlElement(name = "qTemp") @NFeDecimal1204Temperature final String temperature;
 
-    private @XmlElement(name = "UFCons") final UF consumerUF;
+    private @XmlElement(name = "UFCons") @NotNull final String consumerUF;
 
-    private @XmlElement(name = "CIDE") @NotNull final FuelCide cide;
+    private @XmlElement(name = "CIDE") final FuelCide cide;
 
     private @XmlElement(name = "encerrante") final FuelClosing closing;
 
@@ -70,7 +71,7 @@ public class Fuel implements Serializable {
 
         private String temperature;
 
-        private UF consumerUF;
+        private String consumerUF;
 
         private FuelCide cide;
 
@@ -174,7 +175,7 @@ public class Fuel implements Serializable {
          * @return
          */
         public Builder withConsumerUF(final UF consumerUF) {
-            this.consumerUF = consumerUF;
+            this.consumerUF = Optional.ofNullable(consumerUF).map(UF::getAcronym).orElse(null);
             return this;
         }
 
@@ -266,7 +267,7 @@ public class Fuel implements Serializable {
     }
 
     public UF getConsumerUF() {
-        return consumerUF;
+        return UF.findByAcronym(consumerUF);
     }
 
     public FuelCide getCide() {

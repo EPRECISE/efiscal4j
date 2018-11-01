@@ -131,6 +131,9 @@ import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
+import eprecise.efiscal4j.nfe.v400.fuel.FuelCide;
+import eprecise.efiscal4j.nfe.v400.fuel.FuelClosing;
 import eprecise.efiscal4j.nfe.v400.item.di.Addition;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.v400.item.di.IntermediaryImportType;
@@ -933,7 +936,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withItemValueComprisesTotal(ItemValueComprisesTotal.COMPOE_TOTAL)
                 .withMedications(this.buildMedications(item))
                 .withGuns(null) //TODO
-                .withFuel(null) //TODO
+                .withFuel(this.buildFuel(item.getFuel()))
                 .withImportDeclarations(this.buildImportDeclarations(item))
                 .withPurchaseOrderDescription(null) //TODO
                 .withPurchaseOrderNumber(null) // TODO
@@ -941,6 +944,51 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withTraces(this.buildTraces(item))
                 .build();
      // @formatter:on
+    }
+
+    private Fuel buildFuel(eprecise.efiscal4j.nfe.item.fuel.Fuel fuel) {
+        if(fuel != null) {
+            return new Fuel.Builder()
+                    .withAnpProductCode(fuel.getAnpProductCode())
+                    .withAnpProductDescription(this.formatNFeString(fuel.getAnpProductDescription(), 95))
+                    .withGlpPercent(this.formatNFeDecimal0302a04Max100(fuel.getGlpPercent()))
+                    .withGnnPercent(this.formatNFeDecimal0302a04Max100(fuel.getGnnPercent()))
+                    .withGniPercent(this.formatNFeDecimal0302a04Max100(fuel.getGniPercent()))
+                    .withStartingValue(this.formatNFeDecimal1302(fuel.getStartingValue()))
+                    .withCodifCode(fuel.getCodifCode())
+                    .withTemperature(this.formatNFeDecimal1204Temperature(fuel.getTemperature()))
+                    .withConsumerUF(fuel.getConsumerUF())
+                    .withCide(buildFuelCide(fuel.getCide()))
+                    .withClosing(buildFuelClosing(fuel.getClosing()))
+                    .build();
+        }
+        return null;
+    }
+
+    
+
+    private FuelClosing buildFuelClosing(eprecise.efiscal4j.nfe.item.fuel.FuelClosing closing) {
+        if(closing != null) {
+            return new FuelClosing.Builder()
+                    .withNozzleNumber(closing.getNozzleNumber())
+                    .withPumpNumber(closing.getPumpNumber())
+                    .withTankNumber(closing.getTankNumber())
+                    .withClosingBeginValue(this.formatNFeDecimal1203(closing.getClosingBeginValue()))
+                    .withClosingEndValue(this.formatNFeDecimal1203(closing.getClosingEndValue()))
+                    .build();
+        }
+        return null;
+    }
+
+    private FuelCide buildFuelCide(eprecise.efiscal4j.nfe.item.fuel.FuelCide cide) {
+        if(cide != null) {
+            return new FuelCide.Builder()
+                    .withBcCideQuantity(this.formatNFeDecimal1204Variable(cide.getBcCideQuantity()))
+                    .withCideAliquotValue(this.formatNFeDecimal1104(cide.getCideAliquotValue()))
+                    .withCideValue(this.formatNFeDecimal1302(cide.getCideValue()))
+                    .build();
+        }
+        return null;
     }
 
     private List<Trace> buildTraces(final Item item) {
@@ -2337,6 +2385,16 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             return "0";
         } else {
             return NFE_THREE_DECIMALS_FORMAT.format(value);
+        }
+    }
+    
+    private String formatNFeDecimal1204Temperature(BigDecimal value) {
+        if (value == null) {
+            return null;
+        } else if ((value != null) && (value.compareTo(BigDecimal.ZERO) == 0)) {
+            return "0";
+        } else {
+            return NFE_FOUR_DECIMALS_FORMAT.format(value);
         }
     }
 
