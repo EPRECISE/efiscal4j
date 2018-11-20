@@ -8,6 +8,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -211,6 +212,22 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private static final String COMPLEMENTARY_INFO_DETAIL_VALUE = "Valor aproximado dos tributos: %s";
 
     private static final String COMPLEMENTARY_INFO_DETAIL_MESSAGE = "LEI DA TRANSPARENCIA";
+    
+    private static final String COMPLEMENTARY_INFO_DIFAL_DETAIL_MESSAGE = "DIFAL";
+
+    private static final String COMPLEMENTARY_INFO_DIFAL_DETAIL_VALUE = "DIFAL da Operacao: %s%%";
+    
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_EMITTER_DETAIL_MESSAGE = "PARTILHA UF ORIGEM";
+
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_EMITTER_DETAIL_VALUE = "%s (%s%%): R$ %s.";
+    
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_RECEIVER_DETAIL_MESSAGE = "PARTILHA UF DESTINO";
+
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_RECEIVER_DETAIL_VALUE = "%s (%s%%): R$ %s.";
+    
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_FCP_DETAIL_MESSAGE = "FUNDO COMB POBREZA";
+
+    private static final String COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_FCP_DETAIL_VALUE = "FCP: R$ %s.";
 
     private final FiscalDocument fiscalDocument;
 
@@ -426,12 +443,63 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private AdditionalInfo buildAdditionalInfo() {
      //@formatter:off
     	final AdditionalInfo.Builder additionalInfoBuilder = new AdditionalInfo.Builder();
+    	final List<CustomizedObservation> observations = new ArrayList<>();
         Optional.ofNullable(this.fiscalDocument.getTotal().getApproximateTaxTotalValue()).map(ApproximateTax::getTotal).filter(t -> t.compareTo(BigDecimal.ZERO) > 0).ifPresent(total -> {
-        	 additionalInfoBuilder.withTaxpayerObservations(Arrays.asList(new CustomizedObservation.Builder().withField(COMPLEMENTARY_INFO_DETAIL_MESSAGE).withText(String.format(COMPLEMENTARY_INFO_DETAIL_VALUE, total.toString())).build()));
+            observations.add(new CustomizedObservation.Builder().withField(COMPLEMENTARY_INFO_DETAIL_MESSAGE).withText(String.format(COMPLEMENTARY_INFO_DETAIL_VALUE, total.toString())).build());
         });
+        this.fiscalDocument.getItems().stream().findFirst().ifPresent(item->{
+            item.getTaxStructure().getTaxes().stream().filter(eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver.class::isInstance).map(eprecise.efiscal4j.nfe.item.tax.ufReceiverIcms.ICMSUFReceiver.class::cast).findAny().ifPresent(icmsUfReceiver->{
+                final BigDecimal difal = icmsUfReceiver.getDifal();
+                final BigDecimal receiverSharePercentual = icmsUfReceiver.getSharePercentual();
+                final BigDecimal emitterSharePercentual = receiverSharePercentual != null ? new BigDecimal(100).subtract(receiverSharePercentual) : null;
+                final BigDecimal emitterValue = this.fiscalDocument.getTotal().getTotalTaxes().getTotalIcmsUfReceiverEmitterShareValue();
+                final BigDecimal receiverValue = this.fiscalDocument.getTotal().getTotalTaxes().getTotalIcmsUfReceiverShareValue();
+                final UF emitterUf = this.getEmitterUf();
+                final UF receiverUf = this.getReceiverUf();
+                final BigDecimal fcpValue = this.fiscalDocument.getTotal().getTotalTaxes().getTotalICMSUFReceiverFcpValue();
+                
+                if(difal != null && !difal.equals(BigDecimal.ZERO)) {
+                    observations.add(new CustomizedObservation.Builder()
+                                .withField(COMPLEMENTARY_INFO_DIFAL_DETAIL_MESSAGE)
+                                .withText(String.format(COMPLEMENTARY_INFO_DIFAL_DETAIL_VALUE, difal.toString()))
+                                .build());
+                }
+                
+                if(emitterSharePercentual != null && emitterValue != null && emitterUf != null && !emitterValue.equals(BigDecimal.ZERO)) {
+                    observations.add(new CustomizedObservation.Builder()
+                                .withField(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_EMITTER_DETAIL_MESSAGE)
+                                .withText(String.format(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_EMITTER_DETAIL_VALUE, emitterUf.getDescription(), emitterSharePercentual.toString(), emitterValue.toString()))
+                                .build());
+                }
+                
+                if(receiverSharePercentual != null && receiverValue != null && receiverUf != null && !receiverValue.equals(BigDecimal.ZERO)) {
+                    observations.add(new CustomizedObservation.Builder()
+                                .withField(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_RECEIVER_DETAIL_MESSAGE)
+                                .withText(String.format(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_RECEIVER_DETAIL_VALUE, receiverUf.getDescription(), receiverSharePercentual.toString(), receiverValue.toString()))
+                                .build());
+                }
+                
+                if(fcpValue != null && !fcpValue.equals(BigDecimal.ZERO)) {
+                    observations.add(new CustomizedObservation.Builder()
+                            .withField(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_FCP_DETAIL_MESSAGE)
+                            .withText(String.format(COMPLEMENTARY_INFO_ICMS_INTERSTATE_OPERATIONS_FCP_DETAIL_VALUE, fcpValue.toString()))
+                            .build());
+                }
+                
+            });
+        });
+        additionalInfoBuilder.withTaxpayerObservations(observations);
         Optional.ofNullable(this.fiscalDocument.getDetails()).filter(d->!d.isEmpty()).ifPresent(d->additionalInfoBuilder.withComplementaryInfo(this.formatNFeString(d,5000)));
 		return additionalInfoBuilder.build();
 	 //@formatter:on
+    }
+    
+    private UF getReceiverUf() {
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe->nfe.getReceiver()).map(r->r.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).map(a->a.getCity()).map(city->city.getUf()).orElse(null);
+    }
+
+    private UF getEmitterUf() {
+        return this.fiscalDocument.getEmitter().getAddress().getCity().getUf();
     }
 
     private NFePayment buildNFePayment() {

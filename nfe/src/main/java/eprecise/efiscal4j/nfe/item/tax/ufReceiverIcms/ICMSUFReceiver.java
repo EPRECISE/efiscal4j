@@ -29,5 +29,13 @@ public class ICMSUFReceiver implements ItemTax {
     private final BigDecimal shareValue;
 
     private final BigDecimal emitterShareValue;
+    
+    
+    public BigDecimal getDifal() {
+        if(aliquot != null && interstateAliquot != null) {
+            return aliquot.subtract(new BigDecimal(interstateAliquot.getValue()));
+        }
+        return null;
+    }
 
 }
