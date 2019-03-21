@@ -1006,9 +1006,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withGuns(null) //TODO
                 .withFuel(this.buildFuel(item.getFuel()))
                 .withImportDeclarations(this.buildImportDeclarations(item))
-                .withPurchaseOrderDescription(null) //TODO
-                .withPurchaseOrderNumber(null) // TODO
-                .withFciNumber(null) //TODO
+                .withPurchaseOrderDescription(item.getPurchaseOrderDescription())
+                .withPurchaseOrderNumber(item.getPurchaseOrderNumber())
+                .withFciNumber(item.getFciNumber())
                 .withTraces(this.buildTraces(item))
                 .build();
      // @formatter:on

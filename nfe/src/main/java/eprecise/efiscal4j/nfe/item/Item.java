@@ -5,11 +5,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlElement;
+
 import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.item.fuel.Fuel;
 import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.item.trace.Trace;
+import eprecise.efiscal4j.nfe.v400.types.NFeString;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,6 +54,12 @@ public class Item {
     private final Fuel fuel;
 
     private final Collection<Trace> traces;
+    
+    private final String purchaseOrderDescription;
+
+    private final String purchaseOrderNumber;
+
+    private final String fciNumber;
 
     private final String additionalInfo;
 
