@@ -129,6 +129,7 @@ import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
 import eprecise.efiscal4j.nfe.v400.address.City;
+import eprecise.efiscal4j.nfe.v400.address.Country;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
@@ -370,8 +371,6 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 return builder.asForeignPerson()
                         .withCorporateName(this.formatNFeString(receiver.getDocuments().getName(),60))
                         .withForeignId(receiver.getDocuments().getCnp().getCnp())
-                        .withMunicipalRegistration(receiver.getDocuments().getIm())
-                        .withStateRegistration(this.buildStateRegistration(receiver))
                         .withStateRegistrationReceiverIndicator(this.buildStateRegistrationReceiverIndicator(receiver))
                         .withAdress(this.buildReceiverAddress(receiver))
                         .withEmail(receiver.getEmail())
@@ -420,8 +419,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private Address buildReceiverAddress(final Receiver receiver) {
       //@formatter:off
-        final BrazillianReceiverAddress address = Optional.ofNullable(receiver.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).orElse(null);
-        if(address != null) {
+        if(receiver.getAddress() instanceof BrazillianReceiverAddress) {
+            final BrazillianReceiverAddress address = (BrazillianReceiverAddress) receiver.getAddress();
             return new Address.Builder()
                     .withStreet(this.formatNFeString(address.getStreet(),60))
                     .withNumber(this.formatNFeString(address.getNumber(),60))
@@ -435,6 +434,21 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                             .build()).orElse(null))
                     .withPhone(receiver.getPhone())
                     .build();
+        } else if(receiver.getAddress() instanceof ForeignReceiverAddress) {
+            final ForeignReceiverAddress address = (ForeignReceiverAddress) receiver.getAddress();
+            return new Address.Builder()
+                    .withStreet("EXTERIOR")
+                    .withNumber("S/N")
+                    .withDistrict("EXTERIOR")
+                    .withCity(new City.Builder()
+                            .withIbgeCode("9999999")
+                            .withDescription("EXTERIOR")
+                            .withUF(UF.EX)
+                            .withCountry(new Country.Builder()
+                                    .withIbgeCode(address.getCountry().getValue())
+                                    .withDescription(address.getCountry().getDescription())
+                                    .build())
+                            .build()).build();
         }
       //@formatter:off
         return null;
