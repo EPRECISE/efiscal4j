@@ -2,10 +2,7 @@
 package eprecise.efiscal4j.nfe.v400;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,7 +14,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
@@ -26,6 +22,7 @@ import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Receiver;
 import eprecise.efiscal4j.nfe.v400.places.Place;
+import eprecise.efiscal4j.nfe.v400.technicalManager.NFeTechnicalManager;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 
@@ -66,8 +63,12 @@ public class NFeInfo implements Serializable {
     private @XmlElement(name = "pag") @NotNull final NFePayment nFePayment;
 
     private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
+    
+    private @XmlElement(name = "infRespTec") final NFeTechnicalManager technicalManager;
 
     public static class Builder {
+        
+        private String id;
 
         private NFeIdentification nFeIdentification;
 
@@ -90,6 +91,18 @@ public class NFeInfo implements Serializable {
         private NFePayment nFePayment;
 
         private AdditionalInfo additionalInfo;
+        
+        private NFeTechnicalManager technicalManager;
+        
+        /**
+         * ID no padrão PL_005d - 11/08/09
+         * 
+         * @return
+         */
+        public Builder withId(final String id) {
+            this.id = id;
+            return this;
+        }
 
         /**
          * @see NFeIdentification
@@ -204,6 +217,16 @@ public class NFeInfo implements Serializable {
             this.additionalInfo = additionalInfo;
             return this;
         }
+        
+        /**
+         * @see NFeTechnicalManager
+         * @param technicalManager
+         * @return
+         */
+        public Builder withTechnicalManager(final NFeTechnicalManager technicalManager) {
+            this.technicalManager = technicalManager;
+            return this;
+        }
 
         public NFeInfo build() throws ParseException {
             final NFeInfo entity = new NFeInfo(this);
@@ -213,6 +236,7 @@ public class NFeInfo implements Serializable {
     }
 
     protected NFeInfo() {
+        this.id = null;
         this.nFeIdentification = null;
         this.emitter = null;
         this.receiver = null;
@@ -224,10 +248,11 @@ public class NFeInfo implements Serializable {
         this.nFeCharging = null;
         this.nFePayment = null;
         this.additionalInfo = null;
-        this.id = null;
+        this.technicalManager = null;
     }
 
     protected NFeInfo(final Builder builder) throws ParseException {
+        this.id = builder.id;
         this.nFeIdentification = builder.nFeIdentification;
         this.emitter = builder.emitter;
         this.receiver = builder.receiver;
@@ -239,100 +264,7 @@ public class NFeInfo implements Serializable {
         this.nFeCharging = builder.nFeCharging;
         this.nFePayment = builder.nFePayment;
         this.additionalInfo = builder.additionalInfo;
-        this.id = generateNfeId();
-        fillCalculableFields();
-    }
-
-    private void fillCalculableFields() {
-        if ((getReceiver() != null) && (getnFeIdentification().getTransmissionEnvironment() == TransmissionEnvironment.HOMOLOGACAO)) {
-            getReceiver().getDocuments().setAbstractName("NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL");
-        }
-
-        if (getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE) && (getnFeIdentification().getTransmissionEnvironment() == TransmissionEnvironment.HOMOLOGACAO)) {
-            this.nFeDetails.stream().map(NFeDetail::getnFeItem).findFirst().ifPresent(nfeItem -> nfeItem.setItemDescription("NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"));
-        }
-
-//        final DecimalFormatSymbols separatorSymbols = new DecimalFormatSymbols();
-//        separatorSymbols.setDecimalSeparator('.');
-//        final DecimalFormat decimalFormat = new DecimalFormat("##0.00", separatorSymbols);
-//        decimalFormat.setGroupingUsed(false);
-
-//        if (getnFeTotal().getIcmsTotal() != null) {
-//            Double pisTotal = 0.0;
-//            Double cofinsTotal = 0.0;
-//            Double ipiTotal = 0.0;
-//            Double iiTotal = 0.0;
-//            for (final NFeDetail nFeDetail : getnFeDetails()) {
-//                pisTotal += ((nFeDetail.getTax().getPis() == null) || (nFeDetail.getTax().getPis().getPisValue() == null) ? 0.0 : Double.valueOf(nFeDetail.getTax().getPis().getPisValue()));
-//                cofinsTotal += ((nFeDetail.getTax().getCofins() == null) || (nFeDetail.getTax().getCofins().getCofinsValue() == null) ? 0.0
-//                        : Double.valueOf(nFeDetail.getTax().getCofins().getCofinsValue()));
-//                ipiTotal += (nFeDetail.getTax().getIpi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIpi().getIpiValue()));
-//                iiTotal += (nFeDetail.getTax().getIi() == null ? 0.0 : Double.valueOf(nFeDetail.getTax().getIi().getIiValue()));
-//            }
-//
-//            getnFeTotal().getIcmsTotal().setPisTotalValue(decimalFormat.format(pisTotal));
-//            getnFeTotal().getIcmsTotal().setCofinsTotalValue(decimalFormat.format(cofinsTotal));
-//            getnFeTotal().getIcmsTotal().setIpiTotalValue(decimalFormat.format(ipiTotal));
-//            getnFeTotal().getIcmsTotal().setIiTotalValue(decimalFormat.format(iiTotal));
-//        }
-    }
-
-    /**
-     * Gera o ID da NF-e, que é composto por:
-     *
-     * <ul>
-     * <li>NFe - texto contendo NFe</li>
-     * <li>UF - Código da UF do emitente do Documento Fiscal</li>
-     * <li>AAMM - Ano e Mês de emissão da NF-e</li>
-     * <li>CNPJ - CNPJ do emitente</li>
-     * <li>mod - Modelo do Documento Fiscal</li>
-     * <li>serie - Série do Documento Fiscal</li>
-     * <li>nNF - Número do Documento Fiscal</li>
-     * <li>tpEmis - forma de emissão da NF-e</li>
-     * <li>cNF - Código Numérico que compõe a Chave de Acesso</li>
-     * <li>cDV - Dígito Verificador da Chave de Acesso</li>
-     * </ul>
-     *
-     * @param builder
-     * @throws ParseException
-     */
-    private String generateNfeId() throws ParseException {
-        final StringBuilder nfeId = new StringBuilder();
-        final Date emissionDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(getnFeIdentification().getEmissionDateTime());
-
-        nfeId.append(getnFeIdentification().getUfIbgeCode().getIbgeCode());
-        nfeId.append(new SimpleDateFormat("yy").format(emissionDate));
-        nfeId.append(new SimpleDateFormat("MM").format(emissionDate));
-        nfeId.append(getEmitter().getDocuments().getCnpjCpf());
-        nfeId.append(getnFeIdentification().getFiscalDocumentModel().getValue());
-        nfeId.append(new DecimalFormat("000").format(Integer.valueOf(getnFeIdentification().getFiscalDocumentSeries())));
-        nfeId.append(new DecimalFormat("000000000").format(Integer.valueOf(getnFeIdentification().getFiscalDocumentNumber())));
-        nfeId.append(getnFeIdentification().getnFeTransmissionMethod().getValue());
-        nfeId.append(getnFeIdentification().getnFeCode());
-
-        getnFeIdentification().setChecksum(calcModule11(nfeId.toString()));
-
-        nfeId.append(getnFeIdentification().getChecksum());
-
-        nfeId.insert(0, "NFe");
-
-        return nfeId.toString();
-    }
-
-    private int calcModule11(final String key) {
-        int total = 0;
-        int weight = 2;
-
-        for (int i = 0; i < key.length(); i++) {
-            total += (key.charAt((key.length() - 1) - i) - '0') * weight;
-            weight++;
-            if (weight == 10) {
-                weight = 2;
-            }
-        }
-
-        final int remainder = total % 11;
-        return ((remainder == 0) || (remainder == 1)) ? 0 : (11 - remainder);
+        this.technicalManager = builder.technicalManager;
     }
 
     public FiscalDocumentVersion getVersion() {

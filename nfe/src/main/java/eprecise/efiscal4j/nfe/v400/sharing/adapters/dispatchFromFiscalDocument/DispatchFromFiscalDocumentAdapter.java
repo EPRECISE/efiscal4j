@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -19,6 +21,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
@@ -101,6 +107,8 @@ import eprecise.efiscal4j.nfe.references.ReferenceToNFP.NfpCpf;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFP.ProducerReferencedNFModel;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFe;
 import eprecise.efiscal4j.nfe.serie.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.technicalManager.CSRT;
+import eprecise.efiscal4j.nfe.technicalManager.TechnicalManager;
 import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import eprecise.efiscal4j.nfe.transport.conveyor.Conveyor;
@@ -175,6 +183,7 @@ import eprecise.efiscal4j.nfe.v400.tax.ii.II;
 import eprecise.efiscal4j.nfe.v400.tax.ipi.IPI;
 import eprecise.efiscal4j.nfe.v400.tax.pis.PIS;
 import eprecise.efiscal4j.nfe.v400.tax.pis.PISST;
+import eprecise.efiscal4j.nfe.v400.technicalManager.NFeTechnicalManager;
 import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
 import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
@@ -189,6 +198,10 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVersion {
+
+    private static final String RECEIVER_NAME_NFE_HOMOLOGATION = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
+    
+    private static final String ITEM_DESCRIPTION_NFCE_HOMOLOGATION = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
 
     private static final String APP_VERSION = "2.0.0";
 
@@ -289,6 +302,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private NFeInfo buildNFeInfo() throws ParseException {
      //@formatter:off
     	return new NFeInfo.Builder()
+    	        .withId(this.buildNFeId())
     			.withNFeIdentification(this.buildNFeIdentification())
     			.withEmitter(this.buildEmitter())
     			.withReceiver(this.buildReceiver())
@@ -300,8 +314,94 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withNFeCharging(this.buildNFeCharging())
     			.withNFePayment(this.buildNFePayment())
     			.withAdditionalInfo(this.buildAdditionalInfo())
+    			.withTechnicalManager(this.buildNFeTechnicalManager())
     			.build();  	
         //@formatter:on
+    }
+    
+    private NFeTechnicalManager buildNFeTechnicalManager() {
+        final TechnicalManager technicalManager = this.fiscalDocument.getTechnicalManager();
+        if(technicalManager != null) {
+            return new NFeTechnicalManager.Builder()
+                    .withCnpj(technicalManager.getCnpj())
+                    .withContactName(technicalManager.getContactName())
+                    .withEmail(technicalManager.getEmail())
+                    .withPhone(technicalManager.getPhone())
+                    .withCsrtId(Optional.ofNullable(technicalManager.getCsrt()).map(csrt -> csrt.getId()).orElse(null))
+                    .withCsrtHash(Optional.ofNullable(technicalManager.getCsrt()).map(this::buildCsrtHash).orElse(null))
+                    .build();
+        }
+        return null;
+    }
+    
+    private String buildCsrtHash(CSRT csrt) {
+        if(csrt.getId() != null && csrt.getKey() != null) {
+            final StringBuilder csrtKeyWithAccessKey = new StringBuilder(csrt.getKey()).append(this.buildAccessKey());
+            final String sha1 = Hashing.sha1().hashString(csrtKeyWithAccessKey.toString(), Charsets.UTF_8).toString();
+            final String base64 = Base64.getEncoder().withoutPadding().encodeToString(sha1.getBytes());
+            return base64;
+        }
+        
+        return null;
+    }
+
+    private String buildNFeId() {
+        final StringBuilder accessKey = new StringBuilder(this.buildAccessKey());
+        accessKey.append(this.buildChecksum(accessKey.toString()));
+        accessKey.insert(0, "NFe");
+        return accessKey.toString();
+    }
+    
+    /**
+     * Gera a chave de acesso da NF-e, que é composto por:
+     *
+     * <ul>
+     * <li>UF - Código da UF do emitente do Documento Fiscal</li>
+     * <li>AAMM - Ano e Mês de emissão da NF-e</li>
+     * <li>CNPJ - CNPJ do emitente</li>
+     * <li>mod - Modelo do Documento Fiscal</li>
+     * <li>serie - Série do Documento Fiscal</li>
+     * <li>nNF - Número do Documento Fiscal</li>
+     * <li>tpEmis - forma de emissão da NF-e</li>
+     * <li>cNF - Código Numérico que compõe a Chave de Acesso</li>
+     * <li>cDV - Dígito Verificador da Chave de Acesso</li>
+     * </ul>
+     *
+     * @param builder
+     * @throws ParseException
+     */
+    private String buildAccessKey() {
+        final StringBuilder accessKey = new StringBuilder();
+        final Date emissionDate = this.fiscalDocument.getEmission().getDate();
+
+        accessKey.append(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX));
+        accessKey.append(new SimpleDateFormat("yy").format(emissionDate));
+        accessKey.append(new SimpleDateFormat("MM").format(emissionDate));
+        accessKey.append(this.fiscalDocument.getEmitter().getDocuments().getCnp());
+        accessKey.append(this.fiscalDocument.getModel().getValue());
+        accessKey.append(new DecimalFormat("000").format(this.fiscalDocument.getSerie().getNumber()));
+        accessKey.append(new DecimalFormat("000000000").format(this.fiscalDocument.getNumber()));
+        accessKey.append(NFeTransmissionMethod.NORMAL.getValue());
+        accessKey.append(this.fiscalDocument.getCode());
+        
+        return accessKey.toString();
+
+    }
+
+    private int buildChecksum(final String key) {
+        int total = 0;
+        int weight = 2;
+
+        for (int i = 0; i < key.length(); i++) {
+            total += (key.charAt((key.length() - 1) - i) - '0') * weight;
+            weight++;
+            if (weight == 10) {
+                weight = 2;
+            }
+        }
+
+        final int remainder = total % 11;
+        return ((remainder == 0) || (remainder == 1)) ? 0 : (11 - remainder);
     }
 
     private Place buildDelivery() {
@@ -349,7 +449,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             final Receiver receiver = (Receiver) consumer;
             if(receiver.getDocuments().getCnp() instanceof ReceiverCnpj) {
                 return builder.asLegalEntity()
-                        .withCorporateName(this.formatNFeString(receiver.getDocuments().getName(), 60))
+                        .withCorporateName(buildReceiverName(receiver))
                         .withCnpj(receiver.getDocuments().getCnp().getCnp())
                         .withMunicipalRegistration(receiver.getDocuments().getIm())
                         .withStateRegistration(this.buildStateRegistration(receiver))
@@ -359,7 +459,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .build();
             } else if(receiver.getDocuments().getCnp() instanceof ReceiverCpf) {
                 return builder.asNaturalPerson()
-                        .withName(this.formatNFeString(receiver.getDocuments().getName(),60))
+                        .withName(buildReceiverName(receiver))
                         .withCpf(receiver.getDocuments().getCnp().getCnp())
                         .withMunicipalRegistration(receiver.getDocuments().getIm())
                         .withStateRegistration(this.buildStateRegistration(receiver))
@@ -369,7 +469,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .build();
             } else if(receiver.getDocuments().getCnp() instanceof ReceiverForeignId) {
                 return builder.asForeignPerson()
-                        .withCorporateName(this.formatNFeString(receiver.getDocuments().getName(),60))
+                        .withCorporateName(buildReceiverName(receiver))
                         .withForeignId(receiver.getDocuments().getCnp().getCnp())
                         .withStateRegistrationReceiverIndicator(this.buildStateRegistrationReceiverIndicator(receiver))
                         .withAdress(this.buildReceiverAddress(receiver))
@@ -398,6 +498,13 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }
       //@formatter:on
         return null;
+    }
+
+    private String buildReceiverName(final Receiver receiver) {
+        if (TransmissionEnvironment.HOMOLOGATION.equals(this.fiscalDocument.getSerie().getEnvironment())) {
+            return RECEIVER_NAME_NFE_HOMOLOGATION;
+        }
+        return this.formatNFeString(receiver.getDocuments().getName(), 60);
     }
 
     private String buildStateRegistration(final Receiver receiver) {
@@ -732,6 +839,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withNFeCode(this.fiscalDocument.getCode())
             .withNFeFinality(this.buildNFeFinality())
             .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
+            .withChecksum(String.valueOf(this.buildChecksum(this.buildAccessKey())))
             .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
             .withOperationType(this.formatNFeString(this.buildOperationTypeDescriptor(),60))
             .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
@@ -981,21 +1089,22 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private NFeDetail buildNFeDetail(final Item item) {
      // @formatter:off
+        final Integer itemOrder = this.fiscalDocument.getItemOrder(item);
         return new NFeDetail.Builder()
-                .withItemOrder(Optional.ofNullable(this.fiscalDocument.getItemOrder(item)).map(String::valueOf).orElse(null))
-                .withNFeItem(this.buildNFeItem(item))
+                .withItemOrder(Optional.ofNullable(itemOrder).map(String::valueOf).orElse(null))
+                .withNFeItem(this.buildNFeItem(item, itemOrder))
                 .withTax(this.buildTax(item))
                 .withReturnedTax(null) //TODO
                 .build();
      // @formatter:on
     }
 
-    private NFeItem buildNFeItem(final Item item) {
+    private NFeItem buildNFeItem(final Item item, final Integer itemOrder) {
      // @formatter:off
         return new NFeItem.Builder()
                 .withItemCode(this.formatNFeString(item.getCode(), 60))
                 .withGlobalTradeItemNumber(Optional.ofNullable(item.getGlobalTradeItemNumber()).map(ItemEan::getGlobalTradeItemNumber).map(this::nullIfEmpty).orElse("SEM GTIN"))
-                .withItemDescription(this.formatNFeString(item.getName(), 120))
+                .withItemDescription(buildItemDescription(item, itemOrder))
                 .withNCM(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getNcm).orElse(null))
                 .withCest(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getCest).orElse(null))
                 .withScaleIndication(Optional.ofNullable(item.getTaxStructure()).map(TaxStructure::getScaleIndication).map(si -> Optional.ofNullable(si).filter(NoRelevantScale.class::isInstance).map(wr -> NFeItemScaleIndication.NAO).orElse(NFeItemScaleIndication.SIM)).orElse(null))
@@ -1026,6 +1135,13 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withTraces(this.buildTraces(item))
                 .build();
      // @formatter:on
+    }
+
+    private String buildItemDescription(final Item item, final Integer itemOrder) {
+        if(this.fiscalDocument.getModel().equals(FiscalDocumentModel.NFCE) && itemOrder.equals(1)) {
+            return ITEM_DESCRIPTION_NFCE_HOMOLOGATION;
+        }
+        return this.formatNFeString(item.getName(), 120);
     }
 
     private Fuel buildFuel(eprecise.efiscal4j.nfe.item.fuel.Fuel fuel) {

@@ -31,6 +31,7 @@ import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
+import eprecise.efiscal4j.nfe.technicalManager.TechnicalManager;
 import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
@@ -105,6 +106,12 @@ public abstract class FiscalDocument {
      * @param transport
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
+    
+    /**
+     * @see TechnicalManager
+     * @param technicalManager
+     */
+    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.technicalManager.isNotNull}") @Valid final TechnicalManager technicalManager;
 
     /**
      * Informações complementares de interesse do Contribuinte

@@ -53,7 +53,7 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "tpEmis") @NotNull final NFeTransmissionMethod nFeTransmissionMethod;
 
-    private @XmlElement(name = "cDV") @NotNull @Pattern(regexp = "[0-9]{1}") String checksum;
+    private @XmlElement(name = "cDV") @NotNull final @Pattern(regexp = "[0-9]{1}") String checksum;
 
     private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironment transmissionEnvironment;
 
@@ -96,6 +96,8 @@ public class NFeIdentification implements Serializable {
         private DANFEPrintFormat danfePrintFormat;
 
         private NFeTransmissionMethod nFeTransmissionMethod;
+        
+        private String checksum;
 
         private TransmissionEnvironment transmissionEnvironment;
 
@@ -181,6 +183,11 @@ public class NFeIdentification implements Serializable {
             this.nFeTransmissionMethod = nFeTransmissionMethod;
             return this;
         }
+        
+        public Builder withChecksum(String checksum) {
+            this.checksum = checksum;
+            return this;
+        }
 
         public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
@@ -239,6 +246,7 @@ public class NFeIdentification implements Serializable {
         this.taxableEventCityIbgeCode = null;
         this.danfePrintFormat = null;
         this.nFeTransmissionMethod = null;
+        this.checksum = null;
         this.transmissionEnvironment = null;
         this.nFeFinality = null;
         this.finalCustomerOperation = null;
@@ -262,6 +270,7 @@ public class NFeIdentification implements Serializable {
         this.taxableEventCityIbgeCode = builder.taxableEventCityIbgeCode;
         this.danfePrintFormat = builder.danfePrintFormat;
         this.nFeTransmissionMethod = builder.nFeTransmissionMethod;
+        this.checksum = builder.checksum;
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.nFeFinality = builder.nFeFinality;
         this.finalCustomerOperation = builder.finalCustomerOperation;
@@ -349,10 +358,6 @@ public class NFeIdentification implements Serializable {
 
     public List<ReferencedDocuments> getReferencedDocuments() {
         return this.referencedDocuments;
-    }
-
-    protected void setChecksum(int checksum) {
-        this.checksum = String.valueOf(checksum);
     }
 
     public String getEntranceOrExitDateTime() {
