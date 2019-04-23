@@ -2,9 +2,13 @@
 package eprecise.efiscal4j.nfe.technicalManager;
 
 import java.io.Serializable;
+import java.util.Base64;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,5 +39,15 @@ public class CSRT implements Serializable {
      * @param key
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.technicalManager.csrt.key.isNotNull}") final String key;
+    
+    public String getHash(final String accessKey) {
+        if(this.id != null && this.key != null) {
+            final StringBuilder csrtKeyWithAccessKey = new StringBuilder(this.key).append(accessKey);
+            final byte[] sha1 = Hashing.sha1().hashString(csrtKeyWithAccessKey.toString(), Charsets.UTF_8).asBytes();
+            final String base64 =  Base64.getEncoder().encodeToString(sha1);
+            return base64;
+        }
+        return null;
+    }
 
 }

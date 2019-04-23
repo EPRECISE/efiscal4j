@@ -22,6 +22,7 @@ import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.references.DocumentReference;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
+import eprecise.efiscal4j.nfe.technicalManager.TechnicalManager;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import lombok.Builder;
 import lombok.Getter;
@@ -79,10 +80,10 @@ public class NFe extends FiscalDocument {
 
     @Builder
     public NFe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
-            final Payment payment, final Transport transport, final String details, final Receiver receiver, final IODate entranceOrExit, final NFeFinality finality, final FiscalDocumentType type,
+            final Payment payment, final Transport transport, final TechnicalManager technicalManager, final String details, final Receiver receiver, final IODate entranceOrExit, final NFeFinality finality, final FiscalDocumentType type,
             final Boolean endConsumer, final String operationDescription, final Collection<DocumentReference> documentReferences) {
         super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items,
-                charging, payment, transport, details);
+                charging, payment, transport, technicalManager, details);
         this.receiver = receiver;
         this.entranceOrExit = Optional.ofNullable(entranceOrExit).orElse(new CurrentIODate());
         this.finality = Optional.ofNullable(finality).orElse(NFeFinality.NORMAL);

@@ -328,18 +328,15 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withEmail(technicalManager.getEmail())
                     .withPhone(technicalManager.getPhone())
                     .withCsrtId(Optional.ofNullable(technicalManager.getCsrt()).map(csrt -> csrt.getId()).orElse(null))
-                    .withCsrtHash(Optional.ofNullable(technicalManager.getCsrt()).map(this::buildCsrtHash).orElse(null))
+                    .withCsrtHash(Optional.ofNullable(technicalManager.getCsrt()).map(csrt-> this.buildCsrtHash(csrt, this.buildAccessKey())).orElse(null))
                     .build();
         }
         return null;
     }
     
-    private String buildCsrtHash(CSRT csrt) {
-        if(csrt.getId() != null && csrt.getKey() != null) {
-            final StringBuilder csrtKeyWithAccessKey = new StringBuilder(csrt.getKey()).append(this.buildAccessKey());
-            final String sha1 = Hashing.sha1().hashString(csrtKeyWithAccessKey.toString(), Charsets.UTF_8).toString();
-            final String base64 = Base64.getEncoder().withoutPadding().encodeToString(sha1.getBytes());
-            return base64;
+    public String buildCsrtHash(final CSRT csrt, final String accessKey) {
+        if(csrt != null) {
+            return csrt.getHash(accessKey);
         }
         
         return null;
