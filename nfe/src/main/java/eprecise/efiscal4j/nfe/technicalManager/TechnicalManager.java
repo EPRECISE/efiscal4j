@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.technicalManager;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -59,6 +60,6 @@ public class TechnicalManager implements Serializable {
      * @see CSRT
      * @param csrt
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.technicalManager.csrt.isNotNull}") final CSRT csrt;
+    private @Valid final CSRT csrt;
 
 }

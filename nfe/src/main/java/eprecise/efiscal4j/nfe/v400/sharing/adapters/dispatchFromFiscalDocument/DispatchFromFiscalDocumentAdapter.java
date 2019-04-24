@@ -371,7 +371,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         final StringBuilder accessKey = new StringBuilder();
         final Date emissionDate = this.fiscalDocument.getEmission().getDate();
 
-        accessKey.append(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX));
+        accessKey.append(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX).getIbgeCode());
         accessKey.append(new SimpleDateFormat("yy").format(emissionDate));
         accessKey.append(new SimpleDateFormat("MM").format(emissionDate));
         accessKey.append(this.fiscalDocument.getEmitter().getDocuments().getCnp());
