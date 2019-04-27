@@ -1135,7 +1135,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private String buildItemDescription(final Item item, final Integer itemOrder) {
-        if(this.fiscalDocument.getModel().equals(FiscalDocumentModel.NFCE) && itemOrder.equals(1)) {
+        if(this.fiscalDocument.getModel().equals(FiscalDocumentModel.NFCE) && itemOrder.equals(1) && TransmissionEnvironment.HOMOLOGATION.equals(this.fiscalDocument.getSerie().getEnvironment())) {
             return ITEM_DESCRIPTION_NFCE_HOMOLOGATION;
         }
         return this.formatNFeString(item.getName(), 120);
