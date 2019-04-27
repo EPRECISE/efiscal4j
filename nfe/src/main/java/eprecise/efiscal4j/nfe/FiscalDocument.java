@@ -111,7 +111,8 @@ public abstract class FiscalDocument {
      * @see TechnicalManager
      * @param technicalManager
      */
-    private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.technicalManager.isNotNull}") @Valid final TechnicalManager technicalManager;
+//    @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.technicalManager.isNotNull}")
+    private @Valid final TechnicalManager technicalManager;
 
     /**
      * Informações complementares de interesse do Contribuinte
