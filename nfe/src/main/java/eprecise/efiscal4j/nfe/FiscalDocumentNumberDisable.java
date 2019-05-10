@@ -5,10 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.Optional;
 
+import br.com.caelum.stella.bean.validation.CNPJ;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
+import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
-import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
@@ -42,7 +43,7 @@ public class FiscalDocumentNumberDisable {
 
     /**
      * Transmite a inutilização de numeração de série de documentos fiscais
-     * 
+     *
      * @return resultado da transmissão
      */
     public FiscalDocumentNumberDisable.TransmissionResult transmit(final Certificate certificate) {
@@ -83,7 +84,7 @@ public class FiscalDocumentNumberDisable {
 
         public ProcessedNFeNumberDisableVersion getProcessedNumberDisableVersion() {
             try {
-                return this.version.getProcessedNumberDisableClass().getConstructor(NFeNumberDisableDispatchRequest.class, NFeNumberDisableDispatchResponse.class).newInstance(this.result.getRequest(),
+                return this.version.getProcessedNumberDisableClass().getConstructor(this.result.getRequest().getClass(), this.result.getResponse().getClass()).newInstance(this.result.getRequest(),
                         this.result.getResponse());
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
@@ -97,6 +98,16 @@ public class FiscalDocumentNumberDisable {
         public EventStatus getStatus() {
             return Optional.ofNullable(this.result).map(r -> r.getResponse()).map(rp -> rp.getStatus()).orElse(null);
         }
+    }
+
+    @Builder
+    @Getter
+    public static class Emitter {
+
+        private @CNPJ final String cnpj;
+
+        private final UF uf;
+
     }
 
 }
