@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.v400.item.di;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -83,55 +84,55 @@ public class ImportDeclaration implements Serializable {
 
         /**
          * Numero do Documento de Importação DI/DSI/DA/DRI-E (DI/DSI/DA/DRI-E) (NT2011/004)
-         * 
+         *
          * @param number
          * @return
          */
-        public Builder withNumber(String number) {
+        public Builder withNumber(final String number) {
             this.number = number;
             return this;
         }
 
         /**
          * Data de registro da DI/DSI/DA (AAAA-MM-DD)
-         * 
+         *
          * @param date
          * @return
          */
-        public Builder withDate(String date) {
+        public Builder withDate(final String date) {
             this.date = date;
             return this;
         }
 
         /**
          * Local do desembaraço aduaneiro
-         * 
+         *
          * @param clearanceSpot
          * @return
          */
-        public Builder withClearanceSpot(String clearanceSpot) {
+        public Builder withClearanceSpot(final String clearanceSpot) {
             this.clearanceSpot = clearanceSpot;
             return this;
         }
 
         /**
          * UF onde ocorreu o desembaraço aduaneiro
-         * 
+         *
          * @param clearanceUf
          * @return
          */
-        public Builder withClearanceUf(UF clearanceUf) {
+        public Builder withClearanceUf(final UF clearanceUf) {
             this.clearanceUf = clearanceUf.getAcronym();
             return this;
         }
 
         /**
          * Data do desembaraço aduaneiro (AAAA-MM-DD)
-         * 
+         *
          * @param clearanceDate
          * @return
          */
-        public Builder withClearanceDate(String clearanceDate) {
+        public Builder withClearanceDate(final String clearanceDate) {
             this.clearanceDate = clearanceDate;
             return this;
         }
@@ -141,18 +142,18 @@ public class ImportDeclaration implements Serializable {
          * @param internationalTransportPathway
          * @return
          */
-        public Builder withInternationalTransportPathway(InternationalTransportPathway internationalTransportPathway) {
+        public Builder withInternationalTransportPathway(final InternationalTransportPathway internationalTransportPathway) {
             this.internationalTransportPathway = internationalTransportPathway;
             return this;
         }
 
         /**
          * Valor Adicional ao frete para renovação de marinha mercante
-         * 
+         *
          * @param additValShipMerchMarineRenovation
          * @return
          */
-        public Builder withAdditValShipMerchMarineRenovation(String additValShipMerchMarineRenovation) {
+        public Builder withAdditValShipMerchMarineRenovation(final String additValShipMerchMarineRenovation) {
             this.additValShipMerchMarineRenovation = additValShipMerchMarineRenovation;
             return this;
         }
@@ -162,51 +163,51 @@ public class ImportDeclaration implements Serializable {
          * @param intermediaryImportType
          * @return
          */
-        public Builder withIntermediaryImportType(IntermediaryImportType intermediaryImportType) {
+        public Builder withIntermediaryImportType(final IntermediaryImportType intermediaryImportType) {
             this.intermediaryImportType = intermediaryImportType;
             return this;
         }
 
         /**
          * CNPJ do adquirente ou do encomendante
-         * 
+         *
          * @param acquirerOrOrderingPartyCnpj
          * @return
          */
-        public Builder withAcquirerOrOrderingPartyCnpj(String acquirerOrOrderingPartyCnpj) {
+        public Builder withAcquirerOrOrderingPartyCnpj(final String acquirerOrOrderingPartyCnpj) {
             this.acquirerOrOrderingPartyCnpj = acquirerOrOrderingPartyCnpj;
             return this;
         }
 
         /**
          * Sigla da UF do adquirente ou do encomendante
-         * 
+         *
          * @param acquirerOrOrderingPartyUf
          * @return
          */
-        public Builder withAcquirerOrOrderingPartyUf(UF acquirerOrOrderingPartyUf) {
-            this.acquirerOrOrderingPartyUf = acquirerOrOrderingPartyUf.getAcronym();
+        public Builder withAcquirerOrOrderingPartyUf(final UF acquirerOrOrderingPartyUf) {
+            this.acquirerOrOrderingPartyUf = Optional.ofNullable(acquirerOrOrderingPartyUf).map(UF::getAcronym).orElse(null);
             return this;
         }
 
         /**
          * Código do exportador (usado nos sistemas internos de informação do emitente da NF-e)
-         * 
+         *
          * @param exporterCode
          * @return
          */
-        public Builder withExporterCode(String exporterCode) {
+        public Builder withExporterCode(final String exporterCode) {
             this.exporterCode = exporterCode;
             return this;
         }
 
         /**
-         * 
+         *
          * @see Addition
          * @param additions
          * @return
          */
-        public Builder withAdditions(List<Addition> additions) {
+        public Builder withAdditions(final List<Addition> additions) {
             this.additions = additions;
             return this;
         }
@@ -234,7 +235,7 @@ public class ImportDeclaration implements Serializable {
         this.additions = null;
     }
 
-    public ImportDeclaration(Builder builder) {
+    public ImportDeclaration(final Builder builder) {
         this.number = builder.number;
         this.date = builder.date;
         this.clearanceSpot = builder.clearanceSpot;
