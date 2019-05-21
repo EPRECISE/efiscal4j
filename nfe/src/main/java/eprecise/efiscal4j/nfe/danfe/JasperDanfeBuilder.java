@@ -21,10 +21,12 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -100,6 +102,13 @@ public class JasperDanfeBuilder {
 
     public JasperPrint build() throws IOException, JRException {
         this.params.putAll(this.paramsSource.getParamsOf(this.nfe));
+        this.catalog.getDetails(this.nfe.getDanfePrintFormat()).forEach((name, inputStream) -> {
+            try {
+                this.params.put(name, (JasperReport) JRLoader.loadObject(inputStream));
+            } catch (JRException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return JasperFillManager.fillReport(this.catalog.get(this.nfe.getDanfePrintFormat()), this.params, this.type.generate(this.nfe));
     }
 

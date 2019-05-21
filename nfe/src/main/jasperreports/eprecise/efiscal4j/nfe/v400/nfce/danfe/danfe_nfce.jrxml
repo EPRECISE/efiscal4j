@@ -9,6 +9,8 @@
 	<parameter name="url_consulta_nfce" class="java.lang.String"/>
 	<parameter name="logo" class="java.io.InputStream"/>
 	<parameter name="headerInfo" class="java.lang.String"/>
+	<parameter name="danfe_nfce_detalhes" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="danfe_nfce_pagamentos" class="net.sf.jasperreports.engine.JasperReport"/>
 	<queryString language="xPath">
 		<![CDATA[/]]>
 	</queryString>
@@ -225,7 +227,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/det")]]></dataSourceExpression>
-				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfe/v400/nfce/danfe/danfe_nfce_detalhes.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{danfe_nfce_detalhes}]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="64">
@@ -251,7 +253,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag/detPag")]]></dataSourceExpression>
-				<subreportExpression><![CDATA["/eprecise/efiscal4j/nfe/v400/nfce/danfe/danfe_nfce_pagamentos.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{danfe_nfce_pagamentos}]]></subreportExpression>
 			</subreport>
 			<textField isStretchWithOverflow="true" pattern="#,###0.000" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="156" y="0" width="38" height="10" uuid="1fdc8792-da51-4c21-a926-99d9b141708c">
