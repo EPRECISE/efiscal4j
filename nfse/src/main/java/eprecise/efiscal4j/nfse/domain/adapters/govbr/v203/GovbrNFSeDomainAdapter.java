@@ -71,7 +71,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
         return GovbrLotRpsDispatchSync.builder()
                 .rpsLot(GovbrLotRps.builder()
                         .lotNumber(this.nfse.getSerie().getLotNumber())
-                        .cnp(this.buildCnp(this.nfse.getEmitter().getDocuments())) 
+                        .cnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
                         .municipalRegistration(this.buildMunicipalRegistration(this.nfse.getEmitter().getDocuments()))
                         .quantity(1)
                         .statementProvisionServices(Arrays.asList(this.buildStatementProvisionService()))
@@ -81,7 +81,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     @Override
-    public NFSeRequest toDispatchCancel(NFSeCancellationRequestData cancellationRequestData) {
+    public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
         //@formatter:off
         return GovbrNFSeDispatchCancel.builder()
                 .request(GovbrNFSeCancelRequest.builder()
@@ -182,7 +182,7 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     private GovbrValues buildServiceValues() {
         //@formatter:off
           return GovbrValues.builder()
-                  .serviceValue(this.formatNFSeValue(this.nfse.getService().getNetValue()))
+                  .serviceValue(this.formatNFSeValue(this.nfse.getService().getGrossValue()))
                   .deductionValue(this.formatNFSeValue(this.nfse.getService().getDeduction()))
                   .pisValue(this.formatNFSeValue(this.nfse.getTax().getPisValue()))
                   .cofinsValue(this.formatNFSeValue(this.nfse.getTax().getCofinsValue()))
@@ -308,12 +308,12 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     @Override
-    public NFSeRequest toDispatchConsult(String protocol) {
+    public NFSeRequest toDispatchConsult(final String protocol) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public NFSeRequest toDispatchConsultState(String protocol) {
+    public NFSeRequest toDispatchConsultState(final String protocol) {
         throw new UnsupportedOperationException();
     }
 
@@ -322,10 +322,9 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
     }
 
     private String formatNfseString(final String input, final int size) {
-        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size))))
-                .map(string -> {
-                    return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
-                }).orElse(null);
+        return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size)))).map(string -> {
+            return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
+        }).orElse(null);
     }
 
     private String abbreviate(final String input, final int size) {
