@@ -25,6 +25,8 @@ public class ICMS60 implements ICMS, IcmsWithFcpStRetainedValueHolder {
 
     private final BigDecimal endConsumerSupportedAliquot;
 
+    private final BigDecimal icmsSubstituteValue;
+
     @Override
     public FcpStRetainedValue getFcpStRetainedValue() {
         return this.fcpStRetained;

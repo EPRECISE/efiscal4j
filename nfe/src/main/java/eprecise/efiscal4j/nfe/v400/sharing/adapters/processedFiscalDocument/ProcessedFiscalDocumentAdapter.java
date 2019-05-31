@@ -1639,6 +1639,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .value(this.toBigDecimal(nfeIcms60.getFcpRetainedValueST()))
                                     .build())
                             .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcms60.getEndConsumerSupportedAliquot()))
+                            .icmsSubstituteValue(this.toBigDecimal(nfeIcms60.getIcmsSubstituteValue()))
                             .build();
                 }
                 case "ICMS70": {
@@ -1842,6 +1843,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .value(this.toBigDecimal(nfeIcms500.getFcpRetainedValueST()))
                                     .build())
                             .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcms500.getEndConsumerSupportedAliquot()))
+                            .icmsSubstituteValue(this.toBigDecimal(nfeIcms500.getIcmsSubstituteValue()))
                             .build();
                 }
                 case "ICMSSN900": {
@@ -1879,6 +1881,13 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .calculationBasis(this.toBigDecimal(nfeIcmsSt.getBcRetainedValueST()))
                                     .value(this.toBigDecimal(nfeIcmsSt.getIcmsRetainedValueST()))
                                     .build())
+                            .fcpStRetained(FcpStRetainedValue.builder()
+                                    .calculationBasis(this.toBigDecimal(nfeIcmsSt.getBcFcpRetainedValueST()))
+                                    .aliquot(this.toBigDecimal(nfeIcmsSt.getFcpRetainedAliquotST()))
+                                    .value(this.toBigDecimal(nfeIcmsSt.getFcpRetainedValueST()))
+                                    .build())
+                            .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcmsSt.getEndConsumerSupportedAliquot()))
+                            .icmsSubstituteValue(this.toBigDecimal(nfeIcmsSt.getIcmsSubstituteValue()))
                             .destinationSt(IcmsStDestinationValue.builder()
                                     .calculationBasis(this.toBigDecimal(nfeIcmsSt.getBcIcmsStDestination()))
                                     .value(this.toBigDecimal(nfeIcmsSt.getIcmsStDestination()))

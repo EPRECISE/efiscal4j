@@ -12,7 +12,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
 /**
  * Tributação do ICMS pelo SIMPLES NACIONAL,CRT=1 – Simples Nacional e CSOSN=500 - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
- * 
+ *
  * @see BaseICMSSN
  * @see ICMSSTRetained
  * @see ICMS
@@ -28,6 +28,8 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
 
     private @XmlElement(name = "pST") @NFeDecimal0302a04Optional final String endConsumerSupportedAliquot;
 
+    private @XmlElement(name = "vICMSSubstituto") @NFeDecimal1302 final String icmsSubstituteValue;
+
     private @XmlElement(name = "vICMSSTRet") @NFeDecimal1302 final String icmsRetainedValueST;
 
     private @XmlElement(name = "vBCFCPSTRet") @NFeDecimal1302 final String bcFcpRetainedValueST;
@@ -41,6 +43,8 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
         private String bcRetainedValueST;
 
         private String endConsumerSupportedAliquot;
+
+        private String icmsSubstituteValue;
 
         private String icmsRetainedValueST;
 
@@ -60,7 +64,7 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
 
         /**
          * Valor da BC do ICMS ST retido anteriormente
-         * 
+         *
          * @param bcRetainedValueST
          * @return
          */
@@ -81,8 +85,19 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
         }
 
         /**
+         * Valor do ICMS Próprio do Substituto cobrado em operação anterior
+         *
+         * @param icmsSubstituteValue
+         * @return
+         */
+        public Builder withIcmsSubstituteValue(final String icmsSubstituteValue) {
+            this.icmsSubstituteValue = icmsSubstituteValue;
+            return this;
+        }
+
+        /**
          * Valor do ICMS ST retido anteriormente
-         * 
+         *
          * @param icmsRetainedValueST
          * @return
          */
@@ -93,7 +108,7 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
 
         /**
          * Valor da Base de cálculo do FCP retido anteriormente por ST
-         * 
+         *
          * @param bcFcpRetainedValueST
          */
         public Builder withBcFcpRetainedValueST(final String bcFcpRetainedValueST) {
@@ -132,6 +147,7 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
     public ICMSSN500() {
         this.bcRetainedValueST = null;
         this.endConsumerSupportedAliquot = null;
+        this.icmsSubstituteValue = null;
         this.icmsRetainedValueST = null;
         this.bcFcpRetainedValueST = null;
         this.fcpRetainedAliquotST = null;
@@ -142,34 +158,41 @@ public class ICMSSN500 extends BaseICMSSN implements ICMSSTRetained {
         super(builder.origin, "500");
         this.bcRetainedValueST = builder.bcRetainedValueST;
         this.endConsumerSupportedAliquot = builder.endConsumerSupportedAliquot;
+        this.icmsSubstituteValue = builder.icmsSubstituteValue;
         this.icmsRetainedValueST = builder.icmsRetainedValueST;
         this.bcFcpRetainedValueST = builder.bcFcpRetainedValueST;
         this.fcpRetainedAliquotST = builder.fcpRetainedAliquotST;
         this.fcpRetainedValueST = builder.fcpRetainedValueST;
     }
 
+    @Override
     public String getBcRetainedValueST() {
-        return bcRetainedValueST;
+        return this.bcRetainedValueST;
     }
 
     public String getEndConsumerSupportedAliquot() {
-        return endConsumerSupportedAliquot;
+        return this.endConsumerSupportedAliquot;
     }
 
+    public String getIcmsSubstituteValue() {
+        return this.icmsSubstituteValue;
+    }
+
+    @Override
     public String getIcmsRetainedValueST() {
-        return icmsRetainedValueST;
+        return this.icmsRetainedValueST;
     }
 
     public String getBcFcpRetainedValueST() {
-        return bcFcpRetainedValueST;
+        return this.bcFcpRetainedValueST;
     }
 
     public String getFcpRetainedAliquotST() {
-        return fcpRetainedAliquotST;
+        return this.fcpRetainedAliquotST;
     }
 
     public String getFcpRetainedValueST() {
-        return fcpRetainedValueST;
+        return this.fcpRetainedValueST;
     }
 
 }
