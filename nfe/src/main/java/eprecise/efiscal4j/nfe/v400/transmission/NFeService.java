@@ -12,23 +12,29 @@ import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 
 /**
  * Identificação dos Web Services de NF-e
- * 
+ *
  * @author Felipe Bueno
  *
  */
 
 public enum NFeService implements FiscalDocumentService, Serializable {
 
-    AUTHORIZATION("/eprecise/efiscal4j/nfe/v400/transmission/authorizationHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/authorizationProduction.properties"),
-    AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultProduction.properties"),
-    EVENT_RECEPTION("/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionProduction.properties"),
-    PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchProduction.properties"),
-    SERVICE_STATUS("/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusProduction.properties"),
-    DISABILITY("/eprecise/efiscal4j/nfe/v400/transmission/disabilityHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/disabilityProduction.properties"), 
-    DELIVERY_DFE("/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeHomolog.properties", "/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeProduction.properties");
+                                                                       AUTHORIZATION("/eprecise/efiscal4j/nfe/v400/transmission/authorizationHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/authorizationProduction.properties"),
+                                                                       AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultProduction.properties"),
+                                                                       EVENT_RECEPTION("/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionProduction.properties"),
+                                                                       PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchProduction.properties"),
+                                                                       SERVICE_STATUS("/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusProduction.properties"),
+                                                                       DISABILITY("/eprecise/efiscal4j/nfe/v400/transmission/disabilityHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/disabilityProduction.properties"),
+                                                                       DELIVERY_DFE("/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeHomolog.properties",
+                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeProduction.properties");
 
     private static final long serialVersionUID = 1L;
-
 
     private FiscalDocumentVersion supportedVersion;
 
@@ -36,38 +42,39 @@ public enum NFeService implements FiscalDocumentService, Serializable {
 
     private final PropertiesLoader nFeServiceProductionMap;
 
-    private NFeService(String propertiesHomologPath, String propertiesProductionPath) {
+    private NFeService(final String propertiesHomologPath, final String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesHomologPath).create();
         this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesProductionPath).create();
     }
 
-    public String getHomologUrl(ServiceDomain serviceDomain) {
+    public String getHomologUrl(final ServiceDomain serviceDomain) {
         return this.getUrl(serviceDomain, TransmissionEnvironment.HOMOLOGACAO);
     }
 
-    public String getHomologUrl(UF uf) {
+    public String getHomologUrl(final UF uf) {
         return this.getUrl(this.getServiceDomainByUf(uf), TransmissionEnvironment.HOMOLOGACAO);
     }
 
-    public String getProductionUrl(ServiceDomain serviceDomain) {
+    public String getProductionUrl(final ServiceDomain serviceDomain) {
         return this.getUrl(serviceDomain, TransmissionEnvironment.PRODUCAO);
     }
 
-    public String getProductionUrl(UF uf) {
+    public String getProductionUrl(final UF uf) {
         return this.getUrl(this.getServiceDomainByUf(uf), TransmissionEnvironment.PRODUCAO);
     }
 
     /**
      * Valida a estrutura da Sefaz, que define qual UF utiliza qual ambiente de serviço
-     * 
+     *
      * @return
      */
-    public ServiceDomain getServiceDomainByUf(UF uf) {
+    public ServiceDomain getServiceDomainByUf(final UF uf) {
         // TODO Verificar como retornaria ambiente de contingência
         //@formatter:off
         switch (uf) {
             case MA:
             case PA:
+                return ServiceDomain.SVAN;
             case PI:
             case AC:
             case AL:
@@ -88,7 +95,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
         //@formatter:on
     }
 
-    private String getUrl(ServiceDomain serviceDomain, TransmissionEnvironment environment) {
+    private String getUrl(final ServiceDomain serviceDomain, final TransmissionEnvironment environment) {
         if (!serviceDomain.getServices().contains(this)) {
             throw new UnsupportedOperationException("O serviço " + this.toString() + " não está implementado para a Domínio " + serviceDomain.getDescription());
         }
@@ -96,7 +103,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
         FiscalDocumentVersion version = null;
 
         for (final FiscalDocumentService fiscalDocumentService : serviceDomain.getServices()) {
-            if (fiscalDocumentService instanceof NFeService && fiscalDocumentService == this) {
+            if ((fiscalDocumentService instanceof NFeService) && (fiscalDocumentService == this)) {
                 version = ((NFeService) fiscalDocumentService).getVersion();
                 break;
             }
@@ -123,7 +130,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
         return this.supportedVersion;
     }
 
-    public NFeService withSupportedVersion(FiscalDocumentVersion supportedVersion) {
+    public NFeService withSupportedVersion(final FiscalDocumentVersion supportedVersion) {
         this.supportedVersion = supportedVersion;
         return this;
     }
@@ -134,7 +141,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
 
         private final FiscalDocumentVersion fiscalDocumentVersion;
 
-        public ServiceDomainVersion(ServiceDomain serviceDomain, FiscalDocumentVersion fiscalDocumentVersion) {
+        public ServiceDomainVersion(final ServiceDomain serviceDomain, final FiscalDocumentVersion fiscalDocumentVersion) {
             this.serviceDomain = serviceDomain;
             this.fiscalDocumentVersion = fiscalDocumentVersion;
         }

@@ -64,6 +64,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         this.transmissor = new Transmissor(certificate, "TLSv1.2");
     }
 
+    @Override
     public TypedTransmissionResult<NFeDispatch, NFeDispatchResponseMethod> transmitAuthorization(final NFeAuthorizationRequest authorizationRequest)
             throws SAXException, IOException, ParserConfigurationException {
         final NFeDispatch nfeDispatch = (NFeDispatch) authorizationRequest;
@@ -96,13 +97,15 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFeDispatch.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    @Override
     public TypedTransmissionResult<ServiceStatusSearch, ServiceStatusSearchResponseMethod> transmitServiceStatusSearch(final NFeServiceStatusSearchRequest serviceStatusSearchRequest,
             final FiscalDocumentModel documentModel) {
 
@@ -141,13 +144,15 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(serviceStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(ServiceStatusSearch.class, ServiceStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
+    @Override
     public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCancellation(final NFeEventDispatchRequest eventDispatchRequest,
             final FiscalDocumentModel documentModel) {
         String serviceUrl = null;
@@ -183,13 +188,15 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    @Override
     public TypedTransmissionResult<EventDispatch, EventDispatchResponseMethod> transmitEventReceptionCCe(final NFeEventDispatchRequest eventDispatchRequest, final FiscalDocumentModel documentModel) {
 
         final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
@@ -217,13 +224,15 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(EventDispatch.class, EventDispatchResponseMethod.class, requestXml, responseXml);
     }
 
+    @Override
     public TypedTransmissionResult<EventDispatch, RecipientManifestationResponseMethod> transmitRecipientManifestationEvent(final NFeEventDispatchRequest eventDispatchRequest) {
 
         final EventDispatch eventDispatch = (EventDispatch) eventDispatchRequest;
@@ -249,7 +258,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         }
 
         //@formatter:off
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4", 
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4",
                 UF.PR, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
@@ -258,21 +267,22 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         		.replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4\"", "")
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4\"", "")
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4\"", "")
-                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", ""); 
+                .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", "");
 
-        final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, ImmutableMap.of("SOAPAction", 
+        final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, ImmutableMap.of("SOAPAction",
                 "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
-        
-        return new TypedTransmissionResult<>(EventDispatch.class, RecipientManifestationResponseMethod.class, 
+
+        return new TypedTransmissionResult<>(EventDispatch.class, RecipientManifestationResponseMethod.class,
                 new FiscalDocumentSerializer<>(eventDispatch).serialize(),this.postProcessReceiptManifestationResponseXML(responseXml));
         //@formatter:off
     }
 
+    @Override
     public TypedTransmissionResult<NFeStatusSearch, NFeStatusSearchResponseMethod> transmitNFeStatusSearch(final NFeStatusSearchRequest nfeStatusSearchRequest, final FiscalDocumentModel documentModel,
             final UF uf) {
-        
+
         final NFeStatusSearch nfeStatusSearch = (NFeStatusSearch) nfeStatusSearchRequest;
-        
+
         String serviceUrl = null;
 
         switch (nfeStatusSearch.getTransmissionEnvironment()) {
@@ -304,17 +314,19 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl, ImmutableMap.of("SOAPAction",
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4/nfeConsultaNF"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(NFeStatusSearch.class, NFeStatusSearchResponseMethod.class, requestXml, responseXml);
     }
 
+    @Override
     public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisableRequest) {
 
         final NFeNumberDisableDispatch nfeNumberDisable = (NFeNumberDisableDispatch) nfeNumberDisableRequest;
-        
+
         final UF uf = nfeNumberDisable.getInfo().getUfIbgeCode();
 
         final FiscalDocumentModel documentModel = nfeNumberDisable.getInfo().getFiscalDocumentModel();
@@ -349,7 +361,8 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeNumberDisable).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl);
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl, ImmutableMap.of("SOAPAction",
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -358,24 +371,25 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
     /**
      * Web Service - NFeDistribuicaoDFe
-     * 
+     *
      * Distribui documentos e informações de interesse do ator da NF-e
-     * 
+     *
      * Função: Serviço destinado à distribuição de informações resumidas e documentos fiscais eletrônicos de interesse de um ator, seja este uma pessoa física ou jurídica. Processo: síncrono Método:
      * nfeDistDFeInteresse Este serviço permite que um ator da NF-e tenha acesso aos documentos fiscais eletrônicos (DF-e) e informações resumidas que não tenham sido gerados por ele e que sejam de
      * seu interesse. Pode ser consumido por qualquer ator de NF-e, Pessoa Jurídica ou Pessoa Física, que possua um certificado digital de PJ ou PF. No caso de Pessoa Jurídica, a empresa será
      * autenticada pelo CNPJ base e poderá realizar a consulta com qualquer CNPJ da empresa desde que o CNPJ base consultado seja o mesmo do certificado digital.
-     * 
+     *
      * NT 2014/002
-     * 
+     *
      * @param deliveryDFeRequest
      *            - Requisição de informção de DF-e
      * @return Resultado da requisição, com valor dependendo da informação solicitada
      */
+    @Override
     public TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeDispatchRequest deliveryDFeDispatchRequest) {
 
         final NFeDeliveryDFeRequest deliveryDFeRequest = (NFeDeliveryDFeRequest) deliveryDFeDispatchRequest;
-        
+
         String serviceUrl = null;
 
         switch (deliveryDFeRequest.getTransmissionEnvironment()) {
@@ -404,21 +418,21 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         return new TypedTransmissionResult<>(NFeDeliveryDFeRequest.class, NFeDeliveryDFeResponse.class, requestXml, responseXml);
     }
-    
-    private String postProcessReceiptManifestationResponseXML(String responseXML) {
+
+    private String postProcessReceiptManifestationResponseXML(final String responseXML) {
         final int startIndex = responseXML.indexOf("<soap:Body>")
                 + "<soap:Body>".length();
-        
+
         return responseXML.substring(startIndex, responseXML.lastIndexOf("</soap:Body>"));
     }
 
-    private String postProcessNFeDeliveryDFeResponseXML(String responseXml) {
+    private String postProcessNFeDeliveryDFeResponseXML(final String responseXml) {
         final int startIndex = responseXml.indexOf("<nfeDistDFeInteresseResult>") + "<nfeDistDFeInteresseResult>".length();
 
         return responseXml.substring(startIndex, responseXml.lastIndexOf("</nfeDistDFeInteresseResult"));
     }
 
-    private String postProcessResponseXML(String responseXml) {
+    private String postProcessResponseXML(final String responseXml) {
         return StringUtils.remove(StringUtils.remove(responseXml, StringUtils.substringBefore(responseXml, "<nfeResultMsg")), StringUtils.substringAfter(responseXml, "</nfeResultMsg>"));
     }
 
@@ -429,7 +443,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
                         .withNfeBody(new NFeBody.Builder().withXmlns(xmlns)
                                 .withTransmissible(transmissible).build()).build()).build();
 
-        
+
         return new NFeDeliveryDFeSoapEnvelope.Builder()
                   .withSoapHeader(new SOAPHeader.Builder()
                                      .withNfeHeader(new NFeHeader.Builder()
