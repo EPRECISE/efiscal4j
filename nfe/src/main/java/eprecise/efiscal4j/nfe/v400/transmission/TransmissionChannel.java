@@ -189,7 +189,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -225,7 +225,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 
