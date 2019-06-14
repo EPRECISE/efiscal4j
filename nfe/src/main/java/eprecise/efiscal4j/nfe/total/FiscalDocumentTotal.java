@@ -1,6 +1,7 @@
 
 package eprecise.efiscal4j.nfe.total;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
@@ -15,12 +16,18 @@ import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.total.tax.TotalTaxes;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Getter;
 
 
+@Builder
 @AllArgsConstructor
 public class FiscalDocumentTotal {
 
     private final Supplier<Collection<Item>> items;
+
+    private final AddsValue addsValue;
 
     public BigDecimal getComercialGrossTotalValue() {
         return this.scale(
@@ -53,9 +60,20 @@ public class FiscalDocumentTotal {
     }
 
     public BigDecimal getFiscalDocumentTotalValue() {
-        return this.getComercialGrossTotalValue().add(this.getTotalTaxes().getTotalIcmsStValue()).add(this.getShippingTotalValue()).add(this.getInsuranceTotalValue()).add(this.getOthersTotalValue())
-                .add(this.getTotalTaxes().getTotalIIValue()).add(this.getTotalTaxes().getTotalIPIValue()).subtract(this.getDiscountTotalValue())
-                .subtract(this.getTotalTaxes().getTotalIcmsDesonerationValue());
+     // @formatter:off
+        return this.getComercialGrossTotalValue()
+                .add(this.getTotalTaxes().getTotalIcmsStValue())
+                .add(this.getShippingTotalValue())
+                .add(this.getInsuranceTotalValue())
+                .add(this.getOthersTotalValue())
+                .add(this.getTotalTaxes().getTotalIIValue())
+                .add(this.getTotalTaxes().getTotalIPIValue())
+                .subtract(this.getDiscountTotalValue())
+                .subtract(this.getTotalTaxes().getTotalIcmsDesonerationValue())
+                .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalIcmsValue).map(it -> this.getTotalTaxes().getTotalIcmsValue()).orElse(BigDecimal.ZERO))
+                .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalPisValue).map(it -> this.getTotalTaxes().getTotalPisValue()).orElse(BigDecimal.ZERO))
+                .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalCofinsValue).map(it -> this.getTotalTaxes().getTotalCofinsValue()).orElse(BigDecimal.ZERO));
+     // @formatter:on
     }
 
     public ApproximateTax getApproximateTaxTotalValue() {
@@ -72,6 +90,21 @@ public class FiscalDocumentTotal {
 
     private BigDecimal scale(final BigDecimal value) {
         return Optional.ofNullable(value).map(v -> v.setScale(2, RoundingMode.HALF_UP)).orElse(null);
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @Getter
+    public static class AddsValue implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private @Default final boolean totalIcmsValue = false;
+
+        private @Default final boolean totalPisValue = false;
+
+        private @Default final boolean totalCofinsValue = false;
+
     }
 
 }

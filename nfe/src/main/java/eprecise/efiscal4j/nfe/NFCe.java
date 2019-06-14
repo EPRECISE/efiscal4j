@@ -17,6 +17,7 @@ import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
 import eprecise.efiscal4j.nfe.technicalManager.TechnicalManager;
+import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,8 +40,10 @@ public class NFCe extends FiscalDocument {
 
     @Builder
     public NFCe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
-            final Payment payment, final Transport transport, final TechnicalManager technicalManager, final String details, final Consumer consumer, final CSC csc) {
-        super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, emission, emitter, items, charging, payment, transport, technicalManager, details);
+            final Payment payment, final Transport transport, final TechnicalManager technicalManager, final String details, final Consumer consumer, final CSC csc,
+            final FiscalDocumentTotal.AddsValue totalAddsValue) {
+        super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, emission, emitter, items, charging, payment, transport, technicalManager,
+                details, totalAddsValue);
         this.consumer = consumer;
         this.csc = csc;
     }

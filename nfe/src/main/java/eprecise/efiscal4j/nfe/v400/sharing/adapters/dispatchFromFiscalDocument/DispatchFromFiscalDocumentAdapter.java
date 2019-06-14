@@ -697,7 +697,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 					}).orElse(null))
 					.withTransportedVolume(Optional.ofNullable(transport.getVolumes()).map(tvList -> tvList.stream().map(tv -> {
 						return new TransportedVolume.Builder()
-								.withVolumeQuantity(tv.getVolumeQuantity().toString())
+								.withVolumeQuantity(Optional.ofNullable(tv.getVolumeQuantity()).map(vq->vq.toString()).orElse(null))
 								.withVolumeSpecies(tv.getVolumeSpecies())
 								.withVolumeTrademark(tv.getVolumeTrademark())
 								.withVolumeNumbering(tv.getVolumeNumbering())

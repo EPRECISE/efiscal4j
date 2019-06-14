@@ -64,7 +64,7 @@ public abstract class FiscalDocument {
 
     /**
      * Número do Documento Fiscal
-     * 
+     *
      * @param number
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isNotNull}") @Min(value = 1, message = "{eprecise.efiscal4j.nfe.fiscalDocument.number.isMinSize}") @Max(
@@ -106,27 +106,29 @@ public abstract class FiscalDocument {
      * @param transport
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
-    
+
     /**
      * @see TechnicalManager
      * @param technicalManager
      */
-//    @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.technicalManager.isNotNull}")
+    // @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.technicalManager.isNotNull}")
     private @Valid final TechnicalManager technicalManager;
 
     /**
      * Informações complementares de interesse do Contribuinte
-     * 
+     *
      * @param details
      */
     private @Size(min = 1, max = 5000, message = "{eprecise.efiscal4j.nfe.fiscalDocument.details.isSize}") final String details;
+
+    private final FiscalDocumentTotal.AddsValue totalAddsValue;
 
     public abstract FiscalDocumentModel getModel();
 
     public abstract boolean isEndConsumer();
 
     public FiscalDocumentTotal getTotal() {
-        return new FiscalDocumentTotal(() -> this.items);
+        return new FiscalDocumentTotal(() -> this.items, this.totalAddsValue);
     }
 
     public Integer getItemOrder(final Item item) {
@@ -135,7 +137,7 @@ public abstract class FiscalDocument {
 
     /**
      * Transmite o documento fiscal
-     * 
+     *
      * @param versão
      *            do documento fiscal
      * @return documento fiscal processado
@@ -187,7 +189,7 @@ public abstract class FiscalDocument {
     					final ProcessedNFeVersion processedNFeVersion = new FiscalDocumentDeserializer<>(xml, v.getProcessedNFeClass()).notStoppingOnError().deserialize();
     					return processedNFeVersion.buildProcessedFiscalDocument();
                     }
-                    
+
                     throw new IllegalArgumentException("xml não suportado para importação: "+xml);
 
 				// @formatter:on
