@@ -22,7 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 
 /**
- * 
+ *
  * @author JavaC Community
  *
  */
@@ -34,11 +34,11 @@ public class NFeBuildAllCacerts {
 
     private final char[] passphrase = "changeit".toCharArray();
 
-    public NFeBuildAllCacerts(String jsseCacerts) {
+    public NFeBuildAllCacerts(final String jsseCacerts) {
         this.jsseCacerts = jsseCacerts;
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             if (args[0] == null) {
                 System.out.println("Não foi definido o caminho e nome do certificado cacerts. Abortando operação.");
@@ -73,77 +73,39 @@ public class NFeBuildAllCacerts {
         in.close();
 
         /**
-         * Homologação:<br>
-         * AM - 3.10: homnfe.sefaz.am.gov.br<br>
-         * BA - 3.10: hnfe.sefaz.ba.gov.br<br>
-         * CE - 3.10: nfeh.sefaz.ce.gov.br<br>
-         * GO - 3.10: homolog.sefaz.go.gov.br<br>
-         * MG - 3.10: hnfe.fazenda.mg.gov.br<br>
-         * MA - 2.00: sistemas.sefaz.ma.gov.br<br>
-         * MS - 3.10: homologacao.nfe.ms.gov.br<br>
-         * MT - 3.10: homologacao.sefaz.mt.gov.br<br>
-         * PE - 3.10: nfehomolog.sefaz.pe.gov.br<br>
-         * PR - 3.10: homologacao.nfe.fazenda.pr.gov.br<br>
-         * RS - 3.10: nfe-homologacao.sefazrs.rs.gov.br<br>
-         * SP - 3.10: homologacao.nfe.fazenda.sp.gov.br<br>
-         * SVAN - 3.10: hom.sefazvirtual.fazenda.gov.br<br>
-         * SVRS - 3.10: nfe-homologacao.svrs.rs.gov.br<br>
-         * SVC-AN - 3.10: hom.svc.fazenda.gov.br<br>
-         * SVC-RS - 3.10: nfe-homologacao.svrs.rs.gov.br<br>
-         * AN - 3.10: hom.nfe.fazenda.gov.br<br>
+         * Homologação:
          */
         this.get("homnfe.sefaz.am.gov.br", 443, ks);
         this.get("hnfe.sefaz.ba.gov.br", 443, ks);
         this.get("nfeh.sefaz.ce.gov.br", 443, ks);
         this.get("homolog.sefaz.go.gov.br", 443, ks);
         this.get("hnfe.fazenda.mg.gov.br", 443, ks);
-        this.get("sistemas.sefaz.ma.gov.br", 443, ks);
-        this.get("homologacao.nfe.ms.gov.br", 443, ks);
+        this.get("hom.nfe.sefaz.ms.gov.br", 443, ks);
         this.get("homologacao.sefaz.mt.gov.br", 443, ks);
         this.get("nfehomolog.sefaz.pe.gov.br", 443, ks);
-        this.get("homologacao.nfe.fazenda.pr.gov.br", 443, ks);
+        this.get("homologacao.nfe.sefa.pr.gov.br", 443, ks);
         this.get("nfe-homologacao.sefazrs.rs.gov.br", 443, ks);
         this.get("homologacao.nfe.fazenda.sp.gov.br", 443, ks);
         this.get("hom.sefazvirtual.fazenda.gov.br", 443, ks);
         this.get("nfe-homologacao.svrs.rs.gov.br", 443, ks);
         this.get("hom.svc.fazenda.gov.br", 443, ks);
-        this.get("nfe-homologacao.svrs.rs.gov.br", 443, ks);
         this.get("hom.nfe.fazenda.gov.br", 443, ks);
 
         /**
-         * Produção:<br>
-         * AM - 3.10: nfe.sefaz.am.gov.br<br>
-         * BA - 3.10: nfe.sefaz.ba.gov.br<br>
-         * CE - 3.10: nfe.sefaz.ce.gov.br<br>
-         * GO - 3.10: nfe.sefaz.go.gov.br<br>
-         * MG - 3.10: nfe.fazenda.mg.gov.br<br>
-         * MA - 2.00: sistemas.sefaz.ma.gov.br<br>
-         * MS - 3.10: nfe.fazenda.ms.gov.br<br>
-         * MT - 3.10: nfe.sefaz.mt.gov.br<br>
-         * PE - 3.10: nfe.sefaz.pe.gov.br<br>
-         * PR - 3.10: nfe.fazenda.pr.gov.br<br>
-         * RS - 3.10: nfe.sefazrs.rs.gov.br<br>
-         * SP - 3.10: nfe.fazenda.sp.gov.br<br>
-         * SVAN - 3.10: www.sefazvirtual.fazenda.gov.br<br>
-         * SVRS - 3.10: nfe.svrs.rs.gov.br<br>
-         * SVC-AN - 3.10: www.svc.fazenda.gov.br<br>
-         * SVC-RS - 3.10: nfe.svrs.rs.gov.br<br>
-         * AN - 3.10: www.nfe.fazenda.gov.br<br>
+         * Produção:
          */
         this.get("nfe.sefaz.am.gov.br", 443, ks);
         this.get("nfe.sefaz.ba.gov.br", 443, ks);
         this.get("nfe.sefaz.ce.gov.br", 443, ks);
         this.get("nfe.sefaz.go.gov.br", 443, ks);
         this.get("nfe.fazenda.mg.gov.br", 443, ks);
-        this.get("sistemas.sefaz.ma.gov.br", 443, ks);
-        this.get("nfe.fazenda.ms.gov.br", 443, ks);
+        this.get("nfe.sefaz.ms.gov.br", 443, ks);
         this.get("nfe.sefaz.mt.gov.br", 443, ks);
         this.get("nfe.sefaz.pe.gov.br", 443, ks);
-        this.get("nfe.fazenda.pr.gov.br", 443, ks);
+        this.get("nfe.sefa.pr.gov.br", 443, ks);
         this.get("nfe.sefazrs.rs.gov.br", 443, ks);
         this.get("nfe.fazenda.sp.gov.br", 443, ks);
         this.get("www.sefazvirtual.fazenda.gov.br", 443, ks);
-        this.get("nfe.svrs.rs.gov.br", 443, ks);
         this.get("www.svc.fazenda.gov.br", 443, ks);
         this.get("nfe.svrs.rs.gov.br", 443, ks);
         this.get("www.nfe.fazenda.gov.br", 443, ks);
@@ -154,7 +116,7 @@ public class NFeBuildAllCacerts {
         out.close();
     }
 
-    private void get(String host, int port, KeyStore ks) throws Exception {
+    private void get(final String host, final int port, final KeyStore ks) throws Exception {
         final SSLContext context = SSLContext.getInstance("TLS");
         final TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(ks);
@@ -174,11 +136,11 @@ public class NFeBuildAllCacerts {
         } catch (final SSLHandshakeException e) {
             //@formatter:off
             /**
-             * PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: 
-             * unable to find valid certification path to requested target 
+             * PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
+             * unable to find valid certification path to requested target
              * Não tratado, pois sempre ocorre essa exceção quando o cacerts nao esta gerado.
              */
-            //@formatter:on            
+            //@formatter:on
         } catch (final SSLException e) {
             this.error("| " + e.toString());
         }
@@ -208,7 +170,7 @@ public class NFeBuildAllCacerts {
 
         private X509Certificate[] chain;
 
-        SavingTrustManager(X509TrustManager tm) {
+        SavingTrustManager(final X509TrustManager tm) {
             this.tm = tm;
         }
 
@@ -218,22 +180,22 @@ public class NFeBuildAllCacerts {
         }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             this.chain = chain;
             this.tm.checkServerTrusted(chain, authType);
         }
     }
 
-    private void info(String log) {
+    private void info(final String log) {
         System.out.println("INFO: " + log);
     }
 
-    private void error(String log) {
+    private void error(final String log) {
         System.out.println("ERROR: " + log);
     }
 
