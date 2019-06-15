@@ -23,6 +23,6 @@ public class CSC implements Serializable {
 
     @Pattern(regexp = "[0-9]{6}|", message = "{eprecise.efiscal4j.nfe.csc.identifier.isNotIdentifier}") private final String identifier;
 
-    @Pattern(regexp = "[0-9A-Z]{36}|", message = "{eprecise.efiscal4j.nfe.csc.cscValue.isNotCscValue}") private final String cscValue;
+    private final String cscValue;
 
 }

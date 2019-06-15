@@ -182,7 +182,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
             break;
         }
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4", uf, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
@@ -218,7 +218,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
             break;
         }
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe", uf, eventDispatch.getVersion(), eventDispatch);
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope("http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4", uf, eventDispatch.getVersion(), eventDispatch);
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
