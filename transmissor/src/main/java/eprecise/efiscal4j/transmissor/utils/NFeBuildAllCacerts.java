@@ -73,7 +73,7 @@ public class NFeBuildAllCacerts {
         in.close();
 
         /**
-         * Homologação:
+         * Homologação: NF-e
          */
         this.get("homnfe.sefaz.am.gov.br", 443, ks);
         this.get("hnfe.sefaz.ba.gov.br", 443, ks);
@@ -92,7 +92,22 @@ public class NFeBuildAllCacerts {
         this.get("hom.nfe.fazenda.gov.br", 443, ks);
 
         /**
-         * Produção:
+         * Homologação: NFC-e
+         */
+        this.get("homnfce.sefaz.am.gov.br", 443, ks);
+        this.get("nfceh.sefaz.ce.gov.br", 443, ks);
+        this.get("homolog.sefaz.go.gov.br", 443, ks);
+        this.get("hnfce.fazenda.mg.gov.br", 443, ks);
+        this.get("hom.nfce.sefaz.ms.gov.br", 443, ks);
+        this.get("homologacao.sefaz.mt.gov.br", 443, ks);
+        this.get("nfce-homologacao.svrs.rs.gov.br", 443, ks);
+        this.get("homologacao.nfce.sefa.pr.gov.br", 443, ks);
+        this.get("nfce-homologacao.sefazrs.rs.gov.br", 443, ks);
+        this.get("homologacao.nfce.fazenda.sp.gov.br", 443, ks);
+        this.get("nfce-homologacao.svrs.rs.gov.br", 443, ks);
+
+        /**
+         * Produção: NF-e
          */
         this.get("nfe.sefaz.am.gov.br", 443, ks);
         this.get("nfe.sefaz.ba.gov.br", 443, ks);
@@ -109,6 +124,21 @@ public class NFeBuildAllCacerts {
         this.get("www.svc.fazenda.gov.br", 443, ks);
         this.get("nfe.svrs.rs.gov.br", 443, ks);
         this.get("www.nfe.fazenda.gov.br", 443, ks);
+
+        /**
+         * Produção: NFC-e
+         */
+        this.get("nfce.sefaz.am.gov.br", 443, ks);
+        this.get("nfce.sefaz.ce.gov.br", 443, ks);
+        this.get("nfe.sefaz.go.gov.br", 443, ks);
+        this.get("nfce.fazenda.mg.gov.br", 443, ks);
+        this.get("nfce.sefaz.ms.gov.br", 443, ks);
+        this.get("nfce.sefaz.mt.gov.br", 443, ks);
+        this.get("nfce.svrs.rs.gov.br", 443, ks);
+        this.get("nfce.sefa.pr.gov.br", 443, ks);
+        this.get("nfce.sefazrs.rs.gov.br", 443, ks);
+        this.get("nfce.fazenda.sp.gov.br", 443, ks);
+        this.get("nfce.svrs.rs.gov.br", 443, ks);
 
         final File cafile = new File(this.getJsseCacerts());
         final OutputStream out = new FileOutputStream(cafile);
