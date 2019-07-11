@@ -433,12 +433,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
     }
 
     private String postProcessResponseXML(final String responseXml) {
-        final String response = StringUtils.remove(StringUtils.remove(responseXml, StringUtils.substringBefore(responseXml, "<nfeResultMsg")), StringUtils.substringAfter(responseXml, "</nfeResultMsg>"));
-
-        System.out.println("TESTE 1: "+response.replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe\"", ""));
-        System.out.println("TESTE 2: "+response.replaceAll("xmlns:ns=\"http://www.portalfiscal.inf.br/nfe\"", ""));
-
-        return response.replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe\"", "");
+        return StringUtils.remove(StringUtils.remove(responseXml, StringUtils.substringBefore(responseXml, "<nfeResultMsg")), StringUtils.substringAfter(responseXml, "</nfeResultMsg>"));
     }
 
     private NFeDeliveryDFeSoapEnvelope buildDeliveryDFeSOAPEnvelope(final String xmlns, final UF uf, final FiscalDocumentVersion version, final TransmissibleBodyImpl transmissible) {
