@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.helpers.DefaultValidationEventHandler;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 
@@ -86,7 +87,7 @@ public class FiscalDocumentDeserializer<T> {
             if (this.stopOnError) {
                 unmarshaller.setEventHandler(new DefaultValidationEventHandler());
             }
-            return this.mainClass.cast(unmarshaller.unmarshal(new StringReader(this.getPreparedXML())));
+            return this.mainClass.cast(unmarshaller.unmarshal(new StreamSource(new StringReader(this.getPreparedXML()))));
         } catch (final JAXBException e) {
             throw new RuntimeException(e);
         }
@@ -104,7 +105,7 @@ public class FiscalDocumentDeserializer<T> {
         String xml = this.xmlContent;
 
         for (final String str : toRemove) {
-            xml = xml.replace(str, "");
+            xml = xml.replaceAll(str, "");
         }
 
         if (this.adapter.isPresent()) {
