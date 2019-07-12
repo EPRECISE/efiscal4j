@@ -9,8 +9,6 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,19 +92,7 @@ public class FiscalDocumentDeserializer<T> {
     }
 
     private String getPreparedXML() {
-        final Collection<String> toRemove = new HashSet<>();
-        toRemove.add("xmlns=[\"|']http://www.portalfiscal.inf.br/cte[\"|']");
-        toRemove.add("xmlns=[\"|']http://www.portalfiscal.inf.br/nfe[\"|']");
-        toRemove.add("xmlns=[\"|']http://www.w3.org/2000/09/xmldsig#[\"|']");
-        toRemove.add("xmlns=[\"|']http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd[\"|']");
-        toRemove.add("xmlns=[\"|']http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd[\"|']");
-        toRemove.add("xmlns=[\"|']http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd[\"|']");
-        toRemove.add("xmlns=[\"|']http://www.abrasf.org.br/nfse.xsd[\"|']");
-        String xml = this.xmlContent;
-
-        for (final String str : toRemove) {
-            xml = xml.replaceAll(str, "");
-        }
+        final String xml = this.xmlContent.replaceAll("xmlns.*?[^ |>]*", "");
 
         if (this.adapter.isPresent()) {
             return this.adapter.get().process(xml);
