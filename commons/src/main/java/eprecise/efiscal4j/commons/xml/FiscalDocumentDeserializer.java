@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.helpers.DefaultValidationEventHandler;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 
@@ -85,17 +86,29 @@ public class FiscalDocumentDeserializer<T> {
             if (this.stopOnError) {
                 unmarshaller.setEventHandler(new DefaultValidationEventHandler());
             }
-            return this.mainClass.cast(unmarshaller.unmarshal(new StreamSource(new StringReader(this.getPreparedXML()))));
+            return this.mainClass.cast(unmarshaller.unmarshal(new StringReader(this.getPreparedXML())));
         } catch (final JAXBException e) {
             throw new RuntimeException(e);
         }
     }
 
     private String getPreparedXML() {
-        final String xml = this.xmlContent.replaceAll("xmlns.*?[^ |>]*", "");
+        final Collection<String> toRemove = new HashSet<>();
+        toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/cte\"");
+        toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/nfe\"");
+        toRemove.add("xmlns=\"http://www.w3.org/2000/09/xmldsig#\"");
+        toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v1_2.xsd\"");
+        toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd\"");
+        toRemove.add("xmlns=\"http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd\"");
+        toRemove.add("xmlns=\"http://www.abrasf.org.br/nfse.xsd\"");
+        String xml = this.xmlContent;
 
-        if (this.adapter.isPresent()) {
-            return this.adapter.get().process(xml);
+        for (final String str : toRemove) {
+            xml = xml.replace(str, "");
+        }
+
+        if (adapter.isPresent()) {
+            return adapter.get().process(xml);
         }
 
         return xml;

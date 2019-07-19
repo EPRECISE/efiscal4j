@@ -24,7 +24,7 @@ import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
  * @author Felipe Bueno
  * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_AUT_LOTE_RESULT)
+@XmlRootElement(name = ObjectFactory.NFE_AUT_LOTE_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatchResponseMethod extends ReceivableWithQName implements NFeAuthorizationResponse {
 

@@ -18,11 +18,11 @@ import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 
 /**
  * Método retornado após consumo do WS de autorização
- *
+ * 
  * @author Felipe Bueno
- *
+ * 
  */
-@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG)
+@XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatchResponseMethod extends Receivable implements NFeAuthorizationResponse {
 
@@ -35,7 +35,7 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
         private NFeDispatchResponse nFeDispatchResponse;
 
         /**
-         *
+         * 
          * @param nFeDispatchResponse
          * @return
          */
