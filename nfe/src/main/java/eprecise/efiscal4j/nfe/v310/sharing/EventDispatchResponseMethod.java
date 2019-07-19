@@ -20,11 +20,11 @@ import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 
 /**
  * Método retornado após consumo do WS de recepção de evento
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
-@XmlRootElement(name = ObjectFactory.NFE_REC_EVENTO_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento")
+@XmlRootElement(name = ObjectFactory.NFE_REC_EVENTO_RESULT)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventDispatchResponseMethod extends ReceivableWithQName implements NFeEventDispatchResponse {
 
@@ -39,7 +39,7 @@ public class EventDispatchResponseMethod extends ReceivableWithQName implements 
         private EventDispatchResponse eventDispatchResponse;
 
         /**
-         * 
+         *
          * @param eventDispatchResponse
          * @return
          */
