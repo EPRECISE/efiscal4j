@@ -38,7 +38,9 @@ public class NFeDispatchResponse implements Serializable {
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
-    private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironment transmissionEnvironment;
+    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
+
+    private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
 
     private @XmlElement(name = "verAplic") @NotNull @Size(min = 1, max = 20) @NFeString final String applicationVersion;
 
@@ -222,6 +224,10 @@ public class NFeDispatchResponse implements Serializable {
 
     public FiscalDocumentVersion getVersion() {
         return this.version;
+    }
+
+    public String getXmlns() {
+        return this.xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
