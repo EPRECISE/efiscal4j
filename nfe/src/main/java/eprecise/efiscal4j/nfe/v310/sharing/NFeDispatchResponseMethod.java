@@ -20,9 +20,9 @@ import eprecise.efiscal4j.nfe.v310.transmission.ReceivableWithQName;
 
 /**
  * Método retornado após consumo do WS de autorização
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = ObjectFactory.NFE_AUT_LOTE_RESULT, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,7 +30,7 @@ public class NFeDispatchResponseMethod extends ReceivableWithQName implements NF
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = ObjectFactory.RET_ENVI_NFE) @NotNull final NFeDispatchResponse nFeDispatchResponse;
+    private @XmlElement(name = ObjectFactory.RET_ENVI_NFE, namespace = "http://www.portalfiscal.inf.br/nfe") @NotNull final NFeDispatchResponse nFeDispatchResponse;
 
     private @XmlTransient QName qName = new QName(ObjectFactory.NFE_AUT_LOTE_RESULT);
 
@@ -39,7 +39,7 @@ public class NFeDispatchResponseMethod extends ReceivableWithQName implements NF
         private NFeDispatchResponse nFeDispatchResponse;
 
         /**
-         * 
+         *
          * @param nFeDispatchResponse
          * @return
          */
