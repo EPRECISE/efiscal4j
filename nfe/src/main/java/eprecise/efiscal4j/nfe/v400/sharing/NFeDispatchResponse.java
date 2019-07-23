@@ -224,10 +224,6 @@ public class NFeDispatchResponse implements Serializable {
         return this.version;
     }
 
-    public String getXmlns() {
-        return this.xmlns;
-    }
-
     public TransmissionEnvironment getTransmissionEnvironment() {
         return this.transmissionEnvironment;
     }
