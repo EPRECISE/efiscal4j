@@ -28,7 +28,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeString;
  * @author Felipe Bueno
  *
  */
-@XmlRootElement(name = ObjectFactory.RET_ENVI_NFE, namespace = "http://www.portalfiscal.inf.br/nfe")
+@XmlRootElement(name = ObjectFactory.RET_ENVI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatchResponse implements Serializable {
 
@@ -38,7 +38,7 @@ public class NFeDispatchResponse implements Serializable {
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_4_00;
 
-    private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
+    private @XmlElement(name = "tpAmb") @NotNull final TransmissionEnvironment transmissionEnvironment;
 
     private @XmlElement(name = "verAplic") @NotNull @Size(min = 1, max = 20) @NFeString final String applicationVersion;
 
