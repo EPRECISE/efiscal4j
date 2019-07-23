@@ -24,11 +24,11 @@ import eprecise.efiscal4j.nfe.v310.types.NFeString;
 
 /**
  * Retorno do Pedido de Concessão de Autorização da Nota Fiscal Eletrônica
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
-@XmlRootElement(name = ObjectFactory.RET_ENVI_NFE)
+@XmlRootElement(name = ObjectFactory.RET_ENVI_NFE, namespace = "http://www.portalfiscal.inf.br/nfe")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeDispatchResponse implements Serializable {
 
@@ -37,8 +37,6 @@ public class NFeDispatchResponse implements Serializable {
     public static final String XSD = "/eprecise/efiscal4j/nfe/v310/xsd/retEnviNFe_v3.10.xsd";
 
     private @XmlAttribute(name = "versao") @NotNull final FiscalDocumentVersion version = FiscalDocumentVersion.VERSION_3_10;
-
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.portalfiscal.inf.br/nfe";
 
     private @XmlElement(name = "tpAmb") @Valid @NotNull final TransmissionEnvironment transmissionEnvironment;
 
@@ -79,62 +77,62 @@ public class NFeDispatchResponse implements Serializable {
          * @param transmissionEnvironment
          * @return
          */
-        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+        public Builder withTransmissionEnvironment(final TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
 
         /**
          * Versão do Aplicativo que recebeu o Lote
-         * 
+         *
          * @param applicationVersion
          * @return
          */
-        public Builder withApplicationVersion(String applicationVersion) {
+        public Builder withApplicationVersion(final String applicationVersion) {
             this.applicationVersion = applicationVersion;
             return this;
         }
 
         /**
          * Código do status da mensagem enviada.
-         * 
+         *
          * @param statusCode
          * @return
          */
-        public Builder withStatusCode(String statusCode) {
+        public Builder withStatusCode(final String statusCode) {
             this.statusCode = statusCode;
             return this;
         }
 
         /**
          * Descrição literal do status do serviço solicitado
-         * 
+         *
          * @param statusDescription
          * @return
          */
-        public Builder withStatusDescription(String statusDescription) {
+        public Builder withStatusDescription(final String statusDescription) {
             this.statusDescription = statusDescription;
             return this;
         }
 
         /**
          * Código da UF de atendimento
-         * 
+         *
          * @param serviceUf
          * @return
          */
-        public Builder withServiceUf(UF serviceUf) {
+        public Builder withServiceUf(final UF serviceUf) {
             this.serviceUf = serviceUf;
             return this;
         }
 
         /**
          * Data e hora do recebimento
-         * 
+         *
          * @param receptionDateTime
          * @return
          */
-        public Builder withReceptionDateTime(String receptionDateTime) {
+        public Builder withReceptionDateTime(final String receptionDateTime) {
             this.receptionDateTime = receptionDateTime;
             return this;
         }
@@ -144,7 +142,7 @@ public class NFeDispatchResponse implements Serializable {
          * @param batchReceipt
          * @return
          */
-        public Builder withBatchReceipt(BatchReceipt batchReceipt) {
+        public Builder withBatchReceipt(final BatchReceipt batchReceipt) {
             this.batchReceipt = batchReceipt;
             return this;
         }
@@ -154,7 +152,7 @@ public class NFeDispatchResponse implements Serializable {
          * @param processingStatusProtocol
          * @return
          */
-        public Builder withProcessingStatusProtocol(ProcessingStatusProtocol processingStatusProtocol) {
+        public Builder withProcessingStatusProtocol(final ProcessingStatusProtocol processingStatusProtocol) {
             this.processingStatusProtocol = processingStatusProtocol;
             return this;
         }
@@ -177,7 +175,7 @@ public class NFeDispatchResponse implements Serializable {
         this.processingStatusProtocol = null;
     }
 
-    public NFeDispatchResponse(Builder builder) {
+    public NFeDispatchResponse(final Builder builder) {
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.applicationVersion = builder.applicationVersion;
         this.statusCode = builder.statusCode;
