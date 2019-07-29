@@ -85,6 +85,7 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
         case RR:
         case SE:
         case TO:
+        case ES:
             return NFCeServiceDomain.SVRS;
         default:
             return NFCeServiceDomain.findByAcronym(uf.getAcronym());

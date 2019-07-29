@@ -88,6 +88,7 @@ public enum NFeService implements FiscalDocumentService, Serializable {
             case SC:
             case SE:
             case TO:
+            case ES:
                 return ServiceDomain.SVRS;
             default:
                 return ServiceDomain.findByAcronym(uf.getAcronym());
