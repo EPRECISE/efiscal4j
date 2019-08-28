@@ -21,7 +21,7 @@ import lombok.Getter;
 public class Vehicle {
 
     private @NotNull(message = "{eprecise.efiscal4j.nfe.transport.vehicle.licensePlate.isNotNull}") @Pattern(
-            regexp = "[A-Z]{2,3}[0-9]{4}|[A-Z]{3,4}[0-9]{3}", message = "{eprecise.efiscal4j.nfe.transport.vehicle.licensePlate.isNotPlate}") final String licensePlate;
+            regexp = "[A-Z]{2,3}[0-9]{4}|[A-Z]{3,4}[0-9]{3}|[A-Z0-9]{7}", message = "{eprecise.efiscal4j.nfe.transport.vehicle.licensePlate.isNotPlate}") final String licensePlate;
 
     private @NotNull(message = "{eprecise.efiscal4j.nfe.transport.vehicle.uf.isNotNull}") final UF uf;
 

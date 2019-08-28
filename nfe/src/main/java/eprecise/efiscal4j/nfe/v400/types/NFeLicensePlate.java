@@ -15,22 +15,22 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * 
+ *
  * Placa de Veículo
- * 
+ *
  * @author Fernando C Glizt
- * 
+ *
  */
 @Target({ FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "[A-Z]{2,3}[0-9]{4}|[A-Z]{3,4}[0-9]{3}")
+@Pattern(regexp = "[A-Z]{2,3}[0-9]{4}|[A-Z]{3,4}[0-9]{3}|[A-Z0-9]{7}")
 public @interface NFeLicensePlate {
 
     String message() default "Viola restrição - Placa do veículo inválida";
 
-    Class<?>[]groups() default {};
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[]payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
