@@ -57,6 +57,8 @@ public class Item {
     private final String fciNumber;
 
     private final String additionalInfo;
+    
+    private final String beneficiaryCode;
 
     public static class ItemBuilder {
 

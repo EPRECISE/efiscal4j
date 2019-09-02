@@ -1118,6 +1118,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withPurchaseOrderDescription(this.formatNFeString(item.getPurchaseOrderDescription(), 15))
                 .withPurchaseOrderNumber(this.formatNFeString(item.getPurchaseOrderNumber(), 6))
                 .withFciNumber(Optional.ofNullable(item.getFciNumber()).map(this::nullIfEmpty).orElse(null))
+                .withBeneficiaryCode(this.formatNFeString(item.getBeneficiaryCode(), 10))
                 .withTraces(this.buildTraces(item))
                 .build();
      // @formatter:on
