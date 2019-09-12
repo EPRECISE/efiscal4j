@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.tax.icms;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,7 +17,7 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
 /**
  * Tributação pelo ICMS 90 - Outras
- * 
+ *
  * @see BaseICMS
  * @see ICMS
  * @author Clécius J. Martinkoski
@@ -30,15 +29,15 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
+    private @XmlElement(name = "modBC") final BCModality bcModality;
 
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
+    private @XmlElement(name = "vBC") @NFeDecimal1302 final String bcValue;
 
     private @XmlElement(name = "pRedBC") @NFeDecimal0302a04Optional final String bcReductionPercent;
 
-    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+    private @XmlElement(name = "pICMS") @NFeDecimal0302a04 final String icmsAliquot;
 
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+    private @XmlElement(name = "vICMS") @NFeDecimal1302 final String icmsValue;
 
     private @XmlElement(name = "vBCFCP") @NFeDecimal1302 final String bcFcpValue;
 
@@ -46,17 +45,17 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
     private @XmlElement(name = "vFCP") @NFeDecimal1302 final String fcpValue;
 
-    private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+    private @XmlElement(name = "modBCST") final BCModalityST bcModalitySt;
 
     private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
     private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
-    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+    private @XmlElement(name = "vBCST") @NFeDecimal1302 final String bcValueST;
 
-    private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+    private @XmlElement(name = "pICMSST") @NFeDecimal0302a04 final String icmsStAliquot;
 
-    private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+    private @XmlElement(name = "vICMSST") @NFeDecimal1302 final String icmsStValue;
 
     private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
 
@@ -126,7 +125,7 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
         /**
          * Percentual de redução da BC
-         * 
+         *
          * @param bcReductionPercent
          * @return
          */
@@ -161,7 +160,7 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
         /**
          * Valor da Base de cálculo do FCP.
-         * 
+         *
          * @param bcFcpValue
          */
         public Builder withBcFcpValue(final String bcFcpValue) {
@@ -208,7 +207,7 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
         }
 
         /**
-         * 
+         *
          * @see BCModalityST
          */
         public Builder withBcModalityST(final BCModalityST bcModalityST) {
@@ -242,7 +241,7 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
         /**
          * Valor da Base de cálculo do FCP retido por substituicao tributaria
-         * 
+         *
          * @param bcFcpValueST
          */
         public Builder withBcFcpValueST(final String bcFcpValueST) {
@@ -274,7 +273,7 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
 
         /**
          * Valor do ICMS de desoneração
-         * 
+         *
          * @param icmsDesonerationValue
          * @return
          */
@@ -345,80 +344,93 @@ public class ICMS90 extends BaseICMS implements DesonerationGroup, ICMS90Standar
         this.icmsDesonerationReason = builder.icmsDesonerationReason;
     }
 
+    @Override
     public BCModality getBcModality() {
-        return bcModality;
+        return this.bcModality;
     }
 
+    @Override
     public String getBcValue() {
-        return bcValue;
+        return this.bcValue;
     }
 
+    @Override
     public String getBcReductionPercent() {
-        return bcReductionPercent;
+        return this.bcReductionPercent;
     }
 
+    @Override
     public String getIcmsAliquot() {
-        return icmsAliquot;
+        return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
-        return icmsValue;
+        return this.icmsValue;
     }
 
     public String getBcFcpValue() {
-        return bcFcpValue;
+        return this.bcFcpValue;
     }
 
     public String getFcpAliquot() {
-        return fcpAliquot;
+        return this.fcpAliquot;
     }
 
     public String getFcpValue() {
-        return fcpValue;
+        return this.fcpValue;
     }
 
+    @Override
     public BCModalityST getBcModalitySt() {
-        return bcModalitySt;
+        return this.bcModalitySt;
     }
 
+    @Override
     public String getValueMarginAddedStPercent() {
-        return valueMarginAddedStPercent;
+        return this.valueMarginAddedStPercent;
     }
 
+    @Override
     public String getBcReductionStPercent() {
-        return bcReductionStPercent;
+        return this.bcReductionStPercent;
     }
 
+    @Override
     public String getBcValueST() {
-        return bcValueST;
+        return this.bcValueST;
     }
 
+    @Override
     public String getIcmsStAliquot() {
-        return icmsStAliquot;
+        return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
-        return icmsStValue;
+        return this.icmsStValue;
     }
 
     public String getBcFcpValueST() {
-        return bcFcpValueST;
+        return this.bcFcpValueST;
     }
 
     public String getFcpStAliquot() {
-        return fcpStAliquot;
+        return this.fcpStAliquot;
     }
 
     public String getFcpStValue() {
-        return fcpStValue;
+        return this.fcpStValue;
     }
 
+    @Override
     public String getIcmsDesonerationValue() {
-        return icmsDesonerationValue;
+        return this.icmsDesonerationValue;
     }
 
+    @Override
     public ICMSDesonerationReason getIcmsDesonerationReason() {
-        return icmsDesonerationReason;
+        return this.icmsDesonerationReason;
     }
 
 }

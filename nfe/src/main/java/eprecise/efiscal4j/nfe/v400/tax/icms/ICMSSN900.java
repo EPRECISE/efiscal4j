@@ -1,7 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.tax.icms;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,27 +23,27 @@ public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     private static final long serialVersionUID = 1L;
 
-    private @XmlElement(name = "modBC") @NotNull final BCModality bcModality;
+    private @XmlElement(name = "modBC") final BCModality bcModality;
 
-    private @XmlElement(name = "vBC") @NotNull @NFeDecimal1302 final String bcValue;
+    private @XmlElement(name = "vBC") @NFeDecimal1302 final String bcValue;
 
     private @XmlElement(name = "pRedBC") @NFeDecimal0302a04Optional final String bcReductionPercent;
 
-    private @XmlElement(name = "pICMS") @NotNull @NFeDecimal0302a04 final String icmsAliquot;
+    private @XmlElement(name = "pICMS") @NFeDecimal0302a04 final String icmsAliquot;
 
-    private @XmlElement(name = "vICMS") @NotNull @NFeDecimal1302 final String icmsValue;
+    private @XmlElement(name = "vICMS") @NFeDecimal1302 final String icmsValue;
 
-    private @XmlElement(name = "modBCST") @NotNull final BCModalityST bcModalitySt;
+    private @XmlElement(name = "modBCST") final BCModalityST bcModalitySt;
 
     private @XmlElement(name = "pMVAST") @NFeDecimal0302a04Optional final String valueMarginAddedStPercent;
 
     private @XmlElement(name = "pRedBCST") @NFeDecimal0302a04Optional final String bcReductionStPercent;
 
-    private @XmlElement(name = "vBCST") @NotNull @NFeDecimal1302 final String bcValueST;
+    private @XmlElement(name = "vBCST") @NFeDecimal1302 final String bcValueST;
 
-    private @XmlElement(name = "pICMSST") @NotNull @NFeDecimal0302a04 final String icmsStAliquot;
+    private @XmlElement(name = "pICMSST") @NFeDecimal0302a04 final String icmsStAliquot;
 
-    private @XmlElement(name = "vICMSST") @NotNull @NFeDecimal1302 final String icmsStValue;
+    private @XmlElement(name = "vICMSST") @NFeDecimal1302 final String icmsStValue;
 
     private @XmlElement(name = "vBCFCPST") @NFeDecimal1302 final String bcFcpValueST;
 
@@ -52,9 +51,9 @@ public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
     private @XmlElement(name = "vFCPST") @NFeDecimal1302 final String fcpStValue;
 
-    private @XmlElement(name = "pCredSN") @NotNull @NFeDecimal0302a04 final String creditSnAliquot;
+    private @XmlElement(name = "pCredSN") @NFeDecimal0302a04 final String creditSnAliquot;
 
-    private @XmlElement(name = "vCredICMSSN") @NotNull @NFeDecimal1302 final String creditSnIcmsValue;
+    private @XmlElement(name = "vCredICMSSN") @NFeDecimal1302 final String creditSnIcmsValue;
 
     public static class Builder extends BaseICMSSN.Builder implements ICMSBuilder {
 
@@ -192,7 +191,7 @@ public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
 
         /**
          * Valor da Base de cálculo do FCP retido por substituicao tributaria
-         * 
+         *
          * @param bcFcpValueST
          */
         public Builder withBcFcpValueST(final String bcFcpValueST) {
@@ -291,67 +290,69 @@ public class ICMSSN900 extends BaseICMSSN implements IcmsWithValue, IcmsWithST {
     }
 
     public BCModality getBcModality() {
-        return bcModality;
+        return this.bcModality;
     }
 
     public String getBcValue() {
-        return bcValue;
+        return this.bcValue;
     }
 
     public String getBcReductionPercent() {
-        return bcReductionPercent;
+        return this.bcReductionPercent;
     }
 
     public String getIcmsAliquot() {
-        return icmsAliquot;
+        return this.icmsAliquot;
     }
 
+    @Override
     public String getIcmsValue() {
-        return icmsValue;
+        return this.icmsValue;
     }
 
     public BCModalityST getBcModalitySt() {
-        return bcModalitySt;
+        return this.bcModalitySt;
     }
 
     public String getValueMarginAddedStPercent() {
-        return valueMarginAddedStPercent;
+        return this.valueMarginAddedStPercent;
     }
 
     public String getBcReductionStPercent() {
-        return bcReductionStPercent;
+        return this.bcReductionStPercent;
     }
 
     public String getBcValueST() {
-        return bcValueST;
+        return this.bcValueST;
     }
 
     public String getIcmsStAliquot() {
-        return icmsStAliquot;
+        return this.icmsStAliquot;
     }
 
+    @Override
     public String getIcmsStValue() {
-        return icmsStValue;
+        return this.icmsStValue;
     }
 
     public String getBcFcpValueST() {
-        return bcFcpValueST;
+        return this.bcFcpValueST;
     }
 
     public String getFcpStAliquot() {
-        return fcpStAliquot;
+        return this.fcpStAliquot;
     }
 
     public String getFcpStValue() {
-        return fcpStValue;
+        return this.fcpStValue;
     }
 
     public String getCreditSnAliquot() {
-        return creditSnAliquot;
+        return this.creditSnAliquot;
     }
 
     public String getCreditSnIcmsValue() {
-        return creditSnIcmsValue;
+        return this.creditSnIcmsValue;
     }
 
 }
