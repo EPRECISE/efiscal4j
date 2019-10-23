@@ -92,7 +92,7 @@ public class FiscalDocumentDeserializer<T> {
         }
     }
 
-    private String getPreparedXML() {
+    public String getPreparedXML() {
         final Collection<String> toRemove = new HashSet<>();
         toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/cte\"");
         toRemove.add("xmlns=\"http://www.portalfiscal.inf.br/nfe\"");

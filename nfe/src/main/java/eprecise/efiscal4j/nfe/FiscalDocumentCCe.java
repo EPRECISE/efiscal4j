@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.Optional;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.event.EventStatus;
@@ -61,6 +62,18 @@ public class FiscalDocumentCCe {
         private final EventStatus status;
 
         private final FiscalDocumentCCe document;
+
+        private final String ibgeOrgan;
+
+        private final FiscalDocumentVersion version;
+
+        private final String eventCode;
+
+        private final String eventDescription;
+
+        private final String transmissionEnvironment;
+
+        private final Date eventDate;
 
         private final ProcessedEventVersion processedEventVersion;
 
