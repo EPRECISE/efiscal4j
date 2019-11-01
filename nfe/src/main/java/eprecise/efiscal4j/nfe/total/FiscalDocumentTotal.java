@@ -69,7 +69,7 @@ public class FiscalDocumentTotal {
                 .add(this.getTotalTaxes().getTotalIIValue())
                 .add(this.getTotalTaxes().getTotalIPIValue())
                 .subtract(this.getDiscountTotalValue())
-                .subtract(this.getTotalTaxes().getTotalIcmsDesonerationValue())
+                .subtract(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalIcmsDesonerationValue).map(it -> this.getTotalTaxes().getTotalIcmsDesonerationValue()).orElse(BigDecimal.ZERO))
                 .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalIcmsValue).map(it -> this.getTotalTaxes().getTotalIcmsValue()).orElse(BigDecimal.ZERO))
                 .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalPisValue).map(it -> this.getTotalTaxes().getTotalPisValue()).orElse(BigDecimal.ZERO))
                 .add(Optional.ofNullable(this.addsValue).filter(AddsValue::isTotalCofinsValue).map(it -> this.getTotalTaxes().getTotalCofinsValue()).orElse(BigDecimal.ZERO));
@@ -104,6 +104,8 @@ public class FiscalDocumentTotal {
         private @Default final boolean totalPisValue = false;
 
         private @Default final boolean totalCofinsValue = false;
+
+        private @Default final boolean totalIcmsDesonerationValue = true;
 
     }
 
