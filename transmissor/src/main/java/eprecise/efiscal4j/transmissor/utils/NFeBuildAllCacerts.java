@@ -40,12 +40,12 @@ public class NFeBuildAllCacerts {
 
     public static void main(final String[] args) {
         try {
-            if (args[0] == null) {
-                System.out.println("Não foi definido o caminho e nome do certificado cacerts. Abortando operação.");
-                return;
-            }
+            // if (args[0] == null) {
+            // System.out.println("Não foi definido o caminho e nome do certificado cacerts. Abortando operação.");
+            // return;
+            // }
 
-            final NFeBuildAllCacerts buildCacerts = new NFeBuildAllCacerts(args[0]);
+            final NFeBuildAllCacerts buildCacerts = new NFeBuildAllCacerts("/home/fernando/NFeCacerts.jks");
             buildCacerts.load();
             buildCacerts.info("Certificate sucessfully generated in " + buildCacerts.getJsseCacerts());
 
