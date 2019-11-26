@@ -43,61 +43,62 @@ public class Transmissor {
     private TrustManagerFactory trustManagerFactory;
 
     private SSLContext sslContext;
-    
+
     private String protocol = "SSL";
 
     public Transmissor() {
     }
 
     public Transmissor(final Certificate keyCertificate, final Certificate trustCertificate) {
-        init(keyCertificate, trustCertificate);
+        this.init(keyCertificate, trustCertificate);
     }
 
     public Transmissor(final Certificate keyCertificate) {
         this(keyCertificate, "SSL");
     }
-    
-    public Transmissor(final Certificate keyCertificate, String protocol) {
+
+    public Transmissor(final Certificate keyCertificate, final String protocol) {
         this.protocol = protocol;
-        init(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
+        this.init(keyCertificate, new Certificate(() -> Transmissor.class.getResourceAsStream("/eprecise/efiscal4j/transmissor/NFeCacerts.jks"), "", "JKS"));
     }
 
     private void init(final Certificate keyCertificate, final Certificate trustCertificate) {
-        initializeKeyStore(keyCertificate);
-        initializeTrustStore(trustCertificate);
-        initializeSSLContext(this.protocol);
+        System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
+        this.initializeKeyStore(keyCertificate);
+        this.initializeTrustStore(trustCertificate);
+        this.initializeSSLContext(this.protocol);
     }
 
     private void initializeKeyStore(final Certificate certificate) {
         try {
-            keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
-            keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
-            keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, certificate.getPassphrase().toCharArray());
+            this.keyStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
+            this.keyStore.load(certificate.getCertificate(), certificate.getPassphrase().toCharArray());
+            this.keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            this.keyManagerFactory.init(this.keyStore, certificate.getPassphrase().toCharArray());
         } catch (final Exception ex) {
-            getLogger().error("Erro ao inicializar certificado PKCS", ex);
+            this.getLogger().error("Erro ao inicializar certificado PKCS", ex);
             throw new RuntimeException(ex);
         }
     }
 
     private void initializeTrustStore(final Certificate certificate) {
         try {
-            trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
-            trustStore.load(certificate.getCertificate(), null);
-            trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(trustStore);
+            this.trustStore = KeyStore.getInstance(certificate.getCertificateStoreImpl());
+            this.trustStore.load(certificate.getCertificate(), null);
+            this.trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            this.trustManagerFactory.init(this.trustStore);
         } catch (final Exception ex) {
-            getLogger().error("Erro ao inicializar certificado JKS", ex);
+            this.getLogger().error("Erro ao inicializar certificado JKS", ex);
             throw new RuntimeException(ex);
         }
     }
 
-    private void initializeSSLContext(String protocol) {
+    private void initializeSSLContext(final String protocol) {
         try {
-            sslContext = SSLContext.getInstance(protocol);
-            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            this.sslContext = SSLContext.getInstance(protocol);
+            this.sslContext.init(this.keyManagerFactory.getKeyManagers(), this.trustManagerFactory.getTrustManagers(), null);
         } catch (final Exception ex) {
-            getLogger().error("Erro ao inicializar contexto SSL", ex);
+            this.getLogger().error("Erro ao inicializar contexto SSL", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -114,7 +115,7 @@ public class Transmissor {
 
             if (url.getProtocol().equalsIgnoreCase("HTTPS")) {
                 httpConnection = (HttpsURLConnection) url.openConnection();
-                ((HttpsURLConnection) httpConnection).setSSLSocketFactory(sslContext.getSocketFactory());
+                ((HttpsURLConnection) httpConnection).setSSLSocketFactory(this.sslContext.getSocketFactory());
             } else {
                 httpConnection = (HttpURLConnection) url.openConnection();
             }
@@ -128,25 +129,25 @@ public class Transmissor {
                 httpConnection.setRequestProperty(key, value);
             });
 
-            logger.info("Protocol: " + this.protocol);
-            if(protocol.equals("SSL")) {
+            this.logger.info("Protocol: " + this.protocol);
+            if (this.protocol.equals("SSL")) {
                 httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
             } else {
                 httpConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
             }
             httpConnection.connect();
 
-            logger.info("Request: " + requestSoapEnvelope);
-            
-            sendRequest(httpConnection, requestSoapEnvelope);
+            this.logger.info("Request: " + requestSoapEnvelope);
 
-            final String responseXml = getResponse(httpConnection);
-            
-            logger.info("Response: "+responseXml);
+            this.sendRequest(httpConnection, requestSoapEnvelope);
+
+            final String responseXml = this.getResponse(httpConnection);
+
+            this.logger.info("Response: " + responseXml);
 
             return responseXml;
         } catch (final Exception ex) {
-            logger.error(ex.getMessage(), ex);
+            this.logger.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
@@ -206,6 +207,6 @@ public class Transmissor {
     }
 
     public Logger getLogger() {
-        return logger;
+        return this.logger;
     }
 }
