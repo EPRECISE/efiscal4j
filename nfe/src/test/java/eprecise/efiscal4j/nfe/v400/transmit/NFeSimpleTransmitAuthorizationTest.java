@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.v400.transmit;
 
 import java.io.FileInputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,7 +34,6 @@ import eprecise.efiscal4j.nfe.v400.NFeItem;
 import eprecise.efiscal4j.nfe.v400.NFeTestParams;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
-import eprecise.efiscal4j.nfe.v400.PaymentMethodIndicator;
 import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
 import eprecise.efiscal4j.nfe.v400.StateRegistrationReceiverIndicator;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
@@ -64,25 +64,25 @@ import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
 import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
+
 /**
- * Teste de transmissão de autorização de NF-e
- * NFeAutorizacao
- * 
+ * Teste de transmissão de autorização de NF-e NFeAutorizacao
+ *
  * @author Fernando Glizt
- * 
+ *
  */
 public class NFeSimpleTransmitAuthorizationTest {
 
     @Test
     public void transmitAuthorization() throws Exception {
      // @formatter:off
-        Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent() 
-                || !NFeTestParams.getCertificatePin().isPresent() 
+        Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent()
+                || !NFeTestParams.getCertificatePin().isPresent()
                 || !NFeTestParams.getEmitterCnpj().isPresent()
                 || !NFeTestParams.getEmitterIe().isPresent()
                 || !NFeTestParams.getReceiverCnpj().isPresent());
      // @formatter:true
-        
+
         final Certificate keyCertificate = new Certificate(() -> new FileInputStream(NFeTestParams.getCertificatePath().get()), NFeTestParams.getCertificatePin().get());
         final TransmissionChannel transmissionChannel = new TransmissionChannel(keyCertificate);
         final TransmissionResult transmissionResult = transmissionChannel.transmitAuthorization(this.buildNFeDispatch(keyCertificate));
@@ -95,35 +95,49 @@ public class NFeSimpleTransmitAuthorizationTest {
     public NFeDispatch buildNFeDispatch(final Certificate keyCertificate) throws Exception {
     // @formatter:off
             final DefaultSigner signer = new DefaultSigner(keyCertificate);
+
+            final Integer serie = 10;
+            final Integer number = 1;
+            final Date emission = new Date();
+            final UF uf = UF.RJ;
+            final String cep = "";
+
+
+            final String nfeCode = String.format("%08d", new Random().nextInt(100000000));
+            final String accessKey = this.buildAccessKey(emission, serie, number, nfeCode);
+            final int checksum = this.buildChecksum(accessKey);
+            final String nfeId = this.buildNFeId(accessKey, String.valueOf(checksum));
             return new NFeDispatch.Builder()
                     .withBatchId("1")
-                    .withSynchronousProcessing(SynchronousProcessing.ASSINCRONO)
+                    .withSynchronousProcessing(SynchronousProcessing.SINCRONO)
                     .withNFes(Arrays.asList(new NFe.Builder()
                         .withNFeInfo(new NFeInfo.Builder()
+                                .withId(nfeId)
                                 .withNFeIdentification(new NFeIdentification.Builder()
                                         .withApplicationVersion("1.00")
                                         .withDanfePrintFormat(DANFEPrintFormat.DANFE_PAISAGEM)
                                         .withDestinationOperationIdentifier(DestinationOperationIdentifier.INTERNA)
-                                        .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()))
+                                        .withEmissionDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(emission))
                                         .withFinalCustomerOperation(FinalCustomerOperation.CONSUMIDOR_FINAL)
                                         .withFiscalDocumentModel(FiscalDocumentModel.NFE)
-                                        .withFiscalDocumentNumber("2")
-                                        .withFiscalDocumentSeries("100")
+                                        .withFiscalDocumentNumber(number.toString())
+                                        .withFiscalDocumentSeries(serie.toString())
                                         .withFiscalDocumentType(FiscalDocumentType.SAIDA)
-                                        .withNFeCode(String.format("%08d", new Random().nextInt(100000000)))
+                                        .withNFeCode(nfeCode)
                                         .withNFeFinality(NFeFinality.NORMAL)
                                         .withNFeTransmissionMethod(NFeTransmissionMethod.NORMAL)
                                         .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
                                         .withOperationType("Venda de mercadoria adquirida ou recebida de terceiros")
                                         .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
-                                        .withTaxableEventCityIbgeCode("4104659")
+                                        .withTaxableEventCityIbgeCode("3300605")
                                         .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                                         .withUFIbgeCode(UF.PR)
+                                        .withChecksum(String.valueOf(checksum))
                                         .build())
                                 .withEmitter(new Emitter.Builder()
                                         .asLegalEntity()
                                         .withCnpj(NFeTestParams.getEmitterCnpj().get())
-                                        .withCorporateName("RAZÃO SOCIAL EMPRESA")
+                                        .withCorporateName("RAZÃO SOCIAL")
                                         .withCrt(CRT.SIMPLES_NACIONAL)
                                         .withFancyName("NOME FANTASIA DA EMPRESA")
                                         .withStateRegistration(NFeTestParams.getEmitterIe().get())
@@ -131,22 +145,22 @@ public class NFeSimpleTransmitAuthorizationTest {
                                                 .withStreet("Rua xyz")
                                                 .withNumber("Sem Número")
                                                 .withDistrict("Centro")
-                                                .withCep("84145000")
+                                                .withCep("28360000")
                                                 .withCity(new City.Builder()
                                                         .withCountry(new Country.Builder()
                                                                 .withIbgeCode("1058")
                                                                 .withDescription("Brasil")
                                                                 .build())
-                                                        .withIbgeCode("4119905")
-                                                        .withDescription("Ponta Grossa")
-                                                        .withUF(UF.PR)
+                                                        .withIbgeCode("3300605")
+                                                        .withDescription("Bom Jesus do Itabapoana")
+                                                        .withUF(UF.RJ)
                                                         .build())
                                                 .build())
                                         .build())
                                 .withReceiver(new Receiver.Builder()
                                         .asLegalEntity()
                                         .withCnpj(NFeTestParams.getReceiverCnpj().get())
-                                        .withCorporateName("RAZAO SOCIAL DESTINATÁRIO")
+                                        .withCorporateName("Tt Burger Alimentos LTDA")
                                         .withAdress(new Address.Builder()
                                                 .withStreet("Rua xyz")
                                                 .withNumber("Sem Número")
@@ -253,5 +267,45 @@ public class NFeSimpleTransmitAuthorizationTest {
                         .build(signer)))
                     .build();
          // @formatter:on
+    }
+
+    private String buildNFeId(final String accessKey, final String checkSum) {
+        final StringBuilder accessKeyBuilder = new StringBuilder(accessKey);
+        accessKeyBuilder.append(checkSum);
+        accessKeyBuilder.insert(0, "NFe");
+        return accessKeyBuilder.toString();
+    }
+
+    private String buildAccessKey(final Date emissionDate, final Integer serie, final Integer number, final String code) {
+        final StringBuilder accessKey = new StringBuilder();
+
+        accessKey.append(UF.RJ.getIbgeCode());
+        accessKey.append(new SimpleDateFormat("yy").format(emissionDate));
+        accessKey.append(new SimpleDateFormat("MM").format(emissionDate));
+        accessKey.append(NFeTestParams.getEmitterCnpj().get());
+        accessKey.append(FiscalDocumentModel.NFE.getValue());
+        accessKey.append(new DecimalFormat("000").format(serie));
+        accessKey.append(new DecimalFormat("000000000").format(number));
+        accessKey.append(NFeTransmissionMethod.NORMAL.getValue());
+        accessKey.append(code);
+
+        return accessKey.toString();
+
+    }
+
+    private int buildChecksum(final String key) {
+        int total = 0;
+        int weight = 2;
+
+        for (int i = 0; i < key.length(); i++) {
+            total += (key.charAt((key.length() - 1) - i) - '0') * weight;
+            weight++;
+            if (weight == 10) {
+                weight = 2;
+            }
+        }
+
+        final int remainder = total % 11;
+        return ((remainder == 0) || (remainder == 1)) ? 0 : (11 - remainder);
     }
 }
