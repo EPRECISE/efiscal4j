@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_paisagem_leiaute_2xx_cr" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryWithPageHeaderAndFooter="true" uuid="c4b3b5c4-01d1-48f9-aaf5-0857681085e4">
 	<property name="ireport.zoom" value="1.3660269107301444"/>
 	<property name="ireport.x" value="0"/>
@@ -1433,7 +1433,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="63" y="56" width="355" height="30" uuid="368373c2-e939-40f6-b9c1-c407c82ad91a">
+				<reportElement positionType="Float" mode="Transparent" x="63" y="61" width="355" height="30" uuid="368373c2-e939-40f6-b9c1-c407c82ad91a">
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
@@ -1442,8 +1442,8 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="63" y="24" width="355" height="14" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="63" y="19" width="355" height="26" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
@@ -1672,7 +1672,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA[$F{totalVII} != null ? new java.math.BigDecimal($F{totalVII}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="63" y="42" width="355" height="12" uuid="3ffb0f72-4122-4fd3-aac8-fb2b85e87fbd">
+				<reportElement x="63" y="47" width="355" height="12" uuid="3ffb0f72-4122-4fd3-aac8-fb2b85e87fbd">
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
