@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.signer.domain.SignatureType;
 
 
 /**
@@ -28,6 +29,8 @@ public class ProcessingStatusProtocol implements Serializable {
 
     private @XmlElement(name = "infProt") @NotNull @Valid final ProcessingStatusProtocolInfo processingStatusProtocolInfo;
 
+    private @XmlElement(name = "Signature") SignatureType signature;
+    
     public static class Builder {
 
         private ProcessingStatusProtocolInfo processingStatusProtocolInfo;
@@ -57,5 +60,13 @@ public class ProcessingStatusProtocol implements Serializable {
     public ProcessingStatusProtocolInfo getProcessingStatusProtocolInfo() {
         return this.processingStatusProtocolInfo;
     }
+    
+    public SignatureType getSignature() {
+		return signature;
+	}
+    
+    public void setSignature(SignatureType signature) {
+		this.signature = signature;
+	}
 
 }
