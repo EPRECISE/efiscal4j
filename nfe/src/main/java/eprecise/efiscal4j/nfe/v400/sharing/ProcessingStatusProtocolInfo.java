@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
+import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponse.Builder;
 import eprecise.efiscal4j.nfe.v400.types.NFeAccessKey;
 import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
@@ -47,6 +48,10 @@ public class ProcessingStatusProtocolInfo implements Serializable {
     private @XmlElement(name = "cStat") @NotNull @Size(max = 3) @Pattern(regexp = "[0-9]{3}") final String statusCode;
 
     private @XmlElement(name = "xMotivo") @NotNull @Size(min = 1, max = 255) @NFeString final String statusDescription;
+    
+    private @XmlElement(name = "cMsg") final String msgCode;
+
+    private @XmlElement(name = "xMsg") final String msgDescription;
 
     public static class Builder {
 
@@ -67,6 +72,11 @@ public class ProcessingStatusProtocolInfo implements Serializable {
         private String statusCode;
 
         private String statusDescription;
+        
+        private String msgCode;
+
+        private String msgDescription;
+
 
         /**
          * 
@@ -168,6 +178,29 @@ public class ProcessingStatusProtocolInfo implements Serializable {
             this.statusDescription = statusDescription;
             return this;
         }
+        
+        /**
+         * Código da Mensagem
+         *
+         * @param msgCode
+         * @return
+         */
+        public Builder withMsgCode(final String msgCode) {
+            this.msgCode = msgCode;
+            return this;
+        }
+
+        /**
+         * Mensagem da SEFAZ para o emissor
+         *
+         * @param msgDescription
+         * @return
+         */
+        public Builder withMsgDescription(final String msgDescription) {
+            this.msgDescription = msgDescription;
+            return this;
+        }
+
 
         public ProcessingStatusProtocolInfo build() {
             final ProcessingStatusProtocolInfo entity = new ProcessingStatusProtocolInfo(this);
@@ -185,6 +218,8 @@ public class ProcessingStatusProtocolInfo implements Serializable {
         this.digestValue = null;
         this.statusCode = null;
         this.statusDescription = null;
+        this.msgCode = null;
+        this.msgDescription = null;
         this.id = null;
     }
 
@@ -197,6 +232,8 @@ public class ProcessingStatusProtocolInfo implements Serializable {
         this.digestValue = builder.digestValue;
         this.statusCode = builder.statusCode;
         this.statusDescription = builder.statusDescription;
+        this.msgCode = builder.msgCode;
+        this.msgDescription = builder.msgDescription;
         this.id = builder.id;
     }
 
@@ -231,6 +268,14 @@ public class ProcessingStatusProtocolInfo implements Serializable {
     public String getStatusDescription() {
         return this.statusDescription;
     }
+    
+    public String getMsgCode() {
+		return msgCode;
+	}
+    
+    public String getMsgDescription() {
+		return msgDescription;
+	}
 
     public String getId() {
         return this.id;
