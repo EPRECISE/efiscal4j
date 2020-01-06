@@ -299,6 +299,9 @@
 	<field name="valorLiquidoFat" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/cobr/fat/vLiq]]></fieldDescription>
 	</field>
+	<field name="xMsg" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/protNFe/infProt/xMsg]]></fieldDescription>
+	</field>
 	<background>
 		<band height="583">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -2124,6 +2127,13 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/infAdic/obsCont")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{danfe_paisagem_obscont}]]></subreportExpression>
 			</subreport>
+			<textField>
+				<reportElement x="682" y="18" width="150" height="37" uuid="13d7a537-8d06-44fc-9e54-38ffe67a6c5b"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{xMsg}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>
