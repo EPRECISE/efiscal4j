@@ -1543,7 +1543,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="389" y="48" width="148" height="75" uuid="3fc4248f-8d9a-4599-a129-a38dd740d55e"/>
 				<textElement>
-					<font fontName="Tahoma" size="6"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{xMsg}]]></textFieldExpression>
 			</textField>
