@@ -6,7 +6,7 @@
     <groupId>eprecise.efiscal4j</groupId>
     <artifactId>efiscal4j</artifactId>
     <packaging>pom</packaging>
-    <version>2.3.5-SNAPSHOT</version>
+    <version>2.3.6</version>
     <name>e-Fiscal4J</name>
 
 	<properties>
@@ -107,11 +107,6 @@
 				<artifactId>jaxws-api</artifactId>
 				<version>2.2.11</version>
 			</dependency>
-            <dependency>
-                <groupId>com.sun.xml.messaging.saaj</groupId>
-                <artifactId>saaj-impl</artifactId>
-                <version>1.5.1</version>
-            </dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
