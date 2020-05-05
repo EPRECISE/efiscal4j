@@ -84,12 +84,6 @@ public class NFeItem implements Serializable {
 
     private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
 
-    private @XmlElement(name = "med") @Valid final Medications medications;
-
-    private @XmlElement(name = "arma") @Size(max = 500) @Valid final List<Gun> guns;
-
-    private @XmlElement(name = "comb") @Valid final Fuel fuel;
-
     private @XmlElement(name = "DI") @Size(max = 100) @Valid final List<ImportDeclaration> importDeclarations;
 
     private @XmlElement(name = "xPed") @Size(min = 1, max = 15) @NFeString final String purchaseOrderDescription;
@@ -99,6 +93,12 @@ public class NFeItem implements Serializable {
     private @XmlElement(name = "nFCI") @Pattern(regexp = "[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}") final String fciNumber;
 
     private @XmlElement(name = "rastro") @Size(max = 500) @Valid final List<Trace> traces;
+
+    private @XmlElement(name = "med") @Valid final Medications medications;
+
+    private @XmlElement(name = "arma") @Size(max = 500) @Valid final List<Gun> guns;
+
+    private @XmlElement(name = "comb") @Valid final Fuel fuel;
 
     public static class Builder {
 
@@ -216,7 +216,7 @@ public class NFeItem implements Serializable {
          * Codigo especificador da Substuicao Tributaria - CEST, que identifica a<br>
          * mercadoria sujeita aos regimes de substituicao tributária e de<br>
          * antecipação do recolhimento do imposto
-         * 
+         *
          * @param cest
          * @return
          */
@@ -421,7 +421,7 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * 
+         *
          * @see Medications
          * @param medications
          * @return
@@ -432,7 +432,7 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * 
+         *
          * @see Gun
          * @param guns
          * @return
@@ -443,7 +443,7 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * 
+         *
          * @see Fuel
          * @param fuel
          * @return
@@ -454,7 +454,7 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * 
+         *
          * @see ImportDeclaration
          * @param importDeclarations
          * @return
@@ -498,7 +498,7 @@ public class NFeItem implements Serializable {
         }
 
         /**
-         * 
+         *
          * @see Trace
          * @param traces
          * @return
