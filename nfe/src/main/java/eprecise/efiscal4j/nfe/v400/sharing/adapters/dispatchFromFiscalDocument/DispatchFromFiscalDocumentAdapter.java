@@ -828,7 +828,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withChecksum(String.valueOf(this.buildChecksum(this.buildAccessKey())))
             .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
             .withOperationType(this.formatNFeString(this.buildOperationTypeDescriptor(),60))
-            .withPurchaserPresenceIndicator(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL)
+            .withPurchaserPresenceIndicator(Optional.ofNullable(this.fiscalDocument.getPresenceIndicator()).map(pi -> PurchaserPresenceIndicator.findByCode(pi.getValue())).orElse(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL))
             .withTaxableEventCityIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> ba.getCity().getIbgeCode().toString()).orElse(DispatchFromFiscalDocumentAdapter.IBGE_CODE_DEFAULT)) //TODO Revisar
             .withTransmissionEnvironment(this.buildTransmissionEnvironment())
             .withUFIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX))

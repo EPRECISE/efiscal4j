@@ -81,11 +81,11 @@ public class NFe extends FiscalDocument {
 
     @Builder
     public NFe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
-            final Payment payment, final Transport transport, final TechnicalManager technicalManager, final String details, final Receiver receiver, final IODate entranceOrExit,
+            final Payment payment, final Transport transport, final PresenceIndicator presenceIndicator, final TechnicalManager technicalManager, final String details, final Receiver receiver, final IODate entranceOrExit,
             final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer, final String operationDescription, final Collection<DocumentReference> documentReferences,
             final FiscalDocumentTotal.AddsValue totalAddsValue) {
         super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items,
-                charging, payment, transport, technicalManager, details, totalAddsValue);
+                charging, payment, transport, presenceIndicator, technicalManager, details, totalAddsValue);
         this.receiver = receiver;
         this.entranceOrExit = Optional.ofNullable(entranceOrExit).orElse(new CurrentIODate());
         this.finality = Optional.ofNullable(finality).orElse(NFeFinality.NORMAL);

@@ -51,5 +51,14 @@ public enum PurchaserPresenceIndicator {
     public String toString() {
         return this.getDescription();
     }
+    
+    public static PurchaserPresenceIndicator findByCode(int code) {
+        for (final PurchaserPresenceIndicator presenceIndicator : PurchaserPresenceIndicator.values()) {
+            if (presenceIndicator.getValue() == code) {
+                return presenceIndicator;
+            }
+        }
+        return null;
+    }
 
 }

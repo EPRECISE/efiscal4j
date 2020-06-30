@@ -40,9 +40,9 @@ public class NFCe extends FiscalDocument {
 
     @Builder
     public NFCe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
-            final Payment payment, final Transport transport, final TechnicalManager technicalManager, final String details, final Consumer consumer, final CSC csc,
+            final Payment payment, final Transport transport, final PresenceIndicator presenceIndicator, final TechnicalManager technicalManager, final String details, final Consumer consumer, final CSC csc,
             final FiscalDocumentTotal.AddsValue totalAddsValue) {
-        super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, emission, emitter, items, charging, payment, transport, technicalManager,
+        super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, emission, emitter, items, charging, payment, transport, presenceIndicator, technicalManager,
                 details, totalAddsValue);
         this.consumer = consumer;
         this.csc = csc;

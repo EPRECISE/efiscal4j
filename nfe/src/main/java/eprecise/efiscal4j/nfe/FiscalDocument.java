@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfe.total.FiscalDocumentTotal;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
+import eprecise.efiscal4j.nfe.transport.ShippingModality;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
@@ -106,6 +107,12 @@ public abstract class FiscalDocument {
      * @param transport
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
+    
+    /**
+     * @see PresenceIndicator
+     * @param presenceIndicator
+     */
+    private @Valid final PresenceIndicator presenceIndicator;
 
     /**
      * @see TechnicalManager
