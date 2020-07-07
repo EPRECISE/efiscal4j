@@ -36,7 +36,7 @@ public class NFeTransport implements Serializable {
 
     private @XmlElement(name = "vagao") @Size(min = 1, max = 20) final String wagon;
 
-    private @XmlElement(name = "vagao") @Size(min = 1, max = 20) final String ferry;
+    private @XmlElement(name = "balsa") @Size(min = 1, max = 20) final String ferry;
 
     private @XmlElement(name = "vol") @Size(max = 5000) final List<TransportedVolume> transportedVolume;
 
