@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.GovbrNFSe;
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "CompNfse")
 public class GovbrCompNFSe implements CompNFSe {
 
     private static final long serialVersionUID = 1L;
