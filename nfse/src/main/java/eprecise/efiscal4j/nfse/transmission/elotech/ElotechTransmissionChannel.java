@@ -70,8 +70,8 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
             throw new UnavailableServiceException();
         }
 
-        responseXml = responseXml.substring(responseXml.indexOf("<EnviarLoteRpsSincronoResposta"),
-                responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+        responseXml = responseXml.substring(responseXml.indexOf("<ns2:EnviarLoteRpsSincronoResposta"),
+                responseXml.lastIndexOf("</SOAP-ENV:Body>")).replaceAll("ns2:","");
 
         return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechLotRpsDispatchSyncResponse.class, requestXml, responseXml);
 
