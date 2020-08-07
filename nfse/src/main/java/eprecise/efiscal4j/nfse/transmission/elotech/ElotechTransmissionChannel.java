@@ -98,7 +98,7 @@ public class ElotechTransmissionChannel implements TransmissionChannel {
             throw new UnavailableServiceException();
         }
 
-        responseXml = responseXml.substring(responseXml.indexOf("<CancelarNfseResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>"));
+        responseXml = responseXml.substring(responseXml.indexOf("<ns2:CancelarNfseResposta"), responseXml.lastIndexOf("</SOAP-ENV:Body>")).replaceAll("ns2:","");
 
         return new TypedTransmissionResult<>(ElotechSOAPEnvelope.class, ElotechNfseDispatchCancelResponse.class, requestXml, responseXml);
     }
