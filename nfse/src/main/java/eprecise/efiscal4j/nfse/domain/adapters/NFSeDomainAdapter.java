@@ -14,6 +14,7 @@ import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 public interface NFSeDomainAdapter {
 
     public static enum NFSeAdapter {
+                                    CURITIBA(CuritibaNFSeDomainAdapter.class, NFSeTransmissor.CURITIBA.getSupportedCityCodes()),
                                     ELOTECH(ElotechNFSeDomainAdapter.class, NFSeTransmissor.ELOTECH.getSupportedCityCodes()),
                                     GOVBR_v100(eprecise.efiscal4j.nfse.domain.adapters.govbr.v100.GovbrNFSeDomainAdapter.class,
                                             NFSeTransmissor.GOVBR_V100.getSupportedCityCodes()),

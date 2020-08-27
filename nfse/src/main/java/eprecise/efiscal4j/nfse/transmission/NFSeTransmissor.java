@@ -8,12 +8,17 @@ import java.util.Optional;
 
 import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.commons.utils.Certificate;
+import eprecise.efiscal4j.nfse.transmission.curitiba.CuritibaTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.govbr.v100.GovbrTransmissionChannel;
 
 
 public enum NFSeTransmissor {
 
+                             CURITIBA(CuritibaTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/production/curitibaTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/curitibaTransmissionHomologUrl.properties",
+                                     "4106902"),
                              ELOTECH(ElotechTransmissionChannel.class,
                                      "/eprecise/efiscal4j/nfse/transmission/production/elotechTransmissionProdUrl.properties",
                                      "/eprecise/efiscal4j/nfse/transmission/homologation/elotechTransmissionHomologUrl.properties",

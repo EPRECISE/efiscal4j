@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -18,8 +17,6 @@ import javax.xml.bind.annotation.XmlElement;
 public class SignatureType implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.w3.org/2000/09/xmldsig#";
 
     private @XmlElement(name = "SignedInfo", required = true) SignedInfoType signedInfo;
 
