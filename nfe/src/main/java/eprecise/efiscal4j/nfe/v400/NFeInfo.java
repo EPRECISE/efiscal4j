@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.v400.export.NFeExport;
 import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Receiver;
@@ -64,6 +65,8 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
     
+    private @XmlElement(name = "exporta") final NFeExport export;
+    
     private @XmlElement(name = "infRespTec") final NFeTechnicalManager technicalManager;
 
     public static class Builder {
@@ -91,6 +94,8 @@ public class NFeInfo implements Serializable {
         private NFePayment nFePayment;
 
         private AdditionalInfo additionalInfo;
+        
+        private NFeExport export;
         
         private NFeTechnicalManager technicalManager;
         
@@ -219,6 +224,16 @@ public class NFeInfo implements Serializable {
         }
         
         /**
+         * @see NFeExport
+         * @param export
+         * @return
+         */
+        public Builder withNFeExport(final NFeExport export) {
+            this.export = export;
+            return this;
+        }
+        
+        /**
          * @see NFeTechnicalManager
          * @param technicalManager
          * @return
@@ -248,6 +263,7 @@ public class NFeInfo implements Serializable {
         this.nFeCharging = null;
         this.nFePayment = null;
         this.additionalInfo = null;
+        this.export = null;
         this.technicalManager = null;
     }
 
@@ -264,6 +280,7 @@ public class NFeInfo implements Serializable {
         this.nFeCharging = builder.nFeCharging;
         this.nFePayment = builder.nFePayment;
         this.additionalInfo = builder.additionalInfo;
+        this.export = builder.export;
         this.technicalManager = builder.technicalManager;
     }
 
@@ -318,5 +335,12 @@ public class NFeInfo implements Serializable {
     public AdditionalInfo getAdditionalInfo() {
         return this.additionalInfo;
     }
-
+    
+    public NFeExport getExport() {
+        return export;
+    }
+    
+    public NFeTechnicalManager getTechnicalManager() {
+        return technicalManager;
+    }
 }

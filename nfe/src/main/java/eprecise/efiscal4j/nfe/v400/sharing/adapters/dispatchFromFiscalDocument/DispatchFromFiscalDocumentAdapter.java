@@ -137,6 +137,7 @@ import eprecise.efiscal4j.nfe.v400.address.Country;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
+import eprecise.efiscal4j.nfe.v400.export.NFeExport;
 import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
 import eprecise.efiscal4j.nfe.v400.fuel.FuelCide;
 import eprecise.efiscal4j.nfe.v400.fuel.FuelClosing;
@@ -310,6 +311,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withNFeCharging(this.buildNFeCharging())
     			.withNFePayment(this.buildNFePayment())
     			.withAdditionalInfo(this.buildAdditionalInfo())
+    			.withNFeExport(this.buildNFeExport())
     			.withTechnicalManager(this.buildNFeTechnicalManager())
     			.build();
         //@formatter:on
@@ -323,6 +325,16 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withCsrtHash(Optional.ofNullable(technicalManager.getCsrt()).map(csrt -> this.buildCsrtHash(csrt, this.buildAccessKey())).orElse(null)).build();
         }
         return null;
+    }
+    
+    private NFeExport buildNFeExport() {
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(it -> it.getExport()).map(export -> {
+            return new NFeExport.Builder()
+                    .withUfExitCountry(export.getUfExitCountry())
+                    .withExportLocation(this.formatNFeString(export.getExportLocation(),60))
+                    .withDispatchLocation(this.formatNFeString(export.getDispatchLocation(),60))
+                    .build();
+        }).orElse(null);
     }
 
     public String buildCsrtHash(final CSRT csrt, final String accessKey) {

@@ -17,6 +17,7 @@ import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.CurrentIODate;
 import eprecise.efiscal4j.nfe.entranceOrExitDate.IODate;
+import eprecise.efiscal4j.nfe.export.Export;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
@@ -78,11 +79,17 @@ public class NFe extends FiscalDocument {
      * @param documentReferences
      */
     private final @Valid Collection<DocumentReference> documentReferences;
+    
+    /**
+     * @see Export
+     * @param export
+     */
+    private final Export export;
 
     @Builder
     public NFe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
             final Payment payment, final Transport transport, final PresenceIndicator presenceIndicator, final TechnicalManager technicalManager, final String details, final Receiver receiver, final IODate entranceOrExit,
-            final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer, final String operationDescription, final Collection<DocumentReference> documentReferences,
+            final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer, final String operationDescription, final Collection<DocumentReference> documentReferences, final Export export,
             final FiscalDocumentTotal.AddsValue totalAddsValue) {
         super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items,
                 charging, payment, transport, presenceIndicator, technicalManager, details, totalAddsValue);
@@ -93,6 +100,7 @@ public class NFe extends FiscalDocument {
         this.endConsumer = endConsumer;
         this.operationDescription = operationDescription;
         this.documentReferences = documentReferences;
+        this.export = export;
     }
 
     @Override
