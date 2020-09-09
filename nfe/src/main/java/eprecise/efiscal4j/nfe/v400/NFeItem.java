@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
 import eprecise.efiscal4j.nfe.v400.guns.Gun;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
+import eprecise.efiscal4j.nfe.v400.item.export.NFeItemExportDetail;
 import eprecise.efiscal4j.nfe.v400.types.NFeCNPJ;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1104Variable;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1110Variable;
@@ -85,6 +86,8 @@ public class NFeItem implements Serializable {
     private @XmlElement(name = "indTot") @NotNull final ItemValueComprisesTotal itemValueComprisesTotal;
 
     private @XmlElement(name = "DI") @Size(max = 100) @Valid final List<ImportDeclaration> importDeclarations;
+
+    private @XmlElement(name = "detExport") @Size(max = 100) @Valid final List<NFeItemExportDetail> itemExportDetails;
 
     private @XmlElement(name = "xPed") @Size(min = 1, max = 15) @NFeString final String purchaseOrderDescription;
 
@@ -155,6 +158,8 @@ public class NFeItem implements Serializable {
         private Fuel fuel;
 
         private List<ImportDeclaration> importDeclarations;
+
+        private List<NFeItemExportDetail> itemExportDetails;
 
         private String purchaseOrderDescription;
 
@@ -463,6 +468,17 @@ public class NFeItem implements Serializable {
             this.importDeclarations = importDeclarations;
             return this;
         }
+        
+        /**
+        *
+        * @see NFeItemExportDetail
+        * @param NFeItemExportDetail
+        * @return
+        */
+       public Builder withItemExportDetails(final List<NFeItemExportDetail> itemExportDetails) {
+           this.itemExportDetails = itemExportDetails;
+           return this;
+       }
 
         /**
          * pedido de compra - Informação de interesse do emissor para controle do B2B.
@@ -543,6 +559,7 @@ public class NFeItem implements Serializable {
         this.guns = null;
         this.fuel = null;
         this.importDeclarations = null;
+        this.itemExportDetails = null;
         this.purchaseOrderDescription = null;
         this.purchaseOrderNumber = null;
         this.fciNumber = null;
@@ -577,6 +594,7 @@ public class NFeItem implements Serializable {
         this.guns = builder.guns;
         this.fuel = builder.fuel;
         this.importDeclarations = builder.importDeclarations;
+        this.itemExportDetails = builder.itemExportDetails;
         this.purchaseOrderDescription = builder.purchaseOrderDescription;
         this.purchaseOrderNumber = builder.purchaseOrderNumber;
         this.fciNumber = builder.fciNumber;
@@ -693,6 +711,10 @@ public class NFeItem implements Serializable {
 
     public List<ImportDeclaration> getImportDeclarations() {
         return this.importDeclarations;
+    }
+
+    public List<NFeItemExportDetail> getItemExportDetails() {
+        return itemExportDetails;
     }
 
     public String getPurchaseOrderDescription() {

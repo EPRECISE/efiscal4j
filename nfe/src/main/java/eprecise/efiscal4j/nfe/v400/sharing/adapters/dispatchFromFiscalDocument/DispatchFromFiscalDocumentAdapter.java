@@ -39,6 +39,7 @@ import eprecise.efiscal4j.nfe.item.Item.ItemGrossValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
+import eprecise.efiscal4j.nfe.item.export.ItemExportDetail;
 import eprecise.efiscal4j.nfe.item.Unity;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
@@ -145,6 +146,8 @@ import eprecise.efiscal4j.nfe.v400.item.di.Addition;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.v400.item.di.IntermediaryImportType;
 import eprecise.efiscal4j.nfe.v400.item.di.InternationalTransportPathway;
+import eprecise.efiscal4j.nfe.v400.item.export.NFeItemExportDetail;
+import eprecise.efiscal4j.nfe.v400.item.export.NFeItemIndirectExport;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 import eprecise.efiscal4j.nfe.v400.payment.CardFlag;
 import eprecise.efiscal4j.nfe.v400.payment.CardSet;
@@ -1127,6 +1130,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withGuns(null) //TODO
                 .withFuel(this.buildFuel(item.getFuel()))
                 .withImportDeclarations(this.buildImportDeclarations(item))
+                .withItemExportDetails(this.buildItemExportDetails(item))
                 .withPurchaseOrderDescription(this.formatNFeString(item.getPurchaseOrderDescription(), 15))
                 .withPurchaseOrderNumber(this.formatNFeString(item.getPurchaseOrderNumber(), 6))
                 .withFciNumber(Optional.ofNullable(item.getFciNumber()).map(this::nullIfEmpty).orElse(null))
@@ -1218,6 +1222,23 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         }
         return null;
      // @formatter:on
+    }
+    
+    private List<NFeItemExportDetail> buildItemExportDetails(Item item) {
+        final Collection<ItemExportDetail> itemExportDetails = item.getItemExportDetails();
+        if(itemExportDetails != null && !itemExportDetails.isEmpty()) {
+            return itemExportDetails.stream().map(ied ->{
+                return new NFeItemExportDetail.Builder()
+                        .withDrawbackNumber(ied.getDrawbackNumber())
+                        .withIndirectExport(Optional.ofNullable(ied.getIndirectExport()).map(ie -> new NFeItemIndirectExport.Builder()
+                                .withAccessKey(ie.getAccessKey())
+                                .withExportRegistrationNumber(ie.getExportRegistrationNumber())
+                                .withItemExportQuantity(ie.getExportRegistrationNumber())
+                                .build()).orElse(null))
+                        .build();
+            }).collect(Collectors.toList());
+        }
+        return null;
     }
 
     private Medications buildMedications(final Item item) {

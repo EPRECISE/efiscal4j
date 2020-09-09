@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 
 import eprecise.efiscal4j.nfe.item.di.ImportDeclaration;
+import eprecise.efiscal4j.nfe.item.export.ItemExportDetail;
 import eprecise.efiscal4j.nfe.item.fuel.Fuel;
 import eprecise.efiscal4j.nfe.item.medications.Medications;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
@@ -43,6 +44,8 @@ public class Item {
     private final TaxStructure taxStructure;
 
     private final Collection<ImportDeclaration> importDeclarations;
+    
+    private final Collection<ItemExportDetail> itemExportDetails;
 
     private final Medications medications;
     
