@@ -1233,7 +1233,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withIndirectExport(Optional.ofNullable(ied.getIndirectExport()).map(ie -> new NFeItemIndirectExport.Builder()
                                 .withAccessKey(ie.getAccessKey())
                                 .withExportRegistrationNumber(ie.getExportRegistrationNumber())
-                                .withItemExportQuantity(ie.getExportRegistrationNumber())
+                                .withItemExportQuantity(Optional.ofNullable(ie.getItemExportQuantity()).map(this::formatNFeDecimal1104Variable).orElse(null))
                                 .build()).orElse(null))
                         .build();
             }).collect(Collectors.toList());
