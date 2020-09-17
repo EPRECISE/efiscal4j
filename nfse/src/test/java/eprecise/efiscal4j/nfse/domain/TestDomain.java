@@ -27,9 +27,12 @@ import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithoutIssHeld;
 import eprecise.efiscal4j.nfse.domain.specialTaxationRegime.NFSeSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeElotechData;
 import eprecise.efiscal4j.nfse.domain.specificData.NFSeSpecificData;
+import eprecise.efiscal4j.nfse.domain.specificData.curitiba.NFSeCuritibaData;
 import eprecise.efiscal4j.nfse.domain.specificData.govbr.v100.NFSeGovbrData;
 import eprecise.efiscal4j.nfse.domain.tax.NFSeTax;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
+import eprecise.efiscal4j.nfse.tc.curitiba.lot.rps.CuritibaNatureOperation;
+import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssRequirement;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
@@ -119,7 +122,7 @@ public class TestDomain {
                     .withSerie(new NFSeSerie.Builder()
                             .withSerie("Z")
                             .withLotNumber(lotNumber)
-                            .withRpsNumber("104")
+                            .withRpsNumber("1")
                             .build())
                     .withEmissionDate(new Date())
                     .withEmitter(new NFSeServiceEmitter.Builder()
@@ -216,6 +219,12 @@ public class TestDomain {
             .taxIncentive(false)
             .issRequirement(GovbrIssRequirement.REQUIRED)
             .build();
+        } else if(adapter.equals(NFSeAdapter.CURITIBA)) {
+            return new NFSeCuritibaData.Builder()
+                    .withCulturalPromoter(false)
+                    .withNatureOperation(CuritibaNatureOperation.MUNICIPAL_TAXATION)
+                    .withSimpleNational(true)
+                    .build();
         }
         return null;
       //@formatter:on
@@ -238,10 +247,17 @@ public class TestDomain {
         return Optional.ofNullable(domainAdapter.toDispatch()).filter(ElotechLotRpsDispatchSync.class::isInstance)
                 .map(ElotechLotRpsDispatchSync.class::cast).orElseThrow(IllegalStateException::new);
     }
+    
+    public CuritibaLotRpsDispatchAsync buildCuritibaLotRpsDispatch() throws Exception {
+        final NFSeCity city = new NFSeCity.Builder().withName("Curitiba").withUf(NFSeUF.PR).withIbgeCode("4106902").build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withCertificate(this.getCertificate()).withNFSe(this.buildNFSe(city, "2")).build();
+        return Optional.ofNullable(domainAdapter.toDispatch()).filter(CuritibaLotRpsDispatchAsync.class::isInstance)
+                .map(CuritibaLotRpsDispatchAsync.class::cast).orElseThrow(IllegalStateException::new);
+    }
 
     public GovbrLotRpsDispatchAsync buildGovbrV100LotRpsDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Pato Branco").withUf(NFSeUF.PR).withIbgeCode("4118501").build();
-        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withNFSe(this.buildNFSe(city, "10")).build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withCertificate(this.getCertificate()).withNFSe(this.buildNFSe(city, "10")).build();
         return Optional.ofNullable(domainAdapter.toDispatch()).filter(GovbrLotRpsDispatchAsync.class::isInstance)
                 .map(GovbrLotRpsDispatchAsync.class::cast).orElseThrow(IllegalStateException::new);
     }
