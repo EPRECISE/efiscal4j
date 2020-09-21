@@ -5,34 +5,31 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Test;
-
 import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.TestDomain;
 import eprecise.efiscal4j.nfse.domain.Testable;
 import eprecise.efiscal4j.nfse.tc.curitiba.CuritibaNFSeIdentifier;
-import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaCancellationCode;
 import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaNfseCancelRequest.CuritibaNfseCancelRequestInfo;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.cancel.CuritibaNfseDispatchCancel;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.cancel.CuritibaNfseDispatchCancelResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.CuritibaLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.CuritibaLotRpsDispatchConsultResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.state.CuritibaLotRpsDispatchConsultState;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.state.CuritibaLotRpsDispatchConsultStateResponse;
-import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.transmission.NFSeTransmissor;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 
 public class CuritibaTransmissionChannelTest implements Testable {
     
-    private static Optional<String> protocol = Optional.of("637341365233221595");
+    private static Optional<String> protocol = Optional.of("637362805495011363");
     
-    private static Optional<String> nfseCancelNumber = Optional.of("1337");
+    private static Optional<String> nfseCancelNumber = Optional.of("1339");
 
     /**
      *
@@ -53,8 +50,8 @@ public class CuritibaTransmissionChannelTest implements Testable {
             final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.CURITIBA)
                     .transmitAuthorization(buildCuritibaLotRpsDispatch, "4106902", true);
 
-            final GovbrLotRpsDispatchAsyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(
-                    transmissionResult.getResponseXml(), GovbrLotRpsDispatchAsyncResponse.class).deserialize();
+            final CuritibaLotRpsDispatchAsyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(
+                    transmissionResult.getResponseXml(), CuritibaLotRpsDispatchAsyncResponse.class).deserialize();
 
             System.out.println("Retorno RecepcionarLoteRps:");
             
@@ -150,7 +147,7 @@ public class CuritibaTransmissionChannelTest implements Testable {
 
     }
     
-    @Test
+    //@Test
     public void transmitCancel() {
 
         try {
@@ -165,7 +162,6 @@ public class CuritibaTransmissionChannelTest implements Testable {
                                             .municipalRegistration(getTestDomain().buildCuritibaLotRpsDispatch().getLotRps().getMunicipalRegistration())
                                             .cityCode("4106902")
                                             .build())
-                                    .cancellationCode(CuritibaCancellationCode.CODE3)
                                     .build())
                             .build(new DefaultSigner(getTestDomain().getCertificate())))
                     .build();

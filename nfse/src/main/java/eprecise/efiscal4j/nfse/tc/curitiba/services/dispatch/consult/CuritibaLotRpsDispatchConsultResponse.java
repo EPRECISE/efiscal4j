@@ -15,7 +15,6 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.curitiba.comNfse.CuritibaCompNFSe;
-import eprecise.efiscal4j.nfse.tc.govbr.v100.compNfse.GovbrCompNFSe;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 import lombok.Builder;
@@ -48,7 +47,7 @@ public class CuritibaLotRpsDispatchConsultResponse extends Receivable implements
 
     @Override
     public Optional<CompNFSe> getCompNFSe() {
-        return compNFSeList.stream().findAny().map(GovbrCompNFSe.class::cast);
+        return compNFSeList.stream().findAny().map(CuritibaCompNFSe.class::cast);
     }
 
     @Override
