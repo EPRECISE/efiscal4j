@@ -29,6 +29,9 @@ import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsRpsIdentifier;
+import eprecise.efiscal4j.nfse.tc.curitiba.CuritibaNFSeIdentifier;
+import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaCancellationCode;
+import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaNfseCancelRequest;
 import eprecise.efiscal4j.nfse.tc.curitiba.intermediary.CuritibaServiceIntermediaryIdentifier;
 import eprecise.efiscal4j.nfse.tc.curitiba.lot.CuritibaLotRps;
 import eprecise.efiscal4j.nfse.tc.curitiba.lot.rps.CuritibaRps;
@@ -37,7 +40,9 @@ import eprecise.efiscal4j.nfse.tc.curitiba.lot.rps.services.CuritibaService;
 import eprecise.efiscal4j.nfse.tc.curitiba.lot.rps.services.CuritibaValues;
 import eprecise.efiscal4j.nfse.tc.curitiba.provider.CuritibaServiceProviderIdentifier;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsync;
+import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.cancel.CuritibaNfseDispatchCancel;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.CuritibaLotRpsDispatchConsult;
+import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.state.CuritibaLotRpsDispatchConsultState;
 import eprecise.efiscal4j.nfse.tc.curitiba.taker.CuritibaServiceTaker;
 import eprecise.efiscal4j.nfse.tc.curitiba.taker.CuritibaServiceTakerIdentifier;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
@@ -66,36 +71,34 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
 
     @Override
     public NFSeRequest toDispatchCancel(final NFSeCancellationRequestData cancellationRequestData) {
-//
-//        final eprecise.efiscal4j.nfse.tc.govbr.v100.cancel.GovbrNfseCancelRequest.Builder nfseCancelRequestBuilder = new GovbrNfseCancelRequest.Builder()
-//                .withInfo(new GovbrNfseCancelRequest.GovbrNfseCancelRequestInfo.Builder()
-//                        .withIdentifier(new GovbrNFSeIdentifier.Builder()
-//                                .withCityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
-//                                .withCnpj(this.nfse.getEmitter().getDocuments().getCnp())
-//                                .withMunicipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments())
-//                                        .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
-//                                        .map(NFSeLegalEntityDocuments::getIm).orElse(null))
-//                                .withNumber(cancellationRequestData.getNfseNumber()).build())
-//                        .withCancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
-//                                .filter(GovbrCancellationCode.class::isInstance).map(GovbrCancellationCode.class::cast).orElse(null))
-//                        .build());
-//
-//        try {
-//            return new GovbrNfseDispatchCancel.Builder().withCancelRequest(
-//                    this.certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(this.certificate.get()))
-//                            : nfseCancelRequestBuilder.build())
-//                    .build();
-//        } catch (final Exception e) {
-//            throw new RuntimeException(e);
-//        }
-        return null;
+
+        final eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaNfseCancelRequest.Builder nfseCancelRequestBuilder = new CuritibaNfseCancelRequest.Builder()
+                .withInfo(CuritibaNfseCancelRequest.CuritibaNfseCancelRequestInfo.builder()
+                        .identifier(CuritibaNFSeIdentifier.builder()
+                                .cityCode(this.nfse.getEmitter().getAddress().getCity().getIbgeCode())
+                                .cnpj(this.nfse.getEmitter().getDocuments().getCnp())
+                                .municipalRegistration(Optional.ofNullable(this.nfse.getEmitter().getDocuments())
+                                        .filter(NFSeLegalEntityDocuments.class::isInstance).map(NFSeLegalEntityDocuments.class::cast)
+                                        .map(NFSeLegalEntityDocuments::getIm).orElse(null))
+                                .number(cancellationRequestData.getNfseNumber()).build())
+                        .cancellationCode(Optional.ofNullable(cancellationRequestData.getCancellationCode())
+                                .filter(CuritibaCancellationCode.class::isInstance).map(CuritibaCancellationCode.class::cast).orElse(null))
+                        .build());
+
+        try {
+            return new CuritibaNfseDispatchCancel.Builder().withCancelRequest(
+                    this.certificate.isPresent() ? nfseCancelRequestBuilder.build(new DefaultSigner(this.certificate.get()))
+                            : nfseCancelRequestBuilder.build())
+                    .build();
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public NFSeRequest toDispatchConsultState(final String protocol) {
-//        return new GovbrLotRpsDispatchConsultState.Builder().withProtocol(protocol)
-//                .withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
-        return null;
+        return new CuritibaLotRpsDispatchConsultState.Builder().withProtocol(protocol)
+                .withServiceProviderIdentifier(this.buildServiceProviderIdentifier()).build();
     }
 
     @Override
@@ -178,7 +181,8 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
                 .bcValue(this.formatNFSeValue(this.nfse.getTax().getBcValue()))
                 .issAliquot(this.formatNFSeAliquot(this.nfse.getTax().getIssAliquot()))
                 .nfseNetValue(this.formatNFSeValue(this.nfse.getService().getNetValue().add(this.nfse.getTax().getTotal())))
-                .discountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
+                .discountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getUnconditionedValue()))
+                .discountConditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getConditionedValue()))
                 .build();
         //@formatter:on
     }

@@ -193,8 +193,8 @@ public class GovbrNFSeDomainAdapter implements NFSeDomainAdapter {
 //                  .totalTaxValue(this.formatNFSeValue(this.nfse.getTax().getTotal())) //TODO VERIFICAR
                   .issValue(this.formatNFSeValue(this.nfse.getTax().getIssValue()))
                   .issAliquot(this.formatNFSeValue(this.nfse.getTax().getIssAliquot()))
-                  .discountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
-                  .discountConditionedValue(this.formatNFSeValue(BigDecimal.ZERO)) //TODO VERIFICAR
+                  .discountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getUnconditionedValue()))
+                  .discountConditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getConditionedValue()))
                   .build();
         //@formatter:on
     }

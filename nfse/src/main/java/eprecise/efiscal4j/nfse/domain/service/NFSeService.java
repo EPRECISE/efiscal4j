@@ -27,7 +27,7 @@ public class NFSeService implements Serializable {
 
     private final BigDecimal amount;
 
-    private final BigDecimal discount;
+    private final NFSeDiscount discount;
 
     private final BigDecimal deduction;
 
@@ -47,7 +47,7 @@ public class NFSeService implements Serializable {
 
         private BigDecimal amount = BigDecimal.ZERO;
 
-        private BigDecimal discount = BigDecimal.ZERO;
+        private NFSeDiscount discount = NFSeDiscount.builder().build();
 
         private BigDecimal deduction = BigDecimal.ZERO;
 
@@ -85,8 +85,13 @@ public class NFSeService implements Serializable {
             this.amount = amount;
             return this;
         }
+        
+        public Builder withDiscount(final BigDecimal unconditionedValue) {
+            this.discount = NFSeDiscount.builder().unconditionedValue(unconditionedValue).conditionedValue(Optional.ofNullable(this.discount.getConditionedValue()).orElse(BigDecimal.ZERO)).build();
+            return this;
+        }
 
-        public Builder withDiscount(final BigDecimal discount) {
+        public Builder withDiscount(final NFSeDiscount discount) {
             this.discount = discount;
             return this;
         }
@@ -155,8 +160,8 @@ public class NFSeService implements Serializable {
     public BigDecimal getAmount() {
         return amount;
     }
-
-    public BigDecimal getDiscount() {
+    
+    public NFSeDiscount getDiscount() {
         return discount;
     }
 
@@ -169,7 +174,7 @@ public class NFSeService implements Serializable {
     }
 
     public BigDecimal getNetValue() {
-        return getGrossValue().subtract(Optional.ofNullable(getDiscount()).orElse(BigDecimal.ZERO));
+        return getGrossValue().subtract(Optional.ofNullable(getDiscount().getTotal()).orElse(BigDecimal.ZERO));
     }
 
 }

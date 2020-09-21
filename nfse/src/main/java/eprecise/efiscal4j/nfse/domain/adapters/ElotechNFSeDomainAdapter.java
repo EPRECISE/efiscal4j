@@ -203,7 +203,8 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                 .withOtherRetentionsValue(this.formatNFSeValue(this.nfse.getTax().getOtherRetentionsValue()))
                 .withIssAliquot(this.formatNFSeAliquot(this.nfse.getTax().getIssAliquot()))
 //                .withIssValue(formatNFSeValue(nfse.getTax().getIssValue()))
-                .withDiscountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
+                .withDiscountUnconditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getUnconditionedValue()))
+                .withDiscountConditionedValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getConditionedValue()))
                 .build();
         //@formatter:on
     }
@@ -219,7 +220,7 @@ public class ElotechNFSeDomainAdapter implements NFSeDomainAdapter {
                     .withTaxable(ElotechServiceItemTaxable.YES) //TODO REVER
                     .withQuantity(this.formatNFSeValue(this.nfse.getService().getAmount()))
                     .withUnitaryValue(this.formatNFSeValue(this.nfse.getService().getUnitaryValue()))
-                    .withDiscountValue(this.formatNFSeValue(this.nfse.getService().getDiscount()))
+                    .withDiscountValue(this.formatNFSeValue(this.nfse.getService().getDiscount().getTotal()))
                     .withNetValue(this.formatNFSeValue(this.nfse.getService().getNetValue()))
                     .build());
 
