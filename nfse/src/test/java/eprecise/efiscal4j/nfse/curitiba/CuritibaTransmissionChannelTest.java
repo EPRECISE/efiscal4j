@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
+import org.junit.Test;
+
 import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;

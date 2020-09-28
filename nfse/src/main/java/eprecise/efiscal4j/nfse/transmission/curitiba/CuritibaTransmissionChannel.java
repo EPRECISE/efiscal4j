@@ -34,6 +34,7 @@ import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 import eprecise.efiscal4j.transmissor.Transmissor;
 
 
@@ -62,6 +63,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
             throws Exception {
 
         final CuritibaLotRpsDispatchAsync lotRpsDispatch = (CuritibaLotRpsDispatchAsync) transmissible;
+        this.clearnAssignableXmlnsFrom(lotRpsDispatch);
 
         final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         final Marshaller marshaller = JAXBContext.newInstance(CuritibaReceiptXml.class).createMarshaller();
@@ -156,6 +158,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
     public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeResponse> transmitCancellation(NFSeRequest transmissible, String cityCode, boolean homologation) throws Exception {
         
         final CuritibaNfseDispatchCancel lotRpsDispatch = (CuritibaNfseDispatchCancel) transmissible;
+        this.clearnAssignableXmlnsFrom(lotRpsDispatch.getCancelRequest());
 
         final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         final Marshaller marshaller = JAXBContext.newInstance(CuritibaReceiptXml.class).createMarshaller();
@@ -180,6 +183,12 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
         } catch (final Exception e) {
             e.printStackTrace();
             throw new UnavailableServiceException();
+        }
+    }
+    
+    private void clearnAssignableXmlnsFrom(DefaultAssignable assignable) {
+        if(assignable != null && assignable.signature != null) {
+            assignable.signature.setXmlns(null);
         }
     }
 

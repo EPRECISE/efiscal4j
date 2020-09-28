@@ -19,7 +19,7 @@ public class SignatureType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private @XmlAttribute(name = "xmlns") final String xmlns = "http://www.w3.org/2000/09/xmldsig#";
+    private @XmlAttribute(name = "xmlns") String xmlns = "http://www.w3.org/2000/09/xmldsig#";
 
     private @XmlElement(name = "SignedInfo", required = true) SignedInfoType signedInfo;
 
@@ -49,6 +49,14 @@ public class SignatureType implements Serializable {
 
     public void setKeyInfo(KeyInfoType value) {
         this.keyInfo = value;
+    }
+    
+    public String getXmlns() {
+        return xmlns;
+    }
+    
+    public void setXmlns(String xmlns) {
+        this.xmlns = xmlns;
     }
 
 }
