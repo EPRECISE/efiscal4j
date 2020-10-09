@@ -21,6 +21,7 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsync;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispatchAsyncResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.cancel.CuritibaNfseDispatchCancel;
+import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.cancel.CuritibaNfseDispatchCancelResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.CuritibaLotRpsDispatchConsult;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.CuritibaLotRpsDispatchConsultResponse;
 import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.consult.state.CuritibaLotRpsDispatchConsultState;
@@ -179,7 +180,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
                 new String(outputStream.toByteArray()).replaceFirst("(?s)<CancelarNfseEnvio[^>]*>.*?</CancelarNfseEnvio>", StringEscapeUtils.escapeXml(requestXml)),
                 NFSeTransmissor.getUrl(cityCode, homologation), requestProperty))).map(str-> str.substring(str.indexOf("<CancelarNfseResposta"), str.lastIndexOf("</RecepcionarXmlResult>"))).get();
         //@formatter:on
-            return new TypedTransmissionResult<>(CuritibaLotRpsDispatchConsultState.class, CuritibaLotRpsDispatchConsultStateResponse.class, requestXml, responseXml);
+            return new TypedTransmissionResult<>(CuritibaNfseDispatchCancel.class, CuritibaNfseDispatchCancelResponse.class, requestXml, responseXml);
         } catch (final Exception e) {
             e.printStackTrace();
             throw new UnavailableServiceException();
