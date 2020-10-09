@@ -29,9 +29,9 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 public class CuritibaTransmissionChannelTest implements Testable {
     
-    private static Optional<String> protocol = Optional.of("637362805495011363");
+    private static Optional<String> protocol = Optional.of("637378579767285198");
     
-    private static Optional<String> nfseCancelNumber = Optional.of("1339");
+    private static Optional<String> nfseCancelNumber = Optional.of("1347");
 
     /**
      *
