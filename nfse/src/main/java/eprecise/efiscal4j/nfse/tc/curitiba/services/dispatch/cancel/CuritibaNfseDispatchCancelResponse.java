@@ -15,7 +15,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationCode;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
-import eprecise.efiscal4j.nfse.tc.govbr.v100.cancel.GovbrNfseCancelResponse;
+import eprecise.efiscal4j.nfse.tc.curitiba.cancel.CuritibaNfseCancelResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchCancellationAutorizedResponse;
 import eprecise.efiscal4j.signer.domain.SignatureType;
 
@@ -26,9 +26,7 @@ public class CuritibaNfseDispatchCancelResponse extends Receivable implements NF
 
     private static final long serialVersionUID = 1L;
 
-    public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/govbr/servico_cancelar_nfse_resposta.xsd";
-
-    public @XmlElement(name = "Cancelamento") GovbrNfseCancelResponse cancelResponse;
+    public @XmlElement(name = "Cancelamento") CuritibaNfseCancelResponse cancelResponse;
 
     private final @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -36,7 +34,7 @@ public class CuritibaNfseDispatchCancelResponse extends Receivable implements NF
 
     public static class Builder {
 
-        public GovbrNfseCancelResponse cancelResponse;
+        public CuritibaNfseCancelResponse cancelResponse;
 
         private Collection<CommonsNFSeReturnMessage> returnMessageList;
 
@@ -44,7 +42,7 @@ public class CuritibaNfseDispatchCancelResponse extends Receivable implements NF
          * @param cancelResponse
          * @return
          */
-        public Builder withCancelResponse(final GovbrNfseCancelResponse cancelResponse) {
+        public Builder withCancelResponse(final CuritibaNfseCancelResponse cancelResponse) {
             this.cancelResponse = cancelResponse;
             return this;
         }
@@ -75,7 +73,7 @@ public class CuritibaNfseDispatchCancelResponse extends Receivable implements NF
         returnMessageList = builder.returnMessageList;
     }
 
-    public GovbrNfseCancelResponse getCancelResponse() {
+    public CuritibaNfseCancelResponse getCancelResponse() {
         return cancelResponse;
     }
 
