@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
-@XmlRootElement(name = "CancelarNfseEnvio")
+@XmlRootElement(name = "CancelarNfseEnvio", namespace = "http://tempuri.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "info", "signature" })
 public class CuritibaNfseCancelRequest extends DefaultAssignable implements Serializable {
