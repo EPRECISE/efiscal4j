@@ -113,6 +113,9 @@
 	<field name="qrCode" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFeSupl/qrCode]]></fieldDescription>
 	</field>
+	<field name="vFrete" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vFrete]]></fieldDescription>
+	</field>
 	<field name="vProd" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/total/ICMSTot/vProd]]></fieldDescription>
 	</field>
@@ -233,7 +236,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<subreportExpression><![CDATA[$P{danfe_nfce_detalhes}]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="64">
+		<band height="74">
 			<staticText>
 				<reportElement positionType="Float" x="0" y="0" width="156" height="10" uuid="9ef96011-70b6-46eb-94f5-d2616584af25">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -243,7 +246,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Qtd. Total de Itens]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="30" width="156" height="10" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
+				<reportElement positionType="Float" x="0" y="40" width="156" height="10" uuid="85d8739a-1b34-4eda-9bcb-c7bb330cf944">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -252,7 +255,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<text><![CDATA[Valor a Pagar R$]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="42" width="194" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
+				<reportElement positionType="Float" x="0" y="52" width="194" height="10" uuid="b385555d-3b3a-4e52-970b-51e9a9c64bc1">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/pag/detPag")]]></dataSourceExpression>
@@ -267,7 +270,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{qtdTotal} != null ? new java.math.BigDecimal($F{qtdTotal}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="156" y="30" width="38" height="10" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
+				<reportElement positionType="Float" x="156" y="40" width="38" height="10" uuid="7f6590d5-4f2f-49d4-bfde-4407752c19ec">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -312,17 +315,35 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textFieldExpression><![CDATA[$F{vProd} != null ? new java.math.BigDecimal($F{vProd}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement positionType="Float" x="148" y="54" width="46" height="10" uuid="34c63760-bf09-4175-94b2-fefa1d015740">
+				<reportElement positionType="Float" x="148" y="64" width="46" height="10" uuid="34c63760-bf09-4175-94b2-fefa1d015740">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{vTroco} != null ? new java.math.BigDecimal($F{vTroco}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="54" width="148" height="10" uuid="e97a8c78-d522-4498-896a-aebb311223cb"/>
+				<reportElement positionType="Float" x="0" y="64" width="148" height="10" uuid="e97a8c78-d522-4498-896a-aebb311223cb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<text><![CDATA[Troco R$]]></text>
 			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="30" width="156" height="10" uuid="6ba9570f-ab84-4b94-aac7-e1a7ed2cea3c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Frete R$]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="156" y="30" width="38" height="10" uuid="484d865a-f28d-4d8a-8b0c-12b183698c47">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{vFrete} != null ? new java.math.BigDecimal($F{vFrete}) : java.math.BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="124">
 			<line>
