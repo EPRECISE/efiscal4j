@@ -146,21 +146,25 @@
 				<box padding="1"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="45" y="10" width="149" height="10" uuid="c41de7a2-71cb-4d68-9b05-e412adbec629">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ}.substring(0, 2) + "." + $F{CNPJ}.substring(2, 5) + "." + $F{CNPJ}.substring(5, 8) + "/" + $F{CNPJ}.substring(8, 12) + "-"   + $F{CNPJ}.substring(12, 14) + "  " + "IE: "+$F{IE}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="45" y="20" width="149" height="10" uuid="e0554636-d7ac-4322-8dcb-91d22891e349">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
 			<line>
@@ -203,14 +207,14 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="0" y="10" width="194" height="10" uuid="033cac54-7280-427a-9f20-7e4ecf317b4a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ} + "  " + "IE: "+$F{IE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CNPJ: "+$F{CNPJ}.substring(0, 2) + "." + $F{CNPJ}.substring(2, 5) + "." + $F{CNPJ}.substring(5, 8) + "/" + $F{CNPJ}.substring(8, 12) + "-"   + $F{CNPJ}.substring(12, 14) + "  " + "IE: "+$F{IE}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="0" width="194" height="10" uuid="3adde7ee-d838-40c0-bf52-b835a6c53779">
