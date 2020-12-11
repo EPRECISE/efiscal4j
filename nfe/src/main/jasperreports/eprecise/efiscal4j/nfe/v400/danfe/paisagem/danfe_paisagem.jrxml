@@ -1443,7 +1443,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 					<font size="8" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{emitEnderxCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxCpl},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF}) : String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="63" y="19" width="355" height="26" uuid="f107d8c5-e626-476d-b60a-1a1f1bdc3504">
@@ -1691,7 +1691,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 					<font size="8" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{emitEnderxCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxCpl},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF}) : String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="165" y="53" width="253" height="12" uuid="ac595508-03f9-488e-82b4-512110d0e052">
@@ -2037,7 +2037,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 					<font size="8" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{emitEnderxCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxCpl},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF}) : String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="1" y="32" width="341" height="14" uuid="4c51daa7-49ec-42c0-be32-9d7e95c999c7">
