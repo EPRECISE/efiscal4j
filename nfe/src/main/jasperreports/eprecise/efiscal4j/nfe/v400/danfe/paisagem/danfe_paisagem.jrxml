@@ -379,7 +379,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
 					<font size="6" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["RECEBEMOS DE "+ $F{emitxNome} + " OS PRODUTOS E/OU SERVIÇOS CONSTANTES DA NOTA FISCAL ELETRÔNICA INDICADA AO LADO. EMISSÃO: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi})) + ", VALOR TOTAL: R$ "+$F{totalVNF}.replaceAll("\\.",",") + ", DESTINATÁRIO: "+$F{destxNome}+" - "+$F{destEnderxLgr} + ", " + $F{destEndernro}+", "+$F{destEnderxBairro}+ ", "+$F{destEnderxMun}+"-"+$F{destEnderUF}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["RECEBEMOS DE "+ $F{emitxNome} + " OS PRODUTOS E/OU SERVIÇOS CONSTANTES DA NOTA FISCAL ELETRÔNICA INDICADA AO LADO. EMISSÃO: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse($F{idedhEmi})) + ", VALOR TOTAL: R$ "+$F{totalVNF}.replaceAll("\\.",",") + ", DESTINATÁRIO: "+$F{destxNome}+" - "+$F{destEnderxLgr} + ", " + $F{destEndernro} +  ($F{destEnderxCpl} != null ? ", "+$F{destEnderxCpl} : "")   +", "+$F{destEnderxBairro}+ ", "+$F{destEnderxMun}+"-"+$F{destEnderUF}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="DefaultStyle" positionType="Float" mode="Transparent" x="29" y="478" width="11" height="100" uuid="629e1de0-01c0-4ef0-b415-42c1f74a5739"/>
@@ -1232,7 +1232,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{destEnderxLgr} + ", " + $F{destEndernro}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{destEnderxLgr} + ", " + $F{destEndernro} + ($F{destEnderxCpl} != null ? ", " + $F{destEnderxCpl} : "")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="549" y="52" width="281" height="13" uuid="1260cf03-96fb-4d2c-ae00-5fa44cf736f8"/>
