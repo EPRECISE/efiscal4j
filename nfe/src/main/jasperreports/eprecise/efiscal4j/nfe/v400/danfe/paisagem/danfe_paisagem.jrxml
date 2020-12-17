@@ -2117,7 +2117,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Transparent" x="62" y="22" width="618" height="32" uuid="e8fd58c1-958b-4901-bd4e-49349dcb9781"/>
 				<textElement textAlignment="Justified" verticalAlignment="Top" markup="none">
-					<font size="5"/>
+					<font size="6"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{infCpl} != null ? $F{infCpl}.replaceAll("      ","\n").replaceAll("     ","\n").replaceAll("    ","\n").replaceAll("   ","\n").replaceAll("  ","\n") : null]]></textFieldExpression>
