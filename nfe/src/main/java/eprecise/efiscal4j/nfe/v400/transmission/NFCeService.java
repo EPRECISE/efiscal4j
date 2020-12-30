@@ -72,6 +72,7 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
         //@formatter:off
         switch (uf) {
         case MA:
+        case BA:
         case PA:
         case PI:
         case AC:
