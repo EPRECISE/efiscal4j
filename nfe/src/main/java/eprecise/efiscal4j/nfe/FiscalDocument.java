@@ -24,6 +24,7 @@ import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.nfe.broker.BrokerIndicator;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
@@ -106,12 +107,18 @@ public abstract class FiscalDocument {
      * @param transport
      */
     private @NotNull(message = "{eprecise.efiscal4j.nfe.fiscalDocument.transport.isNotNull}") @Valid final Transport transport;
-    
+
     /**
      * @see PresenceIndicator
      * @param presenceIndicator
      */
     private @Valid final PresenceIndicator presenceIndicator;
+
+    /**
+     * @see BrokerIndicator
+     * @param brokerIndicator
+     */
+    private @Valid final BrokerIndicator brokerIndicator;
 
     /**
      * @see TechnicalManager
@@ -238,7 +245,7 @@ public abstract class FiscalDocument {
         }
 
         public EventStatus getStatus() {
-            return Optional.ofNullable(this.result).map(r -> r.getResponse()).map(rp -> rp.getStatus()).orElse(null);
+            return Optional.ofNullable(this.result).map(TypedTransmissionResult::getResponse).map(NFeAuthorizationResponse::getStatus).orElse(null);
         }
 
     }

@@ -63,6 +63,8 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "pag") @NotNull final NFePayment nFePayment;
 
+    private @XmlElement(name = "infIntermed") final NFeBrokerInfo brokerInfo;
+    
     private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
     
     private @XmlElement(name = "exporta") final NFeExport export;
@@ -92,6 +94,8 @@ public class NFeInfo implements Serializable {
         private NFeCharging nFeCharging;
 
         private NFePayment nFePayment;
+        
+        private NFeBrokerInfo brokerInfo;
 
         private AdditionalInfo additionalInfo;
         
@@ -214,6 +218,16 @@ public class NFeInfo implements Serializable {
         }
 
         /**
+         * @see NFeBrokerInfo
+         * @param brokerInfo
+         * @return
+         */
+        public Builder withBrokerInfo(final NFeBrokerInfo brokerInfo) {
+            this.brokerInfo = brokerInfo;
+            return this;
+        }
+        
+        /**
          * @see AdditionalInfo
          * @param additionalInfo
          * @return
@@ -262,6 +276,7 @@ public class NFeInfo implements Serializable {
         this.nFeTransport = null;
         this.nFeCharging = null;
         this.nFePayment = null;
+        this.brokerInfo = null;
         this.additionalInfo = null;
         this.export = null;
         this.technicalManager = null;
@@ -279,6 +294,7 @@ public class NFeInfo implements Serializable {
         this.nFeTransport = builder.nFeTransport;
         this.nFeCharging = builder.nFeCharging;
         this.nFePayment = builder.nFePayment;
+        this.brokerInfo = builder.brokerInfo;
         this.additionalInfo = builder.additionalInfo;
         this.export = builder.export;
         this.technicalManager = builder.technicalManager;
@@ -330,6 +346,10 @@ public class NFeInfo implements Serializable {
 
     public NFePayment getnFePayment() {
         return nFePayment;
+    }
+    
+    public NFeBrokerInfo getBrokerInfo() {
+        return brokerInfo;
     }
 
     public AdditionalInfo getAdditionalInfo() {

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
+import eprecise.efiscal4j.nfe.broker.BrokerIndicator;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.emissionDate.CurrentEmissionDate;
 import eprecise.efiscal4j.nfe.emissionDate.EmissionDate;
@@ -79,7 +80,7 @@ public class NFe extends FiscalDocument {
      * @param documentReferences
      */
     private final @Valid Collection<DocumentReference> documentReferences;
-    
+
     /**
      * @see Export
      * @param export
@@ -88,11 +89,11 @@ public class NFe extends FiscalDocument {
 
     @Builder
     public NFe(final String code, final FiscalDocumentSerie serie, final Integer number, final EmissionDate emission, final Emitter emitter, final List<Item> items, final Charging charging,
-            final Payment payment, final Transport transport, final PresenceIndicator presenceIndicator, final TechnicalManager technicalManager, final String details, final Receiver receiver, final IODate entranceOrExit,
-            final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer, final String operationDescription, final Collection<DocumentReference> documentReferences, final Export export,
-            final FiscalDocumentTotal.AddsValue totalAddsValue) {
+            final Payment payment, final Transport transport, final PresenceIndicator presenceIndicator, final BrokerIndicator brokerIndicator, final TechnicalManager technicalManager,
+            final String details, final Receiver receiver, final IODate entranceOrExit, final NFeFinality finality, final FiscalDocumentType type, final Boolean endConsumer,
+            final String operationDescription, final Collection<DocumentReference> documentReferences, final Export export, final FiscalDocumentTotal.AddsValue totalAddsValue) {
         super(Optional.ofNullable(code).orElse(String.format("%08d", new Random().nextInt(100000000))), serie, number, Optional.ofNullable(emission).orElse(new CurrentEmissionDate()), emitter, items,
-                charging, payment, transport, presenceIndicator, technicalManager, details, totalAddsValue);
+                charging, payment, transport, presenceIndicator, brokerIndicator, technicalManager, details, totalAddsValue);
         this.receiver = receiver;
         this.entranceOrExit = Optional.ofNullable(entranceOrExit).orElse(new CurrentIODate());
         this.finality = Optional.ofNullable(finality).orElse(NFeFinality.NORMAL);

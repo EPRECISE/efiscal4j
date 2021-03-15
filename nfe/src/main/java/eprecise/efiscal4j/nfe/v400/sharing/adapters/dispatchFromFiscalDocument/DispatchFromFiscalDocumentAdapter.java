@@ -26,6 +26,9 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocumentType;
 import eprecise.efiscal4j.nfe.NFCe;
+import eprecise.efiscal4j.nfe.broker.BrokerIndicator;
+import eprecise.efiscal4j.nfe.broker.WithBrokerOperation;
+import eprecise.efiscal4j.nfe.broker.WithoutBrokerOperation;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.consumer.SimpleConsumer;
@@ -120,6 +123,8 @@ import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
 import eprecise.efiscal4j.nfe.v400.ItemValueComprisesTotal;
 import eprecise.efiscal4j.nfe.v400.Medications;
 import eprecise.efiscal4j.nfe.v400.NFe;
+import eprecise.efiscal4j.nfe.v400.NFeBrokerIndicator;
+import eprecise.efiscal4j.nfe.v400.NFeBrokerInfo;
 import eprecise.efiscal4j.nfe.v400.NFeDetail;
 import eprecise.efiscal4j.nfe.v400.NFeIdentification;
 import eprecise.efiscal4j.nfe.v400.NFeInfo;
@@ -313,6 +318,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     			.withNFeTransport(this.buildNFeTransport())
     			.withNFeCharging(this.buildNFeCharging())
     			.withNFePayment(this.buildNFePayment())
+    			.withBrokerInfo(this.buildBrokerIndicatorInfo())
     			.withAdditionalInfo(this.buildAdditionalInfo())
     			.withNFeExport(this.buildNFeExport())
     			.withTechnicalManager(this.buildNFeTechnicalManager())
@@ -844,6 +850,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
             .withNFeTransmissionProcess(NFeTransmissionProcess.APLICATIVO_CONTRIBUINTE)
             .withOperationType(this.formatNFeString(this.buildOperationTypeDescriptor(),60))
             .withPurchaserPresenceIndicator(Optional.ofNullable(this.fiscalDocument.getPresenceIndicator()).map(pi -> PurchaserPresenceIndicator.findByCode(pi.getValue())).orElse(PurchaserPresenceIndicator.OPERACAO_PRESENCIAL))
+            .withBrokerIndicator(this.buildBrokerIndicator())
             .withTaxableEventCityIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> ba.getCity().getIbgeCode().toString()).orElse(DispatchFromFiscalDocumentAdapter.IBGE_CODE_DEFAULT)) //TODO Revisar
             .withTransmissionEnvironment(this.buildTransmissionEnvironment())
             .withUFIbgeCode(Optional.ofNullable(this.fiscalDocument.getEmitter().getAddress()).map(ba -> UF.findByAcronym(ba.getCity().getUf().getAcronym())).orElse(UF.EX))
@@ -855,6 +862,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
         return builder.build();
       //@formatter:on
+    }
+
+    private NFeBrokerIndicator buildBrokerIndicator() {
+        return Optional.ofNullable(this.fiscalDocument.getBrokerIndicator()).filter(WithoutBrokerOperation.class::isInstance).map(it -> NFeBrokerIndicator.OPERACAO_SITE_PLATAFORMA_TERCEIRO).orElse(NFeBrokerIndicator.OPERACAO_SEM_INTERMEDIADOR);
+    }
+    
+    private NFeBrokerInfo buildBrokerIndicatorInfo() {
+        return Optional.ofNullable(this.fiscalDocument.getBrokerIndicator()).filter(WithBrokerOperation.class::isInstance).map(WithBrokerOperation.class::cast)
+                .map(wbo -> new NFeBrokerInfo.Builder()
+                        .withCnpj(wbo.getCnpj())
+                        .withIdentifier(wbo.getIdentifier())
+                        .build()).orElse(null);
     }
 
     private DANFEPrintFormat buildDANFEPrintFormat() {

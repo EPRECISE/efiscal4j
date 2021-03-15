@@ -62,6 +62,8 @@ public class NFeIdentification implements Serializable {
     private @XmlElement(name = "indFinal") @NotNull final FinalCustomerOperation finalCustomerOperation;
 
     private @XmlElement(name = "indPres") @NotNull final PurchaserPresenceIndicator purchaserPresenceIndicator;
+    
+    private @XmlElement(name = "indIntermed") @NotNull final NFeBrokerIndicator brokerIndicator;
 
     private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
 
@@ -106,6 +108,8 @@ public class NFeIdentification implements Serializable {
         private FinalCustomerOperation finalCustomerOperation;
 
         private PurchaserPresenceIndicator purchaserPresenceIndicator;
+        
+        private NFeBrokerIndicator brokerIndicator;
 
         private NFeTransmissionProcess nFeTransmissionProcess;
 
@@ -208,6 +212,11 @@ public class NFeIdentification implements Serializable {
             this.purchaserPresenceIndicator = purchaserPresenceIndicator;
             return this;
         }
+        
+        public Builder withBrokerIndicator(NFeBrokerIndicator brokerIndicator) {
+            this.brokerIndicator = brokerIndicator;
+            return this;
+        }
 
         public Builder withNFeTransmissionProcess(NFeTransmissionProcess nFeTransmissionProcess) {
             this.nFeTransmissionProcess = nFeTransmissionProcess;
@@ -251,6 +260,7 @@ public class NFeIdentification implements Serializable {
         this.nFeFinality = null;
         this.finalCustomerOperation = null;
         this.purchaserPresenceIndicator = null;
+        this.brokerIndicator = null;
         this.nFeTransmissionProcess = null;
         this.applicationVersion = null;
         this.referencedDocuments = null;
@@ -275,6 +285,7 @@ public class NFeIdentification implements Serializable {
         this.nFeFinality = builder.nFeFinality;
         this.finalCustomerOperation = builder.finalCustomerOperation;
         this.purchaserPresenceIndicator = builder.purchaserPresenceIndicator;
+        this.brokerIndicator = builder.brokerIndicator;
         this.nFeTransmissionProcess = builder.nFeTransmissionProcess;
         this.applicationVersion = builder.applicationVersion;
         this.referencedDocuments = builder.referencedDocuments;
@@ -346,6 +357,10 @@ public class NFeIdentification implements Serializable {
 
     public PurchaserPresenceIndicator getPurchaserPresenceIndicator() {
         return this.purchaserPresenceIndicator;
+    }
+    
+    public NFeBrokerIndicator getBrokerIndicator() {
+        return this.brokerIndicator;
     }
 
     public NFeTransmissionProcess getnFeTransmissionProcess() {
