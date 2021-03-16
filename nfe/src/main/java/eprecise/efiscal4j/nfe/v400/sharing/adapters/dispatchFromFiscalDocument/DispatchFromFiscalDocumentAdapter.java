@@ -35,6 +35,7 @@ import eprecise.efiscal4j.nfe.consumer.SimpleConsumer;
 import eprecise.efiscal4j.nfe.emitter.CRT;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
+import eprecise.efiscal4j.nfe.emitter.documents.EmitterMunicipalDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.item.Item;
 import eprecise.efiscal4j.nfe.item.Item.ItemEan;
@@ -42,8 +43,8 @@ import eprecise.efiscal4j.nfe.item.Item.ItemGrossValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
 import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
-import eprecise.efiscal4j.nfe.item.export.ItemExportDetail;
 import eprecise.efiscal4j.nfe.item.Unity;
+import eprecise.efiscal4j.nfe.item.export.ItemExportDetail;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
 import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
 import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.CofinsAliquotPercentWithBc;
@@ -89,6 +90,7 @@ import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.receiver.Receiver;
 import eprecise.efiscal4j.nfe.receiver.address.BrazillianReceiverAddress;
 import eprecise.efiscal4j.nfe.receiver.address.ForeignReceiverAddress;
+import eprecise.efiscal4j.nfe.receiver.address.ReceiverAddressCity;
 import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCnpj;
 import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverCpf;
 import eprecise.efiscal4j.nfe.receiver.documents.cnp.ReceiverForeignId;
@@ -117,6 +119,7 @@ import eprecise.efiscal4j.nfe.transport.conveyor.cnp.ConveyorCpf;
 import eprecise.efiscal4j.nfe.transport.mean.FerryTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
+import eprecise.efiscal4j.nfe.transport.places.address.PlaceAddress;
 import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;
 import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
@@ -330,20 +333,17 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         final TechnicalManager technicalManager = this.fiscalDocument.getTechnicalManager();
         if (technicalManager != null) {
             return new NFeTechnicalManager.Builder().withCnpj(technicalManager.getCnpj()).withContactName(technicalManager.getContactName()).withEmail(technicalManager.getEmail())
-                    .withPhone(technicalManager.getPhone()).withCsrtId(Optional.ofNullable(technicalManager.getCsrt()).map(csrt -> csrt.getId()).orElse(null))
+                    .withPhone(technicalManager.getPhone()).withCsrtId(Optional.ofNullable(technicalManager.getCsrt()).map(CSRT::getId).orElse(null))
                     .withCsrtHash(Optional.ofNullable(technicalManager.getCsrt()).map(csrt -> this.buildCsrtHash(csrt, this.buildAccessKey())).orElse(null)).build();
         }
         return null;
     }
-    
+
     private NFeExport buildNFeExport() {
-        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(it -> it.getExport()).map(export -> {
-            return new NFeExport.Builder()
-                    .withUfExitCountry(export.getUfExitCountry())
-                    .withExportLocation(this.formatNFeString(export.getExportLocation(),60))
-                    .withDispatchLocation(this.formatNFeString(export.getDispatchLocation(),60))
-                    .build();
-        }).orElse(null);
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getExport)
+                .map(export -> new NFeExport.Builder().withUfExitCountry(export.getUfExitCountry()).withExportLocation(this.formatNFeString(export.getExportLocation(), 60))
+                        .withDispatchLocation(this.formatNFeString(export.getDispatchLocation(), 60)).build())
+                .orElse(null);
     }
 
     public String buildCsrtHash(final CSRT csrt, final String accessKey) {
@@ -430,7 +430,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withNumber(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getNumber(), 60)).orElse(null))
                     .withComplement(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getComplement(), 60)).orElse(null))
                     .withDistrict(Optional.ofNullable(place.getAddress()).map(address -> this.formatNFeString(address.getDistrict(), 60)).orElse(null))
-                    .withCity(Optional.ofNullable(place.getAddress()).map(address -> address.getCity())
+                    .withCity(Optional.ofNullable(place.getAddress()).map(PlaceAddress::getCity)
                             .map(c -> new City.Builder().withIbgeCode(c.getIbgeCode()).withDescription(this.formatNFeString(c.getDescription(), 60)).withUF(c.getUf()).build()).orElse(null))
                     .build();
         }
@@ -448,7 +448,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private eprecise.efiscal4j.nfe.v400.person.Receiver buildReceiver() {
       //@formatter:off
-        final Consumer consumer = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe -> nfe.getReceiver()).map(Consumer.class::cast).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).orElse(null));
+        final Consumer consumer = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getReceiver).map(Consumer.class::cast).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).orElse(null));
 
         final eprecise.efiscal4j.nfe.v400.person.Receiver.Builder builder = new eprecise.efiscal4j.nfe.v400.person.Receiver.Builder();
         if(consumer instanceof Receiver) {
@@ -622,8 +622,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private UF getReceiverUf() {
-        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe -> nfe.getReceiver())
-                .map(r -> r.getAddress()).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).map(a -> a.getCity()).map(city -> city.getUf()).orElse(null);
+        return Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getReceiver)
+                .map(Receiver::getAddress).filter(BrazillianReceiverAddress.class::isInstance).map(BrazillianReceiverAddress.class::cast).map(BrazillianReceiverAddress::getCity)
+                .map(ReceiverAddressCity::getUf).orElse(null);
     }
 
     private UF getEmitterUf() {
@@ -648,20 +649,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      //@formatter:off
 		final Payment payment = this.fiscalDocument.getPayment();
 		if((payment.getDetails() != null) && !payment.getDetails().isEmpty()) {
-			return payment.getDetails().stream().map(pd -> {
-				return new NFePaymentDetail.Builder()
-						.withPaymentMethod(Optional.ofNullable(pd.getMethod()).map(pm -> PaymentMethod.findByCode(pm.getValue())).orElse(null))
-						.withPaymentValue(this.formatNFeDecimal1302(pd.getValue()))
-						.withCardSet(Optional.ofNullable(pd.getCardSet()).map(cs -> {
-							return new CardSet.Builder()
-									.withPaymentIntegrationType(Optional.ofNullable(cs.getIntegration()).map(csi -> PaymentIntegrationType.findByCode(csi.getValue())).orElse(null))
-									.withCnpj(cs.getCnpj())
-									.withAuthorizationNumber(cs.getAuthorizationNumber())
-									.withCardFlag(Optional.ofNullable(cs.getCardFlag()).map(cf -> CardFlag.findByCode(cf.getValue())).orElse(null))
-									.build();
-						}).orElse(null))
-						.build();
-			}).collect(Collectors.toList());
+			return payment.getDetails().stream().map(pd -> new NFePaymentDetail.Builder()
+            		.withPaymentMethod(Optional.ofNullable(pd.getMethod()).map(pm -> PaymentMethod.findByCode(pm.getValue())).orElse(null))
+            		.withPaymentValue(this.formatNFeDecimal1302(pd.getValue()))
+            		.withCardSet(Optional.ofNullable(pd.getCardSet()).map(cs -> {
+            			return new CardSet.Builder()
+            					.withPaymentIntegrationType(Optional.ofNullable(cs.getIntegration()).map(csi -> PaymentIntegrationType.findByCode(csi.getValue())).orElse(null))
+            					.withCnpj(cs.getCnpj())
+            					.withAuthorizationNumber(cs.getAuthorizationNumber())
+            					.withCardFlag(Optional.ofNullable(cs.getCardFlag()).map(cf -> CardFlag.findByCode(cf.getValue())).orElse(null))
+            					.build();
+            		}).orElse(null))
+            		.build()).collect(Collectors.toList());
 		}
 	 //@formatter:on
         return null;
@@ -677,21 +676,17 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     		if(charging != null) {
 
     			return new NFeCharging.Builder()
-    					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> {
-    						return new Invoice.Builder()
-    								.withNumber(inv.getNumber())
-    								.withOriginalValue(this.formatNFeDecimal1302(inv.getOriginalValue()))
-    								.withDiscountValue(this.formatNFeDecimal1302(inv.getDiscountValue()))
-    								.withNetValue(this.formatNFeDecimal1302(inv.getNetValue()))
-    								.build();
-    					}).orElse(null))
-    					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> {
-    						return new Duplicate.Builder()
-    								.withNumber(Optional.ofNullable(dup.getNumber()).map(this::nullIfEmpty).map(n -> StringUtils.leftPad(n, 3, "0")).orElse(null))
-    								.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
-    								.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
-    								.build();
-    					}).collect(Collectors.toList())).orElse(null))
+    					.withInvoice(Optional.ofNullable(charging.getInvoice()).map(inv -> new Invoice.Builder()
+                        		.withNumber(inv.getNumber())
+                        		.withOriginalValue(this.formatNFeDecimal1302(inv.getOriginalValue()))
+                        		.withDiscountValue(this.formatNFeDecimal1302(inv.getDiscountValue()))
+                        		.withNetValue(this.formatNFeDecimal1302(inv.getNetValue()))
+                        		.build()).orElse(null))
+    					.withDuplicates(Optional.ofNullable(charging.getDuplicates()).map(dupList -> dupList.stream().map(dup -> new Duplicate.Builder()
+                        		.withNumber(Optional.ofNullable(dup.getNumber()).map(this::nullIfEmpty).map(n -> StringUtils.leftPad(n, 3, "0")).orElse(null))
+                        		.withDueDate(Optional.ofNullable(dup.getDue()).map(NFE_DATE_FORMAT::format).orElse(null))
+                        		.withValue(this.formatNFeDecimal1302Optional(dup.getValue()))
+                        		.build()).collect(Collectors.toList())).orElse(null))
     					.build();
     		}
         }
@@ -706,31 +701,27 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 				final NFeTransport.Builder builder = new NFeTransport.Builder()
 					.withShippingModality(Optional.ofNullable(transport.getShippingModality()).map(sm -> ShippingModality.findByCode(sm.getValue())).orElse(null))
 					.withConveyor(this.buildConveyor())
-					.withtransportICMSRetention(Optional.ofNullable(transport.getIcmsRetention()).map(ir -> {
-						return new TransportICMSRetention.Builder()
-								.withServiceValue(this.formatNFeDecimal1302(ir.getServiceValue()))
-								.withRetentionCalculationBasis(this.formatNFeDecimal1302(ir.getRetentionCalculationBasis()))
-								.withRetentionAliquot(this.formatNFeDecimal0302a04(ir.getRetentionAliquot()))
-								.withRetentionValue(this.formatNFeDecimal1302(ir.getRetentionValue()))
-								.withCfop(ir.getCfop())
-								.withGenFactIbgeCode(ir.getGenFactIbgeCode())
-								.build();
-					}).orElse(null))
-					.withTransportedVolume(Optional.ofNullable(transport.getVolumes()).map(tvList -> tvList.stream().map(tv -> {
-						return new TransportedVolume.Builder()
-								.withVolumeQuantity(Optional.ofNullable(tv.getVolumeQuantity()).map(vq->vq.toString()).orElse(null))
-								.withVolumeSpecies(tv.getVolumeSpecies())
-								.withVolumeTrademark(tv.getVolumeTrademark())
-								.withVolumeNumbering(tv.getVolumeNumbering())
-								.withNetWeight(this.formatNFeDecimal1203(tv.getNetWeight()))
-								.withGrossWeight(this.formatNFeDecimal1203(tv.getGrossWeight()))
-								.withSeals(Optional.ofNullable(tv.getSeals()).map(sealsList -> sealsList.stream().map(s -> {
-									return new VolumeSeal.Builder()
-											.withSealNumber(s.getSealNumber())
-											.build();
-								}).collect(Collectors.toList())).orElse(null))
-								.build();
-					}).collect(Collectors.toList())).orElse(null));
+					.withtransportICMSRetention(Optional.ofNullable(transport.getIcmsRetention()).map(ir -> new TransportICMSRetention.Builder()
+                    		.withServiceValue(this.formatNFeDecimal1302(ir.getServiceValue()))
+                    		.withRetentionCalculationBasis(this.formatNFeDecimal1302(ir.getRetentionCalculationBasis()))
+                    		.withRetentionAliquot(this.formatNFeDecimal0302a04(ir.getRetentionAliquot()))
+                    		.withRetentionValue(this.formatNFeDecimal1302(ir.getRetentionValue()))
+                    		.withCfop(ir.getCfop())
+                    		.withGenFactIbgeCode(ir.getGenFactIbgeCode())
+                    		.build()).orElse(null))
+					.withTransportedVolume(Optional.ofNullable(transport.getVolumes()).map(tvList -> tvList.stream().map(tv -> new TransportedVolume.Builder()
+                    		.withVolumeQuantity(Optional.ofNullable(tv.getVolumeQuantity()).map(vq->vq.toString()).orElse(null))
+                    		.withVolumeSpecies(tv.getVolumeSpecies())
+                    		.withVolumeTrademark(tv.getVolumeTrademark())
+                    		.withVolumeNumbering(tv.getVolumeNumbering())
+                    		.withNetWeight(this.formatNFeDecimal1203(tv.getNetWeight()))
+                    		.withGrossWeight(this.formatNFeDecimal1203(tv.getGrossWeight()))
+                    		.withSeals(Optional.ofNullable(tv.getSeals()).map(sealsList -> sealsList.stream().map(s -> {
+                    			return new VolumeSeal.Builder()
+                    					.withSealNumber(s.getSealNumber())
+                    					.build();
+                    		}).collect(Collectors.toList())).orElse(null))
+                    		.build()).collect(Collectors.toList())).orElse(null));
 				if(transport.getTransportMean() instanceof VehicleTowingTransportMean) {
 					final VehicleTowingTransportMean vehicleTowingTransportMean = (VehicleTowingTransportMean) transport.getTransportMean();
 					builder.withVehicle(this.buildVehicle(vehicleTowingTransportMean.getVehicle()));
@@ -821,7 +812,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                             .withCOFINSTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getTotalTaxes().getTotalCofinsValue()))
                             .withOtherIncidentalCostsTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getOthersTotalValue()))
                             .withNFeTotalValue(this.formatNFeDecimal1302(fiscalDocumentTotal.getFiscalDocumentTotalValue()))
-                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? Optional.ofNullable(fiscalDocumentTotal.getApproximateTaxTotalValue()).map(attv -> attv.getTotal()).map(this::formatNFeDecimal1302Optional).orElse(null) : null)
+                            .withTaxTotalValue(this.fiscalDocument.isEndConsumer() ? Optional.ofNullable(fiscalDocumentTotal.getApproximateTaxTotalValue()).map(ApproximateTax::getTotal).map(this::formatNFeDecimal1302Optional).orElse(null) : null)
                             .build())
                     .build();
         }
@@ -865,15 +856,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private NFeBrokerIndicator buildBrokerIndicator() {
-        return Optional.ofNullable(this.fiscalDocument.getBrokerIndicator()).filter(WithoutBrokerOperation.class::isInstance).map(it -> NFeBrokerIndicator.OPERACAO_SITE_PLATAFORMA_TERCEIRO).orElse(NFeBrokerIndicator.OPERACAO_SEM_INTERMEDIADOR);
+        final BrokerIndicator brokerIndicator = this.fiscalDocument.getBrokerIndicator();
+        if (brokerIndicator instanceof WithBrokerOperation) {
+            return NFeBrokerIndicator.OPERACAO_SITE_PLATAFORMA_TERCEIRO;
+        } else if (brokerIndicator instanceof WithoutBrokerOperation) {
+            return NFeBrokerIndicator.OPERACAO_SEM_INTERMEDIADOR;
+        }
+        return null;
     }
-    
+
     private NFeBrokerInfo buildBrokerIndicatorInfo() {
         return Optional.ofNullable(this.fiscalDocument.getBrokerIndicator()).filter(WithBrokerOperation.class::isInstance).map(WithBrokerOperation.class::cast)
-                .map(wbo -> new NFeBrokerInfo.Builder()
-                        .withCnpj(wbo.getCnpj())
-                        .withIdentifier(wbo.getIdentifier())
-                        .build()).orElse(null);
+                .map(wbo -> new NFeBrokerInfo.Builder().withCnpj(wbo.getCnpj()).withIdentifier(wbo.getIdentifier()).build()).orElse(null);
     }
 
     private DANFEPrintFormat buildDANFEPrintFormat() {
@@ -888,7 +882,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private DestinationOperationIdentifier buildDestinationOperationIdentifier() {
       //@formatter:off
-        final Receiver receiver = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(nfe -> nfe.getReceiver()).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).filter(Receiver.class::isInstance).map(Receiver.class::cast).orElse(null));
+        final Receiver receiver = Optional.ofNullable(this.fiscalDocument).filter(eprecise.efiscal4j.nfe.NFe.class::isInstance).map(eprecise.efiscal4j.nfe.NFe.class::cast).map(eprecise.efiscal4j.nfe.NFe::getReceiver).orElse(Optional.ofNullable(this.fiscalDocument).filter(NFCe.class::isInstance).map(NFCe.class::cast).map(NFCe::getConsumer).filter(Receiver.class::isInstance).map(Receiver.class::cast).orElse(null));
 
         if ((receiver == null) || ((receiver != null) && !receiver.getAddress().isValid())) {
             return DestinationOperationIdentifier.INTERNA;
@@ -1032,7 +1026,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                     .withCrt(this.buildCrt(emitter.getCrt()))
                     .withStateRegistration(this.nullIfEmpty(docs.getIe()))
                     .withStateRegistrationST(Optional.ofNullable(docs.getIeSt()).map(this::nullIfEmpty).orElse(null))
-                    .withMunicipalRegistration(Optional.ofNullable(docs.getMunicipalDocuments()).map(md -> md.getIm()).map(this::nullIfEmpty).orElse(null))
+                    .withMunicipalRegistration(Optional.ofNullable(docs.getMunicipalDocuments()).map(EmitterMunicipalDocuments::getIm).map(this::nullIfEmpty).orElse(null))
                     .withAdress(this.buildEmitterAddress(emitter.getAddress(), Optional.ofNullable(emitter.getPhone())))
                     .withFancyName(this.formatNFeString(docs.getFancyName(), 60))
                     .build();
@@ -1077,9 +1071,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private String formatNFeString(final String input, final int size) {
-        return Optional.ofNullable(this.nullIfEmpty(input)).filter(Objects::nonNull).map(string -> {
-            return StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  "), size)));
-        }).orElse(null);
+        return Optional.ofNullable(this.nullIfEmpty(input)).filter(Objects::nonNull).map(
+                string -> StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  "), size))))
+                .orElse(null);
     }
 
     private static String abbreviate(final String input, final int size) {
@@ -1196,15 +1190,13 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private List<Trace> buildTraces(final Item item) {
      // @formatter:off
         if((item.getTraces() != null) && !item.getTraces().isEmpty()) {
-            return item.getTraces().stream().map(t -> {
-                return new Trace.Builder()
-                        .withBatchNumber(this.formatNFeString(t.getBatchNumber(), 20))
-                        .withBatchQuantity(this.formatNFeDecimal0803Variable(t.getBatchQuantity()))
-                        .withManufacturingDate(Optional.ofNullable(t.getManufacturing()).map(NFeDate.dateFormat::format).orElse(null))
-                        .withExpirationDate(Optional.ofNullable(t.getExpiration()).map(NFeDate.dateFormat::format).orElse(null))
-                        .withAggregationCode(t.getAggregationCode())
-                        .build();
-            }).collect(Collectors.toList());
+            return item.getTraces().stream().map(t -> new Trace.Builder()
+                    .withBatchNumber(this.formatNFeString(t.getBatchNumber(), 20))
+                    .withBatchQuantity(this.formatNFeDecimal0803Variable(t.getBatchQuantity()))
+                    .withManufacturingDate(Optional.ofNullable(t.getManufacturing()).map(NFeDate.dateFormat::format).orElse(null))
+                    .withExpirationDate(Optional.ofNullable(t.getExpiration()).map(NFeDate.dateFormat::format).orElse(null))
+                    .withAggregationCode(t.getAggregationCode())
+                    .build()).collect(Collectors.toList());
         }
      // @formatter:on
         return null;
@@ -1214,48 +1206,44 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
      // @formatter:off
         final Collection<eprecise.efiscal4j.nfe.item.di.ImportDeclaration> importDeclarations = item.getImportDeclarations();
         if((importDeclarations != null) && !importDeclarations.isEmpty()) {
-            return importDeclarations.stream().map(id -> {
-                return new ImportDeclaration.Builder()
-                        .withNumber(id.getNumber())
-                        .withDate(Optional.ofNullable(id.getDate()).map(NFeDate.dateFormat::format).orElse(null))
-                        .withClearanceSpot(id.getClearanceSpot())
-                        .withClearanceDate(Optional.ofNullable(id.getClearanceDate()).map(NFeDate.dateFormat::format).orElse(null))
-                        .withClearanceUf(Optional.ofNullable(id.getClearanceUf()).orElse(null))
-                        .withInternationalTransportPathway(Optional.ofNullable(id.getInternationalTransportPathway()).map(itpw -> InternationalTransportPathway.findByCode(itpw.getValue())).orElse(null))
-                        .withAdditValShipMerchMarineRenovation(this.formatNFeDecimal1302(id.getAdditValShipMerchMarineRenovation()))
-                        .withIntermediaryImportType(Optional.ofNullable(id.getIntermediaryImportType()).map(iit -> IntermediaryImportType.findByCode(iit.getValue())).orElse(null))
-                        .withAcquirerOrOrderingPartyCnpj(id.getAcquirerOrOrderingPartyCnpj())
-                        .withAcquirerOrOrderingPartyUf(Optional.ofNullable(id.getAcquirerOrOrderingPartyUf()).orElse(null))
-                        .withExporterCode(id.getExporterCode())
-                        .withAdditions(Optional.ofNullable(id.getAdditions()).map(additions -> additions.stream().map(addition -> {
-                            return new Addition.Builder()
-                                    .withNumber(Optional.ofNullable(addition.getNumber()).map(Object::toString).orElse(null))
-                                    .withSequence(Optional.ofNullable(addition.getSequence()).map(Object::toString).orElse(null))
-                                    .withManufacturerCode(this.formatNFeString(addition.getManufacturerCode(), 60))
-                                    .withDiscountValue(this.formatNFeDecimal1302Optional(addition.getDiscountValue()))
-                                    .withDrawbackNumber(addition.getDrawbackNumber())
-                                    .build();
-                        }).collect(Collectors.toList())).orElse(null))
-                        .build();
-            }).collect(Collectors.toList());
+            return importDeclarations.stream().map(id -> new ImportDeclaration.Builder()
+                    .withNumber(id.getNumber())
+                    .withDate(Optional.ofNullable(id.getDate()).map(NFeDate.dateFormat::format).orElse(null))
+                    .withClearanceSpot(id.getClearanceSpot())
+                    .withClearanceDate(Optional.ofNullable(id.getClearanceDate()).map(NFeDate.dateFormat::format).orElse(null))
+                    .withClearanceUf(Optional.ofNullable(id.getClearanceUf()).orElse(null))
+                    .withInternationalTransportPathway(Optional.ofNullable(id.getInternationalTransportPathway()).map(itpw -> InternationalTransportPathway.findByCode(itpw.getValue())).orElse(null))
+                    .withAdditValShipMerchMarineRenovation(this.formatNFeDecimal1302(id.getAdditValShipMerchMarineRenovation()))
+                    .withIntermediaryImportType(Optional.ofNullable(id.getIntermediaryImportType()).map(iit -> IntermediaryImportType.findByCode(iit.getValue())).orElse(null))
+                    .withAcquirerOrOrderingPartyCnpj(id.getAcquirerOrOrderingPartyCnpj())
+                    .withAcquirerOrOrderingPartyUf(Optional.ofNullable(id.getAcquirerOrOrderingPartyUf()).orElse(null))
+                    .withExporterCode(id.getExporterCode())
+                    .withAdditions(Optional.ofNullable(id.getAdditions()).map(additions -> additions.stream().map(addition -> {
+                        return new Addition.Builder()
+                                .withNumber(Optional.ofNullable(addition.getNumber()).map(Object::toString).orElse(null))
+                                .withSequence(Optional.ofNullable(addition.getSequence()).map(Object::toString).orElse(null))
+                                .withManufacturerCode(this.formatNFeString(addition.getManufacturerCode(), 60))
+                                .withDiscountValue(this.formatNFeDecimal1302Optional(addition.getDiscountValue()))
+                                .withDrawbackNumber(addition.getDrawbackNumber())
+                                .build();
+                    }).collect(Collectors.toList())).orElse(null))
+                    .build()).collect(Collectors.toList());
         }
         return null;
      // @formatter:on
     }
-    
-    private List<NFeItemExportDetail> buildItemExportDetails(Item item) {
+
+    private List<NFeItemExportDetail> buildItemExportDetails(final Item item) {
         final Collection<ItemExportDetail> itemExportDetails = item.getItemExportDetails();
-        if(itemExportDetails != null && !itemExportDetails.isEmpty()) {
-            return itemExportDetails.stream().map(ied ->{
-                return new NFeItemExportDetail.Builder()
-                        .withDrawbackNumber(ied.getDrawbackNumber())
-                        .withIndirectExport(Optional.ofNullable(ied.getIndirectExport()).map(ie -> new NFeItemIndirectExport.Builder()
-                                .withAccessKey(ie.getAccessKey())
-                                .withExportRegistrationNumber(ie.getExportRegistrationNumber())
-                                .withItemExportQuantity(Optional.ofNullable(ie.getItemExportQuantity()).map(this::formatNFeDecimal1104Variable).orElse(null))
-                                .build()).orElse(null))
-                        .build();
-            }).collect(Collectors.toList());
+        if ((itemExportDetails != null) && !itemExportDetails.isEmpty()) {
+            return itemExportDetails.stream()
+                    .map(ied -> new NFeItemExportDetail.Builder().withDrawbackNumber(ied.getDrawbackNumber())
+                            .withIndirectExport(Optional.ofNullable(ied.getIndirectExport())
+                                    .map(ie -> new NFeItemIndirectExport.Builder().withAccessKey(ie.getAccessKey()).withExportRegistrationNumber(ie.getExportRegistrationNumber())
+                                            .withItemExportQuantity(Optional.ofNullable(ie.getItemExportQuantity()).map(this::formatNFeDecimal1104Variable).orElse(null)).build())
+                                    .orElse(null))
+                            .build())
+                    .collect(Collectors.toList());
         }
         return null;
     }
