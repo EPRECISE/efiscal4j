@@ -63,7 +63,7 @@ public class NFeIdentification implements Serializable {
 
     private @XmlElement(name = "indPres") @NotNull final PurchaserPresenceIndicator purchaserPresenceIndicator;
     
-    private @XmlElement(name = "indIntermed") @NotNull final NFeBrokerIndicator brokerIndicator;
+    private @XmlElement(name = "indIntermed") final NFeBrokerIndicator brokerIndicator;
 
     private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
 
