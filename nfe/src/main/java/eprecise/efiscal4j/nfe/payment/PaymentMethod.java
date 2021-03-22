@@ -28,6 +28,10 @@ public enum PaymentMethod implements Serializable {
                                                    VALE_COMBUSTIVEL("13", "Vale Combustível"),
                                                    DUPLICATA_MERCANTIL("14", "Duplicata Mercantil"),
                                                    BOLETO_BANCARIO("15", "Boleto Bancário"),
+                                                   DEPOSITO_BANCARIO("16", "Depósito Bancário"),
+                                                   PIX("17", "Pagamento Instantâneo (PIX)"),
+                                                   CARTEIRA_DIGITAL("18", "Transferência bancária, Carteira Digital"),
+                                                   CASHBACK("19", "Programa de fidelidade, Cashback, Crédito Virtual"),
                                                    SEM_PAGAMENTO("90", "Sem Pagamento"),
                                                    OUTROS("99", "Outros");
 

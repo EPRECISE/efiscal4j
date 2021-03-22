@@ -36,6 +36,12 @@ public enum PaymentMethod implements Serializable {
     
     @XmlEnumValue("14") DUPLICATA_MERCANTIL("14", "Duplicata Mercantil"),
     @XmlEnumValue("15") BOLETO_BANCARIO("15", "Boleto Bancário"),
+
+    @XmlEnumValue("16") DEPOSITO_BANCARIO("16", "Depósito Bancário"),
+    @XmlEnumValue("17") PIX("17", "Pagamento Instantâneo (PIX)"),
+    @XmlEnumValue("18") CARTEIRA_DIGITAL("18", "Transferência bancária, Carteira Digital"),
+    @XmlEnumValue("19") CASHBACK("19", "Programa de fidelidade, Cashback, Crédito Virtual"),
+
     @XmlEnumValue("90") SEM_PAGAMENTO("90", "Sem Pagamento"),
     
     @XmlEnumValue("99") OUTROS("99", "Outros");
