@@ -12,9 +12,9 @@ import java.io.Serializable;
  */
 public enum ShippingModality implements Serializable {
 
-				BY_ISSUER(0, "Por conta do emitente"),
-				BY_RECEIVER_SENDER(1, "Por conta do destinatário/remetente"),
-				BY_THIRD(2, "Por conta de terceiros"),
+				BY_ISSUER(0, "Contratação do frete por conta do remetente (CIF)"),
+				BY_RECEIVER(1, "Contratação do frete por conta do destinatário (FOB)"),
+				BY_THIRD(2, "Contratação do frete por conta de terceiros"),
 				OWN_BY_SENDER(3, "Transporte próprio por conta do remetente"),
 				OWN_BY_RECEIVER(4, "Transporte próprio por conta do destinatário"),
 				WITHOUT_TRANSPORT(9, "Sem Ocorrência de transporte");
