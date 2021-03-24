@@ -17,7 +17,7 @@ public enum ShippingModality implements Serializable {
 				BY_THIRD(2, "Contratação do frete por conta de terceiros"),
 				OWN_BY_SENDER(3, "Transporte próprio por conta do remetente"),
 				OWN_BY_RECEIVER(4, "Transporte próprio por conta do destinatário"),
-				WITHOUT_TRANSPORT(9, "Sem Ocorrência de transporte");
+				WITHOUT_TRANSPORT(9, "Sem ocorrência de transporte");
 
     private static final long serialVersionUID = 1L;
 
