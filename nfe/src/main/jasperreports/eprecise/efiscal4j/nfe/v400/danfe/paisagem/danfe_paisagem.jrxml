@@ -1426,7 +1426,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipoDeFrete} != null ? ($F{tipoDeFrete}.equals("0") ? "0-EMITENTE" : $F{tipoDeFrete}.equals("1") ? "1-DESTINATÁRIO/REMETENTE" : $F{tipoDeFrete}.equals("2") ? "2-TERCEIROS" : $F{tipoDeFrete}.equals("3") ? "3-PROPRIO (REMETENTE)" : $F{tipoDeFrete}.equals("4") ? "4-PROPRIO (DESTINATARIO)" : $F{tipoDeFrete}.equals("9") ? "9-SEM FRETE" : null) : null]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tipoDeFrete} != null ? ($F{tipoDeFrete}.equals("0") ? "0-REMETENTE (CIF)" : $F{tipoDeFrete}.equals("1") ? "1-DESTINATÁRIO (FOB)" : $F{tipoDeFrete}.equals("2") ? "2-TERCEIROS" : $F{tipoDeFrete}.equals("3") ? "3-PRÓPRIO (REMETENTE)" : $F{tipoDeFrete}.equals("4") ? "4-PRÓPRIO (DESTINATÁRIO)" : $F{tipoDeFrete}.equals("9") ? "9-SEM FRETE" : null) : null]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement positionType="Float" mode="Transparent" x="491" y="84" width="17" height="8" uuid="277a3c92-494d-45cf-88f9-05bc8828c06d"/>
