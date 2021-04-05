@@ -40,6 +40,7 @@ import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
 import eprecise.efiscal4j.nfe.transport.Transport;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
+import eprecise.efiscal4j.nfe.version.ReceiptedAsyncNFeVersion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -171,6 +172,18 @@ public abstract class FiscalDocument {
 
     @Builder
     @Getter
+    public static class ReceiptedAsync {
+
+        private final String receiptNumber;
+
+        private final String averageTime;
+
+        private final FiscalDocument document;
+
+    }
+
+    @Builder
+    @Getter
     public static class Processed {
 
         private final String id;
@@ -244,9 +257,20 @@ public abstract class FiscalDocument {
             return this.getProcessedNFeVersion().buildProcessedFiscalDocument();
         }
 
+        public ReceiptedAsyncNFeVersion getReceiptedAsyncNFeVersion() {
+            try {
+                return this.version.getReceiptedAsyncNFeClass().getConstructor(this.result.getResponse().getClass()).newInstance(this.result.getResponse());
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public FiscalDocument.ReceiptedAsync getReceiptedAsync(final FiscalDocument document) {
+            return this.getReceiptedAsyncNFeVersion().buildReceiptedAsyncNFe(document);
+        }
+
         public EventStatus getStatus() {
             return Optional.ofNullable(this.result).map(TypedTransmissionResult::getResponse).map(NFeAuthorizationResponse::getStatus).orElse(null);
         }
-
     }
 }

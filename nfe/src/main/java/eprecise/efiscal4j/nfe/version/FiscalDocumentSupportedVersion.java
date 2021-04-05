@@ -11,7 +11,7 @@ import lombok.Getter;
 
 
 /**
- * 
+ *
  * @author Fernando Glizt
  *
  */
@@ -23,6 +23,7 @@ public enum FiscalDocumentSupportedVersion {
                                             VERSION_4_00("4.00", eprecise.efiscal4j.nfe.v400.transmission.TransmissionChannel.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe.class,
+                                                    eprecise.efiscal4j.nfe.v400.sharing.BatchReceipt.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.EventProtocol.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
@@ -33,6 +34,7 @@ public enum FiscalDocumentSupportedVersion {
                                             VERSION_3_10("3.10", eprecise.efiscal4j.nfe.v310.transmission.TransmissionChannel.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe.class,
+                                                    eprecise.efiscal4j.nfe.v310.sharing.BatchReceipt.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.EventProtocol.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.EventDispatchCancelAdapter.class,
@@ -48,6 +50,8 @@ public enum FiscalDocumentSupportedVersion {
     private final Class<? extends NFeDispatchAdapterVersion> nfeDispatchAdapterClass;
 
     private final Class<? extends ProcessedNFeVersion> processedNFeClass;
+
+    private final Class<? extends ReceiptedAsyncNFeVersion> receiptedAsyncNFeClass;
 
     private final Class<? extends ProcessedFiscalDocumentAdapterVersion> processedFiscalDocumentAdapterClass;
 
