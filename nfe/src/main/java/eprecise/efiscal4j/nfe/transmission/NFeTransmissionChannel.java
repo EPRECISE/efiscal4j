@@ -11,6 +11,7 @@ import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeDeliveryDFeDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
@@ -22,6 +23,8 @@ import eprecise.efiscal4j.nfe.transmission.response.NFeEventDispatchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeServiceStatusSearchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeStatusSearchResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearch;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponseMethod;
 
 
 public interface NFeTransmissionChannel {
@@ -31,6 +34,8 @@ public interface NFeTransmissionChannel {
 
     TypedTransmissionResult<? extends NFeServiceStatusSearchRequest, ? extends NFeServiceStatusSearchResponse> transmitServiceStatusSearch(final NFeServiceStatusSearchRequest serviceStatusSearch,
             final FiscalDocumentModel documentModel);
+
+    TypedTransmissionResult<BatchReceiptSearch, BatchReceiptSearchResponseMethod> transmitBatchReceiptSearch(final NFeBatchReceiptSearchRequest request, final UF uf);
 
     TypedTransmissionResult<? extends NFeEventDispatchRequest, ? extends NFeEventDispatchResponse> transmitEventReceptionCancellation(final NFeEventDispatchRequest eventDispatch,
             final FiscalDocumentModel documentModel);
@@ -44,7 +49,7 @@ public interface NFeTransmissionChannel {
             final FiscalDocumentModel documentModel, final UF uf);
 
     TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisable);
-    
+
     TypedTransmissionResult<? extends NFeDeliveryDFeDispatchRequest, ? extends NFeDeliveryDFeDispatchResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeDispatchRequest deliveryDFeRequest);
 
 }

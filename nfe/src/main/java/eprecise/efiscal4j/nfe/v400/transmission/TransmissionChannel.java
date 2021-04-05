@@ -24,6 +24,7 @@ import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
+import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeDeliveryDFeDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
@@ -32,6 +33,8 @@ import eprecise.efiscal4j.nfe.transmission.request.NFeStatusSearchRequest;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeResponse;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearch;
+import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponseMethod;
 import eprecise.efiscal4j.nfe.v400.sharing.Event;
 import eprecise.efiscal4j.nfe.v400.sharing.EventDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.EventDispatchResponseMethod;
@@ -150,6 +153,38 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         responseXml = this.postProcessResponseXML(responseXml);
 
         return new TypedTransmissionResult<>(ServiceStatusSearch.class, ServiceStatusSearchResponseMethod.class, requestXml, responseXml);
+    }
+
+    @Override
+    public TypedTransmissionResult<BatchReceiptSearch, BatchReceiptSearchResponseMethod> transmitBatchReceiptSearch(final NFeBatchReceiptSearchRequest request, final UF uf) {
+
+        final BatchReceiptSearch batchReceiptSearch = (BatchReceiptSearch) request;
+
+        String serviceUrl = null;
+
+        switch (batchReceiptSearch.getTransmissionEnvironment()) {
+        case HOMOLOGACAO:
+            serviceUrl = NFeService.PROTOCOL_SEARCH.getHomologUrl(uf);
+            break;
+        case PRODUCAO:
+            serviceUrl = NFeService.PROTOCOL_SEARCH.getProductionUrl(uf);
+            break;
+        }
+
+        final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
+
+        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, batchReceiptSearch.getVersion(), batchReceiptSearch);
+
+        ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
+
+        final String requestXml = new FiscalDocumentSerializer<>(batchReceiptSearch).serialize();
+
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4/nfeConsultaNF"));
+
+        responseXml = this.postProcessResponseXML(responseXml);
+
+        return new TypedTransmissionResult<>(BatchReceiptSearch.class, BatchReceiptSearchResponseMethod.class, requestXml, responseXml);
     }
 
     @Override
