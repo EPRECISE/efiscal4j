@@ -16,19 +16,20 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
 import eprecise.efiscal4j.nfe.v310.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v310.transmission.ObjectFactory;
 
 
 /**
  * Tipo Pedido de Consulta do Recibo do Lote de Notas Fiscais Eletrônicas
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = ObjectFactory.CONS_RECI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BatchReceiptSearch implements TransmissibleBodyImpl {
+public class BatchReceiptSearch implements NFeBatchReceiptSearchRequest, TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +63,7 @@ public class BatchReceiptSearch implements TransmissibleBodyImpl {
 
         /**
          * Número do Recibo
-         * 
+         *
          * @param receiptNumber
          * @return
          */
@@ -80,29 +81,29 @@ public class BatchReceiptSearch implements TransmissibleBodyImpl {
     }
 
     public BatchReceiptSearch() {
-        transmissionEnvironment = null;
-        receiptNumber = null;
+        this.transmissionEnvironment = null;
+        this.receiptNumber = null;
     }
 
     public BatchReceiptSearch(final Builder builder) {
-        transmissionEnvironment = builder.transmissionEnvironment;
-        receiptNumber = builder.receiptNumber;
+        this.transmissionEnvironment = builder.transmissionEnvironment;
+        this.receiptNumber = builder.receiptNumber;
     }
 
     public FiscalDocumentVersion getVersion() {
-        return version;
+        return this.version;
     }
 
     public String getXmlns() {
-        return xmlns;
+        return this.xmlns;
     }
 
     public TransmissionEnvironment getTransmissionEnvironment() {
-        return transmissionEnvironment;
+        return this.transmissionEnvironment;
     }
 
     public String getReceiptNumber() {
-        return receiptNumber;
+        return this.receiptNumber;
     }
 
     @Override
@@ -112,6 +113,6 @@ public class BatchReceiptSearch implements TransmissibleBodyImpl {
 
     @Override
     public QName getQName() {
-        return qName;
+        return this.qName;
     }
 }
