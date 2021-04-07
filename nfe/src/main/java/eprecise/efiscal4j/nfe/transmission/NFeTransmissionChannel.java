@@ -18,13 +18,12 @@ import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchReque
 import eprecise.efiscal4j.nfe.transmission.request.NFeServiceStatusSearchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeStatusSearchRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
+import eprecise.efiscal4j.nfe.transmission.response.NFeBatchReceiptSearchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeDeliveryDFeDispatchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeEventDispatchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeServiceStatusSearchResponse;
 import eprecise.efiscal4j.nfe.transmission.response.NFeStatusSearchResponse;
-import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearch;
-import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponseMethod;
 
 
 public interface NFeTransmissionChannel {
@@ -35,7 +34,7 @@ public interface NFeTransmissionChannel {
     TypedTransmissionResult<? extends NFeServiceStatusSearchRequest, ? extends NFeServiceStatusSearchResponse> transmitServiceStatusSearch(final NFeServiceStatusSearchRequest serviceStatusSearch,
             final FiscalDocumentModel documentModel);
 
-    TypedTransmissionResult<BatchReceiptSearch, BatchReceiptSearchResponseMethod> transmitBatchReceiptSearch(final NFeBatchReceiptSearchRequest request, final UF uf);
+    TypedTransmissionResult<? extends NFeBatchReceiptSearchRequest, ? extends NFeBatchReceiptSearchResponse> transmitBatchReceiptSearch(final NFeBatchReceiptSearchRequest request, final UF uf);
 
     TypedTransmissionResult<? extends NFeEventDispatchRequest, ? extends NFeEventDispatchResponse> transmitEventReceptionCancellation(final NFeEventDispatchRequest eventDispatch,
             final FiscalDocumentModel documentModel);

@@ -22,6 +22,7 @@ public enum FiscalDocumentSupportedVersion {
 
                                             VERSION_4_00("4.00", eprecise.efiscal4j.nfe.v400.transmission.TransmissionChannel.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
+                                                    eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.BatchReceiptSearchAdapter.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.ProcessedNFe.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.BatchReceipt.class,
                                                     eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
@@ -33,6 +34,7 @@ public enum FiscalDocumentSupportedVersion {
                                                     eprecise.efiscal4j.nfe.v400.danfe.DefaultJasperDanfeParamsSource.class),
                                             VERSION_3_10("3.10", eprecise.efiscal4j.nfe.v310.transmission.TransmissionChannel.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter.class,
+                                                    eprecise.efiscal4j.nfe.v310.sharing.adapters.dispatchFromFiscalDocument.BatchReceiptSearchAdapter.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.ProcessedNFe.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.BatchReceipt.class,
                                                     eprecise.efiscal4j.nfe.v310.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter.class,
@@ -48,6 +50,8 @@ public enum FiscalDocumentSupportedVersion {
     private final Class<? extends NFeTransmissionChannel> transmissionChannelClass;
 
     private final Class<? extends NFeDispatchAdapterVersion> nfeDispatchAdapterClass;
+
+    private final Class<? extends NFeDispatchSearchAdapterVersion> batchReceiptSearchClass;
 
     private final Class<? extends ProcessedNFeVersion> processedNFeClass;
 

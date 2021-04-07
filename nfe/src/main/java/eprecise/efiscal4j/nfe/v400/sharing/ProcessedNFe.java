@@ -13,11 +13,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.NFeIdentification;
 import eprecise.efiscal4j.nfe.v400.NFeInfo;
+import eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument.DispatchFromFiscalDocumentAdapter;
 import eprecise.efiscal4j.nfe.v400.sharing.adapters.processedFiscalDocument.ProcessedFiscalDocumentAdapter;
 import eprecise.efiscal4j.nfe.version.DanfePrintFormatVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
@@ -25,9 +27,9 @@ import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 
 /**
  * Tipo da NF-e processada
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = "nfeProc")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,7 +54,7 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         private ProcessingStatusProtocol processingStatusProtocol;
 
         /**
-         * 
+         *
          * @param nfe
          * @return
          */
@@ -88,11 +90,17 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
     }
 
+    public ProcessedNFe(final FiscalDocument document, final Certificate certificate, final NFeDispatchResponseMethod dispatchResponse) {
+        this.nfe = new DispatchFromFiscalDocumentAdapter(document, certificate).buildNFeDispatch().getnFes().stream().findFirst().orElse(null);
+        this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
+    }
+
     private ProcessedNFe(final Builder builder) {
         this.nfe = builder.nfe;
         this.processingStatusProtocol = builder.processingStatusProtocol;
     }
 
+    @Override
     public FiscalDocumentVersion getVersion() {
         return this.version;
     }

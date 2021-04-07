@@ -25,9 +25,9 @@ import eprecise.efiscal4j.nfe.v400.types.NFeString;
 
 /**
  * Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais Eletrônicas
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = ObjectFactory.RET_CONS_RECI_NFE)
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -88,107 +88,107 @@ public class BatchReceiptSearchResponse implements Serializable {
          * @param transmissionEnvironment
          * @return
          */
-        public Builder withTransmissionEnvironment(TransmissionEnvironment transmissionEnvironment) {
+        public Builder withTransmissionEnvironment(final TransmissionEnvironment transmissionEnvironment) {
             this.transmissionEnvironment = transmissionEnvironment;
             return this;
         }
 
         /**
          * Versão do Aplicativo que processou a NF-e
-         * 
+         *
          * @param applicationVersion
          * @return
          */
-        public Builder withApplicationVersion(String applicationVersion) {
+        public Builder withApplicationVersion(final String applicationVersion) {
             this.applicationVersion = applicationVersion;
             return this;
         }
 
         /**
          * Número do Recibo
-         * 
+         *
          * @param receiptNumber
          * @return
          */
-        public Builder withReceiptNumber(String receiptNumber) {
+        public Builder withReceiptNumber(final String receiptNumber) {
             this.receiptNumber = receiptNumber;
             return this;
         }
 
         /**
          * Código do status da mensagem enviada.
-         * 
+         *
          * @param statusCode
          * @return
          */
-        public Builder withStatusCode(String statusCode) {
+        public Builder withStatusCode(final String statusCode) {
             this.statusCode = statusCode;
             return this;
         }
 
         /**
          * Descrição literal do status do serviço solicitado
-         * 
+         *
          * @param statusDescription
          * @return
          */
-        public Builder withStatusDescription(String statusDescription) {
+        public Builder withStatusDescription(final String statusDescription) {
             this.statusDescription = statusDescription;
             return this;
         }
 
         /**
          * Código da UF de atendimento
-         * 
+         *
          * @param serviceUf
          * @return
          */
-        public Builder withServiceUf(UF serviceUf) {
+        public Builder withServiceUf(final UF serviceUf) {
             this.serviceUf = serviceUf;
             return this;
         }
 
         /**
          * Data e hora de processamento
-         * 
+         *
          * @param receptionDateTime
          * @return
          */
-        public Builder withReceptionDateTime(String receptionDateTime) {
+        public Builder withReceptionDateTime(final String receptionDateTime) {
             this.receptionDateTime = receptionDateTime;
             return this;
         }
 
         /**
          * Código da Mensagem
-         * 
+         *
          * @param messageCode
          * @return
          */
-        public Builder withMessageCode(String messageCode) {
+        public Builder withMessageCode(final String messageCode) {
             this.messageCode = messageCode;
             return this;
         }
 
         /**
          * Mensagem da SEFAZ para o emissor
-         * 
+         *
          * @param messageDescription
          * @return
          */
-        public Builder withMessageDescription(String messageDescription) {
+        public Builder withMessageDescription(final String messageDescription) {
             this.messageDescription = messageDescription;
             return this;
         }
 
         /**
          * List of {@link ProcessingStatusProtocol}
-         * 
+         *
          * @see ProcessingStatusProtocol
          * @param processingStatusProtocols
          * @return
          */
-        public Builder withProcessingStatusProtocols(ArrayList<ProcessingStatusProtocol> processingStatusProtocols) {
+        public Builder withProcessingStatusProtocols(final ArrayList<ProcessingStatusProtocol> processingStatusProtocols) {
             this.processingStatusProtocols = processingStatusProtocols;
             return this;
         }
@@ -213,7 +213,7 @@ public class BatchReceiptSearchResponse implements Serializable {
         this.processingStatusProtocols = null;
     }
 
-    public BatchReceiptSearchResponse(Builder builder) {
+    public BatchReceiptSearchResponse(final Builder builder) {
         this.transmissionEnvironment = builder.transmissionEnvironment;
         this.applicationVersion = builder.applicationVersion;
         this.receiptNumber = builder.receiptNumber;
@@ -268,6 +268,10 @@ public class BatchReceiptSearchResponse implements Serializable {
 
     public String getMessageDescription() {
         return this.messageDescription;
+    }
+
+    public ProcessingStatusProtocol getProcessingStatusProtocol() {
+        return this.processingStatusProtocols.stream().findFirst().orElse(null);
     }
 
     public ArrayList<ProcessingStatusProtocol> getProcessingStatusProtocols() {
