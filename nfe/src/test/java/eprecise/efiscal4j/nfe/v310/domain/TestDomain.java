@@ -3,15 +3,14 @@ package eprecise.efiscal4j.nfe.v310.domain;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +21,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.v310.CRT;
 import eprecise.efiscal4j.nfe.v310.DANFEPrintFormat;
 import eprecise.efiscal4j.nfe.v310.DestinationOperationIdentifier;
@@ -117,32 +117,6 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 public class TestDomain {
 
-    private static final String EMITTER_CSC_CLDTOKEN_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.cldtoken";
-
-    private static final String EMITTER_CSC_VALUE_PROPERTY = "eprecise.efiscal4j.nfce.emitter.csc.value";
-
-    private static final String EMITTER_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.emitter.cnpj";
-
-    private static final String EMITTER_IE_PROPERTY = "eprecise.efiscal4j.nfe.emitter.ie";
-
-    private static final String RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.corporatename";
-
-    private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
-
-    private static final String RECEIVER_LEGAL_ENTITY_IE_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.ie";
-
-    private static final String RECEIVER_NATURAL_PERSON_CPF_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.cpf";
-
-    private static final String RECEIVER_NATURAL_PERSON_IE_PROPERTY = "eprecise.efiscal4j.nfe.receiver.naturalperson.ie";
-
-    private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
-
-    private static final String CERTIFICATE_PATH_PROPERTY = "eprecise.efiscal4j.commons.certificate.path";
-
-    private static final String CERTIFICATE_NOT_PRESENT_MESSAGE = "Certificado ou pin não estão presente";
-
-    private static final String FIELD_NOT_PRESENT_MESSAGE = "O campo {0} não estão presente nos argumentos em \"Run Configurations\"";
-
     private final Logger logger = LoggerFactory.getLogger(TestDomain.class);
 
     private FiscalDocumentValidator validator;
@@ -151,50 +125,11 @@ public class TestDomain {
 
     private final TransmissionChannel transmissionChannel;
 
-    private final CSC emitterCsc;
-
-    private final String emitterCnpj;
-
-    private final String emitterIe;
-
-    private final String receiverLegalEntityCorporateName;
-
-    private final String receiverLegalEntityCnpj;
-
-    private final String receiverLegalEntityIe;
-
-    private final String receiverNaturalPersonCpf;
-
-    private final String receiverNaturalPersonIe;
-
     public TestDomain() {
         try {
-            this.emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
-            this.emitterIe = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
-            this.receiverLegalEntityCorporateName = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CORPORATENAME_PROPERTY);
-            this.receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
-            this.receiverLegalEntityIe = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_IE_PROPERTY);
-            this.receiverNaturalPersonCpf = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_CPF_PROPERTY);
-            this.receiverNaturalPersonIe = System.getProperty(TestDomain.RECEIVER_NATURAL_PERSON_IE_PROPERTY);
-
-            final String emitterCscCldToken = System.getProperty(TestDomain.EMITTER_CSC_CLDTOKEN_PROPERTY);
-            final String emitterCscValue = System.getProperty(TestDomain.EMITTER_CSC_VALUE_PROPERTY);
-            if (StringUtils.isEmpty(emitterCscCldToken) || StringUtils.isEmpty(emitterCscValue)) {
-                this.emitterCsc = null;
-            } else {
-                this.emitterCsc = new CSC(emitterCscCldToken, emitterCscValue);
-            }
-
-            final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
-            final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
-            if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
-                this.signer = null;
-                this.transmissionChannel = null;
-            } else {
-                final Certificate keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-                this.signer = new DefaultSigner(keyCertificate);
-                this.transmissionChannel = new TransmissionChannel(keyCertificate);
-            }
+            final Certificate keyCertificate = this.getKeyCertificate();
+            this.signer = new DefaultSigner(keyCertificate);
+            this.transmissionChannel = new TransmissionChannel(keyCertificate);
         } catch (final Exception ex) {
             this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
@@ -204,16 +139,6 @@ public class TestDomain {
     public TestDomain(final String xsdPath) {
         this();
         this.setXsdPath(xsdPath);
-    }
-
-    private boolean containsCertificate() {
-        return (this.signer != null) && (this.transmissionChannel != null);
-    }
-
-    private void assertCertificate() {
-        if (!this.containsCertificate()) {
-            throw new IllegalStateException(TestDomain.CERTIFICATE_NOT_PRESENT_MESSAGE);
-        }
     }
 
     public void setXsdPath(final String xsdPath) {
@@ -262,7 +187,6 @@ public class TestDomain {
     }
 
     public NFe buildNFe() throws Exception {
-        this.assertCertificate();
         //@formatter:off
 
         final List<Addition> additionList = new ArrayList<>();
@@ -918,7 +842,6 @@ public class TestDomain {
     }
 
     public NFe buildNFCe() throws Exception {
-        this.assertCertificate();
         //@formatter:off
 
         final List<Addition> additionList = new ArrayList<>();
@@ -1562,44 +1485,37 @@ public class TestDomain {
     }
 
     public EventDispatch buildEventDispatchCancellation() throws Exception {
-        this.assertCertificate();
         return EventDomain.getInstance().buildEventDispatchCancellation(this.getSigner());
     }
 
     public EventDispatch buildEventDispatchCCe() throws Exception {
-        this.assertCertificate();
         return EventDomain.getInstance().buildEventDispatchCCe(this.getSigner());
     }
 
-    public EventDispatch buildRecipientAwarenessEventDispatch(String cnpj, String accessKey) throws Exception {
-        this.assertCertificate();
+    public EventDispatch buildRecipientAwarenessEventDispatch(final String cnpj, final String accessKey) throws Exception {
         return EventDomain.getInstance().buildRecipientAwarenessManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientConfirmationEventDispatch(String cnpj, String accessKey) throws Exception {
-        this.assertCertificate();
+    public EventDispatch buildRecipientConfirmationEventDispatch(final String cnpj, final String accessKey) throws Exception {
         return EventDomain.getInstance().buildRecipientConfirmationManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientUnawarenessEventDispatch(String cnpj, String accessKey) throws Exception {
-        this.assertCertificate();
+    public EventDispatch buildRecipientUnawarenessEventDispatch(final String cnpj, final String accessKey) throws Exception {
         return EventDomain.getInstance().buildRecipientUnawarenessManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
-    public EventDispatch buildRecipientDenialEventDispatch(String cnpj, String accessKey) throws Exception {
-        this.assertCertificate();
+    public EventDispatch buildRecipientDenialEventDispatch(final String cnpj, final String accessKey) throws Exception {
         return EventDomain.getInstance().buildRecipientDenialManifEventDispatch(this.getSigner(), cnpj, accessKey);
     }
 
     public NFeNumberDisableDispatch buildNFeNumberDisable() throws Exception {
-        this.assertCertificate();
       //@formatter:off
         return new NFeNumberDisableDispatch.Builder()
                 .withInfo(new NFeNumberDisableInfo.Builder()
                         .withTransmissionEnvironment(TransmissionEnvironment.HOMOLOGACAO)
                         .withUfIbgeCode(UF.PR)
                         .withYear("17")
-                        .withCnpj(this.emitterCnpj)
+                        .withCnpj(this.getEmitterCnpj())
                         .withFiscalDocumentModel(FiscalDocumentModel.NFE)
                         .withFiscalDocumentSeries("333")
                         .withBeginNumber("1")
@@ -1620,72 +1536,53 @@ public class TestDomain {
     }
 
     public DefaultSigner getSigner() {
-        this.assertCertificate();
         return this.signer;
     }
 
     public TransmissionChannel getTransmissionChannel() {
-        this.assertCertificate();
         return this.transmissionChannel;
     }
 
     public CSC getEmitterCsc() {
-        if (this.emitterCsc == null) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CSC - Emitente"));
-        }
-        return this.emitterCsc;
+        return new CSC(NFeTestParams.getEmitterCscToken().orElse("DV2ZMSVH0YCGKOSLIBRO2XPKSMEMCQ0CELGH"), "000001");
     }
 
     public String getEmitterCnpj() {
-        if (StringUtils.isEmpty(this.emitterCnpj)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Emitente"));
-        }
-        return this.emitterCnpj;
+        return NFeTestParams.getEmitterCnpj().orElse("00000000000000");
     }
 
     public String getEmitterIe() {
-        if (StringUtils.isEmpty(this.emitterIe)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Emitente"));
-        }
-        return this.emitterIe;
+        return NFeTestParams.getEmitterIe().orElse("0000000000");
     }
 
     public String getReceiverLegalEntityCorporateName() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityCorporateName)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "Razão Social - Destinatário"));
-        }
-        return this.receiverLegalEntityCorporateName;
+        return NFeTestParams.getReceiverCorporateName().orElse("Razão Social da Empresa");
     }
 
     public String getReceiverLegalEntityCnpj() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityCnpj)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CNPJ - Destinatário"));
-        }
-        return this.receiverLegalEntityCnpj;
+        return NFeTestParams.getReceiverCnpj().orElse("00000000000000");
     }
 
     public String getReceiverLegalEntityIe() {
-        if (StringUtils.isEmpty(this.receiverLegalEntityIe)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PJ)"));
-        }
-        return this.receiverLegalEntityIe;
+        return NFeTestParams.getReceiverIe().orElse("0000000000");
     }
 
     public String getReceiverNaturalPersonCpf() {
-        if (StringUtils.isEmpty(this.receiverNaturalPersonCpf)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "CPF - Destinatário"));
-        }
-        return this.receiverNaturalPersonCpf;
+        return NFeTestParams.getReceiverCpf().orElse("70179153056");
     }
 
-    public String getReceiverNaturalPersonIe() {
-        if (StringUtils.isEmpty(this.receiverNaturalPersonIe)) {
-            throw new IllegalStateException(MessageFormat.format(TestDomain.FIELD_NOT_PRESENT_MESSAGE, "IE - Destinatário (PF)"));
+    public Certificate getKeyCertificate() {
+
+        final Optional<String> certificatePath = NFeTestParams.getCertificatePath();
+        final Optional<String> certificatePin = NFeTestParams.getCertificatePin();
+        if (certificatePath.isPresent() && certificatePin.isPresent()) {
+            return new Certificate(() -> new FileInputStream(certificatePath.get()), certificatePin.get());
+        } else {
+            return new Certificate(() -> NFeTestParams.class.getResourceAsStream("/eprecise/efiscal4j/nfe/certificate/Teste.pfx"), "1234");
         }
-        return this.receiverNaturalPersonIe;
     }
 
-    public static String randomFixedSizeNumber(int size) {
+    public static String randomFixedSizeNumber(final int size) {
         return new Random().ints(0, 9).limit(size).mapToObj(String::valueOf).collect(Collectors.joining());
     }
 }

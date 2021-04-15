@@ -40,8 +40,8 @@ public class NFeDeliveryDfeDocument implements Serializable {
         /**
          * Informação resumida ou documento fiscal eletrônico de interesse da pessoa ou empresa. O conteúdo desta tag estará compactado no padrão gZip. O tipo do campo é base64Binary.
          */
-        public Builder withContent(Object content) {
-            if (content == null || !NFeDeliveryDFeSchemas.getFromClazz(content.getClass()).isPresent()) {
+        public Builder withContent(final Object content) {
+            if ((content == null) || !NFeDeliveryDFeSchemas.getFromClazz(content.getClass()).isPresent()) {
                 throw new IllegalClassForNFeDeliveryDfeSchema();
             }
 
@@ -52,16 +52,16 @@ public class NFeDeliveryDfeDocument implements Serializable {
         /**
          * NSU do documento fiscal
          */
-        public Builder withNsu(long nsu) {
+        public Builder withNsu(final long nsu) {
             this.nsu = nsu;
             return this;
         }
 
         /**
-         * Identificação do Schema XML que será utilizado para validar o XML existente no conteúdo da tag docZip. Vai identificar o tipo do documento e sua versão. Exemplos: resNFe_v1.00.xsd,
+         * Identificação do Schema XML que será utilizado para validar o XML existente no conteúdo da tag docZip. Vai identificar o tipo do documento e sua versão. Exemplos: resNFe_v1.01.xsd,
          * procNFe_v3.10.xsd, resEvento_1.00.xsd, procEventoNFe_v1.00.xsd
          */
-        public Builder withSchema(NFeDeliveryDFeSchemas schema) {
+        public Builder withSchema(final NFeDeliveryDFeSchemas schema) {
             this.schema = schema;
             return this;
         }
@@ -79,7 +79,7 @@ public class NFeDeliveryDfeDocument implements Serializable {
         this.schema = null;
     }
 
-    private NFeDeliveryDfeDocument(Builder builder) {
+    private NFeDeliveryDfeDocument(final Builder builder) {
         this.content = this.contentConverter.serialize(builder.schema.marshallContent(builder.content));
         this.nsu = this.nsuConverter.serialize(builder.nsu);
         this.schema = builder.schema.get();

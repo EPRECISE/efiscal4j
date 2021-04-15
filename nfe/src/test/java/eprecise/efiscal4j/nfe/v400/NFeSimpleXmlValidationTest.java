@@ -18,6 +18,7 @@ import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.address.Address;
 import eprecise.efiscal4j.nfe.v400.address.City;

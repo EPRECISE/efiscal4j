@@ -21,7 +21,7 @@ import eprecise.efiscal4j.nfe.v310.deliveryDFe.NFeDeliveryDFeSchemas;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@Pattern(regexp = "resNFe_v1.00.xsd|procNFe_v3.10.xsd|resEvento_1.00.xsd|procEventoNFe_v1.00.xsd")
+@Pattern(regexp = "resNFe_v1.01.xsd|procNFe_v3.10.xsd|resEvento_1.00.xsd|procEventoNFe_v1.00.xsd")
 public @interface NFeDeliveryDFeSchema {
 
     String message() default "Viola restrição - Schema";
@@ -33,12 +33,12 @@ public @interface NFeDeliveryDFeSchema {
     public class Converter implements TypeConverter<String, Optional<NFeDeliveryDFeSchemas>> {
 
         @Override
-        public Optional<NFeDeliveryDFeSchemas> parse(String source) {
+        public Optional<NFeDeliveryDFeSchemas> parse(final String source) {
             return NFeDeliveryDFeSchemas.getFromSchema(source);
         }
 
         @Override
-        public String serialize(Optional<NFeDeliveryDFeSchemas> data) {
+        public String serialize(final Optional<NFeDeliveryDFeSchemas> data) {
             return data.isPresent() ? data.get().get() : null;
         }
 

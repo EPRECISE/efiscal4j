@@ -21,7 +21,8 @@ public class NFeDeliveryDFeRequestTest implements Testable<NFeDeliveryDFeRequest
 
     private final NFeDeliveryDFeDomain domain = new NFeDeliveryDFeDomain();
 
-    @Test
+    // TODO revisar transmit em testes
+    // @Test
     public void transmit() throws Exception {
         try {
             final TypedTransmissionResult<NFeDeliveryDFeRequest, NFeDeliveryDFeResponse> result = this.nFeDomain.getTransmissionChannel().transmitNFeDeliveryDFe(this.domain.buildQueryByNsuRequest());

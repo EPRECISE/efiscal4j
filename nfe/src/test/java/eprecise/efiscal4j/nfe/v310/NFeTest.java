@@ -32,7 +32,7 @@ public class NFeTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfe";
+        final String xmlPath = "/eprecise/efiscal4j/nfe/v310/in/xml/nfe";
 
         final File folder = new File(this.getClass().getResource(xmlPath).toURI());
         final File[] fileList = folder.listFiles();
@@ -49,7 +49,7 @@ public class NFeTest implements Testable {
         }
     }
 
-    private void xmlImportTest(URL xmlUrl) throws JAXBException, IOException {
+    private void xmlImportTest(final URL xmlUrl) throws JAXBException, IOException {
         final NFe nfe = new FiscalDocumentDeserializer<NFe>(xmlUrl, NFe.class).considering(NFe.getValidationConsideringClasses()).deserialize();
         Assert.assertNotNull(nfe);
         try {

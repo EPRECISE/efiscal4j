@@ -13,7 +13,7 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.v400.NFeTestParams;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearch;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponseMethod;

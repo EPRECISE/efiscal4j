@@ -29,19 +29,20 @@ public class GovbrTransmissionChannelTest implements Testable {
      *
      * @throws Exception
      */
-    @Test
+    // TODO revisar teste de transmissão
+    // @Test
     public void transmitAuthorization() throws Exception {
         try {
             System.out.println("Testando RecepcionarLoteRps...");
 
-            final GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch = getTestDomain().buildGovbrV100LotRpsDispatch();
+            final GovbrLotRpsDispatchAsync buildGovbrLotRpsDispatch = this.getTestDomain().buildGovbrV100LotRpsDispatch();
 
             final String requestXml = new FiscalDocumentSerializer<>(buildGovbrLotRpsDispatch).serialize();
 
             System.out.println("Request XML RecepcionarLoteRps");
             System.out.println(requestXml);
 
-            final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
+            final TransmissionResult transmissionResult = this.getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
                     .transmitAuthorization(buildGovbrLotRpsDispatch, "4118501", true);
 
             final GovbrLotRpsDispatchAsyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(
@@ -58,7 +59,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("RecepcionarLoteRps - teste concluído");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -69,7 +70,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Testando ConsultarSituacaoLoteRps...");
 
             final GovbrLotRpsDispatchConsultState buildGovbrDispatchConsultState = new GovbrLotRpsDispatchConsultState.Builder()
-                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
+                    .withProtocol(protocol.get()).withServiceProviderIdentifier(this.getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
                             .getRpsList().stream().findAny().get().getInfo().getServiceProviderIdentifier())
                     .build();
 
@@ -78,7 +79,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Request XML ConsultarSituacaoLoteRps");
             System.out.println(requestXml);
 
-            final TransmissionResult transmissionConsultStateResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
+            final TransmissionResult transmissionConsultStateResult = this.getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
                     .consultStateAuthorization(buildGovbrDispatchConsultState, "4118501", true);
 
             final GovbrLotRpsDispatchConsultStateResponse lotRpsDispatchConsultStateResponse = new FiscalDocumentDeserializer<>(
@@ -92,7 +93,7 @@ public class GovbrTransmissionChannelTest implements Testable {
 
             System.out.println("ConsultarSituacaoLoteRps - teste concluído");
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +107,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Testando ConsultarLoteRpsEnvio...");
 
             final GovbrLotRpsDispatchConsult buildGovbrLotRpsDispatchConsult = new GovbrLotRpsDispatchConsult.Builder()
-                    .withProtocol(protocol.get()).withServiceProviderIdentifier(getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
+                    .withProtocol(protocol.get()).withServiceProviderIdentifier(this.getTestDomain().buildGovbrV100LotRpsDispatch().getLotRps()
                             .getRpsList().stream().findAny().get().getInfo().getServiceProviderIdentifier())
                     .build();
 
@@ -115,7 +116,7 @@ public class GovbrTransmissionChannelTest implements Testable {
             System.out.println("Request XML ConsultarLoteRpsEnvio");
             System.out.println(requestXml);
 
-            final TransmissionResult transmissionConsultResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
+            final TransmissionResult transmissionConsultResult = this.getTestDomain().geTransmissionChannel(NFSeTransmissor.GOVBR_V100)
                     .consultAuthorization(buildGovbrLotRpsDispatchConsult, "4118501", true);
 
             final GovbrLotRpsDispatchConsultResponse lotRpsDispatchConsultResponse = new FiscalDocumentDeserializer<>(
@@ -129,7 +130,7 @@ public class GovbrTransmissionChannelTest implements Testable {
 
             System.out.println("ConsultarLoteRpsEnvio - teste concluído");
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
@@ -143,7 +144,7 @@ public class GovbrTransmissionChannelTest implements Testable {
 
     @Override
     public Object getBuiltEntity() throws Exception {
-        return getTestDomain().buildGovbrV100LotRpsDispatch();
+        return this.getTestDomain().buildGovbrV100LotRpsDispatch();
     }
 
 }
