@@ -18,14 +18,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(Integer.class)
 public enum ShippingModality implements Serializable {
 
-    @XmlEnumValue("0") POR_CONTA_EMITENTE(0, "Por conta do emitente"),
-    @XmlEnumValue("1") POR_CONTA_DESTINATARIO_REMETENTE(1, "Por conta do destinatário/remetente"),
-    @XmlEnumValue("2") POR_CONTA_TERCEIROS(2, "Por conta de terceiros"),
+    @XmlEnumValue("0") POR_CONTA_EMITENTE(0, "Contratação do frete por conta do remetente (CIF)"),
+    @XmlEnumValue("1") POR_CONTA_DESTINATARIO_REMETENTE(1, "Contratação do frete por conta do destinatário (FOB)"),
+    @XmlEnumValue("2") POR_CONTA_TERCEIROS(2, "Contratação do frete por conta de terceiros"),
     
     @XmlEnumValue("3") PROPRIO_POR_CONTA_REMETENTE(3, "Transporte próprio por conta do remetente"),
     @XmlEnumValue("4") PROPRIO_POR_CONTA_DESTINATARIO(4, "Transporte próprio por conta do destinatário"),
     
-    @XmlEnumValue("9") SEM_OCORRENCIA_TRANSPORTE(9, "Sem Ocorrência de transporte");
+    @XmlEnumValue("9") SEM_OCORRENCIA_TRANSPORTE(9, "Sem ocorrência de transporte");
 
     private static final long serialVersionUID = 1L;
 

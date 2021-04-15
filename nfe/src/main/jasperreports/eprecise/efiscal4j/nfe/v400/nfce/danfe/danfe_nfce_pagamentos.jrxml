@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe_nfce_pagamentos" pageWidth="194" pageHeight="297" columnWidth="194" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2bbc612f-ad68-429b-84a1-551fd49320a0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="XmlDataAdapter "/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -57,7 +57,14 @@
 			<textField>
 				<reportElement x="0" y="0" width="148" height="10" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tPag} == 1 ? "Dinheiro" : $F{tPag} == 2 ? "Cheque" : $F{tPag} == 3 ? "Cartão de Crédito" : $F{tPag} == 4 ? "Cartão de Débito" : $F{tPag} == 5 ? "Crédito Loja" : $F{tPag} == 10 ? "Vale Alimentação" : $F{tPag} == 11 ? "Vale Refeição" : $F{tPag} == 12 ? "Vale Presente" : $F{tPag} == 13 ? "Vale Combustível" : $F{tPag} == 14 ? "Duplicata Mercantil" : $F{tPag} == 15 ? "Boleto Bancário" : $F{tPag} == 90 ? "Sem Pagamento" : $F{tPag} == 99 ? "Outros" : ""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tPag} == 1 ? "Dinheiro" : $F{tPag} == 2 ? "Cheque" : $F{tPag} == 3 ? "Cartão de Crédito" : $F{tPag} == 4 ? "Cartão de Débito" : $F{tPag} == 5 ? "Crédito Loja" : $F{tPag} == 10 ? "Vale Alimentação" : $F{tPag} == 11 ? "Vale Refeição" : $F{tPag} == 12 ? "Vale Presente" : $F{tPag} == 13 ? "Vale Combustível" : $F{tPag} == 14 ? "Duplicata Mercantil" : $F{tPag} == 15 ? "Boleto Bancário" : $F{tPag} == 16 ? "Depósito Bancário" : $F{tPag} == 17 ? "Pagamento Instantâneo (PIX)" : $F{tPag} == 90 ? "Sem Pagamento" : $F{tPag} == 99 ? "Outros" : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="148" height="10" uuid="9ae3c460-74af-469c-84b3-b4f07c426508"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tPag} == 18 ? "Transferência bancária / Carteira Digital" : $F{tPag} == 19 ? "Programa de fidelidade / Cashback / Crédito Virtual" : ""]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
