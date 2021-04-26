@@ -31,13 +31,14 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 /**
  * Teste de evento de cancelamento de NF-e RecepcaoEvento
- * 
+ *
  * @author Fernando Glizt
- * 
+ *
  */
 public class NFeSimpleTransmitEventCCeTest {
 
-    @Test
+    // TODO teste de transmissão - revisar para executar apenas quando solicitado
+    // @Test
     public void transmitNFeStatusSearch() throws Exception {
         Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent() || !NFeTestParams.getCertificatePin().isPresent() || !NFeTestParams.getEmitterCnpj().isPresent());
         final Certificate keyCertificate = new Certificate(() -> new FileInputStream(NFeTestParams.getCertificatePath().get()), NFeTestParams.getCertificatePin().get());

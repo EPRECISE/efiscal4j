@@ -73,7 +73,8 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
  */
 public class NFeSimpleTransmitAuthorizationTest {
 
-    @Test
+    // TODO teste de transmissão - revisar para executar apenas quando solicitado
+    // @Test
     public void transmitAuthorization() throws Exception {
      // @formatter:off
         Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent()

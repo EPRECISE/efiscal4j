@@ -22,6 +22,8 @@ import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
+import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
@@ -30,6 +32,7 @@ import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeServiceStatusSearchRequest;
 import eprecise.efiscal4j.nfe.transmission.request.NFeStatusSearchRequest;
+import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeResponse;
@@ -68,7 +71,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<NFeDispatch, NFeDispatchResponseMethod> transmitAuthorization(final NFeAuthorizationRequest authorizationRequest)
+    public TypedTransmissionResult<NFeDispatch, ? extends NFeAuthorizationResponse> transmitAuthorization(final NFeAuthorizationRequest authorizationRequest)
             throws SAXException, IOException, ParserConfigurationException {
         final NFeDispatch nfeDispatch = (NFeDispatch) authorizationRequest;
         final NFe nfe = nfeDispatch.getnFes().stream().findFirst().get();
@@ -105,7 +108,8 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         responseXml = this.postProcessResponseXML(responseXml);
 
-        return new TypedTransmissionResult<>(NFeDispatch.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(NFeDispatch.class, BatchReceiptSearchResponseMethod.class,
+                requestXml, responseXml);
     }
 
     @Override

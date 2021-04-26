@@ -3,6 +3,7 @@ package eprecise.efiscal4j.nfe.v400.sharing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -271,11 +272,11 @@ public class BatchReceiptSearchResponse implements Serializable {
     }
 
     public ProcessingStatusProtocol getProcessingStatusProtocol() {
-        return this.processingStatusProtocols.stream().findFirst().orElse(null);
+        return this.getProcessingStatusProtocols().stream().findFirst().orElse(null);
     }
 
     public ArrayList<ProcessingStatusProtocol> getProcessingStatusProtocols() {
-        return this.processingStatusProtocols;
+        return Optional.ofNullable(this.processingStatusProtocols).orElse(new ArrayList<>());
     }
 
 }
