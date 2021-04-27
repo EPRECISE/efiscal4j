@@ -108,8 +108,10 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         responseXml = this.postProcessResponseXML(responseXml);
 
-        return new TypedTransmissionResult<>(NFeDispatch.class, BatchReceiptSearchResponseMethod.class,
-                requestXml, responseXml);
+        if (responseXml.contains(ObjectFactory.RET_CONS_RECI_NFE)) {
+            return new TypedTransmissionResult<>(NFeDispatch.class, BatchReceiptSearchResponseMethod.class, requestXml, responseXml);
+        }
+        return new TypedTransmissionResult<>(NFeDispatch.class, NFeDispatchResponseMethod.class, requestXml, responseXml);
     }
 
     @Override
@@ -168,10 +170,10 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         switch (batchReceiptSearch.getTransmissionEnvironment()) {
         case HOMOLOGACAO:
-            serviceUrl = NFeService.PROTOCOL_SEARCH.getHomologUrl(uf);
+            serviceUrl = NFeService.AUTHORIZATION_RESULT.getHomologUrl(uf);
             break;
         case PRODUCAO:
-            serviceUrl = NFeService.PROTOCOL_SEARCH.getProductionUrl(uf);
+            serviceUrl = NFeService.AUTHORIZATION_RESULT.getProductionUrl(uf);
             break;
         }
 
@@ -184,7 +186,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(batchReceiptSearch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4/nfeConsultaNF"));
+                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRetAutorizacao4/nfeRetAutorizacaoLote"));
 
         responseXml = this.postProcessResponseXML(responseXml);
 

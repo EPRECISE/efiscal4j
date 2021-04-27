@@ -18,7 +18,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class FiscalDocumentSearch {
+public class FiscalDocumentSearchByReceipt {
 
     private final FiscalDocument.ReceiptedAsync receiptedAsync;
 
@@ -27,15 +27,15 @@ public class FiscalDocumentSearch {
      *
      * @return resultado da transmissão
      */
-    public FiscalDocumentSearch.TransmissionResult transmit(final Certificate certificate) {
+    public FiscalDocumentSearchByReceipt.TransmissionResult transmit(final Certificate certificate) {
         try {
             final FiscalDocumentSupportedVersion version = FiscalDocumentSupportedVersion.VERSION_4_00;
-            final NFeBatchReceiptSearchRequest request = version.getBatchReceiptSearchClass().getConstructor(FiscalDocumentSearch.class, Certificate.class).newInstance(this, certificate)
+            final NFeBatchReceiptSearchRequest request = version.getBatchReceiptSearchClass().getConstructor(FiscalDocumentSearchByReceipt.class, Certificate.class).newInstance(this, certificate)
                     .buildNFeBatchReceiptSearchRequest();
             final NFeTransmissionChannel transmissionChannel = version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(certificate);
             final TypedTransmissionResult<? extends NFeBatchReceiptSearchRequest, ? extends NFeBatchReceiptSearchResponse> result = transmissionChannel.transmitBatchReceiptSearch(request,
                     this.receiptedAsync.getDocument().getEmitter().getAddress().getCity().getUf());
-            return FiscalDocumentSearch.TransmissionResult.builder().version(version).document(this.receiptedAsync.getDocument()).certificate(certificate).result(result).build();
+            return FiscalDocumentSearchByReceipt.TransmissionResult.builder().version(version).document(this.receiptedAsync.getDocument()).certificate(certificate).result(result).build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

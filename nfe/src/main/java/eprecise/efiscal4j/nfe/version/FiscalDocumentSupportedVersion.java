@@ -51,7 +51,7 @@ public enum FiscalDocumentSupportedVersion {
 
     private final Class<? extends NFeDispatchAdapterVersion> nfeDispatchAdapterClass;
 
-    private final Class<? extends NFeDispatchSearchAdapterVersion> batchReceiptSearchClass;
+    private final Class<? extends NFeBatchReceiptSearchAdapterVersion> batchReceiptSearchClass;
 
     private final Class<? extends ProcessedNFeVersion> processedNFeClass;
 

@@ -7,12 +7,15 @@ import org.junit.Assume;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
+import eprecise.efiscal4j.nfe.FiscalDocument;
 import eprecise.efiscal4j.nfe.FiscalDocument.ReceiptedAsync;
 import eprecise.efiscal4j.nfe.FiscalDocument.TransmissionResult;
-import eprecise.efiscal4j.nfe.FiscalDocumentSearch;
+import eprecise.efiscal4j.nfe.FiscalDocumentCancel;
+import eprecise.efiscal4j.nfe.FiscalDocumentSearchByReceipt;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.domain.NFeDomainTest;
+import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 
 
@@ -34,20 +37,44 @@ public class NFeTransmitAsyncAuthorizationTest {
 
         final TransmissionResult result = this.nfe.transmit(FiscalDocumentSupportedVersion.VERSION_4_00, this.keyCertificate);
 
-        System.out.println(result.getStatus().getStatusCode() + " - "+result.getStatus().getStatusDescription());
+        final EventStatus status = result.getStatus();
 
-        //this.transmitFiscalDocumentSearchTest(result.getReceiptedAsync(this.nfe));
+        System.out.println(status.getStatusCode() + " - "+status.getStatusDescription());
+
+        if(status.getStatusCode() == "103") {
+
+            final ReceiptedAsync receyptedAsync = result.getReceiptedAsync(this.nfe);
+
+            this.transmitFiscalDocumentSearchTest(receyptedAsync);
+        }
+    }
+
+    //@Test
+    public void transmitFiscalDocumentSearch() {
+          final ReceiptedAsync receyptedAsync = ReceiptedAsync.builder()
+          .document(this.nfe)
+          .receiptNumber("291200213913002")
+          .build();
+          this.transmitFiscalDocumentSearchTest(receyptedAsync);
     }
 
 
     public void transmitFiscalDocumentSearchTest(final ReceiptedAsync receiptAsync) {
-        final FiscalDocumentSearch search = FiscalDocumentSearch.builder()
+        final FiscalDocumentSearchByReceipt search = FiscalDocumentSearchByReceipt.builder()
                 .receiptedAsync(receiptAsync)
                 .build();
 
-        final eprecise.efiscal4j.nfe.FiscalDocumentSearch.TransmissionResult result = search.transmit(this.keyCertificate);
+        final eprecise.efiscal4j.nfe.FiscalDocumentSearchByReceipt.TransmissionResult result = search.transmit(this.keyCertificate);
+    }
 
-        System.out.println(result.getProcessed().getXml());
+    public void cancel(final FiscalDocument.Processed processed) {
+        final FiscalDocumentCancel cancel = FiscalDocumentCancel.builder()
+        .processedFiscalDocument(processed)
+        .justification("TESTE DE EMISSÃO DE NFE. NFE SEM VALOR FISCAL")
+        .build();
+        final eprecise.efiscal4j.nfe.FiscalDocumentCancel.TransmissionResult result = cancel.transmit(this.keyCertificate);
+        System.out.println(result.getStatus().getStatusCode() + " - "+result.getStatus().getStatusDescription());
+
     }
 
 }

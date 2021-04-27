@@ -3,7 +3,7 @@ package eprecise.efiscal4j.nfe.version;
 import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
 
 
-public interface NFeDispatchSearchAdapterVersion {
+public interface NFeBatchReceiptSearchAdapterVersion {
 
     NFeBatchReceiptSearchRequest buildNFeBatchReceiptSearchRequest();
 

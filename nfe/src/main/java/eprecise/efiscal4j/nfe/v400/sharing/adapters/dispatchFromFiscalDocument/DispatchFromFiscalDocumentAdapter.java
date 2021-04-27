@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -144,6 +145,8 @@ import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
 import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.address.Country;
+import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXml;
+import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXmlCnpj;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
@@ -254,6 +257,8 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private static final Collection<UF> UFS_ONLY_ASYNC = Stream.of(UF.BA, UF.SP).collect(Collectors.toSet());
 
+    private static final String BA_DEFAULT_CNPJ_AUT_XML = "13937073000156";
+
     private final FiscalDocument fiscalDocument;
 
     private final Certificate certificate;
@@ -318,6 +323,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withNFeIdentification(this.buildNFeIdentification())
                 .withEmitter(this.buildEmitter())
                 .withReceiver(this.buildReceiver())
+                .withAutXml(this.buildAuthXml())
                 .withWithdrawal(this.buildWithdrawal())
                 .withDelivery(this.buildDelivery())
                 .withNFeDetail(this.buildNFeDetails())
@@ -331,6 +337,14 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 .withTechnicalManager(this.buildNFeTechnicalManager())
                 .build();
         //@formatter:on
+    }
+
+    private List<NFeAutXml> buildAuthXml() {
+        final UF emitterUf = this.getEmitterUf();
+        if (emitterUf.equals(UF.BA)) {
+            return Arrays.asList(new NFeAutXmlCnpj(BA_DEFAULT_CNPJ_AUT_XML));
+        }
+        return Collections.emptyList();
     }
 
     private NFeTechnicalManager buildNFeTechnicalManager() {

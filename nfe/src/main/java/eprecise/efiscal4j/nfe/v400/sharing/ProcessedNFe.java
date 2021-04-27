@@ -90,9 +90,14 @@ public class ProcessedNFe implements Serializable, ProcessedNFeVersion {
         this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
     }
 
-    public ProcessedNFe(final FiscalDocument document, final Certificate certificate, final NFeDispatchResponseMethod dispatchResponse) {
+    public ProcessedNFe(final NFeDispatch dispatchRequest, final BatchReceiptSearchResponseMethod dispatchResponse) {
+        this.nfe = dispatchRequest.getnFes().stream().findFirst().orElse(null);
+        this.processingStatusProtocol = dispatchResponse.getBatchReceiptSearchResponse().getProcessingStatusProtocol();
+    }
+
+    public ProcessedNFe(final FiscalDocument document, final Certificate certificate, final BatchReceiptSearchResponseMethod dispatchResponse) {
         this.nfe = new DispatchFromFiscalDocumentAdapter(document, certificate).buildNFeDispatch().getnFes().stream().findFirst().orElse(null);
-        this.processingStatusProtocol = dispatchResponse.getnFeDispatchResponse().getProcessingStatusProtocol();
+        this.processingStatusProtocol = dispatchResponse.getBatchReceiptSearchResponse().getProcessingStatusProtocol();
     }
 
     private ProcessedNFe(final Builder builder) {

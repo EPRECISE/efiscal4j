@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlElement;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
+import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXml;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
 import eprecise.efiscal4j.nfe.v400.export.NFeExport;
 import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
@@ -49,6 +50,8 @@ public class NFeInfo implements Serializable {
 
     private @XmlElement(name = "dest") final Receiver receiver;
 
+    private @XmlElement(name = "autXML") @Size(max = 10) final List<NFeAutXml> autXml;
+
     private @XmlElement(name = "retirada") final Place withdrawal;
 
     private @XmlElement(name = "entrega") final Place delivery;
@@ -64,15 +67,15 @@ public class NFeInfo implements Serializable {
     private @XmlElement(name = "pag") @NotNull final NFePayment nFePayment;
 
     private @XmlElement(name = "infIntermed") final NFeBrokerInfo brokerInfo;
-    
+
     private @XmlElement(name = "infAdic") final AdditionalInfo additionalInfo;
-    
+
     private @XmlElement(name = "exporta") final NFeExport export;
-    
+
     private @XmlElement(name = "infRespTec") final NFeTechnicalManager technicalManager;
 
     public static class Builder {
-        
+
         private String id;
 
         private NFeIdentification nFeIdentification;
@@ -80,6 +83,8 @@ public class NFeInfo implements Serializable {
         private Emitter emitter;
 
         private Receiver receiver;
+
+        private List<NFeAutXml> autXml;
 
         private Place withdrawal;
 
@@ -94,18 +99,18 @@ public class NFeInfo implements Serializable {
         private NFeCharging nFeCharging;
 
         private NFePayment nFePayment;
-        
+
         private NFeBrokerInfo brokerInfo;
 
         private AdditionalInfo additionalInfo;
-        
+
         private NFeExport export;
-        
+
         private NFeTechnicalManager technicalManager;
-        
+
         /**
          * ID no padrão PL_005d - 11/08/09
-         * 
+         *
          * @return
          */
         public Builder withId(final String id) {
@@ -140,6 +145,16 @@ public class NFeInfo implements Serializable {
          */
         public Builder withReceiver(final Receiver receiver) {
             this.receiver = receiver;
+            return this;
+        }
+
+        /**
+         * @see NFeAutXml
+         * @param autXml
+         * @return
+         */
+        public Builder withAutXml(final List<NFeAutXml> autXml) {
+            this.autXml = autXml;
             return this;
         }
 
@@ -226,7 +241,7 @@ public class NFeInfo implements Serializable {
             this.brokerInfo = brokerInfo;
             return this;
         }
-        
+
         /**
          * @see AdditionalInfo
          * @param additionalInfo
@@ -236,7 +251,7 @@ public class NFeInfo implements Serializable {
             this.additionalInfo = additionalInfo;
             return this;
         }
-        
+
         /**
          * @see NFeExport
          * @param export
@@ -246,7 +261,7 @@ public class NFeInfo implements Serializable {
             this.export = export;
             return this;
         }
-        
+
         /**
          * @see NFeTechnicalManager
          * @param technicalManager
@@ -269,6 +284,7 @@ public class NFeInfo implements Serializable {
         this.nFeIdentification = null;
         this.emitter = null;
         this.receiver = null;
+        this.autXml = null;
         this.withdrawal = null;
         this.delivery = null;
         this.nFeDetails = null;
@@ -287,6 +303,7 @@ public class NFeInfo implements Serializable {
         this.nFeIdentification = builder.nFeIdentification;
         this.emitter = builder.emitter;
         this.receiver = builder.receiver;
+        this.autXml = builder.autXml;
         this.withdrawal = builder.withdrawal;
         this.delivery = builder.delivery;
         this.nFeDetails = builder.nFeDetails;
@@ -320,12 +337,16 @@ public class NFeInfo implements Serializable {
         return this.receiver;
     }
 
+    public List<NFeAutXml> getAutXml() {
+        return this.autXml;
+    }
+
     public Place getWithdrawal() {
-        return withdrawal;
+        return this.withdrawal;
     }
 
     public Place getDelivery() {
-        return delivery;
+        return this.delivery;
     }
 
     public List<NFeDetail> getnFeDetails() {
@@ -345,22 +366,22 @@ public class NFeInfo implements Serializable {
     }
 
     public NFePayment getnFePayment() {
-        return nFePayment;
+        return this.nFePayment;
     }
-    
+
     public NFeBrokerInfo getBrokerInfo() {
-        return brokerInfo;
+        return this.brokerInfo;
     }
 
     public AdditionalInfo getAdditionalInfo() {
         return this.additionalInfo;
     }
-    
+
     public NFeExport getExport() {
-        return export;
+        return this.export;
     }
-    
+
     public NFeTechnicalManager getTechnicalManager() {
-        return technicalManager;
+        return this.technicalManager;
     }
 }

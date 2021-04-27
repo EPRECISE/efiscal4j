@@ -62,6 +62,10 @@ public class BatchReceiptSearchResponseMethod extends Receivable implements NFeB
         this.batchReceiptSearchResponse = builder.batchReceiptSearchResponse;
     }
 
+    public BatchReceiptSearchResponse getBatchReceiptSearchResponse() {
+        return this.batchReceiptSearchResponse;
+    }
+
     @Override
     public EventStatus getStatus() {
         return Optional.ofNullable(this.batchReceiptSearchResponse).map(response -> Optional.ofNullable(response).map(BatchReceiptSearchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo).map(info -> EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build()).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build())).orElse(null);
