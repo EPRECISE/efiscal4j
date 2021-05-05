@@ -8,4 +8,6 @@ public interface NFeBatchReceiptSearchResponse extends NFeResponse {
 
     EventStatus getStatus();
 
+    String getProtocol();
+
 }

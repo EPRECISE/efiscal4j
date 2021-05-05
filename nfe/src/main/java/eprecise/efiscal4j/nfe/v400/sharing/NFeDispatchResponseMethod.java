@@ -13,7 +13,6 @@ import eprecise.efiscal4j.commons.domain.transmission.Receivable;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
-import eprecise.efiscal4j.nfe.transmission.response.NFeBatchReceiptSearchResponse;
 import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 
 
@@ -67,9 +66,13 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
 
     @Override
     public EventStatus getStatus() {
-        return Optional.ofNullable(this.nFeDispatchResponse).map(response -> Optional.ofNullable(response).map(r -> r.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(info -> {
-            return EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build();
-        }).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build())).orElse(null);
+        return Optional.ofNullable(this.nFeDispatchResponse).map(response -> Optional.ofNullable(response).map(NFeDispatchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo).map(info -> EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build()).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build())).orElse(null);
+    }
+
+    @Override
+    public String getProtocol() {
+        return Optional.ofNullable(this.nFeDispatchResponse).map(NFeDispatchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo)
+                .map(ProcessingStatusProtocolInfo::getProtocolNumber).orElse(" - ");
     }
 
 }

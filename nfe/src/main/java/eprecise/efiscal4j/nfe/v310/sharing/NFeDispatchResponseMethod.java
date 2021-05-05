@@ -86,5 +86,11 @@ public class NFeDispatchResponseMethod extends ReceivableWithQName implements NF
             }).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build());
         }).orElse(null);
     }
+    
+    @Override
+    public String getProtocol() {
+        return Optional.ofNullable(this.nFeDispatchResponse).map(NFeDispatchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo)
+                .map(ProcessingStatusProtocolInfo::getProtocolNumber).orElse(" - ");
+    }
 
 }

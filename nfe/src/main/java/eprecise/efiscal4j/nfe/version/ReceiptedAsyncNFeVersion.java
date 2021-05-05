@@ -7,4 +7,6 @@ public interface ReceiptedAsyncNFeVersion {
 
     FiscalDocument.ReceiptedAsync buildReceiptedAsyncNFe(final FiscalDocument fiscalDocument);
 
+    String getReceiptNumber();
+
 }

@@ -13,7 +13,6 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.NFe;
 import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.PresenceIndicator;
-import eprecise.efiscal4j.nfe.broker.BrokerIndicator;
 import eprecise.efiscal4j.nfe.broker.WithoutBrokerOperation;
 import eprecise.efiscal4j.nfe.emitter.CRT;
 import eprecise.efiscal4j.nfe.emitter.Emitter;
