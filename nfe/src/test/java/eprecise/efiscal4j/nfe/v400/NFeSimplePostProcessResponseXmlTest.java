@@ -8,6 +8,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.v400.transmission.TransmissionChannel;
 
 public class NFeSimplePostProcessResponseXmlTest {

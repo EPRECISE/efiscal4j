@@ -16,7 +16,7 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfe.v400.NFeTestParams;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.v400.address.IBGEOrgan;
 import eprecise.efiscal4j.nfe.v400.sharing.Event;
@@ -31,13 +31,14 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 /**
  * Teste de evento de cancelamento de NF-e RecepcaoEvento
- * 
+ *
  * @author Fernando Glizt
- * 
+ *
  */
 public class NFeSimpleTransmitEventCCeTest {
 
-    @Test
+    // TODO teste de transmissão - revisar para executar apenas quando solicitado
+    // @Test
     public void transmitNFeStatusSearch() throws Exception {
         Assume.assumeFalse(!NFeTestParams.getCertificatePath().isPresent() || !NFeTestParams.getCertificatePin().isPresent() || !NFeTestParams.getEmitterCnpj().isPresent());
         final Certificate keyCertificate = new Certificate(() -> new FileInputStream(NFeTestParams.getCertificatePath().get()), NFeTestParams.getCertificatePin().get());

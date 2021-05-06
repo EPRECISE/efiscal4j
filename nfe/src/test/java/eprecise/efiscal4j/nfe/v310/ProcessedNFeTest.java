@@ -3,7 +3,9 @@ package eprecise.efiscal4j.nfe.v310;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
@@ -35,10 +37,15 @@ public class ProcessedNFeTest implements Testable {
 
     @Test
     public void xmlImportTestBatch() throws Exception {
-        final String xmlPath = "/eprecise/efiscal4j/nfe/in/xml/nfeProc";
+        final String xmlPath = "/eprecise/efiscal4j/nfe/v310/in/xml/nfeProc";
 
-        final File folder = new File(this.getClass().getResource(xmlPath).toURI());
-        final File[] fileList = folder.listFiles();
+        final File[] fileList = Optional.ofNullable(this.getClass().getResource(xmlPath)).map(it -> {
+            try {
+                return it.toURI();
+            } catch (final URISyntaxException e) {
+                return null;
+            }
+        }).map(File::new).map(File::listFiles).orElse(null);
 
         if (fileList == null) {
             return;
@@ -52,7 +59,7 @@ public class ProcessedNFeTest implements Testable {
         }
     }
 
-    private void xmlImportTest(URL xmlUrl) throws JAXBException, IOException {
+    private void xmlImportTest(final URL xmlUrl) throws JAXBException, IOException {
         final ProcessedNFe processedNFe = new FiscalDocumentDeserializer<ProcessedNFe>(xmlUrl, ProcessedNFe.class).deserialize();
         Assert.assertNotNull(processedNFe);
         try {

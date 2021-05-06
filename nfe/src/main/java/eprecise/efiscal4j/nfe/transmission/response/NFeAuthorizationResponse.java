@@ -8,4 +8,6 @@ public interface NFeAuthorizationResponse extends NFeResponse {
 
     EventStatus getStatus();
 
+    String getProtocol();
+
 }

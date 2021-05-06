@@ -25,7 +25,8 @@ public class RecipientConfirmationEventDispatchTest implements Testable<EventDis
         this.validateByXSDDefault();
     }
 
-    @Test
+    // TODO revisar transmissão em teste
+    // @Test
     public void validateConfirmationEventDispatch() throws Exception {
         try {
             System.out.println("Testando Evento de Manifestação do Destinatário - Confirmação");

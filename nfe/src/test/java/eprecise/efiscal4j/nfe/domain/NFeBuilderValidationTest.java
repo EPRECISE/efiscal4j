@@ -4,6 +4,8 @@ package eprecise.efiscal4j.nfe.domain;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -21,6 +23,13 @@ import eprecise.efiscal4j.nfe.emitter.Emitter;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddress;
 import eprecise.efiscal4j.nfe.emitter.address.EmitterAddressCity;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
+import eprecise.efiscal4j.nfe.item.DefaultUnity;
+import eprecise.efiscal4j.nfe.item.Item;
+import eprecise.efiscal4j.nfe.item.tax.TaxStructure;
+import eprecise.efiscal4j.nfe.item.tax.cofins.COFINS07;
+import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN103;
+import eprecise.efiscal4j.nfe.item.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.item.tax.pis.PIS07;
 import eprecise.efiscal4j.nfe.payment.Payment;
 import eprecise.efiscal4j.nfe.payment.PaymentDetail;
 import eprecise.efiscal4j.nfe.payment.PaymentMethod;
@@ -48,15 +57,15 @@ import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 
 /**
  * Teste de geração e validação de domínio de NF-e
- * 
+ *
  * @author Fernando Glizt
- * 
+ *
  */
 public class NFeBuilderValidationTest {
 
     @Test
     public void validateNFeBuilder() {
-        final NFe nfe = buildNFe();
+        final NFe nfe = this.buildNFe();
         final ValidationResult<NFe> validate = ValidationBuilder.from(nfe).validate();
         validate.getViolations().forEach(cv -> System.out.println(cv.getMessage()));
         validate.throwIfViolate();
@@ -179,6 +188,23 @@ public class NFeBuilderValidationTest {
                 .details("Teste")
                 .documentReferences(Arrays.asList(ReferenceToNFeAccessKey.builder().
                         accessKey("41180627679694000191550010000005141480062829")
+                        .build()))
+                .items(Arrays.asList(Item.builder()
+                        .code("12345")
+                        .name("Item teste")
+                        .globalTradeItemNumber("")
+                        .unity(DefaultUnity.UNIDADE)
+                        .quantity(BigDecimal.ONE)
+                        .unitaryValue(BigDecimal.ONE)
+                        .taxStructure(TaxStructure.builder()
+                                .ncm("22011000")
+                                .cfop(CFOP.CFOP_5102)
+                                .taxes(Stream.of(
+                                            ICMSSN103.builder().origin(ProductOrigin.NATIONAL).build(),
+                                            PIS07.builder().build(),
+                                            COFINS07.builder().build()
+                                      ).collect(Collectors.toSet()))
+                                .build())
                         .build()))
                 .build();
      // @formatter:on

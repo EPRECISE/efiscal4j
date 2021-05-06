@@ -7,12 +7,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
+import eprecise.efiscal4j.nfse.NFSeTestParams;
 import eprecise.efiscal4j.nfse.domain.adapters.NFSeDomainAdapter;
 import eprecise.efiscal4j.nfse.domain.adapters.NFSeDomainAdapter.NFSeAdapter;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
@@ -49,66 +49,32 @@ import eprecise.efiscal4j.nfse.transmission.TransmissionChannel;
 
 public class TestDomain {
 
-    private static final String EMITTER_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.emitter.cnpj";
-
-    private static final String EMITTER_IM_PROPERTY = "eprecise.efiscal4j.nfe.emitter.im";
-
-    private static final String EMITTER_IE_PROPERTY = "eprecise.efiscal4j.nfe.emitter.ie";
-
-    private static final String EMITTER_PASSWORD_PROPERTY = "eprecise.efiscal4j.nfe.emitter.password";
-
-    private static final String RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY = "eprecise.efiscal4j.nfe.receiver.legalentity.cnpj";
-
-    private static final String CERTIFICATE_PIN_PROPERTY = "eprecise.efiscal4j.commons.certificate.pin";
-
-    private static final String CERTIFICATE_PATH_PROPERTY = "eprecise.efiscal4j.commons.certificate.path";
-
     private final Logger logger = LoggerFactory.getLogger(TestDomain.class);
 
     private FiscalDocumentValidator validator;
 
-    private final String emitterCnpj;
-
-    private final String emitterIM;
-
-    private final String emitterIE;
-
-    private final String emitterPassword;
-
-    private final String receiverLegalEntityCnpj;
-
     private final Certificate keyCertificate;
+
 
     public TestDomain() {
         try {
-            emitterCnpj = System.getProperty(TestDomain.EMITTER_CNPJ_PROPERTY);
-            emitterIM = System.getProperty(TestDomain.EMITTER_IM_PROPERTY);
-            emitterIE = System.getProperty(TestDomain.EMITTER_IE_PROPERTY);
-            emitterPassword = System.getProperty(TestDomain.EMITTER_PASSWORD_PROPERTY);
-            receiverLegalEntityCnpj = System.getProperty(TestDomain.RECEIVER_LEGAL_ENTITY_CNPJ_PROPERTY);
-            final String certificatePath = System.getProperty(TestDomain.CERTIFICATE_PATH_PROPERTY);
-            final String certificatePin = System.getProperty(TestDomain.CERTIFICATE_PIN_PROPERTY);
-            if (StringUtils.isEmpty(certificatePath) || StringUtils.isEmpty(certificatePin)) {
-                keyCertificate = null;
-            } else {
-                keyCertificate = new Certificate(() -> new FileInputStream(certificatePath), certificatePin);
-            }
+            this.keyCertificate = this.getKeyCertificate();
         } catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
 
     public TestDomain(final String xsdPath) {
         this();
-        setXsdPath(xsdPath);
+        this.setXsdPath(xsdPath);
     }
 
     public void setXsdPath(final String xsdPath) {
         try {
-            validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
+            this.validator = new FiscalDocumentValidator(this.getClass().getResource(xsdPath));
         } catch (final IOException ex) {
-            getLogger().error(ex.getMessage(), ex);
+            this.getLogger().error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
@@ -129,9 +95,9 @@ public class TestDomain {
                             .withName("Teste Nome Fantasia")
                             .withDocuments(new NFSeLegalEntityDocuments.Builder()
                                     .withCorporateName("Teste Razão Social")
-                                    .withCnpj(Optional.ofNullable(emitterCnpj).orElse("14445087000115"))
-                                    .withIm(Optional.ofNullable(emitterIM).orElse("00083700"))
-                                    .withIe(Optional.ofNullable(emitterIE).orElse("ISENTO"))
+                                    .withCnpj(this.getEmitterCnpj())
+                                    .withIm(this.getEmitterIm())
+                                    .withIe(this.getEmitterIe())
                                     .build())
                             .withAddress(new NFSeAddress.Builder()
                                     .withStreet("Rua xyz")
@@ -141,13 +107,13 @@ public class TestDomain {
                                     .withCity(city)
                                     .withZipCode("84010000")
                                     .build())
-                            .withSpecialTaxationRegime(buildNFSeSpecialTaxationRegime(adapter))
+                            .withSpecialTaxationRegime(this.buildNFSeSpecialTaxationRegime(adapter))
                             .build())
                     .withTaker(new NFSeServiceTaker.Builder()
                             .withName("Teste Nome Fantasia")
                             .withDocuments(new NFSeLegalEntityDocuments.Builder()
                                     .withCorporateName("Teste Razão Social")
-                                    .withCnpj(Optional.ofNullable(receiverLegalEntityCnpj).orElse("43147165000101"))
+                                    .withCnpj(this.getReceiverLegalEntityCnpj())
                                     .build())
                             .withAddress(new NFSeAddress.Builder()
                                     .withStreet("Rua abc")
@@ -188,7 +154,7 @@ public class TestDomain {
                             .withIssAliquot(new BigDecimal("2.00"))
                             .withIssValue(new BigDecimal("0.2"))
                             .build())
-                    .withSpecificData(buildNFSeSpecificData(adapter))
+                    .withSpecificData(this.buildNFSeSpecificData(adapter))
                     .build();
 
             return nfse;
@@ -202,7 +168,7 @@ public class TestDomain {
       //@formatter:off
         if(adapter.equals(NFSeAdapter.ELOTECH)){
             return new NFSeElotechData.Builder()
-                    .withTransmissionPassword(Optional.ofNullable(emitterPassword).orElse("12345"))
+                    .withTransmissionPassword(Optional.ofNullable(this.getEmitterPassword()).orElse("12345"))
                     .withHomologation(true)
                     .withIssRequirement(ElotechIssRequirement.REQUIRED)
                     .withTaxIncentive(false)
@@ -247,7 +213,7 @@ public class TestDomain {
         return Optional.ofNullable(domainAdapter.toDispatch()).filter(ElotechLotRpsDispatchSync.class::isInstance)
                 .map(ElotechLotRpsDispatchSync.class::cast).orElseThrow(IllegalStateException::new);
     }
-    
+
     public CuritibaLotRpsDispatchAsync buildCuritibaLotRpsDispatch() throws Exception {
         final NFSeCity city = new NFSeCity.Builder().withName("Curitiba").withUf(NFSeUF.PR).withIbgeCode("4106902").build();
         final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withCertificate(this.getCertificate()).withNFSe(this.buildNFSe(city, "2")).build();
@@ -284,19 +250,62 @@ public class TestDomain {
     }
 
     public TransmissionChannel geTransmissionChannel(final NFSeTransmissor transmissor) {
-        return transmissor.getTransmissionChannel(keyCertificate);
+        return transmissor.getTransmissionChannel(this.keyCertificate);
+    }
+
+    public String getEmitterCnpj() {
+        return NFSeTestParams.getEmitterCnpj().orElse("00000000000000");
+    }
+
+    public String getEmitterPassword() {
+        return NFSeTestParams.getEmitterPassword().orElse("123456");
+    }
+
+    public String getEmitterIm() {
+        return NFSeTestParams.getEmitterIm().orElse("123456");
+    }
+
+    public String getEmitterIe() {
+        return NFSeTestParams.getEmitterIe().orElse("0000000000");
+    }
+
+    public String getReceiverLegalEntityCorporateName() {
+        return NFSeTestParams.getReceiverCorporateName().orElse("Razão Social da Empresa");
+    }
+
+    public String getReceiverLegalEntityCnpj() {
+        return NFSeTestParams.getReceiverCnpj().orElse("00000000000000");
+    }
+
+    public String getReceiverLegalEntityIe() {
+        return NFSeTestParams.getReceiverIe().orElse("0000000000");
+    }
+
+    public String getReceiverNaturalPersonCpf() {
+        return NFSeTestParams.getReceiverCpf().orElse("70179153056");
+    }
+
+    public Certificate getKeyCertificate() {
+
+        final Optional<String> certificatePath = NFSeTestParams.getCertificatePath();
+        final Optional<String> certificatePin = NFSeTestParams.getCertificatePin();
+        if (certificatePath.isPresent() && certificatePin.isPresent()) {
+            return new Certificate(() -> new FileInputStream(certificatePath.get()), certificatePin.get());
+        } else {
+            return new Certificate(() -> NFSeTestParams.class.getResourceAsStream("/eprecise/efiscal4j/nfe/certificate/Teste.pfx"), "1234");
+        }
     }
 
     public Logger getLogger() {
-        return logger;
+        return this.logger;
     }
 
     public FiscalDocumentValidator getValidator() {
-        return validator;
+        return this.validator;
     }
 
     public Certificate getCertificate() {
-        return keyCertificate;
+        return this.keyCertificate;
     }
 
 }

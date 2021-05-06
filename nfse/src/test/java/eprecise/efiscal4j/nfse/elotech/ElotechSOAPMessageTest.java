@@ -22,12 +22,14 @@ public class ElotechSOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
-    @Test
+
+    // TODO teste de transmissão - revisar
+    // @Test
     public void validateNfseAuthorization() throws Exception {
         try {
             System.out.println("Testando NFSeAutorizacao...");
 
-            final TransmissionResult transmissionResult = getTestDomain().geTransmissionChannel(NFSeTransmissor.ELOTECH).transmitAuthorization(getTestDomain().buildElotechLotRpsDispatch(), "4119905",
+            final TransmissionResult transmissionResult = this.getTestDomain().geTransmissionChannel(NFSeTransmissor.ELOTECH).transmitAuthorization(this.getTestDomain().buildElotechLotRpsDispatch(), "4119905",
                     true);
 
             final ElotechLotRpsDispatchSyncResponse lotRpsDispatchResponse = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), ElotechLotRpsDispatchSyncResponse.class)
@@ -42,7 +44,7 @@ public class ElotechSOAPMessageTest implements Testable {
             System.out.println("NFSeAutorizacao - teste concluído");
 
         } catch (final ConstraintViolationException e) {
-            handleErrors(e);
+            this.handleErrors(e);
         }
     }
 
@@ -53,7 +55,7 @@ public class ElotechSOAPMessageTest implements Testable {
 
     @Override
     public ElotechLotRpsDispatchSync getBuiltEntity() throws Exception {
-        return getTestDomain().buildElotechLotRpsDispatch();
+        return this.getTestDomain().buildElotechLotRpsDispatch();
     }
 
 }

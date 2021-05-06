@@ -25,7 +25,8 @@ public class RecipientAwarenessEventDispatchTest implements Testable<EventDispat
         this.validateByXSDDefault();
     }
 
-    @Test
+    // TODO revisar transmissão em teste
+    // @Test
     public void validateRecipientAwarenessEventDispatch() throws Exception {
         try {
             System.out.println("Testando Evento de Manifestação do Destinatário - Ciência");

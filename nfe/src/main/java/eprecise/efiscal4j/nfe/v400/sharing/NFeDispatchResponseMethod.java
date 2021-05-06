@@ -18,9 +18,9 @@ import eprecise.efiscal4j.nfe.v400.transmission.ObjectFactory;
 
 /**
  * Método retornado após consumo do WS de autorização
- * 
+ *
  * @author Felipe Bueno
- * 
+ *
  */
 @XmlRootElement(name = ObjectFactory.NFE_RESULT_MSG, namespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,7 +35,7 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
         private NFeDispatchResponse nFeDispatchResponse;
 
         /**
-         * 
+         *
          * @param nFeDispatchResponse
          * @return
          */
@@ -66,11 +66,13 @@ public class NFeDispatchResponseMethod extends Receivable implements NFeAuthoriz
 
     @Override
     public EventStatus getStatus() {
-        return Optional.ofNullable(this.nFeDispatchResponse).map(response -> {
-            return Optional.ofNullable(response).map(r -> r.getProcessingStatusProtocol()).map(psp -> psp.getProcessingStatusProtocolInfo()).map(info -> {
-                return EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build();
-            }).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build());
-        }).orElse(null);
+        return Optional.ofNullable(this.nFeDispatchResponse).map(response -> Optional.ofNullable(response).map(NFeDispatchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo).map(info -> EventStatus.builder().statusCode(info.getStatusCode()).statusDescription(info.getStatusDescription()).build()).orElse(EventStatus.builder().statusCode(response.getStatusCode()).statusDescription(response.getStatusDescription()).build())).orElse(null);
+    }
+
+    @Override
+    public String getProtocol() {
+        return Optional.ofNullable(this.nFeDispatchResponse).map(NFeDispatchResponse::getProcessingStatusProtocol).map(ProcessingStatusProtocol::getProcessingStatusProtocolInfo)
+                .map(ProcessingStatusProtocolInfo::getProtocolNumber).orElse(" - ");
     }
 
 }

@@ -18,7 +18,7 @@ import com.google.common.io.Resources;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.nfe.FiscalDocument;
-import eprecise.efiscal4j.nfe.v400.NFeTestParams;
+import eprecise.efiscal4j.nfe.NFeTestParams;
 
 
 public class NFeDomainImportTest {

@@ -31,6 +31,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateNFeNumberDisable() throws Exception {
         try {
@@ -60,6 +61,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateServiceStatusSearch() throws Exception {
         try {
@@ -90,6 +92,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateNFeStatusSearch() throws Exception {
         try {
@@ -120,6 +123,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateNfeAuthorization() throws Exception {
         try {
@@ -148,6 +152,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateNfeAuthorizationResult() throws Exception {
         try {
@@ -189,6 +194,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateEventDispatchCancellation() throws Exception {
         try {
@@ -217,6 +223,7 @@ public class SOAPMessageTest implements Testable {
      *
      * @throws Exception
      */
+    // TODO revisar transmissão em teste
     // @Test
     public void validateEventDispatchCCe() throws Exception {
         try {

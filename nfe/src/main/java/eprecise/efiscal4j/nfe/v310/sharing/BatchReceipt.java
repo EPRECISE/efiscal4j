@@ -11,16 +11,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfe.FiscalDocument;
+import eprecise.efiscal4j.nfe.FiscalDocument.ReceiptedAsync;
+import eprecise.efiscal4j.nfe.version.ReceiptedAsyncNFeVersion;
 
 
 /**
  * Dados do Recibo do Lote
- * 
+ *
  * @author Felipe Bueno
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BatchReceipt implements Serializable {
+public class BatchReceipt implements ReceiptedAsyncNFeVersion, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,22 +39,22 @@ public class BatchReceipt implements Serializable {
 
         /**
          * Número do Recibo
-         * 
+         *
          * @param receiptNumber
          * @return
          */
-        public Builder withReceiptNumber(String receiptNumber) {
+        public Builder withReceiptNumber(final String receiptNumber) {
             this.receiptNumber = receiptNumber;
             return this;
         }
 
         /**
          * Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos
-         * 
+         *
          * @param averageTime
          * @return
          */
-        public Builder withAverageTime(String averageTime) {
+        public Builder withAverageTime(final String averageTime) {
             this.averageTime = averageTime;
             return this;
         }
@@ -68,7 +71,7 @@ public class BatchReceipt implements Serializable {
         this.averageTime = null;
     }
 
-    public BatchReceipt(Builder builder) {
+    public BatchReceipt(final Builder builder) {
         this.receiptNumber = builder.receiptNumber;
         this.averageTime = builder.averageTime;
     }
@@ -79,6 +82,11 @@ public class BatchReceipt implements Serializable {
 
     public String getAverageTime() {
         return this.averageTime;
+    }
+
+    @Override
+    public ReceiptedAsync buildReceiptedAsyncNFe(final FiscalDocument fiscalDocument) {
+        throw new UnsupportedOperationException();
     }
 
 }

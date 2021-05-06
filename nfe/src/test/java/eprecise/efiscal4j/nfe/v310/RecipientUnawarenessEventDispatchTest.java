@@ -25,7 +25,8 @@ public class RecipientUnawarenessEventDispatchTest implements Testable<EventDisp
         this.validateByXSDDefault();
     }
 
-    @Test
+    // TODO revisar transmissão em teste
+    // @Test
     public void validateRecipientUnawarenessEventDispatch() throws Exception {
         try {
             System.out.println("Testando Evento de Manifestação do Destinatário - Desconhecimento");
