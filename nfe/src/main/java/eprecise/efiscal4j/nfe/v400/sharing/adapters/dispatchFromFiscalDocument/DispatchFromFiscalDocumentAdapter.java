@@ -271,17 +271,24 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     @Override
     public NFeDispatch buildNFeDispatch() {
      // @formatter:off
-        final UF emitterUf = this.getEmitterUf();
         try {
             return new NFeDispatch.Builder()
                     .withBatchId(this.fiscalDocument.getNumber().toString())
                     .withNFes(this.buildNFes())
-                    .withSynchronousProcessing(UFS_ONLY_ASYNC.contains(emitterUf) ? SynchronousProcessing.ASSINCRONO : SynchronousProcessing.SINCRONO)
+                    .withSynchronousProcessing(this.buildSynchronousProcessing())
                     .build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
      // @formatter:on
+    }
+
+    private SynchronousProcessing buildSynchronousProcessing() {
+        final UF emitterUf = this.getEmitterUf();
+        if(this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe && UFS_ONLY_ASYNC.contains(emitterUf)) {
+            return SynchronousProcessing.ASSINCRONO;
+        }
+        return SynchronousProcessing.SINCRONO;
     }
 
     private List<NFe> buildNFes() throws Exception {
