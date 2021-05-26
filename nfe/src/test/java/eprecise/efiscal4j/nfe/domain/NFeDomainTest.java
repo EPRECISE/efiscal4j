@@ -127,7 +127,7 @@ public class NFeDomainTest {
     // @formatter:off
        return EmitterLegalEntityDocuments.builder()
               .name("Nome emitente teste")
-              .ie(NFeTestParams.getEmitterIe().orElse(""))
+              .ie(NFeTestParams.getEmitterIe().orElse("000000"))
               .cnpj(NFeTestParams.getEmitterCnpj().orElse("14241297000191"))
               .fancyName("Nome emitente teste")
               .build();

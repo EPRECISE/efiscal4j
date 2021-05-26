@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -259,6 +261,10 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private static final String BA_DEFAULT_CNPJ_AUT_XML = "13937073000156";
 
+    private static final String STRING_VALID_PATTERN = "[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}";
+
+    private static final String LINE_BREAK_REPLACEMENT = "  ";
+
     private final FiscalDocument fiscalDocument;
 
     private final Certificate certificate;
@@ -285,7 +291,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private SynchronousProcessing buildSynchronousProcessing() {
         final UF emitterUf = this.getEmitterUf();
-        if(this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe && UFS_ONLY_ASYNC.contains(emitterUf)) {
+        if((this.fiscalDocument instanceof eprecise.efiscal4j.nfe.NFe) && UFS_ONLY_ASYNC.contains(emitterUf)) {
             return SynchronousProcessing.ASSINCRONO;
         }
         return SynchronousProcessing.SINCRONO;
@@ -1092,9 +1098,28 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private String formatNFeString(final String input, final int size) {
-        return Optional.ofNullable(this.nullIfEmpty(input)).filter(Objects::nonNull).map(
-                string -> StringUtils.upperCase(StringUtils.stripAccents(DispatchFromFiscalDocumentAdapter.abbreviate(string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  "), size))))
+     // @formatter:off
+        return Optional.ofNullable(this.nullIfEmpty(input)).filter(Objects::nonNull)
+                    .map(string -> StringUtils.trimToNull(string.trim()))
+                    .map(StringUtils::stripAccents)
+                    .map(string -> string.replaceAll("[\\s&&[^\\n]&&[^\\r&&[^\\t]]]+", " "))
+                    .map(string -> string.replaceAll("\n", LINE_BREAK_REPLACEMENT).replaceAll("\r", LINE_BREAK_REPLACEMENT).replace("\t", LINE_BREAK_REPLACEMENT))
+                    .map(this::keepValidStrings)
+                    .map(string -> DispatchFromFiscalDocumentAdapter.abbreviate(string, size))
+                    .map(StringUtils::upperCase)
                 .orElse(null);
+     // @formatter:on
+    }
+
+    private String keepValidStrings(final String input) {
+        final Matcher matcher = Pattern.compile(STRING_VALID_PATTERN).matcher(input);
+        final StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            for (int i = 0; i <= matcher.groupCount(); i++) {
+                result.append(matcher.group(i)).append(" ");
+            }
+        }
+        return result.toString().trim();
     }
 
     private static String abbreviate(final String input, final int size) {
