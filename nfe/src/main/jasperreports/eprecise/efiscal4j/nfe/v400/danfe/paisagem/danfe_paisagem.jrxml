@@ -407,7 +407,7 @@
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/cobr/dup")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{danfe_paisagem_duplicatas}]]></subreportExpression>
 			</subreport>
-			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" onErrorType="Blank">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" onErrorType="Blank" isUsingCache="true">
 				<reportElement x="63" y="10" width="100" height="75" uuid="071ef9ac-2fec-44b6-8902-cf2aed2a88f9">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -1805,6 +1805,15 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 	<pageHeader>
 		<band height="134">
 			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}>1]]></printWhenExpression>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" onErrorType="Blank" isUsingCache="true">
+				<reportElement x="5" y="10" width="100" height="75" uuid="071ef9ac-2fec-44b6-8902-cf2aed2a88f9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<box padding="1"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
 			<rectangle radius="1">
 				<reportElement positionType="Float" mode="Transparent" x="342" y="1" width="129" height="93" uuid="de977ea7-13a5-44c4-9145-50e4a69662f0">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -1881,7 +1890,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textElement>
 					<font size="5"/>
 				</textElement>
-				<text><![CDATA[NATUREZA DA OPERAÇAPAISAGEM]]></text>
+				<text><![CDATA[NATUREZA DA OPERAÇÃO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" mode="Transparent" x="2" y="115" width="56" height="6" uuid="bd15b475-13fe-4cb8-b639-d21164d4ef15"/>
@@ -2031,20 +2040,61 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="1" y="48" width="341" height="31" uuid="e93f0e64-979f-447c-ad1d-b32c1b4ab686"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="1" y="61" width="341" height="30" uuid="e93f0e64-979f-447c-ad1d-b32c1b4ab686">
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
 					<font size="8" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{emitEnderxCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxCpl},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF}) : String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="93" y="67" width="253" height="24" uuid="acc62c8a-d03b-11eb-b8bc-0242ac130003">
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emitEnderxCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxCpl},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF}) : String.format("%s, %s\n%s - %s\n%s-%s",$F{emitEnderxLgr},$F{emitEndernro},$F{emitEnderxBairro},$F{emitEnderCEP},$F{emitEnderxMun},$F{emitEnderUF})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1" y="47" width="341" height="12" uuid="ae1b201a-d066-11eb-b8bc-0242ac130003">
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="98" y="53" width="239" height="12" uuid="ae1b201a-d066-11eb-b8bc-0242ac130003">
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{headerInfo}]]></textFieldExpression>
+			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="1" y="32" width="341" height="14" uuid="4c51daa7-49ec-42c0-be32-9d7e95c999c7">
+				<reportElement positionType="Float" mode="Transparent" x="1" y="19" width="341" height="26" uuid="4c51daa7-49ec-42c0-be32-9d7e95c999c7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emitxNome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="103" y="19" width="239" height="28" uuid="b900d94e-d042-11eb-b8bc-0242ac130003">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{emitxNome}]]></textFieldExpression>
 			</textField>
@@ -2056,7 +2106,18 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textFieldExpression><![CDATA["Folha " + $V{PAGE_NUMBER} + "/"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="1" y="2" width="341" height="14" uuid="732fb301-4e01-44b2-a500-c86b3d159f55"/>
+				<reportElement positionType="Float" mode="Transparent" x="1" y="3" width="341" height="14" uuid="9add4906-d043-11eb-b8bc-0242ac130003">
+					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICAÇÃO DO EMITENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="103" y="3" width="239" height="14" uuid="732fb301-4e01-44b2-a500-c86b3d159f55">
+					<printWhenExpression><![CDATA[$P{logo} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
