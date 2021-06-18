@@ -1,29 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.sharing.adapters.dispatchFromFiscalDocument;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.utils.Certificate;
@@ -34,6 +11,8 @@ import eprecise.efiscal4j.nfe.broker.BrokerIndicator;
 import eprecise.efiscal4j.nfe.broker.WithBrokerOperation;
 import eprecise.efiscal4j.nfe.broker.WithoutBrokerOperation;
 import eprecise.efiscal4j.nfe.charging.Charging;
+import eprecise.efiscal4j.nfe.cnpAccessXml.CnpAccessXml;
+import eprecise.efiscal4j.nfe.cnpAccessXml.CpfAccessXml;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.consumer.SimpleConsumer;
 import eprecise.efiscal4j.nfe.emitter.CRT;
@@ -42,11 +21,7 @@ import eprecise.efiscal4j.nfe.emitter.documents.EmitterLegalEntityDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterMunicipalDocuments;
 import eprecise.efiscal4j.nfe.emitter.documents.EmitterNaturalPersonDocuments;
 import eprecise.efiscal4j.nfe.item.Item;
-import eprecise.efiscal4j.nfe.item.Item.ItemEan;
-import eprecise.efiscal4j.nfe.item.Item.ItemGrossValue;
-import eprecise.efiscal4j.nfe.item.Item.ItemQuantity;
-import eprecise.efiscal4j.nfe.item.Item.ItemUnitaryValue;
-import eprecise.efiscal4j.nfe.item.Item.ItemUnity;
+import eprecise.efiscal4j.nfe.item.Item.*;
 import eprecise.efiscal4j.nfe.item.Unity;
 import eprecise.efiscal4j.nfe.item.export.ItemExportDetail;
 import eprecise.efiscal4j.nfe.item.tax.ApproximateTax;
@@ -66,22 +41,12 @@ import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.retained.FcpStRetainedValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcReductionPercent;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.IcmsStWithBcValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBc;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcDeterminedPautaValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcMarginAddedValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcMaximumTabulatedOrSuggestedPrice;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcNegativeListValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcNeutralListValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.IcmsStBcPositiveListValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.st.value.bc.*;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.destination.IcmsStDestinationValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.value.retained.IcmsStRetainedValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcReductionPercent;
 import eprecise.efiscal4j.nfe.item.tax.icms.value.IcmsWithBcValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBc;
-import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcDeterminedPautaValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMarginAddedValue;
-import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcMaximumTabulatedPrice;
-import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.IcmsBcOperationValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.value.bc.*;
 import eprecise.efiscal4j.nfe.item.tax.ipi.generalData.IPIGeneralData;
 import eprecise.efiscal4j.nfe.item.tax.ipi.value.IpiValue;
 import eprecise.efiscal4j.nfe.item.tax.pis.aliquot.PisAliquotPercentWithBc;
@@ -102,16 +67,11 @@ import eprecise.efiscal4j.nfe.receiver.documents.ie.FreeTaxpayerReceiverIE;
 import eprecise.efiscal4j.nfe.receiver.documents.ie.NonTaxpayerReceiverIE;
 import eprecise.efiscal4j.nfe.receiver.documents.ie.ReceiverIE;
 import eprecise.efiscal4j.nfe.receiver.documents.ie.TaxpayerReceiverIE;
-import eprecise.efiscal4j.nfe.references.DocumentReference;
-import eprecise.efiscal4j.nfe.references.ReferenceToCTe;
-import eprecise.efiscal4j.nfe.references.ReferenceToECF;
+import eprecise.efiscal4j.nfe.references.*;
 import eprecise.efiscal4j.nfe.references.ReferenceToECF.ReferencedECFModel;
-import eprecise.efiscal4j.nfe.references.ReferenceToNF;
-import eprecise.efiscal4j.nfe.references.ReferenceToNFP;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFP.NfpCnpj;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFP.NfpCpf;
 import eprecise.efiscal4j.nfe.references.ReferenceToNFP.ProducerReferencedNFModel;
-import eprecise.efiscal4j.nfe.references.ReferenceToNFe;
 import eprecise.efiscal4j.nfe.serie.TransmissionEnvironment;
 import eprecise.efiscal4j.nfe.technicalManager.CSRT;
 import eprecise.efiscal4j.nfe.technicalManager.TechnicalManager;
@@ -124,24 +84,7 @@ import eprecise.efiscal4j.nfe.transport.mean.FerryTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.VehicleTowingTransportMean;
 import eprecise.efiscal4j.nfe.transport.mean.WagonTransportMean;
 import eprecise.efiscal4j.nfe.transport.places.address.PlaceAddress;
-import eprecise.efiscal4j.nfe.v400.DANFEPrintFormat;
-import eprecise.efiscal4j.nfe.v400.DestinationOperationIdentifier;
-import eprecise.efiscal4j.nfe.v400.FinalCustomerOperation;
-import eprecise.efiscal4j.nfe.v400.ItemValueComprisesTotal;
-import eprecise.efiscal4j.nfe.v400.Medications;
-import eprecise.efiscal4j.nfe.v400.NFe;
-import eprecise.efiscal4j.nfe.v400.NFeBrokerIndicator;
-import eprecise.efiscal4j.nfe.v400.NFeBrokerInfo;
-import eprecise.efiscal4j.nfe.v400.NFeDetail;
-import eprecise.efiscal4j.nfe.v400.NFeIdentification;
-import eprecise.efiscal4j.nfe.v400.NFeInfo;
-import eprecise.efiscal4j.nfe.v400.NFeItem;
-import eprecise.efiscal4j.nfe.v400.NFeItemScaleIndication;
-import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
-import eprecise.efiscal4j.nfe.v400.NFeTransmissionProcess;
-import eprecise.efiscal4j.nfe.v400.PurchaserPresenceIndicator;
-import eprecise.efiscal4j.nfe.v400.StateRegistrationReceiverIndicator;
-import eprecise.efiscal4j.nfe.v400.Trace;
+import eprecise.efiscal4j.nfe.v400.*;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.AdditionalInfo;
 import eprecise.efiscal4j.nfe.v400.additionalinfo.CustomizedObservation;
 import eprecise.efiscal4j.nfe.v400.address.Address;
@@ -149,6 +92,7 @@ import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.address.Country;
 import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXml;
 import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXmlCnpj;
+import eprecise.efiscal4j.nfe.v400.autXml.NFeAutXmlCpf;
 import eprecise.efiscal4j.nfe.v400.charging.Duplicate;
 import eprecise.efiscal4j.nfe.v400.charging.Invoice;
 import eprecise.efiscal4j.nfe.v400.charging.NFeCharging;
@@ -163,35 +107,21 @@ import eprecise.efiscal4j.nfe.v400.item.di.InternationalTransportPathway;
 import eprecise.efiscal4j.nfe.v400.item.export.NFeItemExportDetail;
 import eprecise.efiscal4j.nfe.v400.item.export.NFeItemIndirectExport;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
-import eprecise.efiscal4j.nfe.v400.payment.CardFlag;
-import eprecise.efiscal4j.nfe.v400.payment.CardSet;
-import eprecise.efiscal4j.nfe.v400.payment.NFePayment;
-import eprecise.efiscal4j.nfe.v400.payment.NFePaymentDetail;
-import eprecise.efiscal4j.nfe.v400.payment.PaymentIntegrationType;
-import eprecise.efiscal4j.nfe.v400.payment.PaymentMethod;
+import eprecise.efiscal4j.nfe.v400.payment.*;
 import eprecise.efiscal4j.nfe.v400.person.Emitter;
 import eprecise.efiscal4j.nfe.v400.person.Emitter.Builder;
 import eprecise.efiscal4j.nfe.v400.places.Place;
 import eprecise.efiscal4j.nfe.v400.places.PlaceCnp;
 import eprecise.efiscal4j.nfe.v400.places.PlaceCnpj;
 import eprecise.efiscal4j.nfe.v400.places.PlaceCpf;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ProducerReferencedNF;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF;
+import eprecise.efiscal4j.nfe.v400.refdocuments.*;
 import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedECF.ReferecedECFModel;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNF;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedNFModel;
 import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
 import eprecise.efiscal4j.nfe.v400.sharing.SynchronousProcessing;
 import eprecise.efiscal4j.nfe.v400.tax.Tax;
 import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINS;
 import eprecise.efiscal4j.nfe.v400.tax.cofins.COFINSST;
-import eprecise.efiscal4j.nfe.v400.tax.icms.BCModality;
-import eprecise.efiscal4j.nfe.v400.tax.icms.BCModalityST;
-import eprecise.efiscal4j.nfe.v400.tax.icms.ICMS;
-import eprecise.efiscal4j.nfe.v400.tax.icms.ICMSUFReceiver;
-import eprecise.efiscal4j.nfe.v400.tax.icms.InterstateICMSUFAliquot;
-import eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.v400.tax.icms.*;
 import eprecise.efiscal4j.nfe.v400.tax.icms.desoneration.ICMSDesonerationReason;
 import eprecise.efiscal4j.nfe.v400.tax.ii.II;
 import eprecise.efiscal4j.nfe.v400.tax.ipi.IPI;
@@ -200,15 +130,20 @@ import eprecise.efiscal4j.nfe.v400.tax.pis.PISST;
 import eprecise.efiscal4j.nfe.v400.technicalManager.NFeTechnicalManager;
 import eprecise.efiscal4j.nfe.v400.total.ICMSTotal;
 import eprecise.efiscal4j.nfe.v400.total.NFeTotal;
-import eprecise.efiscal4j.nfe.v400.transport.NFeTransport;
-import eprecise.efiscal4j.nfe.v400.transport.ShippingModality;
-import eprecise.efiscal4j.nfe.v400.transport.TransportICMSRetention;
-import eprecise.efiscal4j.nfe.v400.transport.TransportedVolume;
-import eprecise.efiscal4j.nfe.v400.transport.Vehicle;
-import eprecise.efiscal4j.nfe.v400.transport.VolumeSeal;
+import eprecise.efiscal4j.nfe.v400.transport.*;
 import eprecise.efiscal4j.nfe.v400.types.NFeDate;
 import eprecise.efiscal4j.nfe.version.NFeDispatchAdapterVersion;
 import eprecise.efiscal4j.signer.defaults.DefaultSigner;
+import org.apache.commons.lang3.StringUtils;
+
+import java.math.BigDecimal;
+import java.text.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVersion {
@@ -354,10 +289,20 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private List<NFeAutXml> buildAuthXml() {
         final UF emitterUf = this.getEmitterUf();
-        if (emitterUf.equals(UF.BA)) {
+        final List<NFeAutXml> listNfeAutXml = new ArrayList<>();
+        final Optional<Collection<CnpAccessXml>> cnpAccessXmls = Optional.ofNullable(fiscalDocument.getCnpAccessXmls());
+
+        cnpAccessXmls.ifPresent(x -> x.forEach(cnp -> {
+            if (cnp instanceof CpfAccessXml) {
+                listNfeAutXml.add(new NFeAutXmlCpf(cnp.getCnp()));
+            } else {
+                listNfeAutXml.add(new NFeAutXmlCnpj(cnp.getCnp()));
+            }
+        }));
+        if (emitterUf.equals(UF.BA) && listNfeAutXml.isEmpty()) {
             return Arrays.asList(new NFeAutXmlCnpj(BA_DEFAULT_CNPJ_AUT_XML));
         }
-        return Collections.emptyList();
+        return listNfeAutXml;
     }
 
     private NFeTechnicalManager buildNFeTechnicalManager() {
