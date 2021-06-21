@@ -12,6 +12,7 @@ import eprecise.efiscal4j.nfe.broker.WithBrokerOperation;
 import eprecise.efiscal4j.nfe.broker.WithoutBrokerOperation;
 import eprecise.efiscal4j.nfe.charging.Charging;
 import eprecise.efiscal4j.nfe.cnpAccessXml.CnpAccessXml;
+import eprecise.efiscal4j.nfe.cnpAccessXml.CnpjAccessXml;
 import eprecise.efiscal4j.nfe.cnpAccessXml.CpfAccessXml;
 import eprecise.efiscal4j.nfe.consumer.Consumer;
 import eprecise.efiscal4j.nfe.consumer.SimpleConsumer;
@@ -295,7 +296,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         cnpAccessXmls.ifPresent(x -> x.forEach(cnp -> {
             if (cnp instanceof CpfAccessXml) {
                 listNfeAutXml.add(new NFeAutXmlCpf(cnp.getCnp()));
-            } else {
+            } else if (cnp instanceof CnpjAccessXml) {
                 listNfeAutXml.add(new NFeAutXmlCnpj(cnp.getCnp()));
             }
         }));

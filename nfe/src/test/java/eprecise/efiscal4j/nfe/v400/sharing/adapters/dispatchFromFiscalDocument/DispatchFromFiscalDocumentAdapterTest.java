@@ -88,6 +88,19 @@ public class DispatchFromFiscalDocumentAdapterTest {
     }
 
     @Test
+    public void TwoCnpInformedOnBAStateAndNullElementsOnList() throws Exception {
+        final NFe nfe = new NFeDomainTest().getDefaultNFeBuilder().cnpAccessXmls(Arrays.asList(null, this.cnpjAccessXml, null, null, this.cpfAccessXml, null)).build();
+        final List<NFeAutXml> nFeAutXmls = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate).buildNFeDispatch().getnFes().stream().findFirst().get().getNFeInfo().getAutXml();
+        nFeAutXmls.forEach(nFeAutXml -> {
+            if(nFeAutXml instanceof NFeAutXmlCnpj){
+                Assert.assertEquals(((NFeAutXmlCnpj) nFeAutXml).getCnpj(), cnpjAccessXml.getCnp());
+            } else {
+                Assert.assertEquals(((NFeAutXmlCpf) nFeAutXml).getCpf(), cpfAccessXml.getCnp());
+            }
+        } );
+    }
+
+    @Test
     public void NoCnpInformedOnPRState() throws  Exception{
         final NFe nfe = new NFeDomainTest().getDefaultNFeBuilder().emitter(buildEmitterPR()).build();
         final List<NFeAutXml> nFeAutXmls = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate).buildNFeDispatch().getnFes().stream().findFirst().get().getNFeInfo().getAutXml();
@@ -112,6 +125,19 @@ public class DispatchFromFiscalDocumentAdapterTest {
     @Test
     public void TwoCnpInformedOnPRState() throws Exception {
         final NFe nfe = new NFeDomainTest().getDefaultNFeBuilder().emitter(buildEmitterPR()).cnpAccessXmls(Arrays.asList(this.cnpjAccessXml, this.cpfAccessXml)).build();
+        final List<NFeAutXml> nFeAutXmls = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate).buildNFeDispatch().getnFes().stream().findFirst().get().getNFeInfo().getAutXml();
+        nFeAutXmls.forEach(nFeAutXml -> {
+            if(nFeAutXml instanceof NFeAutXmlCnpj){
+                Assert.assertEquals(((NFeAutXmlCnpj) nFeAutXml).getCnp(), cnpjAccessXml.getCnp());
+            } else {
+                Assert.assertEquals(((NFeAutXmlCpf) nFeAutXml).getCpf(), cpfAccessXml.getCnp());
+            }
+        } );
+    }
+
+    @Test
+    public void TwoCnpInformedOnPRStateAndNullElementsOnList() throws Exception {
+        final NFe nfe = new NFeDomainTest().getDefaultNFeBuilder().emitter(buildEmitterPR()).cnpAccessXmls(Arrays.asList(null, this.cnpjAccessXml, null, null, this.cpfAccessXml, null)).build();
         final List<NFeAutXml> nFeAutXmls = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate).buildNFeDispatch().getnFes().stream().findFirst().get().getNFeInfo().getAutXml();
         nFeAutXmls.forEach(nFeAutXml -> {
             if(nFeAutXml instanceof NFeAutXmlCnpj){
