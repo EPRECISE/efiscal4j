@@ -638,7 +638,7 @@ ICMS ST]]></text>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{produtoDescricao}.length() > 43 ? $F{produtoDescricao}.substring(0,43) + "..." : $F{produtoDescricao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produtoDescricao}]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="685" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="edd097b3-8afb-4039-a012-4e58b9420449">
