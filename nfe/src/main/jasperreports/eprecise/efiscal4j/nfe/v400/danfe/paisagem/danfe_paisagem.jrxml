@@ -1587,7 +1587,7 @@ www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
 				<textElement>
 					<font size="5"/>
 				</textElement>
-				<text><![CDATA[V. TOT. TRIB.]]></text>
+				<text><![CDATA[V. APROX. TRIB.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" mode="Transparent" x="577" y="265" width="80" height="6" uuid="9faa5d3a-7d66-47e5-bbe0-dd75efd844c9"/>
