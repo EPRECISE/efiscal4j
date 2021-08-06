@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
+import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrIdentifier;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrServiceProvider;
 import eprecise.efiscal4j.nfse.tc.govbr.v203.lot.statements.GovbrStatementProvisionService;
@@ -76,6 +77,13 @@ public class GovbrNFSe extends ProcessedNFSe {
                 name = "DeclaracaoPrestacaoServico") GovbrStatementProvisionService statementProvisionService;
         
         private @Getter @XmlElement(name = "Signature") SignatureType signature;
+    }
+    
+    @Override
+    public String getProviderCnp() {
+        return Optional.ofNullable(info).map(GovbrNFSeInfo::getStatementProvisionService).map(GovbrStatementProvisionService::getInfo)
+                .map(GovbrStatementProvisionService.GovbrStatementProvisionServiceInfo::getServiceProviderIdentifier)
+                .map(GovbrIdentifier::getCnp).map(CommonsNFSeCnp::getCnp).orElse(null);
     }
 
     @Override

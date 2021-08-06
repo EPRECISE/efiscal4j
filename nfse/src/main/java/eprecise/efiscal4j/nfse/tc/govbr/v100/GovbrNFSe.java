@@ -115,6 +115,11 @@ public class GovbrNFSe extends ProcessedNFSe {
     public CommonsGeneratorOrgan getGeneratorOrgan() {
         return Optional.ofNullable(info).map(i -> i.getGeneratorOrgan()).orElse(null);
     }
+    
+    @Override
+    public String getProviderCnp() {
+        return Optional.ofNullable(info).map(i -> i.getServiceProvider().getIdentifier().getCnpj()).orElse(null);
+    }
 
     @Override
     public String getProviderIm() {

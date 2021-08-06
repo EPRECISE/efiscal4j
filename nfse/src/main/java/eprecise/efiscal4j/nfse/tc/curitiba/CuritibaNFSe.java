@@ -45,19 +45,19 @@ import lombok.RequiredArgsConstructor;
 public class CuritibaNFSe extends ProcessedNFSe {
 
     private static final long serialVersionUID = 1L;
-    
+
     public static final DateFormat EMISSION_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private final @XmlElement(name = "InfNfse") @NotNull CuritibaNFSeInfo info;
-    
+
     @Override
     public String getNumber() {
-        return Optional.ofNullable(info).map(i -> i.getNumber()).orElse(null);
+        return Optional.ofNullable(this.info).map(CuritibaNFSeInfo::getNumber).orElse(null);
     }
 
     @Override
     public String getVerificationCode() {
-        return Optional.ofNullable(info).map(i -> i.getVerificationCode()).orElse(null);
+        return Optional.ofNullable(this.info).map(CuritibaNFSeInfo::getVerificationCode).orElse(null);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CuritibaNFSe extends ProcessedNFSe {
 
     @Override
     public Date getEmissionDate() {
-        return Optional.ofNullable(info).map(i -> i.getEmissionDate()).map(t -> {
+        return Optional.ofNullable(this.info).map(CuritibaNFSeInfo::getEmissionDate).map(t -> {
             try {
                 return CuritibaNFSeDomainAdapter.NFSE_DATETIME_FORMAT.parse(t);
             } catch (final ParseException e) {
@@ -82,17 +82,28 @@ public class CuritibaNFSe extends ProcessedNFSe {
 
     @Override
     public RpsIdentifier getRpsIdentifier() {
-        return Optional.ofNullable(info).map(i -> i.getRpsIdentifier()).orElse(null);
+        return Optional.ofNullable(this.info).map(CuritibaNFSeInfo::getRpsIdentifier).orElse(null);
     }
 
     @Override
     public CommonsGeneratorOrgan getGeneratorOrgan() {
-        return Optional.ofNullable(info).map(i -> i.getGeneratorOrgan()).orElse(null);
+        return Optional.ofNullable(this.info).map(CuritibaNFSeInfo::getGeneratorOrgan).orElse(Optional.ofNullable(this.info).map(i -> i.getServiceProvider().getAddress()).map(address -> {
+            try {
+                return new CommonsGeneratorOrgan.Builder().withUf(address.getUf()).withCityCode(address.getCityCode()).build();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).orElse(null));
+    }
+
+    @Override
+    public String getProviderCnp() {
+        return Optional.ofNullable(this.info).map(i -> i.getServiceProvider().getIdentifier().getCnpj()).orElse(null);
     }
 
     @Override
     public String getProviderIm() {
-        return Optional.ofNullable(info).map(i -> i.getServiceProvider().getIdentifier().getMunicipalRegistration()).orElse(null);
+        return Optional.ofNullable(this.info).map(i -> i.getServiceProvider().getIdentifier().getMunicipalRegistration()).orElse(null);
     }
 
     @Builder
@@ -139,7 +150,7 @@ public class CuritibaNFSe extends ProcessedNFSe {
         private final @NotNull @XmlElement(name = "OrgaoGerador") CommonsGeneratorOrgan generatorOrgan;
 
         private final @XmlElement(name = "ConstrucaoCivil") CuritibaServiceConstruction construction;
-        
+
     }
 
 }
