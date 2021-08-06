@@ -13,6 +13,8 @@ public abstract class ProcessedNFSe implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public abstract String getProviderCnp();
+
     public abstract String getProviderIm();
 
     public abstract String getNumber();
