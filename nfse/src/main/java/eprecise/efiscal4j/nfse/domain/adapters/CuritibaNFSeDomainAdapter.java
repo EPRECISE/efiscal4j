@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfse.domain.adapters;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -15,10 +16,12 @@ import org.apache.commons.lang3.StringUtils;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.domain.NFSe;
 import eprecise.efiscal4j.nfse.domain.person.address.NFSeAddress;
+import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
 import eprecise.efiscal4j.nfse.domain.person.contact.NFSeContact;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeDocuments;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeLegalEntityDocuments;
 import eprecise.efiscal4j.nfse.domain.person.documents.NFSeNaturalPersonDocuments;
+import eprecise.efiscal4j.nfse.domain.service.NFSeService;
 import eprecise.efiscal4j.nfse.domain.service.withheld.NFSeWithIssHeld;
 import eprecise.efiscal4j.nfse.domain.specificData.curitiba.NFSeCuritibaData;
 import eprecise.efiscal4j.nfse.tc.cancel.NFSeCancellationRequestData;
@@ -54,7 +57,7 @@ import eprecise.efiscal4j.signer.defaults.DefaultSigner;
 
 public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
 
-    private static final DecimalFormat NFSE_TWO_DECIMALS_FORMAT = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
+    private static final DecimalFormat NFSE_TWO_DECIMALS_FORMAT = new DecimalFormat("##0.0000", new DecimalFormatSymbols(Locale.ENGLISH));
 
     public static final DateFormat NFSE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -159,7 +162,7 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
                 .itemServiceList(this.nfse.getService().getNationalServiceCode())
                 .cnaeCode(this.nfse.getService().getCnaeCode())
                 .assessmentCityCode(this.nfse.getService().getCnaeCode()) //TODO REVER
-                .discrimination(Optional.ofNullable(this.nfse.getService()).map(s->s.getDiscrimination()).map(StringUtils::stripAccents).orElse(null))
+                .discrimination(Optional.ofNullable(this.nfse.getService()).map(NFSeService::getDiscrimination).map(StringUtils::stripAccents).orElse(null))
                 .cityCode(this.nfse.getService().getCityService().getIbgeCode()).build();
 
     }
@@ -261,7 +264,7 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
             .withAddress(address.getStreet())
             .withNumber(address.getNumber())
             .withDistrict(address.getDistrict())
-            .withCityCode(Optional.ofNullable(address.getCity()).map(a->a.getIbgeCode()).orElse(null))
+            .withCityCode(Optional.ofNullable(address.getCity()).map(NFSeCity::getIbgeCode).orElse(null))
             .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))
             .withCep(address.getZipCode())
             .build();
@@ -271,9 +274,7 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private String formatNfseString(final String input, final int size) {
         return Optional.ofNullable(StringUtils.upperCase(StringUtils.stripAccents(this.abbreviate(this.nullIfEmpty(input), size))))
-                .map(string -> {
-                    return string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ");
-                }).orElse(null);
+                .map(string -> string.replaceAll("\n", "  ").replaceAll("\r", "  ").replace("\t", "  ")).orElse(null);
     }
 
     private String abbreviate(final String input, final int size) {
@@ -304,7 +305,7 @@ public class CuritibaNFSeDomainAdapter implements NFSeDomainAdapter {
         if (value == null) {
             return null;
         } else {
-            return NFSE_TWO_DECIMALS_FORMAT.format(value);
+            return NFSE_TWO_DECIMALS_FORMAT.format(value.setScale(4).divide(new BigDecimal(100), RoundingMode.HALF_UP));
         }
 
     }
