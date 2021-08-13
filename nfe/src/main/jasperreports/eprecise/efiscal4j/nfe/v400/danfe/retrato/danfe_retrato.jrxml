@@ -1535,11 +1535,6 @@
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
-			<subreport>
-				<reportElement x="2" y="100" width="382" height="23" uuid="c8186cc7-6539-4739-bd6c-2d377465246a"/>
-				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).dataSource("/nfeProc/NFe/infNFe/infAdic/obsCont")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{danfe_retrato_obscont}]]></subreportExpression>
-			</subreport>
 			<textField isBlankWhenNull="true">
 				<reportElement x="389" y="48" width="148" height="75" uuid="3fc4248f-8d9a-4599-a129-a38dd740d55e"/>
 				<textElement>
