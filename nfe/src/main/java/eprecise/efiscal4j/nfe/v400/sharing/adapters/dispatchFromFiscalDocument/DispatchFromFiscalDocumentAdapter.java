@@ -291,7 +291,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     private List<NFeAutXml> buildAuthXml() {
         final UF emitterUf = this.getEmitterUf();
         final List<NFeAutXml> listNfeAutXml = new ArrayList<>();
-        final Optional<Collection<CnpAccessXml>> cnpAccessXmls = Optional.ofNullable(fiscalDocument.getCnpAccessXmls());
+        final Optional<Collection<CnpAccessXml>> cnpAccessXmls = Optional.ofNullable(this.fiscalDocument.getCnpAccessXmls());
 
         cnpAccessXmls.ifPresent(x -> x.forEach(cnp -> {
             if (cnp instanceof CpfAccessXml) {
@@ -628,6 +628,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
         if((payment.getDetails() != null) && !payment.getDetails().isEmpty()) {
             return payment.getDetails().stream().map(pd -> new NFePaymentDetail.Builder()
                     .withPaymentMethod(Optional.ofNullable(pd.getMethod()).map(pm -> PaymentMethod.findByCode(pm.getValue())).orElse(null))
+                    .withPaymentMethodDescription(Optional.ofNullable(pd.getMethod()).filter(eprecise.efiscal4j.nfe.payment.PaymentMethod.OUTROS::equals).map(eprecise.efiscal4j.nfe.payment.PaymentMethod::getDescription).orElse(null))
                     .withPaymentValue(this.formatNFeDecimal1302(pd.getValue()))
                     .withCardSet(Optional.ofNullable(pd.getCardSet()).map(cs -> new CardSet.Builder()
                             .withPaymentIntegrationType(Optional.ofNullable(cs.getIntegration()).map(csi -> PaymentIntegrationType.findByCode(csi.getValue())).orElse(null))
