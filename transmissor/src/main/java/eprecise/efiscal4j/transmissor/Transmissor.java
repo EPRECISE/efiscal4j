@@ -13,6 +13,7 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
@@ -107,7 +108,15 @@ public class Transmissor {
         return this.transmit(requestSoapEnvelope, serviceUrl, new HashMap<>());
     }
 
+    public String transmit(final String requestSoapEnvelope, final String serviceUrl, final String action) {
+        return this.transmit(requestSoapEnvelope, serviceUrl, action, new HashMap<>());
+    }
+
     public String transmit(final String requestSoapEnvelope, final String serviceUrl, final Map<String, String> requestProperties) {
+        return this.transmit(requestSoapEnvelope, serviceUrl, null, requestProperties);
+    }
+
+    public String transmit(final String requestSoapEnvelope, final String serviceUrl, final String action, final Map<String, String> requestProperties) {
 
         try {
             final URL url = new URL(serviceUrl);
@@ -125,15 +134,22 @@ public class Transmissor {
             httpConnection.setUseCaches(false);
             httpConnection.setRequestMethod("POST");
 
+            if (action != null) {
+                httpConnection.setRequestProperty("SOAPAction", action);
+            }
+
             requestProperties.forEach((key, value) -> {
                 httpConnection.setRequestProperty(key, value);
             });
 
             this.logger.info("Protocol: " + this.protocol);
+            this.logger.info("Action: " + action);
+
+            final String actionProperty = Optional.ofNullable(action).map(it -> new StringBuilder("action=\"").append(it).append("\"")).map(StringBuilder::toString).orElse("");
             if (this.protocol.equals("SSL")) {
-                httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+                httpConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8; ".concat(actionProperty));
             } else {
-                httpConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
+                httpConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8; ".concat(actionProperty));
             }
             httpConnection.connect();
 
@@ -150,6 +166,7 @@ public class Transmissor {
             this.logger.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
+
     }
 
     private void sendRequest(final HttpURLConnection connection, final String envelopeXML) throws IOException {

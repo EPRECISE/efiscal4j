@@ -104,7 +104,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(nfeDispatch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -154,7 +154,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(serviceStatusSearch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -186,7 +186,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(batchReceiptSearch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRetAutorizacao4/nfeRetAutorizacaoLote"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRetAutorizacao4/nfeRetAutorizacaoLote");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -230,7 +230,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -266,7 +266,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(eventDispatch).serialize();
 
         String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -310,8 +310,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4\"", "")
                 .replaceAll("xmlns:ns[0-9]{1}=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4\" ", "");
 
-        final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, ImmutableMap.of("SOAPAction",
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF"));
+        final String responseXml = this.transmissor.transmit(requestXml, serviceUrl, "http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEventoNF");
 
         return new TypedTransmissionResult<>(EventDispatch.class, RecipientManifestationResponseMethod.class,
                 new FiscalDocumentSerializer<>(eventDispatch).serialize(),this.postProcessReceiptManifestationResponseXML(responseXml));
@@ -355,8 +354,8 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeStatusSearch).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl, ImmutableMap.of("SOAPAction",
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4/nfeConsultaNF"));
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4/nfeConsultaNF");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -402,8 +401,8 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeNumberDisable).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl, ImmutableMap.of("SOAPAction",
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"));
+        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF");
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -452,8 +451,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String serializedSoapEnvelope = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
 
-        String responseXml = this.transmissor.transmit(serializedSoapEnvelope, serviceUrl,
-                ImmutableMap.of("SOAPAction", "http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe/nfeDistDFeInteresse"));
+        String responseXml = this.transmissor.transmit(serializedSoapEnvelope, serviceUrl,"http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe/nfeDistDFeInteresse");
 
         responseXml = this.postProcessNFeDeliveryDFeResponseXML(responseXml);
 
