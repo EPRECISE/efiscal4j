@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnpj;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCpf;
@@ -22,15 +24,15 @@ public class NFSeCnpAdapter extends XmlAdapter<NFSeCnpAdapter.AdaptedCnp, Common
             return null;
         }
         //@formatter:off
-        
-        if(adaptedCnp.getAdaptedCnpj() != null){
+
+        if(StringUtils.isNotBlank(adaptedCnp.getAdaptedCnpj())){
             return new CommonsNFSeCnpj.Builder().withCnpj(adaptedCnp.getAdaptedCnpj()).build();
-        } else if(adaptedCnp.getAdaptedCpf() != null){
+        } else if(StringUtils.isNotBlank(adaptedCnp.getAdaptedCpf())){
             return new CommonsNFSeCpf.Builder().withCpf(adaptedCnp.getAdaptedCpf()).build();
         } else {
-            throw new IllegalStateException();
+            return null;
         }
-        
+
         //@formatter:on
     }
 
@@ -68,11 +70,11 @@ public class NFSeCnpAdapter extends XmlAdapter<NFSeCnpAdapter.AdaptedCnp, Common
         }
 
         public String getAdaptedCnpj() {
-            return cnpj;
+            return this.cnpj;
         }
 
         public String getAdaptedCpf() {
-            return cpf;
+            return this.cpf;
         }
 
         public void setAdaptedCnpj(final String cnpj) {
