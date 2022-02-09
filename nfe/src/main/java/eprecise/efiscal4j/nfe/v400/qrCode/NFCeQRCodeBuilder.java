@@ -1,17 +1,25 @@
 
 package eprecise.efiscal4j.nfe.v400.qrCode;
 
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
 import eprecise.efiscal4j.nfe.v400.NFe;
+import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.v400.danfe.JasperDanfeNfceUrlPath;
 import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 
 
 public class NFCeQRCodeBuilder {
+
+    private static final DateFormat NFE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     private final NFe nfe;
 
@@ -33,8 +41,18 @@ public class NFCeQRCodeBuilder {
         .append("|")
         .append(this.getNFCeVersion())
         .append("|")
-        .append(this.getEnvironment())
-        .append("|")
+        .append(this.getEnvironment());
+
+        if(this.nfe.getNFeInfo().getnFeIdentification().getnFeTransmissionMethod().equals(NFeTransmissionMethod.CONTINGENCIA_OFF_LINE_NFCE)) {
+            params.append("|")
+            .append(this.getEmissionDay())
+            .append("|")
+            .append(this.getNFeTotalValue())
+            .append("|")
+            .append(this.getDigestValue());
+        }
+
+        params.append("|")
         .append(this.getCIdToken());
 
         final String qrCodeSha1 = Hashing.sha1().hashString(new StringBuilder(params.toString()).append(this.getCsc()).toString(), Charsets.UTF_8).toString();
@@ -67,6 +85,31 @@ public class NFCeQRCodeBuilder {
      */
     private String getEnvironment() {
         return new Integer(this.nfe.getNFeInfo().getnFeIdentification().getTransmissionEnvironment().getValue()).toString();
+    }
+
+    private String getEmissionDay() {
+        return this.nfe.getNFeInfo().getnFeIdentification().getEmissionDateTime().substring(8, 10);
+    }
+
+    private String getNFeTotalValue() {
+        return this.nfe.getNFeInfo().getnFeTotal().getIcmsTotal().getNfeTotalValue();
+    }
+
+    private String getDigestValue() {
+        return this.getHex(Base64.getEncoder().encodeToString(this.nfe.getSignature().getSignedInfo().getReference().getDigestValue()).getBytes());
+    }
+
+    private String getHex(byte[] bytes) {
+        StringBuilder s = new StringBuilder();
+        for (byte aByte : bytes) {
+            int up = ((aByte >> 4) & 0xf) << 4;
+            int down = aByte & 0xf;
+            if (up == 0) {
+                s.append('0');
+            }
+            s.append(Integer.toHexString(up | down));
+        }
+        return s.toString();
     }
 
     /*

@@ -62,12 +62,16 @@ public class NFeIdentification implements Serializable {
     private @XmlElement(name = "indFinal") @NotNull final FinalCustomerOperation finalCustomerOperation;
 
     private @XmlElement(name = "indPres") @NotNull final PurchaserPresenceIndicator purchaserPresenceIndicator;
-    
+
     private @XmlElement(name = "indIntermed") final NFeBrokerIndicator brokerIndicator;
 
     private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
 
     private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @NFeString final String applicationVersion;
+
+    private @XmlElement(name = "dhCont") @NFeDateTimeUTC final String contingencyEntryDateTime;
+
+    private @XmlElement(name = "xJust") @Size(min = 15, max = 256) @NFeString final String contingencyEntryJustification;
 
     private @XmlElement(name = "NFref") @Size(max = 500) @Valid final List<ReferencedDocuments> referencedDocuments;
 
@@ -98,7 +102,7 @@ public class NFeIdentification implements Serializable {
         private DANFEPrintFormat danfePrintFormat;
 
         private NFeTransmissionMethod nFeTransmissionMethod;
-        
+
         private String checksum;
 
         private TransmissionEnvironment transmissionEnvironment;
@@ -108,12 +112,16 @@ public class NFeIdentification implements Serializable {
         private FinalCustomerOperation finalCustomerOperation;
 
         private PurchaserPresenceIndicator purchaserPresenceIndicator;
-        
+
         private NFeBrokerIndicator brokerIndicator;
 
         private NFeTransmissionProcess nFeTransmissionProcess;
 
         private String applicationVersion;
+
+        private String contingencyEntryDateTime;
+
+        private String contingencyEntryJustification;
 
         private List<ReferencedDocuments> referencedDocuments;
 
@@ -139,7 +147,7 @@ public class NFeIdentification implements Serializable {
 
         /**
          * Serie Normal 0-889 Avulsa Fisco 890-899 SCAN 900-999
-         * 
+         *
          * @param fiscalDocumentSeries
          * @return
          */
@@ -187,7 +195,7 @@ public class NFeIdentification implements Serializable {
             this.nFeTransmissionMethod = nFeTransmissionMethod;
             return this;
         }
-        
+
         public Builder withChecksum(String checksum) {
             this.checksum = checksum;
             return this;
@@ -212,7 +220,7 @@ public class NFeIdentification implements Serializable {
             this.purchaserPresenceIndicator = purchaserPresenceIndicator;
             return this;
         }
-        
+
         public Builder withBrokerIndicator(NFeBrokerIndicator brokerIndicator) {
             this.brokerIndicator = brokerIndicator;
             return this;
@@ -225,6 +233,16 @@ public class NFeIdentification implements Serializable {
 
         public Builder withApplicationVersion(String applicationVersion) {
             this.applicationVersion = applicationVersion;
+            return this;
+        }
+
+        public Builder withContingencyEntryDateTime(String contingencyEntryDateTime) {
+            this.contingencyEntryDateTime = contingencyEntryDateTime;
+            return this;
+        }
+
+        public Builder withContingencyEntryJustification(String contingencyEntryJustification) {
+            this.contingencyEntryJustification = contingencyEntryJustification;
             return this;
         }
 
@@ -263,6 +281,8 @@ public class NFeIdentification implements Serializable {
         this.brokerIndicator = null;
         this.nFeTransmissionProcess = null;
         this.applicationVersion = null;
+        this.contingencyEntryDateTime = null;
+        this.contingencyEntryJustification = null;
         this.referencedDocuments = null;
     }
 
@@ -288,6 +308,8 @@ public class NFeIdentification implements Serializable {
         this.brokerIndicator = builder.brokerIndicator;
         this.nFeTransmissionProcess = builder.nFeTransmissionProcess;
         this.applicationVersion = builder.applicationVersion;
+        this.contingencyEntryDateTime = builder.contingencyEntryDateTime;
+        this.contingencyEntryJustification = builder.contingencyEntryJustification;
         this.referencedDocuments = builder.referencedDocuments;
     }
 
@@ -358,7 +380,7 @@ public class NFeIdentification implements Serializable {
     public PurchaserPresenceIndicator getPurchaserPresenceIndicator() {
         return this.purchaserPresenceIndicator;
     }
-    
+
     public NFeBrokerIndicator getBrokerIndicator() {
         return this.brokerIndicator;
     }
@@ -371,12 +393,20 @@ public class NFeIdentification implements Serializable {
         return this.applicationVersion;
     }
 
+    public String getContingencyEntryDateTime() {
+        return this.contingencyEntryDateTime;
+    }
+
+    public String getContingencyEntryJustification() {
+        return this.contingencyEntryJustification;
+    }
+
     public List<ReferencedDocuments> getReferencedDocuments() {
         return this.referencedDocuments;
     }
 
     public String getEntranceOrExitDateTime() {
-        return entranceOrExitDateTime;
+        return this.entranceOrExitDateTime;
     }
 
 }
