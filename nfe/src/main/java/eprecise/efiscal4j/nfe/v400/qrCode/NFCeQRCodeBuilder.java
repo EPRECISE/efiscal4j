@@ -19,8 +19,6 @@ import eprecise.efiscal4j.nfe.v400.nfce.CSC;
 
 public class NFCeQRCodeBuilder {
 
-    private static final DateFormat NFE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
-
     private final NFe nfe;
 
     private final CSC csc;
