@@ -40,12 +40,12 @@ public class NFeBuildAllCacerts {
 
     public static void main(final String[] args) {
         try {
-            // if (args[0] == null) {
-            // System.out.println("Não foi definido o caminho e nome do certificado cacerts. Abortando operação.");
-            // return;
-            // }
+			if (args[0] == null) {
+				System.out.println("Não foi definido o caminho e nome do certificado cacerts. Abortando operação.");
+				return;
+			}
 
-            final NFeBuildAllCacerts buildCacerts = new NFeBuildAllCacerts("/home/fernando/NFeCacerts.jks");
+            final NFeBuildAllCacerts buildCacerts = new NFeBuildAllCacerts(args[0]);
             buildCacerts.load();
             buildCacerts.info("Certificate sucessfully generated in " + buildCacerts.getJsseCacerts());
 
@@ -72,43 +72,28 @@ public class NFeBuildAllCacerts {
         ks.load(in, this.passphrase);
         in.close();
 
-        /**
-         * Homologação: NF-e
-         */
+		//NFE HOMOLOGACAO
         this.get("homnfe.sefaz.am.gov.br", 443, ks);
         this.get("hnfe.sefaz.ba.gov.br", 443, ks);
         this.get("nfeh.sefaz.ce.gov.br", 443, ks);
+        this.get("app.sefaz.es.gov.br", 443, ks);
         this.get("homolog.sefaz.go.gov.br", 443, ks);
+        this.get("sistemas.sefaz.ma.gov.br", 443, ks);
         this.get("hnfe.fazenda.mg.gov.br", 443, ks);
         this.get("hom.nfe.sefaz.ms.gov.br", 443, ks);
         this.get("homologacao.sefaz.mt.gov.br", 443, ks);
         this.get("nfehomolog.sefaz.pe.gov.br", 443, ks);
         this.get("homologacao.nfe.sefa.pr.gov.br", 443, ks);
         this.get("nfe-homologacao.sefazrs.rs.gov.br", 443, ks);
+        this.get("cad.sefazrs.rs.gov.br", 443, ks);
         this.get("homologacao.nfe.fazenda.sp.gov.br", 443, ks);
         this.get("hom.sefazvirtual.fazenda.gov.br", 443, ks);
         this.get("nfe-homologacao.svrs.rs.gov.br", 443, ks);
+        this.get("cad.svrs.rs.gov.br", 443, ks);
         this.get("hom.svc.fazenda.gov.br", 443, ks);
         this.get("hom.nfe.fazenda.gov.br", 443, ks);
 
-        /**
-         * Homologação: NFC-e
-         */
-        this.get("homnfce.sefaz.am.gov.br", 443, ks);
-        this.get("nfceh.sefaz.ce.gov.br", 443, ks);
-        this.get("homolog.sefaz.go.gov.br", 443, ks);
-        this.get("hnfce.fazenda.mg.gov.br", 443, ks);
-        this.get("hom.nfce.sefaz.ms.gov.br", 443, ks);
-        this.get("homologacao.sefaz.mt.gov.br", 443, ks);
-        this.get("nfce-homologacao.svrs.rs.gov.br", 443, ks);
-        this.get("homologacao.nfce.sefa.pr.gov.br", 443, ks);
-        this.get("nfce-homologacao.sefazrs.rs.gov.br", 443, ks);
-        this.get("homologacao.nfce.fazenda.sp.gov.br", 443, ks);
-        this.get("nfce-homologacao.svrs.rs.gov.br", 443, ks);
-
-        /**
-         * Produção: NF-e
-         */
+        // NFE PRODUCAO
         this.get("nfe.sefaz.am.gov.br", 443, ks);
         this.get("nfe.sefaz.ba.gov.br", 443, ks);
         this.get("nfe.sefaz.ce.gov.br", 443, ks);
@@ -121,24 +106,67 @@ public class NFeBuildAllCacerts {
         this.get("nfe.sefazrs.rs.gov.br", 443, ks);
         this.get("nfe.fazenda.sp.gov.br", 443, ks);
         this.get("www.sefazvirtual.fazenda.gov.br", 443, ks);
-        this.get("www.svc.fazenda.gov.br", 443, ks);
         this.get("nfe.svrs.rs.gov.br", 443, ks);
+        this.get("www.svc.fazenda.gov.br", 443, ks);
         this.get("www.nfe.fazenda.gov.br", 443, ks);
+        this.get("www1.nfe.fazenda.gov.br", 443, ks);
 
-        /**
-         * Produção: NFC-e
-         */
+        // NFCE HOMOLOGACAO
+        this.get("homnfce.sefaz.am.gov.br", 443, ks);
+        this.get("nfceh.sefaz.ce.gov.br", 443, ks);
+        this.get("hom.nfce.sefaz.ms.gov.br", 443, ks);
+        this.get("hnfce.fazenda.mg.gov.br", 443, ks);
+        this.get("nfcehomolog.sefaz.pe.gov.br", 443, ks);
+        this.get("homologacao.nfce.sefa.pr.gov.br", 443, ks);
+        this.get("nfce-homologacao.sefazrs.rs.gov.br", 443, ks);
+        this.get("homologacao.nfce.fazenda.sp.gov.br", 443, ks);
+        this.get("nfce-homologacao.svrs.rs.gov.br", 443, ks);
+
+        // NFCE PRODUCAO
         this.get("nfce.sefaz.am.gov.br", 443, ks);
-        this.get("nfce.sefaz.ce.gov.br", 443, ks);
-        this.get("nfe.sefaz.go.gov.br", 443, ks);
-        this.get("nfce.fazenda.mg.gov.br", 443, ks);
         this.get("nfce.sefaz.ms.gov.br", 443, ks);
+        this.get("nfce.fazenda.mg.gov.br", 443, ks);
         this.get("nfce.sefaz.mt.gov.br", 443, ks);
-        this.get("nfce.svrs.rs.gov.br", 443, ks);
+        this.get("nfce.sefaz.pe.gov.br", 443, ks);
         this.get("nfce.sefa.pr.gov.br", 443, ks);
         this.get("nfce.sefazrs.rs.gov.br", 443, ks);
         this.get("nfce.fazenda.sp.gov.br", 443, ks);
         this.get("nfce.svrs.rs.gov.br", 443, ks);
+
+        // CTE HOMOLOGACAO
+        this.get("hcte.fazenda.mg.gov.br", 443, ks);
+        this.get("homologacao.cte.ms.gov.br", 443, ks);
+        this.get("homologacao.cte.fazenda.pr.gov.br", 443, ks);
+        this.get("cte-homologacao.svrs.rs.gov.br", 443, ks);
+        this.get("hom1.cte.fazenda.gov.br", 443, ks);
+
+        // CTE PRODUCAO
+        this.get("cte.fazenda.mg.gov.br", 443, ks);
+        this.get("producao.cte.ms.gov.br", 443, ks);
+        this.get("cte.sefaz.mt.gov.br", 443, ks);
+        this.get("cte.fazenda.pr.gov.br", 443, ks);
+        this.get("cte.svrs.rs.gov.br", 443, ks);
+        this.get("www1.cte.fazenda.gov.br", 443, ks);
+
+        //MDFE HOMOLOGACAO
+        this.get("mdfe-homologacao.svrs.rs.gov.br", 443, ks);
+
+        //MDFE PRODUCAO
+        this.get("mdfe.svrs.rs.gov.br", 443, ks);
+
+        //eSOCIAL Homologação
+        this.get("webservices.producaorestrita.esocial.gov.br", 443, ks);
+
+        //eSOCIAL Produção
+        this.get("webservices.download.esocial.gov.br", 443, ks);
+        this.get("webservices.consulta.esocial.gov.br", 443, ks);
+        this.get("webservices.envio.esocial.gov.br", 443, ks);
+
+        //EFD-REINF Homologação
+        this.get("preprodefdreinf.receita.fazenda.gov.br", 443, ks);
+
+        //EFD-REINF Produção
+        this.get("reinf.receita.fazenda.gov.br", 443, ks);
 
         final File cafile = new File(this.getJsseCacerts());
         final OutputStream out = new FileOutputStream(cafile);
@@ -178,19 +206,19 @@ public class NFeBuildAllCacerts {
         final X509Certificate[] chain = savingTrustManager.chain;
         if (chain == null) {
             this.info("| Could not obtain server certificate chain");
-        }
-
-        this.info("| Server sent " + chain.length + " certificate(s):");
-        final MessageDigest sha1 = MessageDigest.getInstance("SHA1");
-        final MessageDigest md5 = MessageDigest.getInstance("MD5");
-        for (int i = 0; i < chain.length; i++) {
-            final X509Certificate cert = chain[i];
-            sha1.update(cert.getEncoded());
-            md5.update(cert.getEncoded());
-
-            final String alias = host + "-" + (i);
-            ks.setCertificateEntry(alias, cert);
-            this.info("| Added certificate to keystore '" + this.getJsseCacerts() + "' using alias '" + alias + "'");
+        } else {
+	        this.info("| Server sent " + chain.length + " certificate(s):");
+	        final MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+	        final MessageDigest md5 = MessageDigest.getInstance("MD5");
+	        for (int i = 0; i < chain.length; i++) {
+	            final X509Certificate cert = chain[i];
+	            sha1.update(cert.getEncoded());
+	            md5.update(cert.getEncoded());
+	
+	            final String alias = host + "-" + (i);
+	            ks.setCertificateEntry(alias, cert);
+	            this.info("| Added certificate to keystore '" + this.getJsseCacerts() + "' using alias '" + alias + "'");
+	        }
         }
     }
 
