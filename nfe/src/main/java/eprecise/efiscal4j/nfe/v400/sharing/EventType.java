@@ -31,7 +31,9 @@ public enum EventType implements Serializable {
                                                @XmlEnumValue("110110")
                                                CCE("110110", "Carta de Correcao", "Carta de Correção Eletrônica"),
                                                @XmlEnumValue("110111")
-                                               CANC_NFE("110111", "Cancelamento", "Cancelamento de NF-e");
+                                               CANC_NFE("110111", "Cancelamento", "Cancelamento de NF-e"),
+                                               @XmlEnumValue("610130")
+                                               COMPROVANTE_ENTREGA_CTE("610130", "", "Comprovante de Entrega do CT-e");
 
     private static final long serialVersionUID = 1L;
 
