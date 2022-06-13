@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.apache.commons.lang3.StringUtils;
+
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.v400.address.City;
 import eprecise.efiscal4j.nfe.v400.person.LegalEntityDocuments;
@@ -27,11 +29,11 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
                           .withName(adaptedConveyor.getAdaptedName())
                           .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())
                           .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
-                          .withCity(new City.Builder()
+                          .withCity(adaptedConveyor.hasCityAndUf() ? new City.Builder()
                                    .withIbgeCode("0000000")
                                    .withDescription(adaptedConveyor.getAdaptedCityDescription())
                                    .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
-                                   .build())
+                                   .build() : null)
                           .build();                           
             }else{
                 conveyor = new Conveyor.Builder()
@@ -40,11 +42,11 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
                           .withCorporateName(adaptedConveyor.getAdaptedName())
                           .withStateRegistration(adaptedConveyor.getAdaptedStateRegistration())                                                                                                                                 
                           .withFullAddress(adaptedConveyor.getAdaptedFullAddress())
-                          .withCity(new City.Builder()
+                          .withCity(adaptedConveyor.hasCityAndUf() ? new City.Builder()
                                    .withIbgeCode("0000000")
                                    .withDescription(adaptedConveyor.getAdaptedCityDescription())
                                    .withUF(UF.findByAcronym(adaptedConveyor.getAdaptedUF()))
-                                   .build())
+                                   .build() : null)
                           .build();                      
             }
         } catch (final Exception e) {
@@ -140,6 +142,10 @@ public class ConveyorAdapter extends XmlAdapter<ConveyorAdapter.AdaptedConveyor,
 
         public String getAdaptedUF() {
             return this.uf;
+        }
+        
+        public boolean hasCityAndUf() {
+        	return !StringUtils.isEmpty(this.cityDescription) && !StringUtils.isEmpty(this.uf);
         }
 
         public void setAdaptedName(final String name) {

@@ -35,7 +35,7 @@ public class Conveyor implements Serializable {
 
 	private @XmlElement(name = "xEnder") @Size(min = 1, max = 60) @NFeString final String fullAddress;
 
-	private @NotNull final City city;
+	private final City city;
 
 	public static class Builder {
 
