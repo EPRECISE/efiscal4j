@@ -273,13 +273,6 @@ public class EventInfo implements Serializable {
     public boolean isOwnerManifestation() {
         return EventType.CANC_NFE.equals(this.getEventType()) || EventType.CCE.equals(this.getEventType());
     }
-    
-    public boolean isNFeRecipientManifestation() {
-    	return EventType.CIENCIA_OPERACAO.equals(this.getEventType()) 
-    			|| EventType.CONFIRMACAO_OPERACAO.equals(this.getEventType())
-    			|| EventType.DESCONHECIMENTO_OPERACAO.equals(this.getEventType())
-    			|| EventType.OPERACAO_NAO_REALIZADA.equals(this.getEventType());
-    }
 
     public EventType getEventType() {
         return this.eventType;
