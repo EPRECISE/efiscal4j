@@ -754,7 +754,7 @@
 				<textElement>
 					<font size="5"/>
 				</textElement>
-				<text><![CDATA[NATUREZA DA OPERAÇAPAISAGEM]]></text>
+				<text><![CDATA[NATUREZA DA OPERAÇÃO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" mode="Transparent" x="62" y="115" width="56" height="6" uuid="f6f717db-6a67-4d00-a78e-fb8c9cf52b9b"/>
