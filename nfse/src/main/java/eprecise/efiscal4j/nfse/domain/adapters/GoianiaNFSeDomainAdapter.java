@@ -58,13 +58,7 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
     public NFSeRequest toDispatch() {
       //@formatter:off
         return GoianiaLotRpsDispatchSync.builder()
-                .rpsLot(GoianiaLotRps.builder()
-                        .lotNumber(this.nfse.getSerie().getLotNumber())
-                        .cnp(this.buildCnp(this.nfse.getEmitter().getDocuments()))
-                        .municipalRegistration(this.buildMunicipalRegistration(this.nfse.getEmitter().getDocuments()))
-                        .quantity(1)
-                        .statementProvisionServices(Arrays.asList(this.buildStatementProvisionService()))
-                        .build())
+        		.rps(this.buildStatementProvisionService())
                 .build();
       //@formatter:on
     }

@@ -19,7 +19,8 @@ public interface NFSeDomainAdapter {
                                     GOVBR_v100(eprecise.efiscal4j.nfse.domain.adapters.govbr.v100.GovbrNFSeDomainAdapter.class,
                                             NFSeTransmissor.GOVBR_V100.getSupportedCityCodes()),
                                     GOVBR_v203(eprecise.efiscal4j.nfse.domain.adapters.govbr.v203.GovbrNFSeDomainAdapter.class,
-                                            NFSeTransmissor.GOVBR_V203.getSupportedCityCodes());
+                                            NFSeTransmissor.GOVBR_V203.getSupportedCityCodes()),
+                                    GOIANIA(GoianiaNFSeDomainAdapter.class, NFSeTransmissor.GOIANIA.getSupportedCityCodes()),;
 
         private final Collection<String> supportedCityCodes;
 

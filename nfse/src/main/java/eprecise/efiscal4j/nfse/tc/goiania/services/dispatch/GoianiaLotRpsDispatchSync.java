@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentDeserializer;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.nfse.tc.goiania.lot.GoianiaLotRps;
+import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.GoianiaStatementProvisionService;
 import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.signer.Assignable;
 import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
@@ -27,16 +27,16 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-@XmlRootElement(name = "EnviarLoteRpsSincronoEnvio")
+@XmlRootElement(name = "GerarNfseEnvio")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "rpsLot", "signature" })
+@XmlType(propOrder = { "rps", "signature" })
 public class GoianiaLotRpsDispatchSync extends DefaultAssignable implements NFSeRequest, TransmissibleBodyImpl {
 
     private static final long serialVersionUID = 1L;
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/goiania/nfse_gyn_v02.xsd";
-
-    private @Getter final @NotNull @XmlElement(name = "LoteRps") GoianiaLotRps rpsLot;
+    
+    private @Getter final @NotNull @XmlElement(name = "Rps") GoianiaStatementProvisionService rps;
 
     private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoEnvio");
 
