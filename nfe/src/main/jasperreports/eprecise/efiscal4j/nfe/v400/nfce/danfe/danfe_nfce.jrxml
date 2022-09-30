@@ -35,6 +35,12 @@
 	<field name="nro" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/nro]]></fieldDescription>
 	</field>
+	<field name="CEP" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/CEP]]></fieldDescription>
+	</field>
+	<field name="xCpl" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/xCpl]]></fieldDescription>
+	</field>
 	<field name="xBairro" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/emit/enderEmit/xBairro]]></fieldDescription>
 	</field>
@@ -79,6 +85,12 @@
 	</field>
 	<field name="destNro" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/nro]]></fieldDescription>
+	</field>
+	<field name="destCEP" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/CEP]]></fieldDescription>
+	</field>
+	<field name="destXCpl" class="java.lang.String">
+		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xCpl]]></fieldDescription>
 	</field>
 	<field name="destXBairro" class="java.lang.String">
 		<fieldDescription><![CDATA[/nfeProc/NFe/infNFe/dest/enderDest/xBairro]]></fieldDescription>
@@ -165,7 +177,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{xCpl} != null ? String.format("%s, %s - %s - %s - %s\n%s/%s",$F{xLgr},$F{nro},$F{xCpl},$F{xBairro},$F{CEP},$F{xMun},$F{UF}) : String.format("%s, %s - %s - %s\n%s/%s",$F{xLgr},$F{nro},$F{xBairro},$F{CEP},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement positionType="Float" x="0" y="43" width="194" height="1" uuid="81b4d4b5-e6f5-4ea8-8e69-230848d85287"/>
@@ -205,7 +217,7 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 					<printWhenExpression><![CDATA[$P{logo} == null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[String.format("%s, %s, %s\n%s-%s",$F{xLgr},$F{nro}, $F{xBairro},$F{xMun},$F{UF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{xCpl} != null ? String.format("%s, %s - %s - %s - %s\n%s/%s",$F{xLgr},$F{nro},$F{xCpl},$F{xBairro},$F{CEP},$F{xMun},$F{UF}) : String.format("%s, %s - %s - %s\n%s/%s",$F{xLgr},$F{nro},$F{xBairro},$F{CEP},$F{xMun},$F{UF})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="0" y="10" width="194" height="10" uuid="033cac54-7280-427a-9f20-7e4ecf317b4a">
@@ -407,7 +419,8 @@ Nota Fiscal de Consumidor Eletrônica]]></text>
 				<box topPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$F{dest} != null ?
-	new java.lang.StringBuilder().append($F{destCPF} != null ? "CPF: " : $F{destCNPJ} != null ? "CNPJ: " : "").append($F{destCPF} != null ? $F{destCPF} : $F{destCNPJ} != null ?$F{destCNPJ} : "").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?", NOME: ":"").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?$F{destXNome}:"").append($F{enderDest} != null ?", ENDEREÇO: ":"").append($F{enderDest} != null ? String.format("%s, %s, %s - %s-%s",$F{destXLgr},$F{destNro}, $F{destXBairro},$F{destXMun},$F{destUF}):"").toString()
+	new java.lang.StringBuilder().append($F{destCPF} != null ? "CPF: " : $F{destCNPJ} != null ? "CNPJ: " : "").append($F{destCPF} != null ? $F{destCPF} : $F{destCNPJ} != null ?$F{destCNPJ} : "").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?", NOME: ":"").append($F{destXNome} != null && !$F{destXNome}.isEmpty() ?$F{destXNome}:"").append($F{enderDest} != null ?", ENDEREÇO: ":"").append($F{enderDest} != null ? (($F{destXCpl} != null ? String.format("%s, %s, %s\n%s - %s\n%s-%s",$F{destXLgr},$F{destNro},$F{destXCpl},$F{destXBairro},$F{destCEP},$F{destXMun},$F{destUF}) :
+String.format("%s, %s\n%s - %s\n%s-%s",$F{destXLgr},$F{destNro},$F{destXBairro},$F{destCEP},$F{destXMun},$F{destUF}))) :"").toString()
 : "CONSUMIDOR NÃO IDENTIFICADO"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
