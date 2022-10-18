@@ -9,6 +9,8 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Optional;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 
+import java.util.Optional;
+
 
 /**
  * Classe base para os ICMS de Partilha com CST 10 e 90
@@ -187,7 +189,7 @@ abstract class BaseICMSPart extends BaseICMS implements IcmsWithValue, IcmsWithS
          * @return
          */
         public Builder withUfST(final UF ufST) {
-            this.ufST = ufST.getAcronym();
+            this.ufST = Optional.ofNullable(ufST).map(UF::getAcronym).orElse(null);
             return this;
         }
 
