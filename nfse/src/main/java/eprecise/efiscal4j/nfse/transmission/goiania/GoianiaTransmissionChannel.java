@@ -1,21 +1,6 @@
 
 package eprecise.efiscal4j.nfse.transmission.goiania;
 
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPMessage;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.w3c.dom.Document;
-
 import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
@@ -27,8 +12,20 @@ import eprecise.efiscal4j.nfse.transmission.request.NFSeRequest;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchStateResponse;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeResponse;
+import eprecise.efiscal4j.signer.defaults.DefaultAssignable;
 import eprecise.efiscal4j.transmissor.Transmissor;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.w3c.dom.Document;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPMessage;
+import java.io.ByteArrayOutputStream;
+import java.util.Optional;
 
 
 @NoArgsConstructor(force = true)
@@ -50,12 +47,14 @@ public class GoianiaTransmissionChannel implements TransmissionChannel {
 
         final GoianiaLotRpsDispatchSync lotRpsDispatch = (GoianiaLotRpsDispatchSync) nfseRequest;
 
-        
-        final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        this.clearnAssignableXmlnsFrom(lotRpsDispatch);
+
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        final Document document = documentBuilderFactory.newDocumentBuilder().newDocument();
         final Marshaller marshaller = JAXBContext.newInstance(GoianiaReceiptSyncLotRps.class).createMarshaller();
         marshaller.marshal(new GoianiaReceiptSyncLotRps.Builder().withXmlRequest(new GoianiaXmlRequest.Builder().withNfseRequest(lotRpsDispatch).build()).build(), document);
         final SOAPMessage soapMessage = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage();
-        
+
         soapMessage.getSOAPBody().addDocument(document);
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         soapMessage.writeTo(outputStream);
@@ -87,6 +86,12 @@ public class GoianiaTransmissionChannel implements TransmissionChannel {
     public TypedTransmissionResult<? extends NFSeRequest, ? extends NFSeDispatchStateResponse> consultStateAuthorization(
             NFSeRequest nfseRequest, String cityCode, boolean homologation) throws Exception {
         throw new UnsupportedOperationException();
+    }
+
+    private void clearnAssignableXmlnsFrom(DefaultAssignable assignable) {
+        if(assignable != null && assignable.signature != null) {
+            assignable.signature.setXmlns(null);
+        }
     }
 
 }

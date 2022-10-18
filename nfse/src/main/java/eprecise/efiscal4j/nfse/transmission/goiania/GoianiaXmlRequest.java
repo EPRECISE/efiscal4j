@@ -17,7 +17,7 @@ public class GoianiaXmlRequest {
 
 	//@formatter:off
     @XmlElementRefs({
-        @XmlElementRef(name = "GerarNfseEnvio", type=GoianiaLotRpsDispatchSync.class, namespace = "http://nfse.goiania.go.gov.br/xsd/nfse_gyn_v02.xsd")
+        @XmlElementRef(name = "GerarNfseEnvio", type=GoianiaLotRpsDispatchSync.class)
     })
     //@formatter:on
 	private final NFSeRequest nfseRequest;

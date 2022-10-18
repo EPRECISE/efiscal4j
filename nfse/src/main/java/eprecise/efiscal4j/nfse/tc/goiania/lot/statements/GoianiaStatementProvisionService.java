@@ -1,14 +1,6 @@
 
 package eprecise.efiscal4j.nfse.tc.goiania.lot.statements;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import eprecise.efiscal4j.nfse.tc.commons.rps.CommonsServiceConstruction;
 import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.rps.GoianiaRps;
 import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.services.GoianiaService;
@@ -19,6 +11,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.UUID;
+
 
 @Builder
 @NoArgsConstructor(force = true)
@@ -28,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class GoianiaStatementProvisionService implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private @Getter final @XmlAttribute(name = "id") String id = UUID.randomUUID().toString();
 
     private @Getter final @NotNull @XmlElement(name = "InfDeclaracaoPrestacaoServico") GoianiaStatementProvisionServiceInfo info;
 

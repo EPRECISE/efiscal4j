@@ -20,7 +20,7 @@ public class GoianiaReceiptSyncLotRps implements TransmissibleBodyImpl {
 
     private @XmlTransient QName qName = new QName("EnviarLoteRpsSincrono");
 
-    private @XmlElement(name = "ArquivoXML") final GoianiaXmlRequest xmlRequest;
+    private @XmlElement(name = "ArquivoXML", namespace = "http://nfse.goiania.go.gov.br/ws/") final GoianiaXmlRequest xmlRequest;
 
     public static class Builder {
 
