@@ -131,7 +131,7 @@ public class TestDomain {
                     .withIssHeld(new NFSeWithoutIssHeld())
                     .withService(new NFSeService.Builder()
                             .withName("Serviço xyz")
-                            .withCnaeCode("6550200")
+                            .withCnaeCode("007020400")
                             .withNationalServiceCode("4.23")
                             .withCityService(city)
                             .withDiscrimination("Teste de discriminação de serviço")

@@ -145,48 +145,52 @@ public class DefaultSigner implements Signer {
         for (int i = 0; i < document.getElementsByTagName(assignable.getRootTagName()).getLength(); i++) {
             // Retrieve the assignable element
             final Element element = (Element) document.getElementsByTagName(assignable.getAssignableTagName()).item(i);
+            if(element != null) {
+                final Reference reference;
+                if (!StringUtils.isEmpty(assignable.getIdAttributeTagName())) {
+                    // Retrieve the assignable element´s id
+                    final String idAttribute = element.getAttribute(assignable.getIdAttributeTagName());
 
-            final Reference reference;
-            if(!StringUtils.isEmpty(assignable.getIdAttributeTagName())) {
-                // Retrieve the assignable element´s id
-                final String idAttribute = element.getAttribute(assignable.getIdAttributeTagName());
+                    if (element.getAttributeNode(assignable.getIdAttributeTagName()) == null) {
+                        break;
+                    }
+                    element.setIdAttribute(assignable.getIdAttributeTagName(), true);
 
-                element.setIdAttribute(assignable.getIdAttributeTagName(), true);
+                    // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
+                    //@formatter:off
+                    reference = signatureFactory.newReference("#" + idAttribute,
+                            signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
+                            transformList,
+                            null,
+                            null);
+                } else {
+                    reference = signatureFactory.newReference("",
+                            signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
+                            transformList,
+                            null,
+                            null);
+                }
 
-                // Create a Reference to the enveloped document, and also specify the SHA1 digest algorithm and the ENVELOPED and C14N Transform.
-                //@formatter:off
-                reference = signatureFactory.newReference("#" + idAttribute,
-                        signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
-                        transformList,
-                        null,
-                        null);
-            } else {
-                reference = signatureFactory.newReference("",
-                        signatureFactory.newDigestMethod(DigestMethod.SHA1, null),
-                        transformList,
-                        null,
-                        null);
+                //Create the signedInfo element
+                final SignedInfo signedInfo = signatureFactory.newSignedInfo(
+                        signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
+                                (C14NMethodParameterSpec) null),
+                        signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,
+                                null),
+                        Collections.singletonList(reference));
+
+                // Create a DOMSignContext and specify the RSA PrivateKey and
+                // location of the resulting XMLSignature's parent element.
+                final DOMSignContext signContext = new DOMSignContext(privateKey,
+                        document.getElementsByTagName(assignable.getRootTagName()).item(i));
+
+                //@formatter:on
+                // Create the XMLSignature, but don't sign it yet.
+                final XMLSignature xmlSignature = signatureFactory.newXMLSignature(signedInfo, keyInfo);
+
+                // Marshal, generate, and sign the enveloped signature.
+                xmlSignature.sign(signContext);
             }
-
-            //Create the signedInfo element
-            final SignedInfo signedInfo = signatureFactory.newSignedInfo(
-                    signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
-                                                                   (C14NMethodParameterSpec) null),
-                    signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,
-                                                             null),
-                    Collections.singletonList(reference));
-
-            // Create a DOMSignContext and specify the RSA PrivateKey and
-            // location of the resulting XMLSignature's parent element.
-            final DOMSignContext signContext = new DOMSignContext(privateKey,
-                                                                  document.getElementsByTagName(assignable.getRootTagName()).item(i));
-
-            //@formatter:on
-            // Create the XMLSignature, but don't sign it yet.
-            final XMLSignature xmlSignature = signatureFactory.newXMLSignature(signedInfo, keyInfo);
-
-            // Marshal, generate, and sign the enveloped signature.
-            xmlSignature.sign(signContext);
         }
 
         return (DefaultAssignable) assignable.getAsEntity(outputXML(document));

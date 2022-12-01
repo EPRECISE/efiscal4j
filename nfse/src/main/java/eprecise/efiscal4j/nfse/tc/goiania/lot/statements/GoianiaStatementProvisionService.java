@@ -6,29 +6,29 @@ import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.rps.GoianiaRps;
 import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.services.GoianiaService;
 import eprecise.efiscal4j.nfse.ts.commons.CommonsNFSeBoolean;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import eprecise.efiscal4j.signer.domain.SignatureType;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.UUID;
 
 
 @Builder
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
-@XmlRootElement(name = "DeclaracaoPrestacaoServico")
+@AllArgsConstructor
+@XmlRootElement(name = "Rps")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GoianiaStatementProvisionService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private @Getter final @XmlAttribute(name = "id") String id = UUID.randomUUID().toString();
-
     private @Getter final @NotNull @XmlElement(name = "InfDeclaracaoPrestacaoServico") GoianiaStatementProvisionServiceInfo info;
+
+    public @XmlElement(name = "Signature") SignatureType signature;
 
     @Builder
     @NoArgsConstructor(force = true)
@@ -58,4 +58,5 @@ public class GoianiaStatementProvisionService implements Serializable {
         private @Getter final @XmlElement(name = "IncentivoFiscal") CommonsNFSeBoolean taxIncentive;
 
     }
+
 }

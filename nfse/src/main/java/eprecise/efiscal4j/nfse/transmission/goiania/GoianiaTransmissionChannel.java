@@ -17,14 +17,14 @@ import eprecise.efiscal4j.transmissor.Transmissor;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPMessage;
 import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
 import java.util.Optional;
 
 
@@ -47,24 +47,21 @@ public class GoianiaTransmissionChannel implements TransmissionChannel {
 
         final GoianiaLotRpsDispatchSync lotRpsDispatch = (GoianiaLotRpsDispatchSync) nfseRequest;
 
-        this.clearnAssignableXmlnsFrom(lotRpsDispatch);
-
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        final Document document = documentBuilderFactory.newDocumentBuilder().newDocument();
-        final Marshaller marshaller = JAXBContext.newInstance(GoianiaReceiptSyncLotRps.class).createMarshaller();
-        marshaller.marshal(new GoianiaReceiptSyncLotRps.Builder().withXmlRequest(new GoianiaXmlRequest.Builder().withNfseRequest(lotRpsDispatch).build()).build(), document);
+        documentBuilderFactory.setNamespaceAware(true);
+        final Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new StringReader(new FiscalDocumentSerializer(new GoianiaReceiptSyncLotRps.Builder().withXmlRequest(new GoianiaXmlRequest.Builder().withNfseRequest(lotRpsDispatch).build()).build()).serialize())));
         final SOAPMessage soapMessage = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage();
 
         soapMessage.getSOAPBody().addDocument(document);
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         soapMessage.writeTo(outputStream);
-        
+
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
 
       //@formatter:off
         final String responseXml = Optional.ofNullable(StringEscapeUtils.unescapeXml(transmissor.transmit(
-                new String(outputStream.toByteArray()).replaceFirst("(?s)<GerarNfseEnvio[^>]*>.*?GerarNfseEnvio>", StringEscapeUtils.escapeXml(requestXml)),
-                NFSeTransmissor.getUrl(cityCode, homologation), "http://nfse.goiania.go.gov.br/ws/GerarNfse"))).map(str-> str.substring(str.indexOf("<EnviarLoteRpsSincronoResposta"), str.lastIndexOf("</EnviarLoteRpsSincronoResult>"))).get();
+                new String(outputStream.toByteArray()).replaceFirst("(?s)<GerarNfseEnvio[^>]*>.*?GerarNfseEnvio>", new StringBuilder("<![CDATA[").append(requestXml).append("]]>").toString()),
+                NFSeTransmissor.getUrl(cityCode, homologation), "http://nfse.goiania.go.gov.br/ws/GerarNfse"))).map(str-> str.substring(str.indexOf("<GerarNfseResposta"), str.lastIndexOf("</GerarNfseResult>"))).get();
         //@formatter:on
         
         return new TypedTransmissionResult<>(GoianiaLotRpsDispatchSync.class, GoianiaLotRpsDispatchSyncResponse.class, requestXml, responseXml);

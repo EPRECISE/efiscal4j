@@ -45,6 +45,8 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
 
     public static final DateFormat NFSE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    public static final DateFormat NFSE_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
     private final NFSe nfse;
 
     private final Certificate certificate;
@@ -74,19 +76,23 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
 
     private GoianiaStatementProvisionService buildStatementProvisionService() {
         //@formatter:off
-        return GoianiaStatementProvisionService.builder()
-                .info(GoianiaStatementProvisionService.GoianiaStatementProvisionServiceInfo.builder()
-                        .rps(this.buildRps())
-                        .service(this.buildService())
-                        .serviceProviderIdentifier(this.buildServiceProviderIdentifier())
-                        .serviceTaker(this.buildServiceTaker())
-                        .serviceIntermediary(this.buildServiceIntermediary())
-                        .specialTaxationRegime(Optional.ofNullable(this.nfse.getEmitter().getSpecialTaxationRegime())
-                                .filter(GoianiaSpecialTaxationRegime.class::isInstance)
-                                .map(GoianiaSpecialTaxationRegime.class::cast)
-                                .orElse(null))
-                        .build())
-                .build();
+        try {
+            return GoianiaStatementProvisionService.builder()
+                    .info(GoianiaStatementProvisionService.GoianiaStatementProvisionServiceInfo.builder()
+                            .rps(this.buildRps())
+                            .service(this.buildService())
+                            .serviceProviderIdentifier(this.buildServiceProviderIdentifier())
+                            .serviceTaker(this.buildServiceTaker())
+                            .serviceIntermediary(this.buildServiceIntermediary())
+                            .specialTaxationRegime(Optional.ofNullable(this.nfse.getEmitter().getSpecialTaxationRegime())
+                                    .filter(GoianiaSpecialTaxationRegime.class::isInstance)
+                                    .map(GoianiaSpecialTaxationRegime.class::cast)
+                                    .orElse(null))
+                            .build())
+                    .build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         //@formatter:on
     }
 
@@ -98,7 +104,7 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
                         .withSerie(this.nfse.getSerie().getSerie())
                         .withNumber(this.nfse.getSerie().getRpsNumber())
                         .build())
-                .emissionDate(NFSE_DATE_FORMAT.format(this.nfse.getEmission()))
+                .emissionDate(NFSE_DATE_TIME_FORMAT.format(this.nfse.getEmission()))
                 .status(CommonsRpsStatus.NORMAL)
                 .build();
       //@formatter:on
@@ -207,6 +213,7 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
             return new CommonsNFSeAddress.Builder()
             .withAddress(address.getStreet())
             .withNumber(address.getNumber())
+            .withComplement(address.getDetails())
             .withDistrict(address.getDistrict())
             .withCityCode(Optional.ofNullable(address.getCity()).map(NFSeCity::getIbgeCode).map(this::buildGoianiaCityCodeByIbgeCode).orElse(null))
             .withUf(Optional.ofNullable(address.getCity()).map(c -> CommonsNFSeUF.findByAcronym(c.getUf().getAcronym())).orElse(null))

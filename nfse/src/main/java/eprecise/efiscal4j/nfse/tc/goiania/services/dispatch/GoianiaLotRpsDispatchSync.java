@@ -28,9 +28,15 @@ public class GoianiaLotRpsDispatchSync extends DefaultAssignable implements NFSe
     private static final long serialVersionUID = 1L;
 
     public static final String XSD = "/eprecise/efiscal4j/nfse/xsd/goiania/nfse_gyn_v02.xsd";
+
+    private final @XmlAttribute(name = "xmlns") String xmlns = "http://nfse.goiania.go.gov.br/xsd/nfse_gyn_v02.xsd";
     private @Getter final @NotNull @XmlElement(name = "Rps") GoianiaStatementProvisionService rps;
 
     private @Getter @Setter @Builder.Default @XmlTransient QName qName = new QName("EnviarLoteRpsSincronoEnvio");
+
+    public GoianiaLotRpsDispatchSync(GoianiaLotRpsDispatchSyncBuilder builder) {
+        this.rps = builder.rps;
+    }
 
     public static class GoianiaLotRpsDispatchSyncBuilder {
         public GoianiaLotRpsDispatchSync build(final Signer signer) throws Exception {
@@ -41,15 +47,11 @@ public class GoianiaLotRpsDispatchSync extends DefaultAssignable implements NFSe
         }
     }
 
-    public GoianiaLotRpsDispatchSync(final GoianiaLotRpsDispatchSync.GoianiaLotRpsDispatchSyncBuilder builder) {
-        rps = builder.rps;
-    }
-
     @Override
     public String getAsXml() {
         return new FiscalDocumentSerializer<>(this).serialize();
     }
-    
+
     @Override
     public Assignable getAsEntity(final String xml) {
         return new FiscalDocumentDeserializer<>(xml, GoianiaLotRpsDispatchSync.class).deserialize();
@@ -57,17 +59,17 @@ public class GoianiaLotRpsDispatchSync extends DefaultAssignable implements NFSe
 
     @Override
     public String getRootTagName() {
-        return "GerarNfseEnvio";
-    }
-
-    @Override
-    public String getAssignableTagName() {
         return "Rps";
     }
 
     @Override
+    public String getAssignableTagName() {
+        return "GerarNfseEnvio";
+    }
+
+    @Override
     public String getIdAttributeTagName() {
-        return "id";
+        return "";
     }
 
 }
