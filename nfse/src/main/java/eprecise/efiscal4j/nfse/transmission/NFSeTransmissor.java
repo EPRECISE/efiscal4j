@@ -10,6 +10,7 @@ import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfse.transmission.curitiba.CuritibaTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.elotech.ElotechTransmissionChannel;
+import eprecise.efiscal4j.nfse.transmission.goiania.GoianiaTransmissionChannel;
 import eprecise.efiscal4j.nfse.transmission.govbr.v100.GovbrTransmissionChannel;
 
 
@@ -29,7 +30,11 @@ public enum NFSeTransmissor {
                              GOVBR_V203(eprecise.efiscal4j.nfse.transmission.govbr.v203.GovbrTransmissionChannel.class,
                                      "/eprecise/efiscal4j/nfse/transmission/production/govbrTransmissionProdUrl.properties",
                                      "/eprecise/efiscal4j/nfse/transmission/homologation/govbrTransmissionHomologUrl.properties",
-                                     "4118501");
+                                     "4118501"),
+                             GOIANIA(GoianiaTransmissionChannel.class,
+                                     "/eprecise/efiscal4j/nfse/transmission/production/goianiaTransmissionProdUrl.properties",
+                                     "/eprecise/efiscal4j/nfse/transmission/homologation/goianiaTransmissionHomologUrl.properties",
+                                     "5208707");
 
     private final Class<? extends TransmissionChannel> transmissionChannelClass;
 

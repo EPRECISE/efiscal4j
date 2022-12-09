@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfse.tc.curitiba.services.dispatch.CuritibaLotRpsDispa
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.ElotechSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.elotech.lot.statements.services.ElotechIssRequirement;
 import eprecise.efiscal4j.nfse.tc.elotech.services.dispatch.ElotechLotRpsDispatchSync;
+import eprecise.efiscal4j.nfse.tc.goiania.services.dispatch.GoianiaLotRpsDispatchSync;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrNatureOperation;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.lot.rps.GovbrSpecialTaxationRegime;
 import eprecise.efiscal4j.nfse.tc.govbr.v100.services.dispatch.GovbrLotRpsDispatchAsync;
@@ -86,7 +87,7 @@ public class TestDomain {
 
             final NFSe nfse = new NFSe.Builder()
                     .withSerie(new NFSeSerie.Builder()
-                            .withSerie("Z")
+                            .withSerie("TESTE")
                             .withLotNumber(lotNumber)
                             .withRpsNumber("1")
                             .build())
@@ -130,8 +131,9 @@ public class TestDomain {
                     .withIssHeld(new NFSeWithoutIssHeld())
                     .withService(new NFSeService.Builder()
                             .withName("Serviço xyz")
-                            .withCnaeCode("6550200")
+                            .withCnaeCode("007020400")
                             .withNationalServiceCode("4.23")
+                            .withAssessmentCityCode("702040000")
                             .withCityService(city)
                             .withDiscrimination("Teste de discriminação de serviço")
                             .withUnitaryValue(new BigDecimal("10.00"))
@@ -247,6 +249,14 @@ public class TestDomain {
                         .withCancellationCode(GovbrCancellationCode.SERVICE_NOT_PERFORMED).build()))
                 .filter(GovbrNFSeDispatchCancel.class::isInstance).map(GovbrNFSeDispatchCancel.class::cast)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+    
+    public GoianiaLotRpsDispatchSync buildGoianiaLotRpsDispatch() throws Exception {
+        final NFSeCity city = new NFSeCity.Builder().withName("Goiania").withUf(NFSeUF.GO).withIbgeCode("5208707").build();
+        final NFSeDomainAdapter domainAdapter = new NFSeDomainAdapter.Builder().withCertificate(this.getCertificate()).withNFSe(this.buildNFSe(city, "1")).build();
+
+        return Optional.ofNullable(domainAdapter.toDispatch()).filter(GoianiaLotRpsDispatchSync.class::isInstance)
+                .map(GoianiaLotRpsDispatchSync.class::cast).orElseThrow(IllegalStateException::new);
     }
 
     public TransmissionChannel geTransmissionChannel(final NFSeTransmissor transmissor) {

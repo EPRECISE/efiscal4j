@@ -101,6 +101,7 @@ public class FiscalDocumentDeserializer<T> {
         toRemove.add("xmlns=\"http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd\"");
         toRemove.add("xmlns=\"http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd\"");
         toRemove.add("xmlns=\"http://www.abrasf.org.br/nfse.xsd\"");
+        toRemove.add("xmlns=\"http://nfse.goiania.go.gov.br/xsd/nfse_gyn_v02.xsd\"");
         String xml = this.xmlContent;
 
         for (final String str : toRemove) {

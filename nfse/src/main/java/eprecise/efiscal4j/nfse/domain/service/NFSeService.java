@@ -1,12 +1,12 @@
 
 package eprecise.efiscal4j.nfse.domain.service;
 
+import eprecise.efiscal4j.commons.utils.ValidationBuilder;
+import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Optional;
-
-import eprecise.efiscal4j.commons.utils.ValidationBuilder;
-import eprecise.efiscal4j.nfse.domain.person.address.NFSeCity;
 
 
 public class NFSeService implements Serializable {
@@ -18,6 +18,8 @@ public class NFSeService implements Serializable {
     private final String cnaeCode;
 
     private final String nationalServiceCode;
+
+    private final String assessmentCityCode;
 
     private final NFSeCity cityService;
 
@@ -38,6 +40,8 @@ public class NFSeService implements Serializable {
         private String cnaeCode;
 
         private String nationalServiceCode;
+
+        private String assessmentCityCode;
 
         private NFSeCity cityService;
 
@@ -66,6 +70,11 @@ public class NFSeService implements Serializable {
             return this;
         }
 
+        public Builder withAssessmentCityCode(final String assessmentCityCode) {
+            this.assessmentCityCode = assessmentCityCode;
+            return this;
+        }
+
         public Builder withCityService(final NFSeCity cityService) {
             this.cityService = cityService;
             return this;
@@ -85,7 +94,7 @@ public class NFSeService implements Serializable {
             this.amount = amount;
             return this;
         }
-        
+
         public Builder withDiscount(final BigDecimal unconditionedValue) {
             this.discount = NFSeDiscount.builder().unconditionedValue(unconditionedValue).conditionedValue(Optional.ofNullable(this.discount.getConditionedValue()).orElse(BigDecimal.ZERO)).build();
             return this;
@@ -113,6 +122,7 @@ public class NFSeService implements Serializable {
         name = null;
         cnaeCode = null;
         nationalServiceCode = null;
+        assessmentCityCode = null;
         cityService = null;
         discrimination = null;
         unitaryValue = null;
@@ -125,6 +135,7 @@ public class NFSeService implements Serializable {
         name = builder.name;
         cnaeCode = builder.cnaeCode;
         nationalServiceCode = builder.nationalServiceCode;
+        assessmentCityCode = builder.assessmentCityCode;
         cityService = builder.cityService;
         discrimination = builder.discrimination;
         unitaryValue = builder.unitaryValue;
@@ -145,6 +156,10 @@ public class NFSeService implements Serializable {
         return nationalServiceCode;
     }
 
+    public String getAssessmentCityCode() {
+        return assessmentCityCode;
+    }
+
     public NFSeCity getCityService() {
         return cityService;
     }
@@ -160,7 +175,7 @@ public class NFSeService implements Serializable {
     public BigDecimal getAmount() {
         return amount;
     }
-    
+
     public NFSeDiscount getDiscount() {
         return discount;
     }
