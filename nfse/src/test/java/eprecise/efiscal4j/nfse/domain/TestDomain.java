@@ -133,6 +133,7 @@ public class TestDomain {
                             .withName("Serviço xyz")
                             .withCnaeCode("007020400")
                             .withNationalServiceCode("4.23")
+                            .withAssessmentCityCode("702040000")
                             .withCityService(city)
                             .withDiscrimination("Teste de discriminação de serviço")
                             .withUnitaryValue(new BigDecimal("10.00"))

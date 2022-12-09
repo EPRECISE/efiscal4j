@@ -114,7 +114,7 @@ public class GoianiaNFSeDomainAdapter implements NFSeDomainAdapter {
         //@formatter:off
           return GoianiaService.builder()
                   .values(this.buildServiceValues())
-                  .assessmentCityCode(this.nfse.getService().getCnaeCode())
+                  .assessmentCityCode(this.nfse.getService().getAssessmentCityCode())
                   .discrimination(this.formatNfseString(this.nfse.getService().getDiscrimination(), 1000))
                   .cityCode(Optional.ofNullable(this.nfse.getService().getCityService()).map(NFSeCity::getIbgeCode).map(this::buildGoianiaCityCodeByIbgeCode).orElse(""))
                   .build();

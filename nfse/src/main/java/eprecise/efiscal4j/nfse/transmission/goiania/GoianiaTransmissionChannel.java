@@ -47,6 +47,10 @@ public class GoianiaTransmissionChannel implements TransmissionChannel {
 
         final GoianiaLotRpsDispatchSync lotRpsDispatch = (GoianiaLotRpsDispatchSync) nfseRequest;
 
+        if (homologation && !lotRpsDispatch.getRps().getInfo().getRps().getIdentifier().getSerie().equals("TESTE")) {
+            throw new IllegalArgumentException("A série informada para homologação deve ser igual a TESTE");
+        }
+
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         final Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new StringReader(new FiscalDocumentSerializer(new GoianiaReceiptSyncLotRps.Builder().withXmlRequest(new GoianiaXmlRequest.Builder().withNfseRequest(lotRpsDispatch).build()).build()).serialize())));

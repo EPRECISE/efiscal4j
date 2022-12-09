@@ -1,27 +1,14 @@
 
 package eprecise.efiscal4j.nfse.tc.goiania;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import eprecise.efiscal4j.nfse.domain.comp.ProcessedNFSe;
 import eprecise.efiscal4j.nfse.domain.comp.rps.RpsIdentifier;
 import eprecise.efiscal4j.nfse.tc.commons.compNfse.CommonsGeneratorOrgan;
+import eprecise.efiscal4j.nfse.tc.commons.person.address.CommonsNFSeUF;
 import eprecise.efiscal4j.nfse.tc.commons.person.documents.CommonsNFSeCnp;
 import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.GoianiaIdentifier;
-import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.GoianiaStatementProvisionService;
-import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.rps.GoianiaRps;
+import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.GoianiaNFSeStatementProvisionService;
+import eprecise.efiscal4j.nfse.tc.goiania.lot.statements.GoianiaProvider;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeDateTimeUTC;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeValue;
@@ -30,6 +17,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
 
 
 @Builder
@@ -43,9 +42,11 @@ public class GoianiaNFSe extends ProcessedNFSe {
 
     public static final DateFormat EMISSION_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+    private static final String GOIANIA_IBGE_CODE = "5208707";
+
     private @Getter final @XmlElement(name = "InfNfse") @NotNull GoianiaNFSeInfo info;
 
-    private @Getter final @XmlAttribute(name = "versao") String version;
+    private @Getter final @XmlElement(name = "versao") String version;
 
     @Builder
     @NoArgsConstructor(force = true)
@@ -69,22 +70,24 @@ public class GoianiaNFSe extends ProcessedNFSe {
 
         private @Getter final @XmlElement(name = "OrgaoGerador") CommonsGeneratorOrgan generatorOrgan;
 
-        private @Getter final @XmlElement(name = "DeclaracaoPrestacaoServico") GoianiaStatementProvisionService statementProvisionService;
+        private @Getter final @XmlElement(name = "DeclaracaoPrestacaoServico") GoianiaNFSeStatementProvisionService statementProvisionService;
         
         private @Getter @XmlElement(name = "Signature") SignatureType signature;
     }
     
     @Override
     public String getProviderCnp() {
-        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService).map(GoianiaStatementProvisionService::getInfo)
-                .map(GoianiaStatementProvisionService.GoianiaStatementProvisionServiceInfo::getServiceProviderIdentifier)
+        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService)
+                .map(GoianiaNFSeStatementProvisionService::getServiceProviderIdentifier)
+                .map(GoianiaProvider::getIdentifier)
                 .map(GoianiaIdentifier::getCnp).map(CommonsNFSeCnp::getCnp).orElse(null);
     }
 
     @Override
     public String getProviderIm() {
-        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService).map(GoianiaStatementProvisionService::getInfo)
-                .map(GoianiaStatementProvisionService.GoianiaStatementProvisionServiceInfo::getServiceProviderIdentifier)
+        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService)
+                .map(GoianiaNFSeStatementProvisionService::getServiceProviderIdentifier)
+                .map(GoianiaProvider::getIdentifier)
                 .map(GoianiaIdentifier::getMunicipalRegistration).orElse(null);
     }
 
@@ -116,13 +119,17 @@ public class GoianiaNFSe extends ProcessedNFSe {
 
     @Override
     public RpsIdentifier getRpsIdentifier() {
-        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService).map(GoianiaStatementProvisionService::getInfo)
-                .map(GoianiaStatementProvisionService.GoianiaStatementProvisionServiceInfo::getRps).map(GoianiaRps::getIdentifier).orElse(null);
+        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getStatementProvisionService)
+                .map(GoianiaNFSeStatementProvisionService::getIdentifier).orElse(null);
     }
 
     @Override
     public CommonsGeneratorOrgan getGeneratorOrgan() {
-        return Optional.ofNullable(info).map(GoianiaNFSeInfo::getGeneratorOrgan).orElse(null);
+        try {
+            return new CommonsGeneratorOrgan.Builder().withCityCode(GOIANIA_IBGE_CODE).withUf(CommonsNFSeUF.GO).build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -6,8 +6,8 @@ import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
 import eprecise.efiscal4j.nfse.domain.comp.CompNFSe;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessage;
 import eprecise.efiscal4j.nfse.tc.commons.messages.CommonsNFSeReturnMessageLot;
-import eprecise.efiscal4j.nfse.tc.govbr.v203.compNfse.GovbrCompNFSe;
-import eprecise.efiscal4j.nfse.tc.govbr.v203.compNfse.GovbrNFSeList;
+import eprecise.efiscal4j.nfse.tc.goiania.compNfse.GoianiaCompNFSe;
+import eprecise.efiscal4j.nfse.tc.goiania.compNfse.GoianiaNFSeList;
 import eprecise.efiscal4j.nfse.transmission.response.NFSeDispatchAutorizedResponse;
 import eprecise.efiscal4j.nfse.ts.commons.types.NFSeNonNegativeInteger;
 import eprecise.efiscal4j.nfse.ts.elotech.types.NFSeDate;
@@ -42,7 +42,7 @@ public class GoianiaLotRpsDispatchSyncResponse extends Receivable implements NFS
 
     private @Getter final @XmlElement(name = "Protocolo") @Size(min = 1, max = 50) String protocolNumber;
 
-    private @Getter final @NotNull @XmlElement(name = "ListaNfse") GovbrNFSeList nfseList;
+    private @Getter final @NotNull @XmlElement(name = "ListaNfse") GoianiaNFSeList nfseList;
 
     private @Getter final @NotNull @XmlElementWrapper(name = "ListaMensagemRetorno") @XmlElement(
             name = "MensagemRetorno") Collection<CommonsNFSeReturnMessage> returnMessage;
@@ -58,7 +58,7 @@ public class GoianiaLotRpsDispatchSyncResponse extends Receivable implements NFS
     @Override
     public Optional<CompNFSe> getCompNFSe() {
         if(this.nfseList != null && nfseList.getCompNFSeList() != null) {
-            return this.nfseList.getCompNFSeList().stream().findAny().map(GovbrCompNFSe.class::cast);
+            return this.nfseList.getCompNFSeList().stream().findAny().map(GoianiaCompNFSe.class::cast);
         }
         return Optional.empty();
     }
