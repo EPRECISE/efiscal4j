@@ -147,7 +147,7 @@ public class ElotechLotRpsDispatchSyncResponse extends Receivable implements NFS
 
     @Override
     public Optional<CompNFSe> getCompNFSe() {
-        return compNFSeList.stream().findAny().map(ElotechCompNFSe.class::cast);
+        return Optional.ofNullable(compNFSeList).map(c -> c.stream().findAny().map(ElotechCompNFSe.class::cast).orElse(null));
     }
 
     @Override
