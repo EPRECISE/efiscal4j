@@ -12,7 +12,7 @@ import eprecise.efiscal4j.commons.domain.transmission.TransmissibleBodyImpl;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 
 
-@XmlRootElement(name = "RecepcionarXml", namespace = "http://www.e-governeapps2.com.br/")
+@XmlRootElement(name = "RecepcionarXml", namespace = "https://www.e-governeapps2.com.br/")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CuritibaReceiptXml implements TransmissibleBodyImpl {
 
@@ -20,9 +20,9 @@ public class CuritibaReceiptXml implements TransmissibleBodyImpl {
 
     private @XmlTransient QName qName = new QName("RecepcionarXml");
 
-    private @XmlElement(name = "metodo", namespace = "http://www.e-governeapps2.com.br/") final String method;
+    private @XmlElement(name = "metodo", namespace = "https://www.e-governeapps2.com.br/") final String method;
 
-    private @XmlElement(name = "xml", namespace = "http://www.e-governeapps2.com.br/") final CuritibaXmlRequest xmlRequest;
+    private @XmlElement(name = "xml", namespace = "https://www.e-governeapps2.com.br/") final CuritibaXmlRequest xmlRequest;
 
     public static class Builder {
 

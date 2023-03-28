@@ -41,6 +41,7 @@ import eprecise.efiscal4j.transmissor.Transmissor;
 
 public class CuritibaTransmissionChannel implements TransmissionChannel {
 
+    private static final String RECEIPT_XML_SOAP_ACTION = "https://www.e-governeapps2.com.br/RecepcionarXml";
     private final Transmissor transmissor;
 
     public CuritibaTransmissionChannel() {
@@ -77,7 +78,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
         
         final Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("SOAPAction", "http://www.e-governeapps2.com.br/RecepcionarXml");
+        requestProperty.put("SOAPAction", RECEIPT_XML_SOAP_ACTION);
 
         try {
         //@formatter:off
@@ -109,7 +110,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
         
         final Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("SOAPAction", "http://www.e-governeapps2.com.br/RecepcionarXml");
+        requestProperty.put("SOAPAction", RECEIPT_XML_SOAP_ACTION);
 
         try {
         //@formatter:off
@@ -140,7 +141,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
         
         final Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("SOAPAction", "http://www.e-governeapps2.com.br/RecepcionarXml");
+        requestProperty.put("SOAPAction", RECEIPT_XML_SOAP_ACTION);
 
         try {
         //@formatter:off
@@ -172,7 +173,7 @@ public class CuritibaTransmissionChannel implements TransmissionChannel {
         final String requestXml = new FiscalDocumentSerializer<>(lotRpsDispatch).serialize();
         
         final Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("SOAPAction", "http://www.e-governeapps2.com.br/RecepcionarXml");
+        requestProperty.put("SOAPAction", RECEIPT_XML_SOAP_ACTION);
 
         try {
         //@formatter:off
