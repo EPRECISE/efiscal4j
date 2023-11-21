@@ -2213,6 +2213,39 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withFcpRetainedValueST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
                         .build();
             }
+            case CST_61: {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS61 icms61 = Optional.ofNullable(icms)
+                        .filter(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::isInstance)
+                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::cast)
+                        .orElseThrow(() -> new RuntimeException("O CST informado não é válido."));
+
+                return new ICMS61.Builder()
+                        .withOrigin(
+                                Optional.ofNullable(icms61.getOrigin())
+                                        .map(o -> ProductOrigin.findByCode(o.getValue()))
+                                        .orElse(null)
+                        )
+                        .withQBCMonoRet(
+                                Optional.ofNullable(icms61.getIcmsWithBcValue())
+                                .map(IcmsWithBcValue::getCalculationBasis)
+                                .map(IcmsBc::getCalculationBasis)
+                                .map(this::formatNFeDecimal0302a04Max100)
+                                .orElse(null)
+                        )
+                        .withAdRemICMSRet(
+                                Optional.ofNullable(icms61.getIcmsWithBcValue())
+                                .map(IcmsWithBcValue::getAliquot)
+                                .map(String::valueOf)
+                                .orElse(null)
+                        )
+                        .withVICMSMonoDif(
+                                Optional.ofNullable(icms61.getIcmsWithBcValue())
+                                .map(IcmsWithBcValue::getValue)
+                                .map(String::valueOf)
+                                .orElse(null)
+                        )
+                        .build();
+            }
             case CST_70 : {
                 final eprecise.efiscal4j.nfe.item.tax.icms.ICMS70 icms70 = (eprecise.efiscal4j.nfe.item.tax.icms.ICMS70) icms;
                 return new eprecise.efiscal4j.nfe.v400.tax.icms.ICMS70.Builder()

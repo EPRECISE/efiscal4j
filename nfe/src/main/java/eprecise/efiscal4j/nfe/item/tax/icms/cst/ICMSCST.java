@@ -22,6 +22,7 @@ public enum ICMSCST implements Serializable {
                                              CST_50("50"),
                                              CST_51("51"),
                                              CST_60("60"),
+                                             CST_61("61"),
                                              CST_70("70"),
                                              CST_90("90"),
                                              PART_CST_10("10", true, false),

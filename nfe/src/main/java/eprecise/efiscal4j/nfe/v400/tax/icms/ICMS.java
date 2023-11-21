@@ -69,6 +69,12 @@ public abstract class ICMS extends MainTax implements Serializable {
     public static Class<ICMS60.Builder> CST_60 = ICMS60.Builder.class;
 
     /**
+     * Tributção pelo ICMS 61 - Tributação monofásica do ICMS nas operações com combustíveis.
+     */
+    public static Class<ICMS61.Builder> CST_61 = ICMS61.Builder.class;
+
+
+    /**
      * Tributação pelo ICMS 70 - Com redução de base de cálculo e cobrança do ICMS por substituição tributária
      */
     public static Class<ICMS70.Builder> CST_70 = ICMS70.Builder.class;

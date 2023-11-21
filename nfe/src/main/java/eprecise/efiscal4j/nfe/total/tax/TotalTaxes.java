@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import eprecise.efiscal4j.nfe.item.tax.ItemTax;
 import eprecise.efiscal4j.nfe.item.tax.cofins.COFINSTrib;
 import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.ICMS61;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration.IcmsDesonerationHolder;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
@@ -42,13 +43,34 @@ public class TotalTaxes {
 
     public BigDecimal getTotalIcmsBcValue() {
         return this.scale(
-                this.getTaxes().stream().filter(IcmsWithBcValueHolder.class::isInstance).map(IcmsWithBcValueHolder.class::cast).map(IcmsWithBcValueHolder::getIcmsWithBcValue).filter(Objects::nonNull)
-                        .map(IcmsWithBcValue::getCalculationBasis).filter(Objects::nonNull).map(IcmsBc::getCalculationBasis).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add));
+                this.getTaxes()
+                        .stream()
+                        .filter(this::isNotSinglePhase)
+                        .filter(IcmsWithBcValueHolder.class::isInstance)
+                        .map(IcmsWithBcValueHolder.class::cast)
+                        .map(IcmsWithBcValueHolder::getIcmsWithBcValue)
+                        .filter(Objects::nonNull)
+                        .map(IcmsWithBcValue::getCalculationBasis)
+                        .filter(Objects::nonNull)
+                        .map(IcmsBc::getCalculationBasis)
+                        .filter(Objects::nonNull)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
     }
 
     public BigDecimal getTotalIcmsValue() {
-        return this.scale(this.getTaxes().stream().filter(IcmsWithBcValueHolder.class::isInstance).map(IcmsWithBcValueHolder.class::cast).map(IcmsWithBcValueHolder::getIcmsWithBcValue)
-                .filter(Objects::nonNull).map(IcmsWithBcValue::getValue).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add));
+        return this.scale(
+                this.getTaxes()
+                        .stream()
+                        .filter(this::isNotSinglePhase)
+                        .filter(IcmsWithBcValueHolder.class::isInstance)
+                        .map(IcmsWithBcValueHolder.class::cast)
+                        .map(IcmsWithBcValueHolder::getIcmsWithBcValue)
+                        .filter(Objects::nonNull)
+                        .map(IcmsWithBcValue::getValue)
+                        .filter(Objects::nonNull)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
     }
 
     public BigDecimal getTotalICMSUFReceiverFcpValue() {
@@ -128,6 +150,10 @@ public class TotalTaxes {
 
     private BigDecimal scale(final BigDecimal value) {
         return Optional.ofNullable(value).map(v -> v.setScale(2, RoundingMode.HALF_UP)).orElse(null);
+    }
+
+    private boolean isNotSinglePhase(ItemTax item) {
+        return !(item instanceof ICMS61);
     }
 
 }
