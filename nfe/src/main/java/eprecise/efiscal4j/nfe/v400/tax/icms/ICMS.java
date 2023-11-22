@@ -73,7 +73,6 @@ public abstract class ICMS extends MainTax implements Serializable {
      */
     public static Class<ICMS61.Builder> CST_61 = ICMS61.Builder.class;
 
-
     /**
      * Tributação pelo ICMS 70 - Com redução de base de cálculo e cobrança do ICMS por substituição tributária
      */

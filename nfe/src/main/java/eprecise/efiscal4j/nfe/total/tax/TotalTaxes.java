@@ -45,7 +45,7 @@ public class TotalTaxes {
         return this.scale(
                 this.getTaxes()
                         .stream()
-                        .filter(this::isNotSinglePhase)
+                        .filter(this::isNotICMS61SinglePhase)
                         .filter(IcmsWithBcValueHolder.class::isInstance)
                         .map(IcmsWithBcValueHolder.class::cast)
                         .map(IcmsWithBcValueHolder::getIcmsWithBcValue)
@@ -62,7 +62,7 @@ public class TotalTaxes {
         return this.scale(
                 this.getTaxes()
                         .stream()
-                        .filter(this::isNotSinglePhase)
+                        .filter(this::isNotICMS61SinglePhase)
                         .filter(IcmsWithBcValueHolder.class::isInstance)
                         .map(IcmsWithBcValueHolder.class::cast)
                         .map(IcmsWithBcValueHolder::getIcmsWithBcValue)
@@ -152,7 +152,7 @@ public class TotalTaxes {
         return Optional.ofNullable(value).map(v -> v.setScale(2, RoundingMode.HALF_UP)).orElse(null);
     }
 
-    private boolean isNotSinglePhase(ItemTax item) {
+    private boolean isNotICMS61SinglePhase(ItemTax item) {
         return !(item instanceof ICMS61);
     }
 

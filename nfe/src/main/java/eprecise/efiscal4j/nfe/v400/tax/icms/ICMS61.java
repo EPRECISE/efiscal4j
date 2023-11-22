@@ -13,8 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  * Tributação pelo ICMS 61 - Tributação monofásica do ICMS nas operações com combustíveis.
  *
- * @author Clécius J. Martinkoski
- * @author Felipe Bueno
+ * @author Pedro H. Rodrigues
  * @see BaseICMS
  * @see ICMS
  */

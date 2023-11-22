@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ICMS61 implements ICMS , IcmsWithBcValueHolder {
+public class ICMS61 implements ICMS, IcmsWithBcValueHolder {
 
     private final ICMSCST cst = ICMSCST.CST_61;
 
@@ -18,6 +18,6 @@ public class ICMS61 implements ICMS , IcmsWithBcValueHolder {
 
     @Override
     public IcmsWithBcValue getIcmsWithBcValue() {
-        return icms;
+        return this.icms;
     }
 }
