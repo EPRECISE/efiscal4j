@@ -2217,7 +2217,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 final eprecise.efiscal4j.nfe.item.tax.icms.ICMS61 icms61 = Optional.ofNullable(icms)
                         .filter(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::isInstance)
                         .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::cast)
-                        .orElseThrow(() -> new RuntimeException("O CST informado não é válido."));
+                        .orElseThrow(() -> new RuntimeException("O ICMS informado não é válido."));
 
                 return new ICMS61.Builder()
                         .withOrigin(
