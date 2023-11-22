@@ -48,7 +48,6 @@ public class ICMS61 extends BaseICMS implements IcmsWithValue {
 
         private String vICMSMonoRet;
 
-
         /**
          * {@inheritDoc}
          */
