@@ -2218,16 +2218,15 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 final eprecise.efiscal4j.nfe.item.tax.icms.ICMS61 icms61 = Optional.ofNullable(icms)
                         .filter(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::isInstance)
                         .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::cast)
-                        .orElseThrow(() -> new RuntimeException("O ICMS informado não é válido."));
-
-                final IcmsMonoRetWithValue icmsMonoRet = Optional.of(icms61)
-                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61::getIcmsMonoRetWithValue)
                         .orElseThrow(() -> new RuntimeException(
                                 String.format(
                                         "O ICMS [ NAME: '%s' ] informado não é válido.",
                                         icms.getClass().getSimpleName()
                                 )
                         ));
+
+                final IcmsMonoRetWithValue icmsMonoRet = Optional.ofNullable(icms61.getIcmsMonoRetWithValue())
+                        .orElseThrow(() -> new RuntimeException("O campo 'icms' do ICMS61 não pode ser nulo."));
 
                 return new ICMS61.Builder()
                         .withOrigin(
