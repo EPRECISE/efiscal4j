@@ -4,10 +4,13 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1104;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
 
 /**
@@ -18,8 +21,9 @@ import javax.xml.bind.annotation.XmlElement;
  * @see ICMS
  */
 @Getter
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ICMS61 extends BaseICMS implements IcmsWithValue {
+@NoArgsConstructor(force = true)
+@XmlAccessorType(FIELD)
+public class ICMS61 extends BaseICMS {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,11 +38,6 @@ public class ICMS61 extends BaseICMS implements IcmsWithValue {
     @XmlElement(name = "vICMSMonoRet")
     @NFeDecimal1302
     private final String vICMSMonoRet;
-
-    @Override
-    public String getIcmsValue() {
-        return vICMSMonoRet;
-    }
 
     public static class Builder extends BaseICMS.Builder implements ICMSBuilder {
 
@@ -85,12 +84,6 @@ public class ICMS61 extends BaseICMS implements IcmsWithValue {
             return new ICMS61(this);
         }
 
-    }
-
-    public ICMS61() {
-        this.vICMSMonoRet = null;
-        this.qBCMonoRet = null;
-        this.adRemICMSRet = null;
     }
 
     protected ICMS61(final ICMS61.Builder builder) {

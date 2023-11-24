@@ -45,6 +45,7 @@ public class TotalTaxes {
         return this.scale(
                 this.getTaxes()
                         .stream()
+                        .filter(Objects::nonNull)
                         .filter(this::isNotICMS61SinglePhase)
                         .filter(IcmsWithBcValueHolder.class::isInstance)
                         .map(IcmsWithBcValueHolder.class::cast)
@@ -62,6 +63,7 @@ public class TotalTaxes {
         return this.scale(
                 this.getTaxes()
                         .stream()
+                        .filter(Objects::nonNull)
                         .filter(this::isNotICMS61SinglePhase)
                         .filter(IcmsWithBcValueHolder.class::isInstance)
                         .map(IcmsWithBcValueHolder.class::cast)

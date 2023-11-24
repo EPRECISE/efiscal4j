@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.singlephase.IcmsMonoRetWithValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.sn.credit.CreditSnValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
@@ -2219,30 +2220,39 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::cast)
                         .orElseThrow(() -> new RuntimeException("O ICMS informado não é válido."));
 
+                final IcmsMonoRetWithValue icmsMonoRet = Optional.of(icms61)
+                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61::getIcmsMonoRetWithValue)
+                        .orElseThrow(() -> new RuntimeException(
+                                String.format(
+                                        "O ICMS [ NAME: '%s' ] informado não é válido.",
+                                        icms.getClass().getSimpleName()
+                                )
+                        ));
+
                 return new ICMS61.Builder()
                         .withOrigin(
-                                Optional.ofNullable(icms61.getOrigin())
+                                Optional.of(icms61)
+                                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61::getOrigin)
                                         .map(eprecise.efiscal4j.nfe.item.tax.icms.ProductOrigin::getValue)
                                         .map(ProductOrigin::findByCode)
                                         .orElse(null)
                         )
                         .withQBCMonoRet(
-                                Optional.ofNullable(icms61.getIcmsWithBcValue())
-                                        .map(IcmsWithBcValue::getCalculationBasis)
-                                        .map(IcmsBc::getCalculationBasis)
-                                        .map(this::formatNFeDecimal0302a04Max100)
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getQBcValue)
+                                        .map(this::formatNFeDecimal1104)
                                         .orElse(null)
                         )
                         .withAdRemICMSRet(
-                                Optional.ofNullable(icms61.getIcmsWithBcValue())
-                                        .map(IcmsWithBcValue::getAliquot)
-                                        .map(this::formatNFeDecimal1302)
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getAliquot)
+                                        .map(this::formatNFeDecimal0302a04)
                                         .orElse(null)
                         )
                         .withVICMSMonoDif(
-                                Optional.ofNullable(icms61.getIcmsWithBcValue())
-                                        .map(IcmsWithBcValue::getValue)
-                                        .map(this::formatNFeDecimal0302a04)
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getIcmsValue)
+                                        .map(this::formatNFeDecimal1302)
                                         .orElse(null)
                         )
                         .build();

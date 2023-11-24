@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eprecise.efiscal4j.nfe.item.tax.icms.*;
+import eprecise.efiscal4j.nfe.item.tax.icms.singlephase.IcmsMonoRetWithValue;
 import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
@@ -90,32 +92,6 @@ import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliqu
 import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquotPercent;
 import eprecise.efiscal4j.nfe.item.tax.cofins.aliquot.value.CofinsValueWithAliquotValue;
 import eprecise.efiscal4j.nfe.item.tax.cofins.st.COFINSST;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS00;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS10;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS20;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS30;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS40;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS41;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS50;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS51;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS60;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS70;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMS90;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart10;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSPart90;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN101;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN102;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN103;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN201;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN202;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN203;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN300;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN400;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN500;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSSN900;
-import eprecise.efiscal4j.nfe.item.tax.icms.ICMSST;
-import eprecise.efiscal4j.nfe.item.tax.icms.ProductOrigin;
 import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesonerationReason;
@@ -1640,6 +1616,34 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
                                     .build())
                             .endConsumerSupportedAliquot(this.toBigDecimal(nfeIcms60.getEndConsumerSupportedAliquot()))
                             .icmsSubstituteValue(this.toBigDecimal(nfeIcms60.getIcmsSubstituteValue()))
+                            .build();
+                }
+                case "ICMS61": {
+                    final eprecise.efiscal4j.nfe.v400.tax.icms.ICMS61 icms61 = Optional.of(nfeIcms)
+                            .filter(eprecise.efiscal4j.nfe.v400.tax.icms.ICMS61.class::isInstance)
+                            .map(eprecise.efiscal4j.nfe.v400.tax.icms.ICMS61.class::cast)
+                            .orElseThrow(() -> new RuntimeException(
+                                    String.format(
+                                            "O ICMS [ NAME: '%s' ] informado não é válido.",
+                                            nfeIcms.getClass().getSimpleName()
+                                    )
+                            ));
+
+                    return ICMS61.builder()
+                            .origin(
+                                    Optional.of(icms61)
+                                            .map(eprecise.efiscal4j.nfe.v400.tax.icms.ICMS::getOrigin)
+                                            .map(eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin::getValue)
+                                            .map(ProductOrigin::findByCode)
+                                            .orElse(null)
+                            )
+                            .icms(
+                                    IcmsMonoRetWithValue.builder()
+                                            .qBcValue(this.toBigDecimal(icms61.getQBCMonoRet()))
+                                            .aliquot(this.toBigDecimal(icms61.getAdRemICMSRet()))
+                                            .icmsValue(this.toBigDecimal(icms61.getVICMSMonoRet()))
+                                            .build()
+                            )
                             .build();
                 }
                 case "ICMS70": {
