@@ -36,6 +36,7 @@ import eprecise.efiscal4j.nfe.item.tax.icms.deferral.IcmsDeferral;
 import eprecise.efiscal4j.nfe.item.tax.icms.desoneration.IcmsDesoneration;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.fcp.value.FcpWithBcValue;
+import eprecise.efiscal4j.nfe.item.tax.icms.singlephase.IcmsMonoRetWithValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.sn.credit.CreditSnValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStValue;
 import eprecise.efiscal4j.nfe.item.tax.icms.st.fcp.value.FcpStWithBcValue;
@@ -2211,6 +2212,48 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .withBcFcpRetainedValueST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getCalculationBasis).map(this::formatNFeDecimal1302).orElse(null))
                         .withFcpRetainedAliquotST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getAliquot).map(this::formatNFeDecimal0302a04Optional).orElse(null))
                         .withFcpRetainedValueST(Optional.ofNullable(icms60.getFcpStRetained()).map(FcpStRetainedValue::getValue).map(this::formatNFeDecimal1302).orElse(null))
+                        .build();
+            }
+            case CST_61: {
+                final eprecise.efiscal4j.nfe.item.tax.icms.ICMS61 icms61 = Optional.ofNullable(icms)
+                        .filter(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::isInstance)
+                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61.class::cast)
+                        .orElseThrow(() -> new RuntimeException(
+                                String.format(
+                                        "O ICMS [ NAME: '%s' ] informado não é válido.",
+                                        icms.getClass().getSimpleName()
+                                )
+                        ));
+
+                final IcmsMonoRetWithValue icmsMonoRet = Optional.ofNullable(icms61.getIcmsMonoRetWithValue())
+                        .orElseThrow(() -> new RuntimeException("O campo 'icms' do ICMS61 não pode ser nulo."));
+
+                return new ICMS61.Builder()
+                        .withOrigin(
+                                Optional.of(icms61)
+                                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ICMS61::getOrigin)
+                                        .map(eprecise.efiscal4j.nfe.item.tax.icms.ProductOrigin::getValue)
+                                        .map(ProductOrigin::findByCode)
+                                        .orElse(null)
+                        )
+                        .withQBCMonoRet(
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getQBcValue)
+                                        .map(this::formatNFeDecimal1104)
+                                        .orElse(null)
+                        )
+                        .withAdRemICMSRet(
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getAliquot)
+                                        .map(this::formatNFeDecimal0302a04)
+                                        .orElse(null)
+                        )
+                        .withVICMSMonoDif(
+                                Optional.ofNullable(icmsMonoRet)
+                                        .map(IcmsMonoRetWithValue::getIcmsValue)
+                                        .map(this::formatNFeDecimal1302)
+                                        .orElse(null)
+                        )
                         .build();
             }
             case CST_70 : {

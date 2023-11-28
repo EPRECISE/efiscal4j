@@ -38,6 +38,7 @@ public class ICMSAdapter extends XmlAdapter<ICMSAdapter.AdaptedICMS, ICMS> {
                 @XmlElement(name = "ICMS40", type = ICMS41.class),
                 @XmlElement(name = "ICMS40", type = ICMS50.class),
                 @XmlElement(name = "ICMS51", type = ICMS51.class),
+                @XmlElement(name = "ICMS61", type = ICMS61.class),
                 @XmlElement(name = "ICMS60", type = ICMS60.class),
                 @XmlElement(name = "ICMS70", type = ICMS70.class),
                 @XmlElement(name = "ICMS90", type = ICMS90.class),
