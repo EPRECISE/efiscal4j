@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.v400.fuel;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,8 @@ import eprecise.efiscal4j.nfe.v400.types.NFeDecimal0302a04Max100;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1204Temperature;
 import eprecise.efiscal4j.nfe.v400.types.NFeDecimal1302;
 import eprecise.efiscal4j.nfe.v400.types.NFeString;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -26,6 +29,8 @@ import eprecise.efiscal4j.nfe.v400.types.NFeString;
  *
  */
 
+@Getter
+@NoArgsConstructor(force = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Fuel implements Serializable {
 
@@ -53,6 +58,8 @@ public class Fuel implements Serializable {
 
     private @XmlElement(name = "encerrante") final FuelClosing closing;
 
+    private @XmlElement(name = "origComb") final List<FuelOrigin> fuelOrigins;
+
     public static class Builder {
 
         private String anpProductCode;
@@ -76,6 +83,8 @@ public class Fuel implements Serializable {
         private FuelCide cide;
 
         private FuelClosing closing;
+
+        private List<FuelOrigin> fuelOrigins;
 
         /**
          * Código de produto da ANP. codificação de produtos do SIMP (http://www.anp.gov.br)
@@ -199,25 +208,21 @@ public class Fuel implements Serializable {
             return this;
         }
 
+        /**
+         * @param fuelOrigins
+         * @see FuelOrigin
+         * @return
+         */
+        public Builder withFuelOrigin(final List<FuelOrigin> fuelOrigins){
+            this.fuelOrigins = fuelOrigins;
+            return this;
+        }
+
         public Fuel build() {
             final Fuel entity = new Fuel(this);
             ValidationBuilder.from(entity).validate().throwIfViolate();
             return entity;
         }
-    }
-
-    public Fuel() {
-        this.anpProductCode = null;
-        this.anpProductDescription = null;
-        this.glpPercent = null;
-        this.gnnPercent = null;
-        this.gniPercent = null;
-        this.startingValue = null;
-        this.codifCode = null;
-        this.temperature = null;
-        this.consumerUF = null;
-        this.cide = null;
-        this.closing = null;
     }
 
     public Fuel(final Builder builder) {
@@ -232,50 +237,11 @@ public class Fuel implements Serializable {
         this.consumerUF = builder.consumerUF;
         this.cide = builder.cide;
         this.closing = builder.closing;
-    }
-
-    public String getAnpProductCode() {
-        return anpProductCode;
-    }
-
-    public String getAnpProductDescription() {
-        return anpProductDescription;
-    }
-
-    public String getGlpPercent() {
-        return glpPercent;
-    }
-
-    public String getGnnPercent() {
-        return gnnPercent;
-    }
-
-    public String getGniPercent() {
-        return gniPercent;
-    }
-
-    public String getStartingValue() {
-        return startingValue;
-    }
-
-    public String getCodifCode() {
-        return codifCode;
-    }
-
-    public String getTemperature() {
-        return temperature;
+        this.fuelOrigins = builder.fuelOrigins;
     }
 
     public UF getConsumerUF() {
         return UF.findByAcronym(consumerUF);
-    }
-
-    public FuelCide getCide() {
-        return cide;
-    }
-
-    public FuelClosing getClosing() {
-        return closing;
     }
 
 }

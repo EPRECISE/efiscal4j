@@ -102,6 +102,7 @@ import eprecise.efiscal4j.nfe.v400.export.NFeExport;
 import eprecise.efiscal4j.nfe.v400.fuel.Fuel;
 import eprecise.efiscal4j.nfe.v400.fuel.FuelCide;
 import eprecise.efiscal4j.nfe.v400.fuel.FuelClosing;
+import eprecise.efiscal4j.nfe.v400.fuel.FuelOrigin;
 import eprecise.efiscal4j.nfe.v400.item.di.Addition;
 import eprecise.efiscal4j.nfe.v400.item.di.ImportDeclaration;
 import eprecise.efiscal4j.nfe.v400.item.di.IntermediaryImportType;
@@ -1156,13 +1157,36 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
 
     private Fuel buildFuel(final eprecise.efiscal4j.nfe.item.fuel.Fuel fuel) {
         if (fuel != null) {
-            return new Fuel.Builder().withAnpProductCode(fuel.getAnpProductCode()).withAnpProductDescription(this.formatNFeString(fuel.getAnpProductDescription(), 95))
-                    .withGlpPercent(this.formatNFeDecimal0302a04Max100(fuel.getGlpPercent())).withGnnPercent(this.formatNFeDecimal0302a04Max100(fuel.getGnnPercent()))
-                    .withGniPercent(this.formatNFeDecimal0302a04Max100(fuel.getGniPercent())).withStartingValue(this.formatNFeDecimal1302(fuel.getStartingValue())).withCodifCode(fuel.getCodifCode())
-                    .withTemperature(this.formatNFeDecimal1204Temperature(fuel.getTemperature())).withConsumerUF(fuel.getConsumerUF()).withCide(this.buildFuelCide(fuel.getCide()))
-                    .withClosing(this.buildFuelClosing(fuel.getClosing())).build();
+            return new Fuel.Builder()
+                    .withAnpProductCode(fuel.getAnpProductCode())
+                    .withAnpProductDescription(this.formatNFeString(fuel.getAnpProductDescription(), 95))
+                    .withGlpPercent(this.formatNFeDecimal0302a04Max100(fuel.getGlpPercent()))
+                    .withGnnPercent(this.formatNFeDecimal0302a04Max100(fuel.getGnnPercent()))
+                    .withGniPercent(this.formatNFeDecimal0302a04Max100(fuel.getGniPercent()))
+                    .withStartingValue(this.formatNFeDecimal1302(fuel.getStartingValue()))
+                    .withCodifCode(fuel.getCodifCode())
+                    .withTemperature(this.formatNFeDecimal1204Temperature(fuel.getTemperature()))
+                    .withConsumerUF(fuel.getConsumerUF())
+                    .withCide(this.buildFuelCide(fuel.getCide()))
+                    .withClosing(this.buildFuelClosing(fuel.getClosing()))
+                    .withFuelOrigin(this.buildFuelOrigins(fuel.getOrigins()))
+                    .build();
         }
         return null;
+    }
+
+    private List<FuelOrigin> buildFuelOrigins(final List<eprecise.efiscal4j.nfe.item.fuel.FuelOrigin> origins) {
+        // TODO -> VALIDAÇÃO DE DADOS
+        return origins
+                .stream()
+                .filter(Objects::nonNull)
+                .map(it -> new FuelOrigin.Builder()
+                        .withIndImport(it.getIndImport())
+                        .withCUFOrig(it.getCUFOrig())
+                        .withPOrig(it.getPOrig())
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 
     private FuelClosing buildFuelClosing(final eprecise.efiscal4j.nfe.item.fuel.FuelClosing closing) {

@@ -2,6 +2,7 @@
 package eprecise.efiscal4j.nfe.item.fuel;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import lombok.Builder;
@@ -40,4 +41,7 @@ public class Fuel {
     private final FuelCide cide;
 
     private final FuelClosing closing;
+
+    private final List<FuelOrigin> origins;
+
 }
