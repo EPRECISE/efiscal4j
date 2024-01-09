@@ -1176,17 +1176,18 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private List<FuelOrigin> buildFuelOrigins(final List<eprecise.efiscal4j.nfe.item.fuel.FuelOrigin> origins) {
-        // TODO -> VALIDAÇÃO DE DADOS
-        return origins
-                .stream()
-                .filter(Objects::nonNull)
-                .map(it -> new FuelOrigin.Builder()
-                        .withIndImport(it.getIndImport())
-                        .withCUFOrig(it.getCUFOrig())
-                        .withPOrig(it.getPOrig())
-                        .build()
+        return Optional.ofNullable(origins)
+                .map(it -> it.stream()
+                        .filter(Objects::nonNull)
+                        .map(origin -> new FuelOrigin.Builder()
+                                .withIndImport(origin.getIndImport())
+                                .withCUFOrig(origin.getCUFOrig())
+                                .withPOrig(origin.getPOrig())
+                                .build()
+                        )
+                        .collect(Collectors.toList())
                 )
-                .collect(Collectors.toList());
+                .orElse(null);
     }
 
     private FuelClosing buildFuelClosing(final eprecise.efiscal4j.nfe.item.fuel.FuelClosing closing) {

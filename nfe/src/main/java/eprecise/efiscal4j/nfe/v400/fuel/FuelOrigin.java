@@ -1,5 +1,8 @@
 package eprecise.efiscal4j.nfe.v400.fuel;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin;
+import eprecise.efiscal4j.nfe.v400.types.NFeDecimal01100;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,42 +28,43 @@ public class FuelOrigin implements Serializable {
 
     @XmlElement(name = "indImport")
     @NotNull
-    private final String indImport;
+    private final ProductOrigin indImport;
 
     @XmlElement(name = "cUFOrig")
     @NotNull
-    private final String cUFOrig;
+    private final UF cUFOrig;
 
-    @XmlElement(name = "vCIDE")
+    @XmlElement(name = "pOrig")
     @NotNull
+    @NFeDecimal01100
     private final String pOrig;
 
     public static class Builder {
 
-        private String indImport;
+        private ProductOrigin indImport;
 
-        private String cUFOrig;
+        private UF cUFOrig;
 
         private String pOrig;
 
         /**
-         * BC do CIDE (Quantidade comercializada)
+         * Indicador de importação.
          */
-        public Builder withIndImport(final String indImport) {
+        public Builder withIndImport(final ProductOrigin indImport) {
             this.indImport = indImport;
             return this;
         }
 
         /**
-         * BC do CIDE (Quantidade comercializada)
+         * Código da UF de origem do produtor ou importador.
          */
-        public Builder withCUFOrig(final String cUFOrig) {
+        public Builder withCUFOrig(final UF cUFOrig) {
             this.cUFOrig = cUFOrig;
             return this;
         }
 
         /**
-         * BC do CIDE (Quantidade comercializada)
+         * Percentual originário para a UF.
          */
         public Builder withPOrig(final String pOrig) {
             this.pOrig = pOrig;
@@ -72,7 +76,7 @@ public class FuelOrigin implements Serializable {
         }
     }
 
-    public FuelOrigin(final Builder builder){
+    public FuelOrigin(final Builder builder) {
         this.indImport = builder.indImport;
         this.cUFOrig = builder.cUFOrig;
         this.pOrig = builder.pOrig;

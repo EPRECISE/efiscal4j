@@ -1,5 +1,7 @@
 package eprecise.efiscal4j.nfe.item.fuel;
 
+import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.v400.tax.icms.ProductOrigin;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,9 +9,9 @@ import lombok.Getter;
 @Getter
 public class FuelOrigin {
 
-    private final String indImport;
+    private final ProductOrigin indImport;
 
-    private final String cUFOrig;
+    private final UF cUFOrig;
 
     private final String pOrig;
 
