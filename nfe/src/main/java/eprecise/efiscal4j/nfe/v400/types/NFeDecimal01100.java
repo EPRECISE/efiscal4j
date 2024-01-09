@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.FIELD;
  *
  * Tipo Decimal com até 2 dígitos inteiros ou igual à 100, sem casas decimais.
  *
- * @author Clécius J. Martinkoski
+ * @author Pedro H. Rodrigues
  *
  */
 @Target({ FIELD, ANNOTATION_TYPE })
