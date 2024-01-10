@@ -28,46 +28,46 @@ public class FuelOrigin implements Serializable {
 
     @XmlElement(name = "indImport")
     @NotNull
-    private final ProductOrigin indImport;
+    private final ProductOrigin importIndicator;
 
     @XmlElement(name = "cUFOrig")
     @NotNull
-    private final UF cUFOrig;
+    private final UF originUf;
 
     @XmlElement(name = "pOrig")
     @NotNull
     @NFeDecimal01100
-    private final String pOrig;
+    private final String percentageOriginatingFromUf;
 
     public static class Builder {
 
-        private ProductOrigin indImport;
+        private ProductOrigin importIndicator;
 
-        private UF cUFOrig;
+        private UF originUf;
 
-        private String pOrig;
+        private String percentageOriginatingFromUf;
 
         /**
          * Indicador de importação.
          */
-        public Builder withIndImport(final ProductOrigin indImport) {
-            this.indImport = indImport;
+        public Builder withImportIndicator(final ProductOrigin importIndicator) {
+            this.importIndicator = importIndicator;
             return this;
         }
 
         /**
          * Código da UF de origem do produtor ou importador.
          */
-        public Builder withCUFOrig(final UF cUFOrig) {
-            this.cUFOrig = cUFOrig;
+        public Builder withOriginUf(final UF originUf) {
+            this.originUf = originUf;
             return this;
         }
 
         /**
          * Percentual originário para a UF.
          */
-        public Builder withPOrig(final String pOrig) {
-            this.pOrig = pOrig;
+        public Builder withPercentageOriginatingFromUf(final String percentageOriginatingFromUf) {
+            this.percentageOriginatingFromUf = percentageOriginatingFromUf;
             return this;
         }
 
@@ -77,9 +77,9 @@ public class FuelOrigin implements Serializable {
     }
 
     public FuelOrigin(final Builder builder) {
-        this.indImport = builder.indImport;
-        this.cUFOrig = builder.cUFOrig;
-        this.pOrig = builder.pOrig;
+        this.importIndicator = builder.importIndicator;
+        this.originUf = builder.originUf;
+        this.percentageOriginatingFromUf = builder.percentageOriginatingFromUf;
     }
 
 }

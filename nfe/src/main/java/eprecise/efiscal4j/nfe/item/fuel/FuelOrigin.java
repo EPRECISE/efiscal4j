@@ -9,10 +9,10 @@ import lombok.Getter;
 @Getter
 public class FuelOrigin {
 
-    private final ProductOrigin indImport;
+    private final ProductOrigin importIndicator;
 
-    private final UF cUFOrig;
+    private final UF originUf;
 
-    private final String pOrig;
+    private final String percentageOriginatingFromUf;
 
 }
