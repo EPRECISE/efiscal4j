@@ -13,6 +13,6 @@ public class FuelOrigin {
 
     private final UF originUf;
 
-    private final String percentageOriginatingFromUf;
+    private final String percentageOriginatedFromUf;
 
 }

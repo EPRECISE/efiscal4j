@@ -37,7 +37,7 @@ public class FuelOrigin implements Serializable {
     @XmlElement(name = "pOrig")
     @NotNull
     @NFeDecimal01100
-    private final String percentageOriginatingFromUf;
+    private final String percentageOriginatedFromUf;
 
     public static class Builder {
 
@@ -45,7 +45,7 @@ public class FuelOrigin implements Serializable {
 
         private UF originUf;
 
-        private String percentageOriginatingFromUf;
+        private String percentageOriginatedFromUf;
 
         /**
          * Indicador de importação.
@@ -66,8 +66,8 @@ public class FuelOrigin implements Serializable {
         /**
          * Percentual originário para a UF.
          */
-        public Builder withPercentageOriginatingFromUf(final String percentageOriginatingFromUf) {
-            this.percentageOriginatingFromUf = percentageOriginatingFromUf;
+        public Builder withPercentageOriginatedFromUf(final String percentageOriginatedFromUf) {
+            this.percentageOriginatedFromUf = percentageOriginatedFromUf;
             return this;
         }
 
@@ -79,7 +79,7 @@ public class FuelOrigin implements Serializable {
     public FuelOrigin(final Builder builder) {
         this.importIndicator = builder.importIndicator;
         this.originUf = builder.originUf;
-        this.percentageOriginatingFromUf = builder.percentageOriginatingFromUf;
+        this.percentageOriginatedFromUf = builder.percentageOriginatedFromUf;
     }
 
 }

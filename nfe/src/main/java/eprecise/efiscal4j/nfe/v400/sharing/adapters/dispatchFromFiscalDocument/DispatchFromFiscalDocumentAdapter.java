@@ -1182,7 +1182,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         .map(origin -> new FuelOrigin.Builder()
                                 .withImportIndicator(origin.getImportIndicator())
                                 .withOriginUf(origin.getOriginUf())
-                                .withPercentageOriginatingFromUf(origin.getPercentageOriginatingFromUf())
+                                .withPercentageOriginatedFromUf(origin.getPercentageOriginatedFromUf())
                                 .build()
                         )
                         .collect(Collectors.toList())
