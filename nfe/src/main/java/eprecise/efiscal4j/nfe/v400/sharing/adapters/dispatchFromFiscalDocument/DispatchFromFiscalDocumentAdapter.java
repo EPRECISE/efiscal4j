@@ -1084,12 +1084,7 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {
-        if (CRT.SIMPLE_NATIONAL.equals(crt)) {
-            return eprecise.efiscal4j.nfe.v400.CRT.SIMPLES_NACIONAL;
-        } else if (CRT.SIMPLE_NATIONAL_WITH_SUBLIME_EXCESS.equals(crt)) {
-            return eprecise.efiscal4j.nfe.v400.CRT.SIMPLES_NACIONAL_EXCESSO_SUBLIMITE;
-        }
-        return eprecise.efiscal4j.nfe.v400.CRT.REGIME_NORMAL;
+        return eprecise.efiscal4j.nfe.v400.CRT.findByCode(crt.getValue());
     }
 
     private List<NFeDetail> buildNFeDetails() {
