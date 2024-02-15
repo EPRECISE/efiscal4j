@@ -1084,7 +1084,10 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
     }
 
     private eprecise.efiscal4j.nfe.v400.CRT buildCrt(final CRT crt) {
-        return eprecise.efiscal4j.nfe.v400.CRT.findByCode(crt.getValue());
+        return Optional.ofNullable(crt)
+                .map(CRT::getValue)
+                .map(eprecise.efiscal4j.nfe.v400.CRT::findByCode)
+                .orElse(null);
     }
 
     private List<NFeDetail> buildNFeDetails() {
