@@ -1,7 +1,10 @@
 
 package eprecise.efiscal4j.nfe.v400;
 
+import lombok.Getter;
+
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -15,11 +18,12 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlType
-@XmlEnum(String.class)
+@XmlEnum
 public enum CRT implements Serializable {
     @XmlEnumValue("1") SIMPLES_NACIONAL("1", "Simples Nacional"),
     @XmlEnumValue("2") SIMPLES_NACIONAL_EXCESSO_SUBLIMITE("2", "Simples Nacional – excesso de sublimite de receita bruta"),
-    @XmlEnumValue("3") REGIME_NORMAL("3", "Regime Normal");
+    @XmlEnumValue("3") REGIME_NORMAL("3", "Regime Normal"),
+    @XmlEnumValue("4") SIMPLES_NACIONAL_MEI("4", "Simples Nacional - Microempreendedor Individual (MEI)");
 
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +31,7 @@ public enum CRT implements Serializable {
 
     private final String description;
 
-    private CRT(String value, String description) {
+    CRT(String value, String description) {
         this.value = value;
         this.description = description;
     }

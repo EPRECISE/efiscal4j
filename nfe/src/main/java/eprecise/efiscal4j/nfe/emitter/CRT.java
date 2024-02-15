@@ -6,14 +6,14 @@ import java.io.Serializable;
 
 /**
  * Código de Regime Tributário
- * 
+ *
  * @author Fernando Glizt
- * 
  */
 public enum CRT implements Serializable {
-                                         SIMPLE_NATIONAL("1", "Simples Nacional"),
-                                         SIMPLE_NATIONAL_WITH_SUBLIME_EXCESS("2", "Simples Nacional – excesso de sublimite de receita bruta"),
-                                         NORMAL_REGIME("3", "Regime Normal");
+    SIMPLE_NATIONAL("1", "Simples Nacional"),
+    SIMPLE_NATIONAL_WITH_SUBLIME_EXCESS("2", "Simples Nacional – excesso de sublimite de receita bruta"),
+    NORMAL_REGIME("3", "Regime Normal"),
+    SIMPLE_NATIONAL_MEI("4", "Simples Nacional - Microempreendedor Individual (MEI)");
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public enum CRT implements Serializable {
 
     private final String description;
 
-    private CRT(String value, String description) {
+    CRT(String value, String description) {
         this.value = value;
         this.description = description;
     }
