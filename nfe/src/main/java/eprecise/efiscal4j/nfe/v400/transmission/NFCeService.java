@@ -1,13 +1,13 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.io.Serializable;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
+
+import java.io.Serializable;
 
 
 /**
@@ -51,7 +51,10 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
     }
 
     public String getHomologUrl(final UF uf) {
-        return this.getUrl(this.getNFCeServiceDomainByUf(uf), TransmissionEnvironment.HOMOLOGACAO);
+        return this.getUrl(
+            NFCeServiceDomain.findBy(uf),
+            TransmissionEnvironment.HOMOLOGACAO
+        );
     }
 
     public String getProductionUrl(final NFCeServiceDomain serviceDomain) {
@@ -59,39 +62,10 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
     }
 
     public String getProductionUrl(final UF uf) {
-        return this.getUrl(this.getNFCeServiceDomainByUf(uf), TransmissionEnvironment.PRODUCAO);
-    }
-
-    /**
-     * Valida a estrutura da Sefaz, que define qual UF utiliza qual ambiente de serviço
-     *
-     * @return
-     */
-    public NFCeServiceDomain getNFCeServiceDomainByUf(final UF uf) {
-        // TODO Verificar como retornaria ambiente de contingência
-        //@formatter:off
-        switch (uf) {
-        case MA:
-        case BA:
-        case PA:
-        case PI:
-        case AC:
-        case AL:
-        case AP:
-        case DF:
-        case PB:
-        case RJ:
-        case RN:
-        case RO:
-        case RR:
-        case SE:
-        case TO:
-        case ES:
-            return NFCeServiceDomain.SVRS;
-        default:
-            return NFCeServiceDomain.findByAcronym(uf.getAcronym());
-        }
-        //@formatter:on
+        return this.getUrl(
+            NFCeServiceDomain.findBy(uf),
+            TransmissionEnvironment.PRODUCAO
+        );
     }
 
     private String getUrl(final NFCeServiceDomain serviceDomain, final TransmissionEnvironment environment) {

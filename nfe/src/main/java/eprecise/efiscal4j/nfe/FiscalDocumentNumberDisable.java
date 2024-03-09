@@ -12,9 +12,11 @@ import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.nfe.event.EventStatus;
 import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
+import eprecise.efiscal4j.nfe.v400.transmission.NFCeServiceDomain;
 import eprecise.efiscal4j.nfe.v400.transmission.ServiceDomain;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeNumberDisableVersion;
@@ -66,10 +68,12 @@ public class FiscalDocumentNumberDisable {
                     .getConstructor(Certificate.class)
                     .newInstance(certificate);
 
+
+
             final TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> result =
                     transmissionChannel
                             .transmitNFeNumberDisable(
-                                    ServiceDomain.findRelationByUF(this.emitter.uf),
+                                    this.getServiceDomainByModelAndUF(),
                                     request
                             );
 
@@ -129,6 +133,20 @@ public class FiscalDocumentNumberDisable {
 
         private final UF uf;
 
+    }
+
+    private NFeServiceDomain getServiceDomainByModelAndUF() {
+        switch (this.getModel()){
+            case NFE:
+            case CTE:
+                return ServiceDomain.findBy(this.emitter.uf);
+            case NFCE:
+                return NFCeServiceDomain.findBy(this.emitter.uf);
+        }
+
+        throw new RuntimeException(
+            String.format("Model '%s' not found.", this.getModel())
+        );
     }
 
 }

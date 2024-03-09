@@ -1,14 +1,16 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
+import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
+import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
+import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
-import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
-import eprecise.efiscal4j.commons.domain.adress.UF;
+import java.util.stream.Stream;
 
 
 /**
@@ -19,7 +21,7 @@ import eprecise.efiscal4j.commons.domain.adress.UF;
  *
  */
 
-public enum NFCeServiceDomain implements Serializable {
+public enum NFCeServiceDomain implements NFeServiceDomain, Serializable {
 
     //@formatter:off
     AC(UF.AC.getDescription(), NFCeServiceDomain.getDefaultServices()),
@@ -90,12 +92,30 @@ public enum NFCeServiceDomain implements Serializable {
         return this.toString();
     }
 
-    public static NFCeServiceDomain findByAcronym(final String acronym) {
-        for (final NFCeServiceDomain serviceDomain : NFCeServiceDomain.values()) {
-            if (serviceDomain.getAcronym().equals(acronym)) {
-                return serviceDomain;
-            }
+    public static NFCeServiceDomain findBy(UF uf) {
+        switch (uf) {
+            case MA:
+            case BA:
+            case PA:
+            case PI:
+            case AC:
+            case AL:
+            case AP:
+            case DF:
+            case PB:
+            case RJ:
+            case RN:
+            case RO:
+            case RR:
+            case SE:
+            case TO:
+            case ES:
+                return NFCeServiceDomain.SVRS;
+            default:
+                return Stream.of(values())
+                    .filter(it -> it.getAcronym().equals(uf.getAcronym()))
+                    .findFirst()
+                    .orElse(null);
         }
-        return null;
     }
 }

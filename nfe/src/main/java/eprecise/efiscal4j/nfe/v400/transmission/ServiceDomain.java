@@ -1,14 +1,15 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 
 /**
@@ -157,7 +158,7 @@ public enum ServiceDomain implements NFeServiceDomain {
         return this.toString();
     }
 
-    public static NFeServiceDomain findRelationByUF(UF uf) {
+    public static ServiceDomain findBy(UF uf) {
         switch (uf) {
             case AC:
             case AL:
@@ -176,16 +177,11 @@ public enum ServiceDomain implements NFeServiceDomain {
             case TO:
                 return ServiceDomain.SVRS;
             default:
-                return ServiceDomain.findByAcronym(uf.getAcronym());
+                return Stream.of(values())
+                    .filter(it -> it.getAcronym().equals(uf.getAcronym()))
+                    .findFirst()
+                    .orElse(null);
         }
     }
 
-    public static ServiceDomain findByAcronym(String acronym) {
-        for (final ServiceDomain serviceDomain : values()) {
-            if (serviceDomain.getAcronym().equals(acronym)) {
-                return serviceDomain;
-            }
-        }
-        return null;
-    }
 }
