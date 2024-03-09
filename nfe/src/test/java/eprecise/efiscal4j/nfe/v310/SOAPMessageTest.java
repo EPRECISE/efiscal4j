@@ -37,7 +37,7 @@ public class SOAPMessageTest implements Testable {
         try {
             System.out.println("Testando NFeNumberDisable...");
 
-            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitNFeNumberDisable(this.getTestDomain().buildNFeNumberDisable());
+            final TransmissionResult transmissionResult = this.getTestDomain().getTransmissionChannel().transmitNFeNumberDisable(null, this.getTestDomain().buildNFeNumberDisable());
 
             final NFeNumberDisableResponseMethod numberDisableResponseMethod = new FiscalDocumentDeserializer<>(transmissionResult.getResponseXml(), NFeNumberDisableResponseMethod.class)
                     .deserialize();

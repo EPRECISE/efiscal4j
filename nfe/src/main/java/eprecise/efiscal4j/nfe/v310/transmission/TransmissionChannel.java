@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.ImmutableMap;
@@ -328,8 +329,10 @@ public class TransmissionChannel implements NFeTransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisableRequest) {
-
+    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(
+            final NFeServiceDomain domain,
+            final NFeNumberDisableDispatchRequest nfeNumberDisableRequest
+    ) {
         final NFeNumberDisableDispatch nfeNumberDisable = (NFeNumberDisableDispatch) nfeNumberDisableRequest;
 
         final UF uf = nfeNumberDisable.getInfo().getUfIbgeCode();

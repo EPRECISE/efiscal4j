@@ -1,19 +1,6 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
-
-import com.google.common.collect.ImmutableMap;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
@@ -22,39 +9,28 @@ import eprecise.efiscal4j.commons.domain.transmission.TypedTransmissionResult;
 import eprecise.efiscal4j.commons.utils.Certificate;
 import eprecise.efiscal4j.commons.utils.ValidationBuilder;
 import eprecise.efiscal4j.commons.xml.FiscalDocumentSerializer;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator;
-import eprecise.efiscal4j.commons.xml.FiscalDocumentValidator.ValidationResult;
+import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
-import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeBatchReceiptSearchRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeDeliveryDFeDispatchRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeEventDispatchRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeServiceStatusSearchRequest;
-import eprecise.efiscal4j.nfe.transmission.request.NFeStatusSearchRequest;
+import eprecise.efiscal4j.nfe.transmission.request.*;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
 import eprecise.efiscal4j.nfe.v400.NFe;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeRequest;
 import eprecise.efiscal4j.nfe.v400.deliveryDFe.NFeDeliveryDFeResponse;
-import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearch;
-import eprecise.efiscal4j.nfe.v400.sharing.BatchReceiptSearchResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.Event;
-import eprecise.efiscal4j.nfe.v400.sharing.EventDispatch;
-import eprecise.efiscal4j.nfe.v400.sharing.EventDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.EventType;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatch;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeDispatchResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeNumberDisableDispatch;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeNumberDisableResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearch;
-import eprecise.efiscal4j.nfe.v400.sharing.NFeStatusSearchResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.RecipientManifestationResponseMethod;
-import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearch;
-import eprecise.efiscal4j.nfe.v400.sharing.ServiceStatusSearchResponseMethod;
+import eprecise.efiscal4j.nfe.v400.sharing.*;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeBodyWrapper;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeSoapBody;
 import eprecise.efiscal4j.nfe.v400.transmission.deliveryDfe.NFeDeliveryDFeSoapEnvelope;
+import eprecise.efiscal4j.transmissor.TransmissibleEnvelope;
 import eprecise.efiscal4j.transmissor.Transmissor;
+import org.apache.commons.lang3.StringUtils;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -66,8 +42,11 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
     private final Transmissor transmissor;
 
+    private final Transmissor transmissorNumberDisabled;
+
     public TransmissionChannel(final Certificate certificate) {
         this.transmissor = new Transmissor(certificate, "TLSv1.2");
+        this.transmissorNumberDisabled = new Transmissor(certificate);
     }
 
     @Override
@@ -363,7 +342,10 @@ public class TransmissionChannel implements NFeTransmissionChannel {
     }
 
     @Override
-    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisableRequest) {
+    public TypedTransmissionResult<NFeNumberDisableDispatch, NFeNumberDisableResponseMethod> transmitNFeNumberDisable(
+            final NFeServiceDomain domain,
+            final NFeNumberDisableDispatchRequest nfeNumberDisableRequest
+    ) {
 
         final NFeNumberDisableDispatch nfeNumberDisable = (NFeNumberDisableDispatch) nfeNumberDisableRequest;
 
@@ -395,14 +377,23 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final String xmlnsServiceName = NFeHeader.BASE_XMLNS + serviceUrl.replaceAll("^(.*[\\\\\\/])", "").replaceAll("\\.[^.]*$", "");
 
-        final SOAPEnvelope soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeNumberDisable.getVersion(), nfeNumberDisable);
+        final TransmissibleEnvelope soapEnvelope;
+
+        if(domain.equals(ServiceDomain.SVRS)) {
+            soapEnvelope = this.buildSOAPSVRSEnvelope(xmlnsServiceName, NFeHeader.BASE_XMLNS + "NFeInutilizacao4", nfeNumberDisable);
+        } else {
+            soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeNumberDisable.getVersion(), nfeNumberDisable);
+        }
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeNumberDisable).serialize();
 
-        String responseXml = this.transmissor.transmit(new FiscalDocumentSerializer<>(soapEnvelope).serialize(), serviceUrl,
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF");
+        String responseXml = this.transmissorNumberDisabled.transmit(
+                new FiscalDocumentSerializer<>(soapEnvelope).serialize(),
+                serviceUrl,
+                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"
+        );
 
         responseXml = this.postProcessResponseXML(responseXml);
 
@@ -510,6 +501,35 @@ public class TransmissionChannel implements NFeTransmissionChannel {
                                    .build())
                   .build();
         //@formatter:on
+    }
+
+    private SOAPSVRSEnvelope buildSOAPSVRSEnvelope(
+            final String xmlns,
+            final String xmlnsNfe,
+            final TransmissibleBodyImpl transmissible
+    ){
+        return new SOAPSVRSEnvelope.Builder()
+                .withXmlnsNfe(xmlnsNfe)
+                .withSoapHeader(
+                        new SOAPHeader.Builder()
+                                .withNfeHeader(
+                                        new NFeHeader.Builder()
+                                                .withXmlns(xmlns)
+                                                .build()
+                                )
+                                .build()
+                )
+                .withSoapBody(
+                        new SOAPSVRSBody.Builder()
+                                .withNfeBody(
+                                        new NFeBody.Builder()
+                                                .withXmlns(xmlns)
+                                                .withTransmissible(transmissible)
+                                                .build()
+                                )
+                                .build()
+                )
+                .build();
     }
 
 }

@@ -157,6 +157,29 @@ public enum ServiceDomain implements NFeServiceDomain {
         return this.toString();
     }
 
+    public static NFeServiceDomain findRelationByUF(UF uf) {
+        switch (uf) {
+            case AC:
+            case AL:
+            case AP:
+            case CE:
+            case DF:
+            case ES:
+            case PB:
+            case PI:
+            case RJ:
+            case RN:
+            case RO:
+            case RR:
+            case SC:
+            case SE:
+            case TO:
+                return ServiceDomain.SVRS;
+            default:
+                return ServiceDomain.findByAcronym(uf.getAcronym());
+        }
+    }
+
     public static ServiceDomain findByAcronym(String acronym) {
         for (final ServiceDomain serviceDomain : values()) {
             if (serviceDomain.getAcronym().equals(acronym)) {

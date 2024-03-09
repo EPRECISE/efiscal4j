@@ -15,6 +15,7 @@ import eprecise.efiscal4j.nfe.serie.FiscalDocumentSerie;
 import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeNumberDisableDispatchRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeNumberDisableDispatchResponse;
+import eprecise.efiscal4j.nfe.v400.transmission.ServiceDomain;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeNumberDisableVersion;
 import lombok.Builder;
@@ -48,10 +49,30 @@ public class FiscalDocumentNumberDisable {
      */
     public FiscalDocumentNumberDisable.TransmissionResult transmit(final Certificate certificate) {
         try {
-            final NFeNumberDisableDispatchRequest request = this.version.getEventDispatchNumberDisableClass().getConstructor(FiscalDocumentNumberDisable.class, Certificate.class)
-                    .newInstance(this, certificate).buildEventDispatchNumberDisable();
-            final NFeTransmissionChannel transmissionChannel = this.version.getTransmissionChannelClass().getConstructor(Certificate.class).newInstance(certificate);
-            final TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> result = transmissionChannel.transmitNFeNumberDisable(request);
+            final NFeNumberDisableDispatchRequest request = this.version
+                    .getEventDispatchNumberDisableClass()
+                    .getConstructor(
+                            FiscalDocumentNumberDisable.class,
+                            Certificate.class
+                    )
+                    .newInstance(
+                            this,
+                            certificate
+                    )
+                    .buildEventDispatchNumberDisable();
+
+            final NFeTransmissionChannel transmissionChannel = this.version
+                    .getTransmissionChannelClass()
+                    .getConstructor(Certificate.class)
+                    .newInstance(certificate);
+
+            final TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> result =
+                    transmissionChannel
+                            .transmitNFeNumberDisable(
+                                    ServiceDomain.findRelationByUF(this.emitter.uf),
+                                    request
+                            );
+
             return FiscalDocumentNumberDisable.TransmissionResult.builder().version(this.version).result(result).build();
         } catch (final Exception e) {
             throw new RuntimeException(e);
