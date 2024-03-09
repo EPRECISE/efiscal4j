@@ -379,7 +379,7 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final TransmissibleEnvelope soapEnvelope;
 
-        if(domain.equals(ServiceDomain.SVRS)) {
+        if(domain.equals(ServiceDomain.SVRS) || domain.equals(NFCeServiceDomain.SVRS)) {
             soapEnvelope = this.buildSOAPSVRSEnvelope(xmlnsServiceName, NFeHeader.BASE_XMLNS + "NFeInutilizacao4", nfeNumberDisable);
         } else {
             soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeNumberDisable.getVersion(), nfeNumberDisable);
