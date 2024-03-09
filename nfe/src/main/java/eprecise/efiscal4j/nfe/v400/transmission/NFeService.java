@@ -1,13 +1,13 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.io.Serializable;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
+
+import java.io.Serializable;
 
 
 /**
@@ -19,30 +19,44 @@ import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 
 public enum NFeService implements FiscalDocumentService, Serializable {
 
-                                                                       AUTHORIZATION("/eprecise/efiscal4j/nfe/v400/transmission/authorizationHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/authorizationProduction.properties"),
-                                                                       AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultProduction.properties"),
-                                                                       EVENT_RECEPTION("/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionProduction.properties"),
-                                                                       PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchProduction.properties"),
-                                                                       SERVICE_STATUS("/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusProduction.properties"),
-                                                                       DISABILITY("/eprecise/efiscal4j/nfe/v400/transmission/disabilityHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/disabilityProduction.properties"),
-                                                                       DELIVERY_DFE("/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeHomolog.properties",
-                                                                               "/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeProduction.properties");
+    AUTHORIZATION(
+        "/eprecise/efiscal4j/nfe/v400/transmission/authorizationHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/authorizationProduction.properties"
+    ),
+    AUTHORIZATION_RESULT(
+        "/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/authorizationResultProduction.properties"
+    ),
+    EVENT_RECEPTION(
+        "/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/eventReceptionProduction.properties"
+    ),
+    PROTOCOL_SEARCH(
+        "/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/protocolSearchProduction.properties"
+    ),
+    SERVICE_STATUS(
+        "/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/serviceStatusProduction.properties"
+    ),
+    DISABILITY(
+        "/eprecise/efiscal4j/nfe/v400/transmission/disabilityHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/disabilityProduction.properties"
+    ),
+    DELIVERY_DFE(
+        "/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/deliveryDFeProduction.properties"
+    );
 
     private static final long serialVersionUID = 1L;
 
-    private FiscalDocumentVersion supportedVersion;
+    private FiscalDocumentVersion supportedVersion = FiscalDocumentVersion.VERSION_4_00;
 
     private final PropertiesLoader nFeServiceHomologMap;
 
     private final PropertiesLoader nFeServiceProductionMap;
 
-    private NFeService(final String propertiesHomologPath, final String propertiesProductionPath) {
+    NFeService(final String propertiesHomologPath, final String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesHomologPath).create();
         this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFeService.class).from(propertiesProductionPath).create();
     }
@@ -52,7 +66,10 @@ public enum NFeService implements FiscalDocumentService, Serializable {
     }
 
     public String getHomologUrl(final UF uf) {
-        return this.getUrl(this.getServiceDomainByUf(uf), TransmissionEnvironment.HOMOLOGACAO);
+        return this.getUrl(
+            ServiceDomain.findBy(uf),
+            TransmissionEnvironment.HOMOLOGACAO
+        );
     }
 
     public String getProductionUrl(final ServiceDomain serviceDomain) {
@@ -60,40 +77,10 @@ public enum NFeService implements FiscalDocumentService, Serializable {
     }
 
     public String getProductionUrl(final UF uf) {
-        return this.getUrl(this.getServiceDomainByUf(uf), TransmissionEnvironment.PRODUCAO);
-    }
-
-    /**
-     * Valida a estrutura da Sefaz, que define qual UF utiliza qual ambiente de serviço
-     *
-     * @return
-     */
-    public ServiceDomain getServiceDomainByUf(final UF uf) {
-        // TODO Verificar como retornaria ambiente de contingência
-        //@formatter:off
-        switch (uf) {
-            case MA:
-                return ServiceDomain.SVAN;
-            case PA:
-            case PI:
-            case AC:
-            case AL:
-            case AP:
-            case DF:
-            case PB:
-            case RJ:
-            case RN:
-            case RO:
-            case RR:
-            case SC:
-            case SE:
-            case TO:
-            case ES:
-                return ServiceDomain.SVRS;
-            default:
-                return ServiceDomain.findByAcronym(uf.getAcronym());
-        }
-        //@formatter:on
+        return this.getUrl(
+            ServiceDomain.findBy(uf),
+            TransmissionEnvironment.PRODUCAO
+        );
     }
 
     private String getUrl(final ServiceDomain serviceDomain, final TransmissionEnvironment environment) {

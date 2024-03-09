@@ -1,13 +1,13 @@
 
 package eprecise.efiscal4j.nfe.v400.transmission;
 
-import java.io.Serializable;
-
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
 import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.commons.properties.PropertiesLoader;
 import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
+
+import java.io.Serializable;
 
 
 /**
@@ -20,28 +20,40 @@ import eprecise.efiscal4j.nfe.v400.TransmissionEnvironment;
 
 public enum NFCeService implements FiscalDocumentService, Serializable {
 
-                                                                        AUTHORIZATION("/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationProduction.properties"),
-                                                                        AUTHORIZATION_RESULT("/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationResultHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationResultProduction.properties"),
-                                                                        EVENT_RECEPTION("/eprecise/efiscal4j/nfe/v400/transmission/nfce/eventReceptionHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/eventReceptionProduction.properties"),
-                                                                        PROTOCOL_SEARCH("/eprecise/efiscal4j/nfe/v400/transmission/nfce/protocolSearchHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/protocolSearchProduction.properties"),
-                                                                        SERVICE_STATUS("/eprecise/efiscal4j/nfe/v400/transmission/nfce/serviceStatusHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/serviceStatusProduction.properties"),
-                                                                        DISABILITY("/eprecise/efiscal4j/nfe/v400/transmission/nfce/disabilityHomolog.properties",
-                                                                                "/eprecise/efiscal4j/nfe/v400/transmission/nfce/disabilityProduction.properties");
+    AUTHORIZATION(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationProduction.properties"
+    ),
+    AUTHORIZATION_RESULT(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationResultHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/authorizationResultProduction.properties"
+    ),
+    EVENT_RECEPTION(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/eventReceptionHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/eventReceptionProduction.properties"
+    ),
+    PROTOCOL_SEARCH(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/protocolSearchHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/protocolSearchProduction.properties"
+    ),
+    SERVICE_STATUS(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/serviceStatusHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/serviceStatusProduction.properties"
+    ),
+    DISABILITY(
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/disabilityHomolog.properties",
+        "/eprecise/efiscal4j/nfe/v400/transmission/nfce/disabilityProduction.properties"
+    );
 
     private static final long serialVersionUID = 1L;
 
-    private FiscalDocumentVersion supportedVersion;
+    private FiscalDocumentVersion supportedVersion = FiscalDocumentVersion.VERSION_4_00;
 
     private final PropertiesLoader nFeServiceHomologMap;
 
     private final PropertiesLoader nFeServiceProductionMap;
 
-    private NFCeService(final String propertiesHomologPath, final String propertiesProductionPath) {
+    NFCeService(final String propertiesHomologPath, final String propertiesProductionPath) {
         this.nFeServiceHomologMap = new PropertiesLoader.Builder().resourceLoader(NFCeService.class).from(propertiesHomologPath).create();
         this.nFeServiceProductionMap = new PropertiesLoader.Builder().resourceLoader(NFCeService.class).from(propertiesProductionPath).create();
     }
@@ -51,7 +63,10 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
     }
 
     public String getHomologUrl(final UF uf) {
-        return this.getUrl(this.getNFCeServiceDomainByUf(uf), TransmissionEnvironment.HOMOLOGACAO);
+        return this.getUrl(
+            NFCeServiceDomain.findBy(uf),
+            TransmissionEnvironment.HOMOLOGACAO
+        );
     }
 
     public String getProductionUrl(final NFCeServiceDomain serviceDomain) {
@@ -59,39 +74,10 @@ public enum NFCeService implements FiscalDocumentService, Serializable {
     }
 
     public String getProductionUrl(final UF uf) {
-        return this.getUrl(this.getNFCeServiceDomainByUf(uf), TransmissionEnvironment.PRODUCAO);
-    }
-
-    /**
-     * Valida a estrutura da Sefaz, que define qual UF utiliza qual ambiente de serviço
-     *
-     * @return
-     */
-    public NFCeServiceDomain getNFCeServiceDomainByUf(final UF uf) {
-        // TODO Verificar como retornaria ambiente de contingência
-        //@formatter:off
-        switch (uf) {
-        case MA:
-        case BA:
-        case PA:
-        case PI:
-        case AC:
-        case AL:
-        case AP:
-        case DF:
-        case PB:
-        case RJ:
-        case RN:
-        case RO:
-        case RR:
-        case SE:
-        case TO:
-        case ES:
-            return NFCeServiceDomain.SVRS;
-        default:
-            return NFCeServiceDomain.findByAcronym(uf.getAcronym());
-        }
-        //@formatter:on
+        return this.getUrl(
+            NFCeServiceDomain.findBy(uf),
+            TransmissionEnvironment.PRODUCAO
+        );
     }
 
     private String getUrl(final NFCeServiceDomain serviceDomain, final TransmissionEnvironment environment) {
