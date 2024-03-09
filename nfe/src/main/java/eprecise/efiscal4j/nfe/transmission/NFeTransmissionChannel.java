@@ -47,7 +47,7 @@ public interface NFeTransmissionChannel {
     TypedTransmissionResult<? extends NFeStatusSearchRequest, ? extends NFeStatusSearchResponse> transmitNFeStatusSearch(final NFeStatusSearchRequest nfeStatusSearch,
             final FiscalDocumentModel documentModel, final UF uf);
 
-    TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> transmitNFeNumberDisable(final NFeNumberDisableDispatchRequest nfeNumberDisable);
+    TypedTransmissionResult<? extends NFeNumberDisableDispatchRequest, ? extends NFeNumberDisableDispatchResponse> transmitNFeNumberDisable(final NFeServiceDomain domain, final NFeNumberDisableDispatchRequest nfeNumberDisable);
 
     TypedTransmissionResult<? extends NFeDeliveryDFeDispatchRequest, ? extends NFeDeliveryDFeDispatchResponse> transmitNFeDeliveryDFe(final NFeDeliveryDFeDispatchRequest deliveryDFeRequest);
 
