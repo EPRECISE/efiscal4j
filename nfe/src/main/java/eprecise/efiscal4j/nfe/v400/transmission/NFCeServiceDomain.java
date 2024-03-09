@@ -2,15 +2,18 @@
 package eprecise.efiscal4j.nfe.v400.transmission;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
-import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static eprecise.efiscal4j.nfe.v400.transmission.NFCeService.*;
 
 
 /**
@@ -23,61 +26,58 @@ import java.util.stream.Stream;
 
 public enum NFCeServiceDomain implements NFeServiceDomain, Serializable {
 
-    //@formatter:off
-    AC(UF.AC.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    AL(UF.AL.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    AM(UF.AM.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    AP(UF.AP.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    BA(UF.BA.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    CE(UF.CE.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    DF(UF.DF.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    ES(UF.ES.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    GO(UF.GO.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    MA(UF.MA.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    MG(UF.MG.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    MT(UF.MT.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    MS(UF.AC.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    PA(UF.PA.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    PB(UF.PB.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    PE(UF.PE.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    PI(UF.PI.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    PR(UF.PR.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    RJ(UF.RJ.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    RN(UF.RN.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    RO(UF.RO.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    RR(UF.RR.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    RS(UF.RS.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    SC(UF.AC.getDescription()),
-    SE(UF.SE.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    SP(UF.SP.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    TO(UF.TO.getDescription(), NFCeServiceDomain.getDefaultServices()),
-    SVRS("Sefaz Virtual - Rio Grande do Sul", NFCeServiceDomain.getDefaultServices());
-    //@formatter:on
+    AC(UF.AC.getDescription()),
+    AL(UF.AL.getDescription()),
+    AM(UF.AM.getDescription()),
+    AP(UF.AP.getDescription()),
+    BA(UF.BA.getDescription()),
+    CE(UF.CE.getDescription()),
+    DF(UF.DF.getDescription()),
+    ES(UF.ES.getDescription()),
+    GO(UF.GO.getDescription()),
+    MA(UF.MA.getDescription()),
+    MG(UF.MG.getDescription()),
+    MT(UF.MT.getDescription()),
+    MS(UF.AC.getDescription()),
+    PA(UF.PA.getDescription()),
+    PB(UF.PB.getDescription()),
+    PE(UF.PE.getDescription()),
+    PI(UF.PI.getDescription()),
+    PR(UF.PR.getDescription()),
+    RJ(UF.RJ.getDescription()),
+    RN(UF.RN.getDescription()),
+    RO(UF.RO.getDescription()),
+    RR(UF.RR.getDescription()),
+    RS(UF.RS.getDescription()),
+    SC(UF.AC.getDescription(), Collections.emptyList()),
+    SE(UF.SE.getDescription()),
+    SP(UF.SP.getDescription()),
+    TO(UF.TO.getDescription()),
+    SVRS("Sefaz Virtual - Rio Grande do Sul");
 
     private static final long serialVersionUID = 1L;
 
-    private static List<FiscalDocumentService> getDefaultServices() {
-        return Arrays.asList(NFCeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-                NFCeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), NFCeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-                NFCeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), NFCeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-                NFCeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00));
-    }
+    private final String description;
 
-    private String description;
+    private final List<FiscalDocumentService> services;
 
-    private List<FiscalDocumentService> services = new ArrayList<>();
-
-    private NFCeServiceDomain(final String description, final List<FiscalDocumentService> services) {
+    NFCeServiceDomain(final String description, final List<FiscalDocumentService> services) {
         this.description = description;
-        this.services = services;
+        this.services = services.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private NFCeServiceDomain(final String description, final FiscalDocumentService... services) {
-        this(description, Arrays.asList(services));
-    }
-
-    private NFCeServiceDomain(final String description) {
-        this.description = description;
+    NFCeServiceDomain(final String description) {
+        this(
+            description,
+            Arrays.asList(
+                AUTHORIZATION,
+                AUTHORIZATION_RESULT,
+                EVENT_RECEPTION,
+                PROTOCOL_SEARCH,
+                SERVICE_STATUS,
+                DISABILITY
+            )
+        );
     }
 
     public String getDescription() {

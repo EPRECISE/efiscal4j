@@ -2,148 +2,90 @@
 package eprecise.efiscal4j.nfe.v400.transmission;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentService;
-import eprecise.efiscal4j.commons.domain.FiscalDocumentVersion;
 import eprecise.efiscal4j.commons.domain.adress.UF;
 import eprecise.efiscal4j.nfe.transmission.NFeServiceDomain;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static eprecise.efiscal4j.commons.domain.FiscalDocumentVersion.VERSION_1_00;
+import static eprecise.efiscal4j.nfe.v400.transmission.NFeService.*;
 
 
 /**
  * Domínio de Serviço (UFs + ambientes nacionais e de contingência)
- * 
- * @author Felipe Bueno
  *
+ * @author Felipe Bueno
  */
 
 public enum ServiceDomain implements NFeServiceDomain {
 
-//@formatter:off    
-    AM(UF.AM.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    BA(UF.BA.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    CE(UF.CE.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    GO(UF.GO.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),    
-    MG(UF.MG.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    MA(UF.MA.getDescription()),            
-    MS(UF.MS.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    MT(UF.MT.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    PE(UF.PE.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    PR(UF.PR.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    RS(UF.RS.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    SP(UF.SP.getDescription(), 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    SVAN("Sefaz Virtual - Ambiente Nacional", 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    SVRS("Sefaz Virtual - Rio Grande do Sul", 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.DISABILITY.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    SVC_AN("Sefaz Virtual Contingência - Ambiente Nacional", 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    SVC_RS("Sefaz Virtual Contingência - Rio Grande do Sul", 
-            NFeService.AUTHORIZATION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.AUTHORIZATION_RESULT.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.PROTOCOL_SEARCH.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00), 
-            NFeService.SERVICE_STATUS.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00)),
-    AN("Ambiente Nacional",
-            NFeService.EVENT_RECEPTION.withSupportedVersion(FiscalDocumentVersion.VERSION_4_00),
-            NFeService.DELIVERY_DFE.withSupportedVersion(FiscalDocumentVersion.VERSION_1_00));    
-//@formatter:on
+    AM(UF.AM.getDescription()),
+    BA(UF.BA.getDescription()),
+    GO(UF.GO.getDescription()),
+    MG(UF.MG.getDescription()),
+    MS(UF.MS.getDescription()),
+    MT(UF.MT.getDescription()),
+    PE(UF.PE.getDescription()),
+    PR(UF.PR.getDescription()),
+    RS(UF.RS.getDescription()),
+    SP(UF.SP.getDescription()),
+    SVAN("Sefaz Virtual - Ambiente Nacional"),
+    SVRS("Sefaz Virtual - Rio Grande do Sul"),
+    SVC_AN(
+        "Sefaz Virtual Contingência - Ambiente Nacional",
+        Arrays.asList(
+            AUTHORIZATION,
+            AUTHORIZATION_RESULT,
+            EVENT_RECEPTION,
+            PROTOCOL_SEARCH,
+            SERVICE_STATUS
+        )
+    ),
+    SVC_RS(
+        "Sefaz Virtual Contingência - Rio Grande do Sul",
+        Arrays.asList(
+            AUTHORIZATION,
+            AUTHORIZATION_RESULT,
+            EVENT_RECEPTION,
+            PROTOCOL_SEARCH,
+            SERVICE_STATUS
+        )
+    ),
+    AN(
+        "Ambiente Nacional",
+        Arrays.asList(
+            EVENT_RECEPTION,
+            DELIVERY_DFE.withSupportedVersion(VERSION_1_00)
+        )
+    );
 
     private static final long serialVersionUID = 1L;
 
-    private String description;
+    private final String description;
 
-    private final List<FiscalDocumentService> services = new ArrayList<>();
+    private final List<FiscalDocumentService> services;
 
-    private ServiceDomain(String description, FiscalDocumentService... services) {
+    ServiceDomain(String description, List<FiscalDocumentService> services) {
         this.description = description;
-        this.services.addAll(Arrays.asList(services));
+        this.services = services.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
-    
-    private ServiceDomain(String description) {
-        this.description = description;
+
+    ServiceDomain(String description) {
+        this(
+            description,
+            Arrays.asList(
+                AUTHORIZATION,
+                AUTHORIZATION_RESULT,
+                EVENT_RECEPTION,
+                PROTOCOL_SEARCH,
+                SERVICE_STATUS,
+                DISABILITY
+            )
+        );
     }
 
     public String getDescription() {
