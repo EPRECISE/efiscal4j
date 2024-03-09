@@ -102,12 +102,15 @@ public enum ServiceDomain implements NFeServiceDomain {
 
     public static ServiceDomain findBy(UF uf) {
         switch (uf) {
+            case MA:
+                return ServiceDomain.SVAN;
             case AC:
             case AL:
             case AP:
             case CE:
             case DF:
             case ES:
+            case PA:
             case PB:
             case PI:
             case RJ:
