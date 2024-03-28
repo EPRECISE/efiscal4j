@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 
 public class DecimalPercent {
 
-    private static final MathContext MATH_CONTEXT = new MathContext(2, RoundingMode.HALF_UP);
+    private static final MathContext MATH_CONTEXT = new MathContext(4, RoundingMode.UNNECESSARY);
 
     public static BigDecimal get(final BigDecimal value) {
         return value.divide(BigDecimal.valueOf(100), MATH_CONTEXT);
