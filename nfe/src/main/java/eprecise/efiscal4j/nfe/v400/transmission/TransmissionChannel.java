@@ -401,20 +401,22 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeNumberDisable).serialize();
+        final String requestSoapEnvelope = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+        final String action = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF";
 
         String responseXml;
 
         if (domain.equals(ServiceDomain.MG) || domain.equals(NFCeServiceDomain.MG)) {
             responseXml = this.transmissor.transmit(
-                    new FiscalDocumentSerializer<>(soapEnvelope).serialize(),
+                    requestSoapEnvelope,
                     serviceUrl,
-                    "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"
+                    action
             );
         } else {
             responseXml = this.transmissorNumberDisabled.transmit(
-                    new FiscalDocumentSerializer<>(soapEnvelope).serialize(),
+                    requestSoapEnvelope,
                     serviceUrl,
-                    "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"
+                    action
             );
         }
 
