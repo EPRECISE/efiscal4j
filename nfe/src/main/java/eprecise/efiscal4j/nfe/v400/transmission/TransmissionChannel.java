@@ -382,7 +382,11 @@ public class TransmissionChannel implements NFeTransmissionChannel {
         if (domain.equals(ServiceDomain.SVRS) || domain.equals(NFCeServiceDomain.SVRS)) {
             soapEnvelope = this.buildSOAPSVRSEnvelope(
                     xmlnsServiceName,
-                    NFeHeader.BASE_XMLNS + "NFeInutilizacao4",
+                    String.format(
+                            "%s%s",
+                            NFeHeader.BASE_XMLNS,
+                            "NFeInutilizacao4"
+                    ),
                     nfeNumberDisable
             );
         } else {
