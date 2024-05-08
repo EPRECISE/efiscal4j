@@ -379,25 +379,55 @@ public class TransmissionChannel implements NFeTransmissionChannel {
 
         final TransmissibleEnvelope soapEnvelope;
 
-        if(domain.equals(ServiceDomain.SVRS) || domain.equals(NFCeServiceDomain.SVRS)) {
-            soapEnvelope = this.buildSOAPSVRSEnvelope(xmlnsServiceName, NFeHeader.BASE_XMLNS + "NFeInutilizacao4", nfeNumberDisable);
+        if (domain.equals(ServiceDomain.SVRS) || domain.equals(NFCeServiceDomain.SVRS)) {
+            soapEnvelope = this.buildSOAPSVRSEnvelope(
+                    xmlnsServiceName,
+                    String.format(
+                            "%s%s",
+                            NFeHeader.BASE_XMLNS,
+                            "NFeInutilizacao4"
+                    ),
+                    nfeNumberDisable
+            );
         } else {
-            soapEnvelope = this.buildSOAPEnvelope(xmlnsServiceName, uf, nfeNumberDisable.getVersion(), nfeNumberDisable);
+            soapEnvelope = this.buildSOAPEnvelope(
+                    xmlnsServiceName,
+                    uf,
+                    nfeNumberDisable.getVersion(),
+                    nfeNumberDisable
+            );
         }
 
         ValidationBuilder.from(soapEnvelope).validate().throwIfViolate();
 
         final String requestXml = new FiscalDocumentSerializer<>(nfeNumberDisable).serialize();
+        final String requestSoapEnvelope = new FiscalDocumentSerializer<>(soapEnvelope).serialize();
+        final String action = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF";
 
-        String responseXml = this.transmissorNumberDisabled.transmit(
-                new FiscalDocumentSerializer<>(soapEnvelope).serialize(),
-                serviceUrl,
-                "http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4/nfeInutilizacaoNF"
-        );
+        String responseXml;
+
+        if (domain.equals(ServiceDomain.MG) || domain.equals(NFCeServiceDomain.MG)) {
+            responseXml = this.transmissor.transmit(
+                    requestSoapEnvelope,
+                    serviceUrl,
+                    action
+            );
+        } else {
+            responseXml = this.transmissorNumberDisabled.transmit(
+                    requestSoapEnvelope,
+                    serviceUrl,
+                    action
+            );
+        }
 
         responseXml = this.postProcessResponseXML(responseXml);
 
-        return new TypedTransmissionResult<>(NFeNumberDisableDispatch.class, NFeNumberDisableResponseMethod.class, requestXml, responseXml);
+        return new TypedTransmissionResult<>(
+                NFeNumberDisableDispatch.class,
+                NFeNumberDisableResponseMethod.class,
+                requestXml,
+                responseXml
+        );
     }
 
     /**
