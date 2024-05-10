@@ -330,6 +330,7 @@ public enum CFOP implements Serializable {
       @XmlEnumValue("5401") CFOP_5401(false,true),
       @XmlEnumValue("5402") CFOP_5402(false,true),
       @XmlEnumValue("5403") CFOP_5403(false,true),
+      @XmlEnumValue("5405") CFOP_5404(false,true),
       @XmlEnumValue("5405") CFOP_5405(false,true),
       @XmlEnumValue("5408") CFOP_5408(false,true),
       @XmlEnumValue("5409") CFOP_5409(false,true),
