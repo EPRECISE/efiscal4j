@@ -1,8 +1,13 @@
 
 package eprecise.efiscal4j.nfe.v400;
 
-import java.io.Serializable;
-import java.util.List;
+import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
+import eprecise.efiscal4j.commons.domain.adress.UF;
+import eprecise.efiscal4j.nfe.types.FormatDate;
+import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
+import eprecise.efiscal4j.nfe.v400.types.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,17 +16,11 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
+import java.util.List;
 
-import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
-import eprecise.efiscal4j.commons.domain.adress.UF;
-import eprecise.efiscal4j.nfe.v400.refdocuments.ReferencedDocuments;
-import eprecise.efiscal4j.nfe.v400.types.NFeCityIBGECode;
-import eprecise.efiscal4j.nfe.v400.types.NFeDateTimeUTC;
-import eprecise.efiscal4j.nfe.v400.types.NFeFiscalDocumentNumber;
-import eprecise.efiscal4j.nfe.v400.types.NFeFiscalDocumentSeries;
-import eprecise.efiscal4j.nfe.v400.types.NFeString;
-
-
+@Getter
+@NoArgsConstructor(force = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NFeIdentification implements Serializable {
 
@@ -62,12 +61,16 @@ public class NFeIdentification implements Serializable {
     private @XmlElement(name = "indFinal") @NotNull final FinalCustomerOperation finalCustomerOperation;
 
     private @XmlElement(name = "indPres") @NotNull final PurchaserPresenceIndicator purchaserPresenceIndicator;
-    
+
     private @XmlElement(name = "indIntermed") final NFeBrokerIndicator brokerIndicator;
 
     private @XmlElement(name = "procEmi") @NotNull final NFeTransmissionProcess nFeTransmissionProcess;
 
     private @XmlElement(name = "verProc") @NotNull @Size(min = 1, max = 20) @NFeString final String applicationVersion;
+
+    private final @XmlElement(name = "dhCont") @FormatDate String contingencyEntry;
+
+    private final @XmlElement(name = "xJust") @Size(min = 15, max = 256) String justificationContingency;
 
     private @XmlElement(name = "NFref") @Size(max = 500) @Valid final List<ReferencedDocuments> referencedDocuments;
 
@@ -115,6 +118,10 @@ public class NFeIdentification implements Serializable {
 
         private String applicationVersion;
 
+        private String contingencyEntry;
+
+        private String justificationContingency;
+
         private List<ReferencedDocuments> referencedDocuments;
 
         public Builder withUFIbgeCode(UF ufIbgeCode) {
@@ -139,7 +146,7 @@ public class NFeIdentification implements Serializable {
 
         /**
          * Serie Normal 0-889 Avulsa Fisco 890-899 SCAN 900-999
-         * 
+         *
          * @param fiscalDocumentSeries
          * @return
          */
@@ -228,6 +235,16 @@ public class NFeIdentification implements Serializable {
             return this;
         }
 
+        public Builder withContingencyEntry(String contingencyEntry) {
+            this.contingencyEntry = contingencyEntry;
+            return this;
+        }
+
+        public Builder withJustificationContingency(String justificationContingency) {
+            this.justificationContingency = justificationContingency;
+            return this;
+        }
+
         /**
          * @see ReferencedDocuments
          * @param referencedDocuments
@@ -241,29 +258,6 @@ public class NFeIdentification implements Serializable {
         public NFeIdentification build() {
             return new NFeIdentification(this);
         }
-    }
-
-    public NFeIdentification() {
-        this.operationType = null;
-        this.fiscalDocumentModel = null;
-        this.fiscalDocumentSeries = null;
-        this.fiscalDocumentNumber = null;
-        this.emissionDateTime = null;
-        this.entranceOrExitDateTime = null;
-        this.fiscalDocumentType = null;
-        this.destinationOperationIdentifier = null;
-        this.taxableEventCityIbgeCode = null;
-        this.danfePrintFormat = null;
-        this.nFeTransmissionMethod = null;
-        this.checksum = null;
-        this.transmissionEnvironment = null;
-        this.nFeFinality = null;
-        this.finalCustomerOperation = null;
-        this.purchaserPresenceIndicator = null;
-        this.brokerIndicator = null;
-        this.nFeTransmissionProcess = null;
-        this.applicationVersion = null;
-        this.referencedDocuments = null;
     }
 
     public NFeIdentification(Builder builder) {
@@ -289,94 +283,7 @@ public class NFeIdentification implements Serializable {
         this.nFeTransmissionProcess = builder.nFeTransmissionProcess;
         this.applicationVersion = builder.applicationVersion;
         this.referencedDocuments = builder.referencedDocuments;
+        this.contingencyEntry = builder.contingencyEntry;
+        this.justificationContingency = builder.justificationContingency;
     }
-
-    public UF getUfIbgeCode() {
-        return this.ufIbgeCode;
-    }
-
-    public String getnFeCode() {
-        return this.nFeCode;
-    }
-
-    public String getOperationType() {
-        return this.operationType;
-    }
-
-    public FiscalDocumentModel getFiscalDocumentModel() {
-        return this.fiscalDocumentModel;
-    }
-
-    public String getFiscalDocumentSeries() {
-        return this.fiscalDocumentSeries;
-    }
-
-    public String getFiscalDocumentNumber() {
-        return this.fiscalDocumentNumber;
-    }
-
-    public String getEmissionDateTime() {
-        return this.emissionDateTime;
-    }
-
-    public FiscalDocumentType getFiscalDocumentType() {
-        return this.fiscalDocumentType;
-    }
-
-    public DestinationOperationIdentifier getDestinationOperationIdentifier() {
-        return this.destinationOperationIdentifier;
-    }
-
-    public String getTaxableEventCityIbgeCode() {
-        return this.taxableEventCityIbgeCode;
-    }
-
-    public DANFEPrintFormat getDanfePrintFormat() {
-        return this.danfePrintFormat;
-    }
-
-    public NFeTransmissionMethod getnFeTransmissionMethod() {
-        return this.nFeTransmissionMethod;
-    }
-
-    public String getChecksum() {
-        return this.checksum;
-    }
-
-    public TransmissionEnvironment getTransmissionEnvironment() {
-        return this.transmissionEnvironment;
-    }
-
-    public NFeFinality getnFeFinality() {
-        return this.nFeFinality;
-    }
-
-    public FinalCustomerOperation getFinalCustomerOperation() {
-        return this.finalCustomerOperation;
-    }
-
-    public PurchaserPresenceIndicator getPurchaserPresenceIndicator() {
-        return this.purchaserPresenceIndicator;
-    }
-    
-    public NFeBrokerIndicator getBrokerIndicator() {
-        return this.brokerIndicator;
-    }
-
-    public NFeTransmissionProcess getnFeTransmissionProcess() {
-        return this.nFeTransmissionProcess;
-    }
-
-    public String getApplicationVersion() {
-        return this.applicationVersion;
-    }
-
-    public List<ReferencedDocuments> getReferencedDocuments() {
-        return this.referencedDocuments;
-    }
-
-    public String getEntranceOrExitDateTime() {
-        return entranceOrExitDateTime;
-    }
-
 }

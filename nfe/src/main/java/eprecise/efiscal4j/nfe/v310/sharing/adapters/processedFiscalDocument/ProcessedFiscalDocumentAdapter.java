@@ -11,6 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eprecise.efiscal4j.nfe.v310.FinalCustomerOperation;
+import eprecise.efiscal4j.nfe.v310.NFeIdentification;
+import eprecise.efiscal4j.nfe.v310.NFeInfo;
+import eprecise.efiscal4j.nfe.v310.additionalinfo.AdditionalInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import eprecise.efiscal4j.commons.domain.FiscalDocumentModel;
@@ -297,44 +301,77 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
      // @formatter:on
     }
 
-    private FiscalDocument buildFiscalDocument() throws NumberFormatException, ParseException {
-        if (this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFE)) {
-         // @formatter:off
+    private FiscalDocument buildFiscalDocument() throws NumberFormatException {
+        final NFeInfo nfeInfo = Optional.ofNullable(this.processedNFe)
+                .map(ProcessedNFe::getNfe)
+                .map(eprecise.efiscal4j.nfe.v310.NFe::getNFeInfo)
+                .orElseThrow(() -> new RuntimeException(
+                                "Não foi possível encontrar as informações do processamento da nota fiscal."
+                        )
+                );
+        final FiscalDocumentModel model = Optional.ofNullable(nfeInfo.getnFeIdentification())
+                .map(NFeIdentification::getFiscalDocumentModel)
+                .orElseThrow(() -> new RuntimeException(
+                                "O modelo do documento de Nota Fiscal ('NFe' ou 'NFCe') não foi encontrado."
+                        )
+                );
+
+        if (model.equals(FiscalDocumentModel.NFE)) {
             return NFe.builder()
                     .receiver(this.buildReceiver())
                     .entranceOrExit(this.buildEntranceOrExit())
-                    .finality(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getnFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
-                    .type(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentType()).map(nfeFiscalDocumentType -> FiscalDocumentType.findByCode(nfeFiscalDocumentType.getType())).orElse(null))
-                    .endConsumer(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFinalCustomerOperation().isFinal())
-                    .operationDescription(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getOperationType())
+                    .finality(
+                            Optional.ofNullable(nfeInfo.getnFeIdentification().getnFeFinality())
+                                    .map(eprecise.efiscal4j.nfe.v310.NFeFinality::getValue)
+                                    .map(NFeFinality::findByCode)
+                                    .orElse(null)
+                    )
+                    .type(
+                            Optional.ofNullable(nfeInfo.getnFeIdentification().getFiscalDocumentType())
+                                    .map(eprecise.efiscal4j.nfe.v310.FiscalDocumentType::getType)
+                                    .map(FiscalDocumentType::findByCode)
+                                    .orElse(null)
+                    )
+                    .endConsumer(
+                            Optional.ofNullable(nfeInfo.getnFeIdentification().getFinalCustomerOperation())
+                                    .map(FinalCustomerOperation::isFinal)
+                                    .orElse(null)
+                    )
+                    .operationDescription(nfeInfo.getnFeIdentification().getOperationType())
                     .documentReferences(this.buildDocumentReferences())
                     .serie(this.buildSerie())
-                    .number(Integer.valueOf(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+                    .number(Integer.valueOf(nfeInfo.getnFeIdentification().getFiscalDocumentNumber()))
                     .emission(this.buildEmissionDate())
                     .emitter(this.buildEmitter())
                     .items(this.buildItems())
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(
+                            Optional.ofNullable(nfeInfo.getAdditionalInfo())
+                                    .map(AdditionalInfo::getComplementaryInfo)
+                                    .orElse(null)
+                    )
                     .build();
-         // @formatter:on
-        } else if (this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentModel().equals(FiscalDocumentModel.NFCE)) {
-         // @formatter:off
+        } else if (model.equals(FiscalDocumentModel.NFCE)) {
             return NFCe.builder()
                     .consumer(this.buildConsumer())
                     .serie(this.buildSerie())
-                    .number(Integer.valueOf(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentNumber()))
+                    .number(Integer.valueOf(nfeInfo.getnFeIdentification().getFiscalDocumentNumber()))
                     .emission(this.buildEmissionDate())
                     .emitter(this.buildEmitter())
                     .items(this.buildItems())
                     .charging(this.buildCharging())
                     .payment(this.buildPayment())
                     .transport(this.buildTransport())
-                    .details(this.processedNFe.getNfe().getNFeInfo().getAdditionalInfo().getComplementaryInfo())
+                    .details(
+                            Optional.ofNullable(nfeInfo.getAdditionalInfo())
+                                    .map(AdditionalInfo::getComplementaryInfo)
+                                    .orElse(null)
+                    )
                     .build();
-         // @formatter:on
         }
+
         return null;
     }
 

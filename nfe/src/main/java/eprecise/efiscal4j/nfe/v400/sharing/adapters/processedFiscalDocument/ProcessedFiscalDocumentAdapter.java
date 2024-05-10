@@ -283,7 +283,7 @@ public class ProcessedFiscalDocumentAdapter implements ProcessedFiscalDocumentAd
             return NFe.builder()
                     .receiver(this.buildReceiver())
                     .entranceOrExit(this.buildEntranceOrExit())
-                    .finality(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getnFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
+                    .finality(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getNFeFinality()).map(nfeFinality -> NFeFinality.findByCode(nfeFinality.getValue())).orElse(null))
                     .type(Optional.ofNullable(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFiscalDocumentType()).map(nfeFiscalDocumentType -> FiscalDocumentType.findByCode(nfeFiscalDocumentType.getType())).orElse(null))
                     .endConsumer(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getFinalCustomerOperation().isFinal())
                     .operationDescription(this.processedNFe.getNfe().getNFeInfo().getnFeIdentification().getOperationType())

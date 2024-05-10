@@ -21,6 +21,7 @@ import eprecise.efiscal4j.nfe.transmission.NFeTransmissionChannel;
 import eprecise.efiscal4j.nfe.transmission.request.NFeAuthorizationRequest;
 import eprecise.efiscal4j.nfe.transmission.response.NFeAuthorizationResponse;
 import eprecise.efiscal4j.nfe.transport.Transport;
+import eprecise.efiscal4j.nfe.v400.NFeTransmissionMethod;
 import eprecise.efiscal4j.nfe.version.FiscalDocumentSupportedVersion;
 import eprecise.efiscal4j.nfe.version.ProcessedNFeVersion;
 import eprecise.efiscal4j.nfe.version.ReceiptedAsyncNFeVersion;
@@ -138,6 +139,12 @@ public abstract class FiscalDocument {
     private final FiscalDocumentTotal.AddsValue totalAddsValue;
 
     private final Collection<CnpAccessXml> cnpAccessXmls;
+
+    /**
+     * @see NFeTransmissionMethod
+     * @param transmissionMethod
+     */
+    private NFeTransmissionMethod transmissionMethod;
 
     public abstract FiscalDocumentModel getModel();
 

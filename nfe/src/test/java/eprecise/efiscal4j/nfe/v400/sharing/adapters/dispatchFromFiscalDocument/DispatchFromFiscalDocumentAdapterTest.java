@@ -39,7 +39,15 @@ public class DispatchFromFiscalDocumentAdapterTest {
         final String input = "Teste informação adicional com tres espaços agora   pronto.. Agora outra com quatro espaços, la vai    feito.\n"
                 + "Agora      em  outra   linha       com varios  espaços   diferentes  e    alguns caracteres agora Ÿ ƒ   • pronto.\n" + "E outra linha";
         final NFe nfe = new NFeDomainTest().getDefaultNFeBuilder().details(input).build();
-        final String details = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate).buildNFeDispatch().getnFes().stream().findFirst().get().getNFeInfo().getAdditionalInfo().getComplementaryInfo();
+        final String details = new DispatchFromFiscalDocumentAdapter(nfe, this.keyCertificate)
+                .buildNFeDispatch()
+                .getnFes()
+                .stream()
+                .findFirst()
+                .get()
+                .getNFeInfo()
+                .getAdditionalInfo()
+                .getComplementaryInfo();
         Assert.assertEquals(details,
                 "TESTE INFORMACAO ADICIONAL COM TRES ESPACOS AGORA PRONTO.. AGORA OUTRA COM QUATRO ESPACOS, LA VAI FEITO.  AGORA EM OUTRA LINHA COM VARIOS ESPACOS DIFERENTES E ALGUNS CARACTERES AGORA Y PRONTO.  E OUTRA LINHA");
     }
