@@ -44,6 +44,9 @@
 	<field name="produtoDescricao" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/xProd]]></fieldDescription>
 	</field>
+	<field name="informacaoAdicionalProduto" class="java.lang.String">
+		<fieldDescription><![CDATA[infAdProd]]></fieldDescription>
+	</field>
 	<field name="produtoCst" class="java.lang.String">
 		<fieldDescription><![CDATA[(imposto/ICMS/*/CST|imposto/ICMS/*/CSOSN)]]></fieldDescription>
 	</field>
@@ -638,7 +641,13 @@ ICMS ST]]></text>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{produtoDescricao}]]></textFieldExpression>
+				<textFieldExpression>
+					<![CDATA[
+						$F{informacaoAdicionalProduto} != null ?
+						$F{produtoDescricao} + "\n" + $F{informacaoAdicionalProduto} :
+						$F{produtoDescricao}
+					]]>
+				</textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="685" y="0" width="40" height="9" isPrintWhenDetailOverflows="true" uuid="edd097b3-8afb-4039-a012-4e58b9420449">
