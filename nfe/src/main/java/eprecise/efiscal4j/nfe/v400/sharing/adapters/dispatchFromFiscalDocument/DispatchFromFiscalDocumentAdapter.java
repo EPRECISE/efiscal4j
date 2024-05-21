@@ -825,7 +825,9 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                         Optional.ofNullable(this.fiscalDocument.getSerie())
                                 .map(FiscalDocumentSerie::getNumber)
                                 .map(String::valueOf)
-                                .orElse(null)
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                        "A série e/ou numeração da série não pode ser nula."
+                                ))
                 )
                 .withFiscalDocumentNumber(this.fiscalDocument.getNumber().toString())
                 .withFiscalDocumentType(this.buildFiscalDocumentType())
@@ -867,11 +869,10 @@ public class DispatchFromFiscalDocumentAdapter implements NFeDispatchAdapterVers
                 )
                 .withReferencedDocuments(this.buildReferencedDocuments());
 
-        final Optional<eprecise.efiscal4j.nfe.NFe> nfe = Optional.of(this.fiscalDocument)
+        Optional.of(this.fiscalDocument)
                 .filter(eprecise.efiscal4j.nfe.NFe.class::isInstance)
-                .map(eprecise.efiscal4j.nfe.NFe.class::cast);
-
-        nfe.map(eprecise.efiscal4j.nfe.NFe::getEntranceOrExit)
+                .map(eprecise.efiscal4j.nfe.NFe.class::cast)
+                .map(eprecise.efiscal4j.nfe.NFe::getEntranceOrExit)
                 .map(IODate::getDate)
                 .ifPresent(entranceDate -> builder
                         .withEntranceOrExitDateTime(
