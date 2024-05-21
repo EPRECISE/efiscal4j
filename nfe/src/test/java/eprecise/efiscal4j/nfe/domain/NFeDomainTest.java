@@ -108,7 +108,7 @@ public class NFeDomainTest {
                                         .taxes(this.buildItemTaxes())
                                         .build()
                         )
-                        .additionalInfo("ah sei que la, sei que la.")
+                        .additionalInfo("INFORMAÇÕES ADICIONAIS DO ITEM.")
                         .build()
         );
     }
