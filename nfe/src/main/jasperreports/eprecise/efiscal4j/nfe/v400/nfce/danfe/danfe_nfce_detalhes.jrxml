@@ -14,6 +14,9 @@
 	<field name="xProd" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/xProd]]></fieldDescription>
 	</field>
+	<field name="infAdProd" class="java.lang.String">
+		<fieldDescription><![CDATA[infAdProd]]></fieldDescription>
+	</field>
 	<field name="qCom" class="java.lang.String">
 		<fieldDescription><![CDATA[prod/qCom]]></fieldDescription>
 	</field>
@@ -142,7 +145,13 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{xProd}]]></textFieldExpression>
+				<textFieldExpression>
+					<![CDATA[
+						$F{infAdProd} != null ?
+						$F{xProd} + "\n" + $F{infAdProd} :
+						$F{xProd}
+					]]>
+				</textFieldExpression>
 			</textField>
 			<textField pattern="#,###0.000" isBlankWhenNull="true">
 				<reportElement x="101" y="1" width="21" height="9" uuid="5537c2f3-b6cd-4e56-8c1d-0eaa1ccae3e0">
