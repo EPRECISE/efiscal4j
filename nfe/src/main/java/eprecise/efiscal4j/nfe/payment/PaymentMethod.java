@@ -4,6 +4,7 @@
 
 package eprecise.efiscal4j.nfe.payment;
 
+import javax.xml.bind.annotation.XmlEnumValue;
 import java.io.Serializable;
 
 
@@ -21,7 +22,7 @@ public enum PaymentMethod implements Serializable {
                                                    CHEQUE("02", "Cheque"),
                                                    CARTAO_CREDITO("03", "Cartão de Crédito"),
                                                    CARTAO_DEBITO("04", "Cartão de Débito"),
-                                                   CREDITO_LOJA("05", "Crédito Loja"),
+                                                   CREDITO_LOJA("05", "Cartão da Loja (Private Label), Crediário Digital, Outros Crediários"),
                                                    VALE_ALIMENTACAO("10", "Vale Alimentação"),
                                                    VALE_REFEICAO("11", "Vale Refeição"),
                                                    VALE_PRESENTE("12", "Vale Presente"),
@@ -29,9 +30,12 @@ public enum PaymentMethod implements Serializable {
                                                    DUPLICATA_MERCANTIL("14", "Duplicata Mercantil"),
                                                    BOLETO_BANCARIO("15", "Boleto Bancário"),
                                                    DEPOSITO_BANCARIO("16", "Depósito Bancário"),
-                                                   PIX("17", "Pagamento Instantâneo (PIX)"),
+                                                   PIX("17", "Pagamento Instantâneo (PIX) - Dinâmico"),
                                                    CARTEIRA_DIGITAL("18", "Transferência bancária, Carteira Digital"),
                                                    CASHBACK("19", "Programa de fidelidade, Cashback, Crédito Virtual"),
+                                                   PIX_ESTATICO("20", "Pagamento Instantâneo (PIX) - Estático"),
+                                                   NOVO_CREDITO_LOJA("21", "Crédito em Loja"),
+                                                   PAGAMENTO_ELETRONICO_NAO_INFORMADO("22", "Pagamento Eletrônico não Informado - falha de hardware do sistema emissor"),
                                                    SEM_PAGAMENTO("90", "Sem Pagamento"),
                                                    OUTROS("99", "Outros");
 

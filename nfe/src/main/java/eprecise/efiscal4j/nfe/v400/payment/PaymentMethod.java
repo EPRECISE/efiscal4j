@@ -28,19 +28,21 @@ public enum PaymentMethod implements Serializable {
     @XmlEnumValue("02") CHEQUE("02", "Cheque"),
     @XmlEnumValue("03") CARTAO_CREDITO("03", "Cartão de Crédito"),
     @XmlEnumValue("04") CARTAO_DEBITO("04", "Cartão de Débito"),
-    @XmlEnumValue("05") CREDITO_LOJA("05", "Crédito Loja"),
+    @XmlEnumValue("05") CREDITO_LOJA("05", "Cartão da Loja (Private Label), Crediário Digital, Outros Crediários"),
+
     @XmlEnumValue("10") VALE_ALIMENTACAO("10", "Vale Alimentação"),
     @XmlEnumValue("11") VALE_REFEICAO("11", "Vale Refeição"),
     @XmlEnumValue("12") VALE_PRESENTE("12", "Vale Presente"),
     @XmlEnumValue("13") VALE_COMBUSTIVEL("13", "Vale Combustível"),
-    
     @XmlEnumValue("14") DUPLICATA_MERCANTIL("14", "Duplicata Mercantil"),
     @XmlEnumValue("15") BOLETO_BANCARIO("15", "Boleto Bancário"),
-
     @XmlEnumValue("16") DEPOSITO_BANCARIO("16", "Depósito Bancário"),
-    @XmlEnumValue("17") PIX("17", "Pagamento Instantâneo (PIX)"),
+    @XmlEnumValue("17") PIX("17", "Pagamento Instantâneo (PIX) - Dinâmico"),
     @XmlEnumValue("18") CARTEIRA_DIGITAL("18", "Transferência bancária, Carteira Digital"),
     @XmlEnumValue("19") CASHBACK("19", "Programa de fidelidade, Cashback, Crédito Virtual"),
+    @XmlEnumValue("20") PIX_ESTATICO("20", "Pagamento Instantâneo (PIX) - Estático"),
+    @XmlEnumValue("21") NOVO_CREDITO_LOJA("21", "Crédito em Loja"),
+    @XmlEnumValue("22") PAGAMENTO_ELETRONICO_NAO_INFORMADO("22", "Pagamento Eletrônico não Informado - falha de hardware do sistema emissor"),
 
     @XmlEnumValue("90") SEM_PAGAMENTO("90", "Sem Pagamento"),
     

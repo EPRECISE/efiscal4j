@@ -57,14 +57,14 @@
 			<textField>
 				<reportElement x="0" y="0" width="148" height="10" uuid="e12b061e-5640-4d3a-96ef-0372b7e142e1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tPag} == 1 ? "Dinheiro" : $F{tPag} == 2 ? "Cheque" : $F{tPag} == 3 ? "Cartão de Crédito" : $F{tPag} == 4 ? "Cartão de Débito" : $F{tPag} == 5 ? "Crédito Loja" : $F{tPag} == 10 ? "Vale Alimentação" : $F{tPag} == 11 ? "Vale Refeição" : $F{tPag} == 12 ? "Vale Presente" : $F{tPag} == 13 ? "Vale Combustível" : $F{tPag} == 14 ? "Duplicata Mercantil" : $F{tPag} == 15 ? "Boleto Bancário" : $F{tPag} == 16 ? "Depósito Bancário" : $F{tPag} == 17 ? "Pagamento Instantâneo (PIX)" : $F{tPag} == 90 ? "Sem Pagamento" : $F{tPag} == 99 ? "Outros" : ""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tPag} == 1 ? "Dinheiro" : $F{tPag} == 2 ? "Cheque" : $F{tPag} == 3 ? "Cartão de Crédito" : $F{tPag} == 4 ? "Cartão de Débito" : $F{tPag} == 10 ? "Vale Alimentação" : $F{tPag} == 11 ? "Vale Refeição" : $F{tPag} == 12 ? "Vale Presente" : $F{tPag} == 13 ? "Vale Combustível" : $F{tPag} == 14 ? "Duplicata Mercantil" : $F{tPag} == 15 ? "Boleto Bancário" : $F{tPag} == 16 ? "Depósito Bancário" : $F{tPag} == 21 ? "Crédito em Loja" : $F{tPag} == 90 ? "Sem Pagamento" : $F{tPag} == 99 ? "Outros" : ""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="148" height="10" uuid="9ae3c460-74af-469c-84b3-b4f07c426508"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tPag} == 18 ? "Transferência bancária / Carteira Digital" : $F{tPag} == 19 ? "Programa de fidelidade / Cashback / Crédito Virtual" : ""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tPag} == 5 ? "Cartão da Loja (Private Label) / Crediário Digital / Outros Crediários" : $F{tPag} == 17 ? "Pagamento Instantâneo (PIX) - Dinâmico" : $F{tPag} == 18 ? "Transferência bancária / Carteira Digital" : $F{tPag} == 19 ? "Programa de fidelidade / Cashback / Crédito Virtual" : $F{tPag} == 20 ? "Pagamento Instantâneo (PIX) - Estático" : $F{tPag} == 22 ? "Pagamento Eletrônico não Informado - falha de hardware do sistema emissor" : ""]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
